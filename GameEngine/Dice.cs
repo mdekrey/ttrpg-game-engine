@@ -14,7 +14,7 @@ namespace GameEngine
     )
     {
         public override string ToString() =>
-            $"{(DieCount == 1 ? DieCount : "")}d{Sides}";
+            $"{(DieCount == 1 ? "" : DieCount)}d{Sides}";
 
         private static Regex dieCodeRegex = new Regex("^(?<sign>[+-])?(?<count>([1-9][0-9]*)?)d(?<sides>[1-9][0-9]*)$");
         public static bool TryParse(string input, [NotNullWhen(true)] out DieCode? dieCode)
@@ -34,6 +34,12 @@ namespace GameEngine
                     return false;
             };
         }
+
+        public static DieCode Parse(string input) =>
+            TryParse(input, out var result) ? result : throw new ArgumentException(nameof(input));
+
+        public static DieCode operator -(DieCode orig) =>
+            orig with { DieCount = -orig.DieCount };
     }
 
     public record DieCodes(
@@ -90,6 +96,9 @@ namespace GameEngine
             };
         }
 
+        public static DieCodes Parse(string input) =>
+            TryParse(input, out var result) ? result : throw new ArgumentException(nameof(input));
+
         public static DieCodes operator +(DieCodes lhs, DieCodes rhs) =>
             new DieCodes(
                 (from entry in lhs.Entries.Concat(rhs.Entries)
@@ -99,6 +108,16 @@ namespace GameEngine
                  orderby dieCount descending
                  select new DieCode(dieCount, dieCode.Key)
                 ).ToImmutableList(), lhs.Modifier + rhs.Modifier);
+
+        public static DieCodes operator -(DieCodes lhs, DieCodes rhs) =>
+            lhs + -rhs;
+        public static DieCodes operator -(DieCodes orig) =>
+            new DieCodes(orig.Entries.Select(e => -e).ToImmutableList(), -orig.Modifier);
+
+        public static DieCodes operator +(DieCodes lhs, int modifier) =>
+            lhs with { Modifier = lhs.Modifier + modifier };
+        public static DieCodes operator -(DieCodes lhs, int modifier) =>
+            lhs with { Modifier = lhs.Modifier - modifier };
         public static implicit operator DieCodes(DieCode dieCode) =>
             new DieCodes(ImmutableList.Create(dieCode), 0);
         public static implicit operator DieCodes(int modifier) =>
