@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
-namespace GameEngine
+namespace GameEngine.RulesEngine
 {
 
     public record RandomizedDecision(IRandomDecisionMaker DecisionMaker, Outcomes DecisionOutcomes);
@@ -45,13 +45,6 @@ namespace GameEngine
 
     public interface IOutcome { }
 
-    public record DieCodeRandomDecisionMaker(DieCodes Dice) : IRandomDecisionMaker
-    {
-        public int GetOutput(RandomGenerator random) => Dice.Roll(random);
-    }
-
     public record AllOutcomes(ImmutableList<IOutcome> Outcomes) : IOutcome;
 
-    public record DamageOutcome(DieCodes Damage, DamageType DamageType) : IOutcome;
-    public record EmptyOutcome() : IOutcome;
 }

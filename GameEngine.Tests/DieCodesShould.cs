@@ -1,3 +1,4 @@
+using GameEngine.Dice;
 using System;
 using Xunit;
 
