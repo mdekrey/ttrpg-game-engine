@@ -20,6 +20,7 @@ namespace GameEngine.Tests
         [InlineData("-d12 + d12 + 1d6 - 2d6 + d6 + 6 - 4", "+2")]
         [InlineData("-d12 + d12 + 1d6 + 6 - 2d6 + d6 - 4", "+2")]
         [InlineData("-d12 +d8+ d12 + 1d6 + 6 - 2d6 + d6 - 4", "d8 + 2")]
+        [InlineData("16 - d20", "-d20 + 16")]
         public void SuccessfullyParse(string original, string normalized)
         {
             Assert.True(DieCodes.TryParse(original, out var dieCodes));
