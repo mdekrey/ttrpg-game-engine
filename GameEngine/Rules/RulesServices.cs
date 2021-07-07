@@ -14,8 +14,9 @@ namespace GameEngine.Rules
         {
             services.AddSingleton<DicePermutations>();
 
-            services.AddSingleton(sp =>
+            services.AddScoped(sp =>
             {
+                // scoped because it uses scoped services (current actor/current target)
                 var permutator = sp.GetRequiredService<DicePermutations>();
                 var actor = sp.GetRequiredService<ICurrentActor>();
                 var target = sp.GetRequiredService<ICurrentTarget>();
@@ -30,9 +31,11 @@ namespace GameEngine.Rules
                     })
                     .AddEffect<AttackRoll>(attack =>
                     {
-                        // TODO - odds based on actor and target
                         // TODO - saves
-                        var permutations = permutator.Permutations(DieCodes.Parse("d20 + 5 - 16"));
+                        var modifier = actor.Current.Abilities[attack.BaseAttackBonus] + CombatExpectations.ExpectedProficiencyModifier(actor.Current.Level)
+                            - target.Current.GetArmorClass();
+                        var permutations = permutator.Permutations(new DieCode(1, 20));
+                        permutations += modifier;
                         var effects = new RandomizedEffectList.Builder();
                         if (attack.Hit != null)
                             effects.Add(roll => roll >= 0, attack.Hit);

@@ -32,7 +32,7 @@ namespace GameEngine
             new[] { 5, 4, 4, 1, 0, 0 },
         };
 
-        public static double ExpectedProficiencyModifier(int level) => level;
-        public static double ExpectedAbilityModifier(int level, Index index) => StandardArrayBy4Levels[level / 4][index];
+        public static int ExpectedProficiencyModifier(int level) => level / 2;
+        public static int ExpectedAbilityModifier(int level, Index index) => StandardArrayBy4Levels[level / 4][index];
     }
 }

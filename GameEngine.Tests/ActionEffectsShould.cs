@@ -15,16 +15,13 @@ namespace GameEngine.Tests
 {
     public class ActionEffectsShould
     {
-        private readonly EffectsReducer<double, double> target;
-        private readonly ActionFactory actionBuilder;
+        private readonly ServiceProvider serviceProvider;
 
         public ActionEffectsShould()
         {
             var services = new ServiceCollection();
             services.AddMemoryCache().AddGameEngineRules();
-            var serviceProvider = services.BuildServiceProvider();
-            target = serviceProvider.GetRequiredService<EffectsReducer<double, double>>();
-            actionBuilder = serviceProvider.GetRequiredService<ActionFactory>();
+            serviceProvider = services.BuildServiceProvider();
         }
 
         private static SerializedTarget Deserialize(string json)
@@ -35,6 +32,12 @@ namespace GameEngine.Tests
         [Fact]
         public async Task GetAverageDamageForMelee()
         {
+            using var scope = serviceProvider.CreateScope();
+            var target = scope.ServiceProvider.GetRequiredService<EffectsReducer<double, double>>();
+            var actionBuilder = scope.ServiceProvider.GetRequiredService<ActionFactory>();
+            var currentTarget = scope.ServiceProvider.GetRequiredService<ICurrentTarget>();
+            var currentActor = scope.ServiceProvider.GetRequiredService<ICurrentActor>();
+
             var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
                 ""melee"": {},
                 ""effect"": { ""attack"": {
@@ -49,6 +52,10 @@ namespace GameEngine.Tests
         [Fact]
         public async Task GetAverageDamageForMeleeTwoAttacks()
         {
+            using var scope = serviceProvider.CreateScope();
+            var target = scope.ServiceProvider.GetRequiredService<EffectsReducer<double, double>>();
+            var actionBuilder = scope.ServiceProvider.GetRequiredService<ActionFactory>();
+
             var attackAction = await actionBuilder.BuildAsync(new SerializedTarget
             {
                 Melee = new() { TargetCount = 2 },
