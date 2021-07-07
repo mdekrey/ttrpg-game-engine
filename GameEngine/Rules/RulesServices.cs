@@ -43,7 +43,6 @@ namespace GameEngine.Rules
                         var entries = ((RandomizedEffectList)effects).Entries;
                         return MapEffects(result, permutations, entries);
                     })
-                    //.AddDecision<AttackRoll>(attackRoll => permutator.Permutations(DieCodes.Parse("d20 + 5 - 16")))
                     .AddEffect<DamageEffect>(outcome => outcome.Damage.Mean())
                     .AddEffect<WeaponDamageEffect>(outcome => CombatExpectations.averagePrimaryWeaponDamage + CombatExpectations.ExpectedPrimaryAbilityModifier(actor.Current.Level)) // TODO - use actual info
                     .AddEffect<NoEffect>(outcome => 0);
