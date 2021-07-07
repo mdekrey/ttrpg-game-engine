@@ -22,11 +22,13 @@ namespace GameEngine.Rules
                     .AddDecision<DieCodeRandomDecisionMaker>(dieCode => permutations.Permutations(dieCode.Dice))
                     .AddDecision<AttackRoll>(attackRoll => new (Enumerable.Repeat<BigInteger>(1, 2).ToImmutableList(), -1))
                     .AddEffect<DamageEffect>(outcome => outcome.Damage.Mean())
+                    .AddEffect<WeaponDamageEffect>(outcome => 8.5) // TODO
                     .AddEffect<NoEffect>(outcome => 0);
             });
 
             services.AddScoped<ICurrentAttacker, CurrentAttacker>();
             services.AddScoped<ICurrentTarget, CurrentTarget>();
+            services.AddTransient<ActionFactory>();
 
             return services;
         }

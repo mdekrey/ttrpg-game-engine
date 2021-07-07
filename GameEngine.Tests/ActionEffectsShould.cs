@@ -5,7 +5,10 @@ using GameEngine.RulesEngine;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace GameEngine.Tests
@@ -13,8 +16,7 @@ namespace GameEngine.Tests
     public class ActionEffectsShould
     {
         private readonly EffectsReducer<double, double> target;
-        private readonly ICurrentAttacker currentAttacker;
-        private readonly ICurrentTarget currentTarget;
+        private readonly ActionFactory actionBuilder;
 
         public ActionEffectsShould()
         {
@@ -22,45 +24,40 @@ namespace GameEngine.Tests
             services.AddMemoryCache().AddGameEngineRules();
             var serviceProvider = services.BuildServiceProvider();
             target = serviceProvider.GetRequiredService<EffectsReducer<double, double>>();
-            currentAttacker = serviceProvider.GetRequiredService<ICurrentAttacker>();
-            currentTarget = serviceProvider.GetRequiredService<ICurrentTarget>();
+            actionBuilder = serviceProvider.GetRequiredService<ActionFactory>();
         }
 
+        private static SerializedTarget Deserialize(string json)
+        {
+            return JsonSerializer.Deserialize<SerializedTarget>(json, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
 
         [Fact]
-        public void GetAverageDamageForMelee()
+        public async Task GetAverageDamageForMelee()
         {
-            var attackAction = new MeleeWeapon
-            {
-                TargetCount = 1,
-                Effect = new RandomizedEffect(
-                    new AttackRoll(currentAttacker, currentTarget),
-                    new RandomizedEffectList.Builder
-                    {
-                        { roll => roll >= 0, new DamageEffect(DieCodes.Parse("d8 + 4"), DamageType.Normal) },
-                    }
-                )
-            };
+            var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
+                ""melee"": {},
+                ""effect"": { ""roll"": {
+                    ""method"": { ""attack"": {} },
+                    ""resolution"": [ { ""expression"": ""roll => roll >= 0"", ""effect"": { ""weaponDamage"": {} } } ]
+                } }
+            }"));
 
             var averageDamage = target.ReduceEffects(attackAction);
             Assert.Equal(4.25, averageDamage);
         }
 
-
         [Fact]
-        public void GetAverageDamageForMeleeTwoAttacks()
+        public async Task GetAverageDamageForMeleeTwoAttacks()
         {
-            var attackAction = new MeleeWeapon
+            var attackAction = await actionBuilder.BuildAsync(new SerializedTarget
             {
-                TargetCount = 2,
-                Effect = new RandomizedEffect(
-                    new AttackRoll(currentAttacker, currentTarget),
-                    new RandomizedEffectList.Builder
-                    {
-                        { roll => roll >= 0, new DamageEffect(DieCodes.Parse("d8 + 4"), DamageType.Normal) },
-                    }
-                )
-            };
+                Melee = new() { TargetCount = 2 },
+                Effect = new() { Roll = new() {
+                    Method = new() { Attack = new() { }, },
+                    Resolution = { new() { Expression = "roll => roll >= 0", Effect = new() { WeaponDamage = new() { } } } }
+                } }
+            });
 
             var averageDamage = target.ReduceEffects(attackAction);
             Assert.Equal(8.5, averageDamage);
