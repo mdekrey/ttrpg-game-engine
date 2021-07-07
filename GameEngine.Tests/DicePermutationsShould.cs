@@ -19,7 +19,7 @@ namespace GameEngine.Tests
             services.AddMemoryCache();
             var serviceProvider = services.BuildServiceProvider();
 
-            var memoryCache = serviceProvider.GetService<IMemoryCache>();
+            var memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
             target = new DicePermutations(memoryCache);
         }
 

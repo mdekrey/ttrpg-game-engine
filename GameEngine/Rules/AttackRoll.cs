@@ -5,7 +5,7 @@ namespace GameEngine.Rules
 {
     public class AttackRoll : IRandomDecisionMaker
     {
-        private readonly ICurrentAttacker attacker;
+        private readonly ICurrentActor attacker;
         private readonly ICurrentTarget target;
 
         public enum AttackType
@@ -13,7 +13,7 @@ namespace GameEngine.Rules
             Physical,
         }
 
-        public AttackRoll(ICurrentAttacker attacker, ICurrentTarget target)
+        public AttackRoll(ICurrentActor attacker, ICurrentTarget target)
         {
             this.attacker = attacker ?? throw new ArgumentNullException(nameof(attacker));
             this.target = target ?? throw new ArgumentNullException(nameof(target));

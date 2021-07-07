@@ -13,11 +13,11 @@ namespace GameEngine.Rules
 {
     public class ActionFactory
     {
-        private readonly ICurrentAttacker currentAttacker;
+        private readonly ICurrentActor currentAttacker;
         private readonly ICurrentTarget currentTarget;
         private readonly IMemoryCache memoryCache;
 
-        public ActionFactory(ICurrentAttacker currentAttacker, ICurrentTarget currentTarget, IMemoryCache memoryCache)
+        public ActionFactory(ICurrentActor currentAttacker, ICurrentTarget currentTarget, IMemoryCache memoryCache)
         {
             this.currentAttacker = currentAttacker ?? throw new ArgumentNullException(nameof(currentAttacker));
             this.currentTarget = currentTarget ?? throw new ArgumentNullException(nameof(currentTarget));
