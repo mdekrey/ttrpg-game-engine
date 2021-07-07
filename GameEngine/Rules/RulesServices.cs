@@ -44,7 +44,7 @@ namespace GameEngine.Rules
                         return MapEffects(result, permutations, entries);
                     })
                     .AddEffect<DamageEffect>(outcome => outcome.Damage.Mean())
-                    .AddEffect<WeaponDamageEffect>(outcome => CombatExpectations.averagePrimaryWeaponDamage + CombatExpectations.ExpectedPrimaryAbilityModifier(actor.Current.Level)) // TODO - use actual info
+                    .AddEffect<WeaponDamageEffect>(outcome => CombatExpectations.averagePrimaryWeaponDamage + CombatExpectations.ExpectedAbilityModifier(actor.Current.Level, 0)) // TODO - use actual info
                     .AddEffect<NoEffect>(outcome => 0);
             });
 
