@@ -22,23 +22,20 @@ namespace GameEngine.Rules
 
     public class SerializedEffect
     {
+        public List<SerializedEffect>? All { get; init; }
         public DamageEffectOptions? Damage { get; init; }
         public WeaponDamageEffectOptions? WeaponDamage { get; init; }
-        public RollEffectOptions? Roll { get; init; }
-        public List<SerializedEffect>? All { get; init; }
+        public RandomizedOptions? Randomized { get; init; }
+        public AttackRollOptions? Attack { get; init; }
+
     }
 
-    public class RollEffectOptions
+    public class RandomizedOptions
     {
 #nullable disable warnings
-        public SerializedDecision Method { get; init; }
+        public string Dice { get; init; }
 #nullable restore
         public List<RollEffectResolution> Resolution { get; init; } = new List<RollEffectResolution>();
-    }
-
-    public class SerializedDecision
-    {
-        public AttackRollOptions? Attack { get; init; }
     }
 
     public class AttackRollOptions
@@ -47,6 +44,9 @@ namespace GameEngine.Rules
         public string BaseAttackBonus { get; init; }
         public string AttackType { get; init; }
 #nullable restore
+        public SerializedEffect? Hit { get; init; }
+        public SerializedEffect? Miss { get; init; }
+        public SerializedEffect? Effect { get; init; }
     }
 
     public class RollEffectResolution

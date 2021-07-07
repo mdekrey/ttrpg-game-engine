@@ -39,30 +39,25 @@ namespace GameEngine.Rules
             {
                 { Damage: DamageEffectOptions damage } => new DamageEffect(DieCodes.Parse(damage.DieCodes), Enum.TryParse<DamageType>(damage.DamageType, out var result) ? result : DamageType.Normal),
                 { All: List<SerializedEffect> effects } => new AllEffects((await Task.WhenAll(effects.Select(BuildAsync))).ToImmutableList()),
-                { Roll: RollEffectOptions roll } => await FromRollAsync(roll.Method, roll.Resolution),
+                { Randomized: RandomizedOptions roll } => await FromRollAsync(roll.Dice, roll.Resolution),
                 { WeaponDamage: WeaponDamageEffectOptions weapon } => new WeaponDamageEffect(),
-                _ => throw new NotImplementedException(),
-            };
-        }
-
-        private IRandomDecisionMaker Build(SerializedDecision method)
-        {
-            return method switch
-            {
-                { Attack: AttackRollOptions attack } =>
+                { Attack: AttackRollOptions attack } => 
                     new AttackRoll(currentAttacker, currentTarget)
                     {
                         BaseAttackBonus = Enum.TryParse<Ability>(attack.BaseAttackBonus, out var attackBonus) ? attackBonus : Ability.Strength,
-                        Type = Enum.TryParse<AttackRoll.AttackType>(attack.AttackType, out var t) ? t : AttackRoll.AttackType.Physical
+                        Type = Enum.TryParse<AttackRoll.AttackType>(attack.AttackType, out var t) ? t : AttackRoll.AttackType.Physical,
+                        Hit = attack.Hit == null ? null : await BuildAsync(attack.Hit),
+                        Miss = attack.Miss == null ? null : await BuildAsync(attack.Miss),
+                        Effect = attack.Effect == null ? null : await BuildAsync(attack.Effect),
                     },
                 _ => throw new NotImplementedException(),
             };
         }
 
-        private async Task<RandomizedEffect> FromRollAsync(SerializedDecision method, List<RollEffectResolution> resolution)
+        private async Task<DieCodeRandomizedEffect> FromRollAsync(string dice, List<RollEffectResolution> resolution)
         {
-            return new RandomizedEffect(
-                Build(method),
+            return new DieCodeRandomizedEffect(
+                DieCodes.Parse(dice),
                 new RandomizedEffectList(
                     (await Task.WhenAll(
                         resolution.Select(async entry => new RandomizedEffectListEntry(

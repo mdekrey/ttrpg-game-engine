@@ -37,9 +37,8 @@ namespace GameEngine.Tests
         {
             var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
                 ""melee"": {},
-                ""effect"": { ""roll"": {
-                    ""method"": { ""attack"": {} },
-                    ""resolution"": [ { ""expression"": ""roll => roll >= 0"", ""effect"": { ""weaponDamage"": {} } } ]
+                ""effect"": { ""attack"": {
+                    ""hit"": { ""weaponDamage"": {} }
                 } }
             }"));
 
@@ -53,9 +52,8 @@ namespace GameEngine.Tests
             var attackAction = await actionBuilder.BuildAsync(new SerializedTarget
             {
                 Melee = new() { TargetCount = 2 },
-                Effect = new() { Roll = new() {
-                    Method = new() { Attack = new() { }, },
-                    Resolution = { new() { Expression = "roll => roll >= 0", Effect = new() { WeaponDamage = new() { } } } }
+                Effect = new() { Attack = new() {
+                    Hit = new() { WeaponDamage = new() { } }
                 } }
             });
 

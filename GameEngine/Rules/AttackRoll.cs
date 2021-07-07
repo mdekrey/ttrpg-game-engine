@@ -1,9 +1,10 @@
 ﻿using GameEngine.RulesEngine;
 using System;
+using System.Linq;
 
 namespace GameEngine.Rules
 {
-    public class AttackRoll : IRandomDecisionMaker
+    public class AttackRoll : IRandomizedEffect
     {
         private readonly ICurrentActor attacker;
         private readonly ICurrentTarget target;
@@ -21,6 +22,9 @@ namespace GameEngine.Rules
 
         public Ability BaseAttackBonus { get; init; }
         public AttackType Type { get; init; } = AttackType.Physical;
+        public IEffect? Hit { get; init; }
+        public IEffect? Miss { get; init; }
+        public IEffect? Effect { get; init; }
 
         public int GetOutput(RandomGenerator random)
         {
@@ -32,6 +36,15 @@ namespace GameEngine.Rules
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        public IEffect GetEffect(RandomGenerator random)
+        {
+            return AllEffects.FromMulti(new[]
+            {
+                GetOutput(random) >= 0 ? Hit : Miss,
+                Effect
+            }.Where(e => e != null)!);
         }
     }
 }

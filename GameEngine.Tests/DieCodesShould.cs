@@ -24,7 +24,7 @@ namespace GameEngine.Tests
         public void SuccessfullyParse(string original, string normalized)
         {
             Assert.True(DieCodes.TryParse(original, out var dieCodes));
-            Assert.Equal(normalized, dieCodes.ToString());
+            Assert.Equal(normalized, dieCodes!.ToString());
         }
     }
 }
