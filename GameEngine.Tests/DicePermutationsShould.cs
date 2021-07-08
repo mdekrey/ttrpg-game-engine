@@ -48,6 +48,15 @@ namespace GameEngine.Tests
         }
 
         [Fact]
+        public void HandleMinus2d6()
+        {
+            var actual = target.Permutations(DieCode.Parse("-2d6"));
+            Assert.Equal(-12, actual.StartingAt);
+            Assert.Equal(new BigInteger[] { 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1 }.ToImmutableList(), actual.Permutations);
+            Assert.Equal(BigInteger.Pow(6, 2), actual.Permutations.Sum());
+        }
+
+        [Fact]
         public void Handle3d6()
         {
             var actual = target.Permutations(DieCode.Parse("3d6"));
@@ -93,7 +102,7 @@ namespace GameEngine.Tests
         {
             var actual = target.Permutations(DieCode.Parse("30d6"));
             Assert.Equal(30, actual.StartingAt);
-            Assert.Equal(BigInteger.Pow(6, 30), actual.Permutations.Sum());
+            Assert.Equal(BigInteger.Pow(6, 30), actual.Permutations.Sum()); // 221,073,919,720,733,357,899,776
         }
 
         [Fact]
