@@ -17,8 +17,20 @@ namespace GameEngine
         public const int averageRoundsPerCombat = 5;
         public const int averageCombatsPerDay = 4;
 
-        public const double averagePrimaryWeaponDamage = 4.5;
-        public const double averageSecondaryWeaponDamage = 3.5;
+        /*I analyzed 4e weapons. In general:
+Simple weapons baseline 4.5 damage per round.
+Military weapons baseline 5.5 damage per round.
+Superior weapons baseline 6.5 damage per round.
+2-handed weapons get +1 damage per round. (Versatile doesn't cost anything but gives the same benefit.)
+Reach costs 1 damage.
+High Crit costs 1 damage.
++1 to hit costs 1 damage.
+Off-hand costs 1 damage.
+Heavy thrown costs 1 damage. (Because it is rare for a ranged weapon to be able to use Strength, I guess?)
+        */
+
+        public const double averagePrimaryWeaponDamage = 5.5;
+        public const double averageSecondaryWeaponDamage = 4.5;
 
         public static readonly IReadOnlyList<(string Low, string Medium, string High)> standardDamage = new[]
         {

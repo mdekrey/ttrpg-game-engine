@@ -46,7 +46,7 @@ namespace GameEngine.Tests
             }"));
 
             var averageDamage = target.ReduceEffects(attackAction);
-            Assert.Equal(3.75, averageDamage);
+            Assert.Equal(4.25, averageDamage);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace GameEngine.Tests
             });
 
             var averageDamage = target.ReduceEffects(attackAction);
-            Assert.Equal(7.5, averageDamage);
+            Assert.Equal(8.5, averageDamage);
         }
     }
 }
