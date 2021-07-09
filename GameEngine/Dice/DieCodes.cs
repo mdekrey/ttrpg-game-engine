@@ -38,7 +38,7 @@ namespace GameEngine.Dice
         }
 
 
-        private static Regex dieCodesRegex = new Regex("^((?<dieCode>([+-]? ?([1-9][0-9]*)?)d[1-9][0-9]*)|(?<modifier>[+-]?[1-9][0-9]*))(?<extra>([+-] ?([1-9][0-9]*)?(d[1-9][0-9]*)? ?)+?)?$");
+        private static Regex dieCodesRegex = new Regex("^((?<dieCode>([+-]?([1-9][0-9]*)?)d[1-9][0-9]*)|(?<modifier>[+-]?([1-9][0-9]*|0)))(?<extra>([+-].+?))?$");
 
         public static DieCodes Empty { get; } = new DieCodes(ImmutableList.Create<DieCode>(), 0);
 
