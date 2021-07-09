@@ -32,7 +32,7 @@ Heavy thrown costs 1 damage. (Because it is rare for a ranged weapon to be able 
         public const double averagePrimaryWeaponDamage = 5.5;
         public const double averageSecondaryWeaponDamage = 4.5;
 
-        public static readonly IReadOnlyList<(string Low, string Medium, string High)> standardDamage = new[]
+        public static readonly IReadOnlyList<(string Low, string Medium, string High)> standardMonsterDamage = new[]
         {
             ( Low: "1d6 + 3", Medium: "1d10 + 3", High: "2d6 + 3" ),
             ( Low: "1d6 + 4", Medium: "1d10 + 4", High: "2d8 + 4" ),
@@ -45,7 +45,7 @@ Heavy thrown costs 1 damage. (Because it is rare for a ranged weapon to be able 
             ( Low: "2d8 + 9", Medium: "3d8 + 9", High: "4d6 + 9" ),
             ( Low: "2d8 + 10", Medium: "3d8 + 10", High: "4d8 + 10" ),
         };
-        public static readonly IReadOnlyList<(string Low, string Medium, string High)> limitedDamage = new[]
+        public static readonly IReadOnlyList<(string Low, string Medium, string High)> limitedMonsterDamage = new[]
         {
             ( Low: "3d6 + 3", Medium: "2d10 + 3", High: "3d8 + 3" ),
             ( Low: "3d6 + 4", Medium: "3d8 + 4", High: "3d10 + 4" ),
@@ -71,7 +71,7 @@ Heavy thrown costs 1 damage. (Because it is rare for a ranged weapon to be able 
             new[] { 5, 4, 4, 1, 0, 0 },
         };
 
-        public static int ExpectedProficiencyModifier(int level) => level / 2;
+        public static int ExpectedProficiencyModifier(int level) => Math.Max(1, level / 2);
         public static int ExpectedAbilityModifier(int level, Index index) => StandardArrayBy4Levels[level / 4][index];
     }
 }

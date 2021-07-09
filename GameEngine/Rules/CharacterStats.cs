@@ -6,21 +6,32 @@ namespace GameEngine.Rules
 {
     public record CharacterStats(
         int Level,
-        CharacterAbilities Abilities
+        CharacterAbilities Abilities,
+        int ArmorClass,
+        int FortitudeSave,
+        int ReflexSave,
+        int WillSave,
+        int MaxHitPoints
     )
     {
-        public static readonly CharacterStats Default = new CharacterStats(1, CharacterAbilities.FromStandardArray(CombatExpectations.StandardArrayBy4Levels[0], new[] {
-            Ability.Strength,
-            Ability.Dexterity,
-            Ability.Constitution,
-            Ability.Wisdom,
-            Ability.Intelligence,
-            Ability.Charisma,
-        }));
-
-        internal int GetArmorClass() =>
-            // TODO - equipment, class bonuses, feats, enhancements, etc.
-            10 + Abilities[Ability.Dexterity] + 2;
+        public static readonly CharacterStats Default = CharacterAbilities.FromStandardArray(CombatExpectations.StandardArrayBy4Levels[0], new[] {
+                Ability.Strength,
+                Ability.Dexterity,
+                Ability.Constitution,
+                Ability.Wisdom,
+                Ability.Intelligence,
+                Ability.Charisma,
+            }) switch {
+                var abilities => new CharacterStats(
+                    Level: 1, 
+                    Abilities: abilities,
+                    ArmorClass: 15,
+                    FortitudeSave: 12,
+                    ReflexSave: 12,
+                    WillSave: 12,
+                    MaxHitPoints: 12 + abilities.Constitution
+                )
+            };
     }
 
     public record CharacterAbilities(

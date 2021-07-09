@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace GameEngine.RulesEngine
 {
-    public class EffectsReducer<TMap, TResult>
+    public class EffectsReducer<TMap, TResult> : IEffectsReducer<TResult>
     {
         public record MappedProbability(double Probability, TMap MappedEffect);
 

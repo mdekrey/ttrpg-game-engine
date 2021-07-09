@@ -33,7 +33,7 @@ namespace GameEngine.Rules
                     {
                         // TODO - saves
                         var modifier = actor.Current.Abilities[attack.BaseAttackBonus] + CombatExpectations.ExpectedProficiencyModifier(actor.Current.Level)
-                            - target.Current.GetArmorClass();
+                            - target.Current.ArmorClass;
                         var permutations = permutator.Permutations(new DieCode(1, 20));
                         permutations += modifier;
                         var effects = new RandomizedEffectList.Builder();
@@ -50,9 +50,12 @@ namespace GameEngine.Rules
                     .AddEffect<WeaponDamageEffect>(outcome => CombatExpectations.averagePrimaryWeaponDamage + CombatExpectations.ExpectedAbilityModifier(actor.Current.Level, 0)) // TODO - use actual info
                     .AddEffect<NoEffect>(outcome => 0);
             });
+            services.AddTransient<IEffectsReducer<double>>(sp => sp.GetRequiredService<EffectsReducer<double, double>>());
 
-            services.AddScoped<ICurrentActor, CurrentActor>();
-            services.AddScoped<ICurrentTarget, CurrentTarget>();
+            services.AddScoped<CurrentActor>();
+            services.AddScoped<CurrentTarget>();
+            services.AddTransient<ICurrentActor>(sp => sp.GetRequiredService<CurrentActor>());
+            services.AddTransient<ICurrentTarget>(sp => sp.GetRequiredService<CurrentTarget>());
             services.AddTransient<ActionFactory>();
 
             return services;
