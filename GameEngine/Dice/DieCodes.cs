@@ -72,7 +72,7 @@ namespace GameEngine.Dice
                  group entry.DieCount by entry.Sides into dieCode
                  let dieCount = dieCode.Sum()
                  where dieCount != 0
-                 orderby dieCount descending
+                 orderby Math.Sign(dieCount) descending, dieCode.Key descending
                  select new DieCode(dieCount, dieCode.Key)
                 ).ToImmutableList(), lhs.Modifier + rhs.Modifier);
 
@@ -85,6 +85,8 @@ namespace GameEngine.Dice
             lhs with { Modifier = lhs.Modifier + modifier };
         public static DieCodes operator -(DieCodes lhs, int modifier) =>
             lhs with { Modifier = lhs.Modifier - modifier };
+        public static DieCodes operator *(DieCodes lhs, int multiplier) =>
+            new DieCodes(Entries: lhs.Entries.Select(e => e * multiplier).Where(e => e.DieCount != 0).ToImmutableList() , Modifier: lhs.Modifier * multiplier);
         public static implicit operator DieCodes(DieCode dieCode) =>
             new DieCodes(ImmutableList.Create(dieCode), 0);
         public static implicit operator DieCodes(int modifier) =>

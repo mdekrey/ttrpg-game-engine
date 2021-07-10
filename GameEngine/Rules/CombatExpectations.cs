@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameEngine.Dice;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -29,8 +30,10 @@ Off-hand costs 1 damage.
 Heavy thrown costs 1 damage. (Because it is rare for a ranged weapon to be able to use Strength, I guess?)
         */
 
-        public const double averagePrimaryWeaponDamage = 5.5;
-        public const double averageSecondaryWeaponDamage = 4.5;
+        public static readonly DieCodes averagePrimaryWeaponDieCode = new DieCode(1, 10);
+        public static readonly double averagePrimaryWeaponDamage = averagePrimaryWeaponDieCode.Mean();
+        public static readonly DieCodes averageSecondaryWeaponDieCode = new DieCode(1, 8);
+        public static readonly double averageSecondaryWeaponDamage = averageSecondaryWeaponDieCode.Mean();
 
         public static readonly IReadOnlyList<(string Low, string Medium, string High)> standardMonsterDamage = new[]
         {

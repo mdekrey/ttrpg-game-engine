@@ -24,7 +24,6 @@ namespace GameEngine.Rules
     {
         public List<SerializedEffect>? All { get; init; }
         public DamageEffectOptions? Damage { get; init; }
-        public WeaponDamageEffectOptions? WeaponDamage { get; init; }
         public RandomizedOptions? Randomized { get; init; }
         public AttackRollOptions? Attack { get; init; }
 
@@ -60,14 +59,9 @@ namespace GameEngine.Rules
     public class DamageEffectOptions
     {
 #nullable disable warnings
-        public string DieCodes { get; init; }
+        public string Amount { get; init; }
         public string DamageType { get; init; }
         // TODO - ability
 #nullable restore
-    }
-
-    public class WeaponDamageEffectOptions
-    {
-        // TODO - ability
     }
 }

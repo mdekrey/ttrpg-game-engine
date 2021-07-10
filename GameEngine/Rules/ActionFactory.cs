@@ -37,10 +37,9 @@ namespace GameEngine.Rules
         {
             return effect switch
             {
-                { Damage: DamageEffectOptions damage } => new DamageEffect(DieCodes.Parse(damage.DieCodes), Enum.TryParse<DamageType>(damage.DamageType, out var result) ? result : DamageType.Normal),
+                { Damage: DamageEffectOptions damage } => new DamageEffect(GameDiceExpression.Parse(damage.Amount), Enum.TryParse<DamageType>(damage.DamageType, out var result) ? result : DamageType.Normal),
                 { All: List<SerializedEffect> effects } => new AllEffects((await Task.WhenAll(effects.Select(BuildAsync))).ToImmutableList()),
                 { Randomized: RandomizedOptions roll } => await FromRollAsync(roll.Dice, roll.Resolution),
-                { WeaponDamage: WeaponDamageEffectOptions weapon } => new WeaponDamageEffect(),
                 { Attack: AttackRollOptions attack } => 
                     new AttackRoll(currentAttacker, currentTarget)
                     {

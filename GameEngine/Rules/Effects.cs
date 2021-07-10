@@ -5,6 +5,5 @@ using System.Text;
 
 namespace GameEngine.Rules
 {
-    public record DamageEffect(DieCodes Damage, DamageType DamageType) : IEffect;
-    public record WeaponDamageEffect() : IEffect;
+    public record DamageEffect(GameDiceExpression Damage, DamageType DamageType) : IEffect;
 }

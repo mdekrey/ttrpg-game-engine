@@ -36,5 +36,9 @@ namespace GameEngine.Dice
 
         public static DieCode operator -(DieCode orig) =>
             orig with { DieCount = -orig.DieCount };
+
+
+        public static DieCode operator *(DieCode orig, int multiplier) =>
+            orig with { DieCount = orig.DieCount * multiplier };
     }
 }

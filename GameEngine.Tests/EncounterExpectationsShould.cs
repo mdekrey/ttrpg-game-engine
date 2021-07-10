@@ -36,16 +36,16 @@ namespace GameEngine.Tests
 
             //var pcBonusDamagePerRound = DieCodes.Parse(CombatExpectations.limitedMonsterDamage[level / 3].High).Mean() * chanceToHit;
             var pcBonusDamagePerRound = await ParseToDamage(pc, goblin, @"{
-                ""melee"": { ""targetCount"": 2 },
+                ""melee"": {},
                 ""effect"": { ""attack"": {
-                    ""hit"": { ""weaponDamage"": {} }
+                    ""hit"": { ""damage"": { ""amount"": ""2[W] + STR"" } }
                 } }
             }");
             //var pcStandardDamagePerRound = DieCodes.Parse(CombatExpectations.standardMonsterDamage[level / 3].High).Mean() * chanceToHit;
             var pcStandardDamagePerRound = await ParseToDamage(pc, goblin, @"{
                 ""melee"": {},
                 ""effect"": { ""attack"": {
-                    ""hit"": { ""weaponDamage"": {} }
+                    ""hit"": { ""damage"": { ""amount"": ""[W] + STR"" } }
                 } }
             }");
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
@@ -53,7 +53,7 @@ namespace GameEngine.Tests
             var monsterDamage = await ParseToDamage(goblin, pc, @"{
                 ""melee"": {},
                 ""effect"": { ""attack"": {
-                    ""hit"": { ""weaponDamage"": {} }
+                    ""hit"": { ""damage"": { ""amount"": ""[W] + STR"" } }
                 } }
             }");
 

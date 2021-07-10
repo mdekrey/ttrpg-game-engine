@@ -43,6 +43,7 @@ namespace GameEngine.Rules
         int Charisma
     )
     {
+        public static readonly CharacterAbilities Empty = new(0, 0, 0, 0, 0, 0);
         public int this[Ability ability] =>
             ability switch
             {
@@ -68,5 +69,53 @@ namespace GameEngine.Rules
                 Charisma: standardArray[lookup[Ability.Charisma]]
             );
         }
+
+        public static CharacterAbilities operator +(CharacterAbilities lhs, CharacterAbilities rhs) =>
+            new CharacterAbilities(
+                lhs.Strength + rhs.Strength,
+                lhs.Constitution + rhs.Constitution,
+                lhs.Dexterity + rhs.Dexterity,
+                lhs.Intelligence + rhs.Intelligence,
+                lhs.Wisdom + rhs.Wisdom,
+                lhs.Charisma + rhs.Charisma
+            );
+
+        public static CharacterAbilities operator -(CharacterAbilities lhs, CharacterAbilities rhs) =>
+            new CharacterAbilities(
+                lhs.Strength - rhs.Strength,
+                lhs.Constitution - rhs.Constitution,
+                lhs.Dexterity - rhs.Dexterity,
+                lhs.Intelligence - rhs.Intelligence,
+                lhs.Wisdom - rhs.Wisdom,
+                lhs.Charisma - rhs.Charisma
+            );
+
+        public static CharacterAbilities operator -(CharacterAbilities orig) =>
+            new CharacterAbilities(
+                -orig.Strength,
+                -orig.Constitution,
+                -orig.Dexterity,
+                -orig.Intelligence,
+                -orig.Wisdom,
+                -orig.Charisma
+            );
+
+        public static int operator *(CharacterAbilities lhs, CharacterAbilities rhs) =>
+            lhs.Strength * rhs.Strength+
+            lhs.Constitution * rhs.Constitution+
+            lhs.Dexterity * rhs.Dexterity+
+            lhs.Intelligence * rhs.Intelligence+
+            lhs.Wisdom * rhs.Wisdom+
+            lhs.Charisma * rhs.Charisma;
+
+        public static CharacterAbilities operator *(CharacterAbilities lhs, int rhs) =>
+            new CharacterAbilities(
+                lhs.Strength * rhs,
+                lhs.Constitution * rhs,
+                lhs.Dexterity * rhs,
+                lhs.Intelligence * rhs,
+                lhs.Wisdom * rhs,
+                lhs.Charisma * rhs
+            );
     }
 }

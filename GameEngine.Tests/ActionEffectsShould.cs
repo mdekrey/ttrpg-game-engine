@@ -41,7 +41,7 @@ namespace GameEngine.Tests
             var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
                 ""melee"": {},
                 ""effect"": { ""attack"": {
-                    ""hit"": { ""weaponDamage"": {} }
+                    ""hit"": { ""damage"": { ""amount"": ""[W] + STR"" } }
                 } }
             }"));
 
@@ -60,7 +60,7 @@ namespace GameEngine.Tests
             {
                 Melee = new() { TargetCount = 2 },
                 Effect = new() { Attack = new() {
-                    Hit = new() { WeaponDamage = new() { } }
+                    Hit = new() { Damage = new() { Amount = "[W] + STR" } }
                 } }
             });
 
