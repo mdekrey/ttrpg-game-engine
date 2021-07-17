@@ -26,7 +26,7 @@ namespace GameEngine.Rules
         public DamageEffectOptions? Damage { get; init; }
         public RandomizedOptions? Randomized { get; init; }
         public AttackRollOptions? Attack { get; init; }
-
+        public SerializedTarget? Target { get; init; }
     }
 
     public class RandomizedOptions
@@ -41,6 +41,7 @@ namespace GameEngine.Rules
     {
 #nullable disable warnings
         public string BaseAttackBonus { get; init; }
+        public int Bonus { get; init; }
         public string AttackType { get; init; }
 #nullable restore
         public SerializedEffect? Hit { get; init; }

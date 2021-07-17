@@ -26,14 +26,15 @@ namespace GameEngine.Rules
 
         public async Task<ITargetSelection> BuildAsync(SerializedTarget target)
         {
+            var effect = await BuildAsync(target.Effect);
             return target switch
             {
-                { Melee: MeleeWeaponOptions melee } => new MeleeWeapon { AdditionalReach = melee.AdditionalReach, TargetCount = melee.TargetCount, Effect = await BuildAsync(target.Effect) },
+                { Melee: MeleeWeaponOptions melee } => new MeleeWeapon { AdditionalReach = melee.AdditionalReach, TargetCount = melee.TargetCount, Effect = effect },
                 _ => throw new NotImplementedException(),
             };
         }
 
-        private async Task<IEffect> BuildAsync(SerializedEffect effect)
+        public async Task<IEffect> BuildAsync(SerializedEffect effect)
         {
             return effect switch
             {
@@ -44,11 +45,13 @@ namespace GameEngine.Rules
                     new AttackRoll(currentAttacker, currentTarget)
                     {
                         BaseAttackBonus = Enum.TryParse<Ability>(attack.BaseAttackBonus, out var attackBonus) ? attackBonus : Ability.Strength,
+                        Bonus = attack.Bonus,
                         Type = Enum.TryParse<AttackRoll.AttackType>(attack.AttackType, out var t) ? t : AttackRoll.AttackType.Physical,
                         Hit = attack.Hit == null ? null : await BuildAsync(attack.Hit),
                         Miss = attack.Miss == null ? null : await BuildAsync(attack.Miss),
                         Effect = attack.Effect == null ? null : await BuildAsync(attack.Effect),
                     },
+                { Target: SerializedTarget target } => await BuildAsync(target),
                 _ => throw new NotImplementedException(),
             };
         }

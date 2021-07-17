@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GameEngine.RulesEngine
 {
-    public interface ITargetSelection
+    public interface ITargetSelection : IEffect
     {
         IEffect Effect { get; }
     }

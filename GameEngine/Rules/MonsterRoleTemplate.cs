@@ -6,12 +6,15 @@ namespace GameEngine
 {
     public record MonsterRoleTemplate(string Name, int InitiativeBonus, int HitPoints, int ArmorClassBase, int OtherDefenses, int AttackBonus, int AttackOtherBonus)
     {
+        // Altered from DMG due to:
+        // - http://blogofholding.com/?p=512
+        // - https://gregbilsland.wordpress.com/2010/06/16/more-on-monsters-2/
         public static readonly MonsterRoleTemplate Skirmisher =
             new MonsterRoleTemplate(Name: "Skirmisher", InitiativeBonus: 2, HitPoints: 8, ArmorClassBase: 14, OtherDefenses: 12, AttackBonus: 5, AttackOtherBonus: 3);
         public static readonly MonsterRoleTemplate Brute =
-            new MonsterRoleTemplate(Name: "Brute", InitiativeBonus: 0, HitPoints: 10, ArmorClassBase: 12, OtherDefenses: 12, AttackBonus: 3, AttackOtherBonus: 1);
+            new MonsterRoleTemplate(Name: "Brute", InitiativeBonus: 0, HitPoints: 10, ArmorClassBase: 12, OtherDefenses: 12, AttackBonus: 5, AttackOtherBonus: 3);
         public static readonly MonsterRoleTemplate Soldier =
-            new MonsterRoleTemplate(Name: "Soldier", InitiativeBonus: 2, HitPoints: 8, ArmorClassBase: 16, OtherDefenses: 12, AttackBonus: 7, AttackOtherBonus: 5);
+            new MonsterRoleTemplate(Name: "Soldier", InitiativeBonus: 2, HitPoints: 8, ArmorClassBase: 16, OtherDefenses: 12, AttackBonus: 5, AttackOtherBonus: 3);
         public static readonly MonsterRoleTemplate Lurker =
             new MonsterRoleTemplate(Name: "Lurker", InitiativeBonus: 4, HitPoints: 6, ArmorClassBase: 14, OtherDefenses: 12, AttackBonus: 5, AttackOtherBonus: 3);
         public static readonly MonsterRoleTemplate Controller =

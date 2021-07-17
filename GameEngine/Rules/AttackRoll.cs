@@ -21,6 +21,7 @@ namespace GameEngine.Rules
         }
 
         public Ability BaseAttackBonus { get; init; }
+        public int Bonus { get; init; }
         public AttackType Type { get; init; } = AttackType.Physical;
         public IEffect? Hit { get; init; }
         public IEffect? Miss { get; init; }

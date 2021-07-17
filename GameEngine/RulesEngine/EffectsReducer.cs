@@ -49,13 +49,6 @@ namespace GameEngine.RulesEngine
             return this;
         }
 
-        public TResult ReduceEffects(ITargetSelection targetSelection)
-        {
-            var targetValue = MapTarget(targetSelection);
-            return reducer(from mappedEffect in MapEffect(targetSelection.Effect)
-                           select mappedEffect with { Probability = targetValue * mappedEffect.Probability });
-        }
-
         public TResult ReduceEffects(IEffect effect)
         {
             return reducer(MapEffect(effect));
@@ -66,16 +59,28 @@ namespace GameEngine.RulesEngine
             var type = targetSelection.GetType();
             var mapper = targets.ContainsKey(type)
                 ? targets[type]
-                : targets.Where(kvp => kvp.Key.IsAssignableFrom(type)).Select(kvp => kvp.Value).FirstOrDefault() ?? throw new NotSupportedException();
+                : targets.Where(kvp => kvp.Key.IsAssignableFrom(type)).Select(kvp => kvp.Value).FirstOrDefault();
+            if (mapper == null) throw new NotSupportedException();
             return mapper(targetSelection);
+        }
+
+        private IEnumerable<MappedProbability> MapTargetEffects(ITargetSelection targetSelection)
+        {
+            var targetValue = MapTarget(targetSelection);
+            var effects = from mappedEffect in MapEffect(targetSelection.Effect)
+                          select mappedEffect with { Probability = targetValue * mappedEffect.Probability };
+            return effects;
         }
 
         public IEnumerable<MappedProbability> MapEffect(IEffect effect)
         {
+            if (effect is ITargetSelection targetSelection)
+                return MapTargetEffects(targetSelection);
             var type = effect.GetType();
             var mapper = effectMaps.ContainsKey(type)
                 ? effectMaps[type]
-                : effectMaps.Where(kvp => kvp.Key.IsAssignableFrom(type)).Select(kvp => kvp.Value).FirstOrDefault() ?? throw new NotSupportedException();
+                : effectMaps.Where(kvp => kvp.Key.IsAssignableFrom(type)).Select(kvp => kvp.Value).FirstOrDefault();
+            if (mapper == null) throw new NotSupportedException();
             return mapper(effect);
         }
     }
