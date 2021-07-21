@@ -36,24 +36,38 @@ namespace GameEngine.Rules
 
         public async Task<IEffect> BuildAsync(SerializedEffect effect)
         {
-            return effect switch
-            {
-                { Damage: DamageEffectOptions damage } => new DamageEffect(GameDiceExpression.Parse(damage.Amount), Enum.TryParse<DamageType>(damage.DamageType, out var result) ? result : DamageType.Normal),
-                { All: List<SerializedEffect> effects } => new AllEffects((await Task.WhenAll(effects.Select(BuildAsync))).ToImmutableList()),
-                { Randomized: RandomizedOptions roll } => await FromRollAsync(roll.Dice, roll.Resolution),
-                { Attack: AttackRollOptions attack } => 
-                    new AttackRoll(currentAttacker, currentTarget)
-                    {
-                        BaseAttackBonus = Enum.TryParse<Ability>(attack.BaseAttackBonus, out var attackBonus) ? attackBonus : Ability.Strength,
-                        Bonus = attack.Bonus,
-                        Type = Enum.TryParse<AttackRoll.AttackType>(attack.AttackType, out var t) ? t : AttackRoll.AttackType.Physical,
-                        Hit = attack.Hit == null ? null : await BuildAsync(attack.Hit),
-                        Miss = attack.Miss == null ? null : await BuildAsync(attack.Miss),
-                        Effect = attack.Effect == null ? null : await BuildAsync(attack.Effect),
-                    },
-                { Target: SerializedTarget target } => await BuildAsync(target),
-                _ => throw new NotImplementedException(),
-            };
+            var effects = (await BuildEffects(effect)).ToList();
+
+            return effects.Count == 1
+                ? effects[0]
+                : new AllEffects(effects.ToImmutableList());
+        }
+
+        private async Task<IEnumerable<IEffect>> BuildEffects(SerializedEffect effect)
+        {
+            var effects = new List<IEffect>();
+
+            if (effect is { All: IEnumerable<SerializedEffect> multiple })
+                effects.AddRange((await Task.WhenAll(multiple.Select(BuildEffects))).SelectMany(e => e));
+            if (effect is { Damage: DamageEffectOptions damage })
+                effects.Add(new DamageEffect(damage.ToImmutableDictionary(kvp => kvp.Key, kvp => GameDiceExpression.Parse(kvp.Value))));
+            if (effect is { Randomized: RandomizedOptions roll })
+                effects.Add(await FromRollAsync(roll.Dice, roll.Resolution));
+            if (effect is { Attack: AttackRollOptions attack })
+                effects.Add(new AttackRoll(currentAttacker, currentTarget)
+                {
+                    BaseAttackBonus = Enum.TryParse<Ability>(attack.BaseAttackBonus, out var attackBonus) ? attackBonus : Ability.Strength,
+                    Bonus = attack.Bonus,
+                    Type = Enum.TryParse<AttackRoll.AttackType>(attack.AttackType, out var t) ? t : AttackRoll.AttackType.Physical,
+                    Hit = attack.Hit == null ? null : await BuildAsync(attack.Hit),
+                    Miss = attack.Miss == null ? null : await BuildAsync(attack.Miss),
+                    Effect = attack.Effect == null ? null : await BuildAsync(attack.Effect),
+                });
+            if (effect is { Target: SerializedTarget target })
+                effects.Add(await BuildAsync(target));
+
+            // TODO - is there a way to make sure we handle all cases?
+            return effects;
         }
 
         private async Task<DieCodeRandomizedEffect> FromRollAsync(string dice, List<RollEffectResolution> resolution)

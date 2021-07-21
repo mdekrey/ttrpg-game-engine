@@ -26,7 +26,7 @@ namespace GameEngine.Tests
 
         private static SerializedTarget Deserialize(string json)
         {
-            return JsonSerializer.Deserialize<SerializedTarget>(json, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return JsonSerializer.Deserialize<SerializedTarget>(json, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace GameEngine.Tests
             var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
                 ""melee"": {},
                 ""effect"": { ""attack"": {
-                    ""hit"": { ""damage"": { ""amount"": ""[W] + STR"" } }
+                    ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } }
                 } }
             }"));
 
@@ -60,7 +60,7 @@ namespace GameEngine.Tests
             {
                 Melee = new() { TargetCount = 2 },
                 Effect = new() { Attack = new() {
-                    Hit = new() { Damage = new() { Amount = "[W] + STR" } }
+                    Hit = new() { Damage = new() { { DamageType.Weapon, "[W] + STR" } } }
                 } }
             });
 

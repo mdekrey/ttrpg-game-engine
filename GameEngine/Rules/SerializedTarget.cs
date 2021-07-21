@@ -22,7 +22,7 @@ namespace GameEngine.Rules
 
     public class SerializedEffect
     {
-        public List<SerializedEffect>? All { get; init; }
+        public IEnumerable<SerializedEffect>? All { get; init; }
         public DamageEffectOptions? Damage { get; init; }
         public RandomizedOptions? Randomized { get; init; }
         public AttackRollOptions? Attack { get; init; }
@@ -57,12 +57,8 @@ namespace GameEngine.Rules
 #nullable restore
     }
 
-    public class DamageEffectOptions
+    public class DamageEffectOptions : Dictionary<DamageType, string>
     {
-#nullable disable warnings
-        public string Amount { get; init; }
-        public string DamageType { get; init; }
-        // TODO - ability
-#nullable restore
+        // Value: Die Codes
     }
 }
