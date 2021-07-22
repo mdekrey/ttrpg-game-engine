@@ -65,6 +65,8 @@ namespace GameEngine.Rules
                 });
             if (effect is { Target: SerializedTarget target })
                 effects.Add(await BuildAsync(target));
+            if (effect is { HalfDamage: true })
+                effects.Add(new HalfDamageEffect());
 
             // TODO - is there a way to make sure we handle all cases?
             return effects;

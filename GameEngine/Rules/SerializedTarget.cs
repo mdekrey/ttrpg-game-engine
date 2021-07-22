@@ -24,6 +24,7 @@ namespace GameEngine.Rules
     {
         public IEnumerable<SerializedEffect>? All { get; init; }
         public DamageEffectOptions? Damage { get; init; }
+        public bool? HalfDamage { get; init; }
         public RandomizedOptions? Randomized { get; init; }
         public AttackRollOptions? Attack { get; init; }
         public SerializedTarget? Target { get; init; }
