@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const colors = {
 	white: '#ffffff',
 	black: '#000000',
@@ -33,6 +34,7 @@ module.exports = {
 				header: ['"Martel"', 'serif'],
 				text: ['"Source Serif Pro"', 'serif'],
 				info: ['"Lato"', 'sans-serif'],
+				flavor: ['"IM Fell Great Primer"', 'sans-serif'],
 			},
 		},
 		colors,
@@ -43,5 +45,5 @@ module.exports = {
 			backgroundImage: [`odd`, `even`],
 		},
 	},
-	plugins: [],
+	plugins: [require('tailwindcss-multi-column')()],
 };

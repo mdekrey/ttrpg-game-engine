@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { addChildClasses } from 'lib/addChildClasses';
 import { ReactNode } from 'react';
 
@@ -18,9 +18,9 @@ export const Power = ({
 	children: ReactNode;
 }) => {
 	return (
-		<section className={classnames('max-w-lg', className)}>
+		<section className={className}>
 			<header
-				className={classnames(
+				className={classNames(
 					{
 						'bg-green-dark': type === 'At-Will',
 						'bg-red-dark': type === 'Encounter',
@@ -33,7 +33,7 @@ export const Power = ({
 				<span className="text-lg leading-tight font-bold">{name}</span>
 				<span className="text-sm leading-tight">{level}</span>
 			</header>
-			{addChildClasses(children, <p className="even:bg-gradient-to-r from-tan-fading px-2 font-text" />)}
+			{addChildClasses(children, <p className="even:bg-gradient-to-r from-tan-fading px-2 font-info" />)}
 		</section>
 	);
 };
