@@ -1,3 +1,8 @@
+import { addGoogleFonts } from 'lib/addGoogleFonts';
+import 'index.css';
+
+addGoogleFonts();
+
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from '../reportWebVitals';
 import 'index.css';
+import { addGoogleFonts } from 'lib/addGoogleFonts';
 
 // https://fonts.googleapis.com/css?family=Acme|Martel|Source+Serif+Pro
 
@@ -12,6 +13,7 @@ import 'index.css';
  */
 export function createEntry(Component: React.ComponentType<any>) {
   return (element: HTMLElement, context: any) => {
+    addGoogleFonts();
     function render(actualData: any) {
       ReactDOM.render(
         <React.StrictMode>

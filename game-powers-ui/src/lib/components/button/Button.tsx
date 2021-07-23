@@ -1,48 +1,17 @@
-import React from 'react';
-import './button.css';
+import classnames from 'classnames';
 
-interface ButtonProps {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary?: boolean;
-  /**
-   * What background color to use
-   */
-  backgroundColor?: string;
-  /**
-   * How large should the button be?
-   */
-  size?: 'small' | 'medium' | 'large';
-  /**
-   * Button contents
-   */
-  label: string;
-  /**
-   * Optional click handler
-   */
-  onClick?: () => void;
-}
-
-/**
- * Primary UI component for user interaction
- */
 export const Button = ({
-  primary = false,
-  size = 'medium',
-  backgroundColor,
-  label,
+  className,
+  children,
   ...props
-}: ButtonProps) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+}: JSX.IntrinsicElements['button']) => {
   return (
     <button
       type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      style={{ backgroundColor }}
+      className={classnames(className, "bg-blue-800 text-white rounded-full py-1 px-4 text-sm")}
       {...props}
     >
-      {label}
+      {children}
     </button>
   );
 };
