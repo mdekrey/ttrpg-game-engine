@@ -1,5 +1,5 @@
 import { addGoogleFonts } from 'lib/addGoogleFonts';
-import 'index.css';
+import 'lib/index.css';
 
 addGoogleFonts();
 
