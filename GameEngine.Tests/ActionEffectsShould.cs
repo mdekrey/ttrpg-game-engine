@@ -58,7 +58,7 @@ namespace GameEngine.Tests
 
             var attackAction = await actionBuilder.BuildAsync(new SerializedTarget
             {
-                Melee = new() { TargetCount = 2 },
+                MeleeWeapon = new() { TargetCount = 2 },
                 Effect = new() { Attack = new() {
                     Hit = new() { Damage = new() { { DamageType.Weapon, "[W] + STR" } } }
                 } }

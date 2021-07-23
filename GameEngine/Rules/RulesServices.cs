@@ -32,7 +32,7 @@ namespace GameEngine.Rules
                     .AddEffect<AttackRoll>(attack =>
                     {
                         // TODO - saves
-                        var modifier = actor.Current.Abilities[attack.BaseAttackBonus] + CombatExpectations.ExpectedProficiencyModifier(actor.Current.Level) + attack.Bonus
+                        var modifier = actor.Current.Abilities[attack.Kind] + CombatExpectations.ExpectedProficiencyModifier(actor.Current.Level) + attack.Bonus
                             - target.Current.ArmorClass;
                         var permutations = permutator.Permutations(new DieCode(1, 20));
                         permutations += modifier;

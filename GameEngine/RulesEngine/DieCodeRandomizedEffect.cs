@@ -15,6 +15,8 @@ namespace GameEngine.RulesEngine
 
 
     }
+
+    // TODO - move the predicate out of here so it can be more easily serialized
     public record RandomizedEffectListEntry(Predicate<int> Applies, IEffect Effect);
 
     public record RandomizedEffectList(ImmutableList<RandomizedEffectListEntry> Entries)

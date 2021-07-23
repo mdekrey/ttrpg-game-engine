@@ -29,7 +29,8 @@ namespace GameEngine.Rules
             var effect = await BuildAsync(target.Effect);
             return target switch
             {
-                { Melee: MeleeWeaponOptions melee } => new MeleeWeapon { AdditionalReach = melee.AdditionalReach, TargetCount = melee.TargetCount, Effect = effect },
+                { MeleeWeapon: MeleeWeaponOptions melee } => new MeleeWeapon { AdditionalReach = melee.AdditionalReach, TargetCount = melee.TargetCount, Offhand = melee.Offhand, Effect = effect },
+                { RangedWeapon: RangedWeaponOptions _ } => new RangedWeapon { },
                 _ => throw new NotImplementedException(),
             };
         }
@@ -56,9 +57,9 @@ namespace GameEngine.Rules
             if (effect is { Attack: AttackRollOptions attack })
                 effects.Add(new AttackRoll(currentAttacker, currentTarget)
                 {
-                    BaseAttackBonus = Enum.TryParse<Ability>(attack.BaseAttackBonus, out var attackBonus) ? attackBonus : Ability.Strength,
+                    Kind = Enum.TryParse<Ability>(attack.Kind, out var attackBonus) ? attackBonus : Ability.Strength,
                     Bonus = attack.Bonus,
-                    Type = Enum.TryParse<AttackRoll.AttackType>(attack.AttackType, out var t) ? t : AttackRoll.AttackType.Physical,
+                    Defense = Enum.TryParse<AttackRoll.AttackType>(attack.Defense, out var t) ? t : AttackRoll.AttackType.ArmorClass,
                     Hit = attack.Hit == null ? null : await BuildAsync(attack.Hit),
                     Miss = attack.Miss == null ? null : await BuildAsync(attack.Miss),
                     Effect = attack.Effect == null ? null : await BuildAsync(attack.Effect),
@@ -67,6 +68,9 @@ namespace GameEngine.Rules
                 effects.Add(await BuildAsync(target));
             if (effect is { HalfDamage: true })
                 effects.Add(new HalfDamageEffect());
+
+            if (effect is { Power: SerializedPower power })
+                throw new NotImplementedException(); // TODO
 
             // TODO - is there a way to make sure we handle all cases?
             return effects;

@@ -11,7 +11,10 @@ namespace GameEngine.Rules
 
         public enum AttackType
         {
-            Physical,
+            ArmorClass,
+            Fortitude,
+            Reflex,
+            Will,
         }
 
         public AttackRoll(ICurrentActor attacker, ICurrentTarget target)
@@ -20,18 +23,18 @@ namespace GameEngine.Rules
             this.target = target ?? throw new ArgumentNullException(nameof(target));
         }
 
-        public Ability BaseAttackBonus { get; init; }
+        public Ability Kind { get; init; }
         public int Bonus { get; init; }
-        public AttackType Type { get; init; } = AttackType.Physical;
+        public AttackType Defense { get; init; } = AttackType.ArmorClass;
         public IEffect? Hit { get; init; }
         public IEffect? Miss { get; init; }
         public IEffect? Effect { get; init; }
 
         public int GetOutput(RandomGenerator random)
         {
-            switch (Type)
+            switch (Defense)
             {
-                case AttackType.Physical:
+                case AttackType.ArmorClass:
                     // TODO - get stats
                     return random(1, 21) - 10;
                 default:
