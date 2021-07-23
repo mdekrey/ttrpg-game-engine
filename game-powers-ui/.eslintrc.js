@@ -10,6 +10,7 @@ module.exports = {
     },
     ignorePatterns: [
         "/*.js",
+        "!/tailwind.config.js",
         "node_modules/",
         "package*.json",
         "config/",
