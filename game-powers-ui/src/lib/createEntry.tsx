@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from '../reportWebVitals';
+import 'index.css';
+
+// https://fonts.googleapis.com/css?family=Acme|Martel|Source+Serif+Pro
 
 /**
  * Creates the entry point.
