@@ -43,6 +43,7 @@ module.exports = {
 		extend: {
 			backgroundColor: [`odd`, `even`],
 			backgroundImage: [`odd`, `even`],
+			margin: [`first`],
 		},
 	},
 	plugins: [require('tailwindcss-multi-column')()],

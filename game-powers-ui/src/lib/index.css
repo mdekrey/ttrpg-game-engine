@@ -3,3 +3,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@page {
+    margin: 0.75in;
+}
+
+.theme-4e-indent:not(:first-child) {
+    text-indent: 1rem;
+}
+h1 + .theme-4e-indent:not(:first-child), h2 + .theme-4e-indent:not(:first-child), h3 + .theme-4e-indent:not(:first-child), h4 + .theme-4e-indent:not(:first-child), h5 + .theme-4e-indent:not(:first-child), h6 + .theme-4e-indent:not(:first-child) {
+    text-indent: initial;
+}
+ul.theme-4e-list li::marker {
+    content: '✦ ';
+    @apply text-blue-dark;
+}
+
+@media print {
+    * {
+        -webkit-print-color-adjust: exact;
+    }
+}
