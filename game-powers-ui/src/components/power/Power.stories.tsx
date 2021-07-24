@@ -1,7 +1,8 @@
 import { Meta, Story } from '@storybook/react';
 import { ComponentProps } from 'react';
 import { FlavorText } from './FlavorText';
-
+import { MagicItemTable } from './MagicItemTable';
+import { RulesText } from './RulesText';
 import { Power } from './Power';
 
 type PowerStoryProps = Omit<ComponentProps<typeof Power>, 'className' | 'children'> & {
@@ -15,11 +16,13 @@ const contentsMapping = {
 			<div>
 				<p>At-Will * Acrane, Cold, Implement</p>
 				<p>Standard Action * Ranged 10</p>
-				<p>Target: One creature</p>
-				<p>Attack: Intelligence vs. Fortitude</p>
+				<RulesText label="Target">One creature</RulesText>
+				<RulesText label="Attack">Intelligence vs. Fortitude</RulesText>
 			</div>
-			<p>Hit: 1d6 + INT cold damage, and the target is slowed until the end of your next turn.</p>
-			<p>Increase damage to 2d6 + INT at 21st level.</p>
+			<RulesText label="Hit">
+				1d6 + INT cold damage, and the target is slowed until the end of your next turn.
+			</RulesText>
+			<RulesText>Increase damage to 2d6 + INT at 21st level.</RulesText>
 		</>
 	),
 	simplePower: (
@@ -27,10 +30,10 @@ const contentsMapping = {
 			<div>
 				<p>Encounter * Acrane, Fire, Implement</p>
 				<p>Standard Action * Close blast 5</p>
-				<p>Target: Each creature in blast</p>
-				<p>Attack: Intelligence vs. Reflex</p>
+				<RulesText label="Target">Each creature in blast</RulesText>
+				<RulesText label="Attack">Intelligence vs. Reflex</RulesText>
 			</div>
-			<p>Hit: 2d6 + INT fire damage</p>
+			<RulesText label="Hit">2d6 + INT fire damage</RulesText>
 		</>
 	),
 	complexPower: (
@@ -38,58 +41,36 @@ const contentsMapping = {
 			<div>
 				<p>Daily * Acid, Acrane, Implement</p>
 				<p>Standard Action * Ranged 20</p>
-				<p>Primary Target: One creature</p>
-				<p>Attack: Intelligence vs. Reflex</p>
+				<RulesText label="Target">One creature</RulesText>
+				<RulesText label="Attack">Intelligence vs. Reflex</RulesText>
 			</div>
-			<p>Hit: 2d8 + INT acid damage, and ongoing 5 acid damage (save ends). Make a secondary attack</p>
-			<p>Miss: Half damage, and ongoing 2 acid damage to primary target (save ends), and no secondary attack.</p>
-			<p>Secondary Target: Each creature adjacent to the primary target.</p>
-			<p>Secondary Attack: Intelligence vs. Reflex</p>
-			<p>Hit: 1d8 + INT acid damage, and ongoing 5 acid damage (save ends).</p>
+			<RulesText label="Hit">
+				2d8 + INT acid damage, and ongoing 5 acid damage (save ends). Make a secondary attack
+			</RulesText>
+			<RulesText label="Miss">
+				Half damage, and ongoing 2 acid damage to primary target (save ends), and no secondary attack.
+			</RulesText>
+			<RulesText label="Secondary Target">Each creature adjacent to the primary target.</RulesText>
+			<RulesText label="Secondary Attack">Intelligence vs. Reflex</RulesText>
+			<RulesText label="Hit">1d8 + INT acid damage, and ongoing 5 acid damage (save ends).</RulesText>
 		</>
 	),
 	item: (
 		<>
 			<div>
-				<div className="col-count-2 col-gap-4">
-					<table className="w-full">
-						<tbody>
-							<tr>
-								<td>Lvl 1</td>
-								<td>+1</td>
-								<td className="text-right">360 gp</td>
-							</tr>
-							<tr>
-								<td>Lvl 6</td>
-								<td>+2</td>
-								<td className="text-right">1,800 gp</td>
-							</tr>
-							<tr>
-								<td>Lvl 11</td>
-								<td>+3</td>
-								<td className="text-right">9,000 gp</td>
-							</tr>
-							<tr>
-								<td>Lvl 16</td>
-								<td>+4</td>
-								<td className="text-right">45,000 gp</td>
-							</tr>
-							<tr>
-								<td>Lvl 21</td>
-								<td>+5</td>
-								<td className="text-right">225,000 gp</td>
-							</tr>
-							<tr>
-								<td>Lvl 26</td>
-								<td>+6</td>
-								<td className="text-right">1,125,000 gp</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<p>Implement (Wand)</p>
-				<p>Enhancement: Attacck rolls and damage rolls</p>
-				<p>Critical: +1d6 damage per plus</p>
+				<MagicItemTable
+					levels={[
+						[1, 1],
+						[6, 2],
+						[11, 3],
+						[16, 4],
+						[21, 5],
+						[26, 6],
+					]}
+				/>
+				<RulesText label="Implement (Wand)" />
+				<RulesText label="Enhancement">Attack rolls and damage rolls</RulesText>
+				<RulesText label="Critical">+1d6 damage per plus</RulesText>
 			</div>
 		</>
 	),
