@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'lib/index.css';
 import reportWebVitals from 'lib/reportWebVitals';
-import { addGoogleFonts } from 'lib/addGoogleFonts';
 
 /**
  * Creates the entry point.
@@ -11,7 +10,6 @@ import { addGoogleFonts } from 'lib/addGoogleFonts';
  */
 export function createEntry(Component: React.ComponentType<any>) {
 	return (element: HTMLElement, context: any) => {
-		addGoogleFonts();
 		function render(actualData: any) {
 			ReactDOM.render(
 				<React.StrictMode>

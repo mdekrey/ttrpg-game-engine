@@ -1,6 +1,7 @@
 import { Meta, Story } from '@storybook/react';
 import { ComponentProps } from 'react';
 import { FlavorText } from './FlavorText';
+import { InfoBlock } from './InfoBlock';
 import { MagicItemTable } from './MagicItemTable';
 import { RulesText } from './RulesText';
 import { Power } from './Power';
@@ -13,12 +14,14 @@ type PowerStoryProps = Omit<ComponentProps<typeof Power>, 'className' | 'childre
 const contentsMapping = {
 	atWillPower: (
 		<>
-			<div>
-				<p>At-Will * Acrane, Cold, Implement</p>
-				<p>Standard Action * Ranged 10</p>
+			<InfoBlock
+				powerType="At-Will"
+				keywords={['Acrane', 'Cold', 'Implement']}
+				actionType="Standard Action"
+				attack={{ type: 'ranged', range: 10 }}>
 				<RulesText label="Target">One creature</RulesText>
 				<RulesText label="Attack">Intelligence vs. Fortitude</RulesText>
-			</div>
+			</InfoBlock>
 			<RulesText label="Hit">
 				1d6 + INT cold damage, and the target is slowed until the end of your next turn.
 			</RulesText>
@@ -27,23 +30,27 @@ const contentsMapping = {
 	),
 	simplePower: (
 		<>
-			<div>
-				<p>Encounter * Acrane, Fire, Implement</p>
-				<p>Standard Action * Close blast 5</p>
+			<InfoBlock
+				powerType="Encounter"
+				keywords={['Acrane', 'Fire', 'Implement']}
+				actionType="Standard Action"
+				attack={{ type: 'close', mode: 'blast', range: 5 }}>
 				<RulesText label="Target">Each creature in blast</RulesText>
 				<RulesText label="Attack">Intelligence vs. Reflex</RulesText>
-			</div>
+			</InfoBlock>
 			<RulesText label="Hit">2d6 + INT fire damage</RulesText>
 		</>
 	),
 	complexPower: (
 		<>
-			<div>
-				<p>Daily * Acid, Acrane, Implement</p>
-				<p>Standard Action * Ranged 20</p>
+			<InfoBlock
+				powerType="Daily"
+				keywords={['Acid', 'Acrane', 'Implement']}
+				actionType="Standard Action"
+				attack={{ type: 'ranged', range: 10 }}>
 				<RulesText label="Target">One creature</RulesText>
 				<RulesText label="Attack">Intelligence vs. Reflex</RulesText>
-			</div>
+			</InfoBlock>
 			<RulesText label="Hit">
 				2d8 + INT acid damage, and ongoing 5 acid damage (save ends). Make a secondary attack
 			</RulesText>
