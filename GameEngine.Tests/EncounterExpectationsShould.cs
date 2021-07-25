@@ -39,9 +39,9 @@ namespace GameEngine.Tests
             var goblin = MonsterRoleTemplate.Skirmisher.GetStatsFor(level, new Rules.CharacterAbilities(2, 1, 3, -1, 1, -1));
 
             var pcBonusDamagePerRound = 
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""melee"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""2[W] + STR"" } } } } } }");
+                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""2[W] + STR"" } } } } } }");
             var pcStandardDamagePerRound = 
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""melee"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } } } } } }");
+                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } } } } } }");
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
 
             var healthRemainingPerRound = SimulateCombat(damage, 1, goblin).ToArray();
@@ -59,11 +59,11 @@ namespace GameEngine.Tests
             var goblin = MonsterRoleTemplate.Skirmisher.GetStatsFor(level, new Rules.CharacterAbilities(2, 1, 3, -1, 1, -1));
 
             var pcBonusDamagePerRound =
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""melee"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""2[W] + d6 + STR"" } } } } } }");
+                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""2[W] + d6 + STR"" } } } } } }");
             var pcStandardDamagePerRound =
                 await ParseToDamage(scope, pc, goblin, @"{ ""all"": [
-                    { ""target"": { ""melee"": {}, ""effect"": { ""attack"": { ""bonus"": 1, ""hit"": { ""damage"": { ""weapon"": ""[W] + d6"" } } } } } },
-                    { ""target"": { ""melee"": {}, ""effect"": { ""attack"": { ""bonus"": 1, ""hit"": { ""damage"": { ""weapon"": ""[W] - 1"" } } } } } }
+                    { ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": 1, ""hit"": { ""damage"": { ""weapon"": ""[W] + d6"" } } } } } },
+                    { ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": 1, ""hit"": { ""damage"": { ""weapon"": ""[W] - 1"" } } } } } }
                 ] }");
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
 
@@ -82,9 +82,9 @@ namespace GameEngine.Tests
             var goblin = MonsterRoleTemplate.Skirmisher.GetStatsFor(level, new Rules.CharacterAbilities(2, 1, 3, -1, 1, -1));
 
             var pcBonusDamagePerRound =
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""melee"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""2[W] + d6 + STR"" } } } } } }");
+                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""2[W] + d6 + STR"" } } } } } }");
             var pcStandardDamagePerRound =
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""melee"": {}, ""effect"": { ""attack"": { ""bonus"": 3, ""hit"": { ""damage"": { ""weapon"": ""[W] + d6 + STR"" } } } } } }");
+                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": 3, ""hit"": { ""damage"": { ""weapon"": ""[W] + d6 + STR"" } } } } } }");
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
 
             var healthRemainingPerRound = SimulateCombat(damage, 1, goblin).ToArray();
@@ -102,9 +102,9 @@ namespace GameEngine.Tests
             var goblin = MonsterRoleTemplate.Skirmisher.GetStatsFor(level, new Rules.CharacterAbilities(2, 1, 3, -1, 1, -1));
 
             var pcBonusDamagePerRound = 
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""melee"": { ""targetCount"": 2 }, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } } } } } }");
+                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": { ""targetCount"": 2 }, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } } } } } }");
             var pcStandardDamagePerRound = 
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""melee"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } } } } } }");
+                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } } } } } }");
             var damage = GenerateDamagePerAction(new[] { (4, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
 
             var healthRemainingPerRound = SimulateCombat(damage, 4, goblin, goblin, goblin, goblin).ToArray();

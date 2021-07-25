@@ -34,6 +34,7 @@ namespace GameEngine.Rules
     {
         public IEnumerable<SerializedEffect>? All { get; init; }
         public DamageEffectOptions? Damage { get; init; }
+        public ConditionEffectOptions? Condition { get; init; }
         public bool? HalfDamage { get; init; }
         public RandomizedOptions? Randomized { get; init; }
         public AttackRollOptions? Attack { get; init; }
@@ -89,5 +90,10 @@ namespace GameEngine.Rules
     public class DamageEffectOptions : Dictionary<DamageType, string>
     {
         // Value: Die Codes
+    }
+
+    public class ConditionEffectOptions : Dictionary<ConditionType, string>
+    {
+
     }
 }

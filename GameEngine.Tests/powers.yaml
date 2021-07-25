@@ -92,3 +92,17 @@
             hit:
               damage:
                 weapon: 2[W] + DEX + STR
+  Ray of Frost:
+    class: Wizard
+    frequency: At-Will
+    level: 1
+    power:
+      target:
+        ranged: 10
+        effect:
+          attack:
+            hit:
+              damage:
+                cold: d6 + INT
+              condition:
+                slowed: End of User's Next Turn # TODO, is this an awkward enum?
