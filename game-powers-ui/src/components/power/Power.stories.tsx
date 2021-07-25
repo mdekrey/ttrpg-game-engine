@@ -17,6 +17,7 @@ type PowerStoryProps = Omit<ComponentProps<typeof Power>, 'className' | 'childre
 };
 
 const iconMapping = {
+	none: undefined,
 	melee: MeleeIcon,
 	ranged: RangedIcon,
 	close: CloseIcon,
