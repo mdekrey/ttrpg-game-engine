@@ -1,10 +1,7 @@
 import classNames from 'classnames';
 import { neverEver } from 'lib/neverEver';
 import { PowerType } from './Power';
-import { ReactComponent as MeleeIcon } from './icons/melee.svg';
-import { ReactComponent as RangedIcon } from './icons/ranged.svg';
-import { ReactComponent as AreaIcon } from './icons/area.svg';
-import { ReactComponent as CloseIcon } from './icons/close.svg';
+import { MeleeIcon, RangedIcon, AreaIcon, CloseIcon } from './icons';
 
 export type Attack =
 	| {

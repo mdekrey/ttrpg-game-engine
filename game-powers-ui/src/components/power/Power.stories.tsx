@@ -1,17 +1,12 @@
 import { Meta, Story } from '@storybook/react';
 import { ComponentProps } from 'react';
-import { FlavorText } from './FlavorText';
 import { InfoBlock } from './InfoBlock';
 import { MagicItemTable } from './MagicItemTable';
 import { RulesText } from './RulesText';
 import { Power } from './Power';
-import { ReactComponent as MeleeIcon } from './icons/melee.svg';
-import { ReactComponent as RangedIcon } from './icons/ranged.svg';
-import { ReactComponent as AreaIcon } from './icons/area.svg';
-import { ReactComponent as CloseIcon } from './icons/close.svg';
+import { MeleeIcon, RangedIcon, AreaIcon, CloseIcon } from './icons';
 
 type PowerStoryProps = Omit<ComponentProps<typeof Power>, 'className' | 'children' | 'icon'> & {
-	flavor: string;
 	contents: keyof typeof contentsMapping;
 	icon: keyof typeof iconMapping;
 };
@@ -127,12 +122,16 @@ export default {
 				type: 'select',
 			},
 		},
+		type: {
+			control: {
+				type: 'select',
+			},
+		},
 	},
 } as Meta<PowerStoryProps>;
 
-const Template: Story<PowerStoryProps> = ({ flavor, contents, icon, ...args }: PowerStoryProps) => (
+const Template: Story<PowerStoryProps> = ({ contents, icon, ...args }: PowerStoryProps) => (
 	<Power {...args} icon={iconMapping[icon]}>
-		<FlavorText>{flavor}</FlavorText>
 		{contentsMapping[contents]}
 	</Power>
 );
@@ -142,7 +141,7 @@ AtWill.args = {
 	type: 'At-Will',
 	name: 'Ray of Frost',
 	level: 'Wizard Attack 1',
-	flavor: 'A blisteringly cold ray of white frost streaks to your target.',
+	flavorText: 'A blisteringly cold ray of white frost streaks to your target.',
 	contents: 'atWillPower',
 	icon: 'ranged',
 };
@@ -152,7 +151,7 @@ Encounter.args = {
 	type: 'Encounter',
 	name: 'Burning Hands',
 	level: 'Wizard Attack 1',
-	flavor: 'A fierce burst of flame erupts from your hands and scorches nearby foes.',
+	flavorText: 'A fierce burst of flame erupts from your hands and scorches nearby foes.',
 	contents: 'simplePower',
 	icon: 'close',
 };
@@ -162,7 +161,8 @@ Daily.args = {
 	type: 'Daily',
 	name: 'Acid Arrow',
 	level: 'Wizard Attack 1',
-	flavor: 'A shimmering arrow of green, glowing liquid streaks to your target and bursts in a spray of sizzling acit',
+	flavorText:
+		'A shimmering arrow of green, glowing liquid streaks to your target and bursts in a spray of sizzling acit',
 	contents: 'complexPower',
 	icon: 'ranged',
 };
@@ -172,7 +172,7 @@ Item.args = {
 	type: 'Item',
 	name: 'Magic Wand',
 	level: 'Level 1+',
-	flavor: 'A basic wand, enchanted so as to channel arcane energy.',
+	flavorText: 'A basic wand, enchanted so as to channel arcane energy.',
 	contents: 'item',
 	icon: 'none',
 };

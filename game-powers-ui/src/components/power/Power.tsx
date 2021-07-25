@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { addChildClasses } from 'lib/addChildClasses';
+import { FlavorText } from './FlavorText';
 
 export type PowerType = 'At-Will' | 'Encounter' | 'Daily' | 'Item';
 
@@ -9,13 +10,16 @@ export const Power = ({
 	type,
 	children,
 	icon: Icon,
+	flavorText,
 	...props
 }: {
 	name: string;
 	level: string;
 	type: PowerType;
+	flavorText?: string;
 	icon?: React.FunctionComponent<JSX.IntrinsicElements['svg']>;
 } & JSX.IntrinsicElements['section']) => {
+	console.log(Icon);
 	return (
 		<section {...props}>
 			<header
@@ -34,7 +38,15 @@ export const Power = ({
 				</span>
 				<span className="text-sm leading-tight">{level}</span>
 			</header>
-			{addChildClasses(children, <p className="even:bg-gradient-to-r from-tan-fading px-2 font-info" />)}
+			{addChildClasses(
+				<>
+					{flavorText && (
+						<FlavorText className="bg-gradient-to-r from-tan-fading px-2 font-info">{flavorText}</FlavorText>
+					)}
+					{children}
+				</>,
+				<p className="even:bg-gradient-to-r from-tan-fading px-2 font-info" />
+			)}
 		</section>
 	);
 };

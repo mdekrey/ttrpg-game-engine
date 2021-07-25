@@ -1,5 +1,5 @@
-import { FlavorText, InfoBlock, MagicItemTable, RulesText, Power } from 'components/power';
-import { ReactComponent as RangedIcon } from 'components/power/icons/ranged.svg';
+import { InfoBlock, MagicItemTable, RulesText, Power } from 'components/power';
+import { RangedIcon } from 'components/power/icons';
 
 # We happy?
 Nulla et arcu eu ex pretium pulvinar. [Praesent non nulla quis lorem molestie faucibus eu eget magna.](//example.com) Vestibulum auctor nulla urna. Morbi vel risus lacinia, pharetra risus vel, placerat nulla. In efficitur augue non congue pulvinar. Donec at elit euismod, placerat est vitae, posuere neque. Quisque auctor non ligula quis ultricies. Suspendisse et tincidunt metus, eu porta orci. Donec quis sapien eros. Integer at leo quis odio eleifend iaculis.
@@ -38,39 +38,35 @@ In euismod metus ligula, vel porta lorem lobortis quis. Maecenas efficitur matti
   level="Wizard Attack 1"
   name="Ray of Frost"
   type="At-Will"
+  flavorText="A blisteringly cold ray of white frost streaks to your target."
   icon={RangedIcon}
 >
-  <FlavorText>
-    A blisteringly cold ray of white frost streaks to your target.
-  </FlavorText>
-  <React.Fragment key=".1">
     <InfoBlock
-      actionType="Standard Action"
-      attack={{
-        range: 10,
-        type: 'ranged'
-      }}
-      keywords={[
-        'Acrane',
-        'Cold',
-        'Implement'
-      ]}
-      powerType="At-Will"
+        actionType="Standard Action"
+        attack={{
+            range: 10,
+            type: 'ranged'
+        }}
+        keywords={[
+            'Acrane',
+            'Cold',
+            'Implement'
+        ]}
+        powerType="At-Will"
     >
-      <RulesText label="Target">
-        One creature
-      </RulesText>
-      <RulesText label="Attack">
-        Intelligence vs. Fortitude
-      </RulesText>
+        <RulesText label="Target">
+            One creature
+        </RulesText>
+        <RulesText label="Attack">
+            Intelligence vs. Fortitude
+        </RulesText>
     </InfoBlock>
     <RulesText label="Hit">
-      1d6 + INT cold damage, and the target is slowed until the end of your next turn.
+        1d6 + INT cold damage, and the target is slowed until the end of your next turn.
     </RulesText>
     <RulesText>
-      Increase damage to 2d6 + INT at 21st level.
+        Increase damage to 2d6 + INT at 21st level.
     </RulesText>
-  </React.Fragment>
 </Power>
 
 ## No, sir
