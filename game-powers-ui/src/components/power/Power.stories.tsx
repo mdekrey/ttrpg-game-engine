@@ -115,7 +115,7 @@ export default {
 		},
 		icon: {
 			defaultValue: 'melee',
-			options: ['none', 'melee', 'ranged', 'close', 'area'],
+			options: Object.keys(iconMapping),
 			control: {
 				type: 'select',
 			},
