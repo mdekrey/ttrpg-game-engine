@@ -8,17 +8,15 @@ export const Power = ({
 	name,
 	level,
 	type,
-	className,
 	children,
+	...props
 }: {
 	name: string;
 	level: string;
 	type: PowerType;
-	className?: string;
-	children: ReactNode;
-}) => {
+} & JSX.IntrinsicElements['section']) => {
 	return (
-		<section className={className}>
+		<section {...props}>
 			<header
 				className={classNames(
 					{
