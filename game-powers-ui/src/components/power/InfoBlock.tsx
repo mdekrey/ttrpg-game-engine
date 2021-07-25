@@ -44,22 +44,22 @@ export const InfoBlock = ({
 			<p className="font-bold w-40">{actionType}</p>
 			{attack.type === 'melee' ? (
 				<p>
-					<MeleeIcon className="h-4 align-baseline inline-block" /> <span className="font-bold">Melee</span>{' '}
+					<MeleeIcon className="mt-1 h-4 align-top inline-block" /> <span className="font-bold">Melee</span>{' '}
 					{attack.range}
 				</p>
 			) : attack.type === 'ranged' ? (
 				<p>
-					<RangedIcon className="h-4 align-baseline inline-block" /> <span className="font-bold">Ranged</span>{' '}
+					<RangedIcon className="mt-1 h-4 align-top inline-block" /> <span className="font-bold">Ranged</span>{' '}
 					{attack.range}
 				</p>
 			) : attack.type === 'area' ? (
 				<p>
-					<AreaIcon className="h-4 align-baseline inline-block" /> <span className="font-bold">Area {attack.mode}</span>{' '}
+					<AreaIcon className="mt-1 h-4 align-top inline-block" /> <span className="font-bold">Area {attack.mode}</span>{' '}
 					{attack.size} <span className="font-bold">within</span> {attack.range}
 				</p>
 			) : attack.type === 'close' ? (
 				<p>
-					<CloseIcon className="h-4 align-baseline inline-block" />{' '}
+					<CloseIcon className="mt-1 h-4 align-top inline-block" />{' '}
 					<span className="font-bold">Close {attack.mode}</span> {attack.range}
 				</p>
 			) : attack.type === 'personal' ? (

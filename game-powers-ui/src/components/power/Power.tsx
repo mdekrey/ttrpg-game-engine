@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import { addChildClasses } from 'lib/addChildClasses';
-import { ReactNode } from 'react';
 
 export type PowerType = 'At-Will' | 'Encounter' | 'Daily' | 'Item';
 
@@ -9,11 +8,13 @@ export const Power = ({
 	level,
 	type,
 	children,
+	icon: Icon,
 	...props
 }: {
 	name: string;
 	level: string;
 	type: PowerType;
+	icon?: React.FunctionComponent<JSX.IntrinsicElements['svg']>;
 } & JSX.IntrinsicElements['section']) => {
 	return (
 		<section {...props}>
@@ -28,7 +29,9 @@ export const Power = ({
 					'font-header text-white',
 					'flex justify-between items-baseline px-2 pt-0.5'
 				)}>
-				<span className="text-lg leading-tight font-bold">{name}</span>
+				<span className="text-lg leading-none py-1 font-bold">
+					{Icon && <Icon className="h-4 align-top inline-block" />} {name}
+				</span>
 				<span className="text-sm leading-tight">{level}</span>
 			</header>
 			{addChildClasses(children, <p className="even:bg-gradient-to-r from-tan-fading px-2 font-info" />)}

@@ -5,10 +5,22 @@ import { InfoBlock } from './InfoBlock';
 import { MagicItemTable } from './MagicItemTable';
 import { RulesText } from './RulesText';
 import { Power } from './Power';
+import { ReactComponent as MeleeIcon } from './icons/melee.svg';
+import { ReactComponent as RangedIcon } from './icons/ranged.svg';
+import { ReactComponent as AreaIcon } from './icons/area.svg';
+import { ReactComponent as CloseIcon } from './icons/close.svg';
 
-type PowerStoryProps = Omit<ComponentProps<typeof Power>, 'className' | 'children'> & {
+type PowerStoryProps = Omit<ComponentProps<typeof Power>, 'className' | 'children' | 'icon'> & {
 	flavor: string;
 	contents: keyof typeof contentsMapping;
+	icon: keyof typeof iconMapping;
+};
+
+const iconMapping = {
+	melee: MeleeIcon,
+	ranged: RangedIcon,
+	close: CloseIcon,
+	area: AreaIcon,
 };
 
 const contentsMapping = {
@@ -100,6 +112,13 @@ export default {
 				type: 'select',
 			},
 		},
+		icon: {
+			defaultValue: 'melee',
+			options: ['none', 'melee', 'ranged', 'close', 'area'],
+			control: {
+				type: 'select',
+			},
+		},
 		contents: {
 			name: 'contents',
 			options: Object.keys(contentsMapping),
@@ -110,8 +129,8 @@ export default {
 	},
 } as Meta<PowerStoryProps>;
 
-const Template: Story<PowerStoryProps> = ({ flavor, contents, ...args }: PowerStoryProps) => (
-	<Power {...args}>
+const Template: Story<PowerStoryProps> = ({ flavor, contents, icon, ...args }: PowerStoryProps) => (
+	<Power {...args} icon={iconMapping[icon]}>
 		<FlavorText>{flavor}</FlavorText>
 		{contentsMapping[contents]}
 	</Power>
@@ -124,6 +143,7 @@ AtWill.args = {
 	level: 'Wizard Attack 1',
 	flavor: 'A blisteringly cold ray of white frost streaks to your target.',
 	contents: 'atWillPower',
+	icon: 'ranged',
 };
 
 export const Encounter = Template.bind({});
@@ -133,6 +153,7 @@ Encounter.args = {
 	level: 'Wizard Attack 1',
 	flavor: 'A fierce burst of flame erupts from your hands and scorches nearby foes.',
 	contents: 'simplePower',
+	icon: 'close',
 };
 
 export const Daily = Template.bind({});
@@ -142,6 +163,7 @@ Daily.args = {
 	level: 'Wizard Attack 1',
 	flavor: 'A shimmering arrow of green, glowing liquid streaks to your target and bursts in a spray of sizzling acit',
 	contents: 'complexPower',
+	icon: 'ranged',
 };
 
 export const Item = Template.bind({});
@@ -151,4 +173,5 @@ Item.args = {
 	level: 'Level 1+',
 	flavor: 'A basic wand, enchanted so as to channel arcane energy.',
 	contents: 'item',
+	icon: 'none',
 };
