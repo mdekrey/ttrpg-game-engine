@@ -7,15 +7,15 @@ using System.Text;
 
 namespace GameEngine.Generator
 {
-    public record ClassProfile(ClassRole Role, ToolType Tool, DefenseType PrimaryNonArmorDefense, IReadOnlyList<Ability> Abilities, IReadOnlyList<DamageType> PreferredDamageTypes)
+    public record ClassProfile(ClassRole Role, ToolType Tool, DefenseType PrimaryNonArmorDefense, IReadOnlyList<Ability> Abilities, IReadOnlyList<DamageType> PreferredDamageTypes, IReadOnlyList<string> PowerTemplates)
     {
         internal bool IsValid()
         {
             return PrimaryNonArmorDefense != DefenseType.ArmorClass
-                && Abilities != null
-                && PreferredDamageTypes != null
-                && Abilities.Distinct().Count() > 2
-                && PreferredDamageTypes.Count > 1;
+                && Abilities is { Count: > 1 }
+                && Abilities.Distinct().Count() == Abilities.Count
+                && PreferredDamageTypes is { Count: >= 1 }
+                && PowerTemplates is { Count: >= 1 };
         }
     }
 
@@ -32,18 +32,13 @@ namespace GameEngine.Generator
     public record FlatCost(double Cost) : IPowerCost { double IPowerCost.Apply(double original) => original - Cost; }
     public record CostMultiplier(double Multiplier) : IPowerCost { double IPowerCost.Apply(double original) => original * Multiplier; }
 
-    public enum PowerModifierStage
-    {
-        Attack,
-        Effect,
-    }
-    public record PowerModifierFormula(PowerModifierStage Stage, PowerModifierStage? ChildStage, bool End, double Minimum, IPowerCost Cost);
+    public record PowerModifierFormula(double Minimum, IPowerCost Cost);
 
     public record PowerModifier(string Modifier, ImmutableList<PowerModifier> ChildModifiers)
     {
         public PowerModifier(string Modifier) : this(Modifier, ImmutableList<PowerModifier>.Empty) { }
     }
-    public record PowerProfile(ImmutableList<PowerModifier> Modifiers);
+    public record PowerProfile(string Template);
     public record PowerProfiles(
         ImmutableList<PowerProfile> AtWill1,
         ImmutableList<PowerProfile> Encounter1,
@@ -66,77 +61,115 @@ namespace GameEngine.Generator
 
     public class PowerGenerator
     {
+        private static IReadOnlyList<string> powerTemplates = new[]
+        {
+            "Accurate", // focus on bonus to hit
+            "Skirmish", // focus on movement
+            "Multiattack",
+            "Close burst",
+            "Conditions",
+            "Interrupt Penalty", // Cutting words, Disruptive Strike
+            "Close blast",
+            "Bonus",
+        };
+
         private static ImmutableDictionary<string, PowerModifierFormula> modifiers = new Dictionary<string, PowerModifierFormula>
         {
-            { "Melee", new (PowerModifierStage.Attack, PowerModifierStage.Effect, true, 0, new FlatCost(0)) },
-            { "NAD", new (PowerModifierStage.Effect, null, false, 1, new FlatCost(0.5)) },
-            { "Primary Ability Modifier Damage", new (PowerModifierStage.Effect, null, false, 1.5, new FlatCost(0.5)) },
-            { "Secondary Ability Modifier Damage", new (PowerModifierStage.Effect, null, false, 1.5, new FlatCost(0.5)) },
+            { "Primary Ability Modifier Damage", new (1.5, new FlatCost(0.5)) },
+            { "Secondary Ability Modifier Damage", new (1.5, new FlatCost(0.5)) },
         }.ToImmutableDictionary();
+
+        private readonly RandomGenerator randomGenerator;
+
+        public PowerGenerator(RandomGenerator randomGenerator)
+        {
+            this.randomGenerator = randomGenerator;
+        }
 
         public PowerProfiles GenerateProfiles(ClassProfile classProfile)
         {
             return new PowerProfiles(
                 AtWill1: 
-                    Enumerable.Repeat((level: 1, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 1, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Encounter1: 
-                    Enumerable.Repeat((level: 1, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 1, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Daily1: 
-                    Enumerable.Repeat((level: 1, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 1, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Encounter3: 
-                    Enumerable.Repeat((level: 3, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 3, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Daily5: 
-                    Enumerable.Repeat((level: 5, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 5, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Encounter7: 
-                    Enumerable.Repeat((level: 7, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 7, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Daily9: 
-                    Enumerable.Repeat((level: 9, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 9, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Encounter11: 
-                    Enumerable.Repeat((level: 11, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 11, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Encounter13: 
-                    Enumerable.Repeat((level: 13, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 13, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Daily15: 
-                    Enumerable.Repeat((level: 15, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 15, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Encounter17: 
-                    Enumerable.Repeat((level: 17, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 17, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Daily19: 
-                    Enumerable.Repeat((level: 19, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 19, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Daily20: 
-                    Enumerable.Repeat((level: 20, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 20, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Encounter23: 
-                    Enumerable.Repeat((level: 23, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 23, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Daily25: 
-                    Enumerable.Repeat((level: 25, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 25, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Encounter27: 
-                    Enumerable.Repeat((level: 27, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList(),
+                    GeneratePowerProfiles(level: 27, usage: PowerFrequency.Encounter, classProfile: classProfile),
                 Daily29: 
-                    Enumerable.Repeat((level: 29, usage: PowerFrequency.Encounter), 4).Select(tuple => GenerateProfile(tuple.level, tuple.usage, classProfile)).ToImmutableList()
+                    GeneratePowerProfiles(level: 29, usage: PowerFrequency.Encounter, classProfile: classProfile)
             );
+        }
+
+        private ImmutableList<PowerProfile> GeneratePowerProfiles(int level, PowerFrequency usage, ClassProfile classProfile)
+        {
+            var result = new List<PowerProfile>();
+            result.Add(GenerateProfile(level, usage, classProfile with { PowerTemplates = new[] { classProfile.PowerTemplates[0] } }));
+            while (result.Count < 4)
+            {
+                var powerProfile = GenerateProfile(level, usage, classProfile);
+                result.Add(powerProfile);
+                classProfile = classProfile with
+                {
+                    PowerTemplates = classProfile.PowerTemplates.Where(p => p != powerProfile.Template).ToArray()
+                };
+            }
+            return result.ToImmutableList();
         }
 
         public PowerProfile GenerateProfile(int level, PowerFrequency usage, ClassProfile classProfile)
         {
             var basePower = GetBasePower(level, usage);
-            List<PowerModifier> modifiers = GetModifiers(PowerModifierStage.Attack, classProfile, basePower);
+            // List<PowerModifier> modifiers = GetModifiers(PowerModifierStage.Attack, classProfile, basePower);
 
-            return new PowerProfile(modifiers.ToImmutableList());
+            var thresholds = new List<KeyValuePair<int, string>>();
+            var threshold = 1;
+            for (var i = classProfile.PowerTemplates.Count - 1; i >= 0; i--)
+            {
+                thresholds.Add(new KeyValuePair<int, string>(threshold, classProfile.PowerTemplates[i]));
+                threshold = (int)Math.Ceiling(threshold * 1.5);
+            }
+            var roll = randomGenerator(1, threshold + 1);
+            var template = thresholds.Last(t => t.Key <= roll);
+
+            return new PowerProfile(template.Value);
         }
 
-        private static List<PowerModifier> GetModifiers(PowerModifierStage stage, ClassProfile classProfile, double basePower)
+        private static List<PowerModifier> GetModifiers(ClassProfile classProfile, double basePower)
         {
             var result = new List<PowerModifier>();
 
-            foreach (var mod in modifiers.Where(m => m.Value.Stage == stage))
+            foreach (var mod in modifiers)
             {
                 if (mod.Value.Minimum > basePower)
                     continue;
                 basePower = mod.Value.Cost.Apply(basePower);
-                if (mod.Value.ChildStage is PowerModifierStage childStage)
-                    result.Add(new PowerModifier(mod.Key, GetModifiers(childStage, classProfile, basePower).ToImmutableList()));
-                else
-                    result.Add(new PowerModifier(mod.Key));
-                if (mod.Value.End)
-                    break;
+                result.Add(new PowerModifier(mod.Key));
             }
 
             return result;

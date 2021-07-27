@@ -42,9 +42,9 @@ namespace GameEngine.Tests
         [Fact]
         public void CreateGenerateAtWillPowerProfile()
         {
-            var target = CreateTarget();
+            var target = CreateTarget((min, max) => max - 1);
 
-            var powerProfile = target.GenerateProfile(1, Rules.PowerFrequency.AtWill, new ClassProfile(Rules.ClassRole.Striker, ToolType.Weapon, Rules.DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }, new[] { DamageType.Weapon }));
+            var powerProfile = target.GenerateProfile(1, PowerFrequency.AtWill, CreateStrikerProfile());
 
             Snapshot.Match(powerProfile);
         }
@@ -54,14 +54,17 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget();
 
-            var powerProfile = target.GenerateProfiles(new ClassProfile(Rules.ClassRole.Striker, ToolType.Weapon, Rules.DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }, new[] { DamageType.Weapon }));
+            var powerProfile = target.GenerateProfiles(CreateStrikerProfile());
 
             Snapshot.Match(powerProfile);
         }
 
-        private PowerGenerator CreateTarget()
+        private ClassProfile CreateStrikerProfile() =>
+            new ClassProfile(ClassRole.Striker, ToolType.Weapon, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }, new[] { DamageType.Weapon }, new[] { "Multiattack", "Skirmish", "Accurate", "Conditions", "Close burst", "Interrupt Penalty", "Close blast", "Bonus" });
+
+        private PowerGenerator CreateTarget(RandomGenerator? randomGenerator = null)
         {
-            return new PowerGenerator();
+            return new PowerGenerator(randomGenerator ?? new Random(751).Next);
         }
     }
 }

@@ -1,1464 +1,240 @@
 ﻿{
   "AtWill1": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Conditions"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Skirmish"
     }
   ],
   "Encounter1": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Conditions"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Interrupt Penalty"
     }
   ],
   "Daily1": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Conditions"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Skirmish"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     }
   ],
   "Encounter3": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Conditions"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Bonus"
     }
   ],
   "Daily5": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Skirmish"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Bonus"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Interrupt Penalty"
     }
   ],
   "Encounter7": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Interrupt Penalty"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Accurate"
     }
   ],
   "Daily9": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Skirmish"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Accurate"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Bonus"
     }
   ],
   "Encounter11": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Accurate"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Close burst"
     }
   ],
   "Encounter13": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Skirmish"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Close burst"
     }
   ],
   "Daily15": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Conditions"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Close burst"
     }
   ],
   "Encounter17": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Accurate"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Close burst"
     }
   ],
   "Daily19": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Close burst"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Conditions"
     }
   ],
   "Daily20": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Skirmish"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Interrupt Penalty"
     }
   ],
   "Encounter23": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Skirmish"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Accurate"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     }
   ],
   "Daily25": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Accurate"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Skirmish"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     }
   ],
   "Encounter27": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Accurate"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Close burst"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     }
   ],
   "Daily29": [
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Multiattack"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Accurate"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Skirmish"
     },
     {
-      "Modifiers": [
-        {
-          "Modifier": "Melee",
-          "ChildModifiers": [
-            {
-              "Modifier": "NAD",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Primary Ability Modifier Damage",
-              "ChildModifiers": []
-            },
-            {
-              "Modifier": "Secondary Ability Modifier Damage",
-              "ChildModifiers": []
-            }
-          ]
-        }
-      ]
+      "Template": "Close blast"
     }
   ]
 }
