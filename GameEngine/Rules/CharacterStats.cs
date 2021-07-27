@@ -57,6 +57,19 @@ namespace GameEngine.Rules
                 >= Ability.Max or < 0 => throw new NotSupportedException(),
             };
 
+        public CharacterAbilities With(Ability ability, int number) =>
+            ability switch
+            {
+                Ability.Strength => this with { Strength = number },
+                Ability.Constitution => this with { Constitution = number },
+                Ability.Dexterity => this with { Dexterity = number },
+                Ability.Intelligence => this with { Intelligence = number },
+                Ability.Wisdom => this with { Wisdom = number },
+                Ability.Charisma => this with { Charisma = number },
+
+                >= Ability.Max or < 0 => throw new NotSupportedException(),
+            };
+
         public static CharacterAbilities FromStandardArray(IReadOnlyList<int> standardArray, IReadOnlyList<Ability> abilities)
         {
             var lookup = abilities.Select((a, i) => (a, i)).ToDictionary(kvp => kvp.a, kvp => kvp.i);

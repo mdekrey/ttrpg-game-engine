@@ -46,12 +46,12 @@ namespace GameEngine.Rules
     {
 #nullable disable warnings
         public string Name { get; init; }
-        public string Frequency { get; init; }
+        public PowerFrequency Frequency { get; init; }
         public string ActionType { get; init; } = "StandardAction";
         public string? Trigger { get; init; }
         public string? Prerequisite { get; init; }
         public string? Requirement { get; init; }
-        public string[] Keywords { get; init; } = Array.Empty<string>();
+        public List<string> Keywords { get; init; } = new List<string>();
         public string? Class { get; init; }
         public int? Level { get; init; }
         public string? Comments { get; init; }
@@ -70,9 +70,9 @@ namespace GameEngine.Rules
     public class AttackRollOptions
     {
 #nullable disable warnings
-        public string Kind { get; init; }
+        public Ability? Kind { get; init; }
         public int Bonus { get; init; }
-        public string Defense { get; init; }
+        public DefenseType? Defense { get; init; }
 #nullable restore
         public SerializedEffect? Hit { get; init; }
         public SerializedEffect? Miss { get; init; }

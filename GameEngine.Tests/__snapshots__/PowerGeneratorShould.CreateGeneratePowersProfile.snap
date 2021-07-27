@@ -1,0 +1,1464 @@
+﻿{
+  "AtWill1": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter1": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily1": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter3": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily5": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter7": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily9": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter11": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter13": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily15": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter17": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily19": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily20": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter23": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily25": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter27": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily29": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Melee",
+          "ChildModifiers": [
+            {
+              "Modifier": "NAD",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Primary Ability Modifier Damage",
+              "ChildModifiers": []
+            },
+            {
+              "Modifier": "Secondary Ability Modifier Damage",
+              "ChildModifiers": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

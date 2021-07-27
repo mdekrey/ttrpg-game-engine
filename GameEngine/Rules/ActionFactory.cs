@@ -57,9 +57,9 @@ namespace GameEngine.Rules
             if (effect is { Attack: AttackRollOptions attack })
                 effects.Add(new AttackRoll(currentAttacker, currentTarget)
                 {
-                    Kind = Enum.TryParse<Ability>(attack.Kind, out var attackBonus) ? attackBonus : Ability.Strength,
+                    Kind = attack.Kind ?? Ability.Strength,
                     Bonus = attack.Bonus,
-                    Defense = Enum.TryParse<AttackRoll.AttackType>(attack.Defense, out var t) ? t : AttackRoll.AttackType.ArmorClass,
+                    Defense = attack.Defense ?? DefenseType.ArmorClass,
                     Hit = attack.Hit == null ? null : await BuildAsync(attack.Hit),
                     Miss = attack.Miss == null ? null : await BuildAsync(attack.Miss),
                     Effect = attack.Effect == null ? null : await BuildAsync(attack.Effect),

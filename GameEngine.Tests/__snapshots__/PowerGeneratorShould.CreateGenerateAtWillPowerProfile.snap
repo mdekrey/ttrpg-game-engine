@@ -1,0 +1,17 @@
+﻿{
+  "Modifiers": [
+    {
+      "Modifier": "Melee",
+      "ChildModifiers": [
+        {
+          "Modifier": "NAD",
+          "ChildModifiers": []
+        },
+        {
+          "Modifier": "Primary Ability Modifier Damage",
+          "ChildModifiers": []
+        }
+      ]
+    }
+  ]
+}

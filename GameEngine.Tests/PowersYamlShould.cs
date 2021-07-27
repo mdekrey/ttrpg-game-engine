@@ -38,6 +38,10 @@ namespace GameEngine.Tests
                 {
                     NamingStrategy = new Newtonsoft.Json.Serialization.CamelCaseNamingStrategy(),
                 },
+                Converters =
+                {
+                    new Newtonsoft.Json.Converters.StringEnumConverter()
+                }
             };
 
             var temp = JToken.FromObject(PowerFrequency.AtWill, serializer);
@@ -51,8 +55,8 @@ namespace GameEngine.Tests
 
             foreach ((string name, SerializedPower powerRecord) in target)
             {
-                if (powerRecord.Frequency is string frequencyString && JToken.FromObject(frequencyString).ToObject<PowerFrequency?>(serializer) is PowerFrequency frequency && powerRecord.Level is int level)
-                    Assert.True(MeetsExpectations(frequency, level, powerRecord), $"{name} does not meet expectations");
+                if (powerRecord.Level is int level)
+                    Assert.True(MeetsExpectations(powerRecord.Frequency, level, powerRecord), $"{name} does not meet expectations");
             }
         }
 
@@ -60,14 +64,6 @@ namespace GameEngine.Tests
         {
             // TODO
             return true;
-        }
-
-        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public enum PowerFrequency
-        {
-            [System.Runtime.Serialization.EnumMember(Value = "At-Will")] AtWill,
-            Encounter,
-            Daily,
         }
     }
 }
