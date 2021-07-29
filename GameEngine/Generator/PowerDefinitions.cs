@@ -166,18 +166,18 @@ namespace GameEngine.Generator
 
         public static AttackProfile PreApply(this AttackProfile attack, PowerHighLevelInfo powerInfo) =>
             powerInfo.ClassProfile.Tool == ToolType.Implement
-                ? attack.Apply(PowerDefinitions.NonArmorDefense)
+                ? attack.Apply(NonArmorDefense)
                 : attack;
 
         public static AttackProfile PostApply(this AttackProfile attack, PowerHighLevelInfo powerInfo)
         {
             if (attack.WeaponDice > 1 || (powerInfo.ClassProfile.Tool == ToolType.Implement && attack.WeaponDice > 0.5))
             {
-                attack = attack.Apply(PowerDefinitions.AbilityModifierDamage);
+                attack = attack.Apply(AbilityModifierDamage);
             }
             if (attack.WeaponDice > 1 && attack.WeaponDice % 1 >= 0.5)
             {
-                attack = attack.Apply(PowerDefinitions.AbilityModifierDamage);
+                attack = attack.Apply(AbilityModifierDamage);
             }
 
             return attack;
