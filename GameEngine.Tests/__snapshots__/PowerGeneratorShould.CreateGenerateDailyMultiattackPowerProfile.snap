@@ -1,21 +1,25 @@
 ﻿{
   "Template": "Multiattack",
-  "Modifiers": [
-    [
-      {
-        "Modifier": "Ability Modifier Damage"
-      },
-      {
-        "Modifier": "Ability Modifier Damage"
-      }
-    ],
-    [
-      {
-        "Modifier": "Ability Modifier Damage"
-      },
-      {
-        "Modifier": "Ability Modifier Damage"
-      }
-    ]
+  "Attacks": [
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Ability Modifier Damage"
+        },
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    },
+    {
+      "Modifiers": [
+        {
+          "Modifier": "Ability Modifier Damage"
+        },
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    }
   ]
 }

@@ -2,1056 +2,1252 @@
   "AtWill1": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [],
-        []
+      "Attacks": [
+        {
+          "Modifiers": []
+        },
+        {
+          "Modifiers": []
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [],
-        []
+      "Attacks": [
+        {
+          "Modifiers": []
+        },
+        {
+          "Modifiers": []
+        }
       ]
     },
     {
       "Template": "Accurate",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Non-Armor Defense"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Non-Armor Defense"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
-      "Template": "Close burst",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Template": "Conditions",
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Slowed"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Encounter1": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
-      "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Template": "Close blast",
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Skirmish",
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Accurate",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Non-Armor Defense"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
-      ]
-    },
-    {
-      "Template": "Conditions",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Slowed"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Non-Armor Defense"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Daily1": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Close burst",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Encounter3": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Conditions",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Slowed"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Slowed"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Close blast",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Daily5": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Close burst",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Accurate",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Non-Armor Defense"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Non-Armor Defense"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Encounter7": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Close burst",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Daily9": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Accurate",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Non-Armor Defense"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Non-Armor Defense"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Close burst",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Encounter11": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Accurate",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Non-Armor Defense"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Non-Armor Defense"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Close burst",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Encounter13": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Conditions",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Slowed"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Slowed"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Daily15": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Accurate",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Non-Armor Defense"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Non-Armor Defense"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Encounter17": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Accurate",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Non-Armor Defense"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Non-Armor Defense"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Daily19": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Accurate",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Non-Armor Defense"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Non-Armor Defense"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Conditions",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Slowed"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Slowed"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Daily20": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Bonus",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Encounter23": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Interrupt Penalty",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Daily25": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Accurate",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Non-Armor Defense"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Non-Armor Defense"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Close burst",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Encounter27": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Conditions",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Slowed"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Slowed"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ],
   "Daily29": [
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Multiattack",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ],
-        [
-          {
-            "Modifier": "Ability Modifier Damage"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Skirmish",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Shift"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Shift"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     },
     {
       "Template": "Accurate",
-      "Modifiers": [
-        [
-          {
-            "Modifier": "Non-Armor Defense"
-          },
-          {
-            "Modifier": "Ability Modifier Damage"
-          }
-        ]
+      "Attacks": [
+        {
+          "Modifiers": [
+            {
+              "Modifier": "Non-Armor Defense"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
       ]
     }
   ]

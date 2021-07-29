@@ -1,7 +1,11 @@
 ﻿{
   "Template": "Multiattack",
-  "Modifiers": [
-    [],
-    []
+  "Attacks": [
+    {
+      "Modifiers": []
+    },
+    {
+      "Modifiers": []
+    }
   ]
 }

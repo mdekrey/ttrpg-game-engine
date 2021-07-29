@@ -82,9 +82,9 @@ namespace GameEngine.Generator
             var template = classProfile.PowerTemplates
                     .Where(templateName => PowerDefinitions.powerTemplates[templateName].CanApply(level, usage, classProfile))
                     .RandomSelection(randomGenerator);
-            var modifiers = PowerDefinitions.powerTemplates[template].ConstructModifiers(level, usage, classProfile)(randomGenerator);
+            var attacks = PowerDefinitions.powerTemplates[template].ConstructAttacks(level, usage, classProfile)(randomGenerator);
 
-            return new PowerProfile(template, modifiers);
+            return new PowerProfile(template, attacks);
         }
 
         

@@ -76,7 +76,7 @@ namespace GameEngine.Generator
     public delegate T PowerChoice<T>(int level, PowerFrequency usage, ClassProfile classProfile);
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 
-    public record PowerTemplate(string Name, PowerChoice<Generation<ImmutableList<ImmutableList<PowerModifier>>>> ConstructModifiers, PowerChoice<bool> CanApply);
+    public record PowerTemplate(string Name, PowerChoice<Generation<ImmutableList<AttackProfile>>> ConstructAttacks, PowerChoice<bool> CanApply);
     public static class PowerDefinitions
     {
         public const string AccuratePowerTemplate = "Accurate";
@@ -93,12 +93,14 @@ namespace GameEngine.Generator
             new PowerTemplate(AccuratePowerTemplate, GenerateModifierGenerator(AccuratePowerTemplate), (_, _, _) => true), // focus on bonus to hit
             new PowerTemplate(SkirmishPowerTemplate, GenerateModifierGenerator(SkirmishPowerTemplate), (_, _, _) => true), // focus on movement
             new PowerTemplate(MultiattackPowerTemplate, GenerateModifierGenerator(MultiattackPowerTemplate, 2, 0.5), (_, _, _) => true),
-            new PowerTemplate(CloseBurstPowerTemplate, GenerateModifierGenerator(CloseBurstPowerTemplate), (_, _, _) => true),
+            new PowerTemplate(CloseBurstPowerTemplate, GenerateModifierGenerator(CloseBurstPowerTemplate), ImplementOrEncounter),
             new PowerTemplate(ConditionsPowerTemplate, GenerateModifierGenerator(ConditionsPowerTemplate), (_, _, _) => true),
             new PowerTemplate(InterruptPenaltyPowerTemplate, InterruptPenaltyModifierGenerator, (_, usage, _) => usage != PowerFrequency.AtWill), // Cutting words, Disruptive Strike
-            new PowerTemplate(CloseBlastPowerTemplate, GenerateModifierGenerator(CloseBlastPowerTemplate), (_, _, _) => true),
+            new PowerTemplate(CloseBlastPowerTemplate, GenerateModifierGenerator(CloseBlastPowerTemplate), ImplementOrEncounter),
             new PowerTemplate(BonusPowerTemplate, GenerateModifierGenerator(BonusPowerTemplate), (_, _, _) => true),
         }.ToImmutableDictionary(template => template.Name);
+
+        public static bool ImplementOrEncounter(int level, PowerFrequency usage, ClassProfile classProfile) => usage != PowerFrequency.AtWill || classProfile.Tool == ToolType.Implement;
 
         public static IEnumerable<string> PowerTemplateNames => powerTemplates.Keys;
 
@@ -122,7 +124,7 @@ namespace GameEngine.Generator
 
         public static IEnumerable<string> PowerModifierNames => modifiers.Values.SelectMany(v => v.Keys);
 
-        private static PowerChoice<Generation<ImmutableList<ImmutableList<PowerModifier>>>> GenerateModifierGenerator(string templateName, int count = 1, double multiplier = 1) =>
+        private static PowerChoice<Generation<ImmutableList<AttackProfile>>> GenerateModifierGenerator(string templateName, int count = 1, double multiplier = 1) =>
             (int level, PowerFrequency usage, ClassProfile classProfile) =>
                 (RandomGenerator randomGenerator) =>
                 {
@@ -134,10 +136,10 @@ namespace GameEngine.Generator
 
                     return (from i in Enumerable.Range(0, count)
                             let builder = rootBuilder.PreApply().ApplyRandomModifiers(applicableModifiers, randomGenerator).PostApply()
-                            select builder.Modifiers).ToImmutableList();
+                            select new AttackProfile(builder.Modifiers)).ToImmutableList();
                 };
 
-        private static Generation<ImmutableList<ImmutableList<PowerModifier>>> InterruptPenaltyModifierGenerator(int level, PowerFrequency usage, ClassProfile classProfile)
+        private static Generation<ImmutableList<AttackProfile>> InterruptPenaltyModifierGenerator(int level, PowerFrequency usage, ClassProfile classProfile)
         {
             return GenerateModifierGenerator(InterruptPenaltyPowerTemplate)(level, usage - 1, classProfile);
         }
