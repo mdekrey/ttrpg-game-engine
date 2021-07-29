@@ -3,6 +3,7 @@ using GameEngine.Rules;
 using Snapshooter.Xunit;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace GameEngine.Tests
         [Theory]
         public void CalculateBasePower(int level, PowerFrequency usageFrequency, double expected)
         {
-            var power = PowerGenerator.GetBasePower(level, usageFrequency);
+            var power = PowerDefinitions.GetBasePower(level, usageFrequency);
 
             Assert.Equal(expected, power);
         }
@@ -42,7 +43,17 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget((min, max) => max - 1);
 
-            var powerProfile = target.GenerateProfile(1, PowerFrequency.AtWill, CreateStrikerProfile() with { PowerTemplates = new[] { "Multiattack" } });
+            var powerProfile = target.GenerateProfile(1, PowerFrequency.AtWill, CreateStrikerProfile() with { PowerTemplates = new[] { "Multiattack" }.ToImmutableList() });
+
+            Snapshot.Match(powerProfile);
+        }
+
+        [Fact]
+        public void CreateGenerateDailyMultiattackPowerProfile()
+        {
+            var target = CreateTarget((min, max) => max - 1);
+
+            var powerProfile = target.GenerateProfile(1, PowerFrequency.Daily, CreateStrikerProfile() with { PowerTemplates = new[] { "Multiattack" }.ToImmutableList() });
 
             Snapshot.Match(powerProfile);
         }
@@ -52,7 +63,7 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget((min, max) => max - 1);
 
-            var powerProfile = target.GenerateProfile(1, PowerFrequency.AtWill, CreateStrikerProfile() with { PowerTemplates = new[] { PowerGenerator.ConditionsPowerTemplate }, Tool = ToolType.Implement });
+            var powerProfile = target.GenerateProfile(1, PowerFrequency.AtWill, CreateStrikerProfile() with { PowerTemplates = new[] { PowerDefinitions.ConditionsPowerTemplate }.ToImmutableList(), Tool = ToolType.Implement });
 
             Snapshot.Match(powerProfile);
         }
@@ -72,19 +83,19 @@ namespace GameEngine.Tests
                 ClassRole.Striker, 
                 ToolType.Weapon, 
                 DefenseType.Fortitude, 
-                new[] { Ability.Strength, Ability.Dexterity }, 
-                new[] { DamageType.Weapon }, 
-                new string[] { },
+                new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(), 
+                new[] { DamageType.Weapon }.ToImmutableList(), 
+                new string[] { }.ToImmutableList(),
                 new[] {
-                    PowerGenerator.MultiattackPowerTemplate, 
-                    PowerGenerator.SkirmishPowerTemplate, 
-                    PowerGenerator.AccuratePowerTemplate, 
-                    PowerGenerator.ConditionsPowerTemplate, 
-                    PowerGenerator.CloseBurstPowerTemplate, 
-                    PowerGenerator.InterruptPenaltyPowerTemplate, 
-                    PowerGenerator.CloseBlastPowerTemplate, 
-                    PowerGenerator.BonusPowerTemplate
-                }
+                    PowerDefinitions.MultiattackPowerTemplate, 
+                    PowerDefinitions.SkirmishPowerTemplate, 
+                    PowerDefinitions.AccuratePowerTemplate, 
+                    PowerDefinitions.ConditionsPowerTemplate, 
+                    PowerDefinitions.CloseBurstPowerTemplate, 
+                    PowerDefinitions.InterruptPenaltyPowerTemplate, 
+                    PowerDefinitions.CloseBlastPowerTemplate, 
+                    PowerDefinitions.BonusPowerTemplate
+                }.ToImmutableList()
             );
 
         private PowerGenerator CreateTarget(RandomGenerator? randomGenerator = null)

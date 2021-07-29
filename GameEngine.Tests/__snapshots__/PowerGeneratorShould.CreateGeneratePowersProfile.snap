@@ -15,11 +15,11 @@
       ]
     },
     {
-      "Template": "Conditions",
+      "Template": "Accurate",
       "Modifiers": [
         [
           {
-            "Modifier": "Slowed"
+            "Modifier": "Non-Armor Defense"
           },
           {
             "Modifier": "Ability Modifier Damage"
@@ -28,9 +28,12 @@
       ]
     },
     {
-      "Template": "Interrupt Penalty",
+      "Template": "Close burst",
       "Modifiers": [
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -103,9 +106,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -131,9 +140,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -144,6 +159,9 @@
       "Template": "Close burst",
       "Modifiers": [
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -184,6 +202,9 @@
       "Template": "Close blast",
       "Modifiers": [
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -241,6 +262,9 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ]
       ]
@@ -296,6 +320,9 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ]
       ]
@@ -321,9 +348,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -336,9 +369,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -362,6 +401,9 @@
       "Template": "Close burst",
       "Modifiers": [
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -376,9 +418,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -404,6 +452,9 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ]
       ]
@@ -414,9 +465,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -431,9 +488,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -446,9 +509,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -547,9 +616,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -562,9 +637,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -605,9 +686,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -661,9 +748,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -676,9 +769,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -702,6 +801,9 @@
       "Template": "Bonus",
       "Modifiers": [
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -742,6 +844,9 @@
       "Template": "Interrupt Penalty",
       "Modifiers": [
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -797,6 +902,9 @@
       "Template": "Close burst",
       "Modifiers": [
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -884,9 +992,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }
@@ -899,9 +1013,15 @@
         [
           {
             "Modifier": "Ability Modifier Damage"
+          },
+          {
+            "Modifier": "Ability Modifier Damage"
           }
         ],
         [
+          {
+            "Modifier": "Ability Modifier Damage"
+          },
           {
             "Modifier": "Ability Modifier Damage"
           }

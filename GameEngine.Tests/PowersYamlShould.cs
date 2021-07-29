@@ -50,7 +50,7 @@ namespace GameEngine.Tests
         [Fact]
         public void ParsePowers()
         {
-            var target = content["Powers"].ToObject<Dictionary<string, SerializedPower>>(serializer);
+            var target = content["Powers"]!.ToObject<Dictionary<string, SerializedPower>>(serializer)!;
             Assert.NotNull(target);
 
             foreach ((string name, SerializedPower powerRecord) in target)
