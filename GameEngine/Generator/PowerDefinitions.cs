@@ -39,17 +39,17 @@ namespace GameEngine.Generator
 
         public static readonly ImmutableDictionary<string, PowerTemplate> powerTemplates = new[]
         {
-            new PowerTemplate(AccuratePowerTemplate, GenerateModifierGenerator(AccuratePowerTemplate), (_) => true), // focus on bonus to hit
-            new PowerTemplate(SkirmishPowerTemplate, GenerateModifierGenerator(SkirmishPowerTemplate), (_) => true), // focus on movement
-            new PowerTemplate(MultiattackPowerTemplate, GenerateModifierGenerator(MultiattackPowerTemplate, 2, 0.5), (_) => true),
-            new PowerTemplate(CloseBurstPowerTemplate, GenerateModifierGenerator(CloseBurstPowerTemplate), ImplementOrEncounter),
-            new PowerTemplate(ConditionsPowerTemplate, GenerateModifierGenerator(ConditionsPowerTemplate), (_) => true),
-            new PowerTemplate(InterruptPenaltyPowerTemplate, InterruptPenaltyModifierGenerator, (info) => info is { Usage: not PowerFrequency.AtWill }), // Cutting words, Disruptive Strike
-            new PowerTemplate(CloseBlastPowerTemplate, GenerateModifierGenerator(CloseBlastPowerTemplate), ImplementOrEncounter),
-            new PowerTemplate(BonusPowerTemplate, GenerateModifierGenerator(BonusPowerTemplate), (_) => true),
+            new PowerTemplate(AccuratePowerTemplate, GenerateAttackGenerator(AccuratePowerTemplate), (_) => true), // focus on bonus to hit
+            new PowerTemplate(SkirmishPowerTemplate, GenerateAttackGenerator(SkirmishPowerTemplate), (_) => true), // focus on movement
+            new PowerTemplate(MultiattackPowerTemplate, GenerateAttackGenerator(MultiattackPowerTemplate, 2, 0.5), (_) => true),
+            new PowerTemplate(CloseBurstPowerTemplate, CloseBurstAttackGenerator, ImplementOrEncounter),
+            new PowerTemplate(ConditionsPowerTemplate, GenerateAttackGenerator(ConditionsPowerTemplate), (_) => true),
+            new PowerTemplate(InterruptPenaltyPowerTemplate, InterruptPenaltyAttackGenerator, (info) => info is { Usage: not PowerFrequency.AtWill }), // Cutting words, Disruptive Strike
+            new PowerTemplate(CloseBlastPowerTemplate, CloseBlastAttackGenerator, ImplementOrEncounter),
+            new PowerTemplate(BonusPowerTemplate, GenerateAttackGenerator(BonusPowerTemplate), (_) => true),
         }.ToImmutableDictionary(template => template.Name);
 
-        public static bool ImplementOrEncounter(PowerHighLevelInfo info) => info is { Usage: not PowerFrequency.AtWill } or { ClassProfile: { Tool: not ToolType.Implement } };
+        public static bool ImplementOrEncounter(PowerHighLevelInfo info) => info is { Usage: not PowerFrequency.AtWill } or { ClassProfile: { Tool: ToolType.Implement } };
 
         public static IEnumerable<string> PowerTemplateNames => powerTemplates.Keys;
 
@@ -73,27 +73,50 @@ namespace GameEngine.Generator
 
         public static IEnumerable<string> PowerModifierNames => modifiers.Values.SelectMany(v => v.Keys);
 
-        private static PowerChoice<Generation<ImmutableList<AttackProfile>>> GenerateModifierGenerator(string templateName, int count = 1, double multiplier = 1) =>
+        private static PowerChoice<Generation<ImmutableList<AttackProfile>>> GenerateAttackGenerator(string templateName, int count = 1, double multiplier = 1) =>
             (PowerHighLevelInfo info) =>
-                (RandomGenerator randomGenerator) =>
-                {
-                    var basePower = GetBasePower(info.Level, info.Usage) * multiplier
-                        + (info.ClassProfile.Tool == ToolType.Implement ? 0.5 : 0);
-                    var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+            {
+                var basePower = GetBasePower(info.Level, info.Usage) * multiplier
+                    + (info.ClassProfile.Tool == ToolType.Implement ? 0.5 : 0);
+                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+                return (RandomGenerator randomGenerator) => GenerateAttackProfiles(templateName, info, rootBuilder, randomGenerator, count);
+            };
 
-                    var applicableModifiers = GetApplicableModifiers(info.ClassProfile.Tool.ToString("g"), templateName, "General");
-
-                    return (from i in Enumerable.Range(0, count)
-                            let builder = rootBuilder
-                                .PreApply(info)
-                                .ApplyRandomModifiers(info, applicableModifiers, randomGenerator)
-                                .PostApply(info)
-                            select builder).ToImmutableList();
-                };
-
-        private static Generation<ImmutableList<AttackProfile>> InterruptPenaltyModifierGenerator(PowerHighLevelInfo info)
+        private static ImmutableList<AttackProfile> GenerateAttackProfiles(string templateName, PowerHighLevelInfo info, AttackProfile rootBuilder, RandomGenerator randomGenerator, int count = 1)
         {
-            return GenerateModifierGenerator(InterruptPenaltyPowerTemplate)(info with { Usage = info.Usage - 1 });
+            var applicableModifiers = GetApplicableModifiers(new[] { info.ClassProfile.Tool.ToString("g"), templateName, "General" });
+
+            return (from i in Enumerable.Range(0, count)
+                    let builder = rootBuilder
+                        .PreApply(info)
+                        .ApplyRandomModifiers(info, applicableModifiers, randomGenerator)
+                        .PostApply(info)
+                    select builder).ToImmutableList();
+        }
+
+        private static Generation<ImmutableList<AttackProfile>> InterruptPenaltyAttackGenerator(PowerHighLevelInfo info)
+        {
+            return GenerateAttackGenerator(InterruptPenaltyPowerTemplate)(info with { Usage = info.Usage - 1 });
+        }
+
+        private static Generation<ImmutableList<AttackProfile>> CloseBurstAttackGenerator(PowerHighLevelInfo info)
+        {
+            var basePower = GetBasePower(info.Level, info.Usage)
+                + (info.ClassProfile.Tool == ToolType.Implement ? 0.5 : 0);
+            // TODO - size. Assume 3x3 for now
+            basePower *= 2.0 / 3;
+            var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+            return (RandomGenerator randomGenerator) => GenerateAttackProfiles(CloseBurstPowerTemplate, info, rootBuilder, randomGenerator);
+        }
+
+        private static Generation<ImmutableList<AttackProfile>> CloseBlastAttackGenerator(PowerHighLevelInfo info)
+        {
+            var basePower = GetBasePower(info.Level, info.Usage)
+                + (info.ClassProfile.Tool == ToolType.Implement ? 0.5 : 0);
+            // TODO - size. Assume 3x3 for now
+            basePower *= 2.0 / 3;
+            var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+            return (RandomGenerator randomGenerator) => GenerateAttackProfiles(CloseBlastPowerTemplate, info, rootBuilder, randomGenerator);
         }
 
         private static PowerModifierFormula[] GetApplicableModifiers(params string[] keywords) => keywords
@@ -136,11 +159,11 @@ namespace GameEngine.Generator
 
         public static AttackProfile PostApply(this AttackProfile builder, PowerHighLevelInfo powerInfo)
         {
-            if (builder.WeaponDice > 1)
+            if (builder.WeaponDice > 1 || (powerInfo.ClassProfile.Tool == ToolType.Implement && builder.WeaponDice > 0.5))
             {
                 builder = builder.Apply(PowerDefinitions.AbilityModifierDamage);
             }
-            if (builder.WeaponDice % 1 >= 0.5)
+            if (builder.WeaponDice > 1 && builder.WeaponDice % 1 >= 0.5)
             {
                 builder = builder.Apply(PowerDefinitions.AbilityModifierDamage);
             }
