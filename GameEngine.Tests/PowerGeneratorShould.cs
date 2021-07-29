@@ -43,7 +43,7 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget((min, max) => max - 1);
 
-            var powerProfile = target.GenerateProfile(1, PowerFrequency.AtWill, CreateStrikerProfile() with { PowerTemplates = new[] { "Multiattack" }.ToImmutableList() });
+            var powerProfile = target.GenerateProfile(new (1, PowerFrequency.AtWill, CreateStrikerProfile() with { PowerTemplates = new[] { "Multiattack" }.ToImmutableList() }));
 
             Snapshot.Match(powerProfile);
         }
@@ -53,7 +53,7 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget((min, max) => max - 1);
 
-            var powerProfile = target.GenerateProfile(1, PowerFrequency.Daily, CreateStrikerProfile() with { PowerTemplates = new[] { "Multiattack" }.ToImmutableList() });
+            var powerProfile = target.GenerateProfile(new (1, PowerFrequency.Daily, CreateStrikerProfile() with { PowerTemplates = new[] { "Multiattack" }.ToImmutableList() }));
 
             Snapshot.Match(powerProfile);
         }
@@ -63,7 +63,7 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget((min, max) => max - 1);
 
-            var powerProfile = target.GenerateProfile(1, PowerFrequency.AtWill, CreateStrikerProfile() with { PowerTemplates = new[] { PowerDefinitions.ConditionsPowerTemplate }.ToImmutableList(), Tool = ToolType.Implement });
+            var powerProfile = target.GenerateProfile(new (1, PowerFrequency.AtWill, CreateStrikerProfile() with { PowerTemplates = new[] { PowerDefinitions.ConditionsPowerTemplate }.ToImmutableList(), Tool = ToolType.Implement }));
 
             Snapshot.Match(powerProfile);
         }

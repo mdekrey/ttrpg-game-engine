@@ -30,7 +30,7 @@ namespace GameEngine.Generator
     }
 
     public record PowerModifier(string Modifier);
-    public record AttackProfile(ImmutableList<PowerModifier> Modifiers);
+    public record AttackProfile(double WeaponDice, ImmutableList<PowerModifier> Modifiers);
     public record PowerProfile(string Template, ImmutableList<AttackProfile> Attacks);
     public record PowerProfiles(
         ImmutableList<PowerProfile> AtWill1,

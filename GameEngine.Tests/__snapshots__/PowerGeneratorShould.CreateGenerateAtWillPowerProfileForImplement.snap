@@ -2,6 +2,7 @@
   "Template": "Conditions",
   "Attacks": [
     {
+      "WeaponDice": 1.0,
       "Modifiers": [
         {
           "Modifier": "Non-Armor Defense"

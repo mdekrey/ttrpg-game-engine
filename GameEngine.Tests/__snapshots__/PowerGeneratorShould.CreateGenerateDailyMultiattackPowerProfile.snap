@@ -2,6 +2,7 @@
   "Template": "Multiattack",
   "Attacks": [
     {
+      "WeaponDice": 1.0,
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"
@@ -12,6 +13,7 @@
       ]
     },
     {
+      "WeaponDice": 1.0,
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"

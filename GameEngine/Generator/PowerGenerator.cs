@@ -25,64 +25,67 @@ namespace GameEngine.Generator
             };
             return new PowerProfiles(
                 AtWill1:
-                    GeneratePowerProfiles(level: 1, usage: PowerFrequency.AtWill, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 1, Usage: PowerFrequency.AtWill, ClassProfile: classProfile)),
                 Encounter1:
-                    GeneratePowerProfiles(level: 1, usage: PowerFrequency.Encounter, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 1, Usage: PowerFrequency.Encounter, ClassProfile: classProfile)),
                 Daily1:
-                    GeneratePowerProfiles(level: 1, usage: PowerFrequency.Daily, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 1, Usage: PowerFrequency.Daily, ClassProfile: classProfile)),
                 Encounter3:
-                    GeneratePowerProfiles(level: 3, usage: PowerFrequency.Encounter, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 3, Usage: PowerFrequency.Encounter, ClassProfile: classProfile)),
                 Daily5:
-                    GeneratePowerProfiles(level: 5, usage: PowerFrequency.Daily, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 5, Usage: PowerFrequency.Daily, ClassProfile: classProfile)),
                 Encounter7:
-                    GeneratePowerProfiles(level: 7, usage: PowerFrequency.Encounter, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 7, Usage: PowerFrequency.Encounter, ClassProfile: classProfile)),
                 Daily9:
-                    GeneratePowerProfiles(level: 9, usage: PowerFrequency.Daily, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 9, Usage: PowerFrequency.Daily, ClassProfile: classProfile)),
                 Encounter11:
-                    GeneratePowerProfiles(level: 11, usage: PowerFrequency.Encounter, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 11, Usage: PowerFrequency.Encounter, ClassProfile: classProfile)),
                 Encounter13:
-                    GeneratePowerProfiles(level: 13, usage: PowerFrequency.Encounter, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 13, Usage: PowerFrequency.Encounter, ClassProfile: classProfile)),
                 Daily15:
-                    GeneratePowerProfiles(level: 15, usage: PowerFrequency.Daily, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 15, Usage: PowerFrequency.Daily, ClassProfile: classProfile)),
                 Encounter17:
-                    GeneratePowerProfiles(level: 17, usage: PowerFrequency.Encounter, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 17, Usage: PowerFrequency.Encounter, ClassProfile: classProfile)),
                 Daily19:
-                    GeneratePowerProfiles(level: 19, usage: PowerFrequency.Daily, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 19, Usage: PowerFrequency.Daily, ClassProfile: classProfile)),
                 Daily20:
-                    GeneratePowerProfiles(level: 20, usage: PowerFrequency.Daily, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 20, Usage: PowerFrequency.Daily, ClassProfile: classProfile)),
                 Encounter23:
-                    GeneratePowerProfiles(level: 23, usage: PowerFrequency.Encounter, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 23, Usage: PowerFrequency.Encounter, ClassProfile: classProfile)),
                 Daily25:
-                    GeneratePowerProfiles(level: 25, usage: PowerFrequency.Daily, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 25, Usage: PowerFrequency.Daily, ClassProfile: classProfile)),
                 Encounter27:
-                    GeneratePowerProfiles(level: 27, usage: PowerFrequency.Encounter, classProfile: classProfile),
+                    GeneratePowerProfiles(new (Level: 27, Usage: PowerFrequency.Encounter, ClassProfile: classProfile)),
                 Daily29:
-                    GeneratePowerProfiles(level: 29, usage: PowerFrequency.Daily, classProfile: classProfile)
+                    GeneratePowerProfiles(new (Level: 29, Usage: PowerFrequency.Daily, ClassProfile: classProfile))
             );
         }
 
-        private ImmutableList<PowerProfile> GeneratePowerProfiles(int level, PowerFrequency usage, ClassProfile classProfile)
+        private ImmutableList<PowerProfile> GeneratePowerProfiles(PowerHighLevelInfo powerInfo)
         {
             var result = new List<PowerProfile>();
-            result.Add(GenerateProfile(level, usage, classProfile with { PowerTemplates = new[] { classProfile.PowerTemplates[0] }.ToImmutableList() }));
+            result.Add(GenerateProfile(powerInfo with { ClassProfile = powerInfo.ClassProfile with { PowerTemplates = new[] { powerInfo.ClassProfile.PowerTemplates[0] }.ToImmutableList() } }));
             while (result.Count < 4)
             {
-                var powerProfile = GenerateProfile(level, usage, classProfile);
+                var powerProfile = GenerateProfile(powerInfo);
                 result.Add(powerProfile);
-                classProfile = classProfile with
+                powerInfo = powerInfo with
                 {
-                    PowerTemplates = classProfile.PowerTemplates.Where(p => p != powerProfile.Template).ToImmutableList()
+                    ClassProfile = powerInfo.ClassProfile with
+                    {
+                        PowerTemplates = powerInfo.ClassProfile.PowerTemplates.Where(p => p != powerProfile.Template).ToImmutableList()
+                    }
                 };
             }
             return result.ToImmutableList();
         }
 
-        public PowerProfile GenerateProfile(int level, PowerFrequency usage, ClassProfile classProfile)
+        public PowerProfile GenerateProfile(PowerHighLevelInfo powerInfo)
         {
-            var template = classProfile.PowerTemplates
-                    .Where(templateName => PowerDefinitions.powerTemplates[templateName].CanApply(level, usage, classProfile))
+            var template = powerInfo.ClassProfile.PowerTemplates
+                    .Where(templateName => PowerDefinitions.powerTemplates[templateName].CanApply(powerInfo))
                     .RandomSelection(randomGenerator);
-            var attacks = PowerDefinitions.powerTemplates[template].ConstructAttacks(level, usage, classProfile)(randomGenerator);
+            var attacks = PowerDefinitions.powerTemplates[template].ConstructAttacks(powerInfo)(randomGenerator);
 
             return new PowerProfile(template, attacks);
         }

@@ -2,9 +2,11 @@
   "Template": "Multiattack",
   "Attacks": [
     {
+      "WeaponDice": 1.0,
       "Modifiers": []
     },
     {
+      "WeaponDice": 1.0,
       "Modifiers": []
     }
   ]

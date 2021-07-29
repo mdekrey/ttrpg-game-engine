@@ -20,60 +20,9 @@ namespace GameEngine.Generator
             : this(new[] { PrerequisiteKeyword }.ToImmutableList(), Name, Minimum, Cost, MaxOccurrence) { }
     }
 
-    public record PowerProfileBuilder(double PowerDice, ImmutableList<PowerModifier> Modifiers, int Level, PowerFrequency Usage, ClassProfile ClassProfile)
-    {
-        public bool CanApply(PowerModifierFormula formula) =>
-            formula.Minimum <= PowerDice && Modifiers.Count(m => m.Modifier == formula.Name) < formula.MaxOccurrence;
-        public PowerProfileBuilder Apply(PowerModifierFormula formula) => this with
-        {
-            PowerDice = formula.Cost.Apply(PowerDice),
-            Modifiers = Modifiers.Add(new PowerModifier(formula.Name)),
-        };
+    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ClassProfile ClassProfile);
 
-
-        public PowerProfileBuilder PreApply() =>
-            ClassProfile.Tool == ToolType.Implement
-                ? this.Apply(PowerDefinitions.NonArmorDefense)
-                : this;
-
-        public PowerProfileBuilder PostApply()
-        {
-            var builder = this;
-            if (builder.PowerDice > 1)
-            {
-                builder = builder.Apply(PowerDefinitions.AbilityModifierDamage);
-            }
-            if (builder.PowerDice % 1 >= 0.5)
-            {
-                builder = builder.Apply(PowerDefinitions.AbilityModifierDamage);
-            }
-
-            return builder;
-        }
-
-        public PowerProfileBuilder ApplyRandomModifiers(PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
-        {
-            var builder = this;
-
-            var modifier = (from name in builder.ClassProfile.PreferredModifiers
-                            let mod = modifiers.FirstOrDefault(m => m.Name == name)
-                            where mod != null && builder.CanApply(mod)
-                            select mod)
-                .Concat(new PowerModifierFormula?[] { null })
-                .RandomSelection(randomGenerator);
-            if (modifier == null && modifiers.Length > 0)
-                modifier = modifiers[randomGenerator(0, modifiers.Length)];
-            if (modifier != null)
-            {
-                builder = builder.Apply(modifier);
-            }
-
-            return builder;
-        }
-
-    }
-
-    public delegate T PowerChoice<T>(int level, PowerFrequency usage, ClassProfile classProfile);
+    public delegate T PowerChoice<T>(PowerHighLevelInfo powerInfo);
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 
     public record PowerTemplate(string Name, PowerChoice<Generation<ImmutableList<AttackProfile>>> ConstructAttacks, PowerChoice<bool> CanApply);
@@ -90,17 +39,17 @@ namespace GameEngine.Generator
 
         public static readonly ImmutableDictionary<string, PowerTemplate> powerTemplates = new[]
         {
-            new PowerTemplate(AccuratePowerTemplate, GenerateModifierGenerator(AccuratePowerTemplate), (_, _, _) => true), // focus on bonus to hit
-            new PowerTemplate(SkirmishPowerTemplate, GenerateModifierGenerator(SkirmishPowerTemplate), (_, _, _) => true), // focus on movement
-            new PowerTemplate(MultiattackPowerTemplate, GenerateModifierGenerator(MultiattackPowerTemplate, 2, 0.5), (_, _, _) => true),
+            new PowerTemplate(AccuratePowerTemplate, GenerateModifierGenerator(AccuratePowerTemplate), (_) => true), // focus on bonus to hit
+            new PowerTemplate(SkirmishPowerTemplate, GenerateModifierGenerator(SkirmishPowerTemplate), (_) => true), // focus on movement
+            new PowerTemplate(MultiattackPowerTemplate, GenerateModifierGenerator(MultiattackPowerTemplate, 2, 0.5), (_) => true),
             new PowerTemplate(CloseBurstPowerTemplate, GenerateModifierGenerator(CloseBurstPowerTemplate), ImplementOrEncounter),
-            new PowerTemplate(ConditionsPowerTemplate, GenerateModifierGenerator(ConditionsPowerTemplate), (_, _, _) => true),
-            new PowerTemplate(InterruptPenaltyPowerTemplate, InterruptPenaltyModifierGenerator, (_, usage, _) => usage != PowerFrequency.AtWill), // Cutting words, Disruptive Strike
+            new PowerTemplate(ConditionsPowerTemplate, GenerateModifierGenerator(ConditionsPowerTemplate), (_) => true),
+            new PowerTemplate(InterruptPenaltyPowerTemplate, InterruptPenaltyModifierGenerator, (info) => info is { Usage: not PowerFrequency.AtWill }), // Cutting words, Disruptive Strike
             new PowerTemplate(CloseBlastPowerTemplate, GenerateModifierGenerator(CloseBlastPowerTemplate), ImplementOrEncounter),
-            new PowerTemplate(BonusPowerTemplate, GenerateModifierGenerator(BonusPowerTemplate), (_, _, _) => true),
+            new PowerTemplate(BonusPowerTemplate, GenerateModifierGenerator(BonusPowerTemplate), (_) => true),
         }.ToImmutableDictionary(template => template.Name);
 
-        public static bool ImplementOrEncounter(int level, PowerFrequency usage, ClassProfile classProfile) => usage != PowerFrequency.AtWill || classProfile.Tool == ToolType.Implement;
+        public static bool ImplementOrEncounter(PowerHighLevelInfo info) => info is { Usage: not PowerFrequency.AtWill } or { ClassProfile: { Tool: not ToolType.Implement } };
 
         public static IEnumerable<string> PowerTemplateNames => powerTemplates.Keys;
 
@@ -125,23 +74,26 @@ namespace GameEngine.Generator
         public static IEnumerable<string> PowerModifierNames => modifiers.Values.SelectMany(v => v.Keys);
 
         private static PowerChoice<Generation<ImmutableList<AttackProfile>>> GenerateModifierGenerator(string templateName, int count = 1, double multiplier = 1) =>
-            (int level, PowerFrequency usage, ClassProfile classProfile) =>
+            (PowerHighLevelInfo info) =>
                 (RandomGenerator randomGenerator) =>
                 {
-                    var basePower = GetBasePower(level, usage) * multiplier
-                        + (classProfile.Tool == ToolType.Implement ? 0.5 : 0);
-                    var rootBuilder = new PowerProfileBuilder(basePower, ImmutableList<PowerModifier>.Empty, level, usage, classProfile);
+                    var basePower = GetBasePower(info.Level, info.Usage) * multiplier
+                        + (info.ClassProfile.Tool == ToolType.Implement ? 0.5 : 0);
+                    var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
 
-                    var applicableModifiers = GetApplicableModifiers(classProfile.Tool.ToString("g"), templateName, "General");
+                    var applicableModifiers = GetApplicableModifiers(info.ClassProfile.Tool.ToString("g"), templateName, "General");
 
                     return (from i in Enumerable.Range(0, count)
-                            let builder = rootBuilder.PreApply().ApplyRandomModifiers(applicableModifiers, randomGenerator).PostApply()
-                            select new AttackProfile(builder.Modifiers)).ToImmutableList();
+                            let builder = rootBuilder
+                                .PreApply(info)
+                                .ApplyRandomModifiers(info, applicableModifiers, randomGenerator)
+                                .PostApply(info)
+                            select builder).ToImmutableList();
                 };
 
-        private static Generation<ImmutableList<AttackProfile>> InterruptPenaltyModifierGenerator(int level, PowerFrequency usage, ClassProfile classProfile)
+        private static Generation<ImmutableList<AttackProfile>> InterruptPenaltyModifierGenerator(PowerHighLevelInfo info)
         {
-            return GenerateModifierGenerator(InterruptPenaltyPowerTemplate)(level, usage - 1, classProfile);
+            return GenerateModifierGenerator(InterruptPenaltyPowerTemplate)(info with { Usage = info.Usage - 1 });
         }
 
         private static PowerModifierFormula[] GetApplicableModifiers(params string[] keywords) => keywords
@@ -165,6 +117,53 @@ namespace GameEngine.Generator
             };
             // normally get 2 attributes worth, but implements get 3
             return weaponDice;
+        }
+
+        public static bool CanApply(this AttackProfile builder, PowerModifierFormula formula) =>
+            formula.Minimum <= builder.WeaponDice && builder.Modifiers.Count(m => m.Modifier == formula.Name) < formula.MaxOccurrence;
+
+        public static AttackProfile Apply(this AttackProfile builder, PowerModifierFormula formula) => builder with
+        {
+            WeaponDice = formula.Cost.Apply(builder.WeaponDice),
+            Modifiers = builder.Modifiers.Add(new PowerModifier(formula.Name)),
+        };
+
+
+        public static AttackProfile PreApply(this AttackProfile builder, PowerHighLevelInfo powerInfo) =>
+            powerInfo.ClassProfile.Tool == ToolType.Implement
+                ? builder.Apply(PowerDefinitions.NonArmorDefense)
+                : builder;
+
+        public static AttackProfile PostApply(this AttackProfile builder, PowerHighLevelInfo powerInfo)
+        {
+            if (builder.WeaponDice > 1)
+            {
+                builder = builder.Apply(PowerDefinitions.AbilityModifierDamage);
+            }
+            if (builder.WeaponDice % 1 >= 0.5)
+            {
+                builder = builder.Apply(PowerDefinitions.AbilityModifierDamage);
+            }
+
+            return builder;
+        }
+
+        public static AttackProfile ApplyRandomModifiers(this AttackProfile builder, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
+        {
+            var modifier = (from name in powerInfo.ClassProfile.PreferredModifiers
+                            let mod = modifiers.FirstOrDefault(m => m.Name == name)
+                            where mod != null && builder.CanApply(mod)
+                            select mod)
+                .Concat(new PowerModifierFormula?[] { null })
+                .RandomSelection(randomGenerator);
+            if (modifier == null && modifiers.Length > 0)
+                modifier = modifiers[randomGenerator(0, modifiers.Length)];
+            if (modifier != null)
+            {
+                builder = builder.Apply(modifier);
+            }
+
+            return builder;
         }
 
     }
