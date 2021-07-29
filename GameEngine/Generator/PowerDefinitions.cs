@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using static GameEngine.Generator.PowerModifierFormulaPredicates;
 
 namespace GameEngine.Generator
 {
@@ -14,10 +15,21 @@ namespace GameEngine.Generator
     public record FlatCost(double Cost) : IPowerCost { double IPowerCost.Apply(double original) => original - Cost; }
     public record CostMultiplier(double Multiplier) : IPowerCost { double IPowerCost.Apply(double original) => original * Multiplier; }
 
-    public record PowerModifierFormula(ImmutableList<string> PrerequisiteKeywords, string Name, double Minimum, IPowerCost Cost, int MaxOccurrence = 1)
+    public static class PowerModifierFormulaPredicates
     {
-        public PowerModifierFormula(string PrerequisiteKeyword, string Name, double Minimum, IPowerCost Cost, int MaxOccurrence = 1)
-            : this(new[] { PrerequisiteKeyword }.ToImmutableList(), Name, Minimum, Cost, MaxOccurrence) { }
+        public delegate bool Predicate(PowerModifierFormula formula, AttackProfile attack);
+        public static Predicate MaxOccurrence(int maxOccurrences) => (formula, attack) => attack.Modifiers.Count(m => m.Modifier == formula.Name) < maxOccurrences;
+        public static Predicate MinimumPower(double minimum) => (formula, attack) => attack.WeaponDice >= minimum;
+
+        public static Predicate And(params Predicate[] predicates) => (formula, attack) => predicates.All(p => p(formula, attack));
+        public static Predicate Or(params Predicate[] predicates) => (formula, attack) => predicates.Any(p => p(formula, attack));
+    }
+
+
+    public record PowerModifierFormula(ImmutableList<string> PrerequisiteKeywords, string Name, IPowerCost Cost, Predicate CanBeApplied)
+    {
+        public PowerModifierFormula(string PrerequisiteKeyword, string Name, IPowerCost Cost, Predicate CanBeApplied)
+            : this(new[] { PrerequisiteKeyword }.ToImmutableList(), Name, Cost, CanBeApplied) { }
     }
 
     public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ClassProfile ClassProfile);
@@ -55,14 +67,14 @@ namespace GameEngine.Generator
 
         public const string GeneralKeyword = "General";
 
-        public static readonly PowerModifierFormula NonArmorDefense = new(new[] { nameof(ToolType.Implement), AccuratePowerTemplate }.ToImmutableList(), "Non-Armor Defense", 1.5, new FlatCost(0.5));
-        public static readonly PowerModifierFormula AbilityModifierDamage = new(new string[] { /* TODO? */ }.ToImmutableList(), "Ability Modifier Damage", 1.5, new FlatCost(0.5), MaxOccurrence: 2);
+        public static readonly PowerModifierFormula NonArmorDefense = new(new[] { nameof(ToolType.Implement), AccuratePowerTemplate }.ToImmutableList(), "Non-Armor Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1)));
+        public static readonly PowerModifierFormula AbilityModifierDamage = new(GeneralKeyword, "Ability Modifier Damage", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2)));
         public static readonly ImmutableDictionary<string, ImmutableDictionary<string, PowerModifierFormula>> modifiers = new PowerModifierFormula[]
         {
             AbilityModifierDamage,
             NonArmorDefense,
-            new (ConditionsPowerTemplate, "Slowed", 1.5, new FlatCost(0.5)),
-            new (SkirmishPowerTemplate, "Shift", 1.5, new FlatCost(0.5)),
+            new (ConditionsPowerTemplate, "Slowed", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2))),
+            new (SkirmishPowerTemplate, "Shift", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2))),
         }
             .SelectMany(formula => formula.PrerequisiteKeywords.Select(keyword => (keyword, formula)))
             .GroupBy(tuple => tuple.keyword, tuple => tuple.formula)
@@ -84,7 +96,7 @@ namespace GameEngine.Generator
 
         private static ImmutableList<AttackProfile> GenerateAttackProfiles(string templateName, PowerHighLevelInfo info, AttackProfile rootBuilder, RandomGenerator randomGenerator, int count = 1)
         {
-            var applicableModifiers = GetApplicableModifiers(new[] { info.ClassProfile.Tool.ToString("g"), templateName, "General" });
+            var applicableModifiers = GetApplicableModifiers(new[] { info.ClassProfile.Tool.ToString("g"), templateName });
 
             return (from i in Enumerable.Range(0, count)
                     let builder = rootBuilder
@@ -142,40 +154,40 @@ namespace GameEngine.Generator
             return weaponDice;
         }
 
-        public static bool CanApply(this AttackProfile builder, PowerModifierFormula formula) =>
-            formula.Minimum <= builder.WeaponDice && builder.Modifiers.Count(m => m.Modifier == formula.Name) < formula.MaxOccurrence;
+        public static bool CanApply(this AttackProfile attack, PowerModifierFormula formula) =>
+            formula.CanBeApplied(formula, attack);
 
-        public static AttackProfile Apply(this AttackProfile builder, PowerModifierFormula formula) => builder with
+        public static AttackProfile Apply(this AttackProfile attack, PowerModifierFormula formula) => attack with
         {
-            WeaponDice = formula.Cost.Apply(builder.WeaponDice),
-            Modifiers = builder.Modifiers.Add(new PowerModifier(formula.Name)),
+            WeaponDice = formula.Cost.Apply(attack.WeaponDice),
+            Modifiers = attack.Modifiers.Add(new PowerModifier(formula.Name)),
         };
 
 
-        public static AttackProfile PreApply(this AttackProfile builder, PowerHighLevelInfo powerInfo) =>
+        public static AttackProfile PreApply(this AttackProfile attack, PowerHighLevelInfo powerInfo) =>
             powerInfo.ClassProfile.Tool == ToolType.Implement
-                ? builder.Apply(PowerDefinitions.NonArmorDefense)
-                : builder;
+                ? attack.Apply(PowerDefinitions.NonArmorDefense)
+                : attack;
 
-        public static AttackProfile PostApply(this AttackProfile builder, PowerHighLevelInfo powerInfo)
+        public static AttackProfile PostApply(this AttackProfile attack, PowerHighLevelInfo powerInfo)
         {
-            if (builder.WeaponDice > 1 || (powerInfo.ClassProfile.Tool == ToolType.Implement && builder.WeaponDice > 0.5))
+            if (attack.WeaponDice > 1 || (powerInfo.ClassProfile.Tool == ToolType.Implement && attack.WeaponDice > 0.5))
             {
-                builder = builder.Apply(PowerDefinitions.AbilityModifierDamage);
+                attack = attack.Apply(PowerDefinitions.AbilityModifierDamage);
             }
-            if (builder.WeaponDice > 1 && builder.WeaponDice % 1 >= 0.5)
+            if (attack.WeaponDice > 1 && attack.WeaponDice % 1 >= 0.5)
             {
-                builder = builder.Apply(PowerDefinitions.AbilityModifierDamage);
+                attack = attack.Apply(PowerDefinitions.AbilityModifierDamage);
             }
 
-            return builder;
+            return attack;
         }
 
-        public static AttackProfile ApplyRandomModifiers(this AttackProfile builder, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
+        public static AttackProfile ApplyRandomModifiers(this AttackProfile attack, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
         {
             var modifier = (from name in powerInfo.ClassProfile.PreferredModifiers
                             let mod = modifiers.FirstOrDefault(m => m.Name == name)
-                            where mod != null && builder.CanApply(mod)
+                            where mod != null && attack.CanApply(mod)
                             select mod)
                 .Concat(new PowerModifierFormula?[] { null })
                 .RandomSelection(randomGenerator);
@@ -183,10 +195,10 @@ namespace GameEngine.Generator
                 modifier = modifiers[randomGenerator(0, modifiers.Length)];
             if (modifier != null)
             {
-                builder = builder.Apply(modifier);
+                attack = attack.Apply(modifier);
             }
 
-            return builder;
+            return attack;
         }
 
     }
