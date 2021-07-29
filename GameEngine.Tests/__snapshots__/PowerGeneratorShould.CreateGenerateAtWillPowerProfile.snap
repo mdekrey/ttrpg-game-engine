@@ -1,3 +1,7 @@
 ﻿{
-  "template": "Multiattack"
+  "Template": "Multiattack",
+  "Modifiers": [
+    [],
+    []
+  ]
 }

@@ -32,9 +32,7 @@ namespace GameEngine.Tests
         [Theory]
         public void CalculateBasePower(int level, PowerFrequency usageFrequency, double expected)
         {
-            var target = CreateTarget();
-
-            var power = target.GetBasePower(level, usageFrequency);
+            var power = PowerGenerator.GetBasePower(level, usageFrequency);
 
             Assert.Equal(expected, power);
         }
@@ -44,7 +42,17 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget((min, max) => max - 1);
 
-            var powerProfile = target.GenerateProfile(1, PowerFrequency.AtWill, CreateStrikerProfile());
+            var powerProfile = target.GenerateProfile(1, PowerFrequency.AtWill, CreateStrikerProfile() with { PowerTemplates = new[] { "Multiattack" } });
+
+            Snapshot.Match(powerProfile);
+        }
+
+        [Fact]
+        public void CreateGenerateAtWillPowerProfileForImplement()
+        {
+            var target = CreateTarget((min, max) => max - 1);
+
+            var powerProfile = target.GenerateProfile(1, PowerFrequency.AtWill, CreateStrikerProfile() with { PowerTemplates = new[] { PowerGenerator.ConditionsPowerTemplate }, Tool = ToolType.Implement });
 
             Snapshot.Match(powerProfile);
         }
@@ -60,7 +68,24 @@ namespace GameEngine.Tests
         }
 
         private ClassProfile CreateStrikerProfile() =>
-            new ClassProfile(ClassRole.Striker, ToolType.Weapon, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }, new[] { DamageType.Weapon }, new[] { "Multiattack", "Skirmish", "Accurate", "Conditions", "Close burst", "Interrupt Penalty", "Close blast", "Bonus" });
+            new ClassProfile(
+                ClassRole.Striker, 
+                ToolType.Weapon, 
+                DefenseType.Fortitude, 
+                new[] { Ability.Strength, Ability.Dexterity }, 
+                new[] { DamageType.Weapon }, 
+                new string[] { },
+                new[] {
+                    PowerGenerator.MultiattackPowerTemplate, 
+                    PowerGenerator.SkirmishPowerTemplate, 
+                    PowerGenerator.AccuratePowerTemplate, 
+                    PowerGenerator.ConditionsPowerTemplate, 
+                    PowerGenerator.CloseBurstPowerTemplate, 
+                    PowerGenerator.InterruptPenaltyPowerTemplate, 
+                    PowerGenerator.CloseBlastPowerTemplate, 
+                    PowerGenerator.BonusPowerTemplate
+                }
+            );
 
         private PowerGenerator CreateTarget(RandomGenerator? randomGenerator = null)
         {

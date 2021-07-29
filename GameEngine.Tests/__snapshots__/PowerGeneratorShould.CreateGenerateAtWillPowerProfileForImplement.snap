@@ -1,0 +1,16 @@
+﻿{
+  "Template": "Conditions",
+  "Modifiers": [
+    [
+      {
+        "Modifier": "Non-Armor Defense"
+      },
+      {
+        "Modifier": "Slowed"
+      },
+      {
+        "Modifier": "Ability Modifier Damage"
+      }
+    ]
+  ]
+}
