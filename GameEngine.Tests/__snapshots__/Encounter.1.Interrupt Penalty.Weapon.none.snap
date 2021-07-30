@@ -1,0 +1,13 @@
+﻿{
+  "Template": "Interrupt Penalty",
+  "Attacks": [
+    {
+      "WeaponDice": 1.5,
+      "Modifiers": [
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    }
+  ]
+}

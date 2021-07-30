@@ -2,10 +2,10 @@
   "Template": "Multiattack",
   "Attacks": [
     {
-      "WeaponDice": 1.0,
+      "WeaponDice": 0.5,
       "Modifiers": [
         {
-          "Modifier": "Ability Modifier Damage"
+          "Modifier": "Non-Armor Defense"
         },
         {
           "Modifier": "Ability Modifier Damage"
@@ -13,10 +13,10 @@
       ]
     },
     {
-      "WeaponDice": 1.0,
+      "WeaponDice": 0.5,
       "Modifiers": [
         {
-          "Modifier": "Ability Modifier Damage"
+          "Modifier": "Non-Armor Defense"
         },
         {
           "Modifier": "Ability Modifier Damage"

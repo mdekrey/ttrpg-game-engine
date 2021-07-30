@@ -1,0 +1,13 @@
+﻿{
+  "Template": "Close burst",
+  "Attacks": [
+    {
+      "WeaponDice": 2.5,
+      "Modifiers": [
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+﻿{
+  "Template": "Skirmish",
+  "Attacks": [
+    {
+      "WeaponDice": 1.0,
+      "Modifiers": [
+        {
+          "Modifier": "Shift"
+        },
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    }
+  ]
+}

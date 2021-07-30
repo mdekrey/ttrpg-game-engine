@@ -33,7 +33,7 @@
           "WeaponDice": 1.0,
           "Modifiers": [
             {
-              "Modifier": "Non-Armor Defense"
+              "Modifier": "To-Hit Bonus +2"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -85,11 +85,8 @@
       "Template": "Close blast",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -120,7 +117,7 @@
           "WeaponDice": 2.0,
           "Modifiers": [
             {
-              "Modifier": "Non-Armor Defense"
+              "Modifier": "To-Hit Bonus +2"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -135,22 +132,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -162,7 +153,7 @@
       "Template": "Skirmish",
       "Attacks": [
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.5,
           "Modifiers": [
             {
               "Modifier": "Shift"
@@ -178,22 +169,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -205,7 +190,7 @@
       "Template": "Close burst",
       "Attacks": [
         {
-          "WeaponDice": 2.1666666666666665,
+          "WeaponDice": 2.5,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -257,11 +242,8 @@
       "Template": "Close blast",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -296,7 +278,7 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 2.0,
+          "WeaponDice": 2.25,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -304,7 +286,7 @@
           ]
         },
         {
-          "WeaponDice": 2.0,
+          "WeaponDice": 2.25,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -317,7 +299,7 @@
       "Template": "Skirmish",
       "Attacks": [
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 4.5,
           "Modifiers": [
             {
               "Modifier": "Shift"
@@ -333,11 +315,8 @@
       "Template": "Close burst",
       "Attacks": [
         {
-          "WeaponDice": 2.333333333333333,
+          "WeaponDice": 3.1666666666666665,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -349,10 +328,10 @@
       "Template": "Accurate",
       "Attacks": [
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 4.5,
           "Modifiers": [
             {
-              "Modifier": "Non-Armor Defense"
+              "Modifier": "To-Hit Bonus +2"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -409,11 +388,8 @@
       "Template": "Close burst",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -443,22 +419,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 2.0,
+          "WeaponDice": 2.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 2.0,
+          "WeaponDice": 2.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -470,22 +440,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 2.0,
+          "WeaponDice": 2.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 2.0,
+          "WeaponDice": 2.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -497,7 +461,7 @@
       "Template": "Accurate",
       "Attacks": [
         {
-          "WeaponDice": 5.0,
+          "WeaponDice": 5.5,
           "Modifiers": [
             {
               "Modifier": "Non-Armor Defense"
@@ -513,11 +477,8 @@
       "Template": "Close burst",
       "Attacks": [
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.833333333333333,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -531,22 +492,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -561,7 +516,7 @@
           "WeaponDice": 3.0,
           "Modifiers": [
             {
-              "Modifier": "Non-Armor Defense"
+              "Modifier": "To-Hit Bonus +2"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -587,22 +542,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -616,22 +565,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -643,22 +586,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -704,7 +641,7 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.25,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -712,7 +649,7 @@
           ]
         },
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.25,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -725,7 +662,7 @@
       "Template": "Skirmish",
       "Attacks": [
         {
-          "WeaponDice": 6.0,
+          "WeaponDice": 6.5,
           "Modifiers": [
             {
               "Modifier": "Shift"
@@ -741,7 +678,7 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.25,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -749,7 +686,7 @@
           ]
         },
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.25,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -762,10 +699,10 @@
       "Template": "Accurate",
       "Attacks": [
         {
-          "WeaponDice": 6.0,
+          "WeaponDice": 6.5,
           "Modifiers": [
             {
-              "Modifier": "Non-Armor Defense"
+              "Modifier": "To-Hit Bonus +2"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -780,22 +717,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -807,22 +738,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 1.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -837,7 +762,7 @@
           "WeaponDice": 3.0,
           "Modifiers": [
             {
-              "Modifier": "Non-Armor Defense"
+              "Modifier": "To-Hit Bonus +2"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -868,22 +793,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -895,7 +814,7 @@
       "Template": "Skirmish",
       "Attacks": [
         {
-          "WeaponDice": 7.0,
+          "WeaponDice": 7.5,
           "Modifiers": [
             {
               "Modifier": "Shift"
@@ -911,10 +830,10 @@
       "Template": "Accurate",
       "Attacks": [
         {
-          "WeaponDice": 7.0,
+          "WeaponDice": 7.5,
           "Modifiers": [
             {
-              "Modifier": "Non-Armor Defense"
+              "Modifier": "To-Hit Bonus +2"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -927,7 +846,7 @@
       "Template": "Conditions",
       "Attacks": [
         {
-          "WeaponDice": 7.0,
+          "WeaponDice": 7.5,
           "Modifiers": [
             {
               "Modifier": "Slowed"
@@ -945,22 +864,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -972,22 +885,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 3.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -999,7 +906,7 @@
       "Template": "Skirmish",
       "Attacks": [
         {
-          "WeaponDice": 7.0,
+          "WeaponDice": 7.5,
           "Modifiers": [
             {
               "Modifier": "Shift"
@@ -1015,11 +922,8 @@
       "Template": "Bonus",
       "Attacks": [
         {
-          "WeaponDice": 7.0,
+          "WeaponDice": 8.0,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -1070,11 +974,8 @@
       "Template": "Interrupt Penalty",
       "Attacks": [
         {
-          "WeaponDice": 2.0,
+          "WeaponDice": 2.5,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -1109,7 +1010,7 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 4.25,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1117,7 +1018,7 @@
           ]
         },
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 4.25,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1130,7 +1031,7 @@
       "Template": "Accurate",
       "Attacks": [
         {
-          "WeaponDice": 8.0,
+          "WeaponDice": 8.5,
           "Modifiers": [
             {
               "Modifier": "Non-Armor Defense"
@@ -1146,11 +1047,8 @@
       "Template": "Close burst",
       "Attacks": [
         {
-          "WeaponDice": 5.0,
+          "WeaponDice": 5.833333333333333,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -1162,7 +1060,7 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 4.25,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1170,7 +1068,7 @@
           ]
         },
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 4.25,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1261,22 +1159,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 4.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 4.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -1288,22 +1180,16 @@
       "Template": "Multiattack",
       "Attacks": [
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 4.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
           ]
         },
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 4.75,
           "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -1315,7 +1201,7 @@
       "Template": "Skirmish",
       "Attacks": [
         {
-          "WeaponDice": 9.0,
+          "WeaponDice": 9.5,
           "Modifiers": [
             {
               "Modifier": "Shift"
@@ -1331,10 +1217,10 @@
       "Template": "Accurate",
       "Attacks": [
         {
-          "WeaponDice": 9.0,
+          "WeaponDice": 9.5,
           "Modifiers": [
             {
-              "Modifier": "Non-Armor Defense"
+              "Modifier": "To-Hit Bonus +2"
             },
             {
               "Modifier": "Ability Modifier Damage"

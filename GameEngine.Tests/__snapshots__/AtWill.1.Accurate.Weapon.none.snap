@@ -1,0 +1,16 @@
+﻿{
+  "Template": "Accurate",
+  "Attacks": [
+    {
+      "WeaponDice": 1.0,
+      "Modifiers": [
+        {
+          "Modifier": "To-Hit Bonus +2"
+        },
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    }
+  ]
+}

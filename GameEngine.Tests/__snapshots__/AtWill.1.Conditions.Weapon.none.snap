@@ -1,0 +1,16 @@
+﻿{
+  "Template": "Conditions",
+  "Attacks": [
+    {
+      "WeaponDice": 1.0,
+      "Modifiers": [
+        {
+          "Modifier": "Slowed"
+        },
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+﻿{
+  "Template": "Skirmish",
+  "Attacks": [
+    {
+      "WeaponDice": 1.0,
+      "Modifiers": [
+        {
+          "Modifier": "Non-Armor Defense"
+        },
+        {
+          "Modifier": "Shift"
+        },
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    }
+  ]
+}

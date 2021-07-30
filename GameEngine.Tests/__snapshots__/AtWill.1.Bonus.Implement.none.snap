@@ -1,0 +1,16 @@
+﻿{
+  "Template": "Bonus",
+  "Attacks": [
+    {
+      "WeaponDice": 1.5,
+      "Modifiers": [
+        {
+          "Modifier": "Non-Armor Defense"
+        },
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    }
+  ]
+}
