@@ -226,10 +226,10 @@
       "Template": "Conditions",
       "Attacks": [
         {
-          "WeaponDice": 2.0,
+          "WeaponDice": 1.5,
           "Modifiers": [
             {
-              "Modifier": "Slowed"
+              "Modifier": "Grants Combat Advantage"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -623,10 +623,10 @@
       "Template": "Conditions",
       "Attacks": [
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 2.5,
           "Modifiers": [
             {
-              "Modifier": "Slowed"
+              "Modifier": "Prone"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -846,10 +846,10 @@
       "Template": "Conditions",
       "Attacks": [
         {
-          "WeaponDice": 7.5,
+          "WeaponDice": 7.0,
           "Modifiers": [
             {
-              "Modifier": "Slowed"
+              "Modifier": "Immobilized"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -922,8 +922,11 @@
       "Template": "Bonus",
       "Attacks": [
         {
-          "WeaponDice": 8.0,
+          "WeaponDice": 7.0,
           "Modifiers": [
+            {
+              "Modifier": "+Ability Bonus Temporary Hit points"
+            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -955,14 +958,11 @@
       ]
     },
     {
-      "Template": "Skirmish",
+      "Template": "Interrupt Penalty",
       "Attacks": [
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 2.5,
           "Modifiers": [
-            {
-              "Modifier": "Shift"
-            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -971,10 +971,10 @@
       ]
     },
     {
-      "Template": "Interrupt Penalty",
+      "Template": "Close burst",
       "Attacks": [
         {
-          "WeaponDice": 2.5,
+          "WeaponDice": 2.833333333333333,
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1128,7 +1128,7 @@
           "WeaponDice": 4.0,
           "Modifiers": [
             {
-              "Modifier": "Slowed"
+              "Modifier": "-2 to One Defense"
             },
             {
               "Modifier": "Ability Modifier Damage"

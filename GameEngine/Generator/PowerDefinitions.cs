@@ -17,12 +17,13 @@ namespace GameEngine.Generator
 
     public static class PowerModifierFormulaPredicates
     {
-        public delegate bool Predicate(PowerModifierFormula formula, AttackProfile attack);
-        public static Predicate MaxOccurrence(int maxOccurrences) => (formula, attack) => attack.Modifiers.Count(m => m.Modifier == formula.Name) < maxOccurrences;
-        public static Predicate MinimumPower(double minimum) => (formula, attack) => attack.WeaponDice >= minimum;
+        public delegate bool Predicate(PowerModifierFormula formula, AttackProfile attack, PowerHighLevelInfo powerInfo);
+        public static Predicate MaxOccurrence(int maxOccurrences) => (formula, attack, powerInfo) => attack.Modifiers.Count(m => m.Modifier == formula.Name) < maxOccurrences;
+        public static Predicate MinimumPower(double minimum) => (formula, attack, powerInfo) => attack.WeaponDice >= minimum;
+        public static Predicate MaximumFrequency(PowerFrequency frequency) => (formula, attack, powerInfo) => powerInfo.Usage >= frequency;
 
-        public static Predicate And(params Predicate[] predicates) => (formula, attack) => predicates.All(p => p(formula, attack));
-        public static Predicate Or(params Predicate[] predicates) => (formula, attack) => predicates.Any(p => p(formula, attack));
+        public static Predicate And(params Predicate[] predicates) => (formula, attack, powerInfo) => predicates.All(p => p(formula, attack, powerInfo));
+        public static Predicate Or(params Predicate[] predicates) => (formula, attack, powerInfo) => predicates.Any(p => p(formula, attack, powerInfo));
     }
 
 
@@ -75,7 +76,27 @@ namespace GameEngine.Generator
             NonArmorDefense,
             new(AccuratePowerTemplate, "To-Hit Bonus +2", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
             new (ConditionsPowerTemplate, "Slowed", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2))),
-            new (SkirmishPowerTemplate, "Shift", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2))),
+            new (ConditionsPowerTemplate, "Slowed Save Ends", new CostMultiplier(0.5), And(MinimumPower(3), MaxOccurrence(2))),
+            new (ConditionsPowerTemplate, "Dazed", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2))),
+            new (ConditionsPowerTemplate, "Immobilized", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(2))),
+            new (ConditionsPowerTemplate, "Weakened", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
+            new (ConditionsPowerTemplate, "Grants Combat Advantage", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
+            new (ConditionsPowerTemplate, "Prone", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
+            new (ConditionsPowerTemplate, "-2 to One Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
+            new (ConditionsPowerTemplate, "-2 (or Abil) to all Defenses", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))),
+            new (SkirmishPowerTemplate, "Shift", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
+            new (BonusPowerTemplate, "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
+            new (BonusPowerTemplate, "+2 to AC to Ally", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
+            new (BonusPowerTemplate, "+Ability Bonus Temporary Hit points", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))),
+            new (BonusPowerTemplate, "Extra Saving Throw", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))),
+            new (BonusPowerTemplate, "Healing Surge", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1), MaximumFrequency(PowerFrequency.Encounter))),
+            new (BonusPowerTemplate, "Regeneration 5", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(2), MaximumFrequency(PowerFrequency.Daily))),
+            // Blinded
+            // Slowed/Unconscious
+            // Ongoing
+            // Reroll attack
+            // Disarm and catch
+            // Free basic attacks 
         }
             .SelectMany(formula => formula.PrerequisiteKeywords.Select(keyword => (keyword, formula)))
             .GroupBy(tuple => tuple.keyword, tuple => tuple.formula)
@@ -154,8 +175,8 @@ namespace GameEngine.Generator
             return weaponDice;
         }
 
-        public static bool CanApply(this AttackProfile attack, PowerModifierFormula formula) =>
-            formula.CanBeApplied(formula, attack);
+        public static bool CanApply(this PowerModifierFormula formula, AttackProfile attack, PowerHighLevelInfo powerInfo) =>
+            formula.CanBeApplied(formula, attack, powerInfo);
 
         public static AttackProfile Apply(this AttackProfile attack, PowerModifierFormula formula, bool skipCost = false) => attack with
         {
@@ -190,13 +211,13 @@ namespace GameEngine.Generator
         {
             var preferredModifiers = (from name in powerInfo.ClassProfile.PreferredModifiers
                                       let mod = modifiers.FirstOrDefault(m => m.Name == name)
-                                      where mod != null && attack.CanApply(mod)
+                                      where mod != null && mod.CanApply(attack, powerInfo)
                                       select mod).ToArray();
             var modifier = preferredModifiers
                 .Concat(new PowerModifierFormula?[] { null })
                 .RandomSelection(randomGenerator);
             var validModifiers = (from mod in modifiers
-                                  where mod != null && attack.CanApply(mod)
+                                  where mod != null && mod.CanApply(attack, powerInfo)
                                   select mod).ToArray();
             if (modifier == null && validModifiers.Length > 0)
                 modifier = validModifiers[randomGenerator(0, validModifiers.Length)];
