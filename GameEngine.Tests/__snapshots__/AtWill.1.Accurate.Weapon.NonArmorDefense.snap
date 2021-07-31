@@ -5,7 +5,7 @@
       "WeaponDice": 1.0,
       "Modifiers": [
         {
-          "Modifier": "To-Hit Bonus +2"
+          "Modifier": "Non-Armor Defense"
         },
         {
           "Modifier": "Ability Modifier Damage"

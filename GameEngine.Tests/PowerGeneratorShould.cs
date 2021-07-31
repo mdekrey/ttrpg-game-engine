@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -40,13 +41,13 @@ namespace GameEngine.Tests
 
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "", PowerDefinitions.MultiattackPowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "", PowerDefinitions.SkirmishPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "", PowerDefinitions.ConditionsPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "", PowerDefinitions.AccuratePowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "Slowed", PowerDefinitions.ConditionsPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "", PowerDefinitions.BonusPowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.MultiattackPowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.SkirmishPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.ConditionsPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.AccuratePowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "Slowed", PowerDefinitions.ConditionsPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.BonusPowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.CloseBlastPowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.CloseBurstPowerTemplate)]
@@ -70,7 +71,7 @@ namespace GameEngine.Tests
                 )
             ));
 
-            Snapshot.Match(powerProfile, $"{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolType:g}.{(preferredModifier is { Length: > 0 } ? preferredModifier : "none")}");
+            Snapshot.Match(powerProfile, $"{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
         }
 
     [Fact]
