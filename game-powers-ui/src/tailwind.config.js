@@ -36,6 +36,9 @@ module.exports = {
 				info: ['"Lato"', 'sans-serif'],
 				flavor: ['"IM Fell Great Primer"', 'sans-serif'],
 			},
+			screens: {
+				print: { raw: 'print' },
+			},
 		},
 		colors,
 	},

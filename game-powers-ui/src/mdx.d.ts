@@ -2,38 +2,42 @@ declare module '!babel-loader!@mdx-js/loader!*.mdx' {
 	declare const component: React.FunctionComponent<MDXProviderProps>;
 	export default component;
 }
+declare module '!babel-loader!@mdx-js/loader!*.md' {
+	declare const component: React.FunctionComponent<MDXProviderProps>;
+	export default component;
+}
 
 declare module '@mdx-js/react' {
 	import * as React from 'react';
 
 	export type Components = {
-		p?: React.ComponentType<{ children: React.ReactNode }>;
-		h1?: React.ComponentType<{ children: React.ReactNode }>;
-		h2?: React.ComponentType<{ children: React.ReactNode }>;
-		h3?: React.ComponentType<{ children: React.ReactNode }>;
-		h4?: React.ComponentType<{ children: React.ReactNode }>;
-		h5?: React.ComponentType<{ children: React.ReactNode }>;
-		h6?: React.ComponentType<{ children: React.ReactNode }>;
-		thematicBreak?: React.ComponentType<{ children: React.ReactNode }>;
-		blockquote?: React.ComponentType<{ children: React.ReactNode }>;
-		ul?: React.ComponentType<{ children: React.ReactNode }>;
-		ol?: React.ComponentType<{ children: React.ReactNode }>;
-		li?: React.ComponentType<{ children: React.ReactNode }>;
-		table?: React.ComponentType<{ children: React.ReactNode }>;
-		thead?: React.ComponentType<{ children: React.ReactNode }>;
-		tbody?: React.ComponentType<{ children: React.ReactNode }>;
-		th?: React.ComponentType<{ children: React.ReactNode }>;
-		tr?: React.ComponentType<{ children: React.ReactNode }>;
-		td?: React.ComponentType<{ children: React.ReactNode }>;
-		pre?: React.ComponentType<{ children: React.ReactNode }>;
-		code?: React.ComponentType<{ children: React.ReactNode }>;
-		em?: React.ComponentType<{ children: React.ReactNode }>;
-		strong?: React.ComponentType<{ children: React.ReactNode }>;
-		delete?: React.ComponentType<{ children: React.ReactNode }>;
-		inlineCode?: React.ComponentType<{ children: React.ReactNode }>;
-		hr?: React.ComponentType<{ children: React.ReactNode }>;
-		a?: React.ComponentType<{ children: React.ReactNode; href: string }>;
-		img?: React.ComponentType<{ children: React.ReactNode; src: string }>;
+		p?: React.ComponentType<JSX.IntrinsicElements['p']>;
+		h1?: React.ComponentType<JSX.IntrinsicElements['h1']>;
+		h2?: React.ComponentType<JSX.IntrinsicElements['h2']>;
+		h3?: React.ComponentType<JSX.IntrinsicElements['h3']>;
+		h4?: React.ComponentType<JSX.IntrinsicElements['h4']>;
+		h5?: React.ComponentType<JSX.IntrinsicElements['h5']>;
+		h6?: React.ComponentType<JSX.IntrinsicElements['h6']>;
+		thematicBreak?: React.ComponentType<{ className?: string; children: React.ReactNode }>;
+		blockquote?: React.ComponentType<JSX.IntrinsicElements['blockquote']>;
+		ul?: React.ComponentType<JSX.IntrinsicElements['ul']>;
+		ol?: React.ComponentType<JSX.IntrinsicElements['ol']>;
+		li?: React.ComponentType<JSX.IntrinsicElements['li']>;
+		table?: React.ComponentType<JSX.IntrinsicElements['table']>;
+		thead?: React.ComponentType<JSX.IntrinsicElements['thead']>;
+		tbody?: React.ComponentType<JSX.IntrinsicElements['tbody']>;
+		th?: React.ComponentType<JSX.IntrinsicElements['th']>;
+		tr?: React.ComponentType<JSX.IntrinsicElements['tr']>;
+		td?: React.ComponentType<JSX.IntrinsicElements['td']>;
+		pre?: React.ComponentType<JSX.IntrinsicElements['pre']>;
+		code?: React.ComponentType<JSX.IntrinsicElements['code']>;
+		em?: React.ComponentType<JSX.IntrinsicElements['em']>;
+		strong?: React.ComponentType<JSX.IntrinsicElements['strong']>;
+		delete?: React.ComponentType<JSX.IntrinsicElements['delete']>;
+		inlineCode?: React.ComponentType<{ className?: string; children: React.ReactNode }>;
+		hr?: React.ComponentType<JSX.IntrinsicElements['hr']>;
+		a?: React.ComponentType<JSX.IntrinsicElements['a']>;
+		img?: React.ComponentType<JSX.IntrinsicElements['img']>;
 	};
 
 	export type ComponentType = keyof Components;
