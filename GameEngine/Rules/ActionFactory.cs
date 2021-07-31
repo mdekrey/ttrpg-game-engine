@@ -76,7 +76,7 @@ namespace GameEngine.Rules
             return effects;
         }
 
-        private async Task<DieCodeRandomizedEffect> FromRollAsync(string dice, List<RollEffectResolution> resolution)
+        private async Task<DieCodeRandomizedEffect> FromRollAsync(string dice, IReadOnlyList<RollEffectResolution> resolution)
         {
             return new DieCodeRandomizedEffect(
                 DieCodes.Parse(dice),

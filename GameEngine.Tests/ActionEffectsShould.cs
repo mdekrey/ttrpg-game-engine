@@ -56,13 +56,12 @@ namespace GameEngine.Tests
             var target = scope.ServiceProvider.GetRequiredService<EffectsReducer<double, double>>();
             var actionBuilder = scope.ServiceProvider.GetRequiredService<ActionFactory>();
 
-            var attackAction = await actionBuilder.BuildAsync(new SerializedTarget
-            {
-                MeleeWeapon = new() { TargetCount = 2 },
-                Effect = new() { Attack = new() {
-                    Hit = new() { Damage = new() { { DamageType.Weapon, "[W] + STR" } } }
+            var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
+                ""meleeWeapon"": { ""targetCount"": 2 },
+                ""effect"": { ""attack"": {
+                    ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } }
                 } }
-            });
+            }"));
 
             var averageDamage = target.ReduceEffects(attackAction);
             Assert.Equal(8.5, averageDamage);

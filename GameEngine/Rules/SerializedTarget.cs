@@ -1,99 +1,104 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace GameEngine.Rules
 {
-    public class SerializedTarget
-    {
-        public MeleeWeaponOptions? MeleeWeapon { get; init; }
-        public int? Melee { get; init; }
-        public RangedWeaponOptions? RangedWeapon { get; init; }
-        public int? Ranged { get; init; }
+    public record SerializedTarget(
+        MeleeWeaponOptions? MeleeWeapon,
+        int? Melee,
+        RangedWeaponOptions? RangedWeapon,
+        int? Ranged,
+        bool? RangedSight,
+        
+        string? Restrictions,
+        SerializedEffect Effect
+    );
 
-        public string? Restrictions { get; init; }
+    public record MeleeWeaponOptions
+    (
+        int AdditionalReach = 0,
+        int TargetCount = 1,
+        bool Offhand = false
+    );
 
-#nullable disable warnings
-        public SerializedEffect Effect { get; init; }
-#nullable restore
-    }
+    public record RangedWeaponOptions;
 
-    public class MeleeWeaponOptions
-    {
-        public int AdditionalReach { get; init; } = 0;
-        public int TargetCount { get; init; } = 1;
-        public bool Offhand { get; init; } = false;
-    }
+    public record SerializedEffect(
+        IEnumerable<SerializedEffect>? All,
+        DamageEffectOptions? Damage,
+        ConditionEffectOptions? Condition,
+        bool? HalfDamage,
+        RandomizedOptions? Randomized,
+        AttackRollOptions? Attack,
+        SerializedTarget? Target,
+        SerializedPower? Power
+    );
 
-    public class RangedWeaponOptions
-    {
-    }
+    public record SerializedPower
+    (
+        string Name,
+        PowerFrequency Frequency,
+        string ActionType,
+        string? Trigger,
+        string? Prerequisite,
+        string? Requirement,
+        ImmutableList<string> Keywords,
+        string? Class,
+        int? Level,
+        string? Comments,
 
-    public class SerializedEffect
-    {
-        public IEnumerable<SerializedEffect>? All { get; init; }
-        public DamageEffectOptions? Damage { get; init; }
-        public ConditionEffectOptions? Condition { get; init; }
-        public bool? HalfDamage { get; init; }
-        public RandomizedOptions? Randomized { get; init; }
-        public AttackRollOptions? Attack { get; init; }
-        public SerializedTarget? Target { get; init; }
-        public SerializedPower? Power { get; init; }
-    }
+        IEnumerable<SerializedEffect>? All,
+        DamageEffectOptions? Damage,
+        ConditionEffectOptions? Condition,
+        bool? HalfDamage,
+        RandomizedOptions? Randomized,
+        AttackRollOptions? Attack,
+        SerializedTarget? Target,
+        SerializedPower? Power
+    ) : SerializedEffect(
+        All,
+        Damage,
+        Condition,
+        HalfDamage,
+        Randomized,
+        Attack,
+        Target,
+        Power
+    );
 
-    public class SerializedPower : SerializedEffect
-    {
-#nullable disable warnings
-        public string Name { get; init; }
-        public PowerFrequency Frequency { get; init; }
-        public string ActionType { get; init; } = "StandardAction";
-        public string? Trigger { get; init; }
-        public string? Prerequisite { get; init; }
-        public string? Requirement { get; init; }
-        public List<string> Keywords { get; init; } = new List<string>();
-        public string? Class { get; init; }
-        public int? Level { get; init; }
-        public string? Comments { get; init; }
-#nullable restore
+    public record RandomizedOptions
+    (
+        string Dice,
+        ImmutableList<RollEffectResolution> Resolution
+    );
 
-    }
+    public record AttackRollOptions
+    (
 
-    public class RandomizedOptions
-    {
-#nullable disable warnings
-        public string Dice { get; init; }
-#nullable restore
-        public List<RollEffectResolution> Resolution { get; init; } = new List<RollEffectResolution>();
-    }
+        Ability? Kind,
+        int Bonus,
+        DefenseType? Defense,
+        SerializedEffect? Hit,
+        SerializedEffect? Miss,
+        SerializedEffect? Effect
+    );
 
-    public class AttackRollOptions
-    {
-#nullable disable warnings
-        public Ability? Kind { get; init; }
-        public int Bonus { get; init; }
-        public DefenseType? Defense { get; init; }
-#nullable restore
-        public SerializedEffect? Hit { get; init; }
-        public SerializedEffect? Miss { get; init; }
-        public SerializedEffect? Effect { get; init; }
-    }
-
-    public class RollEffectResolution
-    {
-#nullable disable warnings
-        public string Expression { get; init; }
-        public SerializedEffect Effect { get; init; }
-#nullable restore
-    }
+    public record RollEffectResolution
+    (
+        string Expression,
+        SerializedEffect Effect
+    );
 
     public class DamageEffectOptions : Dictionary<DamageType, string>
     {
         // Value: Die Codes
+
     }
 
     public class ConditionEffectOptions : Dictionary<ConditionType, string>
     {
-
     }
 }
