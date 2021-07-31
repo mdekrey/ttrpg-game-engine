@@ -34,7 +34,7 @@ namespace GameEngine.Tests
         [Theory]
         public void CalculateBasePower(int level, PowerFrequency usageFrequency, double expected)
         {
-            var power = PowerDefinitions.GetBasePower(level, usageFrequency);
+            var power = PowerGenerator.GetBasePower(level, usageFrequency);
 
             Assert.Equal(expected, power);
         }

@@ -90,6 +90,21 @@ namespace GameEngine.Generator
             return new PowerProfile(template, attacks);
         }
 
-        
+
+        public static double GetBasePower(int level, PowerFrequency usageFrequency)
+        {
+            // 2 attributes = 1[W]
+            var weaponDice = (level, usageFrequency) switch
+            {
+                ( >= 1 and <= 20, PowerFrequency.AtWill) => 2,
+                ( >= 21, PowerFrequency.AtWill) => 3,
+                (_, PowerFrequency.Encounter) => 2 + ((level + 9) / 10),
+                ( <= 19, PowerFrequency.Daily) => 4.5 + level / 4,
+                ( >= 20, PowerFrequency.Daily) => 3.5 + level / 4,
+                _ => throw new InvalidOperationException(),
+            };
+            return weaponDice;
+        }
+
     }
 }

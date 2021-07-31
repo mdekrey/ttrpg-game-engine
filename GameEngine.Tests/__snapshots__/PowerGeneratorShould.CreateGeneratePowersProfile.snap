@@ -101,7 +101,7 @@
           "WeaponDice": 2.0,
           "Modifiers": [
             {
-              "Modifier": "Shift"
+              "Modifier": "Movement after Attack does not provoke opportunity attacks"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -404,7 +404,7 @@
           "WeaponDice": 2.0,
           "Modifiers": [
             {
-              "Modifier": "Shift"
+              "Modifier": "Movement after Attack does not provoke opportunity attacks"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -778,7 +778,7 @@
           "WeaponDice": 3.0,
           "Modifiers": [
             {
-              "Modifier": "Shift"
+              "Modifier": "Movement after Attack does not provoke opportunity attacks"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -817,7 +817,7 @@
           "WeaponDice": 7.5,
           "Modifiers": [
             {
-              "Modifier": "Shift"
+              "Modifier": "Movement after Attack does not provoke opportunity attacks"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -909,7 +909,7 @@
           "WeaponDice": 7.5,
           "Modifiers": [
             {
-              "Modifier": "Shift"
+              "Modifier": "Movement after Attack does not provoke opportunity attacks"
             },
             {
               "Modifier": "Ability Modifier Damage"
@@ -1204,7 +1204,7 @@
           "WeaponDice": 9.5,
           "Modifiers": [
             {
-              "Modifier": "Shift"
+              "Modifier": "Movement after Attack does not provoke opportunity attacks"
             },
             {
               "Modifier": "Ability Modifier Damage"

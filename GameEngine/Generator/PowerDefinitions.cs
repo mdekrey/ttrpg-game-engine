@@ -4,41 +4,10 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
-using static GameEngine.Generator.PowerModifierFormulaPredicates;
 
 namespace GameEngine.Generator
 {
-    public interface IPowerCost
-    {
-        double Apply(double original);
-    }
-    public record FlatCost(double Cost) : IPowerCost { double IPowerCost.Apply(double original) => original - Cost; }
-    public record CostMultiplier(double Multiplier) : IPowerCost { double IPowerCost.Apply(double original) => original * Multiplier; }
 
-    public static class PowerModifierFormulaPredicates
-    {
-        public delegate bool Predicate(PowerModifierFormula formula, AttackProfile attack, PowerHighLevelInfo powerInfo);
-        public static Predicate MaxOccurrence(int maxOccurrences) => (formula, attack, powerInfo) => attack.Modifiers.Count(m => m.Modifier == formula.Name) < maxOccurrences;
-        public static Predicate MinimumPower(double minimum) => (formula, attack, powerInfo) => attack.WeaponDice >= minimum;
-        public static Predicate MaximumFrequency(PowerFrequency frequency) => (formula, attack, powerInfo) => powerInfo.Usage >= frequency;
-
-        public static Predicate And(params Predicate[] predicates) => (formula, attack, powerInfo) => predicates.All(p => p(formula, attack, powerInfo));
-        public static Predicate Or(params Predicate[] predicates) => (formula, attack, powerInfo) => predicates.Any(p => p(formula, attack, powerInfo));
-    }
-
-
-    public record PowerModifierFormula(ImmutableList<string> PrerequisiteKeywords, string Name, IPowerCost Cost, Predicate CanBeApplied)
-    {
-        public PowerModifierFormula(string PrerequisiteKeyword, string Name, IPowerCost Cost, Predicate CanBeApplied)
-            : this(ImmutableList<string>.Empty.Add(PrerequisiteKeyword), Name, Cost, CanBeApplied) { }
-    }
-
-    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ClassProfile ClassProfile);
-
-    public delegate T PowerChoice<T>(PowerHighLevelInfo powerInfo);
-    public delegate T Generation<T>(RandomGenerator randomGenerator);
-
-    public record PowerTemplate(string Name, PowerChoice<Generation<ImmutableList<AttackProfile>>> ConstructAttacks, PowerChoice<bool> CanApply);
     public static class PowerDefinitions
     {
         public const string AccuratePowerTemplate = "Accurate";
@@ -66,51 +35,10 @@ namespace GameEngine.Generator
 
         public static IEnumerable<string> PowerTemplateNames => powerTemplates.Keys;
 
-        public const string GeneralKeyword = "General";
-
-        public static readonly PowerModifierFormula NonArmorDefense = new(AccuratePowerTemplate, "Non-Armor Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1)));
-        public static readonly PowerModifierFormula AbilityModifierDamage = new(GeneralKeyword, "Ability Modifier Damage", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2)));
-        public static readonly ImmutableDictionary<string, ImmutableDictionary<string, PowerModifierFormula>> modifiers = new PowerModifierFormula[]
-        {
-            AbilityModifierDamage,
-            NonArmorDefense,
-            new(AccuratePowerTemplate, "To-Hit Bonus +2", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new (ConditionsPowerTemplate, "Slowed", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2))),
-            new (ConditionsPowerTemplate, "Slowed Save Ends", new CostMultiplier(0.5), And(MinimumPower(3), MaxOccurrence(2))),
-            new (ConditionsPowerTemplate, "Dazed", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2))),
-            new (ConditionsPowerTemplate, "Immobilized", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(2))),
-            new (ConditionsPowerTemplate, "Weakened", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
-            new (ConditionsPowerTemplate, "Grants Combat Advantage", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
-            new (ConditionsPowerTemplate, "Prone", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
-            new (ConditionsPowerTemplate, "-2 to One Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new (ConditionsPowerTemplate, "-2 (or Abil) to all Defenses", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new (SkirmishPowerTemplate, "Shift", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new (BonusPowerTemplate, "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new (BonusPowerTemplate, "+2 to AC to Ally", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new (BonusPowerTemplate, "+Ability Bonus Temporary Hit points", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new (BonusPowerTemplate, "Extra Saving Throw", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new (BonusPowerTemplate, "Healing Surge", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1), MaximumFrequency(PowerFrequency.Encounter))),
-            new (BonusPowerTemplate, "Regeneration 5", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(2), MaximumFrequency(PowerFrequency.Daily))),
-            // Blinded
-            // Slowed/Unconscious
-            // Ongoing
-            // Reroll attack
-            // Disarm and catch
-            // Free basic attacks 
-        }
-            .SelectMany(formula => formula.PrerequisiteKeywords.Select(keyword => (keyword, formula)))
-            .GroupBy(tuple => tuple.keyword, tuple => tuple.formula)
-            .ToImmutableDictionary(
-                group => group.Key,
-                group => group.ToImmutableDictionary(formula => formula.Name)
-            );
-
-        public static IEnumerable<string> PowerModifierNames => modifiers.Values.SelectMany(v => v.Keys);
-
         private static PowerChoice<Generation<ImmutableList<AttackProfile>>> GenerateAttackGenerator(string templateName, int count = 1, double multiplier = 1) =>
             (PowerHighLevelInfo info) =>
             {
-                var basePower = GetBasePower(info.Level, info.Usage) * multiplier;
+                var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage) * multiplier;
                 var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
                 return (RandomGenerator randomGenerator) => (from i in Enumerable.Range(0, count)
                                                              let builder = GenerateAttackProfiles(templateName, info, rootBuilder, randomGenerator)
@@ -134,7 +62,7 @@ namespace GameEngine.Generator
 
         private static Generation<ImmutableList<AttackProfile>> CloseBurstAttackGenerator(PowerHighLevelInfo info)
         {
-            var basePower = GetBasePower(info.Level, info.Usage);
+            var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
             // TODO - size. Assume 3x3 for now
             basePower *= 2.0 / 3;
             var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
@@ -143,36 +71,23 @@ namespace GameEngine.Generator
 
         private static Generation<ImmutableList<AttackProfile>> CloseBlastAttackGenerator(PowerHighLevelInfo info)
         {
-            var basePower = GetBasePower(info.Level, info.Usage);
+            var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
             // TODO - size. Assume 3x3 for now
             basePower *= 2.0 / 3;
             var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
             return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBlastPowerTemplate, info, rootBuilder, randomGenerator));
         }
 
-        private static PowerModifierFormula[] GetApplicableModifiers(params string[] keywords) =>
-            (
-                from keyword in keywords
-                from modifier in modifiers.ContainsKey(keyword)
-                        ? modifiers[keyword].Values
-                        : Enumerable.Empty<PowerModifierFormula>()
+        private static PowerModifierFormula[] GetApplicableModifiers(params string[] keywords)
+        {
+            var keywordSet = new HashSet<string>(keywords);
+            return (
+                from modifier in ModifierDefinitions.modifiers
+                where modifier.Keywords.Any(keywordSet.Contains)
                 orderby modifier.Name
                 select modifier
             )
             .ToArray();
-        public static double GetBasePower(int level, PowerFrequency usageFrequency)
-        {
-            // 2 attributes = 1[W]
-            var weaponDice = (level, usageFrequency) switch
-            {
-                ( >= 1 and <= 20, PowerFrequency.AtWill) => 2,
-                ( >= 21, PowerFrequency.AtWill) => 3,
-                (_, PowerFrequency.Encounter) => 2 + ((level + 9) / 10),
-                ( <= 19, PowerFrequency.Daily) => 4.5 + level / 4,
-                ( >= 20, PowerFrequency.Daily) => 3.5 + level / 4,
-                _ => throw new InvalidOperationException(),
-            };
-            return weaponDice;
         }
 
         public static bool CanApply(this PowerModifierFormula formula, AttackProfile attack, PowerHighLevelInfo powerInfo) =>
@@ -187,7 +102,7 @@ namespace GameEngine.Generator
 
         public static AttackProfile PreApply(this AttackProfile attack, PowerHighLevelInfo powerInfo) =>
             powerInfo.ClassProfile.Tool == ToolType.Implement
-                ? attack.Apply(NonArmorDefense, skipCost: true) // Implements get free non-armor defense due to lack of proficiency bonus
+                ? attack.Apply(ModifierDefinitions.NonArmorDefense, skipCost: true) // Implements get free non-armor defense due to lack of proficiency bonus
                 : attack;
 
         public static AttackProfile PostApply(this AttackProfile attack, PowerHighLevelInfo powerInfo)
@@ -195,7 +110,7 @@ namespace GameEngine.Generator
             if (attack.WeaponDice > 1 || (powerInfo.ClassProfile.Tool == ToolType.Implement && attack.WeaponDice > 0.5))
             {
                 // Implements can go below 1 weapon die by using d6/d4
-                attack = attack.Apply(AbilityModifierDamage);
+                attack = attack.Apply(ModifierDefinitions.AbilityModifierDamage);
             }
             if (attack.WeaponDice > 1 && attack.WeaponDice % 1 >= 0.5)
             {
