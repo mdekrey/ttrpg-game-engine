@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: game-engine
+  name: game-storybook-deployment
+  labels:
+    app: game-storybook-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: game-storybook-pod
+  template:
+    metadata:
+      labels:
+        app: game-storybook-pod
+    spec:
+      imagePullSecrets:
+        - name: game-engine-registry
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: web
+          image: "dekreydotnet.azurecr.io/game-4e-storybook:latest"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: game-engine
+  name: game-storybook-ingress
+  labels:
+    app: game-storybook-ingress
+  annotations:
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/issuer: letsencrypt
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - storybook.4e.dekrey.net
+      secretName: storybook-4e-dekrey-net-tls
+  rules:
+    - host: storybook.4e.dekrey.net
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: game-storybook-svc
+                port:
+                  number: 80
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  namespace: game-engine
+  name: letsencrypt
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: matt.dekrey@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: game-engine
+  name: game-storybook-svc
+  labels:
+    app: game-storybook-svc
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: game-storybook-pod

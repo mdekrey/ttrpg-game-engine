@@ -2,10 +2,10 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { MdxComponents } from 'components/layout/mdx-components';
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import Page from '!babel-loader!@mdx-js/loader!./non-combat-encounter.md';
+import Page from '!babel-loader!@mdx-js/loader!./info.md';
 
 export default {
-	title: 'Rules/Non-Combat Encounters',
+	title: 'Rules/Info',
 	component: Page,
 	argTypes: {
 		backgroundColor: { control: 'color' },

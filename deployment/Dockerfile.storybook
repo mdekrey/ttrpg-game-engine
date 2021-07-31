@@ -1,0 +1,20 @@
+FROM node:16 AS build-ui
+WORKDIR /src
+
+COPY ["./game-powers-ui/package.json", "./game-powers-ui/"]
+COPY ["./game-powers-ui/package-lock.json", "./game-powers-ui/"]
+RUN cd ./game-powers-ui/ && npm ci
+
+COPY ./game-powers-ui/ ./game-powers-ui/
+
+WORKDIR "/src/game-powers-ui"
+RUN CI=true npm test -- --passWithNoTests
+RUN CI=true npm run build-storybook
+
+WORKDIR /src/game-powers-ui/storybook-static
+RUN gzip -k -r *
+
+FROM nginx AS final
+
+WORKDIR /app
+COPY --from=build-ui /src/game-powers-ui/storybook-static /usr/share/nginx/html
