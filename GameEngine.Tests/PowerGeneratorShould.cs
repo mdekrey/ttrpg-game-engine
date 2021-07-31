@@ -61,7 +61,7 @@ namespace GameEngine.Tests
         [InlineData(1, PowerFrequency.Daily, ToolType.MeleeWeapon, "", PowerDefinitions.CloseBurstPowerTemplate)]
         [InlineData(1, PowerFrequency.Encounter, ToolType.RangedWeapon, "", PowerDefinitions.CloseBlastPowerTemplate)]
         [Theory]
-        public void CreateGenerateAtWillPowerProfile(int Level, PowerFrequency powerFrequency, ToolType toolType, string preferredModifier, string powerTemplate)
+        public void CreateGeneratePowerProfile(int Level, PowerFrequency powerFrequency, ToolType toolType, string preferredModifier, string powerTemplate)
         {
             var target = CreateTarget((min, max) => max - 1);
 
@@ -77,7 +77,7 @@ namespace GameEngine.Tests
                 )
             ));
 
-            Snapshot.Match(powerProfile, $"{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
+            Snapshot.Match(powerProfile, $"PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
         }
 
         [Fact]
