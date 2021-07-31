@@ -80,39 +80,39 @@ namespace GameEngine.Tests
             Snapshot.Match(powerProfile, $"{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
         }
 
-    [Fact]
-    public void CreateGeneratePowersProfile()
-    {
-        var target = CreateTarget();
+        [Fact]
+        public void CreateGeneratePowersProfile()
+        {
+            var target = CreateTarget();
 
-        var powerProfile = target.GenerateProfiles(CreateStrikerProfile());
+            var powerProfile = target.GenerateProfiles(CreateStrikerProfile());
 
-        Snapshot.Match(powerProfile);
+            Snapshot.Match(powerProfile);
+        }
+
+        private ClassProfile CreateStrikerProfile() =>
+            new ClassProfile(
+                ClassRole.Striker,
+                ImmutableList<ToolType>.Empty.Add(ToolType.MeleeWeapon),
+                DefenseType.Fortitude,
+                new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                new[] { DamageType.Weapon }.ToImmutableList(),
+                new string[] { }.ToImmutableList(),
+                new[] {
+                        PowerDefinitions.MultiattackPowerTemplate,
+                        PowerDefinitions.SkirmishPowerTemplate,
+                        PowerDefinitions.AccuratePowerTemplate,
+                        PowerDefinitions.ConditionsPowerTemplate,
+                        PowerDefinitions.CloseBurstPowerTemplate,
+                        PowerDefinitions.InterruptPenaltyPowerTemplate,
+                        PowerDefinitions.CloseBlastPowerTemplate,
+                        PowerDefinitions.BonusPowerTemplate
+                }.ToImmutableList()
+            );
+
+        private PowerGenerator CreateTarget(RandomGenerator? randomGenerator = null)
+        {
+            return new PowerGenerator(randomGenerator ?? new Random(751).Next);
+        }
     }
-
-    private ClassProfile CreateStrikerProfile() =>
-        new ClassProfile(
-            ClassRole.Striker,
-            ImmutableList<ToolType>.Empty.Add(ToolType.MeleeWeapon),
-            DefenseType.Fortitude,
-            new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-            new[] { DamageType.Weapon }.ToImmutableList(),
-            new string[] { }.ToImmutableList(),
-            new[] {
-                    PowerDefinitions.MultiattackPowerTemplate,
-                    PowerDefinitions.SkirmishPowerTemplate,
-                    PowerDefinitions.AccuratePowerTemplate,
-                    PowerDefinitions.ConditionsPowerTemplate,
-                    PowerDefinitions.CloseBurstPowerTemplate,
-                    PowerDefinitions.InterruptPenaltyPowerTemplate,
-                    PowerDefinitions.CloseBlastPowerTemplate,
-                    PowerDefinitions.BonusPowerTemplate
-            }.ToImmutableList()
-        );
-
-    private PowerGenerator CreateTarget(RandomGenerator? randomGenerator = null)
-    {
-        return new PowerGenerator(randomGenerator ?? new Random(751).Next);
-    }
-}
 }
