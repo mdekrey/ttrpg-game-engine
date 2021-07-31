@@ -3,15 +3,16 @@
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Tool": "Implement",
       "Modifiers": [
         {
           "Modifier": "Non-Armor Defense"
         },
         {
-          "Modifier": "To-Hit Bonus +2"
+          "Modifier": "Ability Modifier Damage"
         },
         {
-          "Modifier": "Ability Modifier Damage"
+          "Modifier": "To-Hit Bonus +2"
         }
       ]
     }

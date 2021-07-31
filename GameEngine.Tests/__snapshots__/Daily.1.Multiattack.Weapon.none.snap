@@ -3,6 +3,7 @@
   "Attacks": [
     {
       "WeaponDice": 1.75,
+      "Tool": "Weapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"
@@ -11,6 +12,7 @@
     },
     {
       "WeaponDice": 1.75,
+      "Tool": "Weapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"

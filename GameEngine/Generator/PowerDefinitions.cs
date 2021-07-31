@@ -39,7 +39,7 @@ namespace GameEngine.Generator
             (PowerHighLevelInfo info) =>
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage) * multiplier;
-                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+                var rootBuilder = new AttackProfile(basePower, info.ClassProfile.Tool, ImmutableList<PowerModifier>.Empty);
                 return (RandomGenerator randomGenerator) => (from i in Enumerable.Range(0, count)
                                                              let builder = GenerateAttackProfiles(templateName, info, rootBuilder, randomGenerator)
                                                              select builder).ToImmutableList();
@@ -47,12 +47,11 @@ namespace GameEngine.Generator
 
         private static AttackProfile GenerateAttackProfiles(string templateName, PowerHighLevelInfo info, AttackProfile rootBuilder, RandomGenerator randomGenerator)
         {
-            var applicableModifiers = GetApplicableModifiers(new[] { info.ClassProfile.Tool.ToString("g"), templateName });
+            var applicableModifiers = GetApplicableModifiers(new[] { rootBuilder.Tool.ToString("g"), templateName });
 
             return rootBuilder
                 .PreApply(info)
-                .ApplyRandomModifiers(info, applicableModifiers, randomGenerator)
-                .PostApply(info);
+                .ApplyRandomModifiers(info, applicableModifiers, randomGenerator);
         }
 
         private static Generation<ImmutableList<AttackProfile>> InterruptPenaltyAttackGenerator(PowerHighLevelInfo info)
@@ -65,7 +64,7 @@ namespace GameEngine.Generator
             var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
             // TODO - size. Assume 3x3 for now
             basePower *= 2.0 / 3;
-            var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+            var rootBuilder = new AttackProfile(basePower, info.Usage == PowerFrequency.AtWill ? ToolType.Implement : info.ClassProfile.Tool, ImmutableList<PowerModifier>.Empty);
             return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBurstPowerTemplate, info, rootBuilder, randomGenerator));
         }
 
@@ -74,7 +73,7 @@ namespace GameEngine.Generator
             var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
             // TODO - size. Assume 3x3 for now
             basePower *= 2.0 / 3;
-            var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+            var rootBuilder = new AttackProfile(basePower, info.Usage == PowerFrequency.AtWill ? ToolType.Implement : info.ClassProfile.Tool, ImmutableList<PowerModifier>.Empty);
             return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBlastPowerTemplate, info, rootBuilder, randomGenerator));
         }
 
@@ -93,34 +92,19 @@ namespace GameEngine.Generator
         public static bool CanApply(this PowerModifierFormula formula, AttackProfile attack, PowerHighLevelInfo powerInfo) =>
             formula.CanBeApplied(formula, attack, powerInfo);
 
-        public static AttackProfile Apply(this AttackProfile attack, PowerModifierFormula formula, bool skipCost = false) => attack with
-        {
-            WeaponDice = skipCost ? attack.WeaponDice : formula.Cost.Apply(attack.WeaponDice),
-            Modifiers = attack.Modifiers.Add(new PowerModifier(formula.Name)),
-        };
+        public static AttackProfile Apply(this AttackProfile attack, PowerModifierFormula formula, bool skipCost = false, Predicate<AttackProfile>? when = null) => 
+            (when != null && !when(attack)) ? attack
+                : attack with
+                {
+                    WeaponDice = skipCost ? attack.WeaponDice : formula.Cost.Apply(attack.WeaponDice),
+                    Modifiers = attack.Modifiers.Add(new PowerModifier(formula.Name)),
+                };
 
 
-        public static AttackProfile PreApply(this AttackProfile attack, PowerHighLevelInfo powerInfo) =>
-            powerInfo.ClassProfile.Tool == ToolType.Implement
-                ? attack.Apply(ModifierDefinitions.NonArmorDefense, skipCost: true) // Implements get free non-armor defense due to lack of proficiency bonus
-                : attack;
-
-        public static AttackProfile PostApply(this AttackProfile attack, PowerHighLevelInfo powerInfo)
-        {
-            if (attack.WeaponDice > 1 || (powerInfo.ClassProfile.Tool == ToolType.Implement && attack.WeaponDice > 0.5))
-            {
-                // Implements can go below 1 weapon die by using d6/d4
-                attack = attack.Apply(ModifierDefinitions.AbilityModifierDamage);
-            }
-            if (attack.WeaponDice > 1 && attack.WeaponDice % 1 >= 0.5)
-            {
-
-                //var applicableModifiers = GetApplicableModifiers(new[] { info.ClassProfile.Tool.ToString("g"), templateName });
-
-            }
-
-            return attack;
-        }
+        public static AttackProfile PreApply(this AttackProfile attack, PowerHighLevelInfo powerInfo) => attack
+            .Apply(ModifierDefinitions.NonArmorDefense, skipCost: true, when: a => a.Tool == ToolType.Implement) // Implements get free non-armor defense due to lack of proficiency bonus
+            .Apply(ModifierDefinitions.AbilityModifierDamage, when: a => a.WeaponDice > 1 || (a.Tool == ToolType.Implement && a.WeaponDice > 0.5));
+            
 
         public static AttackProfile ApplyRandomModifiers(this AttackProfile attack, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
         {

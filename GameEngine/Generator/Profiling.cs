@@ -17,6 +17,7 @@ namespace GameEngine.Generator
         Implement, // Usually targets NAD as a result
     }
 
+    // TODO - allow multiple tool types, as Cleric
     public record ClassProfile(ClassRole Role, ToolType Tool, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, ImmutableList<string> PreferredModifiers, ImmutableList<string> PowerTemplates)
     {
         internal bool IsValid()
@@ -30,7 +31,8 @@ namespace GameEngine.Generator
     }
 
     public record PowerModifier(string Modifier);
-    public record AttackProfile(double WeaponDice, ImmutableList<PowerModifier> Modifiers);
+    public record AttackProfile(double WeaponDice, ToolType Tool, ImmutableList<PowerModifier> Modifiers);
+
     public record PowerProfile(string Template, ImmutableList<AttackProfile> Attacks);
     public record PowerProfiles(
         ImmutableList<PowerProfile> AtWill1,

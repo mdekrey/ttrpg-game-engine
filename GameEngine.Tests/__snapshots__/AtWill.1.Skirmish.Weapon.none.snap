@@ -3,12 +3,13 @@
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Tool": "Weapon",
       "Modifiers": [
         {
-          "Modifier": "Shift"
+          "Modifier": "Ability Modifier Damage"
         },
         {
-          "Modifier": "Ability Modifier Damage"
+          "Modifier": "Shift"
         }
       ]
     }

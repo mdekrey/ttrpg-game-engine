@@ -3,10 +3,12 @@
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Tool": "Weapon",
       "Modifiers": []
     },
     {
       "WeaponDice": 1.0,
+      "Tool": "Weapon",
       "Modifiers": []
     }
   ]

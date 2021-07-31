@@ -3,6 +3,7 @@
   "Attacks": [
     {
       "WeaponDice": 2.5,
+      "Tool": "Weapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"

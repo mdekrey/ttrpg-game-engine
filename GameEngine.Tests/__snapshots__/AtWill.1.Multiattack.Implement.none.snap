@@ -3,6 +3,7 @@
   "Attacks": [
     {
       "WeaponDice": 0.5,
+      "Tool": "Implement",
       "Modifiers": [
         {
           "Modifier": "Non-Armor Defense"
@@ -14,6 +15,7 @@
     },
     {
       "WeaponDice": 0.5,
+      "Tool": "Implement",
       "Modifiers": [
         {
           "Modifier": "Non-Armor Defense"

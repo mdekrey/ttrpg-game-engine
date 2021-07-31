@@ -3,12 +3,13 @@
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Tool": "Weapon",
       "Modifiers": [
         {
-          "Modifier": "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)"
+          "Modifier": "Ability Modifier Damage"
         },
         {
-          "Modifier": "Ability Modifier Damage"
+          "Modifier": "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)"
         }
       ]
     }
