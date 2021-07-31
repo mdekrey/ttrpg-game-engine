@@ -1,15 +1,12 @@
 ﻿{
-  "Template": "Skirmish",
+  "Template": "Interrupt Penalty",
   "Attacks": [
     {
-      "WeaponDice": 1.0,
-      "Tool": "Weapon",
+      "WeaponDice": 1.5,
+      "Tool": "MeleeWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"
-        },
-        {
-          "Modifier": "Shift"
         }
       ]
     }

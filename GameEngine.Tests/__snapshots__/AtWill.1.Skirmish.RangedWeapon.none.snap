@@ -1,0 +1,17 @@
+﻿{
+  "Template": "Skirmish",
+  "Attacks": [
+    {
+      "WeaponDice": 1.0,
+      "Tool": "RangedWeapon",
+      "Modifiers": [
+        {
+          "Modifier": "Ability Modifier Damage"
+        },
+        {
+          "Modifier": "Shift"
+        }
+      ]
+    }
+  ]
+}

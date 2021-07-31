@@ -1,12 +1,15 @@
 ﻿{
-  "Template": "Close burst",
+  "Template": "Skirmish",
   "Attacks": [
     {
-      "WeaponDice": 2.5,
-      "Tool": "Weapon",
+      "WeaponDice": 1.0,
+      "Tool": "MeleeWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"
+        },
+        {
+          "Modifier": "Shift"
         }
       ]
     }

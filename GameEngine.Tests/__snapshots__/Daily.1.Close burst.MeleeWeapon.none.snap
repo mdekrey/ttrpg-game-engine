@@ -1,0 +1,14 @@
+﻿{
+  "Template": "Close burst",
+  "Attacks": [
+    {
+      "WeaponDice": 2.5,
+      "Tool": "MeleeWeapon",
+      "Modifiers": [
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    }
+  ]
+}

@@ -34,7 +34,7 @@ namespace GameEngine.Generator
             : this(ImmutableList<string>.Empty.Add(Keyword), Name, Cost, CanBeApplied) { }
     }
 
-    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ClassProfile ClassProfile);
+    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolType Tool, ClassProfile ClassProfile);
 
     public delegate T PowerChoice<T>(PowerHighLevelInfo powerInfo);
     public delegate T Generation<T>(RandomGenerator randomGenerator);

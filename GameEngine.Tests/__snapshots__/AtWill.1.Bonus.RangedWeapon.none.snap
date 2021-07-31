@@ -1,15 +1,15 @@
 ﻿{
-  "Template": "Accurate",
+  "Template": "Bonus",
   "Attacks": [
     {
       "WeaponDice": 1.0,
-      "Tool": "Weapon",
+      "Tool": "RangedWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"
         },
         {
-          "Modifier": "Non-Armor Defense"
+          "Modifier": "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)"
         }
       ]
     }

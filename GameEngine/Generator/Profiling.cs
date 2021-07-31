@@ -13,12 +13,12 @@ namespace GameEngine.Generator
     // - can be created/modified directly to fine-tune powers without hand-crafting them
     public enum ToolType
     {
-        Weapon, // Grants a proficiency bonus to-hit; will usually target AC as a result (proficiency = armor)
+        MeleeWeapon, // Grants a proficiency bonus to-hit; will usually target AC as a result (proficiency = armor)
+        RangedWeapon, // Grants a proficiency bonus to-hit; will usually target AC as a result (proficiency = armor)
         Implement, // Usually targets NAD as a result
     }
 
-    // TODO - allow multiple tool types, as Cleric
-    public record ClassProfile(ClassRole Role, ToolType Tool, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, ImmutableList<string> PreferredModifiers, ImmutableList<string> PowerTemplates)
+    public record ClassProfile(ClassRole Role, ImmutableList<ToolType> Tools, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, ImmutableList<string> PreferredModifiers, ImmutableList<string> PowerTemplates)
     {
         internal bool IsValid()
         {

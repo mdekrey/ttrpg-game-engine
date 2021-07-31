@@ -3,12 +3,12 @@
   "Attacks": [
     {
       "WeaponDice": 1.0,
-      "Tool": "Weapon",
+      "Tool": "MeleeWeapon",
       "Modifiers": []
     },
     {
       "WeaponDice": 1.0,
-      "Tool": "Weapon",
+      "Tool": "MeleeWeapon",
       "Modifiers": []
     }
   ]

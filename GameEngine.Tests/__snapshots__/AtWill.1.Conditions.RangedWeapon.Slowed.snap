@@ -1,12 +1,15 @@
 ﻿{
-  "Template": "Interrupt Penalty",
+  "Template": "Conditions",
   "Attacks": [
     {
-      "WeaponDice": 1.5,
-      "Tool": "Weapon",
+      "WeaponDice": 1.0,
+      "Tool": "RangedWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"
+        },
+        {
+          "Modifier": "Slowed"
         }
       ]
     }

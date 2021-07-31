@@ -1,0 +1,17 @@
+﻿{
+  "Template": "Conditions",
+  "Attacks": [
+    {
+      "WeaponDice": 1.0,
+      "Tool": "MeleeWeapon",
+      "Modifiers": [
+        {
+          "Modifier": "Ability Modifier Damage"
+        },
+        {
+          "Modifier": "Slowed"
+        }
+      ]
+    }
+  ]
+}

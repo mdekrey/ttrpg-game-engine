@@ -1,0 +1,14 @@
+﻿{
+  "Template": "Close blast",
+  "Attacks": [
+    {
+      "WeaponDice": 1.5,
+      "Tool": "RangedWeapon",
+      "Modifiers": [
+        {
+          "Modifier": "Ability Modifier Damage"
+        }
+      ]
+    }
+  ]
+}

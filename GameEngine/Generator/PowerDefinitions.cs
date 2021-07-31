@@ -31,7 +31,7 @@ namespace GameEngine.Generator
             new PowerTemplate(BonusPowerTemplate, GenerateAttackGenerator(BonusPowerTemplate), (_) => true),
         }.ToImmutableDictionary(template => template.Name);
 
-        public static bool ImplementOrEncounter(PowerHighLevelInfo info) => info is { Usage: not PowerFrequency.AtWill } or { ClassProfile: { Tool: ToolType.Implement } };
+        public static bool ImplementOrEncounter(PowerHighLevelInfo info) => info is { Usage: not PowerFrequency.AtWill } or { Tool: ToolType.Implement };
 
         public static IEnumerable<string> PowerTemplateNames => powerTemplates.Keys;
 
@@ -39,7 +39,7 @@ namespace GameEngine.Generator
             (PowerHighLevelInfo info) =>
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage) * multiplier;
-                var rootBuilder = new AttackProfile(basePower, info.ClassProfile.Tool, ImmutableList<PowerModifier>.Empty);
+                var rootBuilder = new AttackProfile(basePower, info.Tool, ImmutableList<PowerModifier>.Empty);
                 return (RandomGenerator randomGenerator) => (from i in Enumerable.Range(0, count)
                                                              let builder = GenerateAttackProfiles(templateName, info, rootBuilder, randomGenerator)
                                                              select builder).ToImmutableList();
@@ -64,7 +64,7 @@ namespace GameEngine.Generator
             var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
             // TODO - size. Assume 3x3 for now
             basePower *= 2.0 / 3;
-            var rootBuilder = new AttackProfile(basePower, info.Usage == PowerFrequency.AtWill ? ToolType.Implement : info.ClassProfile.Tool, ImmutableList<PowerModifier>.Empty);
+            var rootBuilder = new AttackProfile(basePower, info.Tool, ImmutableList<PowerModifier>.Empty);
             return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBurstPowerTemplate, info, rootBuilder, randomGenerator));
         }
 
@@ -73,7 +73,7 @@ namespace GameEngine.Generator
             var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
             // TODO - size. Assume 3x3 for now
             basePower *= 2.0 / 3;
-            var rootBuilder = new AttackProfile(basePower, info.Usage == PowerFrequency.AtWill ? ToolType.Implement : info.ClassProfile.Tool, ImmutableList<PowerModifier>.Empty);
+            var rootBuilder = new AttackProfile(basePower, info.Tool, ImmutableList<PowerModifier>.Empty);
             return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBlastPowerTemplate, info, rootBuilder, randomGenerator));
         }
 

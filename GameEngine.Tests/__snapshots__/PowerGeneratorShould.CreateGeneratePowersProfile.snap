@@ -5,12 +5,12 @@
       "Attacks": [
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": []
         },
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": []
         }
       ]
@@ -20,12 +20,12 @@
       "Attacks": [
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": []
         },
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": []
         }
       ]
@@ -35,7 +35,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -52,7 +52,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -71,7 +71,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -80,7 +80,7 @@
         },
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -94,7 +94,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -108,7 +108,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -125,7 +125,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -144,7 +144,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -153,7 +153,7 @@
         },
         {
           "WeaponDice": 1.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -167,7 +167,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -184,7 +184,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -193,7 +193,7 @@
         },
         {
           "WeaponDice": 1.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -207,7 +207,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -223,7 +223,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -232,7 +232,7 @@
         },
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -246,7 +246,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -263,7 +263,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -277,7 +277,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -286,7 +286,7 @@
         },
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -302,7 +302,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.25,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -311,7 +311,7 @@
         },
         {
           "WeaponDice": 2.25,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -325,7 +325,7 @@
       "Attacks": [
         {
           "WeaponDice": 4.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -342,7 +342,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.1666666666666665,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -356,7 +356,7 @@
       "Attacks": [
         {
           "WeaponDice": 4.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -375,7 +375,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -384,7 +384,7 @@
         },
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -398,7 +398,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -407,7 +407,7 @@
         },
         {
           "WeaponDice": 1.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -421,7 +421,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -435,7 +435,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -454,7 +454,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -463,7 +463,7 @@
         },
         {
           "WeaponDice": 2.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -477,7 +477,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -486,7 +486,7 @@
         },
         {
           "WeaponDice": 2.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -500,7 +500,7 @@
       "Attacks": [
         {
           "WeaponDice": 5.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -517,7 +517,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.833333333333333,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -533,7 +533,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -542,7 +542,7 @@
         },
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -556,7 +556,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -573,7 +573,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.1666666666666665,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -587,7 +587,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -596,7 +596,7 @@
         },
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -612,7 +612,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -621,7 +621,7 @@
         },
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -635,7 +635,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -644,7 +644,7 @@
         },
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -658,7 +658,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -675,7 +675,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -694,7 +694,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.25,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -703,7 +703,7 @@
         },
         {
           "WeaponDice": 3.25,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -717,7 +717,7 @@
       "Attacks": [
         {
           "WeaponDice": 6.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -734,7 +734,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.25,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -743,7 +743,7 @@
         },
         {
           "WeaponDice": 3.25,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -757,7 +757,7 @@
       "Attacks": [
         {
           "WeaponDice": 6.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -776,7 +776,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -785,7 +785,7 @@
         },
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -799,7 +799,7 @@
       "Attacks": [
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -808,7 +808,7 @@
         },
         {
           "WeaponDice": 1.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -822,7 +822,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -839,7 +839,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -858,7 +858,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -867,7 +867,7 @@
         },
         {
           "WeaponDice": 3.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -881,7 +881,7 @@
       "Attacks": [
         {
           "WeaponDice": 7.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -898,7 +898,7 @@
       "Attacks": [
         {
           "WeaponDice": 7.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -915,7 +915,7 @@
       "Attacks": [
         {
           "WeaponDice": 7.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -934,7 +934,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -943,7 +943,7 @@
         },
         {
           "WeaponDice": 3.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -957,7 +957,7 @@
       "Attacks": [
         {
           "WeaponDice": 3.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -966,7 +966,7 @@
         },
         {
           "WeaponDice": 3.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -980,7 +980,7 @@
       "Attacks": [
         {
           "WeaponDice": 7.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -997,7 +997,7 @@
       "Attacks": [
         {
           "WeaponDice": 7.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1016,7 +1016,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1025,7 +1025,7 @@
         },
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1039,7 +1039,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1053,7 +1053,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.833333333333333,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1067,7 +1067,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1076,7 +1076,7 @@
         },
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1092,7 +1092,7 @@
       "Attacks": [
         {
           "WeaponDice": 4.25,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1101,7 +1101,7 @@
         },
         {
           "WeaponDice": 4.25,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1115,7 +1115,7 @@
       "Attacks": [
         {
           "WeaponDice": 8.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1132,7 +1132,7 @@
       "Attacks": [
         {
           "WeaponDice": 5.833333333333333,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1146,7 +1146,7 @@
       "Attacks": [
         {
           "WeaponDice": 4.25,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1155,7 +1155,7 @@
         },
         {
           "WeaponDice": 4.25,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1171,7 +1171,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1180,7 +1180,7 @@
         },
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1194,7 +1194,7 @@
       "Attacks": [
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1203,7 +1203,7 @@
         },
         {
           "WeaponDice": 2.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1217,7 +1217,7 @@
       "Attacks": [
         {
           "WeaponDice": 4.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1234,7 +1234,7 @@
       "Attacks": [
         {
           "WeaponDice": 4.0,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1253,7 +1253,7 @@
       "Attacks": [
         {
           "WeaponDice": 4.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1262,7 +1262,7 @@
         },
         {
           "WeaponDice": 4.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1276,7 +1276,7 @@
       "Attacks": [
         {
           "WeaponDice": 4.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1285,7 +1285,7 @@
         },
         {
           "WeaponDice": 4.75,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1299,7 +1299,7 @@
       "Attacks": [
         {
           "WeaponDice": 9.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1316,7 +1316,7 @@
       "Attacks": [
         {
           "WeaponDice": 9.5,
-          "Tool": "Weapon",
+          "Tool": "MeleeWeapon",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"

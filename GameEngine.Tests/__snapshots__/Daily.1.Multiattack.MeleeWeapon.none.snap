@@ -3,7 +3,7 @@
   "Attacks": [
     {
       "WeaponDice": 1.75,
-      "Tool": "Weapon",
+      "Tool": "MeleeWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"
@@ -12,7 +12,7 @@
     },
     {
       "WeaponDice": 1.75,
-      "Tool": "Weapon",
+      "Tool": "MeleeWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"

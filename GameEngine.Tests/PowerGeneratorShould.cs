@@ -39,11 +39,16 @@ namespace GameEngine.Tests
             Assert.Equal(expected, power);
         }
 
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "", PowerDefinitions.MultiattackPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "", PowerDefinitions.SkirmishPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "Slowed", PowerDefinitions.ConditionsPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, "", PowerDefinitions.BonusPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "", PowerDefinitions.MultiattackPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "", PowerDefinitions.SkirmishPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "Slowed", PowerDefinitions.ConditionsPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "", PowerDefinitions.BonusPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "", PowerDefinitions.MultiattackPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "", PowerDefinitions.SkirmishPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "Slowed", PowerDefinitions.ConditionsPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "", PowerDefinitions.BonusPowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.MultiattackPowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.SkirmishPowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "Slowed", PowerDefinitions.ConditionsPowerTemplate)]
@@ -51,18 +56,19 @@ namespace GameEngine.Tests
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.BonusPowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.CloseBlastPowerTemplate)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.CloseBurstPowerTemplate)]
-        [InlineData(1, PowerFrequency.Encounter, ToolType.Weapon, "", PowerDefinitions.InterruptPenaltyPowerTemplate)]
-        [InlineData(1, PowerFrequency.Daily, ToolType.Weapon, "", PowerDefinitions.MultiattackPowerTemplate)]
-        [InlineData(1, PowerFrequency.Daily, ToolType.Weapon, "", PowerDefinitions.CloseBurstPowerTemplate)]
+        [InlineData(1, PowerFrequency.Encounter, ToolType.MeleeWeapon, "", PowerDefinitions.InterruptPenaltyPowerTemplate)]
+        [InlineData(1, PowerFrequency.Daily, ToolType.MeleeWeapon, "", PowerDefinitions.MultiattackPowerTemplate)]
+        [InlineData(1, PowerFrequency.Daily, ToolType.MeleeWeapon, "", PowerDefinitions.CloseBurstPowerTemplate)]
+        [InlineData(1, PowerFrequency.Encounter, ToolType.RangedWeapon, "", PowerDefinitions.CloseBlastPowerTemplate)]
         [Theory]
         public void CreateGenerateAtWillPowerProfile(int Level, PowerFrequency powerFrequency, ToolType toolType, string preferredModifier, string powerTemplate)
         {
             var target = CreateTarget((min, max) => max - 1);
 
-            var powerProfile = target.GenerateProfile(new(Level, powerFrequency,
+            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolType,
                 new ClassProfile(
                     ClassRole.Striker, // Not used in profiles
-                    toolType,
+                    ImmutableList<ToolType>.Empty.Add(toolType),
                     DefenseType.Fortitude, // Not used in profiles
                     new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(), // Not used in profiles
                     new[] { DamageType.Weapon }.ToImmutableList(), // Not sure if this will be used in profiles
@@ -87,7 +93,7 @@ namespace GameEngine.Tests
     private ClassProfile CreateStrikerProfile() =>
         new ClassProfile(
             ClassRole.Striker,
-            ToolType.Weapon,
+            ImmutableList<ToolType>.Empty.Add(ToolType.MeleeWeapon),
             DefenseType.Fortitude,
             new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
             new[] { DamageType.Weapon }.ToImmutableList(),
