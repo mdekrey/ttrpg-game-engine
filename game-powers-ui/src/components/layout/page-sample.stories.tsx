@@ -2,20 +2,20 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { MdxComponents } from './mdx-components';
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import PageSample from '!babel-loader!@mdx-js/loader!./page-sample.mdx';
+import Page from '!babel-loader!@mdx-js/loader!./page-sample.mdx';
 
 export default {
 	title: 'Example/PageSample',
-	component: PageSample,
+	component: Page,
 	argTypes: {
 		backgroundColor: { control: 'color' },
 	},
-} as ComponentMeta<typeof PageSample>;
+} as ComponentMeta<typeof Page>;
 
-const Template: ComponentStory<typeof PageSample> = (args) => (
-	<div className="col-count-2">
+const Template: ComponentStory<typeof Page> = (args) => (
+	<div className="storybook-md-theme">
 		<MdxComponents>
-			<PageSample {...args} />
+			<Page {...args} />
 		</MdxComponents>
 	</div>
 );

@@ -13,7 +13,7 @@ export default {
 } as ComponentMeta<typeof Page>;
 
 const Template: ComponentStory<typeof Page> = (args) => (
-	<div className="print:col-count-2 max-w-2xl mx-auto">
+	<div className="storybook-md-theme">
 		<MdxComponents>
 			<Page {...args} />
 		</MdxComponents>
