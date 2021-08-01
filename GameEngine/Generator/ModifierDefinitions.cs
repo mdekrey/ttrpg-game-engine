@@ -15,6 +15,7 @@ namespace GameEngine.Generator
 
         public static readonly PowerModifierFormula NonArmorDefense = new(AccuratePowerTemplateName, "Non-Armor Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1)));
         public static readonly PowerModifierFormula AbilityModifierDamage = new(GeneralKeyword, "Ability Modifier Damage", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2)));
+        public static readonly PowerModifierFormula Multiple3x3 = new(GeneralKeyword, "Multiple3x3", new CostMultiplier(2.0 / 3), And(MinimumPower(1.5), MaxOccurrence(1))); // TODO - other sizes
         public static readonly ImmutableList<PowerModifierFormula> modifiers = new PowerModifierFormula[]
         {
             AbilityModifierDamage,
@@ -27,8 +28,8 @@ namespace GameEngine.Generator
             new (ConditionsPowerTemplateName, "Weakened", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
             new (ConditionsPowerTemplateName, "Grants Combat Advantage", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
             new (ConditionsPowerTemplateName, "Prone", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
-            new (ConditionsPowerTemplateName, "-2 to One Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new (ConditionsPowerTemplateName, "-2 (or Abil) to all Defenses", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))),
+            new (ConditionsPowerTemplateName, "-2 to One Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))), // TODO - combine these with options
+            new (ConditionsPowerTemplateName, "-2 (or Abil) to all Defenses", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))), // TODO - combine these with options
             new (SkirmishPowerTemplateName, "Shift", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
             new (SkirmishPowerTemplateName, "Movement after Attack does not provoke opportunity attacks", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
             new (BonusPowerTemplateName, "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),

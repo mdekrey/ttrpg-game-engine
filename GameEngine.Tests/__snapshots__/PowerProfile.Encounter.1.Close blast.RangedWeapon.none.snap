@@ -6,6 +6,9 @@
       "WeaponDice": 1.5,
       "Modifiers": [
         {
+          "Modifier": "Multiple3x3"
+        },
+        {
           "Modifier": "Ability Modifier Damage"
         }
       ]

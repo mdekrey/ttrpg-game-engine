@@ -94,6 +94,9 @@
           "WeaponDice": 1.5,
           "Modifiers": [
             {
+              "Modifier": "Multiple3x3"
+            },
+            {
               "Modifier": "Ability Modifier Damage"
             }
           ]
@@ -205,6 +208,9 @@
           "WeaponDice": 2.5,
           "Modifiers": [
             {
+              "Modifier": "Multiple3x3"
+            },
+            {
               "Modifier": "Ability Modifier Damage"
             }
           ]
@@ -259,6 +265,9 @@
         {
           "WeaponDice": 1.5,
           "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -337,6 +346,9 @@
           "WeaponDice": 3.1666666666666665,
           "Modifiers": [
             {
+              "Modifier": "Multiple3x3"
+            },
+            {
               "Modifier": "Ability Modifier Damage"
             }
           ]
@@ -413,6 +425,9 @@
         {
           "WeaponDice": 1.5,
           "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -508,6 +523,9 @@
           "WeaponDice": 3.833333333333333,
           "Modifiers": [
             {
+              "Modifier": "Multiple3x3"
+            },
+            {
               "Modifier": "Ability Modifier Damage"
             }
           ]
@@ -562,6 +580,9 @@
         {
           "WeaponDice": 2.1666666666666665,
           "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
             {
               "Modifier": "Ability Modifier Damage"
             }
@@ -1032,6 +1053,9 @@
           "WeaponDice": 2.833333333333333,
           "Modifiers": [
             {
+              "Modifier": "Multiple3x3"
+            },
+            {
               "Modifier": "Ability Modifier Damage"
             }
           ]
@@ -1108,6 +1132,9 @@
         {
           "WeaponDice": 5.833333333333333,
           "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
             {
               "Modifier": "Ability Modifier Damage"
             }

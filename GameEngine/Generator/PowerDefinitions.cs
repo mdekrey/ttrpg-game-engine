@@ -148,9 +148,8 @@ namespace GameEngine.Generator
             public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                // TODO - size. Assume 3x3 for now
-                basePower *= 2.0 / 3;
-                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty)
+                    .Apply(ModifierDefinitions.Multiple3x3);
                 return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBurstPowerTemplateName, info, rootBuilder, randomGenerator));
             }
 
@@ -179,9 +178,8 @@ namespace GameEngine.Generator
             public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                // TODO - size. Assume 3x3 for now
-                basePower *= 2.0 / 3;
-                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty)
+                    .Apply(ModifierDefinitions.Multiple3x3);
                 return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBlastPowerTemplateName, info, rootBuilder, randomGenerator));
             }
 
