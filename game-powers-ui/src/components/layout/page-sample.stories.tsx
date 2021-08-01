@@ -6,21 +6,19 @@ import Page from '!babel-loader!@mdx-js/loader!./page-sample.mdx';
 
 export default {
 	title: 'Example/PageSample',
-	component: Page,
-	argTypes: {
-		backgroundColor: { control: 'color' },
-	},
+	component: MdxComponents,
+	argTypes: {},
 } as ComponentMeta<typeof Page>;
 
 const Template: ComponentStory<typeof Page> = (args) => (
 	<div className="storybook-md-theme">
-		<MdxComponents>
-			<Page {...args} />
+		<MdxComponents {...args}>
+			<Page />
 		</MdxComponents>
 	</div>
 );
 
 export const Primary = Template.bind({});
 Primary.args = {
-	children: 'PageSample',
+	className: 'theme-red-dark',
 };

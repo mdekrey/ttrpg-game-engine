@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const plugin = require('tailwindcss/plugin');
+
 const colors = {
 	white: '#ffffff',
 	black: '#000000',
@@ -22,6 +24,12 @@ const colors = {
 		// for info tables, accent is odd rows, light is even rows (PHB 178)
 		accent: 'rgb(209, 208, 187)',
 		light: 'rgb(222, 222, 208)',
+	},
+	brown: {
+		dark: 'rgb(116, 66, 19)',
+	},
+	theme: {
+		DEFAULT: 'var(--theme-color)',
 	},
 };
 
@@ -49,5 +57,32 @@ module.exports = {
 			margin: [`first`],
 		},
 	},
-	plugins: [require('tailwindcss-multi-column')()],
+	plugins: [
+		require('tailwindcss-multi-column')(),
+		plugin.withOptions(({ className = 'theme' } = {}) => {
+			return ({ e, addUtilities, theme, variants }) => {
+				const caretColors = generateColors(e, theme('colors'), `.${className}`, (color) => ({
+					'--theme-color': color,
+				}));
+				addUtilities(caretColors, variants('caretColor'));
+			};
+		}),
+	],
 };
+
+const generateColors = (e, themeColors, prefix, styleGenerator) =>
+	Object.keys(themeColors).reduce((acc, key) => {
+		if (typeof themeColors[key] === 'string') {
+			return {
+				...acc,
+				[`${prefix}-${e(key)}`]: styleGenerator(themeColors[key]),
+			};
+		}
+
+		const innerColors = generateColors(e, themeColors[key], `${prefix}-${e(key)}`, styleGenerator);
+
+		return {
+			...acc,
+			...innerColors,
+		};
+	}, {});

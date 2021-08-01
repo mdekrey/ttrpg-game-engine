@@ -6,16 +6,13 @@ import Page from '!babel-loader!@mdx-js/loader!./non-combat-encounter.md';
 
 export default {
 	title: 'Rules/Non-Combat Encounters',
-	component: Page,
-	argTypes: {
-		backgroundColor: { control: 'color' },
-	},
-} as ComponentMeta<typeof Page>;
+	component: MdxComponents,
+} as ComponentMeta<typeof MdxComponents>;
 
 const Template: ComponentStory<typeof Page> = (args) => (
 	<div className="storybook-md-theme">
-		<MdxComponents>
-			<Page {...args} />
+		<MdxComponents {...args}>
+			<Page />
 		</MdxComponents>
 	</div>
 );

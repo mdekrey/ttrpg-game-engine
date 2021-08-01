@@ -8,12 +8,16 @@
     margin: 0.75in;
 }
 
+body {
+    @apply theme-blue-dark;
+}
+
 .theme-4e-indent + .theme-4e-indent {
     text-indent: 1rem;
 }
 ul.theme-4e-list li::marker {
     content: '✦ ';
-    @apply text-blue-dark;
+    @apply text-theme;
 }
 
 .storybook-md-theme {

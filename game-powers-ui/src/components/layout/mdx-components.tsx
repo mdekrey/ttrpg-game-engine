@@ -23,14 +23,14 @@ const mdxComponents: Components = {
 	h1: ({ children, className, ...props }) =>
 		merge(
 			headerTemplate,
-			<h2 className={classNames(className, 'text-blue-dark text-2xl')} {...props}>
+			<h2 className={classNames(className, 'text-theme text-2xl')} {...props}>
 				{children}
 			</h2>
 		),
 	h2: ({ children, className, ...props }) =>
 		merge(
 			headerTemplate,
-			<h3 className={classNames(className, 'text-blue-dark text-xl')} {...props}>
+			<h3 className={classNames(className, 'text-theme text-xl')} {...props}>
 				{children}
 			</h3>
 		),
@@ -73,12 +73,12 @@ const mdxComponents: Components = {
 		</table>
 	),
 	a: ({ children, className, ...props }) => (
-		<a className={classNames(className, 'underline text-blue-dark')} {...props}>
+		<a className={classNames(className, 'underline text-theme')} {...props}>
 			{children}
 		</a>
 	),
 	thead: ({ children, className, ...props }) => (
-		<thead className={classNames(className, 'bg-blue-dark text-white')} {...props}>
+		<thead className={classNames(className, 'bg-theme text-white')} {...props}>
 			{children}
 		</thead>
 	),
@@ -130,8 +130,8 @@ const mdxComponents: Components = {
 		),
 };
 
-export const MdxComponents = ({ children }: { children: React.ReactNode }) => (
+export const MdxComponents = ({ children, className }: { children: React.ReactNode; className?: string }) => (
 	<MDXProvider components={mdxComponents}>
-		<div className="font-text">{children}</div>
+		<div className={classNames('font-text', className)}>{children}</div>
 	</MDXProvider>
 );
