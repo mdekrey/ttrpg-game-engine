@@ -28,6 +28,14 @@ const colors = {
 	brown: {
 		dark: 'rgb(116, 66, 19)',
 	},
+	olive: {
+		dark: 'rgb(70, 83, 45)',
+	},
+	book: {
+		phb: 'rgb(38, 59, 92)',
+		dmg: 'rgb(116, 66, 19)',
+		mm: 'rgb(70, 83, 45)',
+	},
 	theme: {
 		DEFAULT: 'var(--theme-color)',
 	},
