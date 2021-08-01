@@ -223,6 +223,13 @@ major action each turn. Do you do the most obvious thing to get to your goal, or
 do you try a more subtle path to ensure you're on better footing when you do
 make your move?
 
+For the most part, major actions will be specific to the non-combat encounter;
+as a result, they aren't listed here. During a pie-eating contest, your major
+action would be eating pies, which could be a Constitution ability check. If
+you're trying to buy a specific item at an auction, Wisdom may be best suited
+for gauging other participants' interests. Chatting up socialites at a ball
+would involve Charisma-based checks.
+
 ## Aid Another
 
 You use your side action to aid another participant. Describe how you're assisting
@@ -235,11 +242,11 @@ or ability check.
 >   check made by an adjacent ally. Make a DC 10 skill check or ability check.
 >   If you succeed, you give a +2 bonus to your ally's next check using the same
 >   skill or ability.
-> - **Different Skill or Ability Check:** Describe how you're helping, and
+> - **Different Skill or Ability Check:** Describe how you're helping and
 >   decalare which skill you're trying to boost. It must be plausible to help in
 >   this manner. Make a DC 10 skill check or ability check; the DM will
 >   determine which skill for you to use. If you succeed, you give a +2 bonus to
->   your ally's next check.
+>   your ally's next check using the declared skill.
 >
 > In either case, this bonus ends at the end of the ally's next turn.
 
@@ -286,3 +293,17 @@ to apply a penalty to someone else's skill check or ability check.
 >   or ability check; the DM will determine which skill for you to use. If you
 >   succeed, you give a -2 penalty to your opponent's next check. This penalty
 >   ends if not used by the end of the participant's next turn.
+
+## Prepare
+
+You use your major action to prepare for your next turn. You can use this action
+to apply a bonus to a skill check or ability check you make in the future.
+
+> ### Prepare: Major Action
+>
+> - **Skill or Ability Check:** Describe what you're doing to prepare and
+>   declare which skill you're trying to boost. It must be plausible to gain a
+>   benefit in this manner. Make a DC 10 skill check or ability check; the DM
+>   will determine which skill for you to use. If you succeed, you gain a +2
+>   bonus to a check you make before the end of your next turn using the
+>   declared skill.
