@@ -35,11 +35,11 @@ namespace GameEngine.Generator
 
         public static IEnumerable<string> PowerTemplateNames => powerTemplates.Keys;
 
-        private static PowerChoice<Generation<ImmutableList<AttackProfile>>> GenerateAttackGenerator(string templateName, int count = 1, double multiplier = 1) =>
+        private static Func<PowerHighLevelInfo, Generation<ImmutableList<AttackProfile>>> GenerateAttackGenerator(string templateName, int count = 1, double multiplier = 1) =>
             (PowerHighLevelInfo info) =>
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage) * multiplier;
-                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+                var rootBuilder = new AttackProfile(basePower);
                 return (RandomGenerator randomGenerator) => (from i in Enumerable.Range(0, count)
                                                              let builder = GenerateAttackProfiles(templateName, info, rootBuilder, randomGenerator)
                                                              select builder).ToImmutableList();
@@ -47,34 +47,11 @@ namespace GameEngine.Generator
 
         private static AttackProfile GenerateAttackProfiles(string templateName, PowerHighLevelInfo info, AttackProfile rootBuilder, RandomGenerator randomGenerator)
         {
-            var applicableModifiers = GetApplicableModifiers(new[] { info.Tool.ToString("g"), templateName });
+            var applicableModifiers = GetApplicableModifiers(new[] { info.Tool.ToKeyword(), templateName });
 
             return rootBuilder
                 .PreApply(info)
                 .ApplyRandomModifiers(info, applicableModifiers, randomGenerator);
-        }
-
-        private static Generation<ImmutableList<AttackProfile>> InterruptPenaltyAttackGenerator(PowerHighLevelInfo info)
-        {
-            return GenerateAttackGenerator(InterruptPenaltyPowerTemplateName)(info with { Usage = info.Usage - 1 });
-        }
-
-        private static Generation<ImmutableList<AttackProfile>> CloseBurstAttackGenerator(PowerHighLevelInfo info)
-        {
-            var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-            // TODO - size. Assume 3x3 for now
-            basePower *= 2.0 / 3;
-            var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
-            return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBurstPowerTemplateName, info, rootBuilder, randomGenerator));
-        }
-
-        private static Generation<ImmutableList<AttackProfile>> CloseBlastAttackGenerator(PowerHighLevelInfo info)
-        {
-            var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-            // TODO - size. Assume 3x3 for now
-            basePower *= 2.0 / 3;
-            var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
-            return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBlastPowerTemplateName, info, rootBuilder, randomGenerator));
         }
 
         private static PowerModifierFormula[] GetApplicableModifiers(params string[] keywords)
@@ -130,19 +107,25 @@ namespace GameEngine.Generator
 
         private record AccuratePowerTemplate : PowerTemplate
         {
-            public AccuratePowerTemplate() : base(AccuratePowerTemplateName, GenerateAttackGenerator(AccuratePowerTemplateName)) { }
+            public AccuratePowerTemplate() : base(AccuratePowerTemplateName) { }
+            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo) =>
+                GenerateAttackGenerator(Name)(powerInfo);
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
         private record SkirmishPowerTemplate : PowerTemplate
         {
-            public SkirmishPowerTemplate() : base(SkirmishPowerTemplateName, GenerateAttackGenerator(SkirmishPowerTemplateName)) { }
+            public SkirmishPowerTemplate() : base(SkirmishPowerTemplateName) { }
+            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo) =>
+                GenerateAttackGenerator(Name)(powerInfo);
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
         private record MultiattackPowerTemplate : PowerTemplate
         {
-            public MultiattackPowerTemplate() : base(MultiattackPowerTemplateName, GenerateAttackGenerator(MultiattackPowerTemplateName, 2, 0.5)) { }
+            public MultiattackPowerTemplate() : base(MultiattackPowerTemplateName) { }
+            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo) =>
+                GenerateAttackGenerator(Name, 2, 0.5)(powerInfo);
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig)
             {
@@ -161,31 +144,55 @@ namespace GameEngine.Generator
         }
         private record CloseBurstPowerTemplate : PowerTemplate
         {
-            public CloseBurstPowerTemplate() : base(CloseBurstPowerTemplateName, CloseBurstAttackGenerator) { }
+            public CloseBurstPowerTemplate() : base(CloseBurstPowerTemplateName) { }
+            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
+            {
+                var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
+                // TODO - size. Assume 3x3 for now
+                basePower *= 2.0 / 3;
+                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBurstPowerTemplateName, info, rootBuilder, randomGenerator));
+            }
+
             public override bool CanApply(PowerHighLevelInfo powerInfo) => ImplementOrEncounter(powerInfo);
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
         private record ConditionsPowerTemplate : PowerTemplate
         {
-            public ConditionsPowerTemplate() : base(ConditionsPowerTemplateName, GenerateAttackGenerator(ConditionsPowerTemplateName)) { }
+            public ConditionsPowerTemplate() : base(ConditionsPowerTemplateName) { }
+            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo) =>
+                GenerateAttackGenerator(Name)(powerInfo);
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
         private record InterruptPenaltyPowerTemplate : PowerTemplate
         {
-            public InterruptPenaltyPowerTemplate() : base(InterruptPenaltyPowerTemplateName, InterruptPenaltyAttackGenerator) { }
+            public InterruptPenaltyPowerTemplate() : base(InterruptPenaltyPowerTemplateName) { }
+            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info) =>
+                GenerateAttackGenerator(Name)(info with { Usage = info.Usage - 1 });
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill };
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
         private record CloseBlastPowerTemplate : PowerTemplate
         {
-            public CloseBlastPowerTemplate() : base(CloseBlastPowerTemplateName, CloseBlastAttackGenerator) { }
+            public CloseBlastPowerTemplate() : base(CloseBlastPowerTemplateName) { }
+            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
+            {
+                var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
+                // TODO - size. Assume 3x3 for now
+                basePower *= 2.0 / 3;
+                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBlastPowerTemplateName, info, rootBuilder, randomGenerator));
+            }
+
             public override bool CanApply(PowerHighLevelInfo powerInfo) => ImplementOrEncounter(powerInfo);
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
         private record BonusPowerTemplate : PowerTemplate
         {
-            public BonusPowerTemplate() : base(BonusPowerTemplateName, GenerateAttackGenerator(BonusPowerTemplateName)) { }
+            public BonusPowerTemplate() : base(BonusPowerTemplateName) { }
+            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo) =>
+                GenerateAttackGenerator(Name)(powerInfo);
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }

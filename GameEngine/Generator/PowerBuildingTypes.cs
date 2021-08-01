@@ -36,11 +36,11 @@ namespace GameEngine.Generator
 
     public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolType Tool, ClassProfile ClassProfile);
 
-    public delegate T PowerChoice<T>(PowerHighLevelInfo powerInfo);
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 
-    public abstract record PowerTemplate(string Name, PowerChoice<Generation<ImmutableList<AttackProfile>>> ConstructAttacks)
+    public abstract record PowerTemplate(string Name)
     {
+        public abstract Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo);
         public abstract bool CanApply(PowerHighLevelInfo powerInfo);
         public abstract SerializedPower Apply(SerializedPower orig);
     }

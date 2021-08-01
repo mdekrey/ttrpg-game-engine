@@ -132,11 +132,20 @@ namespace GameEngine.Generator
             var result = SerializedPower.Empty with
             {
                 Level = level,
-                Keywords = SerializedPower.Empty.Keywords.Add(powerProfile.Tool.ToString("g")),
+                Keywords = SerializedPower.Empty.Keywords.Add(powerProfile.Tool.ToKeyword()),
                 Frequency = usageFrequency,
             };
             result = PowerDefinitions.powerTemplates[powerProfile.Template].Apply(result);
             return result;
         }
+
+        public static string ToKeyword(this ToolType tool) =>
+            tool switch
+            {
+                ToolType.Implement => "Implement",
+                ToolType.MeleeWeapon => "Weapon",
+                ToolType.RangedWeapon => "Weapon",
+                _ => throw new ArgumentException("Invalid enum value for tool", nameof(tool)),
+            };
     }
 }
