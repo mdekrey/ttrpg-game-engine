@@ -39,27 +39,27 @@ namespace GameEngine.Tests
             Assert.Equal(expected, power);
         }
 
-        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "", PowerDefinitions.MultiattackPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "", PowerDefinitions.SkirmishPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "Slowed", PowerDefinitions.ConditionsPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "", PowerDefinitions.BonusPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "", PowerDefinitions.MultiattackPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "", PowerDefinitions.SkirmishPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "Slowed", PowerDefinitions.ConditionsPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "", PowerDefinitions.BonusPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.MultiattackPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.SkirmishPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "Slowed", PowerDefinitions.ConditionsPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.BonusPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.CloseBlastPowerTemplate)]
-        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.CloseBurstPowerTemplate)]
-        [InlineData(1, PowerFrequency.Encounter, ToolType.MeleeWeapon, "", PowerDefinitions.InterruptPenaltyPowerTemplate)]
-        [InlineData(1, PowerFrequency.Daily, ToolType.MeleeWeapon, "", PowerDefinitions.MultiattackPowerTemplate)]
-        [InlineData(1, PowerFrequency.Daily, ToolType.MeleeWeapon, "", PowerDefinitions.CloseBurstPowerTemplate)]
-        [InlineData(1, PowerFrequency.Encounter, ToolType.RangedWeapon, "", PowerDefinitions.CloseBlastPowerTemplate)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "", PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "", PowerDefinitions.SkirmishPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "Slowed", PowerDefinitions.ConditionsPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "", PowerDefinitions.BonusPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "", PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "", PowerDefinitions.SkirmishPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "Slowed", PowerDefinitions.ConditionsPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.RangedWeapon, "", PowerDefinitions.BonusPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.SkirmishPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "Slowed", PowerDefinitions.ConditionsPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "Non-Armor Defense", PowerDefinitions.AccuratePowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.BonusPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.CloseBlastPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, "", PowerDefinitions.CloseBurstPowerTemplateName)]
+        [InlineData(1, PowerFrequency.Encounter, ToolType.MeleeWeapon, "", PowerDefinitions.InterruptPenaltyPowerTemplateName)]
+        [InlineData(1, PowerFrequency.Daily, ToolType.MeleeWeapon, "", PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData(1, PowerFrequency.Daily, ToolType.MeleeWeapon, "", PowerDefinitions.CloseBurstPowerTemplateName)]
+        [InlineData(1, PowerFrequency.Encounter, ToolType.RangedWeapon, "", PowerDefinitions.CloseBlastPowerTemplateName)]
         [Theory]
         public void CreateGeneratePowerProfile(int Level, PowerFrequency powerFrequency, ToolType toolType, string preferredModifier, string powerTemplate)
         {
@@ -78,6 +78,29 @@ namespace GameEngine.Tests
             ));
 
             Snapshot.Match(powerProfile, $"PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
+        }
+
+        [InlineData(1, PowerFrequency.AtWill, ToolType.MeleeWeapon, "", PowerDefinitions.MultiattackPowerTemplateName)]
+        [Theory]
+        public void CreateGeneratePower(int level, PowerFrequency powerFrequency, ToolType toolType, string preferredModifier, string powerTemplate)
+        {
+            var target = CreateTarget((min, max) => max - 1);
+
+            var powerProfile = target.GenerateProfile(new(level, powerFrequency, toolType,
+                new ClassProfile(
+                    ClassRole.Striker, // Not used in profiles
+                    ImmutableList<ToolType>.Empty.Add(toolType),
+                    DefenseType.Fortitude, // Not used in profiles
+                    new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(), // Not used in profiles
+                    new[] { DamageType.Weapon }.ToImmutableList(), // Not sure if this will be used in profiles
+                    new[] { preferredModifier }.Where(s => s is { Length: > 0 }).ToImmutableList()!,
+                    new[] { powerTemplate }.ToImmutableList()
+                )
+            ));
+
+            SerializedPower power = powerProfile.ToPower(level, powerFrequency);
+
+            Snapshot.Match(new object[] { powerProfile, power }, $"Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
         }
 
         [Fact]
@@ -99,14 +122,14 @@ namespace GameEngine.Tests
                 new[] { DamageType.Weapon }.ToImmutableList(),
                 new string[] { }.ToImmutableList(),
                 new[] {
-                        PowerDefinitions.MultiattackPowerTemplate,
-                        PowerDefinitions.SkirmishPowerTemplate,
-                        PowerDefinitions.AccuratePowerTemplate,
-                        PowerDefinitions.ConditionsPowerTemplate,
-                        PowerDefinitions.CloseBurstPowerTemplate,
-                        PowerDefinitions.InterruptPenaltyPowerTemplate,
-                        PowerDefinitions.CloseBlastPowerTemplate,
-                        PowerDefinitions.BonusPowerTemplate
+                        PowerDefinitions.MultiattackPowerTemplateName,
+                        PowerDefinitions.SkirmishPowerTemplateName,
+                        PowerDefinitions.AccuratePowerTemplateName,
+                        PowerDefinitions.ConditionsPowerTemplateName,
+                        PowerDefinitions.CloseBurstPowerTemplateName,
+                        PowerDefinitions.InterruptPenaltyPowerTemplateName,
+                        PowerDefinitions.CloseBlastPowerTemplateName,
+                        PowerDefinitions.BonusPowerTemplateName
                 }.ToImmutableList()
             );
 

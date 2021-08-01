@@ -10,25 +10,25 @@ namespace GameEngine.Generator
 
     public static class PowerDefinitions
     {
-        public const string AccuratePowerTemplate = "Accurate";
-        public const string SkirmishPowerTemplate = "Skirmish";
-        public const string MultiattackPowerTemplate = "Multiattack";
-        public const string CloseBurstPowerTemplate = "Close burst";
-        public const string ConditionsPowerTemplate = "Conditions";
-        public const string InterruptPenaltyPowerTemplate = "Interrupt Penalty";
-        public const string CloseBlastPowerTemplate = "Close blast";
-        public const string BonusPowerTemplate = "Bonus";
+        public const string AccuratePowerTemplateName = "Accurate"; // focus on bonus to hit
+        public const string SkirmishPowerTemplateName = "Skirmish"; // focus on movement
+        public const string MultiattackPowerTemplateName = "Multiattack";
+        public const string CloseBurstPowerTemplateName = "Close burst";
+        public const string ConditionsPowerTemplateName = "Conditions";
+        public const string InterruptPenaltyPowerTemplateName = "Interrupt Penalty"; // Cutting words, Disruptive Strike
+        public const string CloseBlastPowerTemplateName = "Close blast";
+        public const string BonusPowerTemplateName = "Bonus";
 
-        public static readonly ImmutableDictionary<string, PowerTemplate> powerTemplates = new[]
+        public static readonly ImmutableDictionary<string, PowerTemplate> powerTemplates = new PowerTemplate[]
         {
-            new PowerTemplate(AccuratePowerTemplate, GenerateAttackGenerator(AccuratePowerTemplate), (_) => true), // focus on bonus to hit
-            new PowerTemplate(SkirmishPowerTemplate, GenerateAttackGenerator(SkirmishPowerTemplate), (_) => true), // focus on movement
-            new PowerTemplate(MultiattackPowerTemplate, GenerateAttackGenerator(MultiattackPowerTemplate, 2, 0.5), (_) => true),
-            new PowerTemplate(CloseBurstPowerTemplate, CloseBurstAttackGenerator, ImplementOrEncounter),
-            new PowerTemplate(ConditionsPowerTemplate, GenerateAttackGenerator(ConditionsPowerTemplate), (_) => true),
-            new PowerTemplate(InterruptPenaltyPowerTemplate, InterruptPenaltyAttackGenerator, (info) => info is { Usage: not PowerFrequency.AtWill }), // Cutting words, Disruptive Strike
-            new PowerTemplate(CloseBlastPowerTemplate, CloseBlastAttackGenerator, ImplementOrEncounter),
-            new PowerTemplate(BonusPowerTemplate, GenerateAttackGenerator(BonusPowerTemplate), (_) => true),
+            new AccuratePowerTemplate(),
+            new SkirmishPowerTemplate(),
+            new MultiattackPowerTemplate(),
+            new CloseBurstPowerTemplate(),
+            new ConditionsPowerTemplate(),
+            new InterruptPenaltyPowerTemplate(),
+            new CloseBlastPowerTemplate(),
+            new BonusPowerTemplate(),
         }.ToImmutableDictionary(template => template.Name);
 
         public static bool ImplementOrEncounter(PowerHighLevelInfo info) => info is { Usage: not PowerFrequency.AtWill } or { Tool: ToolType.Implement };
@@ -39,7 +39,7 @@ namespace GameEngine.Generator
             (PowerHighLevelInfo info) =>
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage) * multiplier;
-                var rootBuilder = new AttackProfile(basePower, info.Tool, ImmutableList<PowerModifier>.Empty);
+                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
                 return (RandomGenerator randomGenerator) => (from i in Enumerable.Range(0, count)
                                                              let builder = GenerateAttackProfiles(templateName, info, rootBuilder, randomGenerator)
                                                              select builder).ToImmutableList();
@@ -47,7 +47,7 @@ namespace GameEngine.Generator
 
         private static AttackProfile GenerateAttackProfiles(string templateName, PowerHighLevelInfo info, AttackProfile rootBuilder, RandomGenerator randomGenerator)
         {
-            var applicableModifiers = GetApplicableModifiers(new[] { rootBuilder.Tool.ToString("g"), templateName });
+            var applicableModifiers = GetApplicableModifiers(new[] { info.Tool.ToString("g"), templateName });
 
             return rootBuilder
                 .PreApply(info)
@@ -56,7 +56,7 @@ namespace GameEngine.Generator
 
         private static Generation<ImmutableList<AttackProfile>> InterruptPenaltyAttackGenerator(PowerHighLevelInfo info)
         {
-            return GenerateAttackGenerator(InterruptPenaltyPowerTemplate)(info with { Usage = info.Usage - 1 });
+            return GenerateAttackGenerator(InterruptPenaltyPowerTemplateName)(info with { Usage = info.Usage - 1 });
         }
 
         private static Generation<ImmutableList<AttackProfile>> CloseBurstAttackGenerator(PowerHighLevelInfo info)
@@ -64,8 +64,8 @@ namespace GameEngine.Generator
             var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
             // TODO - size. Assume 3x3 for now
             basePower *= 2.0 / 3;
-            var rootBuilder = new AttackProfile(basePower, info.Tool, ImmutableList<PowerModifier>.Empty);
-            return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBurstPowerTemplate, info, rootBuilder, randomGenerator));
+            var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+            return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBurstPowerTemplateName, info, rootBuilder, randomGenerator));
         }
 
         private static Generation<ImmutableList<AttackProfile>> CloseBlastAttackGenerator(PowerHighLevelInfo info)
@@ -73,8 +73,8 @@ namespace GameEngine.Generator
             var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
             // TODO - size. Assume 3x3 for now
             basePower *= 2.0 / 3;
-            var rootBuilder = new AttackProfile(basePower, info.Tool, ImmutableList<PowerModifier>.Empty);
-            return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBlastPowerTemplate, info, rootBuilder, randomGenerator));
+            var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty);
+            return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBlastPowerTemplateName, info, rootBuilder, randomGenerator));
         }
 
         private static PowerModifierFormula[] GetApplicableModifiers(params string[] keywords)
@@ -92,8 +92,8 @@ namespace GameEngine.Generator
         public static bool CanApply(this PowerModifierFormula formula, AttackProfile attack, PowerHighLevelInfo powerInfo) =>
             formula.CanBeApplied(formula, attack, powerInfo);
 
-        public static AttackProfile Apply(this AttackProfile attack, PowerModifierFormula formula, bool skipCost = false, Predicate<AttackProfile>? when = null) => 
-            (when != null && !when(attack)) ? attack
+        public static AttackProfile Apply(this AttackProfile attack, PowerModifierFormula formula, bool skipCost = false, bool when = true) => 
+            !when ? attack
                 : attack with
                 {
                     WeaponDice = skipCost ? attack.WeaponDice : formula.Cost.Apply(attack.WeaponDice),
@@ -102,8 +102,8 @@ namespace GameEngine.Generator
 
 
         public static AttackProfile PreApply(this AttackProfile attack, PowerHighLevelInfo powerInfo) => attack
-            .Apply(ModifierDefinitions.NonArmorDefense, skipCost: true, when: a => a.Tool == ToolType.Implement) // Implements get free non-armor defense due to lack of proficiency bonus
-            .Apply(ModifierDefinitions.AbilityModifierDamage, when: a => a.WeaponDice > 1 || (a.Tool == ToolType.Implement && a.WeaponDice > 0.5));
+            .Apply(ModifierDefinitions.NonArmorDefense, skipCost: true, when: powerInfo.Tool == ToolType.Implement) // Implements get free non-armor defense due to lack of proficiency bonus
+            .Apply(ModifierDefinitions.AbilityModifierDamage, when: attack.WeaponDice > 1 || (powerInfo.Tool == ToolType.Implement && attack.WeaponDice > 0.5));
             
 
         public static AttackProfile ApplyRandomModifiers(this AttackProfile attack, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
@@ -126,6 +126,68 @@ namespace GameEngine.Generator
             }
 
             return attack;
+        }
+
+        private record AccuratePowerTemplate : PowerTemplate
+        {
+            public AccuratePowerTemplate() : base(AccuratePowerTemplateName, GenerateAttackGenerator(AccuratePowerTemplateName)) { }
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
+            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+        }
+        private record SkirmishPowerTemplate : PowerTemplate
+        {
+            public SkirmishPowerTemplate() : base(SkirmishPowerTemplateName, GenerateAttackGenerator(SkirmishPowerTemplateName)) { }
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
+            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+        }
+        private record MultiattackPowerTemplate : PowerTemplate
+        {
+            public MultiattackPowerTemplate() : base(MultiattackPowerTemplateName, GenerateAttackGenerator(MultiattackPowerTemplateName, 2, 0.5)) { }
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
+            public override SerializedPower Apply(SerializedPower orig)
+            {
+                return orig with
+                {
+                    Attack = new AttackRollOptions(
+                        null,
+                        0,
+                        DefenseType.ArmorClass,
+                        Hit: null,
+                        Miss: null,
+                        Effect: null
+                    )
+                };
+            }
+        }
+        private record CloseBurstPowerTemplate : PowerTemplate
+        {
+            public CloseBurstPowerTemplate() : base(CloseBurstPowerTemplateName, CloseBurstAttackGenerator) { }
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => ImplementOrEncounter(powerInfo);
+            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+        }
+        private record ConditionsPowerTemplate : PowerTemplate
+        {
+            public ConditionsPowerTemplate() : base(ConditionsPowerTemplateName, GenerateAttackGenerator(ConditionsPowerTemplateName)) { }
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
+            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+        }
+        private record InterruptPenaltyPowerTemplate : PowerTemplate
+        {
+            public InterruptPenaltyPowerTemplate() : base(InterruptPenaltyPowerTemplateName, InterruptPenaltyAttackGenerator) { }
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill };
+            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+        }
+        private record CloseBlastPowerTemplate : PowerTemplate
+        {
+            public CloseBlastPowerTemplate() : base(CloseBlastPowerTemplateName, CloseBlastAttackGenerator) { }
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => ImplementOrEncounter(powerInfo);
+            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+        }
+        private record BonusPowerTemplate : PowerTemplate
+        {
+            public BonusPowerTemplate() : base(BonusPowerTemplateName, GenerateAttackGenerator(BonusPowerTemplateName)) { }
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
+            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
 
     }

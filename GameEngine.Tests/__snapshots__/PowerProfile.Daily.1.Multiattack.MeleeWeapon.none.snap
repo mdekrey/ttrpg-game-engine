@@ -1,9 +1,9 @@
 ﻿{
   "Template": "Multiattack",
+  "Tool": "MeleeWeapon",
   "Attacks": [
     {
       "WeaponDice": 1.75,
-      "Tool": "MeleeWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"
@@ -12,7 +12,6 @@
     },
     {
       "WeaponDice": 1.75,
-      "Tool": "MeleeWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"

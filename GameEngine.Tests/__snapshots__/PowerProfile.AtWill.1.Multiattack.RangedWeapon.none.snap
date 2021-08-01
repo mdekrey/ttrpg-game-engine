@@ -1,14 +1,13 @@
 ﻿{
   "Template": "Multiattack",
+  "Tool": "RangedWeapon",
   "Attacks": [
     {
       "WeaponDice": 1.0,
-      "Tool": "RangedWeapon",
       "Modifiers": []
     },
     {
       "WeaponDice": 1.0,
-      "Tool": "RangedWeapon",
       "Modifiers": []
     }
   ]

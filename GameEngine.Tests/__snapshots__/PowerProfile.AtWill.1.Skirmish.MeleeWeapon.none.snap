@@ -1,9 +1,9 @@
 ﻿{
   "Template": "Skirmish",
+  "Tool": "MeleeWeapon",
   "Attacks": [
     {
       "WeaponDice": 1.0,
-      "Tool": "MeleeWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"

@@ -1,9 +1,9 @@
 ﻿{
   "Template": "Accurate",
+  "Tool": "Implement",
   "Attacks": [
     {
       "WeaponDice": 1.0,
-      "Tool": "Implement",
       "Modifiers": [
         {
           "Modifier": "Non-Armor Defense"

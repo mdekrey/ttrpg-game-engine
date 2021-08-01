@@ -27,7 +27,7 @@ namespace GameEngine.Rules
     public record RangedWeaponOptions;
 
     public record SerializedEffect(
-        IEnumerable<SerializedEffect>? All,
+        ImmutableList<SerializedEffect>? All,
         DamageEffectOptions? Damage,
         ConditionEffectOptions? Condition,
         bool? HalfDamage,
@@ -41,7 +41,7 @@ namespace GameEngine.Rules
     (
         string Name,
         PowerFrequency Frequency,
-        string ActionType,
+        ActionType ActionType,
         string? Trigger,
         string? Prerequisite,
         string? Requirement,
@@ -50,7 +50,7 @@ namespace GameEngine.Rules
         int? Level,
         string? Comments,
 
-        IEnumerable<SerializedEffect>? All,
+        ImmutableList<SerializedEffect>? All,
         DamageEffectOptions? Damage,
         ConditionEffectOptions? Condition,
         bool? HalfDamage,
@@ -67,7 +67,29 @@ namespace GameEngine.Rules
         Attack,
         Target,
         Power
-    );
+    )
+    {
+        public static readonly SerializedPower Empty = new SerializedPower(
+                Name: "Generated",
+                Frequency: PowerFrequency.AtWill,
+                ActionType: ActionType.Standard,
+                Trigger: null,
+                Prerequisite: null,
+                Requirement: null,
+                Keywords: ImmutableList<string>.Empty,
+                Class: null,
+                Level: null,
+                Comments: null,
+                All: null,
+                Damage: null,
+                Condition: null,
+                HalfDamage: null,
+                Randomized: null,
+                Attack: null,
+                Target: null,
+                Power: null
+            );
+    }
 
     public record RandomizedOptions
     (

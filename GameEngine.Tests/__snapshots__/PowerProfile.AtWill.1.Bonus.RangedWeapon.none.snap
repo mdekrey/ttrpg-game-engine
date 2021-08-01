@@ -1,9 +1,9 @@
 ﻿{
   "Template": "Bonus",
+  "Tool": "RangedWeapon",
   "Attacks": [
     {
       "WeaponDice": 1.0,
-      "Tool": "RangedWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"

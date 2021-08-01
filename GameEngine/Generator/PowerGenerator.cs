@@ -104,7 +104,7 @@ namespace GameEngine.Generator
                     .RandomSelection(randomGenerator);
             var attacks = PowerDefinitions.powerTemplates[template].ConstructAttacks(powerInfo)(randomGenerator);
 
-            return new PowerProfile(template, attacks);
+            return new PowerProfile(template, powerInfo.Tool, attacks);
         }
 
 
@@ -123,5 +123,20 @@ namespace GameEngine.Generator
             return weaponDice;
         }
 
+    }
+
+    public static class PowerProfileExtensions
+    {
+        public static SerializedPower ToPower(this PowerProfile powerProfile, int level, PowerFrequency usageFrequency)
+        {
+            var result = SerializedPower.Empty with
+            {
+                Level = level,
+                Keywords = SerializedPower.Empty.Keywords.Add(powerProfile.Tool.ToString("g")),
+                Frequency = usageFrequency,
+            };
+            result = PowerDefinitions.powerTemplates[powerProfile.Template].Apply(result);
+            return result;
+        }
     }
 }

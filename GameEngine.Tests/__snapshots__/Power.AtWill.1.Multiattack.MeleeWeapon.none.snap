@@ -1,0 +1,45 @@
+﻿[
+  {
+    "Template": "Multiattack",
+    "Tool": "MeleeWeapon",
+    "Attacks": [
+      {
+        "WeaponDice": 1.0,
+        "Modifiers": []
+      },
+      {
+        "WeaponDice": 1.0,
+        "Modifiers": []
+      }
+    ]
+  },
+  {
+    "Name": "Generated",
+    "Frequency": "At-Will",
+    "ActionType": "Standard",
+    "Trigger": null,
+    "Prerequisite": null,
+    "Requirement": null,
+    "Keywords": [
+      "MeleeWeapon"
+    ],
+    "Class": null,
+    "Level": 1,
+    "Comments": null,
+    "All": null,
+    "Damage": null,
+    "Condition": null,
+    "HalfDamage": null,
+    "Randomized": null,
+    "Attack": {
+      "Kind": null,
+      "Bonus": 0,
+      "Defense": "ArmorClass",
+      "Hit": null,
+      "Miss": null,
+      "Effect": null
+    },
+    "Target": null,
+    "Power": null
+  }
+]

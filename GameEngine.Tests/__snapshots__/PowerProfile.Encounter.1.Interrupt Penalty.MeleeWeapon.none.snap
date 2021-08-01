@@ -1,9 +1,9 @@
 ﻿{
   "Template": "Interrupt Penalty",
+  "Tool": "MeleeWeapon",
   "Attacks": [
     {
       "WeaponDice": 1.5,
-      "Tool": "MeleeWeapon",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"

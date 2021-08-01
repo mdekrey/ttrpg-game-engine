@@ -70,7 +70,7 @@
                 weapon: 1[W] + DEX
               power:
                 trigger: the target attacks you before the start of your next turn
-                actionType: ImmediateInterrupt
+                actionType: Opportunity
                 target:
                   meleeWeapon: {}
                   restrictions: Same
