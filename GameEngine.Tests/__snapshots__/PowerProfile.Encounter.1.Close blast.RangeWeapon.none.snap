@@ -1,15 +1,13 @@
 ﻿{
-  "Template": "Close burst",
-  "Tool": "Implement",
+  "Template": "Close blast",
+  "Tool": "Weapon",
   "Attacks": [
     {
-      "WeaponDice": 0.8333333333333333,
+      "WeaponDice": 1.5,
+      "Target": "Melee",
       "Modifiers": [
         {
           "Modifier": "Multiple3x3"
-        },
-        {
-          "Modifier": "Non-Armor Defense"
         },
         {
           "Modifier": "Ability Modifier Damage"

@@ -1,13 +1,15 @@
 ﻿{
   "Template": "Multiattack",
-  "Tool": "RangedWeapon",
+  "Tool": "Weapon",
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Target": "Range",
       "Modifiers": []
     },
     {
       "WeaponDice": 1.0,
+      "Target": "Range",
       "Modifiers": []
     }
   ]

@@ -4,6 +4,7 @@
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Target": "Range",
       "Modifiers": [
         {
           "Modifier": "Non-Armor Defense"

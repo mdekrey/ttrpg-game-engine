@@ -1,9 +1,10 @@
 ﻿{
   "Template": "Bonus",
-  "Tool": "MeleeWeapon",
+  "Tool": "Weapon",
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Target": "Melee",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"

@@ -1,14 +1,16 @@
 ﻿[
   {
     "Template": "Multiattack",
-    "Tool": "MeleeWeapon",
+    "Tool": "Weapon",
     "Attacks": [
       {
         "WeaponDice": 1.0,
+        "Target": "Melee",
         "Modifiers": []
       },
       {
         "WeaponDice": 1.0,
+        "Target": "Melee",
         "Modifiers": []
       }
     ]

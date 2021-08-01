@@ -1,15 +1,19 @@
 ﻿{
-  "Template": "Accurate",
-  "Tool": "RangedWeapon",
+  "Template": "Skirmish",
+  "Tool": "Implement",
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Target": "Range",
       "Modifiers": [
+        {
+          "Modifier": "Non-Armor Defense"
+        },
         {
           "Modifier": "Ability Modifier Damage"
         },
         {
-          "Modifier": "Non-Armor Defense"
+          "Modifier": "Shift"
         }
       ]
     }

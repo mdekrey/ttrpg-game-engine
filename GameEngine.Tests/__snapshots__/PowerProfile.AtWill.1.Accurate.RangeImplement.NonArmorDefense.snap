@@ -1,9 +1,10 @@
 ﻿{
-  "Template": "Skirmish",
+  "Template": "Accurate",
   "Tool": "Implement",
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Target": "Range",
       "Modifiers": [
         {
           "Modifier": "Non-Armor Defense"
@@ -12,7 +13,7 @@
           "Modifier": "Ability Modifier Damage"
         },
         {
-          "Modifier": "Shift"
+          "Modifier": "To-Hit Bonus +2"
         }
       ]
     }

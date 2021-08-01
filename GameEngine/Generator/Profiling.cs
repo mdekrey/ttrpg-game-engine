@@ -11,14 +11,31 @@ namespace GameEngine.Generator
     // - quickly generate powers that can be scanned for review before filling out details
     // - middle step for generating powers
     // - can be created/modified directly to fine-tune powers without hand-crafting them
+
     public enum ToolType
     {
-        MeleeWeapon, // Grants a proficiency bonus to-hit; will usually target AC as a result (proficiency = armor)
-        RangedWeapon, // Grants a proficiency bonus to-hit; will usually target AC as a result (proficiency = armor)
+        Weapon, // Grants a proficiency bonus to-hit; will usually target AC as a result (proficiency = armor)
         Implement, // Usually targets NAD as a result
     }
 
-    public record ClassProfile(ClassRole Role, ImmutableList<ToolType> Tools, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, ImmutableList<string> PreferredModifiers, ImmutableList<string> PowerTemplates)
+    public enum ToolRange
+    {
+        Melee,
+        Range,
+    }
+    public record ToolCategory(ToolType Type, ToolRange Range);
+
+    /// <summary>
+    /// These do not match what are in the rules, but instead match the basic concept of how a target is picked. Other modifiers can still apply
+    /// </summary>
+    public enum TargetType
+    {
+        Personal, // Target starts at self. An area becomes a "close burst"
+        Melee, // Target starts adjacent to self. An area becomes a "close blast"
+        Range, // Target at a distance. An area becomes an "area"
+    }
+
+    public record ClassProfile(ClassRole Role, ImmutableList<ToolCategory> Tools, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, ImmutableList<string> PreferredModifiers, ImmutableList<string> PowerTemplates)
     {
         internal bool IsValid()
         {
@@ -31,9 +48,9 @@ namespace GameEngine.Generator
     }
 
     public record PowerModifier(string Modifier);
-    public record AttackProfile(double WeaponDice, ImmutableList<PowerModifier> Modifiers)
+    public record AttackProfile(double WeaponDice, TargetType Target, ImmutableList<PowerModifier> Modifiers)
     {
-        public AttackProfile(double WeaponDice) : this(WeaponDice, ImmutableList<PowerModifier>.Empty) { }
+        public AttackProfile(double WeaponDice, TargetType Target) : this(WeaponDice, Target, ImmutableList<PowerModifier>.Empty) { }
     }
 
     public record PowerProfile(string Template, ToolType Tool, ImmutableList<AttackProfile> Attacks);

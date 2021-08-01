@@ -1,9 +1,10 @@
 ﻿{
   "Template": "Skirmish",
-  "Tool": "RangedWeapon",
+  "Tool": "Weapon",
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Target": "Range",
       "Modifiers": [
         {
           "Modifier": "Ability Modifier Damage"

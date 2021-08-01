@@ -30,22 +30,9 @@ namespace GameEngine.Generator
             new CloseBlastPowerTemplate(),
             new BonusPowerTemplate(),
         }.ToImmutableDictionary(template => template.Name);
-
-        public static bool ImplementOrEncounter(PowerHighLevelInfo info) => info is { Usage: not PowerFrequency.AtWill } or { Tool: ToolType.Implement };
-
         public static IEnumerable<string> PowerTemplateNames => powerTemplates.Keys;
 
-        private static Func<PowerHighLevelInfo, Generation<ImmutableList<AttackProfile>>> GenerateAttackGenerator(string templateName, int count = 1, double multiplier = 1) =>
-            (PowerHighLevelInfo info) =>
-            {
-                var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage) * multiplier;
-                var rootBuilder = new AttackProfile(basePower);
-                return (RandomGenerator randomGenerator) => (from i in Enumerable.Range(0, count)
-                                                             let builder = GenerateAttackProfiles(templateName, info, rootBuilder, randomGenerator)
-                                                             select builder).ToImmutableList();
-            };
-
-        private static AttackProfile GenerateAttackProfiles(string templateName, PowerHighLevelInfo info, AttackProfile rootBuilder, RandomGenerator randomGenerator)
+        private static AttackProfile ApplyAttackProfileModifiers(string templateName, PowerHighLevelInfo info, AttackProfile rootBuilder, RandomGenerator randomGenerator)
         {
             var applicableModifiers = GetApplicableModifiers(new[] { info.Tool.ToKeyword(), templateName });
 
@@ -66,9 +53,6 @@ namespace GameEngine.Generator
             .ToArray();
         }
 
-        public static bool CanApply(this PowerModifierFormula formula, AttackProfile attack, PowerHighLevelInfo powerInfo) =>
-            formula.CanBeApplied(formula, attack, powerInfo);
-
         public static AttackProfile Apply(this AttackProfile attack, PowerModifierFormula formula, bool skipCost = false, bool when = true) => 
             !when ? attack
                 : attack with
@@ -77,9 +61,8 @@ namespace GameEngine.Generator
                     Modifiers = attack.Modifiers.Add(new PowerModifier(formula.Name)),
                 };
 
-
         public static AttackProfile PreApply(this AttackProfile attack, PowerHighLevelInfo powerInfo) => attack
-            .Apply(ModifierDefinitions.NonArmorDefense, skipCost: true, when: powerInfo.Tool == ToolType.Implement) // Implements get free non-armor defense due to lack of proficiency bonus
+            .Apply(ModifierDefinitions.NonArmorDefense, skipCost: true, when: powerInfo.Tool is ToolType.Implement) // Implements get free non-armor defense due to lack of proficiency bonus
             .Apply(ModifierDefinitions.AbilityModifierDamage, when: attack.WeaponDice > 1 || (powerInfo.Tool == ToolType.Implement && attack.WeaponDice > 0.5));
             
 
@@ -108,24 +91,38 @@ namespace GameEngine.Generator
         private record AccuratePowerTemplate : PowerTemplate
         {
             public AccuratePowerTemplate() : base(AccuratePowerTemplateName) { }
-            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo) =>
-                GenerateAttackGenerator(Name)(powerInfo);
+            public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
+            {
+                var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
+                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
+            }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
+
         private record SkirmishPowerTemplate : PowerTemplate
         {
             public SkirmishPowerTemplate() : base(SkirmishPowerTemplateName) { }
-            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo) =>
-                GenerateAttackGenerator(Name)(powerInfo);
+            public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
+            {
+                var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
+                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
+            }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
+
         private record MultiattackPowerTemplate : PowerTemplate
         {
             public MultiattackPowerTemplate() : base(MultiattackPowerTemplateName) { }
-            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo) =>
-                GenerateAttackGenerator(Name, 2, 0.5)(powerInfo);
+            public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
+            {
+                var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage) * 0.5;
+                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 2);
+            }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig)
             {
@@ -142,55 +139,72 @@ namespace GameEngine.Generator
                 };
             }
         }
+
         private record CloseBurstPowerTemplate : PowerTemplate
         {
             public CloseBurstPowerTemplate() : base(CloseBurstPowerTemplateName) { }
-            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
+            public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty)
+                var rootBuilder = new AttackProfile(basePower, TargetType.Personal, ImmutableList<PowerModifier>.Empty)
                     .Apply(ModifierDefinitions.Multiple3x3);
-                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBurstPowerTemplateName, info, rootBuilder, randomGenerator));
+                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBurstPowerTemplateName, info, rootBuilder, randomGenerator));
             }
 
-            public override bool CanApply(PowerHighLevelInfo powerInfo) => ImplementOrEncounter(powerInfo);
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill } or { Tool: ToolType.Implement };
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
+
         private record ConditionsPowerTemplate : PowerTemplate
         {
             public ConditionsPowerTemplate() : base(ConditionsPowerTemplateName) { }
-            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo) =>
-                GenerateAttackGenerator(Name)(powerInfo);
+            public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
+            {
+                var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
+                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
+            }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
+
         private record InterruptPenaltyPowerTemplate : PowerTemplate
         {
             public InterruptPenaltyPowerTemplate() : base(InterruptPenaltyPowerTemplateName) { }
-            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info) =>
-                GenerateAttackGenerator(Name)(info with { Usage = info.Usage - 1 });
+            public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
+            {
+                var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage - 1);
+                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
+            }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill };
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
+
         private record CloseBlastPowerTemplate : PowerTemplate
         {
             public CloseBlastPowerTemplate() : base(CloseBlastPowerTemplateName) { }
-            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
+            public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                var rootBuilder = new AttackProfile(basePower, ImmutableList<PowerModifier>.Empty)
+                var rootBuilder = new AttackProfile(basePower, TargetType.Melee, ImmutableList<PowerModifier>.Empty)
                     .Apply(ModifierDefinitions.Multiple3x3);
-                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(GenerateAttackProfiles(CloseBlastPowerTemplateName, info, rootBuilder, randomGenerator));
+                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBlastPowerTemplateName, info, rootBuilder, randomGenerator));
             }
 
-            public override bool CanApply(PowerHighLevelInfo powerInfo) => ImplementOrEncounter(powerInfo);
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Tool: ToolType.Implement } or { Tool: ToolType.Weapon, Usage: not PowerFrequency.AtWill, Range: ToolRange.Range };
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
+
         private record BonusPowerTemplate : PowerTemplate
         {
             public BonusPowerTemplate() : base(BonusPowerTemplateName) { }
-            public override Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo) =>
-                GenerateAttackGenerator(Name)(powerInfo);
+            public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
+            {
+                var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
+                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
+            }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }

@@ -1,9 +1,10 @@
 ﻿{
   "Template": "Close burst",
-  "Tool": "MeleeWeapon",
+  "Tool": "Weapon",
   "Attacks": [
     {
       "WeaponDice": 2.5,
+      "Target": "Personal",
       "Modifiers": [
         {
           "Modifier": "Multiple3x3"

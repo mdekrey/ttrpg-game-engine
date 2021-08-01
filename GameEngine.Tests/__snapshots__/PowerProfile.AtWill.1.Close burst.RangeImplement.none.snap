@@ -1,12 +1,16 @@
 ﻿{
-  "Template": "Close blast",
-  "Tool": "RangedWeapon",
+  "Template": "Close burst",
+  "Tool": "Implement",
   "Attacks": [
     {
-      "WeaponDice": 1.5,
+      "WeaponDice": 0.8333333333333333,
+      "Target": "Personal",
       "Modifiers": [
         {
           "Modifier": "Multiple3x3"
+        },
+        {
+          "Modifier": "Non-Armor Defense"
         },
         {
           "Modifier": "Ability Modifier Damage"

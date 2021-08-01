@@ -1,18 +1,16 @@
 ﻿{
-  "Template": "Conditions",
-  "Tool": "Implement",
+  "Template": "Accurate",
+  "Tool": "Weapon",
   "Attacks": [
     {
       "WeaponDice": 1.0,
+      "Target": "Range",
       "Modifiers": [
-        {
-          "Modifier": "Non-Armor Defense"
-        },
         {
           "Modifier": "Ability Modifier Damage"
         },
         {
-          "Modifier": "Slowed"
+          "Modifier": "Non-Armor Defense"
         }
       ]
     }

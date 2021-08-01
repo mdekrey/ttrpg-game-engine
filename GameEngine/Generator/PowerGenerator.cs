@@ -79,7 +79,7 @@ namespace GameEngine.Generator
 
             PowerHighLevelInfo GetPowerInfo(ClassProfile? cp = null)
             {
-                return new(Level: level, Usage: usage, Tool: tools[result.Count % tools.Count], ClassProfile: cp ?? classProfile);
+                return new(Level: level, Usage: usage, Tool: tools[result.Count % tools.Count].Type, Range: tools[result.Count % tools.Count].Range, ClassProfile: cp ?? classProfile);
             }
         }
 
@@ -104,7 +104,7 @@ namespace GameEngine.Generator
                     .RandomSelection(randomGenerator);
             var attacks = PowerDefinitions.powerTemplates[template].ConstructAttacks(powerInfo)(randomGenerator);
 
-            return new PowerProfile(template, powerInfo.Tool, attacks);
+            return new PowerProfile(template, powerInfo.Tool, attacks.ToImmutableList());
         }
 
 
@@ -143,9 +143,16 @@ namespace GameEngine.Generator
             tool switch
             {
                 ToolType.Implement => "Implement",
-                ToolType.MeleeWeapon => "Weapon",
-                ToolType.RangedWeapon => "Weapon",
+                ToolType.Weapon => "Weapon",
                 _ => throw new ArgumentException("Invalid enum value for tool", nameof(tool)),
+            };
+
+        public static TargetType ToTargetType(this ToolRange toolRange) =>
+            toolRange switch
+            {
+                ToolRange.Melee => TargetType.Melee,
+                ToolRange.Range => TargetType.Range,
+                _ => throw new ArgumentException("Invalid enum value for toolRange", nameof(toolRange)),
             };
     }
 }

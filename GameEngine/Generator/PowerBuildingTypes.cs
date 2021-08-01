@@ -32,15 +32,18 @@ namespace GameEngine.Generator
     {
         public PowerModifierFormula(string Keyword, string Name, IPowerCost Cost, Predicate CanBeApplied)
             : this(ImmutableList<string>.Empty.Add(Keyword), Name, Cost, CanBeApplied) { }
+
+        public virtual bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) =>
+            this.CanBeApplied(this, attack, powerInfo);
     }
 
-    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolType Tool, ClassProfile ClassProfile);
+    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolType Tool, ToolRange Range, ClassProfile ClassProfile);
 
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 
     public abstract record PowerTemplate(string Name)
     {
-        public abstract Generation<ImmutableList<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo);
+        public abstract Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo);
         public abstract bool CanApply(PowerHighLevelInfo powerInfo);
         public abstract SerializedPower Apply(SerializedPower orig);
     }

@@ -2,508 +2,43 @@
   "AtWill1": [
     {
       "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
           "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": []
         },
         {
           "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": []
         }
       ]
     },
     {
       "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
           "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": []
         },
         {
           "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": []
         }
       ]
     },
     {
       "Template": "Accurate",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
           "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "To-Hit Bonus +2"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Conditions",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Slowed"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Encounter1": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Close blast",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Multiple3x3"
-            },
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Movement after Attack does not provoke opportunity attacks"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Accurate",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "To-Hit Bonus +2"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Daily1": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 3.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Shift"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Close burst",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.5,
-          "Modifiers": [
-            {
-              "Modifier": "Multiple3x3"
-            },
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Encounter3": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Conditions",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Grants Combat Advantage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Close blast",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Multiple3x3"
-            },
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Daily5": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.25,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 2.25,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 4.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Shift"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Close burst",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 3.1666666666666665,
-          "Modifiers": [
-            {
-              "Modifier": "Multiple3x3"
-            },
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Accurate",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 4.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "To-Hit Bonus +2"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Encounter7": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Close burst",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Multiple3x3"
-            },
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Movement after Attack does not provoke opportunity attacks"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Daily9": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 2.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 2.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Accurate",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 5.5,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -516,30 +51,32 @@
       ]
     },
     {
-      "Template": "Close burst",
-      "Tool": "MeleeWeapon",
+      "Template": "Conditions",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 3.833333333333333,
+          "WeaponDice": 0.5,
+          "Target": "Range",
           "Modifiers": [
             {
-              "Modifier": "Multiple3x3"
+              "Modifier": "Ability Modifier Damage"
             },
             {
-              "Modifier": "Ability Modifier Damage"
+              "Modifier": "-2 (or Abil) to all Defenses"
             }
           ]
         }
       ]
     }
   ],
-  "Encounter11": [
+  "Encounter1": [
     {
       "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 1.5,
+          "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -547,87 +84,8 @@
           ]
         },
         {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Accurate",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 3.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "To-Hit Bonus +2"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Close burst",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.1666666666666665,
-          "Modifiers": [
-            {
-              "Modifier": "Multiple3x3"
-            },
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Encounter13": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.5,
+          "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -638,10 +96,11 @@
     },
     {
       "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 1.5,
+          "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -649,7 +108,8 @@
           ]
         },
         {
-          "WeaponDice": 1.5,
+          "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -660,10 +120,11 @@
     },
     {
       "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 3.0,
+          "WeaponDice": 2.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -676,11 +137,80 @@
       ]
     },
     {
-      "Template": "Conditions",
-      "Tool": "MeleeWeapon",
+      "Template": "Accurate",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 2.5,
+          "WeaponDice": 2.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Non-Armor Defense"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily1": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 1.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 1.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 1.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 1.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Conditions",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -691,330 +221,34 @@
           ]
         }
       ]
-    }
-  ],
-  "Daily15": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 3.25,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 3.25,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 6.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Shift"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 3.25,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 3.25,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Accurate",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 6.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "To-Hit Bonus +2"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Encounter17": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 1.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Accurate",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 3.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "To-Hit Bonus +2"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 3.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Movement after Attack does not provoke opportunity attacks"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Daily19": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 3.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 3.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 7.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Movement after Attack does not provoke opportunity attacks"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Accurate",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 7.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "To-Hit Bonus +2"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Conditions",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 7.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Immobilized"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Daily20": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 3.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 3.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 3.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 3.75,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 7.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            },
-            {
-              "Modifier": "Movement after Attack does not provoke opportunity attacks"
-            }
-          ]
-        }
-      ]
     },
     {
       "Template": "Bonus",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 7.0,
+          "WeaponDice": 3.5,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
             },
             {
-              "Modifier": "+Ability Bonus Temporary Hit points"
+              "Modifier": "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)"
             }
           ]
         }
       ]
     }
   ],
-  "Encounter23": [
+  "Encounter3": [
     {
       "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 2.0,
+          "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1022,84 +256,8 @@
           ]
         },
         {
-          "WeaponDice": 2.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Interrupt Penalty",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.5,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Close burst",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.833333333333333,
-          "Modifiers": [
-            {
-              "Modifier": "Multiple3x3"
-            },
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 2.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Daily25": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 4.25,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 4.25,
+          "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1110,101 +268,17 @@
     },
     {
       "Template": "Accurate",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 8.5,
+          "WeaponDice": 2.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
             },
             {
-              "Modifier": "Non-Armor Defense"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Close burst",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 5.833333333333333,
-          "Modifiers": [
-            {
-              "Modifier": "Multiple3x3"
-            },
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 4.25,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 4.25,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "Encounter27": [
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 2.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
-      "Attacks": [
-        {
-          "WeaponDice": 2.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 2.0,
-          "Modifiers": [
-            {
-              "Modifier": "Ability Modifier Damage"
+              "Modifier": "To-Hit Bonus +2"
             }
           ]
         }
@@ -1212,10 +286,11 @@
     },
     {
       "Template": "Conditions",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 2.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1228,11 +303,86 @@
       ]
     },
     {
-      "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
+      "Template": "Multiattack",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 4.0,
+          "WeaponDice": 1.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 1.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily5": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 2.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 2.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Skirmish",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 4.5,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1243,15 +393,34 @@
           ]
         }
       ]
-    }
-  ],
-  "Daily29": [
+    },
     {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
+      "Template": "Close burst",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 4.75,
+          "WeaponDice": 3.1666666666666665,
+          "Target": "Personal",
+          "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter7": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1259,7 +428,8 @@
           ]
         },
         {
-          "WeaponDice": 4.75,
+          "WeaponDice": 1.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1269,22 +439,18 @@
       ]
     },
     {
-      "Template": "Multiattack",
-      "Tool": "MeleeWeapon",
+      "Template": "Conditions",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 4.75,
+          "WeaponDice": 1.5,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
-            }
-          ]
-        },
-        {
-          "WeaponDice": 4.75,
-          "Modifiers": [
+            },
             {
-              "Modifier": "Ability Modifier Damage"
+              "Modifier": "Grants Combat Advantage"
             }
           ]
         }
@@ -1292,10 +458,11 @@
     },
     {
       "Template": "Skirmish",
-      "Tool": "MeleeWeapon",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 9.5,
+          "WeaponDice": 2.0,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
@@ -1308,17 +475,943 @@
       ]
     },
     {
-      "Template": "Accurate",
-      "Tool": "MeleeWeapon",
+      "Template": "Close burst",
+      "Tool": "Weapon",
       "Attacks": [
         {
-          "WeaponDice": 9.5,
+          "WeaponDice": 1.5,
+          "Target": "Personal",
+          "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily9": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 2.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Accurate",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 5.5,
+          "Target": "Range",
           "Modifiers": [
             {
               "Modifier": "Ability Modifier Damage"
             },
             {
               "Modifier": "To-Hit Bonus +2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 2.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Conditions",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 5.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Dazed"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter11": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Accurate",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "To-Hit Bonus +2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Close blast",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.1666666666666665,
+          "Target": "Melee",
+          "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Conditions",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Immobilized"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter13": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Accurate",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "To-Hit Bonus +2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Close burst",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.1666666666666665,
+          "Target": "Personal",
+          "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily15": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 3.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Interrupt Penalty",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 3.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Close burst",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 4.5,
+          "Target": "Personal",
+          "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter17": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Skirmish",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Shift"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Interrupt Penalty",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 1.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily19": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 3.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 3.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Conditions",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 7.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Prone"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Skirmish",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 7.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Movement after Attack does not provoke opportunity attacks"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily20": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 3.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 3.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 3.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Accurate",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 7.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "To-Hit Bonus +2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Skirmish",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 7.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Movement after Attack does not provoke opportunity attacks"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter23": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 2.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Skirmish",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 4.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Movement after Attack does not provoke opportunity attacks"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Interrupt Penalty",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Close burst",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.833333333333333,
+          "Target": "Personal",
+          "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily25": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 4.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 4.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Skirmish",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 8.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Shift"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 4.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 4.25,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Close blast",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 5.833333333333333,
+          "Target": "Melee",
+          "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Encounter27": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 2.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Skirmish",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 4.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Movement after Attack does not provoke opportunity attacks"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Close burst",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.833333333333333,
+          "Target": "Personal",
+          "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 2.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 2.0,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Daily29": [
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 4.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 4.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Close burst",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 6.5,
+          "Target": "Personal",
+          "Modifiers": [
+            {
+              "Modifier": "Multiple3x3"
+            },
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Multiattack",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 4.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        },
+        {
+          "WeaponDice": 4.75,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Template": "Skirmish",
+      "Tool": "Weapon",
+      "Attacks": [
+        {
+          "WeaponDice": 9.5,
+          "Target": "Range",
+          "Modifiers": [
+            {
+              "Modifier": "Ability Modifier Damage"
+            },
+            {
+              "Modifier": "Shift"
             }
           ]
         }
