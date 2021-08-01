@@ -1,8 +1,8 @@
 ﻿Powers:
   Melee Basic Attack:
     comments: 'Melee Basic Attack'
-    power:
-      target:
+    effects:
+    - target:
         meleeWeapon: {}
         effect:
           attack:
@@ -11,8 +11,8 @@
                 weapon: 1[W] + STR
   Ranged Basic Attack:
     comments: 'Ranged Basic Attack'
-    power:
-      target:
+    effects:
+    - target:
         rangedWeapon: {}
         effect:
           attack:
@@ -26,8 +26,8 @@
     frequency: At-Will
     level: 1
     keywords: [ martial, weapon ]
-    power:
-      all:
+    effects:
+    - all:
         - target:
             meleeWeapon: {}
             effect:
@@ -48,8 +48,8 @@
     frequency: At-Will
     level: 1
     keywords: [ arcane, implement, evocation ]
-    power:
-      target:
+    effects:
+    - target:
         ranged: 20
         effect:
           damage:
@@ -59,8 +59,8 @@
     frequency: At-Will
     level: 1
     keywords: [ martial, weapon ]
-    power:
-      target:
+    effects:
+    - target:
         meleeWeapon: {}
         effect:
           attack:
@@ -71,21 +71,22 @@
               power:
                 trigger: the target attacks you before the start of your next turn
                 actionType: Opportunity
-                target:
-                  meleeWeapon: {}
-                  restrictions: Same
-                  effect:
-                    attack:
-                      hit:
-                        damage:
-                          weapon: 1[W] + STR
+                effects:
+                - target:
+                    meleeWeapon: {}
+                    restrictions: Same
+                    effect:
+                      attack:
+                        hit:
+                          damage:
+                            weapon: 1[W] + STR
   Torturous Strike:
     comments: 'Rogue Encounter 1 (Brutal Scoundrel)'
     class: Rogue
     frequency: Encounter
     level: 1
-    power:
-      target:
+    effects:
+    - target:
         meleeWeapon: {}
         effect:
           attack:
@@ -96,8 +97,8 @@
     class: Wizard
     frequency: At-Will
     level: 1
-    power:
-      target:
+    effects:
+    - target:
         ranged: 10
         effect:
           attack:

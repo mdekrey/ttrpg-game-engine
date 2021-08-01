@@ -136,6 +136,11 @@ namespace GameEngine.Generator
                 Frequency = usageFrequency,
             };
             result = PowerDefinitions.powerTemplates[powerProfile.Template].Apply(result);
+            result = result with
+            {
+                Effects = powerProfile.Attacks
+                    .Select(attackProfile => SerializedEffect.Empty /* .Apply(attackProfile) */).ToImmutableList(),
+            };
             return result;
         }
 

@@ -28,20 +28,27 @@
     "Class": null,
     "Level": 1,
     "Comments": null,
-    "All": null,
-    "Damage": null,
-    "Condition": null,
-    "HalfDamage": null,
-    "Randomized": null,
-    "Attack": {
-      "Kind": null,
-      "Bonus": 0,
-      "Defense": "ArmorClass",
-      "Hit": null,
-      "Miss": null,
-      "Effect": null
-    },
-    "Target": null,
-    "Power": null
+    "Effects": [
+      {
+        "All": null,
+        "Damage": null,
+        "Condition": null,
+        "HalfDamage": null,
+        "Randomized": null,
+        "Attack": null,
+        "Target": null,
+        "Power": null
+      },
+      {
+        "All": null,
+        "Damage": null,
+        "Condition": null,
+        "HalfDamage": null,
+        "Randomized": null,
+        "Attack": null,
+        "Target": null,
+        "Power": null
+      }
+    ]
   }
 ]

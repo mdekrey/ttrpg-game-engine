@@ -35,7 +35,19 @@ namespace GameEngine.Rules
         AttackRollOptions? Attack,
         SerializedTarget? Target,
         SerializedPower? Power
-    );
+    )
+    {
+        public static readonly SerializedEffect Empty = new (
+            All: null, 
+            Damage: null, 
+            Condition: null, 
+            HalfDamage: null, 
+            Randomized: null, 
+            Attack: null, 
+            Target: null, 
+            Power: null
+        );
+    }
 
     public record SerializedPower
     (
@@ -49,24 +61,7 @@ namespace GameEngine.Rules
         string? Class,
         int? Level,
         string? Comments,
-
-        ImmutableList<SerializedEffect>? All,
-        DamageEffectOptions? Damage,
-        ConditionEffectOptions? Condition,
-        bool? HalfDamage,
-        RandomizedOptions? Randomized,
-        AttackRollOptions? Attack,
-        SerializedTarget? Target,
-        SerializedPower? Power
-    ) : SerializedEffect(
-        All,
-        Damage,
-        Condition,
-        HalfDamage,
-        Randomized,
-        Attack,
-        Target,
-        Power
+        ImmutableList<SerializedEffect> Effects
     )
     {
         public static readonly SerializedPower Empty = new SerializedPower(
@@ -80,14 +75,7 @@ namespace GameEngine.Rules
                 Class: null,
                 Level: null,
                 Comments: null,
-                All: null,
-                Damage: null,
-                Condition: null,
-                HalfDamage: null,
-                Randomized: null,
-                Attack: null,
-                Target: null,
-                Power: null
+                Effects: ImmutableList<SerializedEffect>.Empty
             );
     }
 

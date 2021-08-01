@@ -126,17 +126,7 @@ namespace GameEngine.Generator
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig)
             {
-                return orig with
-                {
-                    Attack = new AttackRollOptions(
-                        null,
-                        0,
-                        DefenseType.ArmorClass,
-                        Hit: null,
-                        Miss: null,
-                        Effect: null
-                    )
-                };
+                return orig;
             }
         }
 

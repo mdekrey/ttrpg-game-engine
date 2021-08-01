@@ -60,7 +60,7 @@ namespace GameEngine.Tests
             }
         }
 
-        private bool MeetsExpectations(PowerFrequency frequency, int level, SerializedEffect power)
+        private bool MeetsExpectations(PowerFrequency frequency, int level, SerializedPower power)
         {
             // TODO
             return true;
