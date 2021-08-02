@@ -99,9 +99,8 @@ namespace GameEngine.Generator
 
         public PowerProfile GenerateProfile(PowerHighLevelInfo powerInfo)
         {
-            var template = powerInfo.ClassProfile.PowerTemplates
-                    .Where(templateName => PowerDefinitions.powerTemplates[templateName].CanApply(powerInfo))
-                    .RandomSelection(randomGenerator);
+            var template = randomGenerator.RandomEscalatingSelection(powerInfo.ClassProfile.PowerTemplates
+                    .Where(templateName => PowerDefinitions.powerTemplates[templateName].CanApply(powerInfo)));
             var attacks = PowerDefinitions.powerTemplates[template].ConstructAttacks(powerInfo)(randomGenerator);
 
             return new PowerProfile(template, powerInfo.Tool, attacks.ToImmutableList());

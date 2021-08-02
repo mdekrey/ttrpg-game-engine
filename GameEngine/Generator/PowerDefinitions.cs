@@ -69,9 +69,7 @@ namespace GameEngine.Generator
                                       let mod = modifiers.FirstOrDefault(m => m.Name == name)
                                       where mod != null && mod.CanApply(attack, powerInfo)
                                       select mod).ToArray();
-            var modifier = preferredModifiers
-                .Concat(new PowerModifierFormula?[] { null })
-                .RandomSelection(randomGenerator);
+            var modifier = randomGenerator.RandomEscalatingSelection(preferredModifiers.Concat(new PowerModifierFormula?[] { null }));
             var validModifiers = (from mod in modifiers
                                   where mod != null && mod.CanApply(attack, powerInfo)
                                   select mod).ToArray();
@@ -176,7 +174,7 @@ namespace GameEngine.Generator
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
                 var rootBuilder = new AttackProfile(basePower, TargetType.Melee, ImmutableList<PowerModifier>.Empty);
-                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBlastPowerTemplateName, info, 
+                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBlastPowerTemplateName, info,
                     ModifierDefinitions.Multiple3x3.Apply(rootBuilder, info, randomGenerator), randomGenerator));
             }
 
