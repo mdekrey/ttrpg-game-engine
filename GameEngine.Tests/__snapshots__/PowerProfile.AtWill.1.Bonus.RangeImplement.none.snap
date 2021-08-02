@@ -1,21 +1,9 @@
-﻿{
-  "Template": "Bonus",
-  "Tool": "Implement",
-  "Attacks": [
-    {
-      "WeaponDice": 1.0,
-      "Target": "Range",
-      "Modifiers": [
-        {
-          "Modifier": "Non-Armor Defense"
-        },
-        {
-          "Modifier": "Ability Modifier Damage"
-        },
-        {
-          "Modifier": "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Bonus
+Tool: Implement
+Attacks:
+- WeaponDice: 1
+  Target: Range
+  Modifiers:
+  - Modifier: Non-Armor Defense
+  - Modifier: Ability Modifier Damage
+  - Modifier: To-Hit Bonus +2 (or Abil) to next attack (or to specific target)

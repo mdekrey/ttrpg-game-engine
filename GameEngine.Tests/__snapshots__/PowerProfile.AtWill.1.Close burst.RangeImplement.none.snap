@@ -1,21 +1,8 @@
-﻿{
-  "Template": "Close burst",
-  "Tool": "Implement",
-  "Attacks": [
-    {
-      "WeaponDice": 0.8333333333333333,
-      "Target": "Personal",
-      "Modifiers": [
-        {
-          "Modifier": "Multiple3x3"
-        },
-        {
-          "Modifier": "Non-Armor Defense"
-        },
-        {
-          "Modifier": "Ability Modifier Damage"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Close burst
+Tool: Implement
+Attacks:
+- WeaponDice: 0.83333333333333326
+  Modifiers:
+  - Modifier: Multiple3x3
+  - Modifier: Non-Armor Defense
+  - Modifier: Ability Modifier Damage

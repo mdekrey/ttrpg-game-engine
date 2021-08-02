@@ -1,21 +1,9 @@
-﻿{
-  "Template": "Close blast",
-  "Tool": "Implement",
-  "Attacks": [
-    {
-      "WeaponDice": 0.8333333333333333,
-      "Target": "Melee",
-      "Modifiers": [
-        {
-          "Modifier": "Multiple3x3"
-        },
-        {
-          "Modifier": "Non-Armor Defense"
-        },
-        {
-          "Modifier": "Ability Modifier Damage"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Close blast
+Tool: Implement
+Attacks:
+- WeaponDice: 0.83333333333333326
+  Target: Melee
+  Modifiers:
+  - Modifier: Multiple3x3
+  - Modifier: Non-Armor Defense
+  - Modifier: Ability Modifier Damage

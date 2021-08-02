@@ -1,16 +1,8 @@
-﻿{
-  "Template": "Multiattack",
-  "Tool": "Weapon",
-  "Attacks": [
-    {
-      "WeaponDice": 1.0,
-      "Target": "Range",
-      "Modifiers": []
-    },
-    {
-      "WeaponDice": 1.0,
-      "Target": "Range",
-      "Modifiers": []
-    }
-  ]
-}
+﻿Template: Multiattack
+Attacks:
+- WeaponDice: 1
+  Target: Range
+  Modifiers: []
+- WeaponDice: 1
+  Target: Range
+  Modifiers: []

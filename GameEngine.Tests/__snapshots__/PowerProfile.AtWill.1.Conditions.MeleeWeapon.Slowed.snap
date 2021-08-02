@@ -1,18 +1,7 @@
-﻿{
-  "Template": "Conditions",
-  "Tool": "Weapon",
-  "Attacks": [
-    {
-      "WeaponDice": 1.0,
-      "Target": "Melee",
-      "Modifiers": [
-        {
-          "Modifier": "Ability Modifier Damage"
-        },
-        {
-          "Modifier": "Slowed"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Conditions
+Attacks:
+- WeaponDice: 1
+  Target: Melee
+  Modifiers:
+  - Modifier: Ability Modifier Damage
+  - Modifier: Slowed

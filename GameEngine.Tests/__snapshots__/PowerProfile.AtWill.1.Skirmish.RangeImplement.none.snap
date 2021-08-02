@@ -1,21 +1,9 @@
-﻿{
-  "Template": "Skirmish",
-  "Tool": "Implement",
-  "Attacks": [
-    {
-      "WeaponDice": 1.0,
-      "Target": "Range",
-      "Modifiers": [
-        {
-          "Modifier": "Non-Armor Defense"
-        },
-        {
-          "Modifier": "Ability Modifier Damage"
-        },
-        {
-          "Modifier": "Shift"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Skirmish
+Tool: Implement
+Attacks:
+- WeaponDice: 1
+  Target: Range
+  Modifiers:
+  - Modifier: Non-Armor Defense
+  - Modifier: Ability Modifier Damage
+  - Modifier: Shift

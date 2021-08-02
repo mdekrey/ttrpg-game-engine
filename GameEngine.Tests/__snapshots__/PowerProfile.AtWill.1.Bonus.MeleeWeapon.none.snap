@@ -1,18 +1,7 @@
-﻿{
-  "Template": "Bonus",
-  "Tool": "Weapon",
-  "Attacks": [
-    {
-      "WeaponDice": 1.0,
-      "Target": "Melee",
-      "Modifiers": [
-        {
-          "Modifier": "Ability Modifier Damage"
-        },
-        {
-          "Modifier": "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Bonus
+Attacks:
+- WeaponDice: 1
+  Target: Melee
+  Modifiers:
+  - Modifier: Ability Modifier Damage
+  - Modifier: To-Hit Bonus +2 (or Abil) to next attack (or to specific target)

@@ -1,16 +1,8 @@
-﻿{
-  "Template": "Multiattack",
-  "Tool": "Weapon",
-  "Attacks": [
-    {
-      "WeaponDice": 1.0,
-      "Target": "Melee",
-      "Modifiers": []
-    },
-    {
-      "WeaponDice": 1.0,
-      "Target": "Melee",
-      "Modifiers": []
-    }
-  ]
-}
+﻿Template: Multiattack
+Attacks:
+- WeaponDice: 1
+  Target: Melee
+  Modifiers: []
+- WeaponDice: 1
+  Target: Melee
+  Modifiers: []

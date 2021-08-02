@@ -1,18 +1,6 @@
-﻿{
-  "Template": "Close burst",
-  "Tool": "Weapon",
-  "Attacks": [
-    {
-      "WeaponDice": 2.5,
-      "Target": "Personal",
-      "Modifiers": [
-        {
-          "Modifier": "Multiple3x3"
-        },
-        {
-          "Modifier": "Ability Modifier Damage"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Close burst
+Attacks:
+- WeaponDice: 2.5
+  Modifiers:
+  - Modifier: Multiple3x3
+  - Modifier: Ability Modifier Damage

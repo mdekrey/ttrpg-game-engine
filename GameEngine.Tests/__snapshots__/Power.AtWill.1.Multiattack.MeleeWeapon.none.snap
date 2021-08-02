@@ -1,79 +1,31 @@
-﻿[
-  {
-    "Template": "Multiattack",
-    "Tool": "Weapon",
-    "Attacks": [
-      {
-        "WeaponDice": 1.0,
-        "Target": "Melee",
-        "Modifiers": []
-      },
-      {
-        "WeaponDice": 1.0,
-        "Target": "Melee",
-        "Modifiers": []
-      }
-    ]
-  },
-  {
-    "Name": "Generated",
-    "Frequency": "At-Will",
-    "ActionType": "Standard",
-    "Keywords": [
-      "Weapon"
-    ],
-    "Level": 1,
-    "Effects": [
-      {
-        "Target": {
-          "Effect": {
-            "Attack": {
-              "Kind": "Strength",
-              "Bonus": 0,
-              "Defense": "ArmorClass",
-              "Hit": {
-                "Damage": [
-                  {
-                    "Amount": "[W]",
-                    "Types": [
-                      "Weapon"
-                    ]
-                  }
-                ]
-              }
-            }
-          },
-          "MeleeWeapon": {
-            "AdditionalReach": 0,
-            "Offhand": false
-          }
-        }
-      },
-      {
-        "Target": {
-          "Effect": {
-            "Attack": {
-              "Kind": "Strength",
-              "Bonus": 0,
-              "Defense": "ArmorClass",
-              "Hit": {
-                "Damage": [
-                  {
-                    "Amount": "[W]",
-                    "Types": [
-                      "Weapon"
-                    ]
-                  }
-                ]
-              }
-            }
-          },
-          "MeleeWeapon": {
-            "AdditionalReach": 0,
-            "Offhand": false
-          }
-        }
-      }
-    ]
-  }
-]
+﻿- Template: Multiattack
+  Attacks:
+  - WeaponDice: 1
+    Target: Melee
+    Modifiers: []
+  - WeaponDice: 1
+    Target: Melee
+    Modifiers: []
+- Name: Generated
+  Keywords:
+  - Weapon
+  Level: 1
+  Effects:
+  - Target:
+      Effect:
+        Attack:
+          Hit:
+            Damage:
+            - Amount: '[W]'
+              Types:
+              - Weapon
+      MeleeWeapon: {}
+  - Target:
+      Effect:
+        Attack:
+          Hit:
+            Damage:
+            - Amount: '[W]'
+              Types:
+              - Weapon
+      MeleeWeapon: {}

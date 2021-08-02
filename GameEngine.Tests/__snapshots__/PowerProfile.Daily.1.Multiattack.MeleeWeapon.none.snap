@@ -1,24 +1,10 @@
-﻿{
-  "Template": "Multiattack",
-  "Tool": "Weapon",
-  "Attacks": [
-    {
-      "WeaponDice": 1.75,
-      "Target": "Melee",
-      "Modifiers": [
-        {
-          "Modifier": "Ability Modifier Damage"
-        }
-      ]
-    },
-    {
-      "WeaponDice": 1.75,
-      "Target": "Melee",
-      "Modifiers": [
-        {
-          "Modifier": "Ability Modifier Damage"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Multiattack
+Attacks:
+- WeaponDice: 1.75
+  Target: Melee
+  Modifiers:
+  - Modifier: Ability Modifier Damage
+- WeaponDice: 1.75
+  Target: Melee
+  Modifiers:
+  - Modifier: Ability Modifier Damage

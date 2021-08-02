@@ -1,18 +1,7 @@
-﻿{
-  "Template": "Accurate",
-  "Tool": "Weapon",
-  "Attacks": [
-    {
-      "WeaponDice": 1.0,
-      "Target": "Range",
-      "Modifiers": [
-        {
-          "Modifier": "Ability Modifier Damage"
-        },
-        {
-          "Modifier": "Non-Armor Defense"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Accurate
+Attacks:
+- WeaponDice: 1
+  Target: Range
+  Modifiers:
+  - Modifier: Ability Modifier Damage
+  - Modifier: Non-Armor Defense

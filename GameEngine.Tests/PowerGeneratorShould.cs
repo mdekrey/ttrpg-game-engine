@@ -14,6 +14,12 @@ namespace GameEngine.Tests
 {
     public class PowerGeneratorShould
     {
+        private static readonly YamlDotNet.Serialization.ISerializer serializer = 
+            new YamlDotNet.Serialization.SerializerBuilder()
+                .DisableAliases()
+                .ConfigureDefaultValuesHandling(YamlDotNet.Serialization.DefaultValuesHandling.OmitDefaults)
+                .Build();
+
         [InlineData(1, PowerFrequency.AtWill, 2)]
         [InlineData(1, PowerFrequency.Encounter, 3)]
         [InlineData(1, PowerFrequency.Daily, 4.5)]
@@ -77,7 +83,7 @@ namespace GameEngine.Tests
                 )
             ));
 
-            Snapshot.Match(powerProfile, $"PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolRange:g}{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
+            Snapshot.Match(serializer.Serialize(powerProfile), $"PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolRange:g}{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
         }
 
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, "", PowerDefinitions.MultiattackPowerTemplateName)]
@@ -102,18 +108,7 @@ namespace GameEngine.Tests
 
             
             Snapshot.Match(
-                Newtonsoft.Json.JsonConvert.SerializeObject(
-                    new object[] { powerProfile, power },
-                    new Newtonsoft.Json.JsonSerializerSettings
-                    {
-                        Formatting = Newtonsoft.Json.Formatting.Indented,
-                        NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
-                        Converters =
-                        {
-                            new Newtonsoft.Json.Converters.StringEnumConverter(),
-                        }
-                    }
-                ), 
+                serializer.Serialize(new object[] { powerProfile, power }),
                 $"Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{toolRange:g}{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}"
             );
         }
@@ -125,7 +120,7 @@ namespace GameEngine.Tests
 
             var powerProfile = target.GenerateProfiles(CreateStrikerProfile());
 
-            Snapshot.Match(powerProfile);
+            Snapshot.Match(serializer.Serialize(powerProfile));
         }
 
         private ClassProfile CreateStrikerProfile() =>

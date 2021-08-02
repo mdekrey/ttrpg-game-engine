@@ -1,18 +1,7 @@
-﻿{
-  "Template": "Close blast",
-  "Tool": "Weapon",
-  "Attacks": [
-    {
-      "WeaponDice": 1.5,
-      "Target": "Melee",
-      "Modifiers": [
-        {
-          "Modifier": "Multiple3x3"
-        },
-        {
-          "Modifier": "Ability Modifier Damage"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Close blast
+Attacks:
+- WeaponDice: 1.5
+  Target: Melee
+  Modifiers:
+  - Modifier: Multiple3x3
+  - Modifier: Ability Modifier Damage

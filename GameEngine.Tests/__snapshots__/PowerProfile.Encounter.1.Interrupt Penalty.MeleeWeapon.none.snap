@@ -1,15 +1,6 @@
-﻿{
-  "Template": "Interrupt Penalty",
-  "Tool": "Weapon",
-  "Attacks": [
-    {
-      "WeaponDice": 1.5,
-      "Target": "Melee",
-      "Modifiers": [
-        {
-          "Modifier": "Ability Modifier Damage"
-        }
-      ]
-    }
-  ]
-}
+﻿Template: Interrupt Penalty
+Attacks:
+- WeaponDice: 1.5
+  Target: Melee
+  Modifiers:
+  - Modifier: Ability Modifier Damage
