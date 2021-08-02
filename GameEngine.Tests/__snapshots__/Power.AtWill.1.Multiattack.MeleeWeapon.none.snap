@@ -16,7 +16,7 @@
         Attack:
           Hit:
             Damage:
-            - Amount: '[W]'
+            - Amount: 1[W]
               Types:
               - Weapon
       MeleeWeapon: {}
@@ -25,7 +25,7 @@
         Attack:
           Hit:
             Damage:
-            - Amount: '[W]'
+            - Amount: 1[W]
               Types:
               - Weapon
       MeleeWeapon: {}

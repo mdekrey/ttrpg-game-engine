@@ -87,6 +87,7 @@ namespace GameEngine.Tests
         }
 
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, "", PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, "", PowerDefinitions.SkirmishPowerTemplateName)]
         [Theory]
         public void CreateGeneratePower(int level, PowerFrequency powerFrequency, ToolType toolType, ToolRange toolRange, string preferredModifier, string powerTemplate)
         {

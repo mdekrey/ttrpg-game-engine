@@ -160,8 +160,9 @@ namespace GameEngine.Generator
                 _ => throw new ArgumentException("Invalid enum value for toolRange", nameof(toolRange)),
             };
 
-        public static SerializedEffect Apply(this SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile) =>
-            attack with
+        public static SerializedEffect Apply(this SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
+        {
+            var result = attack with
             {
                 Target = (attackProfile.Target, powerProfile.Tool) switch
                 {
@@ -185,6 +186,13 @@ namespace GameEngine.Generator
                     },
                 }
             };
+            result = attackProfile.Modifiers.Aggregate(
+                result, 
+                (prev, modifier) => 
+                    ModifierDefinitions.modifiers.First(m => m.Name == modifier.Modifier).Apply(attack: prev, powerProfile: powerProfile, attackProfile: attackProfile)
+            );
+            return result;
+        }
 
         private static ImmutableList<DamageEntry> ToDamageEffect(ToolType tool, double weaponDice)
         {

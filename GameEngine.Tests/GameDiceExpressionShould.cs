@@ -25,14 +25,14 @@ namespace GameEngine.Tests
         [InlineData("0", "+0")]
         [InlineData("-0", "+0")]
         [InlineData("+0", "+0")]
-        [InlineData("[W]", "[W]")]
-        [InlineData("STR + [W]", "[W] + STR")]
+        [InlineData("[W]", "1[W]")]
+        [InlineData("STR + [W]", "1[W] + STR")]
         [InlineData("2[W]", "2[W]")]
         [InlineData("DEX + 2[W]", "2[W] + DEX")]
-        [InlineData("1d6 + [W]", "[W] + d6")]
-        [InlineData("3 + [W]", "[W] + 3")]
-        [InlineData("3 + 1d6 + [W] + 2d8", "[W] + 2d8 + d6 + 3")]
-        [InlineData("-[W]", "-[W]")]
+        [InlineData("1d6 + [W]", "1[W] + d6")]
+        [InlineData("3 + [W]", "1[W] + 3")]
+        [InlineData("3 + 1d6 + [W] + 2d8", "1[W] + 2d8 + d6 + 3")]
+        [InlineData("-[W]", "-1[W]")]
         public void SuccessfullyParse(string original, string normalized)
         {
             Assert.True(GameDiceExpression.TryParse(original, out var dieCodes));

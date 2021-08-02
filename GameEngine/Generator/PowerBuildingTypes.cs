@@ -35,6 +35,37 @@ namespace GameEngine.Generator
 
         public virtual bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) =>
             this.CanBeApplied(this, attack, powerInfo);
+
+        public virtual SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
+        {
+            // TODO - make this abstract
+            return attack;
+        }
+
+        protected static SerializedEffect ModifyHit(SerializedEffect attack, Func<SerializedEffect, SerializedEffect> modifyHit)
+        {
+            if (attack.Target?.Effect.Attack?.Hit == null)
+                throw new InvalidOperationException("Cannot apply to hit");
+
+            return attack with
+            {
+                Target = attack.Target with
+                {
+                    Effect = attack.Target.Effect with
+                    {
+                        Attack = attack.Target.Effect.Attack with
+                        {
+                            Hit = modifyHit(attack.Target.Effect.Attack.Hit),
+                        }
+                    }
+                }
+            };
+        }
+
+        protected static SerializedEffect ModifyDamage(SerializedEffect attack, Func<ImmutableList<DamageEntry>, ImmutableList<DamageEntry>?> modifyDamage)
+        {
+            return ModifyHit(attack, hit => hit with { Damage = modifyDamage(hit.Damage ?? ImmutableList<DamageEntry>.Empty) });
+        }
     }
 
     public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolType Tool, ToolRange Range, ClassProfile ClassProfile);

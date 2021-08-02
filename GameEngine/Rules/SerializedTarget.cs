@@ -6,8 +6,21 @@ using System.Text;
 
 namespace GameEngine.Rules
 {
+    public enum TargetType
+    {
+        Creature,
+        Enemy,
+        Ally,
+        Self,
+    }
+
     public record SerializedTarget(
         SerializedEffect Effect,
+
+        TargetType Type = TargetType.Creature,
+        bool YouChoose = false,
+        int? Burst = null,
+        int? Wall = null,
 
         string? Restrictions = null,
         int? MaxTargets = null,
@@ -34,27 +47,21 @@ namespace GameEngine.Rules
     public record RangedOptions(int? Range = null);
 
     public record SerializedEffect(
-        ImmutableList<SerializedEffect>? All,
-        ImmutableList<DamageEntry>? Damage,
-        ConditionEffectOptions? Condition,
-        bool? HalfDamage,
-        RandomizedOptions? Randomized,
-        AttackRollOptions? Attack,
-        SerializedTarget? Target,
-        SerializedPower? Power
+        ImmutableList<SerializedEffect>? All = null,
+        ImmutableList<DamageEntry>? Damage = null,
+        ConditionEffectOptions? Condition = null,
+        bool? HalfDamage = null,
+        RandomizedOptions? Randomized = null,
+        AttackRollOptions? Attack = null,
+        SerializedTarget? Target = null,
+        SerializedSlide? Slide = null,
+        SerializedPower? Power = null
     )
     {
-        public static readonly SerializedEffect Empty = new (
-            All: null, 
-            Damage: null, 
-            Condition: null, 
-            HalfDamage: null, 
-            Randomized: null, 
-            Attack: null,
-            Target: null, 
-            Power: null
-        );
+        public static readonly SerializedEffect Empty = new ();
     }
+
+    public record SerializedSlide(TargetType Target = TargetType.Self, string Amount = "1" /* Could be an ability mod */);
 
     public record SerializedPower
     (

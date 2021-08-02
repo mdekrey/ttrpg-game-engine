@@ -111,7 +111,10 @@ namespace GameEngine.Generator
                 return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+            public override SerializedPower Apply(SerializedPower orig)
+            {
+                return orig;
+            }
         }
 
         private record MultiattackPowerTemplate : PowerTemplate

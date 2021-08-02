@@ -18,40 +18,40 @@ namespace GameEngine.Rules
             var sb = new StringBuilder();
 
             if (WeaponDiceCount != 0)
-                sb.Append(WithModifier(WeaponDiceCount, false)).Append("[W]");
+                sb.Append(WithModifier(WeaponDiceCount, true, false)).Append("[W]");
             foreach (var entry in DieCodes.Entries)
-                sb.Append(WithModifier(entry.DieCount, false)).Append("d").Append(entry.Sides);
+                sb.Append(WithModifier(entry.DieCount, false, false)).Append("d").Append(entry.Sides);
 
             if (Abilities.Strength != 0)
-                sb.Append(WithModifier(Abilities.Strength, false)).Append("STR");
+                sb.Append(WithModifier(Abilities.Strength, false, false)).Append("STR");
             if (Abilities.Constitution != 0)
-                sb.Append(WithModifier(Abilities.Constitution, false)).Append("CON");
+                sb.Append(WithModifier(Abilities.Constitution, false, false)).Append("CON");
             if (Abilities.Dexterity != 0)
-                sb.Append(WithModifier(Abilities.Dexterity, false)).Append("DEX");
+                sb.Append(WithModifier(Abilities.Dexterity, false, false)).Append("DEX");
             if (Abilities.Intelligence != 0)
-                sb.Append(WithModifier(Abilities.Intelligence, false)).Append("INT");
+                sb.Append(WithModifier(Abilities.Intelligence, false, false)).Append("INT");
             if (Abilities.Wisdom != 0)
-                sb.Append(WithModifier(Abilities.Wisdom, false)).Append("WIS");
+                sb.Append(WithModifier(Abilities.Wisdom, false, false)).Append("WIS");
             if (Abilities.Charisma != 0)
-                sb.Append(WithModifier(Abilities.Charisma, false)).Append("CHA");
+                sb.Append(WithModifier(Abilities.Charisma, false, false)).Append("CHA");
 
             if (DieCodes.Modifier != 0 || sb.Length == 0)
-                sb.Append(WithModifier(DieCodes.Modifier, true));
+                sb.Append(WithModifier(DieCodes.Modifier, true, true));
             return sb.ToString();
 
-            string WithModifier(int number, bool forceNumber)
+            string WithModifier(int number, bool forceNumber, bool forceModifier)
             {
                 var mod = (sb.Length, number) switch
                 {
                     ( > 0, < 0) => " - ",
                     ( > 0, > 0) => " + ",
                     (_, < 0) => "-",
-                    (_, >= 0) when forceNumber => "+",
+                    (_, >= 0) when forceModifier => "+",
                     _ => "",
                 };
                 if (!forceNumber)
                     return mod + (number > 1 || number < -1 ? Math.Abs(number) : "");
-                return mod + Math.Abs(DieCodes.Modifier);
+                return mod + Math.Abs(number);
             }
         }
 
