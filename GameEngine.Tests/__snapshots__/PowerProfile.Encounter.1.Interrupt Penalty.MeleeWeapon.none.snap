@@ -4,3 +4,4 @@ Attacks:
   Target: Melee
   Modifiers:
   - Modifier: Ability Modifier Damage
+    Options: {}

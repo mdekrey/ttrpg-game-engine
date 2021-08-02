@@ -13,7 +13,7 @@ namespace GameEngine.Generator
     {
         public const string GeneralKeyword = "General";
 
-        public static readonly PowerModifierFormula NonArmorDefense = new(AccuratePowerTemplateName, "Non-Armor Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1)));
+        public static readonly PowerModifierFormula NonArmorDefense = new NonArmorDefenseFormula(AccuratePowerTemplateName);
         public static readonly PowerModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula(GeneralKeyword);
         public static readonly PowerModifierFormula Multiple3x3 = new(GeneralKeyword, "Multiple3x3", new CostMultiplier(2.0 / 3), And(MinimumPower(1.5), MaxOccurrence(1))); // TODO - other sizes
         public static readonly ImmutableList<PowerModifierFormula> modifiers = new PowerModifierFormula[]
@@ -48,6 +48,25 @@ namespace GameEngine.Generator
         }.ToImmutableList();
 
         public static IEnumerable<string> PowerModifierNames => modifiers.Select(v => v.Name);
+
+        private record NonArmorDefenseFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "Non-Armor Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1)))
+        {
+            public NonArmorDefenseFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
+
+            public override AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+            {
+                // TODO - pick defense
+                return powerInfo.Tool == ToolType.Implement
+                    ? Apply(attack, new FlatCost(0), Name)
+                    : Apply(attack, Cost, Name);
+            }
+
+            public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                throw new NotImplementedException();
+            }
+        }
 
         private record AbilityModifierDamageFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "Ability Modifier Damage", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2)))
         {

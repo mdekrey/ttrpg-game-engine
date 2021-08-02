@@ -4,4 +4,6 @@ Attacks:
   Target: Range
   Modifiers:
   - Modifier: Ability Modifier Damage
+    Options: {}
   - Modifier: To-Hit Bonus +2 (or Abil) to next attack (or to specific target)
+    Options: {}

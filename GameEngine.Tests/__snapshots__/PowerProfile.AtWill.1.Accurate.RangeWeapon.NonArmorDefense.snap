@@ -4,4 +4,6 @@ Attacks:
   Target: Range
   Modifiers:
   - Modifier: Ability Modifier Damage
+    Options: {}
   - Modifier: Non-Armor Defense
+    Options: {}

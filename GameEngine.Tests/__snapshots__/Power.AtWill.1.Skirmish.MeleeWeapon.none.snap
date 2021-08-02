@@ -4,7 +4,9 @@
     Target: Melee
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Options: {}
     - Modifier: Shift
+      Options: {}
 - Name: Generated
   Keywords:
   - Weapon

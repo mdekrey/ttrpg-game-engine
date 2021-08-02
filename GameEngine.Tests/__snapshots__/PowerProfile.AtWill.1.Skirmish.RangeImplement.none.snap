@@ -5,5 +5,8 @@ Attacks:
   Target: Range
   Modifiers:
   - Modifier: Non-Armor Defense
+    Options: {}
   - Modifier: Ability Modifier Damage
+    Options: {}
   - Modifier: Shift
+    Options: {}

@@ -47,7 +47,13 @@ namespace GameEngine.Generator
         }
     }
 
-    public record PowerModifier(string Modifier);
+    public record PowerModifier(string Modifier, ImmutableDictionary<string, string> Options)
+    {
+        public PowerModifier(string Modifier) : this(Modifier, ImmutableDictionary<string, string>.Empty) { }
+
+        public static implicit operator PowerModifier(string Modifier) =>
+            new PowerModifier(Modifier);
+    }
     public record AttackProfile(double WeaponDice, TargetType Target, ImmutableList<PowerModifier> Modifiers)
     {
         public AttackProfile(double WeaponDice, TargetType Target) : this(WeaponDice, Target, ImmutableList<PowerModifier>.Empty) { }

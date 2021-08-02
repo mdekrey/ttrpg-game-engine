@@ -5,5 +5,8 @@ Attacks:
   Target: Melee
   Modifiers:
   - Modifier: Multiple3x3
+    Options: {}
   - Modifier: Non-Armor Defense
+    Options: {}
   - Modifier: Ability Modifier Damage
+    Options: {}

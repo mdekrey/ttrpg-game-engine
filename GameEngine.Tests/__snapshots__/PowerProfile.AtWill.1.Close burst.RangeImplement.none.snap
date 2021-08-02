@@ -4,5 +4,8 @@ Attacks:
 - WeaponDice: 0.83333333333333326
   Modifiers:
   - Modifier: Multiple3x3
+    Options: {}
   - Modifier: Non-Armor Defense
+    Options: {}
   - Modifier: Ability Modifier Damage
+    Options: {}

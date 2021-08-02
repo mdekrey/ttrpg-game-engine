@@ -3,4 +3,6 @@ Attacks:
 - WeaponDice: 2.5
   Modifiers:
   - Modifier: Multiple3x3
+    Options: {}
   - Modifier: Ability Modifier Damage
+    Options: {}

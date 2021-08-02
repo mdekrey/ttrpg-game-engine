@@ -37,7 +37,7 @@ namespace GameEngine.Generator
             var applicableModifiers = GetApplicableModifiers(new[] { info.Tool.ToKeyword(), templateName });
 
             return rootBuilder
-                .PreApply(info)
+                .PreApply(info, randomGenerator)
                 .ApplyRandomModifiers(info, applicableModifiers, randomGenerator);
         }
 
@@ -53,18 +53,15 @@ namespace GameEngine.Generator
             .ToArray();
         }
 
-        public static AttackProfile Apply(this AttackProfile attack, PowerModifierFormula formula, bool skipCost = false, bool when = true) => 
-            !when ? attack
-                : attack with
-                {
-                    WeaponDice = skipCost ? attack.WeaponDice : formula.Cost.Apply(attack.WeaponDice),
-                    Modifiers = attack.Modifiers.Add(new PowerModifier(formula.Name)),
-                };
+        public static AttackProfile PreApply(this AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) => attack
+            .PreApplyImplementNonArmorDefense(powerInfo, randomGenerator)
+            .PreApplyAbilityDamage(powerInfo, randomGenerator);
 
-        public static AttackProfile PreApply(this AttackProfile attack, PowerHighLevelInfo powerInfo) => attack
-            .Apply(ModifierDefinitions.NonArmorDefense, skipCost: true, when: powerInfo.Tool is ToolType.Implement) // Implements get free non-armor defense due to lack of proficiency bonus
-            .Apply(ModifierDefinitions.AbilityModifierDamage, when: attack.WeaponDice > 1 || (powerInfo.Tool == ToolType.Implement && attack.WeaponDice > 0.5));
-            
+        // Implements get free non-armor defense due to lack of proficiency bonus
+        private static AttackProfile PreApplyImplementNonArmorDefense(this AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
+            powerInfo.Tool is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, powerInfo, randomGenerator) : attack;
+        private static AttackProfile PreApplyAbilityDamage(this AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
+            (attack.WeaponDice, powerInfo.Tool) is ( > 0.5, ToolType.Implement) or ( > 1, _) ? ModifierDefinitions.AbilityModifierDamage.Apply(attack, powerInfo, randomGenerator) : attack;
 
         public static AttackProfile ApplyRandomModifiers(this AttackProfile attack, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
         {
@@ -81,9 +78,7 @@ namespace GameEngine.Generator
             if (modifier == null && validModifiers.Length > 0)
                 modifier = validModifiers[randomGenerator(0, validModifiers.Length)];
             if (modifier != null)
-            {
-                attack = attack.Apply(modifier);
-            }
+                attack = modifier.Apply(attack, powerInfo, randomGenerator);
 
             return attack;
         }
@@ -139,9 +134,9 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                var rootBuilder = new AttackProfile(basePower, TargetType.Personal, ImmutableList<PowerModifier>.Empty)
-                    .Apply(ModifierDefinitions.Multiple3x3);
-                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBurstPowerTemplateName, info, rootBuilder, randomGenerator));
+                var rootBuilder = new AttackProfile(basePower, TargetType.Personal, ImmutableList<PowerModifier>.Empty);
+                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBurstPowerTemplateName, info,
+                    ModifierDefinitions.Multiple3x3.Apply(rootBuilder, info, randomGenerator), randomGenerator));
             }
 
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill } or { Tool: ToolType.Implement };
@@ -180,9 +175,9 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                var rootBuilder = new AttackProfile(basePower, TargetType.Melee, ImmutableList<PowerModifier>.Empty)
-                    .Apply(ModifierDefinitions.Multiple3x3);
-                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBlastPowerTemplateName, info, rootBuilder, randomGenerator));
+                var rootBuilder = new AttackProfile(basePower, TargetType.Melee, ImmutableList<PowerModifier>.Empty);
+                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBlastPowerTemplateName, info, 
+                    ModifierDefinitions.Multiple3x3.Apply(rootBuilder, info, randomGenerator), randomGenerator));
             }
 
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Tool: ToolType.Implement } or { Tool: ToolType.Weapon, Usage: not PowerFrequency.AtWill, Range: ToolRange.Range };

@@ -4,7 +4,9 @@ Attacks:
   Target: Melee
   Modifiers:
   - Modifier: Ability Modifier Damage
+    Options: {}
 - WeaponDice: 1.75
   Target: Melee
   Modifiers:
   - Modifier: Ability Modifier Damage
+    Options: {}
