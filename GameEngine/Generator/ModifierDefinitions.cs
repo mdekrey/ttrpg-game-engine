@@ -55,15 +55,20 @@ namespace GameEngine.Generator
 
             public override AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
             {
-                // TODO - pick defense
-                return powerInfo.Tool == ToolType.Implement
-                    ? Apply(attack, new FlatCost(0), Name)
-                    : Apply(attack, Cost, Name);
+                var defense = Enumerable.Repeat(powerInfo.ClassProfile.PrimaryNonArmorDefense, 10).Concat(new[] { DefenseType.Fortitude, DefenseType.Reflex, DefenseType.Will }).RandomSelection(randomGenerator, 1);
+                return Apply(
+                    attack, 
+                    powerInfo.Tool == ToolType.Implement ? new FlatCost(0) : Cost,
+                    new PowerModifier(
+                        Name, 
+                        ImmutableDictionary<string, string>.Empty
+                            .Add("Defense", defense.ToString("g"))
+                    )
+                );
             }
 
             public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
             {
-                // TODO
                 throw new NotImplementedException();
             }
         }
@@ -81,8 +86,8 @@ namespace GameEngine.Generator
                     var initial = damage[0];
                     var dice = GameDiceExpression.Parse(initial.Amount);
 
-                    return damage.SetItem(0, initial with 
-                    { 
+                    return damage.SetItem(0, initial with
+                    {
                         Amount = (dice with { Abilities = dice.Abilities.With(ability, dice.Abilities[ability] + 1) }).ToString(),
                     });
                 });

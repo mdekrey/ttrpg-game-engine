@@ -7,6 +7,7 @@ Attacks:
   - Modifier: Multiple3x3
     Options: {}
   - Modifier: Non-Armor Defense
-    Options: {}
+    Options:
+      Defense: Fortitude
   - Modifier: Ability Modifier Damage
     Options: {}

@@ -5,13 +5,15 @@ Attacks:
   Target: Range
   Modifiers:
   - Modifier: Non-Armor Defense
-    Options: {}
+    Options:
+      Defense: Fortitude
   - Modifier: Ability Modifier Damage
     Options: {}
 - WeaponDice: 0.5
   Target: Range
   Modifiers:
   - Modifier: Non-Armor Defense
-    Options: {}
+    Options:
+      Defense: Fortitude
   - Modifier: Ability Modifier Damage
     Options: {}

@@ -6,4 +6,5 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options: {}
   - Modifier: Non-Armor Defense
-    Options: {}
+    Options:
+      Defense: Fortitude

@@ -33,13 +33,14 @@ namespace GameEngine.Generator
         public PowerModifierFormula(string Keyword, string Name, IPowerCost Cost, Predicate CanBeApplied)
             : this(ImmutableList<string>.Empty.Add(Keyword), Name, Cost, CanBeApplied) { }
 
+        // TODO - make this abstract
         public virtual bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) =>
             this.CanBeApplied(this, attack, powerInfo);
 
         public virtual AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
         {
             // TODO - make this abstract
-            return Apply(attack, Cost, Name);
+            return Apply(attack, Cost, new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
         }
 
         protected static AttackProfile Apply(AttackProfile attack, IPowerCost cost, PowerModifier modifier) =>
