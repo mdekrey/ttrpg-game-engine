@@ -100,7 +100,22 @@ namespace GameEngine.Tests
 
             SerializedPower power = powerProfile.ToPower(level, powerFrequency);
 
-            Snapshot.Match(new object[] { powerProfile, power }, $"Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{toolRange:g}{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
+            
+            Snapshot.Match(
+                Newtonsoft.Json.JsonConvert.SerializeObject(
+                    new object[] { powerProfile, power },
+                    new Newtonsoft.Json.JsonSerializerSettings
+                    {
+                        Formatting = Newtonsoft.Json.Formatting.Indented,
+                        NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+                        Converters =
+                        {
+                            new Newtonsoft.Json.Converters.StringEnumConverter(),
+                        }
+                    }
+                ), 
+                $"Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{toolRange:g}{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}"
+            );
         }
 
         [Fact]

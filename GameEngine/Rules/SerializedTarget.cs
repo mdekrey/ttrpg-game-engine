@@ -7,24 +7,31 @@ using System.Text;
 namespace GameEngine.Rules
 {
     public record SerializedTarget(
-        MeleeWeaponOptions? MeleeWeapon,
-        int? Melee,
-        RangedWeaponOptions? RangedWeapon,
-        int? Ranged,
-        bool? RangedSight,
-        
-        string? Restrictions,
-        SerializedEffect Effect
-    );
+        SerializedEffect Effect,
 
+        string? Restrictions = null,
+        int? MaxTargets = null,
+        PersonalOptions? Personal = null,
+        MeleeWeaponOptions? MeleeWeapon = null,
+        MeleeOptions? Melee = null,
+        RangedWeaponOptions? RangedWeapon = null,
+        RangedOptions? Ranged = null
+    )
+    {
+        public static readonly SerializedTarget Empty = new SerializedTarget(Effect: SerializedEffect.Empty);
+    }
+
+    public record PersonalOptions;
     public record MeleeWeaponOptions
     (
         int AdditionalReach = 0,
-        int TargetCount = 1,
         bool Offhand = false
     );
+    public record MeleeOptions(int? Range = null);
+
 
     public record RangedWeaponOptions;
+    public record RangedOptions(int? Range = null);
 
     public record SerializedEffect(
         ImmutableList<SerializedEffect>? All,
@@ -43,7 +50,7 @@ namespace GameEngine.Rules
             Condition: null, 
             HalfDamage: null, 
             Randomized: null, 
-            Attack: null, 
+            Attack: null,
             Target: null, 
             Power: null
         );
@@ -87,14 +94,16 @@ namespace GameEngine.Rules
 
     public record AttackRollOptions
     (
-
-        Ability? Kind,
+        Ability Kind,
         int Bonus,
-        DefenseType? Defense,
-        SerializedEffect? Hit,
-        SerializedEffect? Miss,
-        SerializedEffect? Effect
-    );
+        DefenseType Defense,
+        SerializedEffect? Hit = null,
+        SerializedEffect? Miss = null,
+        SerializedEffect? Effect = null
+    )
+    {
+        public static readonly AttackRollOptions Empty = new(Ability.Strength, Bonus: 0, Defense: DefenseType.ArmorClass);
+    }
 
     public record RollEffectResolution
     (

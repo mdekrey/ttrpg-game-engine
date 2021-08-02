@@ -57,7 +57,8 @@ namespace GameEngine.Tests
             var actionBuilder = scope.ServiceProvider.GetRequiredService<ActionFactory>();
 
             var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
-                ""meleeWeapon"": { ""targetCount"": 2 },
+                ""maxTargets"": 2,
+                ""meleeWeapon"": {},
                 ""effect"": { ""attack"": {
                     ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } }
                 } }

@@ -19,35 +19,50 @@
     "Name": "Generated",
     "Frequency": "At-Will",
     "ActionType": "Standard",
-    "Trigger": null,
-    "Prerequisite": null,
-    "Requirement": null,
     "Keywords": [
       "Weapon"
     ],
-    "Class": null,
     "Level": 1,
-    "Comments": null,
     "Effects": [
       {
-        "All": null,
-        "Damage": null,
-        "Condition": null,
-        "HalfDamage": null,
-        "Randomized": null,
-        "Attack": null,
-        "Target": null,
-        "Power": null
+        "Target": {
+          "Effect": {
+            "Attack": {
+              "Kind": "Strength",
+              "Bonus": 0,
+              "Defense": "ArmorClass",
+              "Hit": {
+                "Damage": {
+                  "Weapon": "[W]"
+                }
+              }
+            }
+          },
+          "MeleeWeapon": {
+            "AdditionalReach": 0,
+            "Offhand": false
+          }
+        }
       },
       {
-        "All": null,
-        "Damage": null,
-        "Condition": null,
-        "HalfDamage": null,
-        "Randomized": null,
-        "Attack": null,
-        "Target": null,
-        "Power": null
+        "Target": {
+          "Effect": {
+            "Attack": {
+              "Kind": "Strength",
+              "Bonus": 0,
+              "Defense": "ArmorClass",
+              "Hit": {
+                "Damage": {
+                  "Weapon": "[W]"
+                }
+              }
+            }
+          },
+          "MeleeWeapon": {
+            "AdditionalReach": 0,
+            "Offhand": false
+          }
+        }
       }
     ]
   }

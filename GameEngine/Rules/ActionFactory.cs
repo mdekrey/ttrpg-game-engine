@@ -26,10 +26,10 @@ namespace GameEngine.Rules
 
         public async Task<ITargetSelection> BuildAsync(SerializedTarget target)
         {
-            var effect = await BuildAsync(target.Effect);
+            IEffect effect = await BuildAsync(target.Effect);
             return target switch
             {
-                { MeleeWeapon: MeleeWeaponOptions melee } => new MeleeWeapon { AdditionalReach = melee.AdditionalReach, TargetCount = melee.TargetCount, Offhand = melee.Offhand, Effect = effect },
+                { MeleeWeapon: MeleeWeaponOptions melee } => new MeleeWeapon { AdditionalReach = melee.AdditionalReach, TargetCount = target.MaxTargets ?? 1, Offhand = melee.Offhand, Effect = effect },
                 { RangedWeapon: RangedWeaponOptions _ } => new RangedWeapon { },
                 _ => throw new NotImplementedException(),
             };
@@ -44,6 +44,19 @@ namespace GameEngine.Rules
                 : new AllEffects(effects.ToImmutableList());
         }
 
+        private async Task<IEffect> BuildAsync(AttackRollOptions attack)
+        {
+            return new AttackRoll(currentAttacker, currentTarget)
+            {
+                Kind = attack.Kind,
+                Bonus = attack.Bonus,
+                Defense = attack.Defense,
+                Hit = attack.Hit == null ? null : await BuildAsync(attack.Hit),
+                Miss = attack.Miss == null ? null : await BuildAsync(attack.Miss),
+                Effect = attack.Effect == null ? null : await BuildAsync(attack.Effect),
+            };
+        }
+
         private async Task<IEnumerable<IEffect>> BuildEffects(SerializedEffect effect)
         {
             var effects = new List<IEffect>();
@@ -55,16 +68,8 @@ namespace GameEngine.Rules
             if (effect is { Randomized: RandomizedOptions roll })
                 effects.Add(await FromRollAsync(roll.Dice, roll.Resolution));
             if (effect is { Attack: AttackRollOptions attack })
-                effects.Add(new AttackRoll(currentAttacker, currentTarget)
-                {
-                    Kind = attack.Kind ?? Ability.Strength,
-                    Bonus = attack.Bonus,
-                    Defense = attack.Defense ?? DefenseType.ArmorClass,
-                    Hit = attack.Hit == null ? null : await BuildAsync(attack.Hit),
-                    Miss = attack.Miss == null ? null : await BuildAsync(attack.Miss),
-                    Effect = attack.Effect == null ? null : await BuildAsync(attack.Effect),
-                });
-            if (effect is { Target: SerializedTarget target })
+                effects.Add(await BuildAsync(attack));
+                if (effect is { Target: SerializedTarget target })
                 effects.Add(await BuildAsync(target));
             if (effect is { HalfDamage: true })
                 effects.Add(new HalfDamageEffect());

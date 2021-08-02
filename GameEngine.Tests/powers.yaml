@@ -27,7 +27,7 @@
     level: 1
     keywords: [ martial, weapon ]
     effects:
-    - all:
+      - all:
         - target:
             meleeWeapon: {}
             effect:
@@ -50,7 +50,8 @@
     keywords: [ arcane, implement, evocation ]
     effects:
     - target:
-        ranged: 20
+        ranged:
+          range: 20
         effect:
           damage:
             force: 2 + INT
@@ -99,7 +100,8 @@
     level: 1
     effects:
     - target:
-        ranged: 10
+        ranged:
+          range: 10
         effect:
           attack:
             hit:

@@ -139,7 +139,7 @@ namespace GameEngine.Generator
             result = result with
             {
                 Effects = powerProfile.Attacks
-                    .Select(attackProfile => SerializedEffect.Empty /* .Apply(attackProfile) */).ToImmutableList(),
+                    .Select(attackProfile => SerializedEffect.Empty.Apply(powerProfile, attackProfile)).ToImmutableList(),
             };
             return result;
         }
@@ -159,5 +159,58 @@ namespace GameEngine.Generator
                 ToolRange.Range => TargetType.Range,
                 _ => throw new ArgumentException("Invalid enum value for toolRange", nameof(toolRange)),
             };
+
+        public static SerializedEffect Apply(this SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile) =>
+            attack with
+            {
+                Target = (attackProfile.Target, powerProfile.Tool) switch
+                {
+                    (TargetType.Melee, ToolType.Weapon) => SerializedTarget.Empty with { MeleeWeapon = new() },
+                    (TargetType.Melee, ToolType.Implement) => SerializedTarget.Empty with { Melee = new() },
+                    (TargetType.Personal, _) => SerializedTarget.Empty with { Personal = new() },
+                    (TargetType.Range, ToolType.Weapon) => SerializedTarget.Empty with { RangedWeapon = new() },
+                    (TargetType.Range, ToolType.Implement) => SerializedTarget.Empty with { Ranged = new() },
+                    _ => throw new NotImplementedException($"Range/Tool combination not implemented: {attackProfile.Target:g} {powerProfile.Tool:g}")
+                } with
+                {
+                    Effect = SerializedEffect.Empty with
+                    {
+                        Attack = AttackRollOptions.Empty with
+                        {
+                            Hit = SerializedEffect.Empty with
+                            {
+                                Damage = ToDamageEffect(powerProfile.Tool, attackProfile.WeaponDice),
+                            }
+                        },
+                    },
+                }
+            };
+
+        private static DamageEffectOptions ToDamageEffect(ToolType tool, double weaponDice)
+        {
+            if (tool == ToolType.Weapon)
+                return new DamageEffectOptions { { DamageType.Weapon, (GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString() } };
+            var averageDamage = weaponDice * 5.5;
+            var dieType = (
+                from entry in new[]
+                {
+                    (type: "d10", results: GetDiceCount(averageDamage, 5.5)),
+                    (type: "d8", results: GetDiceCount(averageDamage, 4.5)),
+                    (type: "d6", results: GetDiceCount(averageDamage, 3.5)),
+                    (type: "d4", results: GetDiceCount(averageDamage, 2.5)),
+                }
+                orderby entry.results.remainder descending
+                select (type: entry.type, count: entry.results.dice, remainder: entry.results.remainder)
+            ).ToArray();
+            var (type, count, remainder) = dieType.First();
+
+            return new DamageEffectOptions { { DamageType.Fire, $"{count}{type}" } };
+
+            (int dice, double remainder) GetDiceCount(double averageDamage, double damagePerDie)
+            {
+                var dice = (int)(averageDamage / damagePerDie);
+                return (dice: dice, remainder: averageDamage % damagePerDie);
+            }
+        }
     }
 }
