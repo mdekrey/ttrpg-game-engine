@@ -35,7 +35,7 @@ namespace GameEngine.Rules
 
     public record SerializedEffect(
         ImmutableList<SerializedEffect>? All,
-        DamageEffectOptions? Damage,
+        ImmutableList<DamageEntry>? Damage,
         ConditionEffectOptions? Condition,
         bool? HalfDamage,
         RandomizedOptions? Randomized,
@@ -111,11 +111,7 @@ namespace GameEngine.Rules
         SerializedEffect Effect
     );
 
-    public class DamageEffectOptions : Dictionary<DamageType, string>
-    {
-        // Value: Die Codes
-
-    }
+    public record DamageEntry(string Amount, ImmutableList<DamageType> Types);
 
     public class ConditionEffectOptions : Dictionary<ConditionType, string>
     {

@@ -63,8 +63,8 @@ namespace GameEngine.Rules
 
             if (effect is { All: IEnumerable<SerializedEffect> multiple })
                 effects.AddRange((await Task.WhenAll(multiple.Select(BuildEffects))).SelectMany(e => e));
-            if (effect is { Damage: DamageEffectOptions damage })
-                effects.Add(new DamageEffect(damage.ToImmutableDictionary(kvp => kvp.Key, kvp => GameDiceExpression.Parse(kvp.Value))));
+            if (effect is { Damage: ImmutableList<DamageEntry> damage })
+                effects.Add(new DamageEffect(damage.Select(e => new DamageEffectEntry(GameDiceExpression.Parse(e.Amount), e.Types)).ToImmutableList()));
             if (effect is { Randomized: RandomizedOptions roll })
                 effects.Add(await FromRollAsync(roll.Dice, roll.Resolution));
             if (effect is { Attack: AttackRollOptions attack })

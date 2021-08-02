@@ -32,9 +32,14 @@
               "Bonus": 0,
               "Defense": "ArmorClass",
               "Hit": {
-                "Damage": {
-                  "Weapon": "[W]"
-                }
+                "Damage": [
+                  {
+                    "Amount": "[W]",
+                    "Types": [
+                      "Weapon"
+                    ]
+                  }
+                ]
               }
             }
           },
@@ -52,9 +57,14 @@
               "Bonus": 0,
               "Defense": "ArmorClass",
               "Hit": {
-                "Damage": {
-                  "Weapon": "[W]"
-                }
+                "Damage": [
+                  {
+                    "Amount": "[W]",
+                    "Types": [
+                      "Weapon"
+                    ]
+                  }
+                ]
               }
             }
           },

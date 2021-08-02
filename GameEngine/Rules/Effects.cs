@@ -6,7 +6,8 @@ using System.Text;
 
 namespace GameEngine.Rules
 {
-    public record DamageEffect(ImmutableDictionary<DamageType, GameDiceExpression> DamageTypes) : IEffect;
+    public record DamageEffect(ImmutableList<DamageEffectEntry> DamageTypes) : IEffect;
+    public record DamageEffectEntry(GameDiceExpression Amount, ImmutableList<DamageType> Types);
 
     public record HalfDamageEffect() : IEffect;
 }

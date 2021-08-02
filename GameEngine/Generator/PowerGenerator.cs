@@ -186,10 +186,10 @@ namespace GameEngine.Generator
                 }
             };
 
-        private static DamageEffectOptions ToDamageEffect(ToolType tool, double weaponDice)
+        private static ImmutableList<DamageEntry> ToDamageEffect(ToolType tool, double weaponDice)
         {
             if (tool == ToolType.Weapon)
-                return new DamageEffectOptions { { DamageType.Weapon, (GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString() } };
+                return ImmutableList<DamageEntry>.Empty.Add(new ((GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString(), ImmutableList<DamageType>.Empty.Add(DamageType.Weapon)));
             var averageDamage = weaponDice * 5.5;
             var dieType = (
                 from entry in new[]
@@ -204,7 +204,8 @@ namespace GameEngine.Generator
             ).ToArray();
             var (type, count, remainder) = dieType.First();
 
-            return new DamageEffectOptions { { DamageType.Fire, $"{count}{type}" } };
+            // TODO - should not hard-code fire
+            return ImmutableList<DamageEntry>.Empty.Add(new($"{count}{type}", ImmutableList<DamageType>.Empty.Add(DamageType.Fire)));
 
             (int dice, double remainder) GetDiceCount(double averageDamage, double damagePerDie)
             {

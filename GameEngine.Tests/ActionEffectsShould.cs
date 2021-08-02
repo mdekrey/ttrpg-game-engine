@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -26,7 +27,10 @@ namespace GameEngine.Tests
 
         private static SerializedTarget Deserialize(string json)
         {
-            return JsonSerializer.Deserialize<SerializedTarget>(json, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+            return JsonSerializer.Deserialize<SerializedTarget>(
+                json,
+                new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } }
+            )!;
         }
 
         [Fact]
@@ -41,7 +45,7 @@ namespace GameEngine.Tests
             var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
                 ""meleeWeapon"": {},
                 ""effect"": { ""attack"": {
-                    ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } }
+                    ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""[W] + STR"" } ] }
                 } }
             }"));
 
@@ -60,7 +64,7 @@ namespace GameEngine.Tests
                 ""maxTargets"": 2,
                 ""meleeWeapon"": {},
                 ""effect"": { ""attack"": {
-                    ""hit"": { ""damage"": { ""weapon"": ""[W] + STR"" } }
+                    ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""[W] + STR"" } ] }
                 } }
             }"));
 

@@ -8,7 +8,8 @@
           attack:
             hit:
               damage:
-                weapon: 1[W] + STR
+              - types: [weapon]
+                amount: 1[W] + STR
   Ranged Basic Attack:
     comments: 'Ranged Basic Attack'
     effects:
@@ -19,7 +20,8 @@
             kind: Dexterity
             hit:
               damage:
-                weapon: 1[W] + DEX
+              - types: [weapon]
+                amount: 1[W] + DEX
   Twin Strike:
     comments: 'Ranger At-Will 1'
     class: Ranger
@@ -34,7 +36,8 @@
               attack:
                 hit:
                   damage:
-                    weapon: 1[W]
+                  - types: [weapon]
+                    amount: 1[W]
         - target:
             meleeWeapon:
               offhand: true
@@ -42,7 +45,8 @@
               attack:
                 hit:
                   damage:
-                    weapon: 1[W]
+                  - types: [weapon]
+                    amount: 1[W]
   Magic Missile:
     class: Wizard
     frequency: At-Will
@@ -54,7 +58,8 @@
           range: 20
         effect:
           damage:
-            force: 2 + INT
+          - types: [force]
+            amount: 2 + INT
   Riposte Strike:
     class: Rogue
     frequency: At-Will
@@ -68,7 +73,8 @@
             kind: Dexterity
             hit:
               damage:
-                weapon: 1[W] + DEX
+              - types: [weapon]
+                amount: 1[W] + DEX
               power:
                 trigger: the target attacks you before the start of your next turn
                 actionType: Opportunity
@@ -80,7 +86,8 @@
                       attack:
                         hit:
                           damage:
-                            weapon: 1[W] + STR
+                          - types: [weapon]
+                            amount: 1[W] + STR
   Torturous Strike:
     comments: 'Rogue Encounter 1 (Brutal Scoundrel)'
     class: Rogue
@@ -93,7 +100,8 @@
           attack:
             hit:
               damage:
-                weapon: 2[W] + DEX + STR
+              - types: [weapon]
+                amount: 2[W] + DEX + STR
   Ray of Frost:
     class: Wizard
     frequency: At-Will
@@ -106,6 +114,7 @@
           attack:
             hit:
               damage:
-                cold: d6 + INT
+                - types: [cold]
+                  amount: d6 + INT
               condition:
                 slowed: End of User's Next Turn # TODO, is this an awkward enum?
