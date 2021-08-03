@@ -189,7 +189,7 @@ namespace GameEngine.Generator
             result = attackProfile.Modifiers.Aggregate(
                 result, 
                 (prev, modifier) => 
-                    ModifierDefinitions.modifiers.First(m => m.Name == modifier.Modifier).Apply(attack: prev, powerProfile: powerProfile, attackProfile: attackProfile)
+                    ModifierDefinitions.modifiers.First(m => m.Name == modifier.Modifier).Apply(effect: prev, powerProfile: powerProfile, attackProfile: attackProfile, modifier: modifier)
             );
             return result;
         }
@@ -207,7 +207,7 @@ namespace GameEngine.Generator
                     (type: "d6", results: GetDiceCount(averageDamage, 3.5)),
                     (type: "d4", results: GetDiceCount(averageDamage, 2.5)),
                 }
-                orderby entry.results.remainder descending
+                orderby entry.results.remainder ascending
                 select (type: entry.type, count: entry.results.dice, remainder: entry.results.remainder)
             ).ToArray();
             var (type, count, remainder) = dieType.First();

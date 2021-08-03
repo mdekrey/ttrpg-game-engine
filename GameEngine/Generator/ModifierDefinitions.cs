@@ -20,6 +20,7 @@ namespace GameEngine.Generator
         {
             AbilityModifierDamage,
             NonArmorDefense,
+            Multiple3x3,
             new TempPowerModifierFormula(AccuratePowerTemplateName, "To-Hit Bonus +2", new PowerCost(0.5)),
             new ConditionFormula("Slowed", ConditionsPowerTemplateName),
             new ConditionFormula("Dazed", ConditionsPowerTemplateName),
@@ -66,9 +67,9 @@ namespace GameEngine.Generator
                 );
             }
 
-            public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
             {
-                throw new NotImplementedException();
+                return ModifyAttack(effect, attack => attack with { Defense = Enum.Parse<DefenseType>(modifier.Options["Defense"]) });
             }
         }
 
@@ -80,9 +81,9 @@ namespace GameEngine.Generator
             public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
                 Apply(attack, new PowerCost(0.5), new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
 
-            public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
             {
-                return ModifyDamage(attack, damage =>
+                return ModifyDamage(effect, damage =>
                 {
                     var ability = Ability.Strength; // TODO - configure ability
 
@@ -104,10 +105,10 @@ namespace GameEngine.Generator
             public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
                 Apply(attack, new PowerCost(0.5), new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
 
-            public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
             {
                 var ability = Ability.Dexterity; // TODO - configure ability
-                return attack with { Slide = new SerializedSlide(Amount: (GameDiceExpression.Empty with { Abilities = CharacterAbilities.Empty.With(ability, 1) }).ToString()) };
+                return effect with { Slide = new SerializedSlide(Amount: (GameDiceExpression.Empty with { Abilities = CharacterAbilities.Empty.With(ability, 1) }).ToString()) };
             }
         }
 
@@ -149,10 +150,10 @@ namespace GameEngine.Generator
                        select (cost: kvp.Value, duration: kvp.Key);
             }
 
-            public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
             {
                 // TODO
-                return attack;
+                return effect;
             }
         }
 
@@ -177,10 +178,10 @@ namespace GameEngine.Generator
                 );
             }
 
-            public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
             {
                 // TODO
-                return attack;
+                return effect;
             }
         }
     }

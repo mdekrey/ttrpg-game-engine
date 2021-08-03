@@ -58,31 +58,39 @@ namespace GameEngine.Generator
                 Modifiers = attack.Modifiers.Add(modifier),
             };
 
-        public abstract SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile);
+        public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier);
 
-        protected static SerializedEffect ModifyHit(SerializedEffect attack, Func<SerializedEffect, SerializedEffect> modifyHit)
+        protected static SerializedEffect ModifyAttack(SerializedEffect effect, Func<AttackRollOptions, AttackRollOptions> modifyAttack)
         {
-            if (attack.Target?.Effect.Attack?.Hit == null)
+            if (effect.Target?.Effect.Attack == null)
                 throw new InvalidOperationException("Cannot apply to hit");
 
-            return attack with
+            return effect with
             {
-                Target = attack.Target with
+                Target = effect.Target with
                 {
-                    Effect = attack.Target.Effect with
+                    Effect = effect.Target.Effect with
                     {
-                        Attack = attack.Target.Effect.Attack with
-                        {
-                            Hit = modifyHit(attack.Target.Effect.Attack.Hit),
-                        }
+                        Attack = modifyAttack(effect.Target.Effect.Attack)
                     }
                 }
             };
         }
 
-        protected static SerializedEffect ModifyDamage(SerializedEffect attack, Func<ImmutableList<DamageEntry>, ImmutableList<DamageEntry>?> modifyDamage)
+        protected static SerializedEffect ModifyHit(SerializedEffect effect, Func<SerializedEffect, SerializedEffect> modifyHit)
         {
-            return ModifyHit(attack, hit => hit with { Damage = modifyDamage(hit.Damage ?? ImmutableList<DamageEntry>.Empty) });
+            if (effect.Target?.Effect.Attack?.Hit == null)
+                throw new InvalidOperationException("Cannot apply to hit");
+
+            return ModifyAttack(effect, attack => attack with
+            {
+                Hit = modifyHit(effect.Target.Effect.Attack.Hit),
+            });
+        }
+
+        protected static SerializedEffect ModifyDamage(SerializedEffect effect, Func<ImmutableList<DamageEntry>, ImmutableList<DamageEntry>?> modifyDamage)
+        {
+            return ModifyHit(effect, hit => hit with { Damage = modifyDamage(hit.Damage ?? ImmutableList<DamageEntry>.Empty) });
         }
     }
 
@@ -100,7 +108,7 @@ namespace GameEngine.Generator
         public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
             Apply(attack, Cost, new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
 
-        public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile) => attack;
+        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier powerModifier) => effect;
     }
 
     public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile);

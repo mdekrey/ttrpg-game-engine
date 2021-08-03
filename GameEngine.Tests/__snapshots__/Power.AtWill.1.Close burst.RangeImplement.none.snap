@@ -1,0 +1,30 @@
+﻿- Template: Close burst
+  Tool: Implement
+  Attacks:
+  - WeaponDice: 0.83333333333333326
+    DamageTypes:
+    - Radiant
+    Target: Range
+    Modifiers:
+    - Modifier: Multiple3x3
+      Options: {}
+    - Modifier: Non-Armor Defense
+      Options:
+        Defense: Fortitude
+    - Modifier: Ability Modifier Damage
+      Options: {}
+- Name: Generated
+  Keywords:
+  - Implement
+  Level: 1
+  Effects:
+  - Target:
+      Effect:
+        Attack:
+          Defense: Fortitude
+          Hit:
+            Damage:
+            - Amount: d8 + STR
+              Types:
+              - Radiant
+      Ranged: {}
