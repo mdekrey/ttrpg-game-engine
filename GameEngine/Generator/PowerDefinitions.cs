@@ -32,13 +32,14 @@ namespace GameEngine.Generator
         }.ToImmutableDictionary(template => template.Name);
         public static IEnumerable<string> PowerTemplateNames => powerTemplates.Keys;
 
-        private static AttackProfile ApplyAttackProfileModifiers(string templateName, PowerHighLevelInfo info, AttackProfile rootBuilder, RandomGenerator randomGenerator)
+        private static AttackProfile ApplyAttackProfileModifiers(string templateName, PowerHighLevelInfo info, AttackProfileBuilder rootBuilder, RandomGenerator randomGenerator)
         {
             var applicableModifiers = GetApplicableModifiers(new[] { info.ToolProfile.Type.ToKeyword(), templateName });
 
             return rootBuilder
                 .PreApply(info, randomGenerator)
-                .ApplyRandomModifiers(info, applicableModifiers, randomGenerator);
+                .ApplyRandomModifiers(info, applicableModifiers, randomGenerator)
+                .Build();
         }
 
         private static PowerModifierFormula[] GetApplicableModifiers(params string[] keywords)
@@ -53,19 +54,19 @@ namespace GameEngine.Generator
             .ToArray();
         }
 
-        public static AttackProfile PreApply(this AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) => attack
+        public static AttackProfileBuilder PreApply(this AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) => attack
             .PreApplyImplementNonArmorDefense(powerInfo, randomGenerator)
             .PreApplyAbilityDamage(powerInfo, randomGenerator);
 
         // Implements get free non-armor defense due to lack of proficiency bonus
-        private static AttackProfile PreApplyImplementNonArmorDefense(this AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
+        private static AttackProfileBuilder PreApplyImplementNonArmorDefense(this AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
             powerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, powerInfo, randomGenerator) : attack;
-        private static AttackProfile PreApplyAbilityDamage(this AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
-            (attack.WeaponDice, powerInfo.ToolProfile.Type) is ( > 0.5, ToolType.Implement) or ( > 1, _) ? ModifierDefinitions.AbilityModifierDamage.Apply(attack, powerInfo, randomGenerator) : attack;
+        private static AttackProfileBuilder PreApplyAbilityDamage(this AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
+            (attack.Cost.Result, powerInfo.ToolProfile.Type) is ( > 0.5, ToolType.Implement) or ( > 1, _) ? ModifierDefinitions.AbilityModifierDamage.Apply(attack, powerInfo, randomGenerator) : attack;
 
-        private static AttackProfile RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
-            new AttackProfile(
-                basePower,
+        private static AttackProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
+            new AttackProfileBuilder(
+                new PowerCostBuilder(basePower, PowerCost.Empty, 1),
                 randomGenerator.RandomEscalatingSelection(
                     info.ToolProfile.Abilities
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
@@ -74,10 +75,11 @@ namespace GameEngine.Generator
                     info.ToolProfile.PreferredDamageTypes.Where(d => d != DamageType.Weapon || info.ToolProfile.Type == ToolType.Weapon)
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                 ),
-                info.ToolProfile.Range.ToTargetType()
+                info.ToolProfile.Range.ToTargetType(),
+                ImmutableList<PowerModifier>.Empty
             );
 
-        public static AttackProfile ApplyRandomModifiers(this AttackProfile attack, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
+        public static AttackProfileBuilder ApplyRandomModifiers(this AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
         {
             var preferredModifiers = (from name in powerInfo.ToolProfile.PreferredModifiers
                                       let mod = modifiers.FirstOrDefault(m => m.Name == name)

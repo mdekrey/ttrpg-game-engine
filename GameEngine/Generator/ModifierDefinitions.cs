@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using static GameEngine.Generator.PowerModifierFormulaPredicates;
 using static GameEngine.Generator.PowerDefinitions;
 using System.Collections.Immutable;
 using GameEngine.Rules;
@@ -15,28 +14,28 @@ namespace GameEngine.Generator
 
         public static readonly PowerModifierFormula NonArmorDefense = new NonArmorDefenseFormula(AccuratePowerTemplateName);
         public static readonly PowerModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula(GeneralKeyword);
-        public static readonly PowerModifierFormula Multiple3x3 = new TempPowerModifierFormula(GeneralKeyword, "Multiple3x3", new CostMultiplier(2.0 / 3), And(MinimumPower(1.5), MaxOccurrence(1))); // TODO - other sizes
+        public static readonly PowerModifierFormula Multiple3x3 = new TempPowerModifierFormula(GeneralKeyword, "Multiple3x3", new PowerCost(Multiplier: 2.0 / 3)); // TODO - other sizes
         public static readonly ImmutableList<PowerModifierFormula> modifiers = new PowerModifierFormula[]
         {
             AbilityModifierDamage,
             NonArmorDefense,
-            new TempPowerModifierFormula(AccuratePowerTemplateName, "To-Hit Bonus +2", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
+            new TempPowerModifierFormula(AccuratePowerTemplateName, "To-Hit Bonus +2", new PowerCost(0.5)),
             new ConditionFormula("Slowed", ConditionsPowerTemplateName),
             new ConditionFormula("Dazed", ConditionsPowerTemplateName),
             new ConditionFormula("Immobilized", ConditionsPowerTemplateName),
             new ConditionFormula("Weakened", ConditionsPowerTemplateName),
             new ConditionFormula("Grants Combat Advantage", ConditionsPowerTemplateName),
-            new ImmediateConditionFormula("Prone", new FlatCost(1), ConditionsPowerTemplateName),
-            new TempPowerModifierFormula(ConditionsPowerTemplateName, "-2 to One Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))), // TODO - combine these with options
-            new TempPowerModifierFormula(ConditionsPowerTemplateName, "-2 (or Abil) to all Defenses", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))), // TODO - combine these with options
+            new ImmediateConditionFormula("Prone", new PowerCost(1), ConditionsPowerTemplateName),
+            new TempPowerModifierFormula(ConditionsPowerTemplateName, "-2 to One Defense", new PowerCost(0.5)), // TODO - combine these with options
+            new TempPowerModifierFormula(ConditionsPowerTemplateName, "-2 (or Abil) to all Defenses", new PowerCost(1)), // TODO - combine these with options
             new ShiftFormula(SkirmishPowerTemplateName),
-            new TempPowerModifierFormula(SkirmishPowerTemplateName, "Movement after Attack does not provoke opportunity attacks", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new TempPowerModifierFormula(BonusPowerTemplateName, "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new TempPowerModifierFormula(BonusPowerTemplateName, "+2 to AC to Ally", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new TempPowerModifierFormula(BonusPowerTemplateName, "+Ability Bonus Temporary Hit points", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new TempPowerModifierFormula(BonusPowerTemplateName, "Extra Saving Throw", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))),
-            new TempPowerModifierFormula(BonusPowerTemplateName, "Healing Surge", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1), MaximumFrequency(PowerFrequency.Encounter))),
-            new TempPowerModifierFormula(BonusPowerTemplateName, "Regeneration 5", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(2), MaximumFrequency(PowerFrequency.Daily))),
+            new TempPowerModifierFormula(SkirmishPowerTemplateName, "Movement after Attack does not provoke opportunity attacks", new PowerCost(0.5)),
+            new TempPowerModifierFormula(BonusPowerTemplateName, "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)", new PowerCost(0.5)),
+            new TempPowerModifierFormula(BonusPowerTemplateName, "+2 to AC to Ally", new PowerCost(0.5)),
+            new TempPowerModifierFormula(BonusPowerTemplateName, "+Ability Bonus Temporary Hit points", new PowerCost(1)),
+            new TempPowerModifierFormula(BonusPowerTemplateName, "Extra Saving Throw", new PowerCost(1)),
+            new TempPowerModifierFormula(BonusPowerTemplateName, "Healing Surge", new PowerCost(1)), // TODO - Encounter only
+            new TempPowerModifierFormula(BonusPowerTemplateName, "Regeneration 5", new PowerCost(1)), // TODO - Daily only
             // Blinded
             // Slowed/Unconscious
             // Ongoing
@@ -52,16 +51,14 @@ namespace GameEngine.Generator
         {
             public NonArmorDefenseFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
-            public override bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) => And(MinimumPower(1.5), MaxOccurrence(1))(this, attack, powerInfo);
-
-            public override AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
             {
                 var defense = randomGenerator.RandomSelection((10, powerInfo.ToolProfile.PrimaryNonArmorDefense), (1, DefenseType.Fortitude), (1, DefenseType.Reflex), (1, DefenseType.Will));
                 return Apply(
-                    attack, 
-                    powerInfo.ToolProfile.Type == ToolType.Implement ? new FlatCost(0) : new FlatCost(0.5),
+                    attack,
+                    powerInfo.ToolProfile.Type == ToolType.Implement ? new PowerCost(0) : new PowerCost(0.5),
                     new PowerModifier(
-                        Name, 
+                        Name,
                         ImmutableDictionary<string, string>.Empty
                             .Add("Defense", defense.ToString("g"))
                     )
@@ -78,10 +75,9 @@ namespace GameEngine.Generator
         {
             public AbilityModifierDamageFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
-            public override bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) => And(MinimumPower(1.5), MaxOccurrence(2))(this, attack, powerInfo);
-
-            public override AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
-                Apply(attack, new FlatCost(0.5), new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
+            // TODO - allow primary and secondary damage
+            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
+                Apply(attack, new PowerCost(0.5), new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
 
             public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
             {
@@ -104,10 +100,8 @@ namespace GameEngine.Generator
         {
             public ShiftFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
-            public override bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) => And(MinimumPower(1.5), MaxOccurrence(1))(this, attack, powerInfo);
-
-            public override AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
-                Apply(attack, new FlatCost(0.5), new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
+            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
+                Apply(attack, new PowerCost(0.5), new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
 
             public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
             {
@@ -116,23 +110,23 @@ namespace GameEngine.Generator
             }
         }
 
-        private record ConditionFormula(ImmutableList<string> Keywords, string Name, ImmutableDictionary<Duration, IPowerCost> PowerCost) : PowerModifierFormula(Keywords, Name)
+        private record ConditionFormula(ImmutableList<string> Keywords, string Name, ImmutableDictionary<Duration, PowerCost> PowerCost) : PowerModifierFormula(Keywords, Name)
         {
             public ConditionFormula(string conditionName, params string[] keywords)
-                : this(conditionName, new[] { (Duration.SaveEnds, (IPowerCost)new FlatCost(1)), (Duration.EndOfUserNextTurn, new FlatCost(0.5)) }, keywords)
+                : this(conditionName, new[] { (Duration.SaveEnds, new PowerCost(Fixed: 1)), (Duration.EndOfUserNextTurn, new PowerCost(Fixed: 0.5)) }, keywords)
             {
             }
 
-            public ConditionFormula(string conditionName, IReadOnlyList<(Duration duration, IPowerCost cost)> powerCost, params string[] keywords) 
-                : this(keywords.ToImmutableList(), Name: conditionName, PowerCost: powerCost.ToImmutableDictionary(p => p.duration, p => p.cost)) 
+            public ConditionFormula(string conditionName, IReadOnlyList<(Duration duration, PowerCost cost)> powerCost, params string[] keywords)
+                : this(keywords.ToImmutableList(), Name: conditionName, PowerCost: powerCost.ToImmutableDictionary(p => p.duration, p => p.cost))
             {
             }
 
-            public override bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) => GetAvailableOptions(attack).Any() && attack.Modifiers.Count(m => m.Modifier == Name) < 1;
+            public override bool CanApply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo) => GetAvailableOptions(attack).Any() && attack.Modifiers.Count(m => m.Modifier == Name) < 1;
 
-            public override AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
             {
-                IEnumerable<(IPowerCost cost, Duration duration)> options = GetAvailableOptions(attack);
+                IEnumerable<(PowerCost cost, Duration duration)> options = GetAvailableOptions(attack);
 
                 var selectedOption = randomGenerator.RandomEscalatingSelection(options);
 
@@ -147,11 +141,11 @@ namespace GameEngine.Generator
                 );
             }
 
-            private IEnumerable<(IPowerCost cost, Duration duration)> GetAvailableOptions(AttackProfile attack)
+            private IEnumerable<(PowerCost cost, Duration duration)> GetAvailableOptions(AttackProfileBuilder attack)
             {
                 return from kvp in PowerCost
                        orderby kvp.Key descending
-                       where kvp.Value.Apply(attack.WeaponDice) >= 1
+                       where attack.Cost.CanApply(kvp.Value)
                        select (cost: kvp.Value, duration: kvp.Key);
             }
 
@@ -162,16 +156,16 @@ namespace GameEngine.Generator
             }
         }
 
-        private record ImmediateConditionFormula(ImmutableList<string> Keywords, string Name, IPowerCost Cost) : PowerModifierFormula(Keywords, Name)
+        private record ImmediateConditionFormula(ImmutableList<string> Keywords, string Name, PowerCost Cost) : PowerModifierFormula(Keywords, Name)
         {
-            public ImmediateConditionFormula(string conditionName, IPowerCost cost, params string[] keywords)
+            public ImmediateConditionFormula(string conditionName, PowerCost cost, params string[] keywords)
                 : this(keywords.ToImmutableList(), Name: conditionName, Cost: cost)
             {
             }
 
-            public override bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) => Cost.Apply(attack.WeaponDice) >= 1 && attack.Modifiers.Count(m => m.Modifier == Name) < 1;
+            public override bool CanApply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo) => attack.Cost.CanApply(Cost) && base.CanApply(attack, powerInfo);
 
-            public override AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
             {
                 return Apply(
                     attack,
