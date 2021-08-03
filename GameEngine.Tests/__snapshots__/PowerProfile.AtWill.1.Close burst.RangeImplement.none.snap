@@ -2,7 +2,8 @@
 Tool: Implement
 Attacks:
 - WeaponDice: 0.83333333333333326
-  DamageType: Radiant
+  DamageTypes:
+  - Radiant
   Target: Range
   Modifiers:
   - Modifier: Multiple3x3

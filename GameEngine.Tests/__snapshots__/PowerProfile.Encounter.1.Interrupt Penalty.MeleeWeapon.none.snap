@@ -1,6 +1,8 @@
 ﻿Template: Interrupt Penalty
 Attacks:
 - WeaponDice: 1.5
+  DamageTypes:
+  - Weapon
   Target: Melee
   Modifiers:
   - Modifier: Ability Modifier Damage

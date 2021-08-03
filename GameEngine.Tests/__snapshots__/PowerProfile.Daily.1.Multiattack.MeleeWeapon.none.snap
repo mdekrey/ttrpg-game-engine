@@ -1,11 +1,15 @@
 ﻿Template: Multiattack
 Attacks:
 - WeaponDice: 1.75
+  DamageTypes:
+  - Weapon
   Target: Melee
   Modifiers:
   - Modifier: Ability Modifier Damage
     Options: {}
 - WeaponDice: 1.75
+  DamageTypes:
+  - Weapon
   Target: Melee
   Modifiers:
   - Modifier: Ability Modifier Damage

@@ -180,7 +180,7 @@ namespace GameEngine.Generator
                         {
                             Hit = SerializedEffect.Empty with
                             {
-                                Damage = ToDamageEffect(powerProfile.Tool, attackProfile.WeaponDice),
+                                Damage = ToDamageEffect(powerProfile.Tool, attackProfile.WeaponDice, attackProfile.DamageTypes),
                             }
                         },
                     },
@@ -194,7 +194,7 @@ namespace GameEngine.Generator
             return result;
         }
 
-        private static ImmutableList<DamageEntry> ToDamageEffect(ToolType tool, double weaponDice)
+        private static ImmutableList<DamageEntry> ToDamageEffect(ToolType tool, double weaponDice, ImmutableList<DamageType> damageTypes)
         {
             if (tool == ToolType.Weapon)
                 return ImmutableList<DamageEntry>.Empty.Add(new ((GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString(), Build(DamageType.Weapon)));
@@ -213,7 +213,7 @@ namespace GameEngine.Generator
             var (type, count, remainder) = dieType.First();
 
             // TODO - should not hard-code fire
-            return Build(new DamageEntry($"{count}{type}", ImmutableList<DamageType>.Empty.Add(DamageType.Fire)));
+            return Build(new DamageEntry($"{count}{type}", damageTypes));
 
             (int dice, double remainder) GetDiceCount(double averageDamage, double damagePerDie)
             {

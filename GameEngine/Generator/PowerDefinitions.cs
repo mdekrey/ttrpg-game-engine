@@ -72,10 +72,10 @@ namespace GameEngine.Generator
                     info.ToolProfile.Abilities
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                 ),
-                randomGenerator.RandomEscalatingSelection(
+                Build(randomGenerator.RandomEscalatingSelection(
                     info.ToolProfile.PreferredDamageTypes.Where(d => d != DamageType.Weapon || info.ToolProfile.Type == ToolType.Weapon)
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
-                ),
+                )),
                 info.ToolProfile.Range.ToTargetType(),
                 ImmutableList<PowerModifier>.Empty
             );

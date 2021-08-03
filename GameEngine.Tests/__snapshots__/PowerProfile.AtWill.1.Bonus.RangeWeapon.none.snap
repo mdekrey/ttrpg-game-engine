@@ -1,6 +1,8 @@
 ﻿Template: Bonus
 Attacks:
 - WeaponDice: 1
+  DamageTypes:
+  - Weapon
   Target: Range
   Modifiers:
   - Modifier: Ability Modifier Damage

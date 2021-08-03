@@ -2,7 +2,8 @@
 Tool: Implement
 Attacks:
 - WeaponDice: 0.5
-  DamageType: Radiant
+  DamageTypes:
+  - Radiant
   Target: Range
   Modifiers:
   - Modifier: Non-Armor Defense
@@ -11,7 +12,8 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options: {}
 - WeaponDice: 0.5
-  DamageType: Radiant
+  DamageTypes:
+  - Radiant
   Target: Range
   Modifiers:
   - Modifier: Non-Armor Defense

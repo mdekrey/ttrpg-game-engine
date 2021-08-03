@@ -1,6 +1,8 @@
 ﻿Template: Close blast
 Attacks:
 - WeaponDice: 1.5
+  DamageTypes:
+  - Weapon
   Target: Range
   Modifiers:
   - Modifier: Multiple3x3
