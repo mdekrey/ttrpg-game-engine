@@ -65,10 +65,10 @@ namespace GameEngine.Generator
         {
             var tools = Shuffle(classProfile.Tools);
             var result = new List<PowerProfile>();
-            result.Add(GenerateProfile(GetPowerInfo(classProfile with { PowerTemplates = new[] { classProfile.PowerTemplates[0] }.ToImmutableList() })));
+            result.Add(GenerateProfile(GetPowerInfo(), classProfile.PowerTemplates.Take(1)));
             while (result.Count < 4)
             {
-                var powerProfile = GenerateProfile(GetPowerInfo());
+                var powerProfile = GenerateProfile(GetPowerInfo(), classProfile.PowerTemplates);
                 result.Add(powerProfile);
                 classProfile = classProfile with
                 {
@@ -77,9 +77,9 @@ namespace GameEngine.Generator
             }
             return result.ToImmutableList();
 
-            PowerHighLevelInfo GetPowerInfo(ClassProfile? cp = null)
+            PowerHighLevelInfo GetPowerInfo()
             {
-                return new(Level: level, Usage: usage, Tool: tools[result.Count % tools.Count].Type, Range: tools[result.Count % tools.Count].Range, ClassProfile: cp ?? classProfile);
+                return new(Level: level, Usage: usage, ToolProfile: tools[result.Count % tools.Count]);
             }
         }
 
@@ -97,13 +97,13 @@ namespace GameEngine.Generator
             return result.ToImmutableList();
         }
 
-        public PowerProfile GenerateProfile(PowerHighLevelInfo powerInfo)
+        public PowerProfile GenerateProfile(PowerHighLevelInfo powerInfo, IEnumerable<string> powerTemplates)
         {
-            var template = randomGenerator.RandomEscalatingSelection(powerInfo.ClassProfile.PowerTemplates
+            var template = randomGenerator.RandomEscalatingSelection(powerTemplates
                     .Where(templateName => PowerDefinitions.powerTemplates[templateName].CanApply(powerInfo)));
             var attacks = PowerDefinitions.powerTemplates[template].ConstructAttacks(powerInfo)(randomGenerator);
 
-            return new PowerProfile(template, powerInfo.Tool, attacks.ToImmutableList());
+            return new PowerProfile(template, powerInfo.ToolProfile.Type, attacks.ToImmutableList());
         }
 
 

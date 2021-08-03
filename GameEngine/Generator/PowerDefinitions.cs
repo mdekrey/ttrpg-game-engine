@@ -34,7 +34,7 @@ namespace GameEngine.Generator
 
         private static AttackProfile ApplyAttackProfileModifiers(string templateName, PowerHighLevelInfo info, AttackProfile rootBuilder, RandomGenerator randomGenerator)
         {
-            var applicableModifiers = GetApplicableModifiers(new[] { info.Tool.ToKeyword(), templateName });
+            var applicableModifiers = GetApplicableModifiers(new[] { info.ToolProfile.Type.ToKeyword(), templateName });
 
             return rootBuilder
                 .PreApply(info, randomGenerator)
@@ -59,13 +59,27 @@ namespace GameEngine.Generator
 
         // Implements get free non-armor defense due to lack of proficiency bonus
         private static AttackProfile PreApplyImplementNonArmorDefense(this AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
-            powerInfo.Tool is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, powerInfo, randomGenerator) : attack;
+            powerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, powerInfo, randomGenerator) : attack;
         private static AttackProfile PreApplyAbilityDamage(this AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
-            (attack.WeaponDice, powerInfo.Tool) is ( > 0.5, ToolType.Implement) or ( > 1, _) ? ModifierDefinitions.AbilityModifierDamage.Apply(attack, powerInfo, randomGenerator) : attack;
+            (attack.WeaponDice, powerInfo.ToolProfile.Type) is ( > 0.5, ToolType.Implement) or ( > 1, _) ? ModifierDefinitions.AbilityModifierDamage.Apply(attack, powerInfo, randomGenerator) : attack;
+
+        private static AttackProfile RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
+            new AttackProfile(
+                basePower,
+                randomGenerator.RandomEscalatingSelection(
+                    info.ToolProfile.Abilities
+                        .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
+                ),
+                randomGenerator.RandomEscalatingSelection(
+                    info.ToolProfile.PreferredDamageTypes.Where(d => d != DamageType.Weapon || info.ToolProfile.Type == ToolType.Weapon)
+                        .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
+                ),
+                info.ToolProfile.Range.ToTargetType()
+            );
 
         public static AttackProfile ApplyRandomModifiers(this AttackProfile attack, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
         {
-            var preferredModifiers = (from name in powerInfo.ClassProfile.PreferredModifiers
+            var preferredModifiers = (from name in powerInfo.ToolProfile.PreferredModifiers
                                       let mod = modifiers.FirstOrDefault(m => m.Name == name)
                                       where mod != null && mod.CanApply(attack, powerInfo)
                                       select mod).ToArray();
@@ -87,8 +101,7 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
-                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
@@ -100,8 +113,7 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
-                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig)
@@ -116,8 +128,7 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage) * 0.5;
-                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
-                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 2);
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 2);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig)
@@ -132,12 +143,11 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                var rootBuilder = new AttackProfile(basePower, TargetType.Personal, ImmutableList<PowerModifier>.Empty);
                 return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBurstPowerTemplateName, info,
-                    ModifierDefinitions.Multiple3x3.Apply(rootBuilder, info, randomGenerator), randomGenerator));
+                    ModifierDefinitions.Multiple3x3.Apply(RootBuilder(basePower, info, randomGenerator), info, randomGenerator), randomGenerator));
             }
 
-            public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill } or { Tool: ToolType.Implement };
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill } or { ToolProfile: { Type: ToolType.Implement } };
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
 
@@ -147,8 +157,7 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
-                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
@@ -160,8 +169,7 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage - 1);
-                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
-                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill };
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
@@ -173,12 +181,11 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                var rootBuilder = new AttackProfile(basePower, TargetType.Melee, ImmutableList<PowerModifier>.Empty);
                 return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBlastPowerTemplateName, info,
-                    ModifierDefinitions.Multiple3x3.Apply(rootBuilder, info, randomGenerator), randomGenerator));
+                    ModifierDefinitions.Multiple3x3.Apply(RootBuilder(basePower, info, randomGenerator), info, randomGenerator), randomGenerator));
             }
 
-            public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Tool: ToolType.Implement } or { Tool: ToolType.Weapon, Usage: not PowerFrequency.AtWill, Range: ToolRange.Range };
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { ToolProfile: { Type: ToolType.Implement } } or { ToolProfile: { Type: ToolType.Weapon, Range: ToolRange.Range }, Usage: not PowerFrequency.AtWill };
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
         }
 
@@ -188,8 +195,7 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                var rootBuilder = new AttackProfile(basePower, info.Range.ToTargetType());
-                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, rootBuilder, randomGenerator), 1);
+                return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
             public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();

@@ -82,7 +82,7 @@ namespace GameEngine.Generator
         }
     }
 
-    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolType Tool, ToolRange Range, ClassProfile ClassProfile);
+    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile);
 
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 

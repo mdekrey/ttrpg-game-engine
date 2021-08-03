@@ -1,7 +1,7 @@
 ﻿Template: Close blast
 Attacks:
 - WeaponDice: 1.5
-  Target: Melee
+  Target: Range
   Modifiers:
   - Modifier: Multiple3x3
     Options: {}

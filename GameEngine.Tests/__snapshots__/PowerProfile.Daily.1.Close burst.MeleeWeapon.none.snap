@@ -1,6 +1,7 @@
 ﻿Template: Close burst
 Attacks:
 - WeaponDice: 2.5
+  Target: Melee
   Modifiers:
   - Modifier: Multiple3x3
     Options: {}

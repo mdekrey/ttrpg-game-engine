@@ -43,6 +43,8 @@ namespace GameEngine.Generator
 
         public static T RandomSelectionByThreshold<T>(this RandomGenerator randomGenerator, (int threshold, T result)[] thresholds)
         {
+            if (thresholds.Length == 1)
+                return thresholds[0].result;
             var max = thresholds[thresholds.Length - 1].threshold;
             var roll = randomGenerator(0, max);
             var selection = thresholds.First(t => roll < t.threshold);

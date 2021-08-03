@@ -55,10 +55,10 @@ namespace GameEngine.Generator
 
             public override AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
             {
-                var defense = randomGenerator.RandomSelection((10, powerInfo.ClassProfile.PrimaryNonArmorDefense), (1, DefenseType.Fortitude), (1, DefenseType.Reflex), (1, DefenseType.Will));
+                var defense = randomGenerator.RandomSelection((10, powerInfo.ToolProfile.PrimaryNonArmorDefense), (1, DefenseType.Fortitude), (1, DefenseType.Reflex), (1, DefenseType.Will));
                 return Apply(
                     attack, 
-                    powerInfo.Tool == ToolType.Implement ? new FlatCost(0) : Cost,
+                    powerInfo.ToolProfile.Type == ToolType.Implement ? new FlatCost(0) : Cost,
                     new PowerModifier(
                         Name, 
                         ImmutableDictionary<string, string>.Empty

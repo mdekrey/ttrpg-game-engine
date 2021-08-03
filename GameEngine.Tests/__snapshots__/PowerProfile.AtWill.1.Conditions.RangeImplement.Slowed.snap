@@ -2,6 +2,7 @@
 Tool: Implement
 Attacks:
 - WeaponDice: 1
+  DamageType: Radiant
   Target: Range
   Modifiers:
   - Modifier: Non-Armor Defense
