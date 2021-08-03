@@ -16,8 +16,8 @@ namespace GameEngine.Generator
     public record CostMultiplier(double Multiplier) : IPowerCost { double IPowerCost.Apply(double original) => original * Multiplier; }
     public enum Duration
     {
+        EndOfUserNextTurn,
         SaveEnds,
-        EndOfUserNextTurn
     }
 
     public static class PowerModifierFormulaPredicates

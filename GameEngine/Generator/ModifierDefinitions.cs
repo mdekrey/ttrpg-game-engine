@@ -22,12 +22,11 @@ namespace GameEngine.Generator
             NonArmorDefense,
             new TempPowerModifierFormula(AccuratePowerTemplateName, "To-Hit Bonus +2", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))),
             new ConditionFormula("Slowed", ConditionsPowerTemplateName),
-            new TempPowerModifierFormula(ConditionsPowerTemplateName, "Slowed Save Ends", new CostMultiplier(0.5), And(MinimumPower(3), MaxOccurrence(2))),
-            new TempPowerModifierFormula(ConditionsPowerTemplateName, "Dazed", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(2))),
-            new TempPowerModifierFormula(ConditionsPowerTemplateName, "Immobilized", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(2))),
-            new TempPowerModifierFormula(ConditionsPowerTemplateName, "Weakened", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
-            new TempPowerModifierFormula(ConditionsPowerTemplateName, "Grants Combat Advantage", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
-            new TempPowerModifierFormula(ConditionsPowerTemplateName, "Prone", new FlatCost(1), And(MinimumPower(2), MaxOccurrence(1))),
+            new ConditionFormula("Dazed", ConditionsPowerTemplateName),
+            new ConditionFormula("Immobilized", ConditionsPowerTemplateName),
+            new ConditionFormula("Weakened", ConditionsPowerTemplateName),
+            new ConditionFormula("Grants Combat Advantage", ConditionsPowerTemplateName),
+            new ImmediateConditionFormula("Prone", new FlatCost(1), ConditionsPowerTemplateName),
             new TempPowerModifierFormula(ConditionsPowerTemplateName, "-2 to One Defense", new FlatCost(0.5), And(MinimumPower(1.5), MaxOccurrence(1))), // TODO - combine these with options
             new TempPowerModifierFormula(ConditionsPowerTemplateName, "-2 (or Abil) to all Defenses", new FlatCost(1), And(MinimumPower(1.5), MaxOccurrence(1))), // TODO - combine these with options
             new ShiftFormula(SkirmishPowerTemplateName),
@@ -117,19 +116,23 @@ namespace GameEngine.Generator
             }
         }
 
-        private record ConditionFormula(ImmutableList<string> Keywords, string Name) : PowerModifierFormula(Keywords, Name)
+        private record ConditionFormula(ImmutableList<string> Keywords, string Name, ImmutableDictionary<Duration, IPowerCost> PowerCost) : PowerModifierFormula(Keywords, Name)
         {
-            public ConditionFormula(string conditionName, params string[] keywords) : this(keywords.ToImmutableList(), Name: conditionName) { }
+            public ConditionFormula(string conditionName, params string[] keywords)
+                : this(conditionName, new[] { (Duration.SaveEnds, (IPowerCost)new FlatCost(1)), (Duration.EndOfUserNextTurn, new FlatCost(0.5)) }, keywords)
+            {
+            }
 
-            public override bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) => And(MinimumPower(1.5), MaxOccurrence(1))(this, attack, powerInfo);
+            public ConditionFormula(string conditionName, IReadOnlyList<(Duration duration, IPowerCost cost)> powerCost, params string[] keywords) 
+                : this(keywords.ToImmutableList(), Name: conditionName, PowerCost: powerCost.ToImmutableDictionary(p => p.duration, p => p.cost)) 
+            {
+            }
+
+            public override bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) => GetAvailableOptions(attack).Any() && attack.Modifiers.Count(m => m.Modifier == Name) < 1;
 
             public override AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
             {
-                var options = new[]
-                {
-                    (minimumPower: 2.5, cost: (IPowerCost)new CostMultiplier(0.5), duration: Duration.SaveEnds),
-                    (minimumPower: 1.5, cost: (IPowerCost)new FlatCost(0.5), duration: Duration.EndOfUserNextTurn),
-                }.Where(option => attack.WeaponDice >= option.minimumPower);
+                IEnumerable<(IPowerCost cost, Duration duration)> options = GetAvailableOptions(attack);
 
                 var selectedOption = randomGenerator.RandomEscalatingSelection(options);
 
@@ -140,6 +143,42 @@ namespace GameEngine.Generator
                         Name,
                         ImmutableDictionary<string, string>.Empty
                             .Add("Duration", selectedOption.duration.ToString("g"))
+                    )
+                );
+            }
+
+            private IEnumerable<(IPowerCost cost, Duration duration)> GetAvailableOptions(AttackProfile attack)
+            {
+                return from kvp in PowerCost
+                       orderby kvp.Key descending
+                       where kvp.Value.Apply(attack.WeaponDice) >= 1
+                       select (cost: kvp.Value, duration: kvp.Key);
+            }
+
+            public override SerializedEffect Apply(SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return attack;
+            }
+        }
+
+        private record ImmediateConditionFormula(ImmutableList<string> Keywords, string Name, IPowerCost Cost) : PowerModifierFormula(Keywords, Name)
+        {
+            public ImmediateConditionFormula(string conditionName, IPowerCost cost, params string[] keywords)
+                : this(keywords.ToImmutableList(), Name: conditionName, Cost: cost)
+            {
+            }
+
+            public override bool CanApply(AttackProfile attack, PowerHighLevelInfo powerInfo) => Cost.Apply(attack.WeaponDice) >= 1 && attack.Modifiers.Count(m => m.Modifier == Name) < 1;
+
+            public override AttackProfile Apply(AttackProfile attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+            {
+                return Apply(
+                    attack,
+                    Cost,
+                    new PowerModifier(
+                        Name,
+                        ImmutableDictionary<string, string>.Empty
                     )
                 );
             }
