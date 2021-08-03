@@ -205,8 +205,9 @@ Encounter3:
     - Fire
     Target: Range
     Modifiers:
-    - Modifier: Multiple3x3
-      Options: {}
+    - Modifier: Multiple
+      Options:
+        Size: 3x3
     - Modifier: Ability Modifier Damage
       Options: {}
 - Template: Bonus
@@ -775,8 +776,9 @@ Encounter23:
     - Weapon
     Target: Range
     Modifiers:
-    - Modifier: Multiple3x3
-      Options: {}
+    - Modifier: Multiple
+      Options:
+        Size: 3x3
     - Modifier: Ability Modifier Damage
       Options: {}
 - Template: Multiattack
@@ -915,8 +917,9 @@ Encounter27:
     - Fire
     Target: Range
     Modifiers:
-    - Modifier: Multiple3x3
-      Options: {}
+    - Modifier: Multiple
+      Options:
+        Size: 3x3
     - Modifier: Ability Modifier Damage
       Options: {}
 Daily29:
@@ -943,8 +946,9 @@ Daily29:
     - Weapon
     Target: Range
     Modifiers:
-    - Modifier: Multiple3x3
-      Options: {}
+    - Modifier: Multiple
+      Options:
+        Size: 3x3
     - Modifier: Ability Modifier Damage
       Options: {}
 - Template: Multiattack

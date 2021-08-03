@@ -15,7 +15,7 @@ namespace GameEngine.Generator
 
         public static readonly PowerModifierFormula NonArmorDefense = new NonArmorDefenseFormula(AccuratePowerTemplateName);
         public static readonly PowerModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula(GeneralKeyword);
-        public static readonly PowerModifierFormula Multiple3x3 = new TempPowerModifierFormula(GeneralKeyword, "Multiple3x3", new PowerCost(Multiplier: 2.0 / 3)); // TODO - other sizes
+        public static readonly PowerModifierFormula Multiple3x3 = new BurstFormula();
         public static readonly ImmutableList<PowerModifierFormula> modifiers = new PowerModifierFormula[]
         {
             AbilityModifierDamage,
@@ -182,6 +182,27 @@ namespace GameEngine.Generator
             {
                 // TODO
                 return effect;
+            }
+        }
+
+        private record BurstFormula() : PowerModifierFormula(Build(GeneralKeyword), "Multiple")
+        {
+            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+            {
+                // TODO: other sizes
+                return Apply(
+                    attack,
+                    new PowerCost(Multiplier: 2.0 / 3),
+                    new PowerModifier(Name, Build(("Size", "3x3")))
+                );
+            }
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+            {
+                return ModifyTarget(effect, target =>
+                {
+                    return target with { Burst = 3 }; // TODO - more sizes
+                });
             }
         }
     }

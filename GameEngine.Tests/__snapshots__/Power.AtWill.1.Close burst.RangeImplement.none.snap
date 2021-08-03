@@ -6,8 +6,9 @@
     - Radiant
     Target: Range
     Modifiers:
-    - Modifier: Multiple3x3
-      Options: {}
+    - Modifier: Multiple
+      Options:
+        Size: 3x3
     - Modifier: Non-Armor Defense
       Options:
         Defense: Fortitude
@@ -27,4 +28,5 @@
             - Amount: d8 + STR
               Types:
               - Radiant
+      Burst: 3
       Ranged: {}

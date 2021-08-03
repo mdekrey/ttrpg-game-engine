@@ -60,21 +60,29 @@ namespace GameEngine.Generator
 
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier);
 
-        protected static SerializedEffect ModifyAttack(SerializedEffect effect, Func<AttackRollOptions, AttackRollOptions> modifyAttack)
+        protected static SerializedEffect ModifyTarget(SerializedEffect effect, Func<SerializedTarget, SerializedTarget> modifyTarget)
         {
-            if (effect.Target?.Effect.Attack == null)
-                throw new InvalidOperationException("Cannot apply to hit");
+            if (effect.Target == null)
+                throw new InvalidOperationException("Cannot apply to target");
 
             return effect with
             {
-                Target = effect.Target with
-                {
-                    Effect = effect.Target.Effect with
-                    {
-                        Attack = modifyAttack(effect.Target.Effect.Attack)
-                    }
-                }
+                Target = modifyTarget(effect.Target)
             };
+        }
+
+        protected static SerializedEffect ModifyAttack(SerializedEffect effect, Func<AttackRollOptions, AttackRollOptions> modifyAttack)
+        {
+            if (effect.Target?.Effect.Attack == null)
+                throw new InvalidOperationException("Cannot apply to attack");
+
+            return ModifyTarget(effect, target => target with
+            {
+                Effect = target.Effect with
+                {
+                    Attack = modifyAttack(effect.Target.Effect.Attack)
+                }
+            });
         }
 
         protected static SerializedEffect ModifyHit(SerializedEffect effect, Func<SerializedEffect, SerializedEffect> modifyHit)

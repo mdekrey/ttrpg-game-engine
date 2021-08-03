@@ -5,7 +5,8 @@ Attacks:
   - Weapon
   Target: Range
   Modifiers:
-  - Modifier: Multiple3x3
-    Options: {}
+  - Modifier: Multiple
+    Options:
+      Size: 3x3
   - Modifier: Ability Modifier Damage
     Options: {}
