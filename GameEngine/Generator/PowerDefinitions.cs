@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator
 {
@@ -139,7 +140,7 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBurstPowerTemplateName, info,
+                return (RandomGenerator randomGenerator) => Build(ApplyAttackProfileModifiers(CloseBurstPowerTemplateName, info,
                     ModifierDefinitions.Multiple3x3.Apply(RootBuilder(basePower, info, randomGenerator), info, randomGenerator), randomGenerator));
             }
 
@@ -177,7 +178,7 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                return (RandomGenerator randomGenerator) => ImmutableList<AttackProfile>.Empty.Add(ApplyAttackProfileModifiers(CloseBlastPowerTemplateName, info,
+                return (RandomGenerator randomGenerator) => Build(ApplyAttackProfileModifiers(CloseBlastPowerTemplateName, info,
                     ModifierDefinitions.Multiple3x3.Apply(RootBuilder(basePower, info, randomGenerator), info, randomGenerator), randomGenerator));
             }
 

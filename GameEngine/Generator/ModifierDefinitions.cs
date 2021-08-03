@@ -5,6 +5,7 @@ using static GameEngine.Generator.PowerDefinitions;
 using System.Collections.Immutable;
 using GameEngine.Rules;
 using System.Linq;
+using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator
 {
@@ -135,8 +136,7 @@ namespace GameEngine.Generator
                     selectedOption.cost,
                     new PowerModifier(
                         Name,
-                        ImmutableDictionary<string, string>.Empty
-                            .Add("Duration", selectedOption.duration.ToString("g"))
+                        Build(("Duration", selectedOption.duration.ToString("g")))
                     )
                 );
             }

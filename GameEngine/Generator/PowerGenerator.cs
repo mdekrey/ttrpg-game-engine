@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator
 {
@@ -196,7 +197,7 @@ namespace GameEngine.Generator
         private static ImmutableList<DamageEntry> ToDamageEffect(ToolType tool, double weaponDice)
         {
             if (tool == ToolType.Weapon)
-                return ImmutableList<DamageEntry>.Empty.Add(new ((GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString(), ImmutableList<DamageType>.Empty.Add(DamageType.Weapon)));
+                return ImmutableList<DamageEntry>.Empty.Add(new ((GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString(), Build(DamageType.Weapon)));
             var averageDamage = weaponDice * 5.5;
             var dieType = (
                 from entry in new[]
@@ -212,7 +213,7 @@ namespace GameEngine.Generator
             var (type, count, remainder) = dieType.First();
 
             // TODO - should not hard-code fire
-            return ImmutableList<DamageEntry>.Empty.Add(new($"{count}{type}", ImmutableList<DamageType>.Empty.Add(DamageType.Fire)));
+            return Build(new DamageEntry($"{count}{type}", ImmutableList<DamageType>.Empty.Add(DamageType.Fire)));
 
             (int dice, double remainder) GetDiceCount(double averageDamage, double damagePerDie)
             {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator
 {
@@ -89,7 +90,7 @@ namespace GameEngine.Generator
     public record TempPowerModifierFormula(ImmutableList<string> Keywords, string Name, PowerCost Cost) : PowerModifierFormula(Keywords, Name)
     {
         public TempPowerModifierFormula(string Keyword, string Name, PowerCost Cost)
-            : this(ImmutableList<string>.Empty.Add(Keyword), Name, Cost) { }
+            : this(Build(Keyword), Name, Cost) { }
 
         public override bool CanApply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
