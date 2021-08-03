@@ -1,0 +1,24 @@
+﻿- Template: Conditions
+  Attacks:
+  - WeaponDice: 1
+    Target: Melee
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options: {}
+    - Modifier: Slowed
+      Options:
+        Duration: EndOfUserNextTurn
+- Name: Generated
+  Keywords:
+  - Weapon
+  Level: 1
+  Effects:
+  - Target:
+      Effect:
+        Attack:
+          Hit:
+            Damage:
+            - Amount: 1[W] + STR
+              Types:
+              - Weapon
+      MeleeWeapon: {}

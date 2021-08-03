@@ -6,4 +6,5 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options: {}
   - Modifier: Slowed
-    Options: {}
+    Options:
+      Duration: EndOfUserNextTurn

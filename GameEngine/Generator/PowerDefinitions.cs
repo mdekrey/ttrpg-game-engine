@@ -104,7 +104,7 @@ namespace GameEngine.Generator
                 return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record SkirmishPowerTemplate : PowerTemplate
@@ -116,10 +116,7 @@ namespace GameEngine.Generator
                 return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig)
-            {
-                return orig;
-            }
+            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record MultiattackPowerTemplate : PowerTemplate
@@ -131,10 +128,7 @@ namespace GameEngine.Generator
                 return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 2);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig)
-            {
-                return orig;
-            }
+            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record CloseBurstPowerTemplate : PowerTemplate
@@ -148,7 +142,7 @@ namespace GameEngine.Generator
             }
 
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill } or { ToolProfile: { Type: ToolType.Implement } };
-            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record ConditionsPowerTemplate : PowerTemplate
@@ -160,7 +154,7 @@ namespace GameEngine.Generator
                 return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record InterruptPenaltyPowerTemplate : PowerTemplate
@@ -172,7 +166,7 @@ namespace GameEngine.Generator
                 return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill };
-            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record CloseBlastPowerTemplate : PowerTemplate
@@ -186,7 +180,7 @@ namespace GameEngine.Generator
             }
 
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { ToolProfile: { Type: ToolType.Implement } } or { ToolProfile: { Type: ToolType.Weapon, Range: ToolRange.Range }, Usage: not PowerFrequency.AtWill };
-            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record BonusPowerTemplate : PowerTemplate
@@ -198,7 +192,7 @@ namespace GameEngine.Generator
                 return (RandomGenerator randomGenerator) => Enumerable.Repeat(ApplyAttackProfileModifiers(Name, info, RootBuilder(basePower, info, randomGenerator), randomGenerator), 1);
             }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig) => throw new NotImplementedException();
+            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
     }
