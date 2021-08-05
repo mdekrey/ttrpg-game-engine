@@ -90,17 +90,16 @@ namespace GameEngine.Generator
 
         public static AttackProfileBuilder ApplyRandomModifiers(this AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
         {
+            if (modifiers.Length == 0) return attack;
+
             // TODO - I'd like this a lot better if it were flattened, but that requires LCM and other calculations... it may not be worth it.
             var preferredModifiers = GetApplicable(from name in powerInfo.ToolProfile.PreferredModifiers
                                                    let mod = modifiers.FirstOrDefault(m => m.Name == name)
                                                    select mod);
-            var modifier = randomGenerator.RandomEscalatingSelection(preferredModifiers.Concat(new ApplicablePowerModifierFormula[][] { null }));
-            if (modifier == null)
-            {
-                var validModifiers = GetApplicable(modifiers);
-                if (validModifiers.Length > 0)
-                    modifier = validModifiers[randomGenerator(0, validModifiers.Length)];
-            }
+            var validModifiers = GetApplicable(from mod in modifiers
+                                               where !powerInfo.ToolProfile.PreferredModifiers.Contains(mod.Name)
+                                               select mod);
+            var modifier = randomGenerator.RandomEscalatingSelection(preferredModifiers, minimalSources: validModifiers);
             if (modifier != null)
                 attack = randomGenerator.RandomSelection(modifier.Select(m => (m.Chances, m))).Apply(attack);
 

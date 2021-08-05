@@ -16,7 +16,7 @@ namespace GameEngine.Rules
         }
 
         public Ability Kind { get; init; }
-        public GameDiceExpression Bonus { get; init; }
+        public GameDiceExpression Bonus { get; init; } = GameDiceExpression.Empty;
         public DefenseType Defense { get; init; } = DefenseType.ArmorClass;
         public IEffect? Hit { get; init; }
         public IEffect? Miss { get; init; }

@@ -30,7 +30,7 @@ namespace GameEngine.Generator
             new ShiftFormula(SkirmishPowerTemplateName),
             new MovementDoesNotProvokeFormula(SkirmishPowerTemplateName),
             new ToHitBoostFormula(Build(BonusPowerTemplateName)),
-            new TempPowerModifierFormula(BonusPowerTemplateName, "+2 to AC to Ally", new PowerCost(0.5)),
+            new DefenseBoostFormula(Build(BonusPowerTemplateName)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "+Ability Bonus Temporary Hit points", new PowerCost(1)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "Extra Saving Throw", new PowerCost(1)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "Healing Surge", new PowerCost(1)), // TODO - Encounter only
