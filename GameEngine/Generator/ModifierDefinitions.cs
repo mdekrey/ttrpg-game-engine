@@ -28,8 +28,7 @@ namespace GameEngine.Generator
             new ConditionFormula("Weakened", ConditionsPowerTemplateName),
             new ConditionFormula("Grants Combat Advantage", ConditionsPowerTemplateName),
             new ImmediateConditionFormula("Prone", new PowerCost(1), ConditionsPowerTemplateName),
-            new TempPowerModifierFormula(ConditionsPowerTemplateName, "-2 to One Defense", new PowerCost(0.5)), // TODO - combine these with options
-            new TempPowerModifierFormula(ConditionsPowerTemplateName, "-2 (or Abil) to all Defenses", new PowerCost(1)), // TODO - combine these with options
+            new DefensePenaltyFormula(ConditionsPowerTemplateName),
             new ShiftFormula(SkirmishPowerTemplateName),
             new TempPowerModifierFormula(SkirmishPowerTemplateName, "Movement after Attack does not provoke opportunity attacks", new PowerCost(0.5)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)", new PowerCost(0.5)),
@@ -152,12 +151,12 @@ namespace GameEngine.Generator
         private record ConditionFormula(ImmutableList<string> Keywords, string Name, ImmutableDictionary<Duration, PowerCost> PowerCost) : PowerModifierFormula(Keywords, Name)
         {
             public ConditionFormula(string conditionName, params string[] keywords)
-                : this(conditionName, new[] { (Duration.SaveEnds, new PowerCost(Fixed: 1)), (Duration.EndOfUserNextTurn, new PowerCost(Fixed: 0.5)) }, keywords)
+                : this(conditionName, Build((Duration.SaveEnds, new PowerCost(Fixed: 1)), (Duration.EndOfUserNextTurn, new PowerCost(Fixed: 0.5))), keywords)
             {
             }
 
-            public ConditionFormula(string conditionName, IReadOnlyList<(Duration duration, PowerCost cost)> powerCost, params string[] keywords)
-                : this(keywords.ToImmutableList(), Name: conditionName, PowerCost: powerCost.ToImmutableDictionary(p => p.duration, p => p.cost))
+            public ConditionFormula(string conditionName, ImmutableDictionary<Duration, PowerCost> powerCost, params string[] keywords)
+                : this(keywords.ToImmutableList(), Name: conditionName, PowerCost: powerCost)
             {
             }
 
@@ -252,5 +251,39 @@ namespace GameEngine.Generator
                 });
             }
         }
+
+        private record DefensePenaltyFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "-2 to Defense")
+        {
+            public DefensePenaltyFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
+
+            public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+            {
+                if (HasModifier(attack)) yield break;
+                yield return new(new PowerCost(0.5), BuildModifier(DefenseType.ArmorClass, Duration.EndOfUserNextTurn));
+                yield return new(new PowerCost(0.5), BuildModifier(DefenseType.Fortitude, Duration.EndOfUserNextTurn));
+                yield return new(new PowerCost(0.5), BuildModifier(DefenseType.Reflex, Duration.EndOfUserNextTurn));
+                yield return new(new PowerCost(0.5), BuildModifier(DefenseType.Will, Duration.EndOfUserNextTurn));
+                yield return new(new PowerCost(1), BuildModifier(DefenseType.ArmorClass, Duration.SaveEnds));
+                yield return new(new PowerCost(1), BuildModifier(DefenseType.Fortitude, Duration.SaveEnds));
+                yield return new(new PowerCost(1), BuildModifier(DefenseType.Reflex, Duration.SaveEnds));
+                yield return new(new PowerCost(1), BuildModifier(DefenseType.Will, Duration.SaveEnds));
+
+                yield return new(new PowerCost(1), BuildModifier(null, Duration.EndOfUserNextTurn));
+                yield return new(new PowerCost(0, Multiplier: 0.5), BuildModifier(null, Duration.SaveEnds));
+
+                PowerModifier BuildModifier(DefenseType? defense, Duration duration) =>
+                    new PowerModifier(Name, Build(
+                        ("Defense", defense?.ToString("g") ?? "All"),
+                        ("Duration", duration.ToString("g"))
+                    ));
+            }
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+            {
+                // TODO
+                return effect;
+            }
+        }
+
     }
 }
