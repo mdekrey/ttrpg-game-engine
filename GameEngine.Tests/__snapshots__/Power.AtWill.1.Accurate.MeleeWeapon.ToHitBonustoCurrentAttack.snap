@@ -1,0 +1,28 @@
+﻿- Template: Accurate
+  Attacks:
+  - WeaponDice: 1
+    DamageTypes:
+    - Weapon
+    Target: Melee
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: To-Hit Bonus to Current Attack
+      Options:
+        Amount: DEX
+- Name: Generated
+  Keywords:
+  - Weapon
+  Level: 1
+  Effects:
+  - Target:
+      Effect:
+        Attack:
+          Bonus: DEX
+          Hit:
+            Damage:
+            - Amount: 1[W] + STR
+              Types:
+              - Weapon
+      MeleeWeapon: {}

@@ -14,4 +14,4 @@ Attacks:
       Ability: Strength
   - Modifier: To-Hit Bonus to Current Attack
     Options:
-      Amount: +2
+      Amount: DEX

@@ -62,8 +62,8 @@ namespace GameEngine.Tests
                 await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""2[W] + d6 + STR"" } ] } } } } }");
             var pcStandardDamagePerRound =
                 await ParseToDamage(scope, pc, goblin, @"{ ""all"": [
-                    { ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": 1, ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""[W] + d6"" } ] } } } } },
-                    { ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": 1, ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""[W] - 1"" } ] } } } } }
+                    { ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": ""1"", ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""[W] + d6"" } ] } } } } },
+                    { ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": ""1"", ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""[W] - 1"" } ] } } } } }
                 ] }");
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
 
@@ -84,7 +84,7 @@ namespace GameEngine.Tests
             var pcBonusDamagePerRound =
                 await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""2[W] + d6 + STR"" } ] } } } } }");
             var pcStandardDamagePerRound =
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": 3, ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""[W] + d6 + STR"" } ] } } } } }");
+                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": ""3"", ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""[W] + d6 + STR"" } ] } } } } }");
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
 
             var healthRemainingPerRound = SimulateCombat(damage, 1, goblin).ToArray();

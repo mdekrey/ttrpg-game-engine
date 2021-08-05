@@ -337,7 +337,7 @@ Encounter7:
     - Modifier: To-Hit Bonus to Current Attack
       Options:
         Amount: +2
-- Template: Conditions
+- Template: Skirmish
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
@@ -348,9 +348,8 @@ Encounter7:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Dazed
-      Options:
-        Duration: EndOfUserNextTurn
+    - Modifier: Movement after Attack does not provoke opportunity attacks
+      Options: {}
 - Template: Multiattack
   Attacks:
   - WeaponDice: 1
@@ -442,24 +441,6 @@ Encounter11:
 - Template: Multiattack
   Attacks:
   - WeaponDice: 1.5
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-  - WeaponDice: 1.5
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1.5
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -477,25 +458,11 @@ Encounter11:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-    - Modifier: To-Hit Bonus to Current Attack
-      Options:
-        Amount: +2
 - Template: Close blast
   Attacks:
   - WeaponDice: 2.1666666666666665
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Modifier: Multiple
@@ -505,12 +472,39 @@ Encounter11:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
+- Template: Accurate
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: Non-Armor Defense
+      Options:
+        Defense: Fortitude
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 3
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: Shift
+      Options:
+        Amount: STR
 Encounter13:
 - Template: Multiattack
   Attacks:
   - WeaponDice: 1.5
     DamageTypes:
-    - Weapon
+    - Fire
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
@@ -518,30 +512,26 @@ Encounter13:
         Ability: Strength
   - WeaponDice: 1.5
     DamageTypes:
-    - Weapon
+    - Fire
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-- Template: Multiattack
+- Template: Skirmish
   Attacks:
-  - WeaponDice: 1.5
+  - WeaponDice: 3
+    Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 1.5
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
+    - Modifier: Shift
       Options:
-        Ability: Strength
+        Amount: STR
 - Template: Accurate
   Attacks:
   - WeaponDice: 3
@@ -567,30 +557,10 @@ Encounter13:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Immobilized
+    - Modifier: Weakened
       Options:
         Duration: SaveEnds
 Daily15:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3.25
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-  - WeaponDice: 3.25
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
 - Template: Multiattack
   Attacks:
   - WeaponDice: 3.25
@@ -613,15 +583,28 @@ Daily15:
   Attacks:
   - WeaponDice: 6.5
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Shift
+    - Modifier: Movement after Attack does not provoke opportunity attacks
+      Options: {}
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 6.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
       Options:
-        Amount: STR
+        Ability: Strength
+    - Modifier: Grants Combat Advantage
+      Options:
+        Duration: EndOfUserNextTurn
 - Template: Accurate
   Attacks:
   - WeaponDice: 6.5
@@ -642,6 +625,40 @@ Encounter17:
   - WeaponDice: 1.5
     Ability: Dexterity
     DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+  - WeaponDice: 1.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: Shift
+      Options:
+        Amount: STR
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 1.5
+    Ability: Dexterity
+    DamageTypes:
     - Fire
     Target: Range
     Modifiers:
@@ -671,36 +688,6 @@ Encounter17:
     - Modifier: Non-Armor Defense
       Options:
         Defense: Fortitude
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 3
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-    - Modifier: Movement after Attack does not provoke opportunity attacks
-      Options: {}
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1.5
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-  - WeaponDice: 1.5
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
 Daily19:
 - Template: Multiattack
   Attacks:
@@ -742,7 +729,55 @@ Daily19:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-- Template: Bonus
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 7.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: Shift
+      Options:
+        Amount: STR
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 7.5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: Immobilized
+      Options:
+        Duration: EndOfUserNextTurn
+Daily20:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 3.75
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+  - WeaponDice: 3.75
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+- Template: Conditions
   Attacks:
   - WeaponDice: 7
     Ability: Dexterity
@@ -753,12 +788,25 @@ Daily19:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: +Ability Bonus Temporary Hit points
+    - Modifier: Slowed
+      Options:
+        Duration: SaveEnds
+- Template: Bonus
+  Attacks:
+  - WeaponDice: 7
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: Regeneration 5
       Options: {}
-- Template: Skirmish
+- Template: Multiattack
   Attacks:
-  - WeaponDice: 7.5
-    Ability: Dexterity
+  - WeaponDice: 3.75
     DamageTypes:
     - Fire
     Target: Range
@@ -766,65 +814,7 @@ Daily19:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Shift
-      Options:
-        Amount: STR
-Daily20:
-- Template: Multiattack
-  Attacks:
   - WeaponDice: 3.75
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-  - WeaponDice: 3.75
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3.75
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-  - WeaponDice: 3.75
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 7.5
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-    - Modifier: Non-Armor Defense
-      Options:
-        Defense: Will
-- Template: Interrupt Penalty
-  Attacks:
-  - WeaponDice: 3.5
-    Ability: Dexterity
     DamageTypes:
     - Fire
     Target: Range
@@ -836,39 +826,39 @@ Encounter23:
 - Template: Multiattack
   Attacks:
   - WeaponDice: 2
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-  - WeaponDice: 2
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-- Template: Close blast
-  Attacks:
-  - WeaponDice: 2.833333333333333
     Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
     Modifiers:
-    - Modifier: Multiple
-      Options:
-        Size: 3x3
-        Type: Blast
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-- Template: Multiattack
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+- Template: Conditions
   Attacks:
-  - WeaponDice: 2
+  - WeaponDice: 4
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: Immobilized
+      Options:
+        Duration: EndOfUserNextTurn
+- Template: Interrupt Penalty
+  Attacks:
+  - WeaponDice: 2.5
     DamageTypes:
     - Weapon
     Target: Range
@@ -876,15 +866,7 @@ Encounter23:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 2
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-- Template: Accurate
+- Template: Skirmish
   Attacks:
   - WeaponDice: 4
     Ability: Dexterity
@@ -895,9 +877,9 @@ Encounter23:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Non-Armor Defense
+    - Modifier: Shift
       Options:
-        Defense: Fortitude
+        Amount: STR
 Daily25:
 - Template: Multiattack
   Attacks:
@@ -919,36 +901,9 @@ Daily25:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 8
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-    - Modifier: Prone
-      Options: {}
-- Template: Accurate
+- Template: Skirmish
   Attacks:
   - WeaponDice: 8.5
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-    - Modifier: To-Hit Bonus to Current Attack
-      Options:
-        Amount: +2
-- Template: Bonus
-  Attacks:
-  - WeaponDice: 8
     DamageTypes:
     - Fire
     Target: Range
@@ -956,7 +911,41 @@ Daily25:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Healing Surge
+    - Modifier: Shift
+      Options:
+        Amount: STR
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 4.25
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+  - WeaponDice: 4.25
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+- Template: Bonus
+  Attacks:
+  - WeaponDice: 8
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: +Ability Bonus Temporary Hit points
       Options: {}
 Encounter27:
 - Template: Multiattack
@@ -979,10 +968,21 @@ Encounter27:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 4
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: -2 to One Defense
+      Options: {}
 - Template: Multiattack
   Attacks:
   - WeaponDice: 2
-    Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
@@ -991,7 +991,6 @@ Encounter27:
       Options:
         Ability: Strength
   - WeaponDice: 2
-    Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
@@ -999,9 +998,9 @@ Encounter27:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-- Template: Bonus
+- Template: Interrupt Penalty
   Attacks:
-  - WeaponDice: 3.5
+  - WeaponDice: 2.5
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -1010,27 +1009,13 @@ Encounter27:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: +Ability Bonus Temporary Hit points
-      Options: {}
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 3.5
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-    - Modifier: Prone
-      Options: {}
 Daily29:
 - Template: Multiattack
   Attacks:
   - WeaponDice: 4.75
     Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
@@ -1039,7 +1024,18 @@ Daily29:
   - WeaponDice: 4.75
     Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+- Template: Interrupt Penalty
+  Attacks:
+  - WeaponDice: 4.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
@@ -1048,6 +1044,7 @@ Daily29:
 - Template: Multiattack
   Attacks:
   - WeaponDice: 4.75
+    Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
@@ -1056,6 +1053,7 @@ Daily29:
       Options:
         Ability: Strength
   - WeaponDice: 4.75
+    Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
@@ -1063,23 +1061,9 @@ Daily29:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 9
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-    - Modifier: -2 (or Abil) to all Defenses
-      Options: {}
-- Template: Skirmish
+- Template: Accurate
   Attacks:
   - WeaponDice: 9.5
-    Ability: Dexterity
     DamageTypes:
     - Fire
     Target: Range
@@ -1087,6 +1071,6 @@ Daily29:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Shift
+    - Modifier: Non-Armor Defense
       Options:
-        Amount: STR
+        Defense: Fortitude

@@ -31,7 +31,7 @@ namespace GameEngine.Tests
             {
                 if (value == null)
                 {
-                    emitter.Emit(new YamlDotNet.Core.Events.Scalar(null, null));
+                    emitter.Emit(new YamlDotNet.Core.Events.Scalar(null, null!));
                     return;
                 }
                 dynamic d = value;
@@ -118,6 +118,7 @@ namespace GameEngine.Tests
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, "", PowerDefinitions.MultiattackPowerTemplateName)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, "", PowerDefinitions.SkirmishPowerTemplateName)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, "Slowed", PowerDefinitions.ConditionsPowerTemplateName)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, "To-Hit Bonus to Current Attack", PowerDefinitions.AccuratePowerTemplateName)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Implement, ToolRange.Range, DamageType.Radiant, "", PowerDefinitions.CloseBurstPowerTemplateName)]
         [Theory]
         public void CreateGeneratePower(int level, PowerFrequency powerFrequency, ToolType toolType, ToolRange toolRange, DamageType damageType, string preferredModifier, string powerTemplate)

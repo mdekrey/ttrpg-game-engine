@@ -110,7 +110,9 @@ namespace GameEngine.Generator
             public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
             {
                 if (HasModifier(attack)) yield break;
-                yield return new(new PowerCost(0.5), BuildModifier(2));
+                foreach (var entry in powerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
+                    yield return new(new PowerCost(0.5), BuildModifier((GameDiceExpression)entry), Chances: 1);
+                yield return new(new PowerCost(0.5), BuildModifier(2), Chances: 5);
 
                 PowerModifier BuildModifier(GameDiceExpression dice) =>
                     new PowerModifier(Name, Build(("Amount", dice.ToString())));
