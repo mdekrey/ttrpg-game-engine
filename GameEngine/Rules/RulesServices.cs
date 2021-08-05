@@ -34,8 +34,7 @@ namespace GameEngine.Rules
                         // TODO - saves
                         var modifier = actor.Current.Abilities[attack.Kind] + CombatExpectations.ExpectedProficiencyModifier(actor.Current.Level) + attack.Bonus
                             - target.Current.ArmorClass;
-                        var permutations = permutator.Permutations(new DieCode(1, 20));
-                        permutations += modifier;
+                        var permutations = permutator.Permutations(new DieCode(1, 20) + modifier.With(DieCodes.Parse("d10"), actor.Current.Abilities));
                         var effects = new RandomizedEffectList.Builder();
                         if (attack.Hit != null)
                             effects.Add(roll => roll >= 0, attack.Hit);

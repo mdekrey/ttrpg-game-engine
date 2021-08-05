@@ -24,6 +24,7 @@
   - Target:
       Effect:
         Attack:
+          Bonus: +0
           Defense: Fortitude
           Hit:
             Damage:

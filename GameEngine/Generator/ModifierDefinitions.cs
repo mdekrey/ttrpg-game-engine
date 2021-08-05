@@ -21,7 +21,7 @@ namespace GameEngine.Generator
             AbilityModifierDamage,
             NonArmorDefense,
             Multiple3x3,
-            new TempPowerModifierFormula(AccuratePowerTemplateName, "To-Hit Bonus +2", new PowerCost(0.5)),
+            new ToHitBonusFormula(AccuratePowerTemplateName),
             new ConditionFormula("Slowed", ConditionsPowerTemplateName),
             new ConditionFormula("Dazed", ConditionsPowerTemplateName),
             new ConditionFormula("Immobilized", ConditionsPowerTemplateName),
@@ -62,7 +62,7 @@ namespace GameEngine.Generator
                 yield return new(cost, BuildModifier(DefenseType.Reflex), Chances: 1);
                 yield return new(cost, BuildModifier(DefenseType.Will), Chances: 1);
 
-                PowerModifier BuildModifier(DefenseType defense) => 
+                PowerModifier BuildModifier(DefenseType defense) =>
                     new PowerModifier(Name, Build(("Defense", defense.ToString("g"))));
             }
 
@@ -99,6 +99,28 @@ namespace GameEngine.Generator
                     {
                         Amount = dice.ToString(),
                     });
+                });
+            }
+        }
+
+        private record ToHitBonusFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "To-Hit Bonus to Current Attack")
+        {
+            public ToHitBonusFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
+
+            public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+            {
+                if (HasModifier(attack)) yield break;
+                yield return new(new PowerCost(0.5), BuildModifier(2));
+
+                PowerModifier BuildModifier(GameDiceExpression dice) =>
+                    new PowerModifier(Name, Build(("Amount", dice.ToString())));
+            }
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+            {
+                return ModifyAttack(effect, attack => attack with
+                {
+                    Bonus = (GameDiceExpression.Parse(attack.Bonus) + GameDiceExpression.Parse(modifier.Options["Amount"])).ToString()
                 });
             }
         }

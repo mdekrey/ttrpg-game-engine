@@ -334,8 +334,9 @@ Encounter7:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: To-Hit Bonus +2
-      Options: {}
+    - Modifier: To-Hit Bonus to Current Attack
+      Options:
+        Amount: +2
 - Template: Conditions
   Attacks:
   - WeaponDice: 2
@@ -434,8 +435,9 @@ Daily9:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: To-Hit Bonus +2
-      Options: {}
+    - Modifier: To-Hit Bonus to Current Attack
+      Options:
+        Amount: +2
 Encounter11:
 - Template: Multiattack
   Attacks:
@@ -486,8 +488,9 @@ Encounter11:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: To-Hit Bonus +2
-      Options: {}
+    - Modifier: To-Hit Bonus to Current Attack
+      Options:
+        Amount: +2
 - Template: Close blast
   Attacks:
   - WeaponDice: 2.1666666666666665
@@ -550,8 +553,9 @@ Encounter13:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: To-Hit Bonus +2
-      Options: {}
+    - Modifier: To-Hit Bonus to Current Attack
+      Options:
+        Amount: +2
 - Template: Conditions
   Attacks:
   - WeaponDice: 2.5
@@ -939,8 +943,9 @@ Daily25:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: To-Hit Bonus +2
-      Options: {}
+    - Modifier: To-Hit Bonus to Current Attack
+      Options:
+        Amount: +2
 - Template: Bonus
   Attacks:
   - WeaponDice: 8

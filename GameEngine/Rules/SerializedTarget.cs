@@ -102,14 +102,14 @@ namespace GameEngine.Rules
     public record AttackRollOptions
     (
         Ability Kind,
-        int Bonus,
+        string Bonus,
         DefenseType Defense,
         SerializedEffect? Hit = null,
         SerializedEffect? Miss = null,
         SerializedEffect? Effect = null
     )
     {
-        public static readonly AttackRollOptions Empty = new(Ability.Strength, Bonus: 0, Defense: DefenseType.ArmorClass);
+        public static readonly AttackRollOptions Empty = new(Ability.Strength, Bonus: "+0", Defense: DefenseType.ArmorClass);
     }
 
     public record RollEffectResolution

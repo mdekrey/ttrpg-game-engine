@@ -49,7 +49,7 @@ namespace GameEngine.Rules
             return new AttackRoll(currentAttacker, currentTarget)
             {
                 Kind = attack.Kind,
-                Bonus = attack.Bonus,
+                Bonus = GameDiceExpression.Parse(attack.Bonus),
                 Defense = attack.Defense,
                 Hit = attack.Hit == null ? null : await BuildAsync(attack.Hit),
                 Miss = attack.Miss == null ? null : await BuildAsync(attack.Miss),

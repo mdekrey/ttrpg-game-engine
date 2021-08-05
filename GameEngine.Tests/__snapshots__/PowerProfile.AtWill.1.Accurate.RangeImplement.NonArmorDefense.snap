@@ -12,5 +12,6 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options:
       Ability: Strength
-  - Modifier: To-Hit Bonus +2
-    Options: {}
+  - Modifier: To-Hit Bonus to Current Attack
+    Options:
+      Amount: +2

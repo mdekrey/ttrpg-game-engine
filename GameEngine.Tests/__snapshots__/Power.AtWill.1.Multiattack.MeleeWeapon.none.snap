@@ -18,6 +18,7 @@
   - Target:
       Effect:
         Attack:
+          Bonus: +0
           Hit:
             Damage:
             - Amount: 1[W]
@@ -27,6 +28,7 @@
   - Target:
       Effect:
         Attack:
+          Bonus: +0
           Hit:
             Damage:
             - Amount: 1[W]
