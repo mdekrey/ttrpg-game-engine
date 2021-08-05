@@ -45,7 +45,7 @@
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Movement after Attack does not provoke opportunity attacks
+    - Modifier: Movement after Attack does not provoke
       Options: {}
 Encounter1:
 - Template: Multiattack
@@ -142,7 +142,7 @@ Daily1:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Movement after Attack does not provoke opportunity attacks
+    - Modifier: Movement after Attack does not provoke
       Options: {}
 - Template: Conditions
   Attacks:
@@ -351,7 +351,7 @@ Encounter7:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Movement after Attack does not provoke opportunity attacks
+    - Modifier: Movement after Attack does not provoke
       Options: {}
 - Template: Multiattack
   Attacks:
@@ -592,7 +592,7 @@ Daily15:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Movement after Attack does not provoke opportunity attacks
+    - Modifier: Movement after Attack does not provoke
       Options: {}
 - Template: Conditions
   Attacks:

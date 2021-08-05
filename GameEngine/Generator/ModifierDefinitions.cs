@@ -27,7 +27,7 @@ namespace GameEngine.Generator
             new ImmediateConditionFormula("Prone", new PowerCost(1), ConditionsPowerTemplateName),
             new DefensePenaltyFormula(ConditionsPowerTemplateName),
             new ShiftFormula(SkirmishPowerTemplateName),
-            new TempPowerModifierFormula(SkirmishPowerTemplateName, "Movement after Attack does not provoke opportunity attacks", new PowerCost(0.5)),
+            new MovementDoesNotProvokeFormula(SkirmishPowerTemplateName),
             new TempPowerModifierFormula(BonusPowerTemplateName, "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)", new PowerCost(0.5)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "+2 to AC to Ally", new PowerCost(0.5)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "+Ability Bonus Temporary Hit points", new PowerCost(1)),
