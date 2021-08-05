@@ -805,10 +805,12 @@ Daily20:
       Options:
         Ability: Strength
     - Modifier: Healing Surge
-      Options: {}
+      Options:
+        Target: self
 - Template: Multiattack
   Attacks:
   - WeaponDice: 3.75
+    Ability: Dexterity
     DamageTypes:
     - Fire
     Target: Range
@@ -817,6 +819,7 @@ Daily20:
       Options:
         Ability: Strength
   - WeaponDice: 3.75
+    Ability: Dexterity
     DamageTypes:
     - Fire
     Target: Range
@@ -843,7 +846,7 @@ Encounter23:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
@@ -852,7 +855,30 @@ Encounter23:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 3.5
+    DamageTypes:
     - Fire
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
+    - Modifier: Prone
+      Options: {}
+- Template: Interrupt Penalty
+  Attacks:
+  - WeaponDice: 2.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
@@ -863,7 +889,7 @@ Encounter23:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Fire
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
@@ -872,39 +898,12 @@ Encounter23:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-- Template: Close blast
-  Attacks:
-  - WeaponDice: 2.833333333333333
-    DamageTypes:
     - Fire
     Target: Range
     Modifiers:
-    - Modifier: Multiple
-      Options:
-        Size: 3x3
-        Type: Blast
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 4
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Modifier: Ability Modifier Damage
-      Options:
-        Ability: Strength
-    - Modifier: Immobilized
-      Options:
-        Duration: EndOfUserNextTurn
 Daily25:
 - Template: Multiattack
   Attacks:
