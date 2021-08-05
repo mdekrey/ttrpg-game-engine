@@ -3,6 +3,7 @@ using static GameEngine.Generator.PowerDefinitions;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Generator.Modifiers;
+using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator
 {
@@ -19,16 +20,16 @@ namespace GameEngine.Generator
             NonArmorDefense,
             Multiple3x3,
             new ToHitBonusFormula(AccuratePowerTemplateName),
-            new ConditionFormula("Slowed", ConditionsPowerTemplateName),
-            new ConditionFormula("Dazed", ConditionsPowerTemplateName),
-            new ConditionFormula("Immobilized", ConditionsPowerTemplateName),
-            new ConditionFormula("Weakened", ConditionsPowerTemplateName),
-            new ConditionFormula("Grants Combat Advantage", ConditionsPowerTemplateName),
+            new ConditionFormula(Build(ConditionsPowerTemplateName), "Slowed"),
+            new ConditionFormula(Build(ConditionsPowerTemplateName), "Dazed"),
+            new ConditionFormula(Build(ConditionsPowerTemplateName), "Immobilized"),
+            new ConditionFormula(Build(ConditionsPowerTemplateName), "Weakened"),
+            new ConditionFormula(Build(ConditionsPowerTemplateName), "Grants Combat Advantage"),
             new ImmediateConditionFormula("Prone", new PowerCost(1), ConditionsPowerTemplateName),
             new DefensePenaltyFormula(ConditionsPowerTemplateName),
             new ShiftFormula(SkirmishPowerTemplateName),
             new MovementDoesNotProvokeFormula(SkirmishPowerTemplateName),
-            new TempPowerModifierFormula(BonusPowerTemplateName, "To-Hit Bonus +2 (or Abil) to next attack (or to specific target)", new PowerCost(0.5)),
+            new ToHitBoostFormula(Build(BonusPowerTemplateName)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "+2 to AC to Ally", new PowerCost(0.5)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "+Ability Bonus Temporary Hit points", new PowerCost(1)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "Extra Saving Throw", new PowerCost(1)),

@@ -1013,15 +1013,18 @@ Encounter27:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: To-Hit Bonus +2 (or Abil) to next attack (or to specific target)
-      Options: {}
+    - Modifier: To-Hit Bonus
+      Options:
+        Amount: DEX
+        Condition: next attack
+        Target: an ally within 5 squares
 Daily29:
 - Template: Multiattack
   Attacks:
   - WeaponDice: 4.75
     Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
@@ -1030,25 +1033,32 @@ Daily29:
   - WeaponDice: 4.75
     Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-- Template: Skirmish
+- Template: Multiattack
   Attacks:
-  - WeaponDice: 9.5
+  - WeaponDice: 4.75
+    Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Shift
+  - WeaponDice: 4.75
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
       Options:
-        Amount: STR
+        Ability: Strength
 - Template: Accurate
   Attacks:
   - WeaponDice: 9.5

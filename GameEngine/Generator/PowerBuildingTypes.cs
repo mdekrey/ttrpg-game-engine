@@ -42,6 +42,7 @@ namespace GameEngine.Generator
     {
         EndOfUserNextTurn,
         SaveEnds,
+        EndOfEncounter,
     }
 
     public record ApplicablePowerModifierFormula(PowerCost Cost, PowerModifier Modifier, Func<AttackProfileBuilder, AttackProfileBuilder>? AdditionalMutator = null, int Chances = 1)

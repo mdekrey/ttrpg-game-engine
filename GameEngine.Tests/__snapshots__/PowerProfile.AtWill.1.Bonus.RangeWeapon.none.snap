@@ -8,5 +8,8 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options:
       Ability: Strength
-  - Modifier: To-Hit Bonus +2 (or Abil) to next attack (or to specific target)
-    Options: {}
+  - Modifier: To-Hit Bonus
+    Options:
+      Amount: +2
+      Condition: next attack
+      Target: self

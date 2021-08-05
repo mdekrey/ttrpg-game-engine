@@ -8,13 +8,8 @@ namespace GameEngine.Generator.Modifiers
 {
     public record ConditionFormula(ImmutableList<string> Keywords, string Name, ImmutableDictionary<Duration, PowerCost> PowerCost) : PowerModifierFormula(Keywords, Name)
     {
-        public ConditionFormula(string conditionName, params string[] keywords)
-            : this(conditionName, Build((Duration.SaveEnds, new PowerCost(Fixed: 1)), (Duration.EndOfUserNextTurn, new PowerCost(Fixed: 0.5))), keywords)
-        {
-        }
-
-        public ConditionFormula(string conditionName, ImmutableDictionary<Duration, PowerCost> powerCost, params string[] keywords)
-            : this(keywords.ToImmutableList(), Name: conditionName, PowerCost: powerCost)
+        public ConditionFormula(ImmutableList<string> Keywords, string Name)
+            : this(Keywords, Name, Build((Duration.SaveEnds, new PowerCost(Fixed: 1)), (Duration.EndOfUserNextTurn, new PowerCost(Fixed: 0.5))))
         {
         }
 
@@ -48,5 +43,4 @@ namespace GameEngine.Generator.Modifiers
             return effect;
         }
     }
-
 }
