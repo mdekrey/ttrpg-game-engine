@@ -1,31 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ToHitBoostFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "To-Hit Bonus")
+    public record DefenseBoostFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "+2 to Defense")
     {
         public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
-            var amounts = new GameDiceExpression[] { 2 }.Concat(powerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));
+            var defenses = new[] { DefenseType.ArmorClass, DefenseType.Fortitude, DefenseType.Reflex, DefenseType.Will };
             var targets = new[] { "self", "nearest ally", "an ally within 5 squares" };
-            foreach (var amount in amounts)
+            foreach (var defense in defenses)
             {
                 foreach (var target in targets)
                 {
-                    yield return new(new PowerCost(0.5), BuildModifier(amount, "next attack", target));
-                    yield return new(new PowerCost(0.5), BuildModifier(amount, "the target", target));
+                    yield return new(new PowerCost(0.5), BuildModifier(defense, Duration.EndOfUserNextTurn, target));
+                    if (powerInfo.Usage == PowerFrequency.Daily)
+                        yield return new(new PowerCost(Multiplier: 0.5), BuildModifier(defense, Duration.EndOfEncounter, target));
                 }
             }
 
-            PowerModifier BuildModifier(GameDiceExpression amount, string condition, string target) =>
+            PowerModifier BuildModifier(DefenseType defense, Duration duration, string target) =>
                 new PowerModifier(Name, Build(
-                    ("Amount", amount.ToString()),
-                    ("Condition", condition),
+                    ("Defense", defense.ToString("g")),
+                    ("Amount", "+2"),
+                    ("Duration", duration.ToString("g")),
                     ("Target", target)
                 ));
         }

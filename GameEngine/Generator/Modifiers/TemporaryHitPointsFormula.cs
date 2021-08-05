@@ -6,26 +6,24 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ToHitBoostFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "To-Hit Bonus")
+    public record TemporaryHitPointsFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "+Temporary Hit Points")
     {
         public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
-            var amounts = new GameDiceExpression[] { 2 }.Concat(powerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));
+            var amounts = powerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a);
             var targets = new[] { "self", "nearest ally", "an ally within 5 squares" };
             foreach (var amount in amounts)
             {
                 foreach (var target in targets)
                 {
-                    yield return new(new PowerCost(0.5), BuildModifier(amount, "next attack", target));
-                    yield return new(new PowerCost(0.5), BuildModifier(amount, "the target", target));
+                    yield return new(new PowerCost(1), BuildModifier(amount, target));
                 }
             }
 
-            PowerModifier BuildModifier(GameDiceExpression amount, string condition, string target) =>
+            PowerModifier BuildModifier(GameDiceExpression amount, string target) =>
                 new PowerModifier(Name, Build(
                     ("Amount", amount.ToString()),
-                    ("Condition", condition),
                     ("Target", target)
                 ));
         }

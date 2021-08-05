@@ -31,7 +31,7 @@ namespace GameEngine.Generator
             new MovementDoesNotProvokeFormula(SkirmishPowerTemplateName),
             new ToHitBoostFormula(Build(BonusPowerTemplateName)),
             new DefenseBoostFormula(Build(BonusPowerTemplateName)),
-            new TempPowerModifierFormula(BonusPowerTemplateName, "+Ability Bonus Temporary Hit points", new PowerCost(1)),
+            new TemporaryHitPointsFormula(Build(BonusPowerTemplateName)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "Extra Saving Throw", new PowerCost(1)),
             new TempPowerModifierFormula(BonusPowerTemplateName, "Healing Surge", new PowerCost(1)), // TODO - Encounter only
             new TempPowerModifierFormula(BonusPowerTemplateName, "Regeneration 5", new PowerCost(1)), // TODO - Daily only
