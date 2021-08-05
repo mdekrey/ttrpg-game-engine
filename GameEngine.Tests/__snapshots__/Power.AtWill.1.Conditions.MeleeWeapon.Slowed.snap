@@ -6,7 +6,8 @@
     Target: Melee
     Modifiers:
     - Modifier: Ability Modifier Damage
-      Options: {}
+      Options:
+        Ability: Strength
     - Modifier: Slowed
       Options:
         Duration: EndOfUserNextTurn

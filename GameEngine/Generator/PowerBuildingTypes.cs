@@ -44,19 +44,23 @@ namespace GameEngine.Generator
         SaveEnds,
     }
 
+    public record ApplicablePowerModifierFormula(PowerCost Cost, PowerModifier Modifier, Func<AttackProfileBuilder, AttackProfileBuilder>? AdditionalMutator = null, int Chances = 1)
+    {
+        public AttackProfileBuilder Apply(AttackProfileBuilder attack)
+        {
+            attack = attack with
+            {
+                Cost = attack.Cost + Cost,
+                Modifiers = attack.Modifiers.Add(Modifier),
+            };
+            return AdditionalMutator?.Invoke(attack) ?? attack;
+        }
+    }
     public abstract record PowerModifierFormula(ImmutableList<string> Keywords, string Name)
     {
-        public virtual bool CanApply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo) =>
-            attack.Modifiers.Count(m => m.Modifier == Name) == 0;
+        public abstract IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo);
 
-        public abstract AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator);
-
-        protected static AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerCost cost, PowerModifier modifier) =>
-            attack with
-            {
-                Cost = attack.Cost + cost,
-                Modifiers = attack.Modifiers.Add(modifier),
-            };
+        protected bool HasModifier(AttackProfileBuilder attack) => attack.Modifiers.Count(m => m.Modifier == Name) > 0;
 
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier);
 
@@ -108,13 +112,11 @@ namespace GameEngine.Generator
         public TempPowerModifierFormula(string Keyword, string Name, PowerCost Cost)
             : this(Build(Keyword), Name, Cost) { }
 
-        public override bool CanApply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
-            return base.CanApply(attack, powerInfo) && attack.Cost.CanApply(Cost);
+            if (HasModifier(attack)) yield break;
+            yield return new(Cost, new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
         }
-
-        public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
-            Apply(attack, Cost, new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier powerModifier) => effect;
     }

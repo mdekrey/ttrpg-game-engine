@@ -8,5 +8,7 @@ Attacks:
   - Modifier: Multiple
     Options:
       Size: 3x3
+      Type: Burst
   - Modifier: Ability Modifier Damage
-    Options: {}
+    Options:
+      Ability: Strength

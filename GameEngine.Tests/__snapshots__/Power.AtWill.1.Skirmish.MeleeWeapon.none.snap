@@ -6,9 +6,11 @@
     Target: Melee
     Modifiers:
     - Modifier: Ability Modifier Damage
-      Options: {}
+      Options:
+        Ability: Strength
     - Modifier: Shift
-      Options: {}
+      Options:
+        Amount: STR
 - Name: Generated
   Keywords:
   - Weapon
@@ -25,4 +27,4 @@
       MeleeWeapon: {}
     Slide:
       Target: Self
-      Amount: DEX
+      Amount: STR

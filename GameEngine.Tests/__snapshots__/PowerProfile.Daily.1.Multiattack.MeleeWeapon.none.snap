@@ -6,11 +6,13 @@ Attacks:
   Target: Melee
   Modifiers:
   - Modifier: Ability Modifier Damage
-    Options: {}
+    Options:
+      Ability: Strength
 - WeaponDice: 1.75
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
   - Modifier: Ability Modifier Damage
-    Options: {}
+    Options:
+      Ability: Strength

@@ -145,6 +145,9 @@ namespace GameEngine.Rules
         public static GameDiceExpression operator +(GameDiceExpression lhs, Ability ability) =>
             lhs with { Abilities = lhs.Abilities.With(ability, lhs.Abilities[ability] + 1) };
 
+        public static explicit operator GameDiceExpression(Ability ability) =>
+            Empty + ability;
+
         public DieCodes With(DieCodes weaponValue, CharacterAbilities characterAbilities) =>
             DieCodes + weaponValue * WeaponDiceCount + (characterAbilities * Abilities);
     }

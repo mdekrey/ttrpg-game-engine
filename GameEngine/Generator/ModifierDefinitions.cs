@@ -53,18 +53,17 @@ namespace GameEngine.Generator
         {
             public NonArmorDefenseFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
-            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+            public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
             {
-                var defense = randomGenerator.RandomSelection((10, powerInfo.ToolProfile.PrimaryNonArmorDefense), (1, DefenseType.Fortitude), (1, DefenseType.Reflex), (1, DefenseType.Will));
-                return Apply(
-                    attack,
-                    powerInfo.ToolProfile.Type == ToolType.Implement ? new PowerCost(0) : new PowerCost(0.5),
-                    new PowerModifier(
-                        Name,
-                        ImmutableDictionary<string, string>.Empty
-                            .Add("Defense", defense.ToString("g"))
-                    )
-                );
+                if (HasModifier(attack)) yield break;
+                var cost = powerInfo.ToolProfile.Type == ToolType.Implement ? new PowerCost(0) : new PowerCost(0.5);
+                yield return new(cost, BuildModifier(powerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
+                yield return new(cost, BuildModifier(DefenseType.Fortitude), Chances: 1);
+                yield return new(cost, BuildModifier(DefenseType.Reflex), Chances: 1);
+                yield return new(cost, BuildModifier(DefenseType.Will), Chances: 1);
+
+                PowerModifier BuildModifier(DefenseType defense) => 
+                    new PowerModifier(Name, Build(("Defense", defense.ToString("g"))));
             }
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
@@ -77,9 +76,15 @@ namespace GameEngine.Generator
         {
             public AbilityModifierDamageFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
-            // TODO - allow primary and secondary damage
-            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
-                Apply(attack, new PowerCost(0.5), new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
+            public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+            {
+                if (HasModifier(attack)) yield break;
+                // TODO - allow primary and secondary damage
+                yield return new(new PowerCost(0.5), BuildModifier(powerInfo.ToolProfile.Abilities[0]));
+
+                PowerModifier BuildModifier(Ability ability) =>
+                    new PowerModifier(Name, Build(("Ability", ability.ToString("g"))));
+            }
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
             {
@@ -88,11 +93,11 @@ namespace GameEngine.Generator
                     var ability = Ability.Strength; // TODO - configure ability
 
                     var initial = damage[0];
-                    var dice = GameDiceExpression.Parse(initial.Amount);
+                    var dice = GameDiceExpression.Parse(initial.Amount) + ability;
 
                     return damage.SetItem(0, initial with
                     {
-                        Amount = (dice with { Abilities = dice.Abilities.With(ability, dice.Abilities[ability] + 1) }).ToString(),
+                        Amount = dice.ToString(),
                     });
                 });
             }
@@ -102,13 +107,21 @@ namespace GameEngine.Generator
         {
             public ShiftFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
-            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
-                Apply(attack, new PowerCost(0.5), new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
+            public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+            {
+                if (HasModifier(attack)) yield break;
+                // TODO - allow sliding allies, fixed numbers, etc.
+                yield return new(new PowerCost(0.5), BuildModifier((GameDiceExpression)powerInfo.ToolProfile.Abilities[0]));
+
+                PowerModifier BuildModifier(GameDiceExpression amount) =>
+                    new PowerModifier(Name, Build(
+                        ("Amount", amount.ToString())
+                    ));
+            }
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
             {
-                var ability = Ability.Dexterity; // TODO - configure ability
-                return effect with { Slide = new SerializedSlide(Amount: (GameDiceExpression.Empty with { Abilities = CharacterAbilities.Empty.With(ability, 1) }).ToString()) };
+                return effect with { Slide = new SerializedSlide(Amount: modifier.Options["Amount"]) };
             }
         }
 
@@ -124,22 +137,20 @@ namespace GameEngine.Generator
             {
             }
 
-            public override bool CanApply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo) => GetAvailableOptions(attack).Any() && attack.Modifiers.Count(m => m.Modifier == Name) < 1;
-
-            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+            public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
             {
-                IEnumerable<(PowerCost cost, Duration duration)> options = GetAvailableOptions(attack);
+                if (HasModifier(attack)) yield break;
+                var prevThreshold = 0;
+                foreach (var powerCost in PowerCost.EscalatingOdds())
+                {
+                    yield return new(powerCost.result.Value, BuildModifier(powerCost.result.Key), Chances: powerCost.threshold - prevThreshold);
+                    prevThreshold = powerCost.threshold;
+                }
 
-                var selectedOption = randomGenerator.RandomEscalatingSelection(options);
-
-                return Apply(
-                    attack,
-                    selectedOption.cost,
-                    new PowerModifier(
-                        Name,
-                        Build(("Duration", selectedOption.duration.ToString("g")))
-                    )
-                );
+                PowerModifier BuildModifier(Duration duration) =>
+                    new PowerModifier(Name, Build(
+                        ("Duration", duration.ToString("g"))
+                    ));
             }
 
             private IEnumerable<(PowerCost cost, Duration duration)> GetAvailableOptions(AttackProfileBuilder attack)
@@ -164,18 +175,14 @@ namespace GameEngine.Generator
             {
             }
 
-            public override bool CanApply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo) => attack.Cost.CanApply(Cost) && base.CanApply(attack, powerInfo);
-
-            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+            public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
             {
-                return Apply(
-                    attack,
-                    Cost,
-                    new PowerModifier(
-                        Name,
-                        ImmutableDictionary<string, string>.Empty
-                    )
-                );
+                if (HasModifier(attack)) yield break;
+
+                yield return new(Cost, BuildModifier());
+
+                PowerModifier BuildModifier() =>
+                    new PowerModifier(Name);
             }
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
@@ -187,14 +194,30 @@ namespace GameEngine.Generator
 
         private record BurstFormula() : PowerModifierFormula(Build(GeneralKeyword), "Multiple")
         {
-            public override AttackProfileBuilder Apply(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+
+            public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
             {
-                // TODO: other sizes
-                return Apply(
-                    attack,
-                    new PowerCost(Multiplier: 2.0 / 3),
-                    new PowerModifier(Name, Build(("Size", "3x3")))
-                );
+                if (HasModifier(attack)) yield break;
+
+                // TODO: other
+                var sizes = new[]
+                {
+                    (Cost: new PowerCost(Multiplier: 2.0 / 3), Size: "3x3"),
+                };
+
+                foreach (var size in sizes)
+                {
+                    if (attack.Target != TargetType.Range || powerInfo.ToolProfile.Type != ToolType.Weapon)
+                        yield return new(size.Cost, BuildModifier(type: "Burst", size: size.Size));
+                    if (attack.Target != TargetType.Melee || powerInfo.ToolProfile.Type != ToolType.Weapon)
+                    {
+                        yield return new(size.Cost, BuildModifier(type: "Blast", size: size.Size));
+                        yield return new(size.Cost, BuildModifier(type: "Area", size: size.Size));
+                    }
+                }
+
+                PowerModifier BuildModifier(string type, string size) =>
+                    new PowerModifier(Name, Build(("Size", size), ("Type", type)));
             }
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)

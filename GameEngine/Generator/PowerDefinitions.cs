@@ -65,6 +65,14 @@ namespace GameEngine.Generator
         private static AttackProfileBuilder PreApplyAbilityDamage(this AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
             (attack.Cost.Result, powerInfo.ToolProfile.Type) is ( > 0.5, ToolType.Implement) or ( > 1, _) ? ModifierDefinitions.AbilityModifierDamage.Apply(attack, powerInfo, randomGenerator) : attack;
 
+        private static AttackProfileBuilder Apply(this PowerModifierFormula formula, AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
+        {
+            var modifiers = formula.GetApplicable(attack, powerInfo).ToImmutableList();
+            var selected = randomGenerator.RandomSelection(from mod in modifiers
+                                                           select (chance: mod.Chances, mod: mod));
+            return selected.Apply(attack);
+        }
+
         private static AttackProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfileBuilder(
                 new PowerCostBuilder(basePower, PowerCost.Empty, 1),
@@ -82,20 +90,31 @@ namespace GameEngine.Generator
 
         public static AttackProfileBuilder ApplyRandomModifiers(this AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
         {
-            var preferredModifiers = (from name in powerInfo.ToolProfile.PreferredModifiers
-                                      let mod = modifiers.FirstOrDefault(m => m.Name == name)
-                                      where mod != null && mod.CanApply(attack, powerInfo)
-                                      select mod).ToArray();
-            var modifier = randomGenerator.RandomEscalatingSelection(preferredModifiers.Concat(new PowerModifierFormula?[] { null }));
-            var validModifiers = (from mod in modifiers
-                                  where mod != null && mod.CanApply(attack, powerInfo)
-                                  select mod).ToArray();
-            if (modifier == null && validModifiers.Length > 0)
-                modifier = validModifiers[randomGenerator(0, validModifiers.Length)];
+            // TODO - I'd like this a lot better if it were flattened, but that requires LCM and other calculations... it may not be worth it.
+            var preferredModifiers = GetApplicable(from name in powerInfo.ToolProfile.PreferredModifiers
+                                                   let mod = modifiers.FirstOrDefault(m => m.Name == name)
+                                                   select mod);
+            var modifier = randomGenerator.RandomEscalatingSelection(preferredModifiers.Concat(new ApplicablePowerModifierFormula[][] { null }));
+            if (modifier == null)
+            {
+                var validModifiers = GetApplicable(modifiers);
+                if (validModifiers.Length > 0)
+                    modifier = validModifiers[randomGenerator(0, validModifiers.Length)];
+            }
             if (modifier != null)
-                attack = modifier.Apply(attack, powerInfo, randomGenerator);
+                attack = randomGenerator.RandomSelection(modifier.Select(m => (m.Chances, m))).Apply(attack);
 
             return attack;
+
+            ApplicablePowerModifierFormula[][] GetApplicable(IEnumerable<PowerModifierFormula> modifiers) =>
+                (from mod in modifiers
+                 let entries = (from entry in mod.GetApplicable(attack, powerInfo)
+                                where attack.Cost.CanApply(entry.Cost)
+                                select entry).ToArray()
+                 where entries.Length > 0
+                 let chances = entries.Sum(entry => entry.Chances)
+                 select entries
+                ).ToArray();
         }
 
         private record AccuratePowerTemplate : PowerTemplate
@@ -140,11 +159,16 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                return (RandomGenerator randomGenerator) => Build(ApplyAttackProfileModifiers(CloseBurstPowerTemplateName, info,
-                    ModifierDefinitions.Multiple3x3.Apply(RootBuilder(basePower, info, randomGenerator), info, randomGenerator), randomGenerator));
+                return (RandomGenerator randomGenerator) =>
+                {
+                    var attack = RootBuilder(basePower, info, randomGenerator);
+
+                    return Build(ApplyAttackProfileModifiers(CloseBurstPowerTemplateName, info,
+                        ModifierDefinitions.Multiple3x3.GetApplicable(attack, info).First(a => a.Modifier.Options["Type"] == "Burst").Apply(attack), randomGenerator));
+                };
             }
 
-            public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill } or { ToolProfile: { Type: ToolType.Implement } };
+            public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill, ToolProfile: { Range: ToolRange.Melee } } or { ToolProfile: { Type: ToolType.Implement } };
             public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
@@ -178,8 +202,13 @@ namespace GameEngine.Generator
             public override Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo info)
             {
                 var basePower = PowerGenerator.GetBasePower(info.Level, info.Usage);
-                return (RandomGenerator randomGenerator) => Build(ApplyAttackProfileModifiers(CloseBlastPowerTemplateName, info,
-                    ModifierDefinitions.Multiple3x3.Apply(RootBuilder(basePower, info, randomGenerator), info, randomGenerator), randomGenerator));
+                return (RandomGenerator randomGenerator) =>
+                {
+                    var attack = RootBuilder(basePower, info, randomGenerator);
+
+                    return Build(ApplyAttackProfileModifiers(CloseBurstPowerTemplateName, info,
+                        ModifierDefinitions.Multiple3x3.GetApplicable(attack, info).First(a => a.Modifier.Options["Type"] == "Blast").Apply(attack), randomGenerator));
+                };
             }
 
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { ToolProfile: { Type: ToolType.Implement } } or { ToolProfile: { Type: ToolType.Weapon, Range: ToolRange.Range }, Usage: not PowerFrequency.AtWill };

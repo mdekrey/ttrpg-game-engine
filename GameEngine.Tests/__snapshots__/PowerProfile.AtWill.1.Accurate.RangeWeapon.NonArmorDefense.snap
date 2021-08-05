@@ -6,7 +6,8 @@ Attacks:
   Target: Range
   Modifiers:
   - Modifier: Ability Modifier Damage
-    Options: {}
+    Options:
+      Ability: Strength
   - Modifier: Non-Armor Defense
     Options:
       Defense: Fortitude

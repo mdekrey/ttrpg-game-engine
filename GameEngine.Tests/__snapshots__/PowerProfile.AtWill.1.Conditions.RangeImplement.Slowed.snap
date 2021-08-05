@@ -10,7 +10,8 @@ Attacks:
     Options:
       Defense: Fortitude
   - Modifier: Ability Modifier Damage
-    Options: {}
+    Options:
+      Ability: Strength
   - Modifier: Slowed
     Options:
       Duration: EndOfUserNextTurn

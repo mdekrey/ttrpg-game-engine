@@ -55,7 +55,10 @@ namespace GameEngine.Generator
         }
     }
 
-    public record PowerModifier(string Modifier, ImmutableDictionary<string, string> Options);
+    public record PowerModifier(string Modifier, ImmutableDictionary<string, string> Options)
+    {
+        public PowerModifier(string Modifier): this(Modifier, ImmutableDictionary<string, string>.Empty)  { }
+    }
     public record AttackProfileBuilder(PowerCostBuilder Cost, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers)
     {
         internal AttackProfile Build() => new AttackProfile(Cost.Result, Ability, DamageTypes, Target, Modifiers);

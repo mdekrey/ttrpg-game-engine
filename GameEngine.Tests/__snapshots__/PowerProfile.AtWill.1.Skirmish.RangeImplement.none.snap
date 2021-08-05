@@ -10,6 +10,8 @@ Attacks:
     Options:
       Defense: Fortitude
   - Modifier: Ability Modifier Damage
-    Options: {}
+    Options:
+      Ability: Strength
   - Modifier: Shift
-    Options: {}
+    Options:
+      Amount: STR

@@ -13,7 +13,7 @@ namespace GameEngine.Generator
         public static T RandomEscalatingSelection<T>(this RandomGenerator randomGenerator, double escalator, params T[] sourceList) =>
             randomGenerator.RandomSelectionByThreshold(sourceList.EscalatingOdds(escalator));
 
-        private static (int threshold, T result)[] EscalatingOdds<T>(this IEnumerable<T> sourceList, double escalator)
+        public static (int threshold, T result)[] EscalatingOdds<T>(this IEnumerable<T> sourceList, double escalator = 1.5)
         {
             var thresholds = new List<(int, T)>();
             var threshold = 1;

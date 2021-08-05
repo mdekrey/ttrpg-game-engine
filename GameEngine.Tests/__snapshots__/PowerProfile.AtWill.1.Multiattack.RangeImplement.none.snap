@@ -10,7 +10,8 @@ Attacks:
     Options:
       Defense: Fortitude
   - Modifier: Ability Modifier Damage
-    Options: {}
+    Options:
+      Ability: Strength
 - WeaponDice: 0.5
   DamageTypes:
   - Radiant
@@ -20,4 +21,5 @@ Attacks:
     Options:
       Defense: Fortitude
   - Modifier: Ability Modifier Damage
-    Options: {}
+    Options:
+      Ability: Strength

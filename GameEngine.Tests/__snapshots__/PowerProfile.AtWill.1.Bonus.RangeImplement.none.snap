@@ -10,6 +10,7 @@ Attacks:
     Options:
       Defense: Fortitude
   - Modifier: Ability Modifier Damage
-    Options: {}
+    Options:
+      Ability: Strength
   - Modifier: To-Hit Bonus +2 (or Abil) to next attack (or to specific target)
     Options: {}
