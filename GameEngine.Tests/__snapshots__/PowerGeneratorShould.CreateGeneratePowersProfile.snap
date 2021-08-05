@@ -574,14 +574,15 @@ Encounter13:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Regeneration 5
-      Options: {}
+    - Modifier: Healing Surge
+      Options:
+        Target: self
 Daily15:
 - Template: Multiattack
   Attacks:
   - WeaponDice: 3.25
     DamageTypes:
-    - Weapon
+    - Fire
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
@@ -589,25 +590,30 @@ Daily15:
         Ability: Strength
   - WeaponDice: 3.25
     DamageTypes:
-    - Weapon
+    - Fire
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-- Template: Skirmish
+- Template: Multiattack
   Attacks:
-  - WeaponDice: 6.5
+  - WeaponDice: 3.25
     DamageTypes:
-    - Weapon
+    - Fire
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: Shift
+  - WeaponDice: 3.25
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Modifier: Ability Modifier Damage
       Options:
-        Amount: STR
+        Ability: Strength
 - Template: Conditions
   Attacks:
   - WeaponDice: 6.5

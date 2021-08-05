@@ -34,7 +34,7 @@ namespace GameEngine.Generator
             new TemporaryHitPointsFormula(Build(BonusPowerTemplateName)),
             new AllyOneTimeBoostFormula(Build(BonusPowerTemplateName), "Extra Saving Throw", new PowerCost(1)),
             new AllyOneTimeBoostFormula(Build(BonusPowerTemplateName), "Healing Surge", new PowerCost(1)),
-            new TempPowerModifierFormula(BonusPowerTemplateName, "Regeneration 5", new PowerCost(1)), // TODO - Daily only
+            new RegenerationFormula(Build(BonusPowerTemplateName)),
             // Blinded
             // Slowed/Unconscious
             // Ongoing
