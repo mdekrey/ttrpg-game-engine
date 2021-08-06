@@ -124,23 +124,23 @@ namespace GameEngine.Generator
                 attack = attackBuilders.Pop();
                 attack = attack.PreApply(powerInfo, randomGenerator);
 
-                // while (true) 
-                // {
-                var applicableModifiers = ModifierDefinitions.GetApplicableModifiers(new[] { powerInfo.ToolProfile.Type.ToKeyword(), powerTemplate.Name });
-                //     if (applicableModifiers.Length == 0)
-                //         break;
-                var oldAttack = attack;
-                attack = attack.ApplyRandomModifiers(powerInfo, applicableModifiers, randomGenerator);
-                //     if (oldAttack == attack)
-                //         break;
-
-                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is { Options: var secondaryAttackOptions })
+                while (true)
                 {
-                    AttackProfileBuilder next;
-                    (attack, next) = Modifiers.MultiattackFormula.Unapply(attack, secondaryAttackOptions);
-                    attackBuilders.Push(next);
+                    if (Modifiers.MultiattackFormula.NeedToSplit(attack) is { Options: var secondaryAttackOptions })
+                    {
+                        AttackProfileBuilder next;
+                        (attack, next) = Modifiers.MultiattackFormula.Unapply(attack, secondaryAttackOptions);
+                        attackBuilders.Push(next);
+                    }
+
+                    var applicableModifiers = ModifierDefinitions.GetApplicableModifiers(new[] { powerInfo.ToolProfile.Type.ToKeyword(), powerTemplate.Name });
+                    if (applicableModifiers.Length == 0)
+                        break;
+                    var oldAttack = attack;
+                    attack = attack.ApplyRandomModifiers(powerInfo, applicableModifiers, randomGenerator);
+                    if (oldAttack == attack)
+                        break;
                 }
-                // }
 
                 yield return attack.Build();
             }
