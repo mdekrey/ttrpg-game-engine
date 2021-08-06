@@ -18,18 +18,17 @@ namespace GameEngine.Generator.Modifiers
 
             for (var (current, counter) = (attack.Cost.Minimum, 1); current <= attack.Cost.Initial / 2; (current, counter) = (current + 0.5, counter * 2))
             {
-                var cost = new PowerCost(Multiplier: current / attack.Cost.Initial);
+                var cost = new PowerCost(Multiplier: 1 - (current / attack.Cost.Initial));
                 var (a, b) = (current, attack.Cost.Initial - current);
-                yield return new(cost, BuildModifier(reserved: a, original: b, multiplier: cost.Multiplier), Chances: counter * (a == b ? 2 : 1));
+                yield return new(cost, BuildModifier(nextAttack: a, original: b), Chances: counter * (a == b ? 2 : 1));
                 if (a != b)
-                    yield return new(cost, BuildModifier(reserved: b, original: a, multiplier: 1 - cost.Multiplier), Chances: counter);
+                    yield return new(cost with { Multiplier = 1 - cost.Multiplier }, BuildModifier(nextAttack: b, original: a), Chances: counter);
             }
 
-            PowerModifier BuildModifier(double reserved, double original, double multiplier) =>
+            PowerModifier BuildModifier(double nextAttack, double original) =>
                 new PowerModifier(Name, Build(
-                    ("Reserved", reserved.ToString("0.0")),
-                    ("Remaining", original.ToString("0.0")),
-                    ("Multiplier", multiplier.ToString())
+                    ("NextAttack", nextAttack.ToString("0.0")),
+                    ("Remaining", original.ToString("0.0"))
                 ));
         }
 
@@ -41,17 +40,16 @@ namespace GameEngine.Generator.Modifiers
 
         internal static (AttackProfileBuilder original, AttackProfileBuilder secondary) Unapply(AttackProfileBuilder attack, ImmutableDictionary<string, string> secondaryAttackOptions)
         {
-            var reserved = double.Parse(secondaryAttackOptions["Reserved"]);
+            var nextAttack = double.Parse(secondaryAttackOptions["NextAttack"]);
             var remaining = double.Parse(secondaryAttackOptions["Remaining"]);
-            var multiplier = double.Parse(secondaryAttackOptions["Multiplier"]);
             return (
                 attack with 
                 { 
                     Modifiers = attack.Modifiers.Where(m => m.Modifier != SecondaryAttackFormula.ModifierName).ToImmutableList(), 
                     Cost = attack.Cost with 
                     { 
-                        CurrentCost = attack.Cost.CurrentCost with { Multiplier = attack.Cost.CurrentCost.Multiplier / multiplier },
-                        Initial = reserved,
+                        CurrentCost = attack.Cost.CurrentCost with { Multiplier = attack.Cost.CurrentCost.Multiplier * (nextAttack + remaining) / remaining },
+                        Initial = remaining,
                     }
                 },
                 attack with
@@ -60,7 +58,7 @@ namespace GameEngine.Generator.Modifiers
                     Cost = attack.Cost with
                     {
                         CurrentCost = PowerCost.Empty,
-                        Initial = remaining,
+                        Initial = nextAttack,
                     },
                 }
             );

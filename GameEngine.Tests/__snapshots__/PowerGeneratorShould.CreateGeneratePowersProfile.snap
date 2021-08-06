@@ -123,7 +123,7 @@ Encounter1:
 Daily1:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 1.5
+  - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -132,7 +132,7 @@ Daily1:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 2
+  - WeaponDice: 1.5
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -259,7 +259,7 @@ Daily5:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 2
+  - WeaponDice: 2.5
     DamageTypes:
     - Weapon
     Target: Range
@@ -341,16 +341,19 @@ Encounter7:
         Amount: STR
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 0.99999999999999989
+  - WeaponDice: 0.99999999999999978
     DamageTypes:
     - Fire
     Target: Range
     Modifiers: []
-  - WeaponDice: 1
+  - WeaponDice: 1.5
     DamageTypes:
     - Fire
     Target: Range
-    Modifiers: []
+    Modifiers:
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
 - Template: Conditions
   Attacks:
   - WeaponDice: 2
@@ -376,7 +379,7 @@ Daily9:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 2.5
+  - WeaponDice: 3
     DamageTypes:
     - Weapon
     Target: Range
@@ -395,7 +398,7 @@ Daily9:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 2
+  - WeaponDice: 3.5
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -507,7 +510,7 @@ Encounter13:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 1
+  - WeaponDice: 2
     DamageTypes:
     - Fire
     Target: Range
@@ -567,7 +570,7 @@ Encounter13:
 Daily15:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 1
+  - WeaponDice: 0.99999999999999956
     DamageTypes:
     - Fire
     Target: Range
@@ -575,7 +578,7 @@ Daily15:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 1
+  - WeaponDice: 5.5
     DamageTypes:
     - Fire
     Target: Range
@@ -599,7 +602,7 @@ Daily15:
         Amount: STR
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 1.5
+  - WeaponDice: 5
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -608,7 +611,7 @@ Daily15:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 5
+  - WeaponDice: 1.5
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -653,12 +656,6 @@ Encounter17:
         Ability: Strength
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers: []
   - WeaponDice: 2.5
     Ability: Dexterity
     DamageTypes:
@@ -668,6 +665,12 @@ Encounter17:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers: []
 - Template: Close blast
   Attacks:
   - WeaponDice: 2.1666666666666665
@@ -707,7 +710,7 @@ Daily19:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 3.5
+  - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -760,7 +763,7 @@ Daily19:
 Daily20:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 3.5
+  - WeaponDice: 4
     DamageTypes:
     - Fire
     Target: Range
@@ -768,7 +771,7 @@ Daily20:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 4
+  - WeaponDice: 3.5
     DamageTypes:
     - Fire
     Target: Range
@@ -805,7 +808,7 @@ Daily20:
         Amount: +2
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 3.5
+  - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -814,7 +817,7 @@ Daily20:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 4
+  - WeaponDice: 3.5
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -892,7 +895,7 @@ Encounter23:
 Daily25:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 4
+  - WeaponDice: 4.5000000000000009
     DamageTypes:
     - Weapon
     Target: Range
@@ -900,7 +903,7 @@ Daily25:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 4.5
+  - WeaponDice: 4
     DamageTypes:
     - Weapon
     Target: Range
@@ -986,11 +989,6 @@ Encounter27:
         Amount: STR
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 1
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers: []
   - WeaponDice: 3.5
     DamageTypes:
     - Fire
@@ -999,6 +997,11 @@ Encounter27:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
+  - WeaponDice: 1
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers: []
 - Template: Interrupt Penalty
   Attacks:
   - WeaponDice: 2.5
@@ -1015,7 +1018,7 @@ Encounter27:
 Daily29:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 4.4999999999999991
+  - WeaponDice: 4.5
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -1024,7 +1027,7 @@ Daily29:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 4.5
+  - WeaponDice: 5
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -1035,7 +1038,7 @@ Daily29:
         Ability: Strength
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 4.5
+  - WeaponDice: 5
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -1044,7 +1047,7 @@ Daily29:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 5
+  - WeaponDice: 4.5
     Ability: Dexterity
     DamageTypes:
     - Weapon

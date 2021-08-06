@@ -1,10 +1,5 @@
 ﻿Template: Multiattack
 Attacks:
-- WeaponDice: 1
-  DamageTypes:
-  - Weapon
-  Target: Melee
-  Modifiers: []
 - WeaponDice: 3
   DamageTypes:
   - Weapon
@@ -13,3 +8,8 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options:
       Ability: Strength
+- WeaponDice: 1
+  DamageTypes:
+  - Weapon
+  Target: Melee
+  Modifiers: []

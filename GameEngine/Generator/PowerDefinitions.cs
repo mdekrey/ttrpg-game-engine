@@ -62,6 +62,8 @@ namespace GameEngine.Generator
             var validModifiers = GetApplicable(from mod in modifiers
                                                where !powerInfo.ToolProfile.PreferredModifiers.Contains(mod.Name)
                                                select mod);
+            if (validModifiers.Length == 0)
+                return attack;
             var modifier = randomGenerator.RandomEscalatingSelection(preferredModifiers, minimalSources: validModifiers);
             if (modifier != null)
                 attack = randomGenerator.RandomSelection(modifier.Select(m => (m.Chances, m))).Apply(attack);
