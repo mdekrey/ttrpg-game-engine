@@ -25,6 +25,8 @@ namespace GameEngine.Generator
             new ConditionFormula(Build(ConditionsPowerTemplateName), "Immobilized"),
             new ConditionFormula(Build(ConditionsPowerTemplateName), "Weakened"),
             new ConditionFormula(Build(ConditionsPowerTemplateName), "Grants Combat Advantage"),
+            new ConditionFormula(Build(ConditionsPowerTemplateName), "Blinded"),
+            new OngoingDamageFormula(Build(ConditionsPowerTemplateName)),
             new ImmediateConditionFormula("Prone", new PowerCost(1), ConditionsPowerTemplateName),
             new DefensePenaltyFormula(ConditionsPowerTemplateName),
             new ShiftFormula(SkirmishPowerTemplateName),
@@ -35,9 +37,7 @@ namespace GameEngine.Generator
             new AllyOneTimeBoostFormula(Build(BonusPowerTemplateName), "Extra Saving Throw", new PowerCost(1)),
             new AllyOneTimeBoostFormula(Build(BonusPowerTemplateName), "Healing Surge", new PowerCost(1)),
             new RegenerationFormula(Build(BonusPowerTemplateName)),
-            // Blinded
             // Slowed/Unconscious
-            // Ongoing
             // Reroll attack
             // Disarm and catch
             // Free basic attacks
