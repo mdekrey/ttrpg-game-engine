@@ -1,21 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record BurstFormula() : PowerModifierFormula(Build(ModifierDefinitions.GeneralKeyword), "Multiple")
+    public record BurstFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
+        public const string ModifierName = "Multiple";
 
         public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
-            if (HasModifier(attack)) yield break;
+            if (HasModifier(attack) || HasModifier(attack, SecondaryAttackFormula.ModifierName)) yield break;
 
             // TODO: other
             var sizes = new[]
             {
-                    (Cost: new PowerCost(Multiplier: 2.0 / 3), Size: "3x3"),
-                };
+                (Cost: new PowerCost(Multiplier: 2.0 / 3), Size: "3x3"),
+            };
 
             foreach (var size in sizes)
             {
@@ -40,5 +43,4 @@ namespace GameEngine.Generator.Modifiers
             });
         }
     }
-
 }

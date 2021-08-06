@@ -5,6 +5,8 @@ Attacks:
   - Weapon
   Target: Melee
   Modifiers:
+  - Modifier: OpportunityAction
+    Options: {}
   - Modifier: Ability Modifier Damage
     Options:
       Ability: Strength

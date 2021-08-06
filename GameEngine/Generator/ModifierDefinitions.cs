@@ -13,12 +13,15 @@ namespace GameEngine.Generator
 
         public static readonly PowerModifierFormula NonArmorDefense = new NonArmorDefenseFormula(AccuratePowerTemplateName);
         public static readonly PowerModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula(GeneralKeyword);
-        public static readonly PowerModifierFormula Multiple3x3 = new BurstFormula();
+        public static readonly PowerModifierFormula Multiple3x3 = new BurstFormula(Build(GeneralKeyword));
+        public static readonly PowerModifierFormula SecondaryAttack = new SecondaryAttackFormula(Build(GeneralKeyword));
+        public static readonly PowerModifierFormula OpportunityAction = new OpportunityActionFormula(Build(GeneralKeyword));
         public static readonly ImmutableList<PowerModifierFormula> modifiers = new PowerModifierFormula[]
         {
             AbilityModifierDamage,
             NonArmorDefense,
             Multiple3x3,
+            SecondaryAttack,
             new ToHitBonusFormula(AccuratePowerTemplateName),
             new ConditionFormula(Build(ConditionsPowerTemplateName), "Slowed"),
             new ConditionFormula(Build(ConditionsPowerTemplateName), "Dazed"),
@@ -45,6 +48,18 @@ namespace GameEngine.Generator
         }.ToImmutableList();
 
         public static IEnumerable<string> PowerModifierNames => modifiers.Select(v => v.Name);
+
+        public static PowerModifierFormula[] GetApplicableModifiers(params string[] keywords)
+        {
+            var keywordSet = new HashSet<string>(keywords);
+            return (
+                from modifier in ModifierDefinitions.modifiers
+                where modifier.Keywords.Any(keywordSet.Contains)
+                orderby modifier.Name
+                select modifier
+            )
+            .ToArray();
+        }
 
     }
 }

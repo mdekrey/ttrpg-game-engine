@@ -61,7 +61,7 @@ namespace GameEngine.Generator
     {
         public abstract IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo);
 
-        protected bool HasModifier(AttackProfileBuilder attack) => attack.Modifiers.Count(m => m.Modifier == Name) > 0;
+        protected bool HasModifier(AttackProfileBuilder attack, string? name = null) => attack.Modifiers.Count(m => m.Modifier == (name ?? Name)) > 0;
 
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier);
 
@@ -128,7 +128,10 @@ namespace GameEngine.Generator
 
     public abstract record PowerTemplate(string Name)
     {
-        public abstract Generation<IEnumerable<AttackProfile>> ConstructAttacks(PowerHighLevelInfo powerInfo);
+        public virtual IEnumerable<IEnumerable<ApplicablePowerModifierFormula>> StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo)
+        {
+            yield break;
+        }
         public abstract bool CanApply(PowerHighLevelInfo powerInfo);
         public abstract SerializedPower Apply(SerializedPower orig);
     }

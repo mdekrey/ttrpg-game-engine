@@ -102,11 +102,58 @@ namespace GameEngine.Generator
         {
             var template = randomGenerator.RandomEscalatingSelection(powerTemplates
                     .Where(templateName => PowerDefinitions.powerTemplates[templateName].CanApply(powerInfo)));
-            var attacks = PowerDefinitions.powerTemplates[template].ConstructAttacks(powerInfo)(randomGenerator);
+
+            var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
+            var attack = RootBuilder(basePower, powerInfo, randomGenerator);
+            var attacks = GenerateAttacks(attack, powerInfo, PowerDefinitions.powerTemplates[template]);
 
             return new PowerProfile(template, powerInfo.ToolProfile.Type, attacks.ToImmutableList());
         }
 
+        public IEnumerable<AttackProfile> GenerateAttacks(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, PowerTemplate powerTemplate)
+        {
+            foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo))
+            {
+                attack = randomGenerator.RandomSelection(starterSet.Select(s => (s.Chances, s))).Apply(attack);
+            }
+
+            var moreToDo = false;
+
+            do
+            {
+                moreToDo = false;
+                attack = attack.PreApply(powerInfo, randomGenerator);
+
+                var applicableModifiers = ModifierDefinitions.GetApplicableModifiers(new[] { powerInfo.ToolProfile.Type.ToKeyword(), powerTemplate.Name });
+                attack = attack.ApplyRandomModifiers(powerInfo, applicableModifiers, randomGenerator);
+
+                if (attack.Modifiers.FirstOrDefault(m => m.Modifier == Modifiers.SecondaryAttackFormula.ModifierName) is { Options: var secondaryAttackOptions })
+                {
+                    AttackProfileBuilder next;
+                    (attack, next) = Modifiers.SecondaryAttackFormula.Unapply(attack, secondaryAttackOptions);
+                    yield return attack.Build();
+                    attack = next;
+                    moreToDo = true;
+                }
+            } while (moreToDo);
+
+            yield return attack.Build();
+        }
+
+        private static AttackProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
+            new AttackProfileBuilder(
+                new PowerCostBuilder(basePower, PowerCost.Empty, 1),
+                randomGenerator.RandomEscalatingSelection(
+                    info.ToolProfile.Abilities
+                        .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
+                ),
+                Build(randomGenerator.RandomEscalatingSelection(
+                    info.ToolProfile.PreferredDamageTypes.Where(d => d != DamageType.Weapon || info.ToolProfile.Type == ToolType.Weapon)
+                        .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
+                )),
+                info.ToolProfile.Range.ToTargetType(),
+                ImmutableList<PowerModifier>.Empty
+            );
 
         public static double GetBasePower(int level, PowerFrequency usageFrequency)
         {
