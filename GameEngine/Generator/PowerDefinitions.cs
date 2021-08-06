@@ -33,28 +33,6 @@ namespace GameEngine.Generator
         }.ToImmutableDictionary(template => template.Name);
         public static IEnumerable<string> PowerTemplateNames => powerTemplates.Keys;
 
-        private static AttackProfile ApplyAttackProfileModifiers(string templateName, PowerHighLevelInfo info, AttackProfileBuilder rootBuilder, RandomGenerator randomGenerator)
-        {
-            var applicableModifiers = GetApplicableModifiers(new[] { info.ToolProfile.Type.ToKeyword(), templateName });
-
-            return rootBuilder
-                .PreApply(info, randomGenerator)
-                .ApplyRandomModifiers(info, applicableModifiers, randomGenerator)
-                .Build();
-        }
-
-        private static PowerModifierFormula[] GetApplicableModifiers(params string[] keywords)
-        {
-            var keywordSet = new HashSet<string>(keywords);
-            return (
-                from modifier in ModifierDefinitions.modifiers
-                where modifier.Keywords.Any(keywordSet.Contains)
-                orderby modifier.Name
-                select modifier
-            )
-            .ToArray();
-        }
-
         public static AttackProfileBuilder PreApply(this AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) => attack
             .PreApplyImplementNonArmorDefense(powerInfo, randomGenerator)
             .PreApplyAbilityDamage(powerInfo, randomGenerator);
@@ -67,7 +45,7 @@ namespace GameEngine.Generator
 
         private static AttackProfileBuilder Apply(this PowerModifierFormula formula, AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
         {
-            var modifiers = formula.GetApplicable(attack, powerInfo).ToImmutableList();
+            var modifiers = formula.GetApplicable(attack, powerInfo);
             var selected = randomGenerator.RandomSelection(from mod in modifiers
                                                            select (chance: mod.Chances, mod: mod));
             return selected.Apply(attack);
