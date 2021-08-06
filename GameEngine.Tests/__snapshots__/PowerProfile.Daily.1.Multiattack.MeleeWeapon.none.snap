@@ -8,8 +8,13 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options:
       Ability: Strength
-- WeaponDice: 1
+- WeaponDice: 1.5
   DamageTypes:
   - Weapon
   Target: Melee
-  Modifiers: []
+  Modifiers:
+  - Modifier: SecondaryAttack
+    Options: {}
+  - Modifier: Ability Modifier Damage
+    Options:
+      Ability: Strength

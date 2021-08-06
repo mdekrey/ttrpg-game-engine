@@ -7,7 +7,7 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record SecondaryAttackFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record MultiattackFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
         public const string ModifierName = "Multiattack";
 
@@ -15,20 +15,26 @@ namespace GameEngine.Generator.Modifiers
         {
             if (HasModifier(attack) || HasModifier(attack, BurstFormula.ModifierName)) yield break;
 
+            var available = attack.Cost.Result;
 
-            for (var (current, counter) = (attack.Cost.Minimum, 1); current <= attack.Cost.Initial / 2; (current, counter) = (current + 0.5, counter * 2))
+            for (var (current, counter) = (attack.Cost.Minimum, 1); current <= available / 2; (current, counter) = (current + 0.5, counter * 2))
             {
-                var cost = new PowerCost(Multiplier: 1 - (current / attack.Cost.Initial));
-                var (a, b) = (current, attack.Cost.Initial - current);
-                yield return new(cost, BuildModifier(nextAttack: a, original: b), Chances: counter * (a == b ? 2 : 1));
+                var (a, b) = (current, available - current);
+                var costA = new PowerCost(Fixed: b);
+                var costB = new PowerCost(Fixed: a);
+                if (a * 2 < b)
+                    yield return new(costB, BuildModifier(nextAttack: a * 2, original: b, cost: costB.Fixed, isFollowUp: true), Chances: counter * (a == b ? 2 : 1));
+                yield return new(costB, BuildModifier(nextAttack: a, original: b, cost: costB.Fixed), Chances: counter * (a == b ? 2 : 1));
                 if (a != b)
-                    yield return new(cost with { Multiplier = 1 - cost.Multiplier }, BuildModifier(nextAttack: b, original: a), Chances: counter);
+                    yield return new(costA, BuildModifier(nextAttack: b, original: a, cost: costA.Fixed), Chances: counter);
             }
 
-            PowerModifier BuildModifier(double nextAttack, double original) =>
+            PowerModifier BuildModifier(double nextAttack, double original, double cost, bool isFollowUp = false) =>
                 new PowerModifier(Name, Build(
                     ("NextAttack", nextAttack.ToString("0.0")),
-                    ("Remaining", original.ToString("0.0"))
+                    ("Remaining", original.ToString("0.0")),
+                    ("Cost", cost.ToString("0.0")),
+                    ("IsFollowUp", isFollowUp.ToString())
                 ));
         }
 
@@ -38,23 +44,32 @@ namespace GameEngine.Generator.Modifiers
             throw new System.NotSupportedException();
         }
 
+        internal static PowerModifier? NeedToSplit(AttackProfileBuilder attack)
+        {
+            return attack.Modifiers.FirstOrDefault(m => m.Modifier == ModifierName);
+        }
+
         internal static (AttackProfileBuilder original, AttackProfileBuilder secondary) Unapply(AttackProfileBuilder attack, ImmutableDictionary<string, string> secondaryAttackOptions)
         {
             var nextAttack = double.Parse(secondaryAttackOptions["NextAttack"]);
             var remaining = double.Parse(secondaryAttackOptions["Remaining"]);
+            var cost = double.Parse(secondaryAttackOptions["Cost"]);
+            var isFollowUp = bool.Parse(secondaryAttackOptions["IsFollowUp"]);
             return (
                 attack with 
                 { 
-                    Modifiers = attack.Modifiers.Where(m => m.Modifier != SecondaryAttackFormula.ModifierName).ToImmutableList(), 
+                    Modifiers = attack.Modifiers.Where(m => m.Modifier != ModifierName).ToImmutableList(), 
                     Cost = attack.Cost with 
                     { 
-                        CurrentCost = attack.Cost.CurrentCost with { Multiplier = attack.Cost.CurrentCost.Multiplier * (nextAttack + remaining) / remaining },
+                        CurrentCost = attack.Cost.CurrentCost with { Fixed = attack.Cost.CurrentCost.Fixed - cost },
                         Initial = remaining,
                     }
                 },
                 attack with
                 {
-                    Modifiers = ImmutableList<PowerModifier>.Empty,
+                    Modifiers = isFollowUp
+                        ? Build(new PowerModifier(SecondaryAttackFormula.ModifierName))
+                        : ImmutableList<PowerModifier>.Empty,
                     Cost = attack.Cost with
                     {
                         CurrentCost = PowerCost.Empty,
@@ -64,4 +79,21 @@ namespace GameEngine.Generator.Modifiers
             );
         }
     }
+
+    public record SecondaryAttackFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    {
+        public const string ModifierName = "SecondaryAttack";
+        // Only applies if previous attack hits
+        public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        {
+            yield break;
+        }
+
+        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        {
+            // TODO
+            return effect;
+        }
+    }
+
 }

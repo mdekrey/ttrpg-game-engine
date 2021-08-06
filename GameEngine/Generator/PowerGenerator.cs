@@ -117,27 +117,34 @@ namespace GameEngine.Generator
                 attack = randomGenerator.RandomSelection(starterSet.Select(s => (s.Chances, s))).Apply(attack);
             }
 
-            var moreToDo = false;
+            var attackBuilders = new Stack<AttackProfileBuilder>(new[] { attack });
 
-            do
+            while (attackBuilders.Count > 0)
             {
-                moreToDo = false;
+                attack = attackBuilders.Pop();
                 attack = attack.PreApply(powerInfo, randomGenerator);
 
+                // while (true) 
+                // {
                 var applicableModifiers = ModifierDefinitions.GetApplicableModifiers(new[] { powerInfo.ToolProfile.Type.ToKeyword(), powerTemplate.Name });
+                //     if (applicableModifiers.Length == 0)
+                //         break;
+                var oldAttack = attack;
                 attack = attack.ApplyRandomModifiers(powerInfo, applicableModifiers, randomGenerator);
+                //     if (oldAttack == attack)
+                //         break;
 
-                if (attack.Modifiers.FirstOrDefault(m => m.Modifier == Modifiers.SecondaryAttackFormula.ModifierName) is { Options: var secondaryAttackOptions })
+                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is { Options: var secondaryAttackOptions })
                 {
                     AttackProfileBuilder next;
-                    (attack, next) = Modifiers.SecondaryAttackFormula.Unapply(attack, secondaryAttackOptions);
-                    yield return attack.Build();
-                    attack = next;
-                    moreToDo = true;
+                    (attack, next) = Modifiers.MultiattackFormula.Unapply(attack, secondaryAttackOptions);
+                    attackBuilders.Push(next);
                 }
-            } while (moreToDo);
+                // }
 
-            yield return attack.Build();
+                yield return attack.Build();
+            }
+
         }
 
         private static AttackProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>

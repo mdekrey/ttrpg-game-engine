@@ -123,7 +123,7 @@ Encounter1:
 Daily1:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 2
+  - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -132,7 +132,7 @@ Daily1:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 1.5
+  - WeaponDice: 2.5
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -251,7 +251,7 @@ Encounter3:
 Daily5:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 2
+  - WeaponDice: 2.5
     DamageTypes:
     - Weapon
     Target: Range
@@ -259,7 +259,7 @@ Daily5:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 2.5
+  - WeaponDice: 2
     DamageTypes:
     - Weapon
     Target: Range
@@ -341,7 +341,7 @@ Encounter7:
         Amount: STR
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 0.99999999999999978
+  - WeaponDice: 1
     DamageTypes:
     - Fire
     Target: Range
@@ -371,7 +371,7 @@ Encounter7:
 Daily9:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 2.5
+  - WeaponDice: 3
     DamageTypes:
     - Weapon
     Target: Range
@@ -379,7 +379,7 @@ Daily9:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 3
+  - WeaponDice: 2.5
     DamageTypes:
     - Weapon
     Target: Range
@@ -389,7 +389,7 @@ Daily9:
         Ability: Strength
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 2
+  - WeaponDice: 3.5
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -398,7 +398,7 @@ Daily9:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 3.5
+  - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -502,7 +502,7 @@ Encounter11:
 Encounter13:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 1
+  - WeaponDice: 2
     DamageTypes:
     - Fire
     Target: Range
@@ -510,7 +510,7 @@ Encounter13:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 2
+  - WeaponDice: 1
     DamageTypes:
     - Fire
     Target: Range
@@ -570,7 +570,7 @@ Encounter13:
 Daily15:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 0.99999999999999956
+  - WeaponDice: 5.5
     DamageTypes:
     - Fire
     Target: Range
@@ -578,7 +578,7 @@ Daily15:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 5.5
+  - WeaponDice: 1
     DamageTypes:
     - Fire
     Target: Range
@@ -611,12 +611,14 @@ Daily15:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 1.5
+  - WeaponDice: 3.5
     Ability: Dexterity
     DamageTypes:
     - Fire
     Target: Range
     Modifiers:
+    - Modifier: SecondaryAttack
+      Options: {}
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
@@ -665,12 +667,17 @@ Encounter17:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 1
+  - WeaponDice: 1.5
     Ability: Dexterity
     DamageTypes:
     - Fire
     Target: Range
-    Modifiers: []
+    Modifiers:
+    - Modifier: SecondaryAttack
+      Options: {}
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
 - Template: Close blast
   Attacks:
   - WeaponDice: 2.1666666666666665
@@ -763,7 +770,7 @@ Daily19:
 Daily20:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 4
+  - WeaponDice: 3
     DamageTypes:
     - Fire
     Target: Range
@@ -771,7 +778,7 @@ Daily20:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 3.5
+  - WeaponDice: 4.5
     DamageTypes:
     - Fire
     Target: Range
@@ -895,7 +902,7 @@ Encounter23:
 Daily25:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 4.5000000000000009
+  - WeaponDice: 4.5
     DamageTypes:
     - Weapon
     Target: Range
@@ -997,11 +1004,16 @@ Encounter27:
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-  - WeaponDice: 1
+  - WeaponDice: 1.5
     DamageTypes:
     - Fire
     Target: Range
-    Modifiers: []
+    Modifiers:
+    - Modifier: SecondaryAttack
+      Options: {}
+    - Modifier: Ability Modifier Damage
+      Options:
+        Ability: Strength
 - Template: Interrupt Penalty
   Attacks:
   - WeaponDice: 2.5

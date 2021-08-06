@@ -12,7 +12,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
-            if (HasModifier(attack) || HasModifier(attack, SecondaryAttackFormula.ModifierName)) yield break;
+            if (HasModifier(attack) || HasModifier(attack, MultiattackFormula.ModifierName)) yield break;
 
             // TODO: other
             var sizes = new[]

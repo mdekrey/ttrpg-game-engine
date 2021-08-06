@@ -14,7 +14,7 @@ namespace GameEngine.Generator
         public static readonly PowerModifierFormula NonArmorDefense = new NonArmorDefenseFormula(AccuratePowerTemplateName);
         public static readonly PowerModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula(GeneralKeyword);
         public static readonly PowerModifierFormula Multiple3x3 = new BurstFormula(Build(GeneralKeyword));
-        public static readonly PowerModifierFormula SecondaryAttack = new SecondaryAttackFormula(Build(GeneralKeyword));
+        public static readonly PowerModifierFormula SecondaryAttack = new MultiattackFormula(Build(GeneralKeyword));
         public static readonly PowerModifierFormula OpportunityAction = new OpportunityActionFormula(Build(GeneralKeyword));
         public static readonly ImmutableList<PowerModifierFormula> modifiers = new PowerModifierFormula[]
         {
