@@ -85,14 +85,12 @@ namespace GameEngine.Generator
         {
             public AccuratePowerTemplate() : base(AccuratePowerTemplateName) { }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record SkirmishPowerTemplate : PowerTemplate
         {
             public SkirmishPowerTemplate() : base(SkirmishPowerTemplateName) { }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record MultiattackPowerTemplate : PowerTemplate
@@ -101,7 +99,6 @@ namespace GameEngine.Generator
             public override IEnumerable<IEnumerable<ApplicablePowerModifierFormula>> StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new[] { ModifierDefinitions.SecondaryAttack.GetApplicable(attackProfileBuilder, powerInfo) };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record CloseBurstPowerTemplate : PowerTemplate
@@ -110,14 +107,12 @@ namespace GameEngine.Generator
             public override IEnumerable<IEnumerable<ApplicablePowerModifierFormula>> StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new[] { ModifierDefinitions.Multiple3x3.GetApplicable(attackProfileBuilder, powerInfo).Where(a => a.Modifier.Options["Type"] == "Burst") };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill, ToolProfile: { Range: ToolRange.Melee } } or { ToolProfile: { Type: ToolType.Implement } };
-            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record ConditionsPowerTemplate : PowerTemplate
         {
             public ConditionsPowerTemplate() : base(ConditionsPowerTemplateName) { }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record InterruptPenaltyPowerTemplate : PowerTemplate
@@ -127,7 +122,6 @@ namespace GameEngine.Generator
                 new[] { ModifierDefinitions.OpportunityAction.GetApplicable(attackProfileBuilder, powerInfo) };
 
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill };
-            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record CloseBlastPowerTemplate : PowerTemplate
@@ -136,14 +130,12 @@ namespace GameEngine.Generator
             public override IEnumerable<IEnumerable<ApplicablePowerModifierFormula>> StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new[] { ModifierDefinitions.Multiple3x3.GetApplicable(attackProfileBuilder, powerInfo).Where(a => a.Modifier.Options["Type"] == "Blast") };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { ToolProfile: { Type: ToolType.Implement } } or { ToolProfile: { Type: ToolType.Weapon, Range: ToolRange.Range }, Usage: not PowerFrequency.AtWill };
-            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
         private record BonusPowerTemplate : PowerTemplate
         {
             public BonusPowerTemplate() : base(BonusPowerTemplateName) { }
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-            public override SerializedPower Apply(SerializedPower orig) => orig;
         }
 
     }

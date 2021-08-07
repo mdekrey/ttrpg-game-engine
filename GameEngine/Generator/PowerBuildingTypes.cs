@@ -133,6 +133,5 @@ namespace GameEngine.Generator
             yield break;
         }
         public abstract bool CanApply(PowerHighLevelInfo powerInfo);
-        public abstract SerializedPower Apply(SerializedPower orig);
     }
 }

@@ -70,6 +70,8 @@ namespace GameEngine.Generator
             while (result.Count < 4)
             {
                 var powerProfile = GenerateProfile(GetPowerInfo(), classProfile.PowerTemplates);
+                if (result.Contains(powerProfile))
+                    continue; // Exclude duplicates
                 result.Add(powerProfile);
                 classProfile = classProfile with
                 {
@@ -189,7 +191,6 @@ namespace GameEngine.Generator
                 Keywords = SerializedPower.Empty.Keywords.Add(powerProfile.Tool.ToKeyword()),
                 Frequency = usageFrequency,
             };
-            result = PowerDefinitions.powerTemplates[powerProfile.Template].Apply(result);
             result = result with
             {
                 Effects = powerProfile.Attacks

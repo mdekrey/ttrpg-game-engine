@@ -1,9 +1,6 @@
 ﻿using GameEngine.Rules;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 
 namespace GameEngine.Generator
 {
@@ -55,7 +52,7 @@ namespace GameEngine.Generator
         }
     }
 
-    public record PowerModifier(string Modifier, ImmutableDictionary<string, string> Options)
+    public record PowerModifier(string Modifier, EquatableImmutableDictionary<string, string> Options)
     {
         public PowerModifier(string Modifier): this(Modifier, ImmutableDictionary<string, string>.Empty)  { }
     }
@@ -63,29 +60,29 @@ namespace GameEngine.Generator
     {
         internal AttackProfile Build() => new AttackProfile(Cost.Result, Ability, DamageTypes, Target, Modifiers);
     }
-    public record AttackProfile(double WeaponDice, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers)
+    public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<PowerModifier> Modifiers)
     {
     }
 
-    public record PowerProfile(string Template, ToolType Tool, ImmutableList<AttackProfile> Attacks);
+    public record PowerProfile(string Template, ToolType Tool, EquatableImmutableList<AttackProfile> Attacks);
     public record PowerProfiles(
-        ImmutableList<PowerProfile> AtWill1,
-        ImmutableList<PowerProfile> Encounter1,
-        ImmutableList<PowerProfile> Daily1,
-        ImmutableList<PowerProfile> Encounter3,
-        ImmutableList<PowerProfile> Daily5,
-        ImmutableList<PowerProfile> Encounter7,
-        ImmutableList<PowerProfile> Daily9,
-        ImmutableList<PowerProfile> Encounter11,
-        ImmutableList<PowerProfile> Encounter13,
-        ImmutableList<PowerProfile> Daily15,
-        ImmutableList<PowerProfile> Encounter17,
-        ImmutableList<PowerProfile> Daily19,
-        ImmutableList<PowerProfile> Daily20,
-        ImmutableList<PowerProfile> Encounter23,
-        ImmutableList<PowerProfile> Daily25,
-        ImmutableList<PowerProfile> Encounter27,
-        ImmutableList<PowerProfile> Daily29
+        EquatableImmutableList<PowerProfile> AtWill1,
+        EquatableImmutableList<PowerProfile> Encounter1,
+        EquatableImmutableList<PowerProfile> Daily1,
+        EquatableImmutableList<PowerProfile> Encounter3,
+        EquatableImmutableList<PowerProfile> Daily5,
+        EquatableImmutableList<PowerProfile> Encounter7,
+        EquatableImmutableList<PowerProfile> Daily9,
+        EquatableImmutableList<PowerProfile> Encounter11,
+        EquatableImmutableList<PowerProfile> Encounter13,
+        EquatableImmutableList<PowerProfile> Daily15,
+        EquatableImmutableList<PowerProfile> Encounter17,
+        EquatableImmutableList<PowerProfile> Daily19,
+        EquatableImmutableList<PowerProfile> Daily20,
+        EquatableImmutableList<PowerProfile> Encounter23,
+        EquatableImmutableList<PowerProfile> Daily25,
+        EquatableImmutableList<PowerProfile> Encounter27,
+        EquatableImmutableList<PowerProfile> Daily29
     );
 
     public static class ImmutableConstructorExtension
