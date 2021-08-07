@@ -10,7 +10,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Multiple";
 
-        public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack) || HasModifier(attack, MultiattackFormula.ModifierName)) yield break;
 

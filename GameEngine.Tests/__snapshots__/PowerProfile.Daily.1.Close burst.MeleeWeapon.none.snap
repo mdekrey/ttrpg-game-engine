@@ -1,6 +1,6 @@
 ﻿Template: Close burst
 Attacks:
-- WeaponDice: 2.5
+- WeaponDice: 1
   DamageTypes:
   - Weapon
   Target: Melee
@@ -12,3 +12,12 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options:
       Ability: Strength
+  - Modifier: Healing Surge
+    Options:
+      Target: self
+  - Modifier: +2 to Defense
+    Options:
+      Amount: +2
+      Defense: ArmorClass
+      Duration: EndOfUserNextTurn
+      Target: self

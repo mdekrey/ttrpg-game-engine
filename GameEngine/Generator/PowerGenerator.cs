@@ -114,39 +114,56 @@ namespace GameEngine.Generator
 
         public IEnumerable<AttackProfile> GenerateAttacks(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, PowerTemplate powerTemplate)
         {
-            foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo))
+            var attackBuilders = new Queue<AttackProfileBuilder>();
+            foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Initial ?? Enumerable.Empty<IEnumerable<ApplicablePowerModifierFormula>>())
             {
-                attack = randomGenerator.RandomSelection(starterSet.Select(s => (s.Chances, s))).Apply(attack);
+                attack = randomGenerator.RandomSelection(starterSet.Where(f => attack.Cost.CanApply(f.Cost)).Select(s => (s.Chances, s))).Apply(attack);
+                TrySplit();
             }
+            attackBuilders = new Queue<AttackProfileBuilder>(new[] { attack }.Concat(attackBuilders));
 
-            var attackBuilders = new Stack<AttackProfileBuilder>(new[] { attack });
+            var appliedStandardStarter = false;
+
 
             while (attackBuilders.Count > 0)
             {
-                attack = attackBuilders.Pop();
+                attack = attackBuilders.Dequeue();
                 attack = attack.PreApply(powerInfo, randomGenerator);
+
+                if (!appliedStandardStarter)
+                {
+                    appliedStandardStarter = true;
+                    foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Standard ?? Enumerable.Empty<IEnumerable<ApplicablePowerModifierFormula>>())
+                    {
+                        attack = randomGenerator.RandomSelection(starterSet.Where(f => attack.Cost.CanApply(f.Cost)).Select(s => (s.Chances, s))).Apply(attack);
+                        TrySplit();
+                    }
+                }
 
                 while (true)
                 {
-                    if (Modifiers.MultiattackFormula.NeedToSplit(attack) is { Options: var secondaryAttackOptions })
-                    {
-                        AttackProfileBuilder next;
-                        (attack, next) = Modifiers.MultiattackFormula.Unapply(attack, secondaryAttackOptions);
-                        attackBuilders.Push(next);
-                    }
-
-                    var applicableModifiers = ModifierDefinitions.GetApplicableModifiers(new[] { powerInfo.ToolProfile.Type.ToKeyword(), powerTemplate.Name });
+                    var applicableModifiers = ModifierDefinitions.modifiers.ToArray();
                     if (applicableModifiers.Length == 0)
                         break;
                     var oldAttack = attack;
                     attack = attack.ApplyRandomModifiers(powerInfo, applicableModifiers, randomGenerator);
                     if (oldAttack == attack)
                         break;
+                    TrySplit();
                 }
 
                 yield return attack.Build();
             }
 
+            void TrySplit()
+            {
+                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is { Options: var secondaryAttackOptions })
+                {
+                    AttackProfileBuilder next;
+                    (attack, next) = Modifiers.MultiattackFormula.Unapply(attack, secondaryAttackOptions);
+                    attackBuilders!.Enqueue(next);
+                }
+            }
         }
 
         private static AttackProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>

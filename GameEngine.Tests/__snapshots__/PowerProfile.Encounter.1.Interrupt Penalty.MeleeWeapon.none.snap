@@ -1,6 +1,6 @@
 ﻿Template: Interrupt Penalty
 Attacks:
-- WeaponDice: 1.5
+- WeaponDice: 1
   DamageTypes:
   - Weapon
   Target: Melee
@@ -10,3 +10,9 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options:
       Ability: Strength
+  - Modifier: +2 to Defense
+    Options:
+      Amount: +2
+      Defense: ArmorClass
+      Duration: EndOfUserNextTurn
+      Target: self

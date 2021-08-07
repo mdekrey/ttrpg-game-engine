@@ -8,9 +8,9 @@
     - Modifier: Ability Modifier Damage
       Options:
         Ability: Strength
-    - Modifier: To-Hit Bonus to Current Attack
+    - Modifier: Non-Armor Defense
       Options:
-        Amount: DEX
+        Defense: Fortitude
 - Name: Generated
   Keywords:
   - Weapon
@@ -19,7 +19,8 @@
   - Target:
       Effect:
         Attack:
-          Bonus: DEX
+          Bonus: +0
+          Defense: Fortitude
           Hit:
             Damage:
             - Amount: 1[W] + STR

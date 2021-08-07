@@ -8,7 +8,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public MovementDoesNotProvokeFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
-        public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
             yield return new(new PowerCost(0.5), new PowerModifier(Name));

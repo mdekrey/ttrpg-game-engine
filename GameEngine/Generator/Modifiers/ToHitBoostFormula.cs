@@ -8,7 +8,7 @@ namespace GameEngine.Generator.Modifiers
 {
     public record ToHitBoostFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "To-Hit Bonus")
     {
-        public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
             var amounts = new GameDiceExpression[] { 2 }.Concat(powerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));

@@ -1,6 +1,6 @@
 ﻿Template: Close blast
 Attacks:
-- WeaponDice: 1.5
+- WeaponDice: 1
   DamageTypes:
   - Weapon
   Target: Range
@@ -12,3 +12,9 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options:
       Ability: Strength
+  - Modifier: +2 to Defense
+    Options:
+      Amount: +2
+      Defense: ArmorClass
+      Duration: EndOfUserNextTurn
+      Target: self

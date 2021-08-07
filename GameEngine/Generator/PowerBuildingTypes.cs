@@ -35,7 +35,7 @@ namespace GameEngine.Generator
 
         public double Result => CurrentCost.Apply(Initial);
 
-        public bool CanApply(PowerCost newCost) => (this + newCost).Result >= Minimum;
+        public bool CanApply(PowerCost newCost) => (newCost.Multiplier == 1 || CurrentCost.Multiplier == 1) && (this + newCost).Result >= Minimum;
     }
 
     public enum Duration
@@ -59,7 +59,7 @@ namespace GameEngine.Generator
     }
     public abstract record PowerModifierFormula(ImmutableList<string> Keywords, string Name)
     {
-        public abstract IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo);
+        public abstract IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo);
 
         protected bool HasModifier(AttackProfileBuilder attack, string? name = null) => attack.Modifiers.Count(m => m.Modifier == (name ?? Name)) > 0;
 
@@ -113,7 +113,7 @@ namespace GameEngine.Generator
         public TempPowerModifierFormula(string Keyword, string Name, PowerCost Cost)
             : this(Build(Keyword), Name, Cost) { }
 
-        public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
             yield return new(Cost, new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
@@ -126,12 +126,11 @@ namespace GameEngine.Generator
 
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 
+    public record StarterFormulas(IEnumerable<IEnumerable<ApplicablePowerModifierFormula>>? Initial = null, IEnumerable<IEnumerable<ApplicablePowerModifierFormula>>? Standard = null);
+
     public abstract record PowerTemplate(string Name)
     {
-        public virtual IEnumerable<IEnumerable<ApplicablePowerModifierFormula>> StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo)
-        {
-            yield break;
-        }
+        public abstract StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo);
         public abstract bool CanApply(PowerHighLevelInfo powerInfo);
     }
 }

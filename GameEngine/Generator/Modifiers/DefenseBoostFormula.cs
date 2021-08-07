@@ -7,7 +7,7 @@ namespace GameEngine.Generator.Modifiers
 {
     public record DefenseBoostFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "+2 to Defense")
     {
-        public override IEnumerable<ApplicablePowerModifierFormula> GetApplicable(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
             var defenses = new[] { DefenseType.ArmorClass, DefenseType.Fortitude, DefenseType.Reflex, DefenseType.Will };

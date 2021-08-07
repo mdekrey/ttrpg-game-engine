@@ -1,6 +1,6 @@
 ﻿Template: Multiattack
 Attacks:
-- WeaponDice: 3
+- WeaponDice: 1
   DamageTypes:
   - Weapon
   Target: Melee
@@ -8,7 +8,13 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options:
       Ability: Strength
-- WeaponDice: 1.5
+  - Modifier: Healing Surge
+    Options:
+      Target: self
+  - Modifier: Extra Saving Throw
+    Options:
+      Target: self
+- WeaponDice: 1
   DamageTypes:
   - Weapon
   Target: Melee
@@ -18,3 +24,9 @@ Attacks:
   - Modifier: Ability Modifier Damage
     Options:
       Ability: Strength
+  - Modifier: +2 to Defense
+    Options:
+      Amount: +2
+      Defense: ArmorClass
+      Duration: EndOfUserNextTurn
+      Target: self
