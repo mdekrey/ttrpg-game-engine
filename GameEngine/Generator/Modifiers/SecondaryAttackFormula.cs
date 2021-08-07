@@ -62,7 +62,7 @@ namespace GameEngine.Generator.Modifiers
                     Cost = attack.Cost with 
                     { 
                         CurrentCost = attack.Cost.CurrentCost with { Fixed = attack.Cost.CurrentCost.Fixed - cost },
-                        Initial = remaining,
+                        Initial = attack.Cost.Initial - cost,
                     }
                 },
                 attack with
