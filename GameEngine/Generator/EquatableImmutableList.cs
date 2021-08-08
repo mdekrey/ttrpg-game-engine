@@ -19,7 +19,7 @@ namespace GameEngine.Generator
 
         public override int GetHashCode()
         {
-            return this.Aggregate(41, (prev, next) => prev * 59 + next.GetHashCode());
+            return this.Aggregate(41, (prev, next) => prev * 59 + (next?.GetHashCode() ?? 0));
         }
 
         public static implicit operator EquatableImmutableList<TValue>(ImmutableList<TValue> dictionary) =>

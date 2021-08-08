@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -21,18 +22,20 @@ namespace GameEngine.Generator.Modifiers
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
         {
-            return ModifyDamage(effect, damage =>
-            {
-                var ability = Ability.Strength; // TODO - configure ability
-
-                var initial = damage[0];
-                var dice = GameDiceExpression.Parse(initial.Amount) + ability;
-
-                return damage.SetItem(0, initial with
+            return ModifyTarget(ModifyAttack(ModifyHit(ModifyDamage(
+                damage =>
                 {
-                    Amount = dice.ToString(),
-                });
-            });
+                    var ability = Ability.Strength; // TODO - configure ability
+
+                    var initial = damage[0];
+                    var dice = GameDiceExpression.Parse(initial.Amount) + ability;
+
+                    return damage.SetItem(0, initial with
+                    {
+                        Amount = dice.ToString(),
+                    });
+                }
+            ))))(effect);
         }
     }
 

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using static GameEngine.Generator.PowerDefinitions;
 using System.Collections.Immutable;
 using GameEngine.Rules;
 using System.Linq;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -26,10 +26,14 @@ namespace GameEngine.Generator.Modifiers
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
         {
-            return ModifyAttack(effect, attack => attack with
-            {
-                Bonus = (GameDiceExpression.Parse(attack.Bonus) + GameDiceExpression.Parse(modifier.Options["Amount"])).ToString()
-            });
+            return Pipe(
+                (AttackRollOptions attack) => attack with
+                {
+                    Bonus = (GameDiceExpression.Parse(attack.Bonus) + GameDiceExpression.Parse(modifier.Options["Amount"])).ToString()
+                },
+                ModifyAttack,
+                ModifyTarget
+            )(effect);
         }
     }
 

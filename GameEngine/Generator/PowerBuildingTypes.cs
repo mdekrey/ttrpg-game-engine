@@ -64,47 +64,6 @@ namespace GameEngine.Generator
         protected bool HasModifier(AttackProfileBuilder attack, string? name = null) => attack.Modifiers.Count(m => m.Modifier == (name ?? Name)) > 0;
 
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier);
-
-        protected static SerializedEffect ModifyTarget(SerializedEffect effect, Func<SerializedTarget, SerializedTarget> modifyTarget)
-        {
-            if (effect.Target == null)
-                throw new InvalidOperationException("Cannot apply to target");
-
-            return effect with
-            {
-                Target = modifyTarget(effect.Target)
-            };
-        }
-
-        protected static SerializedEffect ModifyAttack(SerializedEffect effect, Func<AttackRollOptions, AttackRollOptions> modifyAttack)
-        {
-            if (effect.Target?.Effect.Attack == null)
-                throw new InvalidOperationException("Cannot apply to attack");
-
-            return ModifyTarget(effect, target => target with
-            {
-                Effect = target.Effect with
-                {
-                    Attack = modifyAttack(effect.Target.Effect.Attack)
-                }
-            });
-        }
-
-        protected static SerializedEffect ModifyHit(SerializedEffect effect, Func<SerializedEffect, SerializedEffect> modifyHit)
-        {
-            if (effect.Target?.Effect.Attack?.Hit == null)
-                throw new InvalidOperationException("Cannot apply to hit");
-
-            return ModifyAttack(effect, attack => attack with
-            {
-                Hit = modifyHit(effect.Target.Effect.Attack.Hit),
-            });
-        }
-
-        protected static SerializedEffect ModifyDamage(SerializedEffect effect, Func<ImmutableList<DamageEntry>, ImmutableList<DamageEntry>?> modifyDamage)
-        {
-            return ModifyHit(effect, hit => hit with { Damage = modifyDamage(hit.Damage ?? ImmutableList<DamageEntry>.Empty) });
-        }
     }
 
     [Obsolete]
@@ -132,5 +91,76 @@ namespace GameEngine.Generator
     {
         public abstract StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo);
         public abstract bool CanApply(PowerHighLevelInfo powerInfo);
+    }
+
+    public static class PowerBuildingExtensions
+    {
+        public delegate T Transform<T>(T input);
+
+        public static TOutput Pipe<TInput, TOutput>(TInput input, Func<TInput, TOutput> transform) => transform(input);
+        public static TOutput Pipe<TInput, T1, TOutput>(TInput input, Func<TInput, T1> t1, Func<T1, TOutput> transform) => Pipe(t1(input), transform);
+        public static TOutput Pipe<TInput, T1, T2, TOutput>(TInput input, Func<TInput, T1> t1, Func<T1, T2> t2, Func<T2, TOutput> transform) => Pipe(t1(input), t2, transform);
+        public static TOutput Pipe<TInput, T1, T2, T3, TOutput>(TInput input, Func<TInput, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, TOutput> transform) => Pipe(t1(input), t2, t3, transform);
+        public static TOutput Pipe<TInput, T1, T2, T3, T4, TOutput>(TInput input, Func<TInput, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, TOutput> transform) => Pipe(t1(input), t2, t3, t4, transform);
+        public static TOutput Pipe<TInput, T1, T2, T3, T4, T5, TOutput>(TInput input, Func<TInput, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, TOutput> transform) => Pipe(t1(input), t2, t3, t4, t5, transform);
+        public static TOutput Pipe<TInput, T1, T2, T3, T4, T5, T6, TOutput>(TInput input, Func<TInput, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, T6> t6, Func<T6, TOutput> transform) => Pipe(t1(input), t2, t3, t4, t5, t6, transform);
+        public static TOutput Pipe<TInput, T1, T2, T3, T4, T5, T6, T7, TOutput>(TInput input, Func<TInput, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, T6> t6, Func<T6, T7> t7, Func<T7, TOutput> transform) => Pipe(t1(input), t2, t3, t4, t5, t6, t7, transform);
+
+        public static Transform<TOutput> Pipe<TInput, TOutput>(Transform<TInput> input, Func<Transform<TInput>, Transform<TOutput>> transform) => transform(input);
+        public static Transform<TOutput> Pipe<TInput, T1, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, Transform<TOutput>> transform) => Pipe(t1(input), transform);
+        public static Transform<TOutput> Pipe<TInput, T1, T2, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, Transform<TOutput>> transform) => Pipe(t1(input), t2, transform);
+        public static Transform<TOutput> Pipe<TInput, T1, T2, T3, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, transform);
+        public static Transform<TOutput> Pipe<TInput, T1, T2, T3, T4, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, t4, transform);
+        public static Transform<TOutput> Pipe<TInput, T1, T2, T3, T4, T5, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, t4, t5, transform);
+        public static Transform<TOutput> Pipe<TInput, T1, T2, T3, T4, T5, T6, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, T6> t6, Func<T6, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, t4, t5, t6, transform);
+        public static Transform<TOutput> Pipe<TInput, T1, T2, T3, T4, T5, T6, T7, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, T6> t6, Func<T6, T7> t7, Func<T7, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, t4, t5, t6, t7, transform);
+
+        public static Transform<SerializedEffect> ModifyTarget(Transform<SerializedTarget> modifyTarget)
+        {
+            return (effect) => {
+
+                if (effect.Target == null)
+                    throw new InvalidOperationException("Cannot apply to target");
+                return effect with
+                {
+                    Target = modifyTarget(effect.Target)
+                };
+            };
+        }
+
+        public static Transform<SerializedTarget> ModifyAttack(Transform<AttackRollOptions> modifyAttack)
+        {
+            return (target) =>
+            {
+                if (target.Effect.Attack == null)
+                    throw new InvalidOperationException("Cannot apply to attack");
+                return target with
+                {
+                    Effect = target.Effect with
+                    {
+                        Attack = modifyAttack(target.Effect.Attack)
+                    }
+                };
+            };
+        }
+
+        public static Transform<AttackRollOptions> ModifyHit(Transform<SerializedEffect> modifyHit)
+        {
+            return attack =>
+            {
+                if (attack.Hit == null)
+                    throw new InvalidOperationException("Cannot apply to hit");
+
+                return attack with
+                {
+                    Hit = modifyHit(attack.Hit),
+                };
+            };
+        }
+
+        public static Transform<SerializedEffect> ModifyDamage(Transform<ImmutableList<DamageEntry>> modifyDamage)
+        {
+            return hit => hit with { Damage = modifyDamage(hit.Damage ?? ImmutableList<DamageEntry>.Empty) };
+        }
     }
 }

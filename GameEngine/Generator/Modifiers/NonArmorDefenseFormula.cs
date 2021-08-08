@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -25,7 +26,11 @@ namespace GameEngine.Generator.Modifiers
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
         {
-            return ModifyAttack(effect, attack => attack with { Defense = Enum.Parse<DefenseType>(modifier.Options["Defense"]) });
+            return Pipe(
+                (AttackRollOptions attack) => attack with { Defense = Enum.Parse<DefenseType>(modifier.Options["Defense"]) },
+                ModifyAttack,
+                ModifyTarget
+            )(effect);
         }
     }
 

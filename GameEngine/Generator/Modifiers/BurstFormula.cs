@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -37,10 +38,13 @@ namespace GameEngine.Generator.Modifiers
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
         {
-            return ModifyTarget(effect, target =>
-            {
-                return target with { Burst = 3 }; // TODO - more sizes
-            });
+            return Pipe(
+                (SerializedTarget target) =>
+                {
+                    return target with { Burst = 3 }; // TODO - more sizes
+                },
+                ModifyTarget
+            )(effect);
         }
     }
 }
