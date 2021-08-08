@@ -122,7 +122,7 @@ namespace GameEngine.Generator
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier powerModifier) => effect;
     }
 
-    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile);
+    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile, ClassRole ClassRole);
 
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 

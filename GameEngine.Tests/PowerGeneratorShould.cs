@@ -108,7 +108,7 @@ namespace GameEngine.Tests
                     new[] { damageType }.ToImmutableList(),
                     new[] { preferredModifier }.Where(s => s is { Length: > 0 }).ToImmutableList()!);
 
-            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile),
+            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, ClassRole.Striker),
                 new[] { powerTemplate }.ToImmutableList()
             );
 
@@ -129,7 +129,7 @@ namespace GameEngine.Tests
                     new[] { damageType }.ToImmutableList(),
                     new[] { preferredModifier }.Where(s => s is { Length: > 0 }).ToImmutableList()!);
 
-            var powerProfile = target.GenerateProfile(new(level, powerFrequency, toolProfile), new[] { powerTemplate }.ToImmutableList());
+            var powerProfile = target.GenerateProfile(new(level, powerFrequency, toolProfile, ClassRole.Striker), new[] { powerTemplate }.ToImmutableList());
 
             SerializedPower power = powerProfile.ToPower(level, powerFrequency);
             
