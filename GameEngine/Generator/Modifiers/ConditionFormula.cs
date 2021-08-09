@@ -30,6 +30,7 @@ namespace GameEngine.Generator.Modifiers
             Default("Grants Combat Advantage", 1),
             Default("Blinded", 1),
             OngoingDamage.Options(),
+            DefensePenalty.Options(),
         }.SelectMany(e => e).ToArray();
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
@@ -65,6 +66,25 @@ namespace GameEngine.Generator.Modifiers
                 {
                     new (new (new OngoingDamage(5), Duration.SaveEnds), new (new PowerCost(Fixed: 1), 3)),
                     new (new (new OngoingDamage(10), Duration.SaveEnds), new (new PowerCost(Fixed: 2), 1)),
+                };
+        }
+
+        public record DefensePenalty(DefenseType? Defense) : Condition("Defense Penalty")
+        {
+            public static IEnumerable<KeyValuePair<ConditionOptionKey, ConditionOptionValue>> Options() =>
+                new KeyValuePair<ConditionOptionKey, ConditionOptionValue>[]
+                {
+                    new (new (new DefensePenalty(DefenseType.ArmorClass), Duration.EndOfUserNextTurn), new (new PowerCost(0.5), 1)),
+                    new (new (new DefensePenalty(DefenseType.Fortitude), Duration.EndOfUserNextTurn), new (new PowerCost(0.5), 1)),
+                    new (new (new DefensePenalty(DefenseType.Reflex), Duration.EndOfUserNextTurn), new (new PowerCost(0.5), 1)),
+                    new (new (new DefensePenalty(DefenseType.Will), Duration.EndOfUserNextTurn), new (new PowerCost(0.5), 1)),
+                    new (new (new DefensePenalty(DefenseType.ArmorClass), Duration.SaveEnds), new (new PowerCost(1), 1)),
+                    new (new (new DefensePenalty(DefenseType.Fortitude), Duration.SaveEnds), new (new PowerCost(1), 1)),
+                    new (new (new DefensePenalty(DefenseType.Reflex), Duration.SaveEnds), new (new PowerCost(1), 1)),
+                    new (new (new DefensePenalty(DefenseType.Will), Duration.SaveEnds), new (new PowerCost(1), 1)),
+
+                    new (new (new DefensePenalty(Defense: null), Duration.EndOfUserNextTurn), new (new PowerCost(1), 1)),
+                    new (new (new DefensePenalty(Defense: null), Duration.SaveEnds), new (new PowerCost(2), 1)),
                 };
         }
     }
