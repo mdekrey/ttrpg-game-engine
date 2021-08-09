@@ -6,10 +6,9 @@
     Target: Melee
     Modifiers:
     - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Name: Slowed
+    - Conditions:
+      - Slowed
+      Name: Condition
 - Name: Generated
   Keywords:
   - Weapon

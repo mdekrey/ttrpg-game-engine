@@ -6,37 +6,40 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ConditionFormula(ImmutableList<string> Keywords, string Name, ImmutableDictionary<Duration, PowerCost> PowerCost) : PowerModifierFormula(Keywords, Name)
+    public record ConditionFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
-        public ConditionFormula(ImmutableList<string> Keywords, string Name)
-            : this(Keywords, Name, Build((Duration.SaveEnds, new PowerCost(Fixed: 1)), (Duration.EndOfUserNextTurn, new PowerCost(Fixed: 0.5))))
-        {
-        }
+        public const string ModifierName = "Condition";
+
+        private static readonly ImmutableDictionary<(string ConditionName, Duration Duration), PowerCost> conditions = ImmutableDictionary<(string ConditionName, Duration duration), PowerCost>.Empty
+            .Add(("Slowed", Duration.EndOfUserNextTurn), new PowerCost(0.5))
+            .Add(("Slowed", Duration.SaveEnds), new PowerCost(1))
+            .Add(("Dazed", Duration.EndOfUserNextTurn), new PowerCost(0.5))
+            .Add(("Dazed", Duration.SaveEnds), new PowerCost(1))
+            .Add(("Immobilized", Duration.EndOfUserNextTurn), new PowerCost(1))
+            .Add(("Immobilized", Duration.SaveEnds), new PowerCost(2))
+            .Add(("Weakened", Duration.EndOfUserNextTurn), new PowerCost(1))
+            .Add(("Weakened", Duration.SaveEnds), new PowerCost(2))
+            .Add(("Grants Combat Advantage", Duration.EndOfUserNextTurn), new PowerCost(1))
+            .Add(("Grants Combat Advantage", Duration.SaveEnds), new PowerCost(2))
+            .Add(("Blinded", Duration.EndOfUserNextTurn), new PowerCost(1))
+            .Add(("Blinded", Duration.SaveEnds), new PowerCost(2));
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
-            var prevThreshold = 0;
-            foreach (var powerCost in PowerCost.EscalatingOdds())
+            
+            foreach (var entry in conditions)
             {
-                yield return new(BuildModifier(powerCost.Result.Key, powerCost.Result.Value), Chances: powerCost.Threshold - prevThreshold);
-                prevThreshold = powerCost.Threshold;
+                var chances = 5 - (int)(entry.Value.Fixed / 0.5);
+
+                yield return new(new ConditionModifier(entry.Key.Duration, Build(entry.Key.ConditionName)), Chances: chances);
             }
-
-            ConditionModifier BuildModifier(Duration duration, PowerCost cost) =>
-                new(Name, cost, duration);
         }
 
-        public IEnumerable<(PowerCost cost, Duration duration)> GetAvailableOptions(AttackProfileBuilder attack)
-        {
-            return from kvp in PowerCost
-                   orderby kvp.Key descending
-                   select (cost: kvp.Value, duration: kvp.Key);
-        }
-
-        public record ConditionModifier(string Name, PowerCost Cost, Duration Duration) : PowerModifier(Name)
+        public record ConditionModifier(Duration Duration, ImmutableList<string> Conditions) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
+            public override PowerCost GetCost() => Conditions.Select(c => conditions[(c, Duration)]).Aggregate((a, b) => a + b);
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
@@ -44,7 +47,6 @@ namespace GameEngine.Generator.Modifiers
                 return effect;
             }
 
-            public override PowerCost GetCost() => Cost;
         }
     }
 }
