@@ -25,7 +25,7 @@ namespace GameEngine.Generator
             //(GeneralKeyword, OpportunityAction),
             (AccuratePowerTemplateName, new ToHitBonusFormula()),
             (ConditionsPowerTemplateName, new ConditionFormula()),
-            (ConditionsPowerTemplateName, new ImmediateConditionFormula("Prone", new PowerCost(1))),
+            (GeneralKeyword, new ImmediateConditionFormula("Prone", new PowerCost(1))),
             (SkirmishPowerTemplateName, new ShiftFormula()),
             (SkirmishPowerTemplateName, new MovementDoesNotProvokeFormula()),
             (BonusPowerTemplateName, new ToHitBoostFormula()),
