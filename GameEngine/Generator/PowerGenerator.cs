@@ -133,7 +133,7 @@ namespace GameEngine.Generator
 
                 while (true)
                 {
-                    var applicableModifiers = ModifierDefinitions.modifiers.ToArray();
+                    var applicableModifiers = ModifierDefinitions.modifiers.Select(m => m.formula).ToArray();
                     if (applicableModifiers.Length == 0)
                         break;
                     var oldAttack = attack;

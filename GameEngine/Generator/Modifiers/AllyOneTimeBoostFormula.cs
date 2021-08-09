@@ -5,7 +5,7 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record AllyOneTimeBoostFormula(ImmutableList<string> Keywords, string Name, PowerCost Cost) : PowerModifierFormula(Keywords, Name)
+    public record AllyOneTimeBoostFormula(string Name, PowerCost Cost) : PowerModifierFormula(Name)
     {
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {

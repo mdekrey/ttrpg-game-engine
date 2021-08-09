@@ -9,10 +9,9 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 namespace GameEngine.Generator.Modifiers
 {
 
-    public record ToHitBonusFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record ToHitBonusFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "To-Hit Bonus to Current Attack";
-        public ToHitBonusFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {

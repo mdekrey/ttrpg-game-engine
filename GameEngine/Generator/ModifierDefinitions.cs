@@ -11,28 +11,29 @@ namespace GameEngine.Generator
     {
         public const string GeneralKeyword = "General";
 
-        public static readonly PowerModifierFormula NonArmorDefense = new NonArmorDefenseFormula(AccuratePowerTemplateName);
-        public static readonly PowerModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula(GeneralKeyword);
-        public static readonly PowerModifierFormula Multiple3x3 = new BurstFormula(Build(GeneralKeyword));
-        public static readonly PowerModifierFormula SecondaryAttack = new MultiattackFormula(Build(GeneralKeyword));
-        public static readonly PowerModifierFormula OpportunityAction = new OpportunityActionFormula(Build(GeneralKeyword));
-        public static readonly ImmutableList<PowerModifierFormula> modifiers = new PowerModifierFormula[]
+        public static readonly PowerModifierFormula NonArmorDefense = new NonArmorDefenseFormula();
+        public static readonly PowerModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula();
+        public static readonly PowerModifierFormula Multiple3x3 = new BurstFormula();
+        public static readonly PowerModifierFormula SecondaryAttack = new MultiattackFormula();
+        public static readonly PowerModifierFormula OpportunityAction = new OpportunityActionFormula();
+        public static readonly ImmutableList<(string keyword, PowerModifierFormula formula)> modifiers = new (string, PowerModifierFormula)[]
         {
-            AbilityModifierDamage,
-            NonArmorDefense,
-            Multiple3x3,
-            SecondaryAttack,
-            new ToHitBonusFormula(AccuratePowerTemplateName),
-            new ConditionFormula(Build(ConditionsPowerTemplateName)),
-            new ImmediateConditionFormula("Prone", new PowerCost(1), ConditionsPowerTemplateName),
-            new ShiftFormula(SkirmishPowerTemplateName),
-            new MovementDoesNotProvokeFormula(SkirmishPowerTemplateName),
-            new ToHitBoostFormula(Build(BonusPowerTemplateName)),
-            new DefenseBoostFormula(Build(BonusPowerTemplateName)),
-            new TemporaryHitPointsFormula(Build(BonusPowerTemplateName)),
-            new AllyOneTimeBoostFormula(Build(BonusPowerTemplateName), "Extra Saving Throw", new PowerCost(1)),
-            new AllyOneTimeBoostFormula(Build(BonusPowerTemplateName), "Healing Surge", new PowerCost(1)),
-            new RegenerationFormula(Build(BonusPowerTemplateName)),
+            (GeneralKeyword, AbilityModifierDamage),
+            (AccuratePowerTemplateName, NonArmorDefense),
+            (GeneralKeyword, Multiple3x3),
+            (GeneralKeyword, SecondaryAttack),
+            //(GeneralKeyword, OpportunityAction),
+            (AccuratePowerTemplateName, new ToHitBonusFormula()),
+            (ConditionsPowerTemplateName, new ConditionFormula()),
+            (ConditionsPowerTemplateName, new ImmediateConditionFormula("Prone", new PowerCost(1))),
+            (SkirmishPowerTemplateName, new ShiftFormula()),
+            (SkirmishPowerTemplateName, new MovementDoesNotProvokeFormula()),
+            (BonusPowerTemplateName, new ToHitBoostFormula()),
+            (BonusPowerTemplateName, new DefenseBoostFormula()),
+            (BonusPowerTemplateName, new TemporaryHitPointsFormula()),
+            (BonusPowerTemplateName, new AllyOneTimeBoostFormula("Extra Saving Throw", new PowerCost(1))),
+            (BonusPowerTemplateName, new AllyOneTimeBoostFormula("Healing Surge", new PowerCost(1))),
+            (BonusPowerTemplateName, new RegenerationFormula()),
             // Slowed/Unconscious
             // Reroll attack
             // Disarm and catch

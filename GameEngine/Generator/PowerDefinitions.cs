@@ -86,8 +86,8 @@ namespace GameEngine.Generator
             public override StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new(Standard:
                     new[] { from mod in ModifierDefinitions.modifiers
-                            where mod.Keywords.Contains(AccuratePowerTemplateName)
-                            from applicable in mod.GetOptions(attackProfileBuilder, powerInfo)
+                            where mod.keyword == (AccuratePowerTemplateName)
+                            from applicable in mod.formula.GetOptions(attackProfileBuilder, powerInfo)
                             select applicable }
                 );
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
@@ -99,8 +99,8 @@ namespace GameEngine.Generator
             public override StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new(Standard:
                     new[] { from mod in ModifierDefinitions.modifiers
-                            where mod.Keywords.Contains(SkirmishPowerTemplateName)
-                            from applicable in mod.GetOptions(attackProfileBuilder, powerInfo)
+                            where mod.keyword == SkirmishPowerTemplateName
+                            from applicable in mod.formula.GetOptions(attackProfileBuilder, powerInfo)
                             select applicable }
                 );
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
@@ -132,8 +132,8 @@ namespace GameEngine.Generator
             public override StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new(Standard:
                     new[] { from mod in ModifierDefinitions.modifiers
-                            where mod.Keywords.Contains(ConditionsPowerTemplateName)
-                            from applicable in mod.GetOptions(attackProfileBuilder, powerInfo)
+                            where mod.keyword ==(ConditionsPowerTemplateName)
+                            from applicable in mod.formula.GetOptions(attackProfileBuilder, powerInfo)
                             select applicable }
                 );
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
@@ -166,8 +166,8 @@ namespace GameEngine.Generator
             public override StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new(Standard:
                     new[] { from mod in ModifierDefinitions.modifiers
-                            where mod.Keywords.Contains(BonusPowerTemplateName)
-                            from applicable in mod.GetOptions(attackProfileBuilder, powerInfo)
+                            where mod.keyword ==(BonusPowerTemplateName)
+                            from applicable in mod.formula.GetOptions(attackProfileBuilder, powerInfo)
                             select applicable }
                 );
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;

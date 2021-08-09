@@ -7,7 +7,7 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record BurstFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record BurstFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "Multiple";
 

@@ -4,13 +4,13 @@ using GameEngine.Rules;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record OpportunityActionFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record OpportunityActionFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "OpportunityAction";
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
-            if (HasModifier(attack)) yield break;
+            if (HasModifier(attack) || powerInfo.Usage == PowerFrequency.AtWill) yield break;
 
             var cost = new PowerCost(PowerGenerator.GetBasePower(powerInfo.Level, powerInfo.Usage) - PowerGenerator.GetBasePower(powerInfo.Level, powerInfo.Usage - 1));
 

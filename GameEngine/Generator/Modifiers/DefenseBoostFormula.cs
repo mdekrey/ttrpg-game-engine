@@ -5,7 +5,7 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record DefenseBoostFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record DefenseBoostFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "+2 to Defense";
 

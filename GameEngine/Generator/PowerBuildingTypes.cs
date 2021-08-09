@@ -60,7 +60,7 @@ namespace GameEngine.Generator
             return attack;
         }
     }
-    public abstract record PowerModifierFormula(ImmutableList<string> Keywords, string Name)
+    public abstract record PowerModifierFormula(string Name)
     {
         public abstract IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo);
 

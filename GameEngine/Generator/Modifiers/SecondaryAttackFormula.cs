@@ -7,7 +7,7 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record MultiattackFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record MultiattackFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "Multiattack";
 

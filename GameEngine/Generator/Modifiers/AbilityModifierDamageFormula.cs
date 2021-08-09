@@ -6,10 +6,8 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record AbilityModifierDamageFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "Ability Modifier Damage")
+    public record AbilityModifierDamageFormula() : PowerModifierFormula("Ability Modifier Damage")
     {
-        public AbilityModifierDamageFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
-
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;

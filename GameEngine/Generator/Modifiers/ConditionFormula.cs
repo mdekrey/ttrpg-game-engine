@@ -7,7 +7,7 @@ using System;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ConditionFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record ConditionFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "Condition";
 

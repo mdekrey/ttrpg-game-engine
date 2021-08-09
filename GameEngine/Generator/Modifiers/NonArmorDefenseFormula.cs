@@ -7,11 +7,9 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record NonArmorDefenseFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record NonArmorDefenseFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "Non-Armor Defense";
-
-        public NonArmorDefenseFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {

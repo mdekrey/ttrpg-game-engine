@@ -6,7 +6,7 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record TemporaryHitPointsFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record TemporaryHitPointsFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "+Temporary Hit Points";
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)

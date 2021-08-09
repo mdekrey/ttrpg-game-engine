@@ -4,10 +4,9 @@ using GameEngine.Rules;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record MovementDoesNotProvokeFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record MovementDoesNotProvokeFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "Movement after Attack does not provoke";
-        public MovementDoesNotProvokeFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {

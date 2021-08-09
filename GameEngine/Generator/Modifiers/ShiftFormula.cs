@@ -5,10 +5,9 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ShiftFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
+    public record ShiftFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "Shift";
-        public ShiftFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
