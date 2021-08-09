@@ -7,7 +7,7 @@ namespace GameEngine.Generator.Modifiers
 {
     public record RegenerationFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "Regeneration")
     {
-        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
             if (powerInfo.Usage != PowerFrequency.Daily) yield break;

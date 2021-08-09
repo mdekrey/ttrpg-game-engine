@@ -37,20 +37,20 @@ namespace GameEngine.Generator
         EndOfEncounter,
     }
 
-    public record ApplicablePowerModifierFormula(PowerModifier Modifier, Func<AttackProfileBuilder, AttackProfileBuilder>? AdditionalMutator = null, int Chances = 1)
+    public static class PowerModifierExtensions
     {
-        public AttackProfileBuilder Apply(AttackProfileBuilder attack)
+        public static AttackProfileBuilder Apply(this PowerModifier target, AttackProfileBuilder attack)
         {
             attack = attack with
             {
-                Modifiers = attack.Modifiers.Add(Modifier),
+                Modifiers = attack.Modifiers.Add(target),
             };
-            return AdditionalMutator?.Invoke(attack) ?? attack;
+            return attack;
         }
     }
     public abstract record PowerModifierFormula(ImmutableList<string> Keywords, string Name)
     {
-        public abstract IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo);
+        public abstract IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo);
 
         protected bool HasModifier(AttackProfileBuilder attack, string? name = null) => attack.Modifiers.Count(m => m.Modifier == (name ?? Name)) > 0;
 
@@ -61,7 +61,7 @@ namespace GameEngine.Generator
 
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 
-    public record StarterFormulas(IEnumerable<IEnumerable<ApplicablePowerModifierFormula>>? Initial = null, IEnumerable<IEnumerable<ApplicablePowerModifierFormula>>? Standard = null);
+    public record StarterFormulas(IEnumerable<IEnumerable<RandomChances<PowerModifier>>>? Initial = null, IEnumerable<IEnumerable<RandomChances<PowerModifier>>>? Standard = null);
 
     public abstract record PowerTemplate(string Name)
     {

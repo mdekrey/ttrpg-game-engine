@@ -9,7 +9,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public DefensePenaltyFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
-        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
             yield return new(BuildModifier(new PowerCost(0.5), DefenseType.ArmorClass, Duration.EndOfUserNextTurn));

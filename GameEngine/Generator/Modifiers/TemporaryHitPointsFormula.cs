@@ -8,7 +8,7 @@ namespace GameEngine.Generator.Modifiers
 {
     public record TemporaryHitPointsFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "+Temporary Hit Points")
     {
-        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
             var amounts = powerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a);

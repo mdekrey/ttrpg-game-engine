@@ -10,7 +10,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public AbilityModifierDamageFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
-        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
             // TODO - allow primary and secondary damage

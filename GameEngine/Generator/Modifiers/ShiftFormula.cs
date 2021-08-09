@@ -9,7 +9,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public ShiftFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
-        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
             // TODO - allow sliding allies, fixed numbers, etc.

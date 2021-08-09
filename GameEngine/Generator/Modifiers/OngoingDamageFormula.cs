@@ -7,7 +7,7 @@ namespace GameEngine.Generator.Modifiers
 {
     public record OngoingDamageFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "Ongoing Damage")
     {
-        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
 

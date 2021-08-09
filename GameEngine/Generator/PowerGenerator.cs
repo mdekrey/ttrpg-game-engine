@@ -115,9 +115,9 @@ namespace GameEngine.Generator
         public IEnumerable<AttackProfile> GenerateAttacks(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, PowerTemplate powerTemplate)
         {
             var attackBuilders = new Queue<AttackProfileBuilder>();
-            foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Initial ?? Enumerable.Empty<IEnumerable<ApplicablePowerModifierFormula>>())
+            foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Initial ?? Enumerable.Empty<IEnumerable<RandomChances<PowerModifier>>>())
             {
-                var starterOptions = starterSet.Where(f => attack.CanApply(f.Modifier.Cost)).Select(s => (s.Chances, s)).ToArray();
+                var starterOptions = starterSet.Where(f => attack.CanApply(f.Result.Cost)).ToArray();
                 if (starterOptions.Length == 0) continue;
                 attack = randomGenerator.RandomSelection(starterOptions).Apply(attack);
                 TrySplit();
@@ -135,9 +135,9 @@ namespace GameEngine.Generator
                 if (!appliedStandardStarter)
                 {
                     appliedStandardStarter = true;
-                    foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Standard ?? Enumerable.Empty<IEnumerable<ApplicablePowerModifierFormula>>())
+                    foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Standard ?? Enumerable.Empty<IEnumerable<RandomChances<PowerModifier>>>())
                     {
-                        var starterOptions = starterSet.Where(f => attack.CanApply(f.Modifier.Cost)).Select(s => (s.Chances, s)).ToArray();
+                        var starterOptions = starterSet.Where(f => attack.CanApply(f.Result.Cost)).ToArray();
                         if (starterOptions.Length == 0) continue;
                         attack = randomGenerator.RandomSelection(starterOptions).Apply(attack);
                         TrySplit();
@@ -190,7 +190,7 @@ namespace GameEngine.Generator
         private static int GetAttackMinimumPower(double basePower, ClassRole role, RandomGenerator randomGenerator)
         {
             var powerMax = (int)(role == ClassRole.Striker ? (basePower - 1) : (basePower - 2));
-            var powerOptions = Enumerable.Range(1, powerMax).DefaultIfEmpty(1).Select(i => (chance: (int)Math.Pow(2, powerMax - Math.Abs(i - powerMax * 2.0/3)), result: i));
+            var powerOptions = Enumerable.Range(1, powerMax).DefaultIfEmpty(1).Select(i => new RandomChances<int>(Chances: (int)Math.Pow(2, powerMax - Math.Abs(i - powerMax * 2.0/3)), Result: i));
             return randomGenerator.RandomSelection(powerOptions);
         }
 

@@ -46,8 +46,7 @@ namespace GameEngine.Generator
         private static AttackProfileBuilder Apply(this PowerModifierFormula formula, AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
         {
             var modifiers = formula.GetOptions(attack, powerInfo);
-            var selected = randomGenerator.RandomSelection(from mod in modifiers
-                                                           select (chance: mod.Chances, mod: mod));
+            var selected = randomGenerator.RandomSelection(modifiers);
             return selected.Apply(attack);
         }
 
@@ -66,14 +65,14 @@ namespace GameEngine.Generator
                 return attack;
             var modifier = randomGenerator.RandomEscalatingSelection(preferredModifiers, minimalSources: validModifiers);
             if (modifier != null)
-                attack = randomGenerator.RandomSelection(modifier.Select(m => (m.Chances, m))).Apply(attack);
+                attack = randomGenerator.RandomSelection(modifier).Apply(attack);
 
             return attack;
 
-            ApplicablePowerModifierFormula[][] GetApplicable(IEnumerable<PowerModifierFormula> modifiers) =>
+            RandomChances<PowerModifier>[][] GetApplicable(IEnumerable<PowerModifierFormula> modifiers) =>
                 (from mod in modifiers
                  let entries = (from entry in mod.GetOptions(attack, powerInfo)
-                                where attack.CanApply(entry.Modifier.Cost)
+                                where attack.CanApply(entry.Result.Cost)
                                 select entry).ToArray()
                  where entries.Length > 0
                  let chances = entries.Sum(entry => entry.Chances)
@@ -122,7 +121,7 @@ namespace GameEngine.Generator
             public CloseBurstPowerTemplate() : base(CloseBurstPowerTemplateName) { }
             public override StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new(Initial:
-                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder, powerInfo).Where(a => a.Modifier.Options["Type"] == "Burst") }
+                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder, powerInfo).Where(a => a.Result.Options["Type"] == "Burst") }
                 );
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill, ToolProfile: { Range: ToolRange.Melee } } or { ToolProfile: { Type: ToolType.Implement } };
         }
@@ -156,7 +155,7 @@ namespace GameEngine.Generator
             public CloseBlastPowerTemplate() : base(CloseBlastPowerTemplateName) { }
             public override StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new(Initial:
-                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder, powerInfo).Where(a => a.Modifier.Options["Type"] == "Blast") }
+                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder, powerInfo).Where(a => a.Result.Options["Type"] == "Blast") }
                 );
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { ToolProfile: { Type: ToolType.Implement } } or { ToolProfile: { Type: ToolType.Weapon, Range: ToolRange.Range }, Usage: not PowerFrequency.AtWill };
         }

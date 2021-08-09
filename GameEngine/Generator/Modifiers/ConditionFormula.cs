@@ -13,14 +13,14 @@ namespace GameEngine.Generator.Modifiers
         {
         }
 
-        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
             var prevThreshold = 0;
             foreach (var powerCost in PowerCost.EscalatingOdds())
             {
-                yield return new(BuildModifier(powerCost.result.Key, powerCost.result.Value), Chances: powerCost.threshold - prevThreshold);
-                prevThreshold = powerCost.threshold;
+                yield return new(BuildModifier(powerCost.Result.Key, powerCost.Result.Value), Chances: powerCost.Threshold - prevThreshold);
+                prevThreshold = powerCost.Threshold;
             }
 
             PowerModifier BuildModifier(Duration duration, PowerCost cost) =>
