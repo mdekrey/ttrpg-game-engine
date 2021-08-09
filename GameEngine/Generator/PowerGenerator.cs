@@ -161,10 +161,10 @@ namespace GameEngine.Generator
 
             void TrySplit()
             {
-                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is { Options: var secondaryAttackOptions })
+                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is PowerModifierBuilder secondaryAttackModifier)
                 {
                     AttackProfileBuilder next;
-                    (attack, next) = Modifiers.MultiattackFormula.Unapply(attack, secondaryAttackOptions);
+                    (attack, next) = Modifiers.MultiattackFormula.Unapply(attack, secondaryAttackModifier);
                     attackBuilders!.Enqueue(next);
                 }
             }

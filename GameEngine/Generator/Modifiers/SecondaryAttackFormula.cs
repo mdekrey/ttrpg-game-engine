@@ -20,20 +20,17 @@ namespace GameEngine.Generator.Modifiers
             for (var (current, counter) = (attack.Cost.Minimum, 1); current <= available / 2; (current, counter) = (current + 0.5, counter * 2))
             {
                 var (a, b) = (current, available - current);
-                var costA = new PowerCost(Fixed: b);
-                var costB = new PowerCost(Fixed: a);
+                var costA = new PowerCost(Fixed: a);
+                var costB = new PowerCost(Fixed: b);
                 if (a * 2 < b)
-                    yield return new(BuildModifier(costB, nextAttack: a * 2, original: b, cost: costB.Fixed, isFollowUp: true), Chances: counter * (a == b ? 2 : 1));
-                yield return new(BuildModifier(costB, nextAttack: a, original: b, cost: costB.Fixed), Chances: counter * (a == b ? 2 : 1));
+                    yield return new(BuildModifier(costA, isFollowUp: true), Chances: counter * (a == b ? 2 : 1));
+                yield return new(BuildModifier(costA), Chances: counter * (a == b ? 2 : 1));
                 if (a != b)
-                    yield return new(BuildModifier(costA, nextAttack: b, original: a, cost: costA.Fixed), Chances: counter);
+                    yield return new(BuildModifier(costB), Chances: counter);
             }
 
-            PowerModifierBuilder BuildModifier(PowerCost powerCost, double nextAttack, double original, double cost, bool isFollowUp = false) =>
+            PowerModifierBuilder BuildModifier(PowerCost powerCost, bool isFollowUp = false) =>
                 new PowerModifierBuilder(Name, powerCost, Build(
-                    ("NextAttack", nextAttack.ToString("0.0")),
-                    ("Remaining", original.ToString("0.0")),
-                    ("Cost", cost.ToString("0.0")),
                     ("IsFollowUp", isFollowUp.ToString())
                 ));
         }
@@ -49,12 +46,10 @@ namespace GameEngine.Generator.Modifiers
             return attack.Modifiers.FirstOrDefault(m => m.Modifier == ModifierName);
         }
 
-        internal static (AttackProfileBuilder original, AttackProfileBuilder secondary) Unapply(AttackProfileBuilder attack, ImmutableDictionary<string, string> secondaryAttackOptions)
+        internal static (AttackProfileBuilder original, AttackProfileBuilder secondary) Unapply(AttackProfileBuilder attack, PowerModifierBuilder secondaryAttackModifier)
         {
-            var nextAttack = double.Parse(secondaryAttackOptions["NextAttack"]);
-            var remaining = double.Parse(secondaryAttackOptions["Remaining"]);
-            var cost = double.Parse(secondaryAttackOptions["Cost"]);
-            var isFollowUp = bool.Parse(secondaryAttackOptions["IsFollowUp"]);
+            var cost = secondaryAttackModifier.Cost.Fixed;
+            var isFollowUp = bool.Parse(secondaryAttackModifier.Options["IsFollowUp"]);
             return (
                 attack with 
                 { 
@@ -71,7 +66,7 @@ namespace GameEngine.Generator.Modifiers
                         : ImmutableList<PowerModifierBuilder>.Empty,
                     Cost = attack.Cost with
                     {
-                        Initial = nextAttack,
+                        Initial = isFollowUp ? cost * 2 : cost,
                     },
                 }
             );
