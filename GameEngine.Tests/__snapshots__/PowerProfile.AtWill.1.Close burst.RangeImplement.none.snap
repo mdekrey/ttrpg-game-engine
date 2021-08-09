@@ -7,12 +7,19 @@ Attacks:
   Target: Range
   Modifiers:
   - Modifier: Multiple
+    Cost:
+      Multiplier: 0.66666666666666663
     Options:
       Size: 3x3
       Type: Burst
   - Modifier: Non-Armor Defense
+    Cost:
+      Multiplier: 1
     Options:
       Defense: Fortitude
   - Modifier: Ability Modifier Damage
+    Cost:
+      Fixed: 0.5
+      Multiplier: 1
     Options:
       Ability: Strength

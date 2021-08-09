@@ -6,9 +6,15 @@
     Target: Melee
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Non-Armor Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Fortitude
 - Name: Generated

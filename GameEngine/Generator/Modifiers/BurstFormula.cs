@@ -32,7 +32,7 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            PowerModifierBuilder BuildModifier(string type, string size, PowerCost cost) =>
+            PowerModifier BuildModifier(string type, string size, PowerCost cost) =>
                 new (Name, cost, Build(("Size", size), ("Type", type)));
         }
 

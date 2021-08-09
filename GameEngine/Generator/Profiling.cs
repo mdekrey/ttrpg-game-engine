@@ -53,20 +53,15 @@ namespace GameEngine.Generator
         }
     }
 
-    public record PowerModifier(string Modifier, EquatableImmutableDictionary<string, string> Options)
+    public record PowerModifier(string Modifier, PowerCost Cost, EquatableImmutableDictionary<string, string> Options)
     {
-        public PowerModifier(string Modifier): this(Modifier, ImmutableDictionary<string, string>.Empty)  { }
+        public PowerModifier(string Modifier, PowerCost Cost) : this(Modifier, Cost, ImmutableDictionary<string, string>.Empty) { }
     }
-    public record PowerModifierBuilder(string Modifier, PowerCost Cost, ImmutableDictionary<string, string> Options)
-    {
-        public PowerModifierBuilder(string Modifier, PowerCost Cost) : this(Modifier, Cost, ImmutableDictionary<string, string>.Empty) { }
-        internal PowerModifier Build() => new PowerModifier(Modifier, Options);
-    }
-    public record AttackProfileBuilder(PowerCostBuilder Cost, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifierBuilder> Modifiers)
+    public record AttackProfileBuilder(PowerCostBuilder Cost, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers)
     {
         public PowerCost TotalCost => Modifiers.Aggregate(PowerCost.Empty, (prev, next) => prev + next.Cost);
         public double WeaponDice => TotalCost.Apply(Cost.Initial);
-        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers.Select(m => m.Build()).ToImmutableList());
+        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers);
 
         internal bool CanApply(PowerCost cost) => (TotalCost + cost).Apply(Cost.Initial) >= Cost.Minimum;
     }

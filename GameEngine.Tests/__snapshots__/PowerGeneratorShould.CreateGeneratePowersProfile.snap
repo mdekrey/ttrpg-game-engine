@@ -19,9 +19,15 @@
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: +2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
         Defense: Reflex
@@ -35,9 +41,15 @@
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Non-Armor Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Fortitude
 - Template: Skirmish
@@ -48,9 +60,15 @@
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Movement after Attack does not provoke
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options: {}
 Encounter1:
 - Template: Multiattack
@@ -68,9 +86,15 @@ Encounter1:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: To-Hit Bonus
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: DEX
         Condition: next attack
@@ -83,9 +107,15 @@ Encounter1:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: To-Hit Bonus to Current Attack
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
 - Template: Accurate
@@ -96,9 +126,15 @@ Encounter1:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: To-Hit Bonus to Current Attack
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: DEX
 - Template: Conditions
@@ -110,12 +146,21 @@ Encounter1:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Dazed
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
     - Modifier: Grants Combat Advantage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 Daily1:
@@ -128,6 +173,9 @@ Daily1:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 1.5
@@ -137,6 +185,9 @@ Daily1:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Accurate
@@ -148,12 +199,21 @@ Daily1:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Non-Armor Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Reflex
     - Modifier: Slowed
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Conditions
@@ -165,20 +225,35 @@ Daily1:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: -2 to Defense
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Defense: Reflex
         Duration: SaveEnds
     - Modifier: +Temporary Hit Points
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Amount: DEX
         Target: nearest ally
     - Modifier: Blinded
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
 - Template: Interrupt Penalty
@@ -190,11 +265,20 @@ Daily1:
     Target: Range
     Modifiers:
     - Modifier: OpportunityAction
+      Cost:
+        Fixed: 1.5
+        Multiplier: 1
       Options: {}
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: +2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
         Defense: Reflex
@@ -209,9 +293,15 @@ Encounter3:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Dazed
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Accurate
@@ -222,9 +312,15 @@ Encounter3:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: To-Hit Bonus to Current Attack
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: DEX
 - Template: Skirmish
@@ -236,9 +332,15 @@ Encounter3:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
 - Template: Conditions
@@ -249,13 +351,22 @@ Encounter3:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: -2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Will
         Duration: EndOfUserNextTurn
     - Modifier: Immobilized
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
 Daily5:
@@ -268,16 +379,28 @@ Daily5:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Blinded
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: -2 to Defense
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Defense: Reflex
         Duration: SaveEnds
     - Modifier: Dazed
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Multiattack
@@ -289,6 +412,9 @@ Daily5:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 2
@@ -298,9 +424,15 @@ Daily5:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Movement after Attack does not provoke
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options: {}
 - Template: Accurate
   Attacks:
@@ -311,16 +443,28 @@ Daily5:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: To-Hit Bonus to Current Attack
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
     - Modifier: +Temporary Hit Points
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Amount: DEX
         Target: self
     - Modifier: -2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Fortitude
         Duration: EndOfUserNextTurn
@@ -333,20 +477,35 @@ Daily5:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Movement after Attack does not provoke
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options: {}
     - Modifier: Ongoing Damage
+      Cost:
+        Fixed: 2
+        Multiplier: 1
       Options:
         Amount: +5
     - Modifier: +2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
         Defense: Reflex
         Duration: EndOfUserNextTurn
         Target: self
     - Modifier: Immobilized
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
 Encounter7:
@@ -358,6 +517,9 @@ Encounter7:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 1
@@ -366,6 +528,9 @@ Encounter7:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Multiattack
@@ -376,6 +541,9 @@ Encounter7:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 1
@@ -384,6 +552,9 @@ Encounter7:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Accurate
@@ -394,12 +565,21 @@ Encounter7:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: To-Hit Bonus to Current Attack
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: DEX
     - Modifier: Slowed
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
 - Template: Conditions
@@ -411,15 +591,27 @@ Encounter7:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Blinded
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: To-Hit Bonus to Current Attack
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: Grants Combat Advantage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 Daily9:
@@ -432,14 +624,23 @@ Daily9:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Regeneration
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Amount: +5
         Duration: EndOfEncounter
         Target: self
     - Modifier: Extra Saving Throw
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Target: an ally within 5 squares
   - WeaponDice: 1
@@ -449,17 +650,31 @@ Daily9:
     Target: Range
     Modifiers:
     - Modifier: SecondaryAttack
+      Cost:
+        Multiplier: 1
       Options: {}
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Blinded
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: Dazed
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: Immobilized
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
   - WeaponDice: 1
@@ -469,6 +684,9 @@ Daily9:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Multiattack
@@ -480,6 +698,9 @@ Daily9:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 3
@@ -489,6 +710,9 @@ Daily9:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Skirmish
@@ -499,11 +723,20 @@ Daily9:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Movement after Attack does not provoke
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options: {}
     - Modifier: Prone
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options: {}
   - WeaponDice: 2
     DamageTypes:
@@ -511,6 +744,9 @@ Daily9:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Bonus
@@ -522,17 +758,29 @@ Daily9:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: To-Hit Bonus
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
         Condition: next attack
         Target: nearest ally
     - Modifier: Healing Surge
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Target: an ally within 5 squares
     - Modifier: Weakened
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 Encounter11:
@@ -544,6 +792,9 @@ Encounter11:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 1.5
@@ -552,6 +803,9 @@ Encounter11:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Multiattack
@@ -563,6 +817,9 @@ Encounter11:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 1.5
@@ -572,6 +829,9 @@ Encounter11:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Interrupt Penalty
@@ -583,11 +843,20 @@ Encounter11:
     Target: Range
     Modifiers:
     - Modifier: OpportunityAction
+      Cost:
+        Fixed: 2
+        Multiplier: 1
       Options: {}
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Dazed
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Conditions
@@ -598,13 +867,22 @@ Encounter11:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: -2 to Defense
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Defense: ArmorClass
         Duration: SaveEnds
     - Modifier: To-Hit Bonus
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
         Condition: next attack
@@ -618,9 +896,15 @@ Encounter13:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Blinded
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Accurate
@@ -631,15 +915,27 @@ Encounter13:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Non-Armor Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Fortitude
     - Modifier: Slowed
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: Weakened
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Conditions
@@ -650,9 +946,15 @@ Encounter13:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Weakened
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Interrupt Penalty
@@ -663,9 +965,15 @@ Encounter13:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: +2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
         Defense: Reflex
@@ -681,9 +989,15 @@ Daily15:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Healing Surge
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Target: an ally within 5 squares
 - Template: Accurate
@@ -694,15 +1008,27 @@ Daily15:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Non-Armor Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Fortitude
     - Modifier: Ongoing Damage
+      Cost:
+        Fixed: 2
+        Multiplier: 1
       Options:
         Amount: +5
     - Modifier: +2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
         Defense: Reflex
@@ -717,10 +1043,15 @@ Daily15:
     Target: Range
     Modifiers:
     - Modifier: Multiple
+      Cost:
+        Multiplier: 0.66666666666666663
       Options:
         Size: 3x3
         Type: Blast
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Skirmish
@@ -732,26 +1063,47 @@ Daily15:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: Healing Surge
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Target: an ally within 5 squares
     - Modifier: Regeneration
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Amount: +5
         Duration: EndOfEncounter
         Target: an ally within 5 squares
     - Modifier: Weakened
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: To-Hit Bonus to Current Attack
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: Slowed
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
   - WeaponDice: 1
@@ -761,9 +1113,15 @@ Daily15:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: -2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Reflex
         Duration: EndOfUserNextTurn
@@ -777,9 +1135,15 @@ Encounter17:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
 - Template: Multiattack
@@ -791,9 +1155,15 @@ Encounter17:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Immobilized
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Skirmish
@@ -804,9 +1174,15 @@ Encounter17:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Movement after Attack does not provoke
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options: {}
 - Template: Accurate
   Attacks:
@@ -817,18 +1193,33 @@ Encounter17:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Non-Armor Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Fortitude
     - Modifier: Dazed
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: Blinded
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
     - Modifier: +2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
         Defense: ArmorClass
@@ -844,9 +1235,15 @@ Daily19:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Immobilized
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
 - Template: Skirmish
@@ -857,11 +1254,20 @@ Daily19:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Movement after Attack does not provoke
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options: {}
     - Modifier: Healing Surge
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Target: an ally within 5 squares
   - WeaponDice: 2
@@ -870,6 +1276,9 @@ Daily19:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 1.5
@@ -878,6 +1287,9 @@ Daily19:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Multiattack
@@ -888,13 +1300,22 @@ Daily19:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: +Temporary Hit Points
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Amount: STR
         Target: nearest ally
     - Modifier: Immobilized
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
 - Template: Interrupt Penalty
@@ -905,12 +1326,21 @@ Daily19:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Grants Combat Advantage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: Immobilized
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 Daily20:
@@ -923,6 +1353,9 @@ Daily20:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 3.5
@@ -932,6 +1365,9 @@ Daily20:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Multiattack
@@ -942,6 +1378,9 @@ Daily20:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 4
@@ -950,6 +1389,9 @@ Daily20:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Conditions
@@ -960,20 +1402,35 @@ Daily20:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: -2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Reflex
         Duration: EndOfUserNextTurn
     - Modifier: +Temporary Hit Points
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Amount: DEX
         Target: self
     - Modifier: Immobilized
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
     - Modifier: Movement after Attack does not provoke
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options: {}
 - Template: Interrupt Penalty
   Attacks:
@@ -983,12 +1440,21 @@ Daily20:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Dazed
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: Movement after Attack does not provoke
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options: {}
 Encounter23:
 - Template: Multiattack
@@ -1000,6 +1466,9 @@ Encounter23:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 2
@@ -1009,9 +1478,15 @@ Encounter23:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Grants Combat Advantage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Skirmish
@@ -1023,18 +1498,30 @@ Encounter23:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: +2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
         Defense: Will
         Duration: EndOfUserNextTurn
         Target: an ally within 5 squares
     - Modifier: To-Hit Bonus to Current Attack
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
 - Template: Conditions
@@ -1046,12 +1533,21 @@ Encounter23:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Ongoing Damage
+      Cost:
+        Fixed: 2
+        Multiplier: 1
       Options:
         Amount: +5
     - Modifier: +2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
         Defense: Fortitude
@@ -1065,15 +1561,27 @@ Encounter23:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Non-Armor Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Reflex
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: Dazed
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 Daily25:
@@ -1085,21 +1593,36 @@ Daily25:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: +2 to Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
         Defense: Will
         Duration: EndOfUserNextTurn
         Target: self
     - Modifier: Extra Saving Throw
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Target: an ally within 5 squares
     - Modifier: Grants Combat Advantage
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
 - Template: Multiattack
@@ -1111,20 +1634,35 @@ Daily25:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Regeneration
+      Cost:
+        Fixed: 2
+        Multiplier: 1
       Options:
         Amount: +10
         Duration: EndOfEncounter
         Target: nearest ally
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: Dazed
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
     - Modifier: Weakened
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Skirmish
@@ -1135,18 +1673,33 @@ Daily25:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: To-Hit Bonus to Current Attack
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: +2
     - Modifier: Ongoing Damage
+      Cost:
+        Fixed: 2
+        Multiplier: 1
       Options:
         Amount: +5
     - Modifier: Dazed
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
 - Template: Bonus
@@ -1158,9 +1711,15 @@ Daily25:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Regeneration
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Amount: +5
         Duration: EndOfEncounter
@@ -1174,12 +1733,21 @@ Encounter27:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Grants Combat Advantage
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
     - Modifier: Blinded
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Accurate
@@ -1190,15 +1758,27 @@ Encounter27:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Non-Armor Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Fortitude
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: Grants Combat Advantage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Skirmish
@@ -1210,15 +1790,27 @@ Encounter27:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: Immobilized
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
     - Modifier: To-Hit Bonus
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
         Condition: the target
@@ -1231,14 +1823,26 @@ Encounter27:
     Target: Range
     Modifiers:
     - Modifier: OpportunityAction
+      Cost:
+        Fixed: 2
+        Multiplier: 1
       Options: {}
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Blinded
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
     - Modifier: To-Hit Bonus
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
         Condition: the target
@@ -1252,6 +1856,9 @@ Daily29:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
   - WeaponDice: 5
@@ -1260,6 +1867,9 @@ Daily29:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
 - Template: Skirmish
@@ -1271,20 +1881,38 @@ Daily29:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Shift
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
     - Modifier: Extra Saving Throw
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Target: nearest ally
     - Modifier: Immobilized
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
     - Modifier: Prone
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options: {}
     - Modifier: To-Hit Bonus
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Amount: STR
         Condition: next attack
@@ -1297,12 +1925,21 @@ Daily29:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Non-Armor Defense
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Defense: Reflex
     - Modifier: Weakened
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Duration: EndOfUserNextTurn
 - Template: Multiattack
@@ -1314,9 +1951,15 @@ Daily29:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Weakened
+      Cost:
+        Fixed: 1
+        Multiplier: 1
       Options:
         Duration: SaveEnds
   - WeaponDice: 4
@@ -1326,7 +1969,13 @@ Daily29:
     Target: Range
     Modifiers:
     - Modifier: Ability Modifier Damage
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options:
         Ability: Strength
     - Modifier: Movement after Attack does not provoke
+      Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Options: {}

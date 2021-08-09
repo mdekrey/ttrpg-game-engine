@@ -20,7 +20,7 @@ namespace GameEngine.Generator.Modifiers
             yield return new(BuildModifier(cost, DefenseType.Reflex), Chances: 1);
             yield return new(BuildModifier(cost, DefenseType.Will), Chances: 1);
 
-            PowerModifierBuilder BuildModifier(PowerCost cost, DefenseType defense) =>
+            PowerModifier BuildModifier(PowerCost cost, DefenseType defense) =>
                 new (Name, cost, Build(("Defense", defense.ToString("g"))));
         }
 

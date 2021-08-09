@@ -7,11 +7,19 @@ Attacks:
   Target: Range
   Modifiers:
   - Modifier: Non-Armor Defense
+    Cost:
+      Multiplier: 1
     Options:
       Defense: Fortitude
   - Modifier: Ability Modifier Damage
+    Cost:
+      Fixed: 0.5
+      Multiplier: 1
     Options:
       Ability: Strength
   - Modifier: Shift
+    Cost:
+      Fixed: 0.5
+      Multiplier: 1
     Options:
       Amount: STR

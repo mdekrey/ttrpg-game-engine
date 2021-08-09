@@ -22,7 +22,7 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            PowerModifierBuilder BuildModifier(PowerCost powerCost, DefenseType defense, Duration duration, string target) =>
+            PowerModifier BuildModifier(PowerCost powerCost, DefenseType defense, Duration duration, string target) =>
                 new (Name, powerCost, Build(
                     ("Defense", defense.ToString("g")),
                     ("Amount", "+2"),

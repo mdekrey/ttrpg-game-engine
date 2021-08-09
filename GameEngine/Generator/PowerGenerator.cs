@@ -161,7 +161,7 @@ namespace GameEngine.Generator
 
             void TrySplit()
             {
-                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is PowerModifierBuilder secondaryAttackModifier)
+                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is PowerModifier secondaryAttackModifier)
                 {
                     AttackProfileBuilder next;
                     (attack, next) = Modifiers.MultiattackFormula.Unapply(attack, secondaryAttackModifier);
@@ -184,7 +184,7 @@ namespace GameEngine.Generator
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                 )),
                 info.ToolProfile.Range.ToTargetType(),
-                ImmutableList<PowerModifierBuilder>.Empty
+                ImmutableList<PowerModifier>.Empty
             );
 
         private static int GetAttackMinimumPower(double basePower, ClassRole role, RandomGenerator randomGenerator)

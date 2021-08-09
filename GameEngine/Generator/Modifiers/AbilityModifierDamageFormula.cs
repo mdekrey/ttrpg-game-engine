@@ -16,7 +16,7 @@ namespace GameEngine.Generator.Modifiers
             // TODO - allow primary and secondary damage
             yield return new(BuildModifier(powerInfo.ToolProfile.Abilities[0], new PowerCost(0.5)));
 
-            PowerModifierBuilder BuildModifier(Ability ability, PowerCost cost) =>
+            PowerModifier BuildModifier(Ability ability, PowerCost cost) =>
                 new (Name, cost, Build(("Ability", ability.ToString("g"))));
         }
 

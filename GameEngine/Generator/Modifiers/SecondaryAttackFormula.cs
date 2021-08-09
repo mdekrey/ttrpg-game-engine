@@ -29,8 +29,8 @@ namespace GameEngine.Generator.Modifiers
                     yield return new(BuildModifier(costB), Chances: counter);
             }
 
-            PowerModifierBuilder BuildModifier(PowerCost powerCost, bool isFollowUp = false) =>
-                new PowerModifierBuilder(Name, powerCost, Build(
+            PowerModifier BuildModifier(PowerCost powerCost, bool isFollowUp = false) =>
+                new PowerModifier(Name, powerCost, Build(
                     ("IsFollowUp", isFollowUp.ToString())
                 ));
         }
@@ -41,12 +41,12 @@ namespace GameEngine.Generator.Modifiers
             throw new System.NotSupportedException();
         }
 
-        internal static PowerModifierBuilder? NeedToSplit(AttackProfileBuilder attack)
+        internal static PowerModifier? NeedToSplit(AttackProfileBuilder attack)
         {
             return attack.Modifiers.FirstOrDefault(m => m.Modifier == ModifierName);
         }
 
-        internal static (AttackProfileBuilder original, AttackProfileBuilder secondary) Unapply(AttackProfileBuilder attack, PowerModifierBuilder secondaryAttackModifier)
+        internal static (AttackProfileBuilder original, AttackProfileBuilder secondary) Unapply(AttackProfileBuilder attack, PowerModifier secondaryAttackModifier)
         {
             var cost = secondaryAttackModifier.Cost.Fixed;
             var isFollowUp = bool.Parse(secondaryAttackModifier.Options["IsFollowUp"]);
@@ -62,8 +62,8 @@ namespace GameEngine.Generator.Modifiers
                 attack with
                 {
                     Modifiers = isFollowUp
-                        ? Build(new PowerModifierBuilder(SecondaryAttackFormula.ModifierName, PowerCost.Empty))
-                        : ImmutableList<PowerModifierBuilder>.Empty,
+                        ? Build(new PowerModifier(SecondaryAttackFormula.ModifierName, PowerCost.Empty))
+                        : ImmutableList<PowerModifier>.Empty,
                     Cost = attack.Cost with
                     {
                         Initial = isFollowUp ? cost * 2 : cost,

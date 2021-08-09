@@ -6,12 +6,21 @@ Attacks:
   Target: Melee
   Modifiers:
   - Modifier: Ability Modifier Damage
+    Cost:
+      Fixed: 0.5
+      Multiplier: 1
     Options:
       Ability: Strength
   - Modifier: Healing Surge
+    Cost:
+      Fixed: 1
+      Multiplier: 1
     Options:
       Target: self
   - Modifier: Extra Saving Throw
+    Cost:
+      Fixed: 1
+      Multiplier: 1
     Options:
       Target: self
 - WeaponDice: 1
@@ -20,11 +29,19 @@ Attacks:
   Target: Melee
   Modifiers:
   - Modifier: SecondaryAttack
+    Cost:
+      Multiplier: 1
     Options: {}
   - Modifier: Ability Modifier Damage
+    Cost:
+      Fixed: 0.5
+      Multiplier: 1
     Options:
       Ability: Strength
   - Modifier: +2 to Defense
+    Cost:
+      Fixed: 0.5
+      Multiplier: 1
     Options:
       Amount: +2
       Defense: ArmorClass

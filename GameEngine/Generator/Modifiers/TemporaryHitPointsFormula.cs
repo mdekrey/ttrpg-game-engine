@@ -21,7 +21,7 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            PowerModifierBuilder BuildModifier(PowerCost powerCost, GameDiceExpression amount, string target) =>
+            PowerModifier BuildModifier(PowerCost powerCost, GameDiceExpression amount, string target) =>
                 new (Name, powerCost, Build(
                     ("Amount", amount.ToString()),
                     ("Target", target)

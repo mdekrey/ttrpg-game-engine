@@ -15,7 +15,7 @@ namespace GameEngine.Generator.Modifiers
             // TODO - allow sliding allies, fixed numbers, etc.
             yield return new(BuildModifier((GameDiceExpression)powerInfo.ToolProfile.Abilities[0], new PowerCost(0.5)));
 
-            PowerModifierBuilder BuildModifier(GameDiceExpression amount, PowerCost cost) =>
+            PowerModifier BuildModifier(GameDiceExpression amount, PowerCost cost) =>
                 new (Name, cost, Build(
                     ("Amount", amount.ToString())
                 ));

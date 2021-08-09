@@ -20,7 +20,7 @@ namespace GameEngine.Generator.Modifiers
                 yield return new(BuildModifier(new PowerCost(0.5), (GameDiceExpression)entry), Chances: 1);
             yield return new(BuildModifier(new PowerCost(0.5), 2), Chances: 5);
 
-            PowerModifierBuilder BuildModifier(PowerCost powerCost, GameDiceExpression dice) =>
+            PowerModifier BuildModifier(PowerCost powerCost, GameDiceExpression dice) =>
                 new (Name, powerCost, Build(("Amount", dice.ToString())));
         }
 

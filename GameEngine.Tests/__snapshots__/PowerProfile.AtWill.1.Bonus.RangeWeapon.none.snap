@@ -6,9 +6,15 @@ Attacks:
   Target: Range
   Modifiers:
   - Modifier: Ability Modifier Damage
+    Cost:
+      Fixed: 0.5
+      Multiplier: 1
     Options:
       Ability: Strength
   - Modifier: To-Hit Bonus
+    Cost:
+      Fixed: 0.5
+      Multiplier: 1
     Options:
       Amount: +2
       Condition: next attack

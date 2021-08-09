@@ -16,7 +16,7 @@ namespace GameEngine.Generator.Modifiers
                 yield return new(BuildModifier(target, Cost));
             }
 
-            PowerModifierBuilder BuildModifier(string target, PowerCost cost) =>
+            PowerModifier BuildModifier(string target, PowerCost cost) =>
                 new (Name, cost, Build(
                     ("Target", target)
                 ));

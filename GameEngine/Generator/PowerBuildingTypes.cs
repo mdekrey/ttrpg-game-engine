@@ -37,7 +37,7 @@ namespace GameEngine.Generator
         EndOfEncounter,
     }
 
-    public record ApplicablePowerModifierFormula(PowerModifierBuilder Modifier, Func<AttackProfileBuilder, AttackProfileBuilder>? AdditionalMutator = null, int Chances = 1)
+    public record ApplicablePowerModifierFormula(PowerModifier Modifier, Func<AttackProfileBuilder, AttackProfileBuilder>? AdditionalMutator = null, int Chances = 1)
     {
         public AttackProfileBuilder Apply(AttackProfileBuilder attack)
         {

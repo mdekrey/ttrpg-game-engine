@@ -23,7 +23,7 @@ namespace GameEngine.Generator.Modifiers
                 prevThreshold = powerCost.threshold;
             }
 
-            PowerModifierBuilder BuildModifier(Duration duration, PowerCost cost) =>
+            PowerModifier BuildModifier(Duration duration, PowerCost cost) =>
                 new (Name, cost, Build(
                     ("Duration", duration.ToString("g"))
                 ));

@@ -17,7 +17,7 @@ namespace GameEngine.Generator.Modifiers
                 yield return new(BuildModifier(amount, new PowerCost(amount / 2.5)));
             }
 
-            PowerModifierBuilder BuildModifier(GameDiceExpression amount, PowerCost Cost) =>
+            PowerModifier BuildModifier(GameDiceExpression amount, PowerCost Cost) =>
                 new (Name, Cost, Build(
                     ("Amount", amount.ToString())
                 ));

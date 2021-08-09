@@ -7,9 +7,14 @@ Attacks:
   Target: Range
   Modifiers:
   - Modifier: Non-Armor Defense
+    Cost:
+      Multiplier: 1
     Options:
       Defense: Fortitude
   - Modifier: Ability Modifier Damage
+    Cost:
+      Fixed: 0.5
+      Multiplier: 1
     Options:
       Ability: Strength
 - WeaponDice: 0.5
@@ -18,8 +23,13 @@ Attacks:
   Target: Range
   Modifiers:
   - Modifier: Non-Armor Defense
+    Cost:
+      Multiplier: 1
     Options:
       Defense: Fortitude
   - Modifier: Ability Modifier Damage
+    Cost:
+      Fixed: 0.5
+      Multiplier: 1
     Options:
       Ability: Strength

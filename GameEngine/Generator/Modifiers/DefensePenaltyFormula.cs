@@ -24,7 +24,7 @@ namespace GameEngine.Generator.Modifiers
             yield return new(BuildModifier(new PowerCost(1), null, Duration.EndOfUserNextTurn));
             yield return new(BuildModifier(new PowerCost(2), null, Duration.SaveEnds));
 
-            PowerModifierBuilder BuildModifier(PowerCost powerCost, DefenseType? defense, Duration duration) =>
+            PowerModifier BuildModifier(PowerCost powerCost, DefenseType? defense, Duration duration) =>
                 new (Name, powerCost, Build(
                     ("Defense", defense?.ToString("g") ?? "All"),
                     ("Duration", duration.ToString("g"))
