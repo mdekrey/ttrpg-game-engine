@@ -46,20 +46,5 @@ namespace GameEngine.Generator
             // Free basic attacks
             // Secondary burst (such as acid splash)
         }.ToImmutableList();
-
-        public static IEnumerable<string> PowerModifierNames => modifiers.Select(v => v.Name);
-
-        public static PowerModifierFormula[] GetApplicableModifiers(params string[] keywords)
-        {
-            var keywordSet = new HashSet<string>(keywords);
-            return (
-                from modifier in ModifierDefinitions.modifiers
-                where modifier.Keywords.Any(keywordSet.Contains)
-                orderby modifier.Name
-                select modifier
-            )
-            .ToArray();
-        }
-
     }
 }
