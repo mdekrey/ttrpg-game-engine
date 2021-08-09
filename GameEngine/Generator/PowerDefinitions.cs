@@ -72,7 +72,7 @@ namespace GameEngine.Generator
             RandomChances<PowerModifier>[][] GetApplicable(IEnumerable<PowerModifierFormula> modifiers) =>
                 (from mod in modifiers
                  let entries = (from entry in mod.GetOptions(attack, powerInfo)
-                                where attack.CanApply(entry.Result.Cost)
+                                where attack.CanApply(entry.Result.GetCost())
                                 select entry).ToArray()
                  where entries.Length > 0
                  let chances = entries.Sum(entry => entry.Chances)
@@ -121,7 +121,7 @@ namespace GameEngine.Generator
             public CloseBurstPowerTemplate() : base(CloseBurstPowerTemplateName) { }
             public override StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new(Initial:
-                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder, powerInfo).Where(a => a.Result.Options["Type"] == "Burst") }
+                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder, powerInfo).Where(a => a.Result is Modifiers.BurstFormula.BurstModifier { Type: "Burst" }) }
                 );
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill, ToolProfile: { Range: ToolRange.Melee } } or { ToolProfile: { Type: ToolType.Implement } };
         }
@@ -155,7 +155,7 @@ namespace GameEngine.Generator
             public CloseBlastPowerTemplate() : base(CloseBlastPowerTemplateName) { }
             public override StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo) =>
                 new(Initial:
-                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder, powerInfo).Where(a => a.Result.Options["Type"] == "Blast") }
+                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder, powerInfo).Where(a => a.Result is Modifiers.BurstFormula.BurstModifier { Type: "Blast" }) }
                 );
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { ToolProfile: { Type: ToolType.Implement } } or { ToolProfile: { Type: ToolType.Weapon, Range: ToolRange.Range }, Usage: not PowerFrequency.AtWill };
         }

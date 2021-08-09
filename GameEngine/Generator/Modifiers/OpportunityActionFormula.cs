@@ -14,13 +14,18 @@ namespace GameEngine.Generator.Modifiers
 
             var cost = new PowerCost(PowerGenerator.GetBasePower(powerInfo.Level, powerInfo.Usage) - PowerGenerator.GetBasePower(powerInfo.Level, powerInfo.Usage - 1));
 
-            yield return new(new (Name, cost));
+            yield return new(new OpportunityActionModifier(cost));
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record OpportunityActionModifier(PowerCost Cost) : PowerModifier(ModifierName)
         {
-            // TODO
-            return effect;
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return effect;
+            }
         }
     }
 }

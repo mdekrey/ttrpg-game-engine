@@ -7,8 +7,10 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record NonArmorDefenseFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "Non-Armor Defense")
+    public record NonArmorDefenseFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
+        public const string ModifierName = "Non-Armor Defense";
+
         public NonArmorDefenseFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
@@ -20,17 +22,22 @@ namespace GameEngine.Generator.Modifiers
             yield return new(BuildModifier(cost, DefenseType.Reflex), Chances: 1);
             yield return new(BuildModifier(cost, DefenseType.Will), Chances: 1);
 
-            PowerModifier BuildModifier(PowerCost cost, DefenseType defense) =>
-                new (Name, cost, Build(("Defense", defense.ToString("g"))));
+            NonArmorDefenseModifier BuildModifier(PowerCost cost, DefenseType defense) =>
+                new (cost, defense);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record NonArmorDefenseModifier(PowerCost Cost, DefenseType Defense) : PowerModifier(ModifierName)
         {
-            return Pipe(
-                (AttackRollOptions attack) => attack with { Defense = Enum.Parse<DefenseType>(modifier.Options["Defense"]) },
-                ModifyAttack,
-                ModifyTarget
-            )(effect);
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                return Pipe(
+                    (AttackRollOptions attack) => attack with { Defense = Defense },
+                    ModifyAttack,
+                    ModifyTarget
+                )(effect);
+            }
         }
     }
 

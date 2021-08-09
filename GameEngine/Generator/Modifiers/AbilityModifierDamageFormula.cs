@@ -14,28 +14,33 @@ namespace GameEngine.Generator.Modifiers
         {
             if (HasModifier(attack)) yield break;
             // TODO - allow primary and secondary damage
-            yield return new(BuildModifier(powerInfo.ToolProfile.Abilities[0], new PowerCost(0.5)));
+            yield return new(BuildModifier(powerInfo.ToolProfile.Abilities[0]));
 
-            PowerModifier BuildModifier(Ability ability, PowerCost cost) =>
-                new (Name, cost, Build(("Ability", ability.ToString("g"))));
+            AbilityModifier BuildModifier(Ability ability) =>
+                new (Name, ability);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record AbilityModifier(string Name, Ability Ability) : PowerModifier(Name)
         {
-            return ModifyTarget(ModifyAttack(ModifyHit(ModifyDamage(
-                damage =>
-                {
-                    var ability = Ability.Strength; // TODO - configure ability
+            public override PowerCost GetCost() => new PowerCost(0.5);
 
-                    var initial = damage[0];
-                    var dice = GameDiceExpression.Parse(initial.Amount) + ability;
-
-                    return damage.SetItem(0, initial with
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                return ModifyTarget(ModifyAttack(ModifyHit(ModifyDamage(
+                    damage =>
                     {
-                        Amount = dice.ToString(),
-                    });
-                }
-            ))))(effect);
+                        var ability = Ability;
+
+                        var initial = damage[0];
+                        var dice = GameDiceExpression.Parse(initial.Amount) + ability;
+
+                        return damage.SetItem(0, initial with
+                        {
+                            Amount = dice.ToString(),
+                        });
+                    }
+                ))))(effect);
+            }
         }
     }
 

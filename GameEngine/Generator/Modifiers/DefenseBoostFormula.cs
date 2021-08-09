@@ -5,8 +5,10 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record DefenseBoostFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "+2 to Defense")
+    public record DefenseBoostFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
+        public const string ModifierName = "+2 to Defense";
+
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
@@ -22,19 +24,19 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            PowerModifier BuildModifier(PowerCost powerCost, DefenseType defense, Duration duration, string target) =>
-                new (Name, powerCost, Build(
-                    ("Defense", defense.ToString("g")),
-                    ("Amount", "+2"),
-                    ("Duration", duration.ToString("g")),
-                    ("Target", target)
-                ));
+            DefenseBoost BuildModifier(PowerCost powerCost, DefenseType defense, Duration duration, string target) =>
+                new(powerCost, defense, 2, duration, target);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record DefenseBoost(PowerCost Cost, DefenseType Defense, GameDiceExpression Amount, Duration Duration, string Target) : PowerModifier(ModifierName)
         {
-            // TODO
-            return effect;
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return effect;
+            }
         }
     }
 }

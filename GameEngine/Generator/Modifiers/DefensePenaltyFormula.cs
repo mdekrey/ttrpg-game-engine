@@ -5,8 +5,9 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record DefensePenaltyFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "-2 to Defense")
+    public record DefensePenaltyFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
+        public const string ModifierName = "-2 to Defense";
         public DefensePenaltyFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
@@ -24,17 +25,19 @@ namespace GameEngine.Generator.Modifiers
             yield return new(BuildModifier(new PowerCost(1), null, Duration.EndOfUserNextTurn));
             yield return new(BuildModifier(new PowerCost(2), null, Duration.SaveEnds));
 
-            PowerModifier BuildModifier(PowerCost powerCost, DefenseType? defense, Duration duration) =>
-                new (Name, powerCost, Build(
-                    ("Defense", defense?.ToString("g") ?? "All"),
-                    ("Duration", duration.ToString("g"))
-                ));
+            DefensePenalty BuildModifier(PowerCost powerCost, DefenseType? defense, Duration duration) =>
+                new (powerCost, defense, duration);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record DefensePenalty(PowerCost Cost, DefenseType? Defense, Duration Duration) : PowerModifier(ModifierName)
         {
-            // TODO
-            return effect;
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return effect;
+            }
         }
     }
 

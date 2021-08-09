@@ -6,30 +6,18 @@ Attacks:
   - Radiant
   Target: Range
   Modifiers:
-  - Modifier: Non-Armor Defense
-    Cost:
+  - Cost:
       Multiplier: 1
-    Options:
-      Defense: Fortitude
-  - Modifier: Ability Modifier Damage
-    Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Options:
-      Ability: Strength
+    Defense: Fortitude
+    Name: Non-Armor Defense
+  - Name: Ability Modifier Damage
 - WeaponDice: 0.5
   DamageTypes:
   - Radiant
   Target: Range
   Modifiers:
-  - Modifier: Non-Armor Defense
-    Cost:
+  - Cost:
       Multiplier: 1
-    Options:
-      Defense: Fortitude
-  - Modifier: Ability Modifier Damage
-    Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Options:
-      Ability: Strength
+    Defense: Fortitude
+    Name: Non-Armor Defense
+  - Name: Ability Modifier Damage

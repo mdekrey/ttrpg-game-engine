@@ -6,20 +6,12 @@ Attacks:
   - Radiant
   Target: Range
   Modifiers:
-  - Modifier: Non-Armor Defense
-    Cost:
+  - Cost:
       Multiplier: 1
-    Options:
-      Defense: Fortitude
-  - Modifier: Ability Modifier Damage
-    Cost:
+    Defense: Fortitude
+    Name: Non-Armor Defense
+  - Name: Ability Modifier Damage
+  - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Options:
-      Ability: Strength
-  - Modifier: Slowed
-    Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Options:
-      Duration: EndOfUserNextTurn
+    Name: Slowed

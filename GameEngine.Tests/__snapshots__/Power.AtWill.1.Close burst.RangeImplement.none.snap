@@ -6,23 +6,16 @@
     - Radiant
     Target: Range
     Modifiers:
-    - Modifier: Multiple
-      Cost:
+    - Cost:
         Multiplier: 0.66666666666666663
-      Options:
-        Size: 3x3
-        Type: Burst
-    - Modifier: Non-Armor Defense
-      Cost:
+      Size: 3x3
+      Type: Burst
+      Name: Multiple
+    - Cost:
         Multiplier: 1
-      Options:
-        Defense: Fortitude
-    - Modifier: Ability Modifier Damage
-      Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Options:
-        Ability: Strength
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Name: Ability Modifier Damage
 - Name: Generated
   Keywords:
   - Implement

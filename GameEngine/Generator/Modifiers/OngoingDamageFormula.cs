@@ -5,8 +5,9 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record OngoingDamageFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "Ongoing Damage")
+    public record OngoingDamageFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
+        public const string ModifierName = "Ongoing Damage";
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
@@ -17,15 +18,19 @@ namespace GameEngine.Generator.Modifiers
                 yield return new(BuildModifier(amount, new PowerCost(amount / 2.5)));
             }
 
-            PowerModifier BuildModifier(GameDiceExpression amount, PowerCost Cost) =>
-                new (Name, Cost, Build(
-                    ("Amount", amount.ToString())
-                ));
+            OngoingDamage BuildModifier(GameDiceExpression amount, PowerCost Cost) =>
+                new (Cost, amount);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record OngoingDamage(PowerCost Cost, GameDiceExpression Amount) : PowerModifier(ModifierName)
         {
-            throw new System.NotImplementedException();
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return effect;
+            }
         }
     }
 }

@@ -5,23 +5,18 @@ Attacks:
   - Weapon
   Target: Melee
   Modifiers:
-  - Modifier: OpportunityAction
-    Cost:
+  - Cost:
       Fixed: 1
       Multiplier: 1
-    Options: {}
-  - Modifier: Ability Modifier Damage
-    Cost:
+    Name: OpportunityAction
+  - Name: Ability Modifier Damage
+  - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Options:
-      Ability: Strength
-  - Modifier: +2 to Defense
-    Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Options:
-      Amount: +2
-      Defense: ArmorClass
-      Duration: EndOfUserNextTurn
-      Target: self
+    Amount:
+      DieCodes:
+        Entries: []
+        Modifier: 2
+      Abilities: {}
+    Target: self
+    Name: +2 to Defense

@@ -17,14 +17,19 @@ namespace GameEngine.Generator.Modifiers
 
             yield return new(BuildModifier());
 
-            PowerModifier BuildModifier() =>
+            ImmediateConditionModifier BuildModifier() =>
                 new (Name, Cost);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record ImmediateConditionModifier(string Name, PowerCost Cost) : PowerModifier(Name)
         {
-            // TODO
-            return effect;
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return effect;
+            }
         }
     }
 

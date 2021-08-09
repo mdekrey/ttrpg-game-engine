@@ -5,8 +5,9 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ShiftFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "Shift")
+    public record ShiftFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
+        public const string ModifierName = "Shift";
         public ShiftFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
@@ -15,15 +16,18 @@ namespace GameEngine.Generator.Modifiers
             // TODO - allow sliding allies, fixed numbers, etc.
             yield return new(BuildModifier((GameDiceExpression)powerInfo.ToolProfile.Abilities[0], new PowerCost(0.5)));
 
-            PowerModifier BuildModifier(GameDiceExpression amount, PowerCost cost) =>
-                new (Name, cost, Build(
-                    ("Amount", amount.ToString())
-                ));
+            ShiftModifier BuildModifier(GameDiceExpression amount, PowerCost cost) =>
+                new (cost, amount);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record ShiftModifier(PowerCost Cost, GameDiceExpression Amount) : PowerModifier(ModifierName)
         {
-            return effect with { Slide = new SerializedSlide(Amount: modifier.Options["Amount"]) };
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                return effect with { Slide = new SerializedSlide(Amount: Amount.ToString()) };
+            }
         }
     }
 

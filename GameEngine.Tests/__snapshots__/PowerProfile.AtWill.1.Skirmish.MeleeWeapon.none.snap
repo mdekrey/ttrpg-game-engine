@@ -5,15 +5,13 @@ Attacks:
   - Weapon
   Target: Melee
   Modifiers:
-  - Modifier: Ability Modifier Damage
-    Cost:
+  - Name: Ability Modifier Damage
+  - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Options:
-      Ability: Strength
-  - Modifier: Shift
-    Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Options:
-      Amount: STR
+    Amount:
+      DieCodes:
+        Entries: []
+      Abilities:
+        Strength: 1
+    Name: Shift

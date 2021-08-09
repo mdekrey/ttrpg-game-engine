@@ -6,22 +6,19 @@ Attacks:
   - Radiant
   Target: Range
   Modifiers:
-  - Modifier: Non-Armor Defense
-    Cost:
+  - Cost:
       Multiplier: 1
-    Options:
-      Defense: Fortitude
-  - Modifier: Ability Modifier Damage
-    Cost:
+    Defense: Fortitude
+    Name: Non-Armor Defense
+  - Name: Ability Modifier Damage
+  - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Options:
-      Ability: Strength
-  - Modifier: To-Hit Bonus
-    Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Options:
-      Amount: +2
-      Condition: next attack
-      Target: self
+    Amount:
+      DieCodes:
+        Entries: []
+        Modifier: 2
+      Abilities: {}
+    Condition: next attack
+    Target: self
+    Name: To-Hit Bonus

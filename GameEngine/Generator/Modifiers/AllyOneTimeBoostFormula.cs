@@ -16,16 +16,19 @@ namespace GameEngine.Generator.Modifiers
                 yield return new(BuildModifier(target, Cost));
             }
 
-            PowerModifier BuildModifier(string target, PowerCost cost) =>
-                new (Name, cost, Build(
-                    ("Target", target)
-                ));
+            AllyOneTimeBoost BuildModifier(string target, PowerCost cost) =>
+                new(Name, cost, target);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record AllyOneTimeBoost(string Name, PowerCost Cost, string Target) : PowerModifier(Name)
         {
-            // TODO
-            return effect;
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return effect;
+            }
         }
     }
 }

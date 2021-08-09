@@ -117,7 +117,7 @@ namespace GameEngine.Generator
             var attackBuilders = new Queue<AttackProfileBuilder>();
             foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Initial ?? Enumerable.Empty<IEnumerable<RandomChances<PowerModifier>>>())
             {
-                var starterOptions = starterSet.Where(f => attack.CanApply(f.Result.Cost)).ToArray();
+                var starterOptions = starterSet.Where(f => attack.CanApply(f.Result.GetCost())).ToArray();
                 if (starterOptions.Length == 0) continue;
                 attack = randomGenerator.RandomSelection(starterOptions).Apply(attack);
                 TrySplit();
@@ -137,7 +137,7 @@ namespace GameEngine.Generator
                     appliedStandardStarter = true;
                     foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Standard ?? Enumerable.Empty<IEnumerable<RandomChances<PowerModifier>>>())
                     {
-                        var starterOptions = starterSet.Where(f => attack.CanApply(f.Result.Cost)).ToArray();
+                        var starterOptions = starterSet.Where(f => attack.CanApply(f.Result.GetCost())).ToArray();
                         if (starterOptions.Length == 0) continue;
                         attack = randomGenerator.RandomSelection(starterOptions).Apply(attack);
                         TrySplit();
@@ -161,10 +161,10 @@ namespace GameEngine.Generator
 
             void TrySplit()
             {
-                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is PowerModifier secondaryAttackModifier)
+                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is Modifiers.MultiattackFormula.MultiattackModifier secondaryAttackModifier)
                 {
                     AttackProfileBuilder next;
-                    (attack, next) = Modifiers.MultiattackFormula.Unapply(attack, secondaryAttackModifier);
+                    (attack, next) = secondaryAttackModifier.Unapply(attack);
                     attackBuilders!.Enqueue(next);
                 }
             }
@@ -274,7 +274,7 @@ namespace GameEngine.Generator
             result = attackProfile.Modifiers.Aggregate(
                 result,
                 (prev, modifier) =>
-                    ModifierDefinitions.modifiers.First(m => m.Name == modifier.Modifier).Apply(effect: prev, powerProfile: powerProfile, attackProfile: attackProfile, modifier: modifier)
+                    modifier.Apply(effect: prev, powerProfile: powerProfile, attackProfile: attackProfile)
             );
             return result;
         }

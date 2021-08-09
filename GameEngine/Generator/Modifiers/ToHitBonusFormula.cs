@@ -9,8 +9,9 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 namespace GameEngine.Generator.Modifiers
 {
 
-    public record ToHitBonusFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "To-Hit Bonus to Current Attack")
+    public record ToHitBonusFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
+        public const string ModifierName = "To-Hit Bonus to Current Attack";
         public ToHitBonusFormula(params string[] keywords) : this(keywords.ToImmutableList()) { }
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
@@ -20,20 +21,25 @@ namespace GameEngine.Generator.Modifiers
                 yield return new(BuildModifier(new PowerCost(0.5), (GameDiceExpression)entry), Chances: 1);
             yield return new(BuildModifier(new PowerCost(0.5), 2), Chances: 5);
 
-            PowerModifier BuildModifier(PowerCost powerCost, GameDiceExpression dice) =>
-                new (Name, powerCost, Build(("Amount", dice.ToString())));
+            ToHitBonus BuildModifier(PowerCost powerCost, GameDiceExpression dice) =>
+                new (powerCost, dice);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record ToHitBonus(PowerCost Cost, GameDiceExpression Amount) : PowerModifier(ModifierName)
         {
-            return Pipe(
-                (AttackRollOptions attack) => attack with
-                {
-                    Bonus = (GameDiceExpression.Parse(attack.Bonus) + GameDiceExpression.Parse(modifier.Options["Amount"])).ToString()
-                },
-                ModifyAttack,
-                ModifyTarget
-            )(effect);
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                return Pipe(
+                    (AttackRollOptions attack) => attack with
+                    {
+                        Bonus = (GameDiceExpression.Parse(attack.Bonus) + Amount).ToString()
+                    },
+                    ModifyAttack,
+                    ModifyTarget
+                )(effect);
+            }
         }
     }
 

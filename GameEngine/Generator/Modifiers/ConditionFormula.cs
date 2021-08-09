@@ -23,10 +23,8 @@ namespace GameEngine.Generator.Modifiers
                 prevThreshold = powerCost.Threshold;
             }
 
-            PowerModifier BuildModifier(Duration duration, PowerCost cost) =>
-                new (Name, cost, Build(
-                    ("Duration", duration.ToString("g"))
-                ));
+            ConditionModifier BuildModifier(Duration duration, PowerCost cost) =>
+                new(Name, cost, duration);
         }
 
         public IEnumerable<(PowerCost cost, Duration duration)> GetAvailableOptions(AttackProfileBuilder attack)
@@ -37,10 +35,15 @@ namespace GameEngine.Generator.Modifiers
                    select (cost: kvp.Value, duration: kvp.Key);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record ConditionModifier(string Name, PowerCost Cost, Duration Duration) : PowerModifier(Name)
         {
-            // TODO
-            return effect;
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return effect;
+            }
+
+            public override PowerCost GetCost() => Cost;
         }
     }
 }

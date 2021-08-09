@@ -32,19 +32,23 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            PowerModifier BuildModifier(string type, string size, PowerCost cost) =>
-                new (Name, cost, Build(("Size", size), ("Type", type)));
+            BurstModifier BuildModifier(string type, string size, PowerCost cost) =>
+                new (cost, size, type);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record BurstModifier(PowerCost Cost, string Size, string Type) : PowerModifier(ModifierName)
         {
-            return Pipe(
-                (SerializedTarget target) =>
-                {
-                    return target with { Burst = 3 }; // TODO - more sizes
-                },
-                ModifyTarget
-            )(effect);
+            public override PowerCost GetCost() => Cost;
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                return Pipe(
+                    (SerializedTarget target) =>
+                    {
+                        return target with { Burst = 3 }; // TODO - more sizes
+                    },
+                    ModifyTarget
+                )(effect);
+            }
         }
     }
 }

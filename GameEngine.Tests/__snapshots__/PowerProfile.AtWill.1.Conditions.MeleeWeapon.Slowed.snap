@@ -5,15 +5,8 @@ Attacks:
   - Weapon
   Target: Melee
   Modifiers:
-  - Modifier: Ability Modifier Damage
-    Cost:
+  - Name: Ability Modifier Damage
+  - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Options:
-      Ability: Strength
-  - Modifier: Slowed
-    Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Options:
-      Duration: EndOfUserNextTurn
+    Name: Slowed

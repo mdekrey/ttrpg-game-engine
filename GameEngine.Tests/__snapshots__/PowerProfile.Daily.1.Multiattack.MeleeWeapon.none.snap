@@ -5,45 +5,31 @@ Attacks:
   - Weapon
   Target: Melee
   Modifiers:
-  - Modifier: Ability Modifier Damage
-    Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Options:
-      Ability: Strength
-  - Modifier: Healing Surge
-    Cost:
+  - Name: Ability Modifier Damage
+  - Cost:
       Fixed: 1
       Multiplier: 1
-    Options:
-      Target: self
-  - Modifier: Extra Saving Throw
-    Cost:
+    Target: self
+    Name: Healing Surge
+  - Cost:
       Fixed: 1
       Multiplier: 1
-    Options:
-      Target: self
+    Target: self
+    Name: Extra Saving Throw
 - WeaponDice: 1
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
-  - Modifier: SecondaryAttack
-    Cost:
-      Multiplier: 1
-    Options: {}
-  - Modifier: Ability Modifier Damage
-    Cost:
+  - Name: SecondaryAttack
+  - Name: Ability Modifier Damage
+  - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Options:
-      Ability: Strength
-  - Modifier: +2 to Defense
-    Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Options:
-      Amount: +2
-      Defense: ArmorClass
-      Duration: EndOfUserNextTurn
-      Target: self
+    Amount:
+      DieCodes:
+        Entries: []
+        Modifier: 2
+      Abilities: {}
+    Target: self
+    Name: +2 to Defense

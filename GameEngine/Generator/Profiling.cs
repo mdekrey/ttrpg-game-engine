@@ -53,13 +53,16 @@ namespace GameEngine.Generator
         }
     }
 
-    public record PowerModifier(string Modifier, PowerCost Cost, EquatableImmutableDictionary<string, string> Options)
+    public abstract record PowerModifier(string Name)
     {
-        public PowerModifier(string Modifier, PowerCost Cost) : this(Modifier, Cost, ImmutableDictionary<string, string>.Empty) { }
+        public abstract PowerCost GetCost();
+        // TODO - allow increase
+        public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
     }
+
     public record AttackProfileBuilder(PowerCostBuilder Cost, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers)
     {
-        public PowerCost TotalCost => Modifiers.Aggregate(PowerCost.Empty, (prev, next) => prev + next.Cost);
+        public PowerCost TotalCost => Modifiers.Aggregate(PowerCost.Empty, (prev, next) => prev + next.GetCost());
         public double WeaponDice => TotalCost.Apply(Cost.Initial);
         internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers);
 

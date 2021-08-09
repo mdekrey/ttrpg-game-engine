@@ -5,24 +5,19 @@ Attacks:
   - Weapon
   Target: Range
   Modifiers:
-  - Modifier: Multiple
-    Cost:
+  - Cost:
       Multiplier: 0.66666666666666663
-    Options:
-      Size: 3x3
-      Type: Blast
-  - Modifier: Ability Modifier Damage
-    Cost:
+    Size: 3x3
+    Type: Blast
+    Name: Multiple
+  - Name: Ability Modifier Damage
+  - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Options:
-      Ability: Strength
-  - Modifier: +2 to Defense
-    Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Options:
-      Amount: +2
-      Defense: ArmorClass
-      Duration: EndOfUserNextTurn
-      Target: self
+    Amount:
+      DieCodes:
+        Entries: []
+        Modifier: 2
+      Abilities: {}
+    Target: self
+    Name: +2 to Defense

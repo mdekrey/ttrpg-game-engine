@@ -5,8 +5,9 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record RegenerationFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "Regeneration")
+    public record RegenerationFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
+        public const string ModifierName = "Regeneration";
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
@@ -23,18 +24,19 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            PowerModifier BuildModifier(PowerCost powerCost, GameDiceExpression amount, string target) =>
-                new (Name, powerCost, Build(
-                    ("Amount", amount.ToString()),
-                    ("Duration", nameof(Duration.EndOfEncounter)),
-                    ("Target", target)
-                ));
+            RegenerationModifier BuildModifier(PowerCost powerCost, GameDiceExpression amount, string target) =>
+                new(powerCost, amount, target, Duration.EndOfEncounter);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record RegenerationModifier(PowerCost Cost, GameDiceExpression Amount, string Target, Duration Duration) : PowerModifier(ModifierName)
         {
-            // TODO
-            return effect;
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return effect;
+            }
         }
     }
 }

@@ -6,8 +6,9 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ToHitBoostFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, "To-Hit Bonus")
+    public record ToHitBoostFormula(ImmutableList<string> Keywords) : PowerModifierFormula(Keywords, ModifierName)
     {
+        public const string ModifierName = "To-Hit Bonus";
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
@@ -22,18 +23,19 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            PowerModifier BuildModifier(PowerCost powerCost, GameDiceExpression amount, string condition, string target) =>
-                new (Name, powerCost, Build(
-                    ("Amount", amount.ToString()),
-                    ("Condition", condition),
-                    ("Target", target)
-                ));
+            ToHitBoost BuildModifier(PowerCost powerCost, GameDiceExpression amount, string condition, string target) =>
+                new(powerCost, amount, condition, target);
         }
 
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)
+        public record ToHitBoost(PowerCost Cost, GameDiceExpression Amount, string Condition, string Target) : PowerModifier(ModifierName)
         {
-            // TODO
-            return effect;
+            public override PowerCost GetCost() => Cost;
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return effect;
+            }
         }
     }
 }
