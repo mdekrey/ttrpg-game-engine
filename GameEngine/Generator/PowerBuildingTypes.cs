@@ -26,8 +26,20 @@ namespace GameEngine.Generator
         }
     }
 
-    public record PowerCostBuilder(double Initial, double Minimum)
+    public record AttackLimits(double Initial, double Minimum, int MaxComplexity)
     {
+    }
+
+    public record AttackProfileBuilder(AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers)
+    {
+        public int Complexity => Modifiers.Aggregate(0, (prev, next) => prev + next.GetComplexity());
+        public PowerCost TotalCost => Modifiers.Aggregate(PowerCost.Empty, (prev, next) => prev + next.GetCost());
+        public double WeaponDice => TotalCost.Apply(Limits.Initial);
+        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers);
+
+        internal bool CanApply(PowerModifier modifier) =>
+            (TotalCost + modifier.GetCost()).Apply(Limits.Initial) >= Limits.Minimum
+            && (Complexity + modifier.GetComplexity()) <= Limits.MaxComplexity;
     }
 
     public enum Duration

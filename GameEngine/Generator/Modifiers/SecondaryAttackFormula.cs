@@ -17,7 +17,9 @@ namespace GameEngine.Generator.Modifiers
 
             var available = attack.WeaponDice;
 
-            for (var (current, counter) = (attack.Cost.Minimum, 1); current <= available / 2; (current, counter) = (current + 0.5, counter * 2))
+            // TODO - double attack
+            // TODO - triple atack
+            for (var (current, counter) = (attack.Limits.Minimum, 1); current <= available / 2; (current, counter) = (current + 0.5, counter * 2))
             {
                 var (a, b) = (current, available - current);
                 if (a * 2 < b)
@@ -33,7 +35,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record MultiattackModifier(double Cost, bool IsFollowUp) : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 0;
+            public override int GetComplexity() => IsFollowUp ? 2 : 1;
 
             public override PowerCost GetCost() => new (Fixed: Cost);
 
@@ -46,13 +48,15 @@ namespace GameEngine.Generator.Modifiers
 
             public (AttackProfileBuilder original, AttackProfileBuilder secondary) Unapply(AttackProfileBuilder attack)
             {
+                // TODO - better complexity
                 return (
                     attack with
                     {
                         Modifiers = attack.Modifiers.Where(m => m.Name != ModifierName).ToImmutableList(),
-                        Cost = attack.Cost with
+                        Limits = attack.Limits with
                         {
-                            Initial = attack.Cost.Initial - Cost,
+                            Initial = attack.Limits.Initial - Cost,
+                            MaxComplexity = attack.Limits.MaxComplexity - GetComplexity(),
                         }
                     },
                     attack with
@@ -60,9 +64,10 @@ namespace GameEngine.Generator.Modifiers
                         Modifiers = IsFollowUp
                             ? Build<PowerModifier>(new SecondaryAttackModifier())
                             : ImmutableList<PowerModifier>.Empty,
-                        Cost = attack.Cost with
+                        Limits = attack.Limits with
                         {
                             Initial = IsFollowUp ? Cost * 2 : Cost,
+                            MaxComplexity = attack.Limits.MaxComplexity - (2 - GetComplexity()),
                         },
                     }
                 );

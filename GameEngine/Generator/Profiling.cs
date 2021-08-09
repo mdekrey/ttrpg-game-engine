@@ -60,14 +60,6 @@ namespace GameEngine.Generator
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
     }
 
-    public record AttackProfileBuilder(PowerCostBuilder Cost, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers)
-    {
-        public PowerCost TotalCost => Modifiers.Aggregate(PowerCost.Empty, (prev, next) => prev + next.GetCost());
-        public double WeaponDice => TotalCost.Apply(Cost.Initial);
-        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers);
-
-        internal bool CanApply(PowerModifier modifier) => (TotalCost + modifier.GetCost()).Apply(Cost.Initial) >= Cost.Minimum;
-    }
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<PowerModifier> Modifiers)
     {
     }

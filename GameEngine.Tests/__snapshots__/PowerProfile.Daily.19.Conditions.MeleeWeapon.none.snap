@@ -1,0 +1,34 @@
+﻿Template: Conditions
+Attacks:
+- WeaponDice: 4.5
+  DamageTypes:
+  - Weapon
+  Target: Melee
+  Modifiers:
+  - Name: Ability Modifier Damage
+  - Cost:
+      Fixed: 1
+      Multiplier: 1
+    Duration: SaveEnds
+    Name: Slowed
+  - Cost:
+      Fixed: 1
+      Multiplier: 1
+    Amount:
+      DieCodes:
+        Entries: []
+        Modifier: 5
+      Abilities: {}
+    Target: self
+    Duration: EndOfEncounter
+    Name: Regeneration
+  - Cost:
+      Fixed: 1
+      Multiplier: 1
+    Target: self
+    Name: Healing Surge
+  - Cost:
+      Fixed: 0.5
+      Multiplier: 1
+    Defense: Fortitude
+    Name: Non-Armor Defense

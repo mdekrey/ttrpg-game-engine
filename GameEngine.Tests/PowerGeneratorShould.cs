@@ -99,6 +99,7 @@ namespace GameEngine.Tests
         [InlineData(1, PowerFrequency.Daily, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, "", PowerDefinitions.MultiattackPowerTemplateName)]
         [InlineData(1, PowerFrequency.Daily, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, "", PowerDefinitions.CloseBurstPowerTemplateName)]
         [InlineData(1, PowerFrequency.Encounter, ToolType.Weapon, ToolRange.Range, DamageType.Weapon, "", PowerDefinitions.CloseBlastPowerTemplateName)]
+        [InlineData(19, PowerFrequency.Daily, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, "", PowerDefinitions.ConditionsPowerTemplateName)]
         [Theory]
         public void CreateGeneratePowerProfile(int Level, PowerFrequency powerFrequency, ToolType toolType, ToolRange toolRange, DamageType damageType, string preferredModifier, string powerTemplate)
         {

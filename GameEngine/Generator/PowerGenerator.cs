@@ -170,8 +170,9 @@ namespace GameEngine.Generator
 
         private static AttackProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfileBuilder(
-                new PowerCostBuilder(basePower, 
-                    GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator)
+                new AttackLimits(basePower, 
+                    Minimum: GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator),
+                    MaxComplexity: GetAttackMaxComplexity(info.Usage)
                 ),
                 randomGenerator.RandomEscalatingSelection(
                     info.ToolProfile.Abilities
@@ -184,6 +185,15 @@ namespace GameEngine.Generator
                 info.ToolProfile.Range.ToTargetType(),
                 ImmutableList<PowerModifier>.Empty
             );
+
+        private static int GetAttackMaxComplexity(PowerFrequency usage) =>
+            usage switch
+            {
+                PowerFrequency.AtWill => 1,
+                PowerFrequency.Encounter => 2,
+                PowerFrequency.Daily => 3,
+                _ => throw new ArgumentException($"Invalid enum value: {usage:g}", nameof(usage)),
+            };
 
         private static int GetAttackMinimumPower(double basePower, ClassRole role, RandomGenerator randomGenerator)
         {
