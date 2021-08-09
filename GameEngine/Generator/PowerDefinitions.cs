@@ -72,7 +72,7 @@ namespace GameEngine.Generator
             RandomChances<PowerModifier>[][] GetApplicable(IEnumerable<PowerModifierFormula> modifiers) =>
                 (from mod in modifiers
                  let entries = (from entry in mod.GetOptions(attack, powerInfo)
-                                where attack.CanApply(entry.Result.GetCost())
+                                where attack.CanApply(entry.Result)
                                 select entry).ToArray()
                  where entries.Length > 0
                  let chances = entries.Sum(entry => entry.Chances)

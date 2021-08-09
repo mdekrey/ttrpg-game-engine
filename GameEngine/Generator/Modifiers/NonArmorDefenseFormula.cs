@@ -28,6 +28,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record NonArmorDefenseModifier(PowerCost Cost, DefenseType Defense) : PowerModifier(ModifierName)
         {
+            public override int GetComplexity() => 0;
+
             public override PowerCost GetCost() => Cost;
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)

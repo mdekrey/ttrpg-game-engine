@@ -55,8 +55,8 @@ namespace GameEngine.Generator
 
     public abstract record PowerModifier(string Name)
     {
+        public abstract int GetComplexity();
         public abstract PowerCost GetCost();
-        // TODO - allow increase
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
     }
 
@@ -66,7 +66,7 @@ namespace GameEngine.Generator
         public double WeaponDice => TotalCost.Apply(Cost.Initial);
         internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers);
 
-        internal bool CanApply(PowerCost cost) => (TotalCost + cost).Apply(Cost.Initial) >= Cost.Minimum;
+        internal bool CanApply(PowerModifier modifier) => (TotalCost + modifier.GetCost()).Apply(Cost.Initial) >= Cost.Minimum;
     }
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<PowerModifier> Modifiers)
     {

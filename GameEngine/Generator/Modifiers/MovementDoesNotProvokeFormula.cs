@@ -17,6 +17,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record MovementDoesNotProvokeModifier() : PowerModifier(ModifierName)
         {
+            public override int GetComplexity() => 1;
+
             public override PowerCost GetCost() => new PowerCost(0.5);
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)

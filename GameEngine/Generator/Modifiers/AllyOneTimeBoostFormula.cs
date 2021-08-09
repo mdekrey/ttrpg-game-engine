@@ -22,6 +22,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record AllyOneTimeBoost(string Name, PowerCost Cost, string Target) : PowerModifier(Name)
         {
+            public override int GetComplexity() => 1;
+
             public override PowerCost GetCost() => Cost;
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)

@@ -33,6 +33,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record MultiattackModifier(double Cost, bool IsFollowUp) : PowerModifier(ModifierName)
         {
+            public override int GetComplexity() => 0;
+
             public override PowerCost GetCost() => new (Fixed: Cost);
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
@@ -74,6 +76,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record SecondaryAttackModifier() : PowerModifier(SecondaryAttackModifier.ModifierName)
         {
+            public override int GetComplexity() => 0;
+
             public const string ModifierName = "SecondaryAttack";
 
             public override PowerCost GetCost() => PowerCost.Empty;

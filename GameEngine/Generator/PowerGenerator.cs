@@ -115,17 +115,10 @@ namespace GameEngine.Generator
         public IEnumerable<AttackProfile> GenerateAttacks(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, PowerTemplate powerTemplate)
         {
             var attackBuilders = new Queue<AttackProfileBuilder>();
-            foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Initial ?? Enumerable.Empty<IEnumerable<RandomChances<PowerModifier>>>())
-            {
-                var starterOptions = starterSet.Where(f => attack.CanApply(f.Result.GetCost())).ToArray();
-                if (starterOptions.Length == 0) continue;
-                attack = randomGenerator.RandomSelection(starterOptions).Apply(attack);
-                TrySplit();
-            }
+            ApplyEach(powerTemplate.StarterFormulas(attack, powerInfo).Initial);
             attackBuilders = new Queue<AttackProfileBuilder>(new[] { attack }.Concat(attackBuilders));
 
             var appliedStandardStarter = false;
-
 
             while (attackBuilders.Count > 0)
             {
@@ -135,13 +128,7 @@ namespace GameEngine.Generator
                 if (!appliedStandardStarter)
                 {
                     appliedStandardStarter = true;
-                    foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Standard ?? Enumerable.Empty<IEnumerable<RandomChances<PowerModifier>>>())
-                    {
-                        var starterOptions = starterSet.Where(f => attack.CanApply(f.Result.GetCost())).ToArray();
-                        if (starterOptions.Length == 0) continue;
-                        attack = randomGenerator.RandomSelection(starterOptions).Apply(attack);
-                        TrySplit();
-                    }
+                    ApplyEach(powerTemplate.StarterFormulas(attack, powerInfo).Standard);
                 }
 
                 while (true)
@@ -166,6 +153,17 @@ namespace GameEngine.Generator
                     AttackProfileBuilder next;
                     (attack, next) = secondaryAttackModifier.Unapply(attack);
                     attackBuilders!.Enqueue(next);
+                }
+            }
+
+            void ApplyEach(IEnumerable<IEnumerable<RandomChances<PowerModifier>>>? modifiers)
+            {
+                foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<RandomChances<PowerModifier>>>())
+                {
+                    var starterOptions = starterSet.Where(f => attack.CanApply(f.Result)).ToArray();
+                    if (starterOptions.Length == 0) continue;
+                    attack = randomGenerator.RandomSelection(starterOptions).Apply(attack);
+                    TrySplit();
                 }
             }
         }

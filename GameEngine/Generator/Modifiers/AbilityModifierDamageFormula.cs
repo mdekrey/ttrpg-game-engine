@@ -22,6 +22,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record AbilityModifier(string Name, Ability Ability) : PowerModifier(Name)
         {
+            public override int GetComplexity() => 0;
+
             public override PowerCost GetCost() => new PowerCost(0.5);
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)

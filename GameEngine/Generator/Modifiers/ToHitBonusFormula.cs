@@ -27,6 +27,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record ToHitBonus(PowerCost Cost, GameDiceExpression Amount) : PowerModifier(ModifierName)
         {
+            public override int GetComplexity() => 1;
+
             public override PowerCost GetCost() => Cost;
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)

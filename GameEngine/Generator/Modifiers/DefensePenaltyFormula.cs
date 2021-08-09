@@ -31,6 +31,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record DefensePenalty(PowerCost Cost, DefenseType? Defense, Duration Duration) : PowerModifier(ModifierName)
         {
+            public override int GetComplexity() => 1;
+
             public override PowerCost GetCost() => Cost;
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)

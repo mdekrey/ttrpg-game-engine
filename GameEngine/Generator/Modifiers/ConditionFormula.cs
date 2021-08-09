@@ -31,12 +31,13 @@ namespace GameEngine.Generator.Modifiers
         {
             return from kvp in PowerCost
                    orderby kvp.Key descending
-                   where attack.CanApply(kvp.Value)
                    select (cost: kvp.Value, duration: kvp.Key);
         }
 
         public record ConditionModifier(string Name, PowerCost Cost, Duration Duration) : PowerModifier(Name)
         {
+            public override int GetComplexity() => 1;
+
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 // TODO
