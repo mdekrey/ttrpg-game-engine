@@ -12,5 +12,5 @@ Attacks:
     Name: Non-Armor Defense
   - Name: Ability Modifier Damage
   - Conditions:
-    - Slowed
+    - Name: Slowed
     Name: Condition

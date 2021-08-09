@@ -7,5 +7,5 @@ Attacks:
   Modifiers:
   - Name: Ability Modifier Damage
   - Conditions:
-    - Slowed
+    - Name: Slowed
     Name: Condition

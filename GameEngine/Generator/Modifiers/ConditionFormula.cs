@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using GameEngine.Rules;
 using System.Linq;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using System;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -10,43 +11,61 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Condition";
 
-        private static readonly ImmutableDictionary<(string ConditionName, Duration Duration), PowerCost> conditions = ImmutableDictionary<(string ConditionName, Duration duration), PowerCost>.Empty
-            .Add(("Slowed", Duration.EndOfUserNextTurn), new PowerCost(0.5))
-            .Add(("Slowed", Duration.SaveEnds), new PowerCost(1))
-            .Add(("Dazed", Duration.EndOfUserNextTurn), new PowerCost(0.5))
-            .Add(("Dazed", Duration.SaveEnds), new PowerCost(1))
-            .Add(("Immobilized", Duration.EndOfUserNextTurn), new PowerCost(1))
-            .Add(("Immobilized", Duration.SaveEnds), new PowerCost(2))
-            .Add(("Weakened", Duration.EndOfUserNextTurn), new PowerCost(1))
-            .Add(("Weakened", Duration.SaveEnds), new PowerCost(2))
-            .Add(("Grants Combat Advantage", Duration.EndOfUserNextTurn), new PowerCost(1))
-            .Add(("Grants Combat Advantage", Duration.SaveEnds), new PowerCost(2))
-            .Add(("Blinded", Duration.EndOfUserNextTurn), new PowerCost(1))
-            .Add(("Blinded", Duration.SaveEnds), new PowerCost(2));
+        public record ConditionOptionKey(Condition Condition, Duration Duration);
+        public record ConditionOptionValue(PowerCost Cost, int Chances);
+
+        private static IEnumerable<KeyValuePair<ConditionOptionKey, ConditionOptionValue>> Default(string name, double cost) =>
+            new KeyValuePair<ConditionOptionKey, ConditionOptionValue>[]
+            {
+                new (new (new Condition(name), Duration.EndOfUserNextTurn), new (new PowerCost(Fixed: cost), 5 - (int)(cost * 2))),
+                new (new (new Condition(name), Duration.SaveEnds), new (new PowerCost(Fixed: cost * 2), 5 - (int)(cost * 4))),
+            };
+
+        private static readonly IReadOnlyList<KeyValuePair<ConditionOptionKey, ConditionOptionValue>> conditions = new[]
+        {
+            Default("Slowed", 0.5),
+            Default("Dazed", 0.5),
+            Default("Immobilized", 1),
+            Default("Weakened", 1),
+            Default("Grants Combat Advantage", 1),
+            Default("Blinded", 1),
+            OngoingDamage.Options(),
+        }.SelectMany(e => e).ToArray();
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
-            
+
             foreach (var entry in conditions)
             {
-                var chances = 5 - (int)(entry.Value.Fixed / 0.5);
-
-                yield return new(new ConditionModifier(entry.Key.Duration, Build(entry.Key.ConditionName)), Chances: chances);
+                yield return new(new ConditionModifier(entry.Key.Duration, Build(entry.Key.Condition)), Chances: entry.Value.Chances);
             }
         }
 
-        public record ConditionModifier(Duration Duration, ImmutableList<string> Conditions) : PowerModifier(ModifierName)
+        public record ConditionModifier(Duration Duration, ImmutableList<Condition> Conditions) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
-            public override PowerCost GetCost() => Conditions.Select(c => conditions[(c, Duration)]).Aggregate((a, b) => a + b);
+            public override PowerCost GetCost() => Conditions.Select(c => conditions.First(sample => sample.Key == new ConditionOptionKey(c, Duration)).Value.Cost).Aggregate((a, b) => a + b);
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 // TODO
                 return effect;
             }
+        }
 
+        public record Condition(string Name)
+        {
+        }
+
+        public record OngoingDamage(int Amount) : Condition("Ongoing")
+        {
+            public static IEnumerable<KeyValuePair<ConditionOptionKey, ConditionOptionValue>> Options() =>
+                new KeyValuePair<ConditionOptionKey, ConditionOptionValue>[]
+                {
+                    new (new (new OngoingDamage(5), Duration.SaveEnds), new (new PowerCost(Fixed: 1), 3)),
+                    new (new (new OngoingDamage(10), Duration.SaveEnds), new (new PowerCost(Fixed: 2), 1)),
+                };
         }
     }
 }

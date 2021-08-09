@@ -1,13 +1,13 @@
 ﻿Template: Conditions
 Attacks:
-- WeaponDice: 4.5
+- WeaponDice: 5
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
   - Name: Ability Modifier Damage
   - Conditions:
-    - Grants Combat Advantage
+    - Name: Slowed
     Name: Condition
   - Cost:
       Fixed: 1

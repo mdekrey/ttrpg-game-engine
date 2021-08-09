@@ -24,7 +24,6 @@ namespace GameEngine.Generator
             SecondaryAttack,
             new ToHitBonusFormula(AccuratePowerTemplateName),
             new ConditionFormula(Build(ConditionsPowerTemplateName)),
-            new OngoingDamageFormula(Build(ConditionsPowerTemplateName)),
             new ImmediateConditionFormula("Prone", new PowerCost(1), ConditionsPowerTemplateName),
             new DefensePenaltyFormula(ConditionsPowerTemplateName),
             new ShiftFormula(SkirmishPowerTemplateName),

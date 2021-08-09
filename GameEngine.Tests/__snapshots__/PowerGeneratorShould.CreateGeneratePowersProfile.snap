@@ -122,244 +122,9 @@ Encounter1:
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
-    - Duration: SaveEnds
-      Conditions:
-      - Dazed
-      Name: Condition
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Name: Shift
-Daily1:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 1.5
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Reflex
-      Name: Non-Armor Defense
     - Conditions:
-      - Dazed
+      - Name: Slowed
       Name: Condition
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 2
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 1.5
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Interrupt Penalty
-  Attacks:
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Cost:
-        Fixed: 1.5
-        Multiplier: 1
-      Name: OpportunityAction
-    - Name: Ability Modifier Damage
-    - Conditions:
-      - Dazed
-      Name: Condition
-Encounter3:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 1
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 1
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Reflex
-      Name: Non-Armor Defense
-    - Conditions:
-      - Grants Combat Advantage
-      Name: Condition
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Reflex
-      Name: -2 to Defense
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 2
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Name: Movement after Attack does not provoke
-Daily5:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Name: Shift
-    - Duration: SaveEnds
-      Conditions:
-      - Slowed
-      Name: Condition
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Reflex
-      Name: -2 to Defense
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Name: Shift
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Will
-      Amount:
-        DieCodes:
-          Entries: []
-          Modifier: 2
-        Abilities: {}
-      Target: an ally within 5 squares
-      Name: +2 to Defense
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-          Modifier: 2
-        Abilities: {}
-      Name: To-Hit Bonus to Current Attack
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 2.5
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Duration: SaveEnds
-      Conditions:
-      - Dazed
-      Name: Condition
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-          Modifier: 2
-        Abilities: {}
-      Name: To-Hit Bonus to Current Attack
     - Cost:
         Fixed: 0.5
         Multiplier: 1
@@ -374,29 +139,38 @@ Daily5:
         Multiplier: 1
       Defense: Fortitude
       Name: Non-Armor Defense
-Encounter7:
+Daily1:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 1
-    Ability: Dexterity
+  - WeaponDice: 1.5
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
-    Modifiers: []
-  - WeaponDice: 1
-    Ability: Dexterity
+    Modifiers:
+    - Name: Ability Modifier Damage
+  - WeaponDice: 2
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+- Template: Interrupt Penalty
+  Attacks:
+  - WeaponDice: 2.5
     DamageTypes:
     - Fire
     Target: Range
     Modifiers:
+    - Cost:
+        Fixed: 1.5
+        Multiplier: 1
+      Name: OpportunityAction
     - Name: Ability Modifier Damage
-    - Name: Movement after Attack does not provoke
-- Template: Multiattack
+- Template: Bonus
   Attacks:
-  - WeaponDice: 1
-    Ability: Dexterity
+  - WeaponDice: 2
     DamageTypes:
-    - Weapon
+    - Fire
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
@@ -408,18 +182,85 @@ Encounter7:
           Entries: []
           Modifier: 2
         Abilities: {}
-      Condition: next attack
+      Condition: the target
       Target: an ally within 5 squares
       Name: To-Hit Bonus
-  - WeaponDice: 1
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Dexterity: 1
+      Name: To-Hit Bonus to Current Attack
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Defense: ArmorClass
+      Duration: SaveEnds
+      Name: -2 to Defense
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 2
     Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Name: Movement after Attack does not provoke
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+          Modifier: 2
+        Abilities: {}
+      Condition: next attack
+      Target: self
+      Name: To-Hit Bonus
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Name: Prone
+Encounter3:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 2
     DamageTypes:
     - Weapon
     Target: Range
-    Modifiers: []
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 1
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Weakened
+      Name: Condition
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+          Modifier: 2
+        Abilities: {}
+      Name: To-Hit Bonus to Current Attack
 - Template: Accurate
   Attacks:
   - WeaponDice: 1
+    Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
@@ -428,18 +269,76 @@ Encounter7:
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Defense: Reflex
+      Defense: Fortitude
       Name: Non-Armor Defense
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers: []
+- Template: Interrupt Penalty
+  Attacks:
+  - WeaponDice: 1.5
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Name: OpportunityAction
+    - Name: Ability Modifier Damage
+Daily5:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 4
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Name: Movement after Attack does not provoke
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Name: Shift
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 3
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Duration: SaveEnds
+      Conditions:
+      - Amount: 10
+        Name: Ongoing
+      Name: Condition
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 4
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
     - Cost:
         Fixed: 1
         Multiplier: 1
       Name: Prone
 - Template: Close blast
   Attacks:
-  - WeaponDice: 1
+  - WeaponDice: 2.1666666666666665
     Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Cost:
@@ -448,39 +347,26 @@ Encounter7:
       Type: Blast
       Name: Multiple
     - Name: Ability Modifier Damage
+    - Name: Movement after Attack does not provoke
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Defense: Will
-      Name: -2 to Defense
-Daily9:
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Name: Shift
+Encounter7:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 2.5
-    Ability: Dexterity
+  - WeaponDice: 1
     DamageTypes:
     - Weapon
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 2.5
-    Ability: Dexterity
+  - WeaponDice: 1
     DamageTypes:
     - Weapon
     Target: Range
@@ -488,22 +374,259 @@ Daily9:
     - Name: Ability Modifier Damage
 - Template: Skirmish
   Attacks:
-  - WeaponDice: 5
-    Ability: Dexterity
+  - WeaponDice: 2
     DamageTypes:
     - Weapon
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
     - Name: Movement after Attack does not provoke
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 1
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Blinded
+      Name: Condition
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Defense: Will
-      Name: -2 to Defense
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Dexterity: 1
+      Name: To-Hit Bonus to Current Attack
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+Daily9:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 2.5
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
 - Template: Interrupt Penalty
   Attacks:
-  - WeaponDice: 4
+  - WeaponDice: 2.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Cost:
+        Fixed: 3.5
+        Multiplier: 1
+      Name: OpportunityAction
+    - Name: Ability Modifier Damage
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 1.833333333333333
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Name: Shift
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+          Modifier: 5
+        Abilities: {}
+      Target: self
+      Duration: EndOfEncounter
+      Name: Regeneration
+    - Cost:
+        Multiplier: 0.66666666666666663
+      Size: 3x3
+      Type: Area
+      Name: Multiple
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Name: Prone
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Name: Shift
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Target: nearest ally
+      Name: Extra Saving Throw
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Reflex
+      Name: Non-Armor Defense
+Encounter11:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 1.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Name: Shift
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers: []
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Name: Movement after Attack does not provoke
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Name: Prone
+- Template: Interrupt Penalty
+  Attacks:
+  - WeaponDice: 1.5
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Cost:
+        Fixed: 2
+        Multiplier: 1
+      Name: OpportunityAction
+    - Name: Ability Modifier Damage
+- Template: Bonus
+  Attacks:
+  - WeaponDice: 2
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Condition: next attack
+      Target: nearest ally
+      Name: To-Hit Bonus
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Target: nearest ally
+      Name: Extra Saving Throw
+Encounter13:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 1.5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+  - WeaponDice: 1.5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 3
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Slowed
+      Name: Condition
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -529,123 +652,21 @@ Daily9:
           Strength: 1
       Name: To-Hit Bonus to Current Attack
     - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-Encounter11:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers: []
-  - WeaponDice: 1.5
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Will
-      Name: -2 to Defense
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Reflex
-      Name: Non-Armor Defense
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
         Fixed: 0.5
         Multiplier: 1
       Defense: Fortitude
       Name: Non-Armor Defense
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Target: nearest ally
-      Name: +Temporary Hit Points
-- Template: Skirmish
+- Template: Conditions
   Attacks:
   - WeaponDice: 2
-    Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
-    - Name: Movement after Attack does not provoke
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Target: an ally within 5 squares
-      Name: Extra Saving Throw
-Encounter13:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1.5
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 1.5
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Name: Shift
+    - Conditions:
+      - Name: Blinded
+      Name: Condition
     - Cost:
         Fixed: 0.5
         Multiplier: 1
@@ -656,112 +677,65 @@ Encounter13:
           Dexterity: 1
       Condition: the target
       Target: an ally within 5 squares
-      Name: To-Hit Bonus
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Name: Shift
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Dexterity: 1
-      Condition: the target
-      Target: an ally within 5 squares
-      Name: To-Hit Bonus
-- Template: Bonus
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-          Modifier: 2
-        Abilities: {}
-      Condition: next attack
-      Target: nearest ally
       Name: To-Hit Bonus
 Daily15:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 5
+  - WeaponDice: 6
+    Ability: Dexterity
     DamageTypes:
     - Fire
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
     - Cost:
-        Fixed: 2
+        Fixed: 1
+        Multiplier: 1
+      Name: Prone
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
+    - Cost:
+        Fixed: 1
         Multiplier: 1
       Amount:
         DieCodes:
           Entries: []
-          Modifier: 5
-        Abilities: {}
-      Name: Ongoing Damage
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 3
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
+        Abilities:
+          Strength: 1
+      Target: self
+      Name: +Temporary Hit Points
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Defense: Will
-      Name: -2 to Defense
-- Template: Skirmish
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Name: Shift
+- Template: Bonus
   Attacks:
-  - WeaponDice: 5
+  - WeaponDice: 4.5
     Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Target: nearest ally
+      Name: Healing Surge
     - Cost:
         Fixed: 0.5
         Multiplier: 1
@@ -772,44 +746,50 @@ Daily15:
           Strength: 1
       Name: Shift
     - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+          Modifier: 2
+        Abilities: {}
+      Condition: the target
+      Target: nearest ally
+      Name: To-Hit Bonus
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 4.5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Name: Movement after Attack does not provoke
+    - Cost:
         Fixed: 1
         Multiplier: 1
       Name: Prone
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Defense: Reflex
       Amount:
         DieCodes:
           Entries: []
-          Modifier: 2
-        Abilities: {}
+        Abilities:
+          Dexterity: 1
+      Condition: next attack
       Target: nearest ally
-      Name: +2 to Defense
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 4
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
+      Name: To-Hit Bonus
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Defense: Reflex
+      Defense: Fortitude
       Name: Non-Armor Defense
-    - Cost:
-        Fixed: 2
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-          Modifier: 5
-        Abilities: {}
-      Name: Ongoing Damage
-    - Name: Movement after Attack does not provoke
 Encounter17:
 - Template: Multiattack
   Attacks:
@@ -848,6 +828,8 @@ Encounter17:
     - Cost:
         Fixed: 1
         Multiplier: 1
+      Defense: Will
+      Duration: SaveEnds
       Name: -2 to Defense
     - Cost:
         Fixed: 0.5
@@ -950,7 +932,7 @@ Daily19:
     - Name: Ability Modifier Damage
 - Template: Skirmish
   Attacks:
-  - WeaponDice: 5.5
+  - WeaponDice: 5
     DamageTypes:
     - Fire
     Target: Range
@@ -958,16 +940,15 @@ Daily19:
     - Name: Ability Modifier Damage
     - Name: Movement after Attack does not provoke
     - Cost:
-        Fixed: 0.5
+        Fixed: 1
         Multiplier: 1
-      Defense: Will
       Amount:
         DieCodes:
           Entries: []
-          Modifier: 2
-        Abilities: {}
-      Target: self
-      Name: +2 to Defense
+        Abilities:
+          Dexterity: 1
+      Target: nearest ally
+      Name: +Temporary Hit Points
     - Cost:
         Fixed: 1
         Multiplier: 1
@@ -980,7 +961,7 @@ Daily19:
       Name: Non-Armor Defense
 - Template: Accurate
   Attacks:
-  - WeaponDice: 4.5
+  - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -993,12 +974,18 @@ Daily19:
       Defense: Fortitude
       Name: Non-Armor Defense
     - Cost:
-        Fixed: 1
+        Fixed: 2
         Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+          Modifier: 10
+        Abilities: {}
       Target: an ally within 5 squares
-      Name: Healing Surge
+      Duration: EndOfEncounter
+      Name: Regeneration
     - Conditions:
-      - Grants Combat Advantage
+      - Name: Slowed
       Name: Condition
     - Cost:
         Fixed: 1
@@ -1023,7 +1010,7 @@ Daily20:
     - Name: Ability Modifier Damage
 - Template: Conditions
   Attacks:
-  - WeaponDice: 5.5
+  - WeaponDice: 6
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -1031,7 +1018,7 @@ Daily20:
     Modifiers:
     - Name: Ability Modifier Damage
     - Conditions:
-      - Grants Combat Advantage
+      - Name: Slowed
       Name: Condition
     - Cost:
         Fixed: 0.5
@@ -1210,15 +1197,7 @@ Daily25:
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Name: Shift
+    - Name: Movement after Attack does not provoke
     - Cost:
         Fixed: 1
         Multiplier: 1
@@ -1250,40 +1229,33 @@ Daily25:
     Modifiers:
     - Name: Ability Modifier Damage
     - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-          Modifier: 5
-        Abilities: {}
-      Target: self
-      Duration: EndOfEncounter
-      Name: Regeneration
-    - Cost:
         Fixed: 0.5
         Multiplier: 1
+      Defense: ArmorClass
+      Name: -2 to Defense
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Target: nearest ally
+      Name: Healing Surge
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
       Amount:
         DieCodes:
           Entries: []
-          Modifier: 2
-        Abilities: {}
-      Condition: next attack
-      Target: an ally within 5 squares
-      Name: To-Hit Bonus
+        Abilities:
+          Dexterity: 1
+      Target: nearest ally
+      Name: +Temporary Hit Points
     - Cost:
         Fixed: 0.5
         Multiplier: 1
       Defense: Fortitude
       Name: Non-Armor Defense
-- Template: Skirmish
+- Template: Bonus
   Attacks:
-  - WeaponDice: 8
-    Ability: Dexterity
+  - WeaponDice: 6.5
     DamageTypes:
     - Weapon
     Target: Range
@@ -1296,55 +1268,19 @@ Daily25:
         DieCodes:
           Entries: []
         Abilities:
-          Strength: 1
-      Name: Shift
-    - Name: Movement after Attack does not provoke
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 6
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Conditions:
-      - Weakened
-      Name: Condition
+          Dexterity: 1
+      Condition: next attack
+      Target: an ally within 5 squares
+      Name: To-Hit Bonus
     - Cost:
-        Fixed: 2
+        Fixed: 0.5
         Multiplier: 1
       Amount:
         DieCodes:
           Entries: []
-          Modifier: 5
-        Abilities: {}
-      Name: Ongoing Damage
-Encounter27:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 2.5
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Name: Movement after Attack does not provoke
+        Abilities:
+          Strength: 1
+      Name: Shift
     - Cost:
         Fixed: 1
         Multiplier: 1
@@ -1352,27 +1288,23 @@ Encounter27:
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Defense: Reflex
+      Defense: Fortitude
       Name: Non-Armor Defense
-- Template: Accurate
+- Template: Interrupt Penalty
   Attacks:
-  - WeaponDice: 4
+  - WeaponDice: 4.5
     Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
-    - Name: Ability Modifier Damage
     - Cost:
-        Fixed: 0.5
+        Fixed: 4.5
         Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-          Modifier: 2
-        Abilities: {}
-      Name: To-Hit Bonus to Current Attack
-- Template: Bonus
+      Name: OpportunityAction
+    - Name: Ability Modifier Damage
+Encounter27:
+- Template: Multiattack
   Attacks:
   - WeaponDice: 3
     DamageTypes:
@@ -1383,14 +1315,82 @@ Encounter27:
     - Cost:
         Fixed: 0.5
         Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Condition: the target
+      Target: self
+      Name: To-Hit Bonus
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
       Defense: Will
       Amount:
         DieCodes:
           Entries: []
           Modifier: 2
         Abilities: {}
-      Target: self
+      Target: nearest ally
       Name: +2 to Defense
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Will
+      Name: Non-Armor Defense
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 4
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Name: Movement after Attack does not provoke
+- Template: Bonus
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Condition: the target
+      Target: nearest ally
+      Name: To-Hit Bonus
+    - Conditions:
+      - Name: Weakened
+      Name: Condition
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Dexterity: 1
+      Condition: the target
+      Target: nearest ally
+      Name: To-Hit Bonus
     - Cost:
         Fixed: 1
         Multiplier: 1
@@ -1399,108 +1399,43 @@ Encounter27:
 Daily29:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 8
+  - WeaponDice: 6
     Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Condition: the target
-      Target: nearest ally
-      Name: To-Hit Bonus
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Name: Shift
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Bonus
-  Attacks:
-  - WeaponDice: 6.5
     DamageTypes:
     - Fire
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
     - Cost:
-        Fixed: 1
+        Multiplier: 0.66666666666666663
+      Size: 3x3
+      Type: Blast
+      Name: Multiple
+    - Cost:
+        Fixed: 0.5
         Multiplier: 1
       Amount:
         DieCodes:
           Entries: []
         Abilities:
           Dexterity: 1
+      Condition: the target
       Target: self
-      Name: +Temporary Hit Points
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Target: nearest ally
-      Name: Extra Saving Throw
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Skirmish
+      Name: To-Hit Bonus
+- Template: Accurate
   Attacks:
-  - WeaponDice: 8
+  - WeaponDice: 7.5
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Fire
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-        Abilities:
-          Strength: 1
-      Name: Shift
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount:
-        DieCodes:
-          Entries: []
-          Modifier: 2
-        Abilities: {}
-      Condition: the target
-      Target: nearest ally
-      Name: To-Hit Bonus
+      Defense: Fortitude
+      Name: Non-Armor Defense
     - Cost:
         Fixed: 0.5
         Multiplier: 1
@@ -1510,16 +1445,61 @@ Daily29:
           Entries: []
           Modifier: 2
         Abilities: {}
-      Target: self
+      Target: nearest ally
       Name: +2 to Defense
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Name: Shift
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+          Modifier: 5
+        Abilities: {}
+      Target: self
+      Duration: EndOfEncounter
+      Name: Regeneration
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 8
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Name: Movement after Attack does not provoke
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Condition: next attack
+      Target: an ally within 5 squares
+      Name: To-Hit Bonus
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: -2 to Defense
     - Cost:
         Fixed: 0.5
         Multiplier: 1
       Defense: Fortitude
       Name: Non-Armor Defense
-- Template: Accurate
+- Template: Multiattack
   Attacks:
-  - WeaponDice: 6.5
+  - WeaponDice: 7.5
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -1529,25 +1509,30 @@ Daily29:
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
+      Amount:
+        DieCodes:
+          Entries: []
+        Abilities:
+          Strength: 1
+      Name: Shift
     - Cost:
         Fixed: 1
         Multiplier: 1
       Target: nearest ally
       Name: Extra Saving Throw
     - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-    - Cost:
-        Fixed: 1
+        Fixed: 0.5
         Multiplier: 1
       Amount:
         DieCodes:
           Entries: []
-          Modifier: 5
-        Abilities: {}
-      Target: nearest ally
-      Duration: EndOfEncounter
-      Name: Regeneration
+        Abilities:
+          Dexterity: 1
+      Condition: the target
+      Target: an ally within 5 squares
+      Name: To-Hit Bonus
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
