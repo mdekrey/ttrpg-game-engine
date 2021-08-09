@@ -117,7 +117,7 @@ namespace GameEngine.Generator
             var attackBuilders = new Queue<AttackProfileBuilder>();
             foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Initial ?? Enumerable.Empty<IEnumerable<ApplicablePowerModifierFormula>>())
             {
-                var starterOptions = starterSet.Where(f => attack.Cost.CanApply(f.Cost)).Select(s => (s.Chances, s)).ToArray();
+                var starterOptions = starterSet.Where(f => attack.CanApply(f.Modifier.Cost)).Select(s => (s.Chances, s)).ToArray();
                 if (starterOptions.Length == 0) continue;
                 attack = randomGenerator.RandomSelection(starterOptions).Apply(attack);
                 TrySplit();
@@ -137,7 +137,7 @@ namespace GameEngine.Generator
                     appliedStandardStarter = true;
                     foreach (var starterSet in powerTemplate.StarterFormulas(attack, powerInfo).Standard ?? Enumerable.Empty<IEnumerable<ApplicablePowerModifierFormula>>())
                     {
-                        var starterOptions = starterSet.Where(f => attack.Cost.CanApply(f.Cost)).Select(s => (s.Chances, s)).ToArray();
+                        var starterOptions = starterSet.Where(f => attack.CanApply(f.Modifier.Cost)).Select(s => (s.Chances, s)).ToArray();
                         if (starterOptions.Length == 0) continue;
                         attack = randomGenerator.RandomSelection(starterOptions).Apply(attack);
                         TrySplit();
@@ -172,7 +172,7 @@ namespace GameEngine.Generator
 
         private static AttackProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfileBuilder(
-                new PowerCostBuilder(basePower, PowerCost.Empty,
+                new PowerCostBuilder(basePower, 
                     GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator)
                 ),
                 randomGenerator.RandomEscalatingSelection(
@@ -184,7 +184,7 @@ namespace GameEngine.Generator
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                 )),
                 info.ToolProfile.Range.ToTargetType(),
-                ImmutableList<PowerModifier>.Empty
+                ImmutableList<PowerModifierBuilder>.Empty
             );
 
         private static int GetAttackMinimumPower(double basePower, ClassRole role, RandomGenerator randomGenerator)

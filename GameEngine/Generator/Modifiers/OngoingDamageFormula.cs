@@ -14,11 +14,11 @@ namespace GameEngine.Generator.Modifiers
             var amounts = new[] { 5, 10 };
             foreach (var amount in amounts)
             {
-                yield return new(new PowerCost(amount / 2.5), BuildModifier(amount));
+                yield return new(BuildModifier(amount, new PowerCost(amount / 2.5)));
             }
 
-            PowerModifier BuildModifier(GameDiceExpression amount) =>
-                new PowerModifier(Name, Build(
+            PowerModifierBuilder BuildModifier(GameDiceExpression amount, PowerCost Cost) =>
+                new (Name, Cost, Build(
                     ("Amount", amount.ToString())
                 ));
         }

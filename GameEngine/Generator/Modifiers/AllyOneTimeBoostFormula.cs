@@ -13,11 +13,11 @@ namespace GameEngine.Generator.Modifiers
             var targets = new[] { "self", "nearest ally", "an ally within 5 squares" };
             foreach (var target in targets)
             {
-                yield return new(Cost, BuildModifier(target));
+                yield return new(BuildModifier(target, Cost));
             }
 
-            PowerModifier BuildModifier(string target) =>
-                new PowerModifier(Name, Build(
+            PowerModifierBuilder BuildModifier(string target, PowerCost cost) =>
+                new (Name, cost, Build(
                     ("Target", target)
                 ));
         }

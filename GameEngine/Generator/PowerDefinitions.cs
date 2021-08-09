@@ -41,7 +41,7 @@ namespace GameEngine.Generator
         private static AttackProfileBuilder PreApplyImplementNonArmorDefense(this AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
             powerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, powerInfo, randomGenerator) : attack;
         private static AttackProfileBuilder PreApplyAbilityDamage(this AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator) =>
-            (attack.Cost.Result, powerInfo.ToolProfile.Type) is ( > 0.5, ToolType.Implement) or ( > 1, _) ? ModifierDefinitions.AbilityModifierDamage.Apply(attack, powerInfo, randomGenerator) : attack;
+            (attack.WeaponDice, powerInfo.ToolProfile.Type) is ( > 0.5, ToolType.Implement) or ( > 1, _) ? ModifierDefinitions.AbilityModifierDamage.Apply(attack, powerInfo, randomGenerator) : attack;
 
         private static AttackProfileBuilder Apply(this PowerModifierFormula formula, AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, RandomGenerator randomGenerator)
         {
@@ -73,7 +73,7 @@ namespace GameEngine.Generator
             ApplicablePowerModifierFormula[][] GetApplicable(IEnumerable<PowerModifierFormula> modifiers) =>
                 (from mod in modifiers
                  let entries = (from entry in mod.GetOptions(attack, powerInfo)
-                                where attack.Cost.CanApply(entry.Cost)
+                                where attack.CanApply(entry.Modifier.Cost)
                                 select entry).ToArray()
                  where entries.Length > 0
                  let chances = entries.Sum(entry => entry.Chances)

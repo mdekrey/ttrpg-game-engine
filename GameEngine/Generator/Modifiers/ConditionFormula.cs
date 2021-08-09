@@ -19,12 +19,12 @@ namespace GameEngine.Generator.Modifiers
             var prevThreshold = 0;
             foreach (var powerCost in PowerCost.EscalatingOdds())
             {
-                yield return new(powerCost.result.Value, BuildModifier(powerCost.result.Key), Chances: powerCost.threshold - prevThreshold);
+                yield return new(BuildModifier(powerCost.result.Key, powerCost.result.Value), Chances: powerCost.threshold - prevThreshold);
                 prevThreshold = powerCost.threshold;
             }
 
-            PowerModifier BuildModifier(Duration duration) =>
-                new PowerModifier(Name, Build(
+            PowerModifierBuilder BuildModifier(Duration duration, PowerCost cost) =>
+                new (Name, cost, Build(
                     ("Duration", duration.ToString("g"))
                 ));
         }
@@ -33,7 +33,7 @@ namespace GameEngine.Generator.Modifiers
         {
             return from kvp in PowerCost
                    orderby kvp.Key descending
-                   where attack.Cost.CanApply(kvp.Value)
+                   where attack.CanApply(kvp.Value)
                    select (cost: kvp.Value, duration: kvp.Key);
         }
 

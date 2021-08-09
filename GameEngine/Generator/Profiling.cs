@@ -1,4 +1,5 @@
 ﻿using GameEngine.Rules;
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -56,9 +57,18 @@ namespace GameEngine.Generator
     {
         public PowerModifier(string Modifier): this(Modifier, ImmutableDictionary<string, string>.Empty)  { }
     }
-    public record AttackProfileBuilder(PowerCostBuilder Cost, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers)
+    public record PowerModifierBuilder(string Modifier, PowerCost Cost, ImmutableDictionary<string, string> Options)
     {
-        internal AttackProfile Build() => new AttackProfile(Cost.Result, Ability, DamageTypes, Target, Modifiers);
+        public PowerModifierBuilder(string Modifier, PowerCost Cost) : this(Modifier, Cost, ImmutableDictionary<string, string>.Empty) { }
+        internal PowerModifier Build() => new PowerModifier(Modifier, Options);
+    }
+    public record AttackProfileBuilder(PowerCostBuilder Cost, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifierBuilder> Modifiers)
+    {
+        public PowerCost TotalCost => Modifiers.Aggregate(PowerCost.Empty, (prev, next) => prev + next.Cost);
+        public double WeaponDice => TotalCost.Apply(Cost.Initial);
+        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers.Select(m => m.Build()).ToImmutableList());
+
+        internal bool CanApply(PowerCost cost) => (TotalCost + cost).Apply(Cost.Initial) >= Cost.Minimum;
     }
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<PowerModifier> Modifiers)
     {

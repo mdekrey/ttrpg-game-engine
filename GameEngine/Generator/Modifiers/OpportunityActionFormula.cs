@@ -14,7 +14,7 @@ namespace GameEngine.Generator.Modifiers
 
             var cost = new PowerCost(PowerGenerator.GetBasePower(powerInfo.Level, powerInfo.Usage) - PowerGenerator.GetBasePower(powerInfo.Level, powerInfo.Usage - 1));
 
-            yield return new(cost, new PowerModifier(Name));
+            yield return new(new (Name, cost));
         }
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)

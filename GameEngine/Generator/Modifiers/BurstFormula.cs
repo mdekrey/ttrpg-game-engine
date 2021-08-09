@@ -24,16 +24,16 @@ namespace GameEngine.Generator.Modifiers
             foreach (var size in sizes)
             {
                 if (attack.Target != TargetType.Range || powerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new(size.Cost, BuildModifier(type: "Burst", size: size.Size));
+                    yield return new(BuildModifier(type: "Burst", size: size.Size, cost: size.Cost));
                 if (attack.Target != TargetType.Melee || powerInfo.ToolProfile.Type != ToolType.Weapon)
                 {
-                    yield return new(size.Cost, BuildModifier(type: "Blast", size: size.Size));
-                    yield return new(size.Cost, BuildModifier(type: "Area", size: size.Size));
+                    yield return new(BuildModifier(type: "Blast", size: size.Size, cost: size.Cost));
+                    yield return new(BuildModifier(type: "Area", size: size.Size, cost: size.Cost));
                 }
             }
 
-            PowerModifier BuildModifier(string type, string size) =>
-                new PowerModifier(Name, Build(("Size", size), ("Type", type)));
+            PowerModifierBuilder BuildModifier(string type, string size, PowerCost cost) =>
+                new (Name, cost, Build(("Size", size), ("Type", type)));
         }
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)

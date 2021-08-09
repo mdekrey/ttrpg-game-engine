@@ -17,13 +17,13 @@ namespace GameEngine.Generator.Modifiers
             {
                 foreach (var target in targets)
                 {
-                    yield return new(new PowerCost(0.5), BuildModifier(amount, "next attack", target));
-                    yield return new(new PowerCost(0.5), BuildModifier(amount, "the target", target));
+                    yield return new(BuildModifier(new PowerCost(0.5), amount, "next attack", target));
+                    yield return new(BuildModifier(new PowerCost(0.5), amount, "the target", target));
                 }
             }
 
-            PowerModifier BuildModifier(GameDiceExpression amount, string condition, string target) =>
-                new PowerModifier(Name, Build(
+            PowerModifierBuilder BuildModifier(PowerCost powerCost, GameDiceExpression amount, string condition, string target) =>
+                new (Name, powerCost, Build(
                     ("Amount", amount.ToString()),
                     ("Condition", condition),
                     ("Target", target)

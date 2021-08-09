@@ -15,10 +15,10 @@ namespace GameEngine.Generator.Modifiers
         {
             if (HasModifier(attack)) yield break;
 
-            yield return new(Cost, BuildModifier());
+            yield return new(BuildModifier());
 
-            PowerModifier BuildModifier() =>
-                new PowerModifier(Name);
+            PowerModifierBuilder BuildModifier() =>
+                new (Name, Cost);
         }
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)

@@ -19,12 +19,12 @@ namespace GameEngine.Generator.Modifiers
             {
                 foreach (var target in targets)
                 {
-                    yield return new(new PowerCost(amount / 5.0), BuildModifier(amount, target));
+                    yield return new(BuildModifier(new PowerCost(amount / 5.0), amount, target));
                 }
             }
 
-            PowerModifier BuildModifier(GameDiceExpression amount, string target) =>
-                new PowerModifier(Name, Build(
+            PowerModifierBuilder BuildModifier(PowerCost powerCost, GameDiceExpression amount, string target) =>
+                new (Name, powerCost, Build(
                     ("Amount", amount.ToString()),
                     ("Duration", nameof(Duration.EndOfEncounter)),
                     ("Target", target)

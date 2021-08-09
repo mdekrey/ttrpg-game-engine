@@ -26,16 +26,8 @@ namespace GameEngine.Generator
         }
     }
 
-    public record PowerCostBuilder(double Initial, PowerCost CurrentCost, double Minimum)
+    public record PowerCostBuilder(double Initial, double Minimum)
     {
-        public static PowerCostBuilder operator +(PowerCostBuilder builder, PowerCost rhs)
-        {
-            return builder with { CurrentCost = builder.CurrentCost + rhs };
-        }
-
-        public double Result => CurrentCost.Apply(Initial);
-
-        public bool CanApply(PowerCost newCost) => (newCost.Multiplier == 1 || CurrentCost.Multiplier == 1) && (this + newCost).Result >= Minimum;
     }
 
     public enum Duration
@@ -45,13 +37,12 @@ namespace GameEngine.Generator
         EndOfEncounter,
     }
 
-    public record ApplicablePowerModifierFormula(PowerCost Cost, PowerModifier Modifier, Func<AttackProfileBuilder, AttackProfileBuilder>? AdditionalMutator = null, int Chances = 1)
+    public record ApplicablePowerModifierFormula(PowerModifierBuilder Modifier, Func<AttackProfileBuilder, AttackProfileBuilder>? AdditionalMutator = null, int Chances = 1)
     {
         public AttackProfileBuilder Apply(AttackProfileBuilder attack)
         {
             attack = attack with
             {
-                Cost = attack.Cost + Cost,
                 Modifiers = attack.Modifiers.Add(Modifier),
             };
             return AdditionalMutator?.Invoke(attack) ?? attack;
@@ -64,21 +55,6 @@ namespace GameEngine.Generator
         protected bool HasModifier(AttackProfileBuilder attack, string? name = null) => attack.Modifiers.Count(m => m.Modifier == (name ?? Name)) > 0;
 
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier);
-    }
-
-    [Obsolete]
-    public record TempPowerModifierFormula(ImmutableList<string> Keywords, string Name, PowerCost Cost) : PowerModifierFormula(Keywords, Name)
-    {
-        public TempPowerModifierFormula(string Keyword, string Name, PowerCost Cost)
-            : this(Build(Keyword), Name, Cost) { }
-
-        public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
-        {
-            if (HasModifier(attack)) yield break;
-            yield return new(Cost, new PowerModifier(Name, ImmutableDictionary<string, string>.Empty));
-        }
-
-        public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier powerModifier) => effect;
     }
 
     public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile, ClassRole ClassRole);

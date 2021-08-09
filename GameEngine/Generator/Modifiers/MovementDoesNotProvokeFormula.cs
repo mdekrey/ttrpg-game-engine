@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
         public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
-            yield return new(new PowerCost(0.5), new PowerModifier(Name));
+            yield return new(new (Name, new PowerCost(0.5)));
         }
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)

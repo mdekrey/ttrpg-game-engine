@@ -12,20 +12,20 @@ namespace GameEngine.Generator.Modifiers
         public override IEnumerable<ApplicablePowerModifierFormula> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
         {
             if (HasModifier(attack)) yield break;
-            yield return new(new PowerCost(0.5), BuildModifier(DefenseType.ArmorClass, Duration.EndOfUserNextTurn));
-            yield return new(new PowerCost(0.5), BuildModifier(DefenseType.Fortitude, Duration.EndOfUserNextTurn));
-            yield return new(new PowerCost(0.5), BuildModifier(DefenseType.Reflex, Duration.EndOfUserNextTurn));
-            yield return new(new PowerCost(0.5), BuildModifier(DefenseType.Will, Duration.EndOfUserNextTurn));
-            yield return new(new PowerCost(1), BuildModifier(DefenseType.ArmorClass, Duration.SaveEnds));
-            yield return new(new PowerCost(1), BuildModifier(DefenseType.Fortitude, Duration.SaveEnds));
-            yield return new(new PowerCost(1), BuildModifier(DefenseType.Reflex, Duration.SaveEnds));
-            yield return new(new PowerCost(1), BuildModifier(DefenseType.Will, Duration.SaveEnds));
+            yield return new(BuildModifier(new PowerCost(0.5), DefenseType.ArmorClass, Duration.EndOfUserNextTurn));
+            yield return new(BuildModifier(new PowerCost(0.5), DefenseType.Fortitude, Duration.EndOfUserNextTurn));
+            yield return new(BuildModifier(new PowerCost(0.5), DefenseType.Reflex, Duration.EndOfUserNextTurn));
+            yield return new(BuildModifier(new PowerCost(0.5), DefenseType.Will, Duration.EndOfUserNextTurn));
+            yield return new(BuildModifier(new PowerCost(1), DefenseType.ArmorClass, Duration.SaveEnds));
+            yield return new(BuildModifier(new PowerCost(1), DefenseType.Fortitude, Duration.SaveEnds));
+            yield return new(BuildModifier(new PowerCost(1), DefenseType.Reflex, Duration.SaveEnds));
+            yield return new(BuildModifier(new PowerCost(1), DefenseType.Will, Duration.SaveEnds));
 
-            yield return new(new PowerCost(1), BuildModifier(null, Duration.EndOfUserNextTurn));
-            yield return new(new PowerCost(2), BuildModifier(null, Duration.SaveEnds));
+            yield return new(BuildModifier(new PowerCost(1), null, Duration.EndOfUserNextTurn));
+            yield return new(BuildModifier(new PowerCost(2), null, Duration.SaveEnds));
 
-            PowerModifier BuildModifier(DefenseType? defense, Duration duration) =>
-                new PowerModifier(Name, Build(
+            PowerModifierBuilder BuildModifier(PowerCost powerCost, DefenseType? defense, Duration duration) =>
+                new (Name, powerCost, Build(
                     ("Defense", defense?.ToString("g") ?? "All"),
                     ("Duration", duration.ToString("g"))
                 ));

@@ -15,13 +15,13 @@ namespace GameEngine.Generator.Modifiers
         {
             if (HasModifier(attack)) yield break;
             var cost = powerInfo.ToolProfile.Type == ToolType.Implement ? new PowerCost(0) : new PowerCost(0.5);
-            yield return new(cost, BuildModifier(powerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
-            yield return new(cost, BuildModifier(DefenseType.Fortitude), Chances: 1);
-            yield return new(cost, BuildModifier(DefenseType.Reflex), Chances: 1);
-            yield return new(cost, BuildModifier(DefenseType.Will), Chances: 1);
+            yield return new(BuildModifier(cost, powerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
+            yield return new(BuildModifier(cost, DefenseType.Fortitude), Chances: 1);
+            yield return new(BuildModifier(cost, DefenseType.Reflex), Chances: 1);
+            yield return new(BuildModifier(cost, DefenseType.Will), Chances: 1);
 
-            PowerModifier BuildModifier(DefenseType defense) =>
-                new PowerModifier(Name, Build(("Defense", defense.ToString("g"))));
+            PowerModifierBuilder BuildModifier(PowerCost cost, DefenseType defense) =>
+                new (Name, cost, Build(("Defense", defense.ToString("g"))));
         }
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)

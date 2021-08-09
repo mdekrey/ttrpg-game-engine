@@ -17,11 +17,11 @@ namespace GameEngine.Generator.Modifiers
         {
             if (HasModifier(attack)) yield break;
             foreach (var entry in powerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
-                yield return new(new PowerCost(0.5), BuildModifier((GameDiceExpression)entry), Chances: 1);
-            yield return new(new PowerCost(0.5), BuildModifier(2), Chances: 5);
+                yield return new(BuildModifier(new PowerCost(0.5), (GameDiceExpression)entry), Chances: 1);
+            yield return new(BuildModifier(new PowerCost(0.5), 2), Chances: 5);
 
-            PowerModifier BuildModifier(GameDiceExpression dice) =>
-                new PowerModifier(Name, Build(("Amount", dice.ToString())));
+            PowerModifierBuilder BuildModifier(PowerCost powerCost, GameDiceExpression dice) =>
+                new (Name, powerCost, Build(("Amount", dice.ToString())));
         }
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)

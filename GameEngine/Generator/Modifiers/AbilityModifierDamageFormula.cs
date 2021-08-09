@@ -14,10 +14,10 @@ namespace GameEngine.Generator.Modifiers
         {
             if (HasModifier(attack)) yield break;
             // TODO - allow primary and secondary damage
-            yield return new(new PowerCost(0.5), BuildModifier(powerInfo.ToolProfile.Abilities[0]));
+            yield return new(BuildModifier(powerInfo.ToolProfile.Abilities[0], new PowerCost(0.5)));
 
-            PowerModifier BuildModifier(Ability ability) =>
-                new PowerModifier(Name, Build(("Ability", ability.ToString("g"))));
+            PowerModifierBuilder BuildModifier(Ability ability, PowerCost cost) =>
+                new (Name, cost, Build(("Ability", ability.ToString("g"))));
         }
 
         public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile, PowerModifier modifier)

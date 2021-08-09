@@ -13,10 +13,10 @@ namespace GameEngine.Generator.Modifiers
         {
             if (HasModifier(attack)) yield break;
             // TODO - allow sliding allies, fixed numbers, etc.
-            yield return new(new PowerCost(0.5), BuildModifier((GameDiceExpression)powerInfo.ToolProfile.Abilities[0]));
+            yield return new(BuildModifier((GameDiceExpression)powerInfo.ToolProfile.Abilities[0], new PowerCost(0.5)));
 
-            PowerModifier BuildModifier(GameDiceExpression amount) =>
-                new PowerModifier(Name, Build(
+            PowerModifierBuilder BuildModifier(GameDiceExpression amount, PowerCost cost) =>
+                new (Name, cost, Build(
                     ("Amount", amount.ToString())
                 ));
         }

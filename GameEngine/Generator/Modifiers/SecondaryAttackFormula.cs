@@ -15,7 +15,7 @@ namespace GameEngine.Generator.Modifiers
         {
             if (HasModifier(attack) || HasModifier(attack, BurstFormula.ModifierName)) yield break;
 
-            var available = attack.Cost.Result;
+            var available = attack.WeaponDice;
 
             for (var (current, counter) = (attack.Cost.Minimum, 1); current <= available / 2; (current, counter) = (current + 0.5, counter * 2))
             {
@@ -23,14 +23,14 @@ namespace GameEngine.Generator.Modifiers
                 var costA = new PowerCost(Fixed: b);
                 var costB = new PowerCost(Fixed: a);
                 if (a * 2 < b)
-                    yield return new(costB, BuildModifier(nextAttack: a * 2, original: b, cost: costB.Fixed, isFollowUp: true), Chances: counter * (a == b ? 2 : 1));
-                yield return new(costB, BuildModifier(nextAttack: a, original: b, cost: costB.Fixed), Chances: counter * (a == b ? 2 : 1));
+                    yield return new(BuildModifier(costB, nextAttack: a * 2, original: b, cost: costB.Fixed, isFollowUp: true), Chances: counter * (a == b ? 2 : 1));
+                yield return new(BuildModifier(costB, nextAttack: a, original: b, cost: costB.Fixed), Chances: counter * (a == b ? 2 : 1));
                 if (a != b)
-                    yield return new(costA, BuildModifier(nextAttack: b, original: a, cost: costA.Fixed), Chances: counter);
+                    yield return new(BuildModifier(costA, nextAttack: b, original: a, cost: costA.Fixed), Chances: counter);
             }
 
-            PowerModifier BuildModifier(double nextAttack, double original, double cost, bool isFollowUp = false) =>
-                new PowerModifier(Name, Build(
+            PowerModifierBuilder BuildModifier(PowerCost powerCost, double nextAttack, double original, double cost, bool isFollowUp = false) =>
+                new PowerModifierBuilder(Name, powerCost, Build(
                     ("NextAttack", nextAttack.ToString("0.0")),
                     ("Remaining", original.ToString("0.0")),
                     ("Cost", cost.ToString("0.0")),
@@ -44,7 +44,7 @@ namespace GameEngine.Generator.Modifiers
             throw new System.NotSupportedException();
         }
 
-        internal static PowerModifier? NeedToSplit(AttackProfileBuilder attack)
+        internal static PowerModifierBuilder? NeedToSplit(AttackProfileBuilder attack)
         {
             return attack.Modifiers.FirstOrDefault(m => m.Modifier == ModifierName);
         }
@@ -61,18 +61,16 @@ namespace GameEngine.Generator.Modifiers
                     Modifiers = attack.Modifiers.Where(m => m.Modifier != ModifierName).ToImmutableList(), 
                     Cost = attack.Cost with 
                     { 
-                        CurrentCost = attack.Cost.CurrentCost with { Fixed = attack.Cost.CurrentCost.Fixed - cost },
                         Initial = attack.Cost.Initial - cost,
                     }
                 },
                 attack with
                 {
                     Modifiers = isFollowUp
-                        ? Build(new PowerModifier(SecondaryAttackFormula.ModifierName))
-                        : ImmutableList<PowerModifier>.Empty,
+                        ? Build(new PowerModifierBuilder(SecondaryAttackFormula.ModifierName, PowerCost.Empty))
+                        : ImmutableList<PowerModifierBuilder>.Empty,
                     Cost = attack.Cost with
                     {
-                        CurrentCost = PowerCost.Empty,
                         Initial = nextAttack,
                     },
                 }

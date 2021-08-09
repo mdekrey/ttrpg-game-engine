@@ -16,14 +16,14 @@ namespace GameEngine.Generator.Modifiers
             {
                 foreach (var target in targets)
                 {
-                    yield return new(new PowerCost(0.5), BuildModifier(defense, Duration.EndOfUserNextTurn, target));
+                    yield return new(BuildModifier(new PowerCost(0.5), defense, Duration.EndOfUserNextTurn, target));
                     if (powerInfo.Usage == PowerFrequency.Daily)
-                        yield return new(new PowerCost(Multiplier: 0.5), BuildModifier(defense, Duration.EndOfEncounter, target));
+                        yield return new(BuildModifier(new PowerCost(Multiplier: 0.5), defense, Duration.EndOfEncounter, target));
                 }
             }
 
-            PowerModifier BuildModifier(DefenseType defense, Duration duration, string target) =>
-                new PowerModifier(Name, Build(
+            PowerModifierBuilder BuildModifier(PowerCost powerCost, DefenseType defense, Duration duration, string target) =>
+                new (Name, powerCost, Build(
                     ("Defense", defense.ToString("g")),
                     ("Amount", "+2"),
                     ("Duration", duration.ToString("g")),
