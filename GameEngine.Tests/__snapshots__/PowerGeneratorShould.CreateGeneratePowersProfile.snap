@@ -94,7 +94,7 @@ Encounter1:
     - Weapon
     Target: Range
     Modifiers:
-    - Size: 3x3
+    - Size: 3
       Type: Blast
       Name: Multiple
     - Name: Ability Modifier Damage
@@ -358,7 +358,7 @@ Encounter7:
         Amount: STR
         Name: Shift
       Name: Skirmish Movement
-    - Size: 3x3
+    - Size: 3
       Type: Blast
       Name: Multiple
 - Template: Multiattack
@@ -495,7 +495,7 @@ Encounter11:
     - Weapon
     Target: Range
     Modifiers:
-    - Size: 3x3
+    - Size: 3
       Type: Blast
       Name: Multiple
     - Name: Ability Modifier Damage
@@ -542,7 +542,7 @@ Encounter13:
     - Weapon
     Target: Range
     Modifiers:
-    - Size: 3x3
+    - Size: 3
       Type: Blast
       Name: Multiple
     - Name: Ability Modifier Damage
@@ -612,7 +612,7 @@ Daily15:
     - Weapon
     Target: Range
     Modifiers:
-    - Size: 3x3
+    - Size: 3
       Type: Blast
       Name: Multiple
     - Name: Ability Modifier Damage
@@ -695,7 +695,7 @@ Encounter17:
     - Weapon
     Target: Range
     Modifiers:
-    - Size: 3x3
+    - Size: 3
       Type: Blast
       Name: Multiple
     - Name: Ability Modifier Damage

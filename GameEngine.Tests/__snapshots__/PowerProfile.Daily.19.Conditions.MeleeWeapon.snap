@@ -11,6 +11,5 @@ Attacks:
     Name: Condition
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Size: 3x3
-    Type: Burst
+  - Size: 3
     Name: Multiple

@@ -114,7 +114,7 @@ namespace GameEngine.Generator
             public CloseBurstPowerTemplate() : base(CloseBurstPowerTemplateName) { }
             public override StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder) =>
                 new(Initial:
-                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder).Where(a => a.Result is Modifiers.BurstFormula.BurstModifier { Type: "Burst" }) }
+                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder).Where(a => a.Result is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Burst }) }
                 );
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill, ToolProfile: { Range: ToolRange.Melee } } or { ToolProfile: { Type: ToolType.Implement } };
         }
@@ -148,7 +148,7 @@ namespace GameEngine.Generator
             public CloseBlastPowerTemplate() : base(CloseBlastPowerTemplateName) { }
             public override StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder) =>
                 new(Initial:
-                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder).Where(a => a.Result is Modifiers.BurstFormula.BurstModifier { Type: "Blast" }) }
+                    new[] { ModifierDefinitions.Multiple3x3.GetOptions(attackProfileBuilder).Where(a => a.Result is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Blast }) }
                 );
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { ToolProfile: { Type: ToolType.Implement } } or { ToolProfile: { Type: ToolType.Weapon, Range: ToolRange.Range }, Usage: not PowerFrequency.AtWill };
         }

@@ -6,8 +6,7 @@ Attacks:
   - Radiant
   Target: Range
   Modifiers:
-  - Size: 3x3
-    Type: Burst
+  - Size: 3
     Name: Multiple
   - Defense: Fortitude
     Name: Non-Armor Defense

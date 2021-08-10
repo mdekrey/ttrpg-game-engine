@@ -5,7 +5,7 @@ Attacks:
   - Weapon
   Target: Range
   Modifiers:
-  - Size: 3x3
+  - Size: 3
     Type: Blast
     Name: Multiple
   - Name: Ability Modifier Damage
