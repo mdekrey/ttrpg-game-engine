@@ -45,6 +45,13 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => 1;
 
             public override PowerCost GetCost() => new PowerCost(Multiplier: 2.0 / Size); // TODO - is this right?
+
+            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+                new[]
+                {
+                    new RandomChances<PowerModifier>(this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) })
+                };
+
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 return Pipe(

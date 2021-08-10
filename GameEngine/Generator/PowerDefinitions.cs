@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator
 {
@@ -52,25 +53,23 @@ namespace GameEngine.Generator
 
         public static AttackProfileBuilder ApplyRandomModifiers(this AttackProfileBuilder attack, PowerModifierFormula[] modifiers, RandomGenerator randomGenerator)
         {
-            if (modifiers.Length == 0) return attack;
-
-            // TODO - I'd like this a lot better if it were flattened, but that requires LCM and other calculations... it may not be worth it.
-            var validModifiers = GetApplicable(from mod in modifiers
-                                               select mod);
+            var validModifiers = Enumerable.Concat(
+                from mod in modifiers
+                from entry in mod.GetOptions(attack)
+                where attack.CanApply(entry.Result)
+                select new RandomChances<Transform<AttackProfileBuilder>>(a => entry.Result.Apply(a), Chances: entry.Chances),
+                from mod in attack.Modifiers
+                from upgrade in mod.GetUpgrades(attack)
+                where attack.CanSwap(mod, upgrade.Result)
+                select new RandomChances<Transform<AttackProfileBuilder>>(a => upgrade.Result.Apply(a, mod), Chances: upgrade.Chances)
+            ).ToArray();
             if (validModifiers.Length == 0)
                 return attack;
-            var modifier = randomGenerator.RandomSelection(validModifiers);
-            if (modifier != null)
-                attack = modifier.Apply(attack);
+            var transform = randomGenerator.RandomSelection(validModifiers);
+            if (transform != null)
+                attack = transform(attack);
 
             return attack;
-
-            RandomChances<PowerModifier>[] GetApplicable(IEnumerable<PowerModifierFormula> modifiers) =>
-                (from mod in modifiers
-                 from entry in mod.GetOptions(attack)
-                 where attack.CanApply(entry.Result)
-                 select entry
-                ).ToArray();
         }
 
         private record AccuratePowerTemplate : PowerTemplate

@@ -113,6 +113,10 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost() => new PowerCost(Fixed: Boosts.Select(m => m.Cost() * (m.DurationAffected() ? DurationMultiplier(Duration) : 1)).Sum());
 
+            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+                // TODO
+                Enumerable.Empty<RandomChances<PowerModifier>>();
+
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 // TODO

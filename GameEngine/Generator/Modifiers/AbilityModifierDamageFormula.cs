@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 using static GameEngine.Generator.PowerBuildingExtensions;
@@ -11,28 +12,36 @@ namespace GameEngine.Generator.Modifiers
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
-            // TODO - allow primary and secondary damage
             yield return new(BuildModifier(attack.PowerInfo.ToolProfile.Abilities[0]));
 
             AbilityModifier BuildModifier(Ability ability) =>
                 new (Name, ability);
         }
 
-        public record AbilityModifier(string Name, Ability Ability) : PowerModifier(Name)
+        public record AbilityModifier(string Name, Ability Ability, Ability? Secondary = null) : PowerModifier(Name)
         {
             public override int GetComplexity() => 0;
 
-            public override PowerCost GetCost() => new PowerCost(0.5);
+            public override PowerCost GetCost() => new PowerCost(Secondary == null ? 0.5 : 1);
+
+            // TODO - how do we make this an upgrade of "last resort" to round out the numbers?
+            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+                /*Secondary == null
+                    ? attack.PowerInfo.ToolProfile.Abilities.Skip(1).Select(secondary =>
+                        new RandomChances<PowerModifier>(this with { Secondary = secondary }))
+                    : */
+                Enumerable.Empty<RandomChances<PowerModifier>>();
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 return ModifyTarget(ModifyAttack(ModifyHit(ModifyDamage(
                     damage =>
                     {
-                        var ability = Ability;
-
                         var initial = damage[0];
-                        var dice = GameDiceExpression.Parse(initial.Amount) + ability;
+                        var dice = GameDiceExpression.Parse(initial.Amount) + Ability;
+
+                        if (Secondary != null)
+                            dice += Secondary.Value;
 
                         return damage.SetItem(0, initial with
                         {

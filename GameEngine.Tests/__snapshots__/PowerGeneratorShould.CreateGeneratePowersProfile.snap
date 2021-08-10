@@ -123,7 +123,7 @@ Encounter1:
       Target: Self
       Boosts:
       - Amount: +2
-        Defense: Fortitude
+        Defense: Reflex
         Name: Defense
       Name: Boost
 - Template: Accurate
@@ -598,15 +598,12 @@ Encounter11:
 - Template: Close blast
   Tool: Weapon
   Attacks:
-  - WeaponDice: 1.6666666666666665
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Weapon
     Target: Range
     Modifiers:
-    - Size: 3
-      Type: Blast
-      Name: Multiple
     - Ability: Strength
       Name: Ability Modifier Damage
     - Cost:
@@ -614,6 +611,9 @@ Encounter11:
         Multiplier: 1
       Amount: +2
       Name: To-Hit Bonus to Current Attack
+    - Size: 4
+      Type: Blast
+      Name: Multiple
 - Template: Accurate
   Tool: Weapon
   Attacks:
@@ -735,26 +735,26 @@ Daily15:
 - Template: Close blast
   Tool: Weapon
   Attacks:
-  - WeaponDice: 3
+  - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
     Modifiers:
-    - Size: 3
-      Type: Blast
-      Name: Multiple
     - Ability: Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: Self
       Boosts:
-      - Name: Extra Saving Throw
+      - Name: Healing Surge
       Name: Boost
     - Duration: EndOfUserNextTurn
       Conditions:
       - Name: Dazed
       Name: Condition
+    - Size: 5
+      Type: Blast
+      Name: Multiple
 - Template: Multiattack
   Tool: Weapon
   Attacks:

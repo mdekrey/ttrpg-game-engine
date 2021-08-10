@@ -1,7 +1,7 @@
 ﻿Template: Conditions
 Tool: Weapon
 Attacks:
-- WeaponDice: 4.1666666666666661
+- WeaponDice: 1.9000000000000004
   Ability: Strength
   DamageTypes:
   - Weapon
@@ -15,6 +15,6 @@ Attacks:
     Name: Condition
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Size: 3
+  - Size: 5
     Type: Burst
     Name: Multiple

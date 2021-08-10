@@ -39,6 +39,9 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost() => new (Fixed: Cost);
 
+            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+                // TODO
+                Enumerable.Empty<RandomChances<PowerModifier>>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 // This modifier is a special case and should be removed to create an extra attack
@@ -86,6 +89,9 @@ namespace GameEngine.Generator.Modifiers
             public const string ModifierName = "SecondaryAttack";
 
             public override PowerCost GetCost() => PowerCost.Empty;
+            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+                // TODO
+                Enumerable.Empty<RandomChances<PowerModifier>>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 // TODO

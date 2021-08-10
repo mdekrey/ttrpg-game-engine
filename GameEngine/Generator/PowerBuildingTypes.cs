@@ -32,14 +32,27 @@ namespace GameEngine.Generator
 
     public record AttackProfileBuilder(AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers, PowerHighLevelInfo PowerInfo)
     {
-        public int Complexity => Modifiers.Aggregate(0, (prev, next) => prev + next.GetComplexity());
-        public PowerCost TotalCost => Modifiers.Aggregate(PowerCost.Empty, (prev, next) => prev + next.GetCost());
+        public int Complexity => GetComplexity(Modifiers);
+        public PowerCost TotalCost => GetTotalCost(Modifiers);
         public double WeaponDice => TotalCost.Apply(Limits.Initial);
         internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers);
 
-        internal bool CanApply(PowerModifier modifier) =>
-            (TotalCost + modifier.GetCost()).Apply(Limits.Initial) >= Limits.Minimum
-            && (Complexity + modifier.GetComplexity()) <= Limits.MaxComplexity;
+        internal bool CanApply(PowerModifier modifier)
+        {
+            var mods = Modifiers.Concat(new[] { modifier });
+            return GetTotalCost(mods).Apply(Limits.Initial) >= Limits.Minimum
+                && GetComplexity(mods) <= Limits.MaxComplexity;
+        }
+
+        internal bool CanSwap(PowerModifier oldModifier, PowerModifier newModifier)
+        {
+            var mods = Modifiers.Except(new[] { oldModifier }).Concat(new[] { newModifier });
+            return GetTotalCost(mods).Apply(Limits.Initial) >= Limits.Minimum
+                && GetComplexity(mods) <= Limits.MaxComplexity;
+        }
+
+        private static int GetComplexity(IEnumerable<PowerModifier> modifiers) => modifiers.Select(m => m.GetComplexity()).DefaultIfEmpty(0).Sum();
+        private static PowerCost GetTotalCost(IEnumerable<PowerModifier> modifiers) => modifiers.Select(m => m.GetCost()).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
     }
 
     public enum Duration
@@ -51,11 +64,11 @@ namespace GameEngine.Generator
 
     public static class PowerModifierExtensions
     {
-        public static AttackProfileBuilder Apply(this PowerModifier target, AttackProfileBuilder attack)
+        public static AttackProfileBuilder Apply(this PowerModifier target, AttackProfileBuilder attack, PowerModifier? toRemove = null)
         {
             attack = attack with
             {
-                Modifiers = attack.Modifiers.Add(target),
+                Modifiers = toRemove == null ? attack.Modifiers.Add(target) : attack.Modifiers.Remove(toRemove).Add(target),
             };
             return attack;
         }

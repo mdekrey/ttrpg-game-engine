@@ -1,5 +1,6 @@
 ﻿using GameEngine.Rules;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -57,6 +58,7 @@ namespace GameEngine.Generator
     {
         public abstract int GetComplexity();
         public abstract PowerCost GetCost();
+        public abstract IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
     }
 

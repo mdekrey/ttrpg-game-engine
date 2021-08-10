@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 using static GameEngine.Generator.PowerBuildingExtensions;
@@ -29,6 +30,9 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost() => new PowerCost(0.5);
 
+            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+                // TODO
+                Enumerable.Empty<RandomChances<PowerModifier>>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 return Pipe(
