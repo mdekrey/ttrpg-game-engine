@@ -1,11 +1,15 @@
 ﻿Template: Conditions
+Tool: Weapon
 Attacks:
 - WeaponDice: 1
+  Ability: Strength
   DamageTypes:
   - Weapon
   Target: Range
   Modifiers:
-  - Name: Ability Modifier Damage
-  - Conditions:
+  - Ability: Strength
+    Name: Ability Modifier Damage
+  - Duration: EndOfUserNextTurn
+    Conditions:
     - Name: Slowed
     Name: Condition

@@ -1,12 +1,16 @@
 ﻿Template: Skirmish
+Tool: Weapon
 Attacks:
 - WeaponDice: 1
+  Ability: Strength
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
-  - Name: Ability Modifier Damage
+  - Ability: Strength
+    Name: Ability Modifier Damage
   - Movement:
-    - Amount: STR
+    - Timing: Anytime
+      Amount: STR
       Name: Shift
     Name: Skirmish Movement

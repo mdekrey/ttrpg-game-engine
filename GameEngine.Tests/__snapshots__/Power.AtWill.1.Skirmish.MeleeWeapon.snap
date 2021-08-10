@@ -1,16 +1,22 @@
 ﻿- Template: Skirmish
+  Tool: Weapon
   Attacks:
   - WeaponDice: 1
+    Ability: Strength
     DamageTypes:
     - Weapon
     Target: Melee
     Modifiers:
-    - Name: Ability Modifier Damage
+    - Ability: Strength
+      Name: Ability Modifier Damage
     - Movement:
-      - Amount: STR
+      - Timing: Anytime
+        Amount: STR
         Name: Shift
       Name: Skirmish Movement
 - Name: Generated
+  Frequency: AtWill
+  ActionType: Standard
   Keywords:
   - Weapon
   Level: 1
@@ -18,12 +24,19 @@
   - Target:
       Effect:
         Attack:
+          Kind: Strength
           Bonus: +0
+          Defense: ArmorClass
           Hit:
             Damage:
             - Amount: 1[W] + STR
               Types:
               - Weapon
-      MeleeWeapon: {}
+      Type: Creature
+      YouChoose: false
+      MeleeWeapon:
+        AdditionalReach: 0
+        Offhand: false
     Shift:
+      Timing: Anytime
       Amount: STR

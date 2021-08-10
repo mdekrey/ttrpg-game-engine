@@ -1,19 +1,24 @@
 ﻿Template: Multiattack
+Tool: Weapon
 Attacks:
 - WeaponDice: 2.5
+  Ability: Strength
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
-  - Name: Ability Modifier Damage
+  - Ability: Strength
+    Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense
 - WeaponDice: 1
+  Ability: Strength
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
   - Name: SecondaryAttack
-  - Name: Ability Modifier Damage
+  - Ability: Strength
+    Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense

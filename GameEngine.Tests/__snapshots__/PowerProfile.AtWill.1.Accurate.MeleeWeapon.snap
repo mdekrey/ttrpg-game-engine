@@ -1,10 +1,13 @@
 ﻿Template: Accurate
+Tool: Weapon
 Attacks:
 - WeaponDice: 1
+  Ability: Strength
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
-  - Name: Ability Modifier Damage
+  - Ability: Strength
+    Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense

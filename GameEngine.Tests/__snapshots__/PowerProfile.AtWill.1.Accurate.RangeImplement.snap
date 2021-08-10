@@ -2,13 +2,15 @@
 Tool: Implement
 Attacks:
 - WeaponDice: 1
+  Ability: Strength
   DamageTypes:
   - Radiant
   Target: Range
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Name: Ability Modifier Damage
+  - Ability: Strength
+    Name: Ability Modifier Damage
   - Cost:
       Fixed: 0.5
       Multiplier: 1

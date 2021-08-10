@@ -2,13 +2,16 @@
 Tool: Implement
 Attacks:
 - WeaponDice: 1
+  Ability: Strength
   DamageTypes:
   - Radiant
   Target: Range
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Name: Ability Modifier Damage
-  - Conditions:
+  - Ability: Strength
+    Name: Ability Modifier Damage
+  - Duration: EndOfUserNextTurn
+    Conditions:
     - Name: Slowed
     Name: Condition

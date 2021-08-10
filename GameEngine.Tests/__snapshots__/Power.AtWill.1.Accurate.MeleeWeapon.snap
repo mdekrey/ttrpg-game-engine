@@ -1,14 +1,19 @@
 ﻿- Template: Accurate
+  Tool: Weapon
   Attacks:
   - WeaponDice: 1
+    Ability: Strength
     DamageTypes:
     - Weapon
     Target: Melee
     Modifiers:
-    - Name: Ability Modifier Damage
+    - Ability: Strength
+      Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
 - Name: Generated
+  Frequency: AtWill
+  ActionType: Standard
   Keywords:
   - Weapon
   Level: 1
@@ -16,6 +21,7 @@
   - Target:
       Effect:
         Attack:
+          Kind: Strength
           Bonus: +0
           Defense: Fortitude
           Hit:
@@ -23,4 +29,8 @@
             - Amount: 1[W] + STR
               Types:
               - Weapon
-      MeleeWeapon: {}
+      Type: Creature
+      YouChoose: false
+      MeleeWeapon:
+        AdditionalReach: 0
+        Offhand: false

@@ -2,6 +2,7 @@
 Tool: Implement
 Attacks:
 - WeaponDice: 0.66666666666666652
+  Ability: Strength
   DamageTypes:
   - Radiant
   Target: Range
@@ -11,4 +12,5 @@ Attacks:
     Name: Multiple
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Name: Ability Modifier Damage
+  - Ability: Strength
+    Name: Ability Modifier Damage

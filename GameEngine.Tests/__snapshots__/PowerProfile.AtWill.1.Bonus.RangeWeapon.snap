@@ -1,12 +1,17 @@
 ﻿Template: Bonus
+Tool: Weapon
 Attacks:
 - WeaponDice: 1
+  Ability: Strength
   DamageTypes:
   - Weapon
   Target: Range
   Modifiers:
-  - Name: Ability Modifier Damage
-  - Boosts:
+  - Ability: Strength
+    Name: Ability Modifier Damage
+  - Duration: EndOfUserNextTurn
+    Target: Self
+    Boosts:
     - Amount: +2
       Limit: NextAttack
       Name: Attack

@@ -1,6 +1,8 @@
 ﻿Template: Close blast
+Tool: Weapon
 Attacks:
 - WeaponDice: 1
+  Ability: Strength
   DamageTypes:
   - Weapon
   Target: Range
@@ -8,6 +10,7 @@ Attacks:
   - Size: 3
     Type: Blast
     Name: Multiple
-  - Name: Ability Modifier Damage
+  - Ability: Strength
+    Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense

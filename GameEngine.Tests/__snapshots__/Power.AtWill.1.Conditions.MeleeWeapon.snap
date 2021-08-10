@@ -1,15 +1,21 @@
 ﻿- Template: Conditions
+  Tool: Weapon
   Attacks:
   - WeaponDice: 1
+    Ability: Strength
     DamageTypes:
     - Weapon
     Target: Melee
     Modifiers:
-    - Name: Ability Modifier Damage
-    - Conditions:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: EndOfUserNextTurn
+      Conditions:
       - Name: Slowed
       Name: Condition
 - Name: Generated
+  Frequency: AtWill
+  ActionType: Standard
   Keywords:
   - Weapon
   Level: 1
@@ -17,10 +23,16 @@
   - Target:
       Effect:
         Attack:
+          Kind: Strength
           Bonus: +0
+          Defense: ArmorClass
           Hit:
             Damage:
             - Amount: 1[W] + STR
               Types:
               - Weapon
-      MeleeWeapon: {}
+      Type: Creature
+      YouChoose: false
+      MeleeWeapon:
+        AdditionalReach: 0
+        Offhand: false

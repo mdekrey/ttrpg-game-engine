@@ -7,7 +7,7 @@
                 .DisableAliases()
                 .WithTypeConverter(new DictionaryTypeConverter())
                 .WithTypeConverter(new GameDiceExpressionConverter())
-                .ConfigureDefaultValuesHandling(YamlDotNet.Serialization.DefaultValuesHandling.OmitDefaults)
+                .ConfigureDefaultValuesHandling(YamlDotNet.Serialization.DefaultValuesHandling.OmitNull)
                 .Build();
 
     }

@@ -1,6 +1,8 @@
 ﻿Template: Interrupt Penalty
+Tool: Weapon
 Attacks:
 - WeaponDice: 1
+  Ability: Strength
   DamageTypes:
   - Weapon
   Target: Melee
@@ -9,6 +11,7 @@ Attacks:
       Fixed: 1
       Multiplier: 1
     Name: OpportunityAction
-  - Name: Ability Modifier Damage
+  - Ability: Strength
+    Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense
