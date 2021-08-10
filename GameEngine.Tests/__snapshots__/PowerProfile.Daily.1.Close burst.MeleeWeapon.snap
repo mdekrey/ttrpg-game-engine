@@ -11,17 +11,16 @@ Attacks:
     Type: Burst
     Name: Multiple
   - Name: Ability Modifier Damage
-  - Boosts:
-    - Amount: +2
-      Limit: NextAttack
-      Name: Attack
-    Name: Boost
-  - Movement:
-    - Amount: STR
-      Name: Shift
-    Name: Skirmish Movement
   - Cost:
       Fixed: 0.5
       Multiplier: 1
     Defense: Fortitude
     Name: Non-Armor Defense
+  - Cost:
+      Fixed: 0.5
+      Multiplier: 1
+    Amount: DEX
+    Name: To-Hit Bonus to Current Attack
+  - Conditions:
+    - Name: Slowed
+    Name: Condition

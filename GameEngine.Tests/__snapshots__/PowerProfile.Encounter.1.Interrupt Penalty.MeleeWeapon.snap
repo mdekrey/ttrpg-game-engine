@@ -10,8 +10,8 @@ Attacks:
       Multiplier: 1
     Name: OpportunityAction
   - Name: Ability Modifier Damage
-  - Boosts:
-    - Amount: +2
-      Limit: NextAttack
-      Name: Attack
-    Name: Boost
+  - Cost:
+      Fixed: 0.5
+      Multiplier: 1
+    Defense: Fortitude
+    Name: Non-Armor Defense

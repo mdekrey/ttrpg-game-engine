@@ -1,6 +1,6 @@
 ﻿Template: Conditions
 Attacks:
-- WeaponDice: 6
+- WeaponDice: 3.6666666666666661
   DamageTypes:
   - Weapon
   Target: Melee
@@ -9,17 +9,18 @@ Attacks:
   - Conditions:
     - Name: Slowed
     Name: Condition
-  - Boosts:
-    - Amount: +2
-      Limit: NextAttack
-      Name: Attack
-    Name: Boost
-  - Movement:
-    - Amount: STR
-      Name: Shift
-    Name: Skirmish Movement
   - Cost:
       Fixed: 0.5
       Multiplier: 1
     Defense: Fortitude
     Name: Non-Armor Defense
+  - Cost:
+      Multiplier: 0.66666666666666663
+    Size: 3x3
+    Type: Burst
+    Name: Multiple
+  - Cost:
+      Fixed: 0.5
+      Multiplier: 1
+    Amount: DEX
+    Name: To-Hit Bonus to Current Attack

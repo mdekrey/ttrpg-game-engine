@@ -55,28 +55,21 @@ namespace GameEngine.Generator
             if (modifiers.Length == 0) return attack;
 
             // TODO - I'd like this a lot better if it were flattened, but that requires LCM and other calculations... it may not be worth it.
-            var preferredModifiers = GetApplicable(from name in attack.PowerInfo.ToolProfile.PreferredModifiers
-                                                   let mod = modifiers.FirstOrDefault(m => m.Name == name)
-                                                   select mod);
             var validModifiers = GetApplicable(from mod in modifiers
-                                               where !attack.PowerInfo.ToolProfile.PreferredModifiers.Contains(mod.Name)
                                                select mod);
             if (validModifiers.Length == 0)
                 return attack;
-            var modifier = randomGenerator.RandomEscalatingSelection(preferredModifiers, minimalSources: validModifiers);
+            var modifier = randomGenerator.RandomSelection(validModifiers);
             if (modifier != null)
-                attack = randomGenerator.RandomSelection(modifier).Apply(attack);
+                attack = modifier.Apply(attack);
 
             return attack;
 
-            RandomChances<PowerModifier>[][] GetApplicable(IEnumerable<PowerModifierFormula> modifiers) =>
+            RandomChances<PowerModifier>[] GetApplicable(IEnumerable<PowerModifierFormula> modifiers) =>
                 (from mod in modifiers
-                 let entries = (from entry in mod.GetOptions(attack)
-                                where attack.CanApply(entry.Result)
-                                select entry).ToArray()
-                 where entries.Length > 0
-                 let chances = entries.Sum(entry => entry.Chances)
-                 select entries
+                 from entry in mod.GetOptions(attack)
+                 where attack.CanApply(entry.Result)
+                 select entry
                 ).ToArray();
         }
 

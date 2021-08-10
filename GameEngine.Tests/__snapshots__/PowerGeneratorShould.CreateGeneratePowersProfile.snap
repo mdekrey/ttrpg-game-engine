@@ -69,37 +69,11 @@ Encounter1:
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
-    - Target: AllyWithin5
-      Boosts:
-      - Amount: STR
-        Name: Regeneration
-      Name: Boost
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 2
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 2
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: DEX
-      Name: To-Hit Bonus to Current Attack
+      Defense: Fortitude
+      Name: Non-Armor Defense
 - Template: Conditions
   Attacks:
   - WeaponDice: 1
@@ -110,146 +84,17 @@ Encounter1:
     Modifiers:
     - Name: Ability Modifier Damage
     - Conditions:
-      - Name: Slowed
+      - Name: Immobilized
       Name: Condition
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-Daily1:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: DEX
-      Name: To-Hit Bonus to Current Attack
-  - WeaponDice: 1
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Movement:
-      - Timing: Before
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 1.5
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Conditions:
-      - Defense: ArmorClass
-        Name: Defense Penalty
-      Name: Condition
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 2
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Timing: After
-        Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
     - Target: AllyWithin5
       Boosts:
-      - Amount: STR
-        Limit: Target
-        Name: Attack
+      - Amount: +2
+        Defense: Will
+        Name: Defense
       Name: Boost
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Interrupt Penalty
-  Attacks:
-  - WeaponDice: 1
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Cost:
-        Fixed: 1.5
-        Multiplier: 1
-      Name: OpportunityAction
-    - Name: Ability Modifier Damage
-    - Duration: SaveEnds
-      Conditions:
-      - Defense: Fortitude
-        Name: Defense Penalty
-      Name: Condition
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-Encounter3:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
 - Template: Close blast
   Attacks:
-  - WeaponDice: 1.5
+  - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -261,289 +106,56 @@ Encounter3:
       Type: Blast
       Name: Multiple
     - Name: Ability Modifier Damage
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 2
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Timing: Before
-        Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-Daily5:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Timing: After
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-- Template: Interrupt Penalty
-  Attacks:
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Cost:
-        Fixed: 2.5
-        Multiplier: 1
-      Name: OpportunityAction
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Timing: Before
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 4
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
-    - Target: AdjacentAlly
-      Boosts:
-      - Amount: +2
-        Defense: ArmorClass
-        Name: Defense
-      Name: Boost
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: STR
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-Encounter7:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 1
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Name: Non-Provoking Movement
-      Name: Skirmish Movement
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Conditions:
-      - Name: Slowed
-      Name: Condition
     - Boosts:
       - Amount: +2
         Defense: Fortitude
         Name: Defense
       Name: Boost
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Will
-      Name: Non-Armor Defense
-Daily9:
-- Template: Multiattack
+- Template: Accurate
   Attacks:
-  - WeaponDice: 4
+  - WeaponDice: 1
     DamageTypes:
     - Fire
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
     - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-    - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
+      Defense: Fortitude
+      Name: Non-Armor Defense
     - Conditions:
-      - Defense: ArmorClass
-        Name: Defense Penalty
+      - Name: Slowed
       Name: Condition
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: STR
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
+Daily1:
 - Template: Multiattack
   Attacks:
-  - WeaponDice: 2.5
+  - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
+  - WeaponDice: 1.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+- Template: Accurate
+  Attacks:
   - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
     - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 2
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Timing: Before
-        Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
-    - Duration: SaveEnds
-      Conditions:
-      - Defense: Fortitude
-        Name: Defense Penalty
-      Name: Condition
-  - WeaponDice: 2
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Interrupt Penalty
-  Attacks:
-  - WeaponDice: 4
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Duration: EndOfEncounter
-      Target: AllyWithin5
-      Boosts:
-      - Amount: +2
-        Defense: Reflex
-        Name: Defense
-      Name: Boost
-Encounter11:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1.5
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 1.5
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
@@ -552,35 +164,16 @@ Encounter11:
         Multiplier: 1
       Defense: Reflex
       Name: Non-Armor Defense
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers: []
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers: []
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Defense: ArmorClass
+        Name: Defense
+      Name: Boost
 - Template: Conditions
   Attacks:
-  - WeaponDice: 3
+  - WeaponDice: 1.5
+    Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
@@ -590,333 +183,32 @@ Encounter11:
       - Defense: Will
         Name: Defense Penalty
       Name: Condition
-Encounter13:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Timing: Before
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-  - WeaponDice: 1
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Conditions:
-      - Name: Slowed
-      Name: Condition
-- Template: Bonus
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Target: AllyWithin5
-      Boosts:
-      - Amount: STR
-        Name: Temporary Hit Points
-      Name: Boost
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 1.1666666666666665
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Timing: After
-        Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
-    - Cost:
-        Multiplier: 0.66666666666666663
-      Size: 3x3
-      Type: Blast
-      Name: Multiple
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Reflex
-      Name: Non-Armor Defense
-Daily15:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 4.5
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: DEX
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
     - Target: AdjacentAlly
       Boosts:
       - Amount: +2
-        Defense: ArmorClass
+        Defense: Reflex
         Name: Defense
       Name: Boost
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Defense: Reflex
+      Defense: Fortitude
       Name: Non-Armor Defense
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 5
+  - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Conditions:
-      - Name: Slowed
-      Name: Condition
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Boosts:
-      - Amount: STR
-        Name: Temporary Hit Points
-      Name: Boost
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 5
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Duration: SaveEnds
-      Conditions:
-      - Name: Slowed
-      Name: Condition
-    - Movement:
-      - Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 5
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-    - Target: AllyWithin5
-      Boosts:
-      - Amount: DEX
-        Limit: Target
-        Name: Attack
-      Name: Boost
-    - Conditions:
-      - Name: Dazed
-      Name: Condition
-    - Movement:
-      - Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-Encounter17:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Conditions:
-      - Name: Slowed
-      Name: Condition
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 1.5
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Duration: SaveEnds
-      Conditions:
-      - Name: Dazed
-      Name: Condition
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
+    Modifiers: []
 - Template: Skirmish
   Attacks:
   - WeaponDice: 2
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-Daily19:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
     - Fire
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
-    - Cost:
-        Multiplier: 0.66666666666666663
-      Size: 3x3
-      Type: Blast
-      Name: Multiple
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: SecondaryAttack
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Timing: After
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-  - WeaponDice: 1.5
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 6
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-    - Conditions:
-      - Name: Slowed
-      Name: Condition
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 5
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
     - Movement:
       - Timing: Before
         Amount: +2
@@ -927,9 +219,574 @@ Daily19:
       - Amount: 5
         Name: Ongoing
       Name: Condition
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+Encounter3:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Slowed
+      Name: Condition
+- Template: Accurate
+  Attacks:
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Will
+      Name: Non-Armor Defense
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: STR
+        Name: Regeneration
+      Name: Boost
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+Daily5:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 1.5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+  - WeaponDice: 2
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Boosts:
+      - Amount: STR
+        Name: Temporary Hit Points
+      Name: Boost
+    - Conditions:
+      - Name: Slowed
+      Name: Condition
 - Template: Skirmish
   Attacks:
-  - WeaponDice: 6
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Before
+        Amount: STR
+        Name: Shift
+      Name: Skirmish Movement
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: DEX
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Conditions:
+      - Defense: Will
+        Name: Defense Penalty
+      Name: Condition
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: STR
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+- Template: Accurate
+  Attacks:
+  - WeaponDice: 3
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Conditions:
+      - Name: Slowed
+      Name: Condition
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: STR
+        Name: Temporary Hit Points
+      Name: Boost
+    - Movement:
+      - Amount: STR
+        Name: Shift
+      Name: Skirmish Movement
+Encounter7:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 2
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Boosts:
+      - Amount: DEX
+        Name: Temporary Hit Points
+      Name: Boost
+- Template: Accurate
+  Attacks:
+  - WeaponDice: 1
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Reflex
+      Name: Non-Armor Defense
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Defense: Will
+        Name: Defense
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 1
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+  - WeaponDice: 1
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Movement:
+      - Name: Non-Provoking Movement
+      Name: Skirmish Movement
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+Daily9:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 2.5
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 1.833333333333333
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Grants Combat Advantage
+      Name: Condition
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: +2
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Cost:
+        Multiplier: 0.66666666666666663
+      Size: 3x3
+      Type: Area
+      Name: Multiple
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: DEX
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
+    - Conditions:
+      - Name: Slowed
+      Name: Condition
+- Template: Bonus
+  Attacks:
+  - WeaponDice: 4
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Boosts:
+      - Amount: +2
+        Defense: ArmorClass
+        Name: Defense
+      Name: Boost
+    - Conditions:
+      - Name: Weakened
+      Name: Condition
+    - Movement:
+      - Timing: After
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+Encounter11:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Defense Penalty
+      Name: Condition
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers: []
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Movement:
+      - Name: Non-Provoking Movement
+      Name: Skirmish Movement
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: DEX
+        Name: Regeneration
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+- Template: Accurate
+  Attacks:
+  - WeaponDice: 1.5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Will
+      Name: Non-Armor Defense
+    - Duration: SaveEnds
+      Conditions:
+      - Defense: Reflex
+        Name: Defense Penalty
+      Name: Condition
+    - Movement:
+      - Timing: Before
+        Amount: +1
+        Name: Shift
+      - Timing: After
+        Amount: +1
+        Name: Shift
+      Name: Skirmish Movement
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 1.5
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: +2
+        Defense: ArmorClass
+        Name: Defense
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+  - WeaponDice: 1
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers: []
+Encounter13:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 3
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: +2
+        Defense: Will
+        Name: Defense
+      Name: Boost
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Before
+        Amount: STR
+        Name: Shift
+      Name: Skirmish Movement
+    - Duration: SaveEnds
+      Conditions:
+      - Defense: Will
+        Name: Defense Penalty
+      Name: Condition
+- Template: Bonus
+  Attacks:
+  - WeaponDice: 1.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: +2
+        Defense: Fortitude
+        Name: Defense
+      Name: Boost
+    - Duration: SaveEnds
+      Conditions:
+      - Name: Slowed
+      Name: Condition
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Defense: Fortitude
+        Name: Defense Penalty
+      Name: Condition
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: DEX
+        Name: Temporary Hit Points
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+Daily15:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: +2
+        Defense: Reflex
+        Name: Defense
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: STR
+        Name: Temporary Hit Points
+      Name: Boost
+- Template: Bonus
+  Attacks:
+  - WeaponDice: 4
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Duration: EndOfEncounter
+      Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Defense: ArmorClass
+        Name: Defense
+      Name: Boost
+    - Conditions:
+      - Name: Grants Combat Advantage
+      Name: Condition
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -944,46 +801,22 @@ Daily19:
     - Cost:
         Fixed: 0.5
         Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Target: AllyWithin5
-      Boosts:
-      - Amount: STR
-        Limit: NextAttack
-        Name: Attack
-      Name: Boost
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Will
+      Defense: Fortitude
       Name: Non-Armor Defense
-Daily20:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Boosts:
-      - Amount: DEX
-        Limit: Target
-        Name: Attack
+    - Duration: EndOfEncounter
+      Boosts:
+      - Amount: +2
+        Defense: Fortitude
+        Name: Defense
       Name: Boost
-  - WeaponDice: 3
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Duration: SaveEnds
+      Conditions:
+      - Defense: Reflex
+        Name: Defense Penalty
+      Name: Condition
 - Template: Conditions
   Attacks:
-  - WeaponDice: 3
+  - WeaponDice: 5
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -991,110 +824,25 @@ Daily20:
     Modifiers:
     - Name: Ability Modifier Damage
     - Conditions:
-      - Name: Blinded
+      - Name: Slowed
       Name: Condition
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
     - Movement:
-      - Timing: Before
-        Amount: STR
+      - Amount: +2
         Name: Shift
       Name: Skirmish Movement
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Close blast
-  Attacks:
-  - WeaponDice: 7
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 5.5
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
     - Cost:
         Fixed: 0.5
         Multiplier: 1
       Defense: Fortitude
       Name: Non-Armor Defense
-    - Conditions:
-      - Name: Blinded
-      Name: Condition
-    - Movement:
-      - Timing: Before
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-Encounter23:
+Encounter17:
 - Template: Multiattack
-  Attacks:
-  - WeaponDice: 4
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Target: AdjacentAlly
-      Boosts:
-      - Amount: +2
-        Name: Regeneration
-      Name: Boost
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 3
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Conditions:
-      - Name: Immobilized
-      Name: Condition
-    - Target: AdjacentAlly
-      Boosts:
-      - Amount: +2
-        Limit: NextAttack
-        Name: Attack
-      Name: Boost
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 3
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Duration: SaveEnds
-      Conditions:
-      - Name: Dazed
-      Name: Condition
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-- Template: Interrupt Penalty
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
@@ -1102,81 +850,41 @@ Encounter23:
     - Weapon
     Target: Range
     Modifiers:
-    - Cost:
-        Fixed: 2
-        Multiplier: 1
-      Name: OpportunityAction
     - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-    - Movement:
-      - Name: Non-Provoking Movement
-      Name: Skirmish Movement
-Daily25:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 8
+    - Boosts:
+      - Amount: +2
+        Defense: Fortitude
+        Name: Defense
+      Name: Boost
+  - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-- Template: Close blast
-  Attacks:
-  - WeaponDice: 8
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
     - Target: AllyWithin5
       Boosts:
-      - Amount: STR
-        Name: Temporary Hit Points
+      - Amount: DEX
+        Name: Regeneration
       Name: Boost
-- Template: Accurate
+- Template: Interrupt Penalty
   Attacks:
-  - WeaponDice: 3.833333333333333
+  - WeaponDice: 3
+    Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-    - Cost:
-        Multiplier: 0.66666666666666663
-      Size: 3x3
-      Type: Blast
-      Name: Multiple
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: DEX
+        Name: Temporary Hit Points
+      Name: Boost
 - Template: Skirmish
   Attacks:
-  - WeaponDice: 6.5
+  - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Fire
@@ -1188,10 +896,497 @@ Daily25:
         Amount: STR
         Name: Shift
       Name: Skirmish Movement
+    - Conditions:
+      - Name: Weakened
+      Name: Condition
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: DEX
+        Limit: Target
+        Name: Attack
+      Name: Boost
+Daily19:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Boosts:
+      - Amount: +2
+        Defense: Will
+        Name: Defense
+      Name: Boost
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
     - Cost:
-        Fixed: 1
+        Fixed: 0.5
         Multiplier: 1
-      Name: Prone
+      Defense: Will
+      Name: Non-Armor Defense
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+- Template: Interrupt Penalty
+  Attacks:
+  - WeaponDice: 3.5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Cost:
+        Fixed: 4.5
+        Multiplier: 1
+      Name: OpportunityAction
+    - Name: Ability Modifier Damage
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 5
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
+    - Duration: EndOfEncounter
+      Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Defense: Will
+        Name: Defense
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: DEX
+      Name: To-Hit Bonus to Current Attack
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 6
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Conditions:
+      - Name: Weakened
+      Name: Condition
+    - Boosts:
+      - Amount: DEX
+        Name: Temporary Hit Points
+      Name: Boost
+Daily20:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 6
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Defense: Will
+        Name: Defense
+      Name: Boost
+    - Movement:
+      - Timing: After
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+- Template: Interrupt Penalty
+  Attacks:
+  - WeaponDice: 3.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Cost:
+        Fixed: 4.5
+        Multiplier: 1
+      Name: OpportunityAction
+    - Name: Ability Modifier Damage
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 5.5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: DEX
+        Name: Regeneration
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Movement:
+      - Amount: STR
+        Name: Shift
+      Name: Skirmish Movement
+    - Conditions:
+      - Name: Blinded
+      Name: Condition
+- Template: Accurate
+  Attacks:
+  - WeaponDice: 5.5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Duration: SaveEnds
+      Conditions:
+      - Name: Dazed
+      Name: Condition
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+    - Boosts:
+      - Amount: DEX
+        Name: Regeneration
+      Name: Boost
+Encounter23:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 3
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Boosts:
+      - Amount: +2
+        Defense: Reflex
+        Name: Defense
+      Name: Boost
+    - Duration: SaveEnds
+      Conditions:
+      - Amount: 5
+        Name: Ongoing
+      Name: Condition
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Boosts:
+      - Amount: +2
+        Name: Regeneration
+      Name: Boost
+    - Conditions:
+      - Defense: Will
+        Name: Defense Penalty
+      Name: Condition
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+- Template: Skirmish
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Movement:
+      - Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Reflex
+      Name: Non-Armor Defense
+- Template: Accurate
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Movement:
+      - Name: Non-Provoking Movement
+      Name: Skirmish Movement
+    - Conditions:
+      - Defense: Fortitude
+        Name: Defense Penalty
+      Name: Condition
+Daily25:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 6
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Duration: SaveEnds
+      Conditions:
+      - Amount: 5
+        Name: Ongoing
+      Name: Condition
+    - Movement:
+      - Amount: STR
+        Name: Shift
+      Name: Skirmish Movement
+    - Target: AllyWithin5
+      Boosts:
+      - Name: Extra Saving Throw
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Will
+      Name: Non-Armor Defense
+- Template: Accurate
+  Attacks:
+  - WeaponDice: 6.5
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Boosts:
+      - Amount: STR
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: DEX
+      Name: To-Hit Bonus to Current Attack
+    - Duration: SaveEnds
+      Conditions:
+      - Name: Dazed
+      Name: Condition
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 6
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Duration: SaveEnds
+      Conditions:
+      - Name: Grants Combat Advantage
+      Name: Condition
+    - Boosts:
+      - Amount: STR
+        Name: Temporary Hit Points
+      Name: Boost
+    - Movement:
+      - Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+- Template: Interrupt Penalty
+  Attacks:
+  - WeaponDice: 2
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Cost:
+        Fixed: 4.5
+        Multiplier: 1
+      Name: OpportunityAction
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Immobilized
+      Name: Condition
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Name: Regeneration
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+    - Movement:
+      - Name: Non-Provoking Movement
+      Name: Skirmish Movement
+Encounter27:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 3
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Grants Combat Advantage
+      Name: Condition
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: +2
+        Name: Temporary Hit Points
+      Name: Boost
+- Template: Conditions
+  Attacks:
+  - WeaponDice: 2.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Duration: SaveEnds
+      Conditions:
+      - Defense: ArmorClass
+        Name: Defense Penalty
+      Name: Condition
+    - Movement:
+      - Timing: Before
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Fortitude
+      Name: Non-Armor Defense
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 3
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Grants Combat Advantage
+      Name: Condition
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: STR
+        Name: Regeneration
+      Name: Boost
+- Template: Bonus
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Defense: Fortitude
+        Name: Defense
+      Name: Boost
+    - Movement:
+      - Timing: Before
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Defense: Will
+      Name: Non-Armor Defense
+Daily29:
+- Template: Multiattack
+  Attacks:
+  - WeaponDice: 7.5
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Name: Ability Modifier Damage
+    - Duration: SaveEnds
+      Conditions:
+      - Name: Dazed
+      Name: Condition
+    - Target: AllyWithin5
+      Boosts:
+      - Amount: STR
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
     - Cost:
         Fixed: 0.5
         Multiplier: 1
@@ -1202,10 +1397,9 @@ Daily25:
         Multiplier: 1
       Defense: Fortitude
       Name: Non-Armor Defense
-Encounter27:
-- Template: Multiattack
+- Template: Skirmish
   Attacks:
-  - WeaponDice: 3
+  - WeaponDice: 8
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -1223,91 +1417,46 @@ Encounter27:
     - Conditions:
       - Name: Slowed
       Name: Condition
+    - Boosts:
+      - Amount: +2
+        Defense: ArmorClass
+        Name: Defense
+      Name: Boost
     - Cost:
         Fixed: 0.5
         Multiplier: 1
       Defense: Fortitude
       Name: Non-Armor Defense
-- Template: Skirmish
-  Attacks:
-  - WeaponDice: 2
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Movement:
-      - Timing: Before
-        Amount: +1
-        Name: Shift
-      - Timing: After
-        Amount: +1
-        Name: Shift
-      Name: Skirmish Movement
-    - Duration: SaveEnds
-      Conditions:
-      - Name: Grants Combat Advantage
-      Name: Condition
 - Template: Accurate
   Attacks:
-  - WeaponDice: 3
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: DEX
-      Name: To-Hit Bonus to Current Attack
-    - Movement:
-      - Timing: Before
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 2
+  - WeaponDice: 8
     Ability: Dexterity
     DamageTypes:
     - Weapon
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
-    - Conditions:
-      - Name: Grants Combat Advantage
-      Name: Condition
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
     - Cost:
         Fixed: 0.5
         Multiplier: 1
       Defense: Fortitude
       Name: Non-Armor Defense
-Daily29:
-- Template: Multiattack
-  Attacks:
-  - WeaponDice: 4.5
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-  - WeaponDice: 5
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-- Template: Skirmish
+    - Target: AdjacentAlly
+      Boosts:
+      - Amount: +2
+        Defense: ArmorClass
+        Name: Defense
+      Name: Boost
+    - Conditions:
+      - Defense: Fortitude
+        Name: Defense Penalty
+      Name: Condition
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+- Template: Conditions
   Attacks:
   - WeaponDice: 7.5
     DamageTypes:
@@ -1315,64 +1464,21 @@ Daily29:
     Target: Range
     Modifiers:
     - Name: Ability Modifier Damage
-    - Movement:
-      - Name: Non-Provoking Movement
-      Name: Skirmish Movement
-    - Conditions:
-      - Name: Blinded
+    - Duration: SaveEnds
+      Conditions:
+      - Defense: ArmorClass
+        Name: Defense Penalty
       Name: Condition
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Conditions
-  Attacks:
-  - WeaponDice: 7
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
-    - Conditions:
-      - Name: Weakened
-      Name: Condition
-    - Duration: EndOfEncounter
-      Target: AllyWithin5
+    - Target: AdjacentAlly
       Boosts:
       - Amount: +2
-        Defense: Will
-        Name: Defense
+        Name: Temporary Hit Points
       Name: Boost
-- Template: Accurate
-  Attacks:
-  - WeaponDice: 4
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
     - Cost:
         Fixed: 0.5
         Multiplier: 1
       Defense: Fortitude
       Name: Non-Armor Defense
-    - Movement:
-      - Timing: Before
-        Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
-  - WeaponDice: 4
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Name: Ability Modifier Damage
     - Cost:
         Fixed: 0.5
         Multiplier: 1
