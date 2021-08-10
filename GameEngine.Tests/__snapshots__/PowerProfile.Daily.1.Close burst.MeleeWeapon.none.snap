@@ -11,14 +11,17 @@ Attacks:
     Type: Burst
     Name: Multiple
   - Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 1
-      Multiplier: 1
-    Target: self
-    Name: Healing Surge
+  - Boosts:
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    Name: Boost
+  - Movement:
+    - Amount: STR
+      Name: Shift
+    Name: Skirmish Movement
   - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Amount: +2
-    Target: self
-    Name: +2 to Defense
+    Defense: Fortitude
+    Name: Non-Armor Defense

@@ -6,10 +6,8 @@ Attacks:
   Target: Range
   Modifiers:
   - Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Amount: +2
-    Condition: next attack
-    Target: self
-    Name: To-Hit Bonus
+  - Boosts:
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    Name: Boost

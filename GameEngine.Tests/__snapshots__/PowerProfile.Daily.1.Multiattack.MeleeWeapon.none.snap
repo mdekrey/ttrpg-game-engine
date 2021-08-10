@@ -1,16 +1,16 @@
 ﻿Template: Multiattack
 Attacks:
-- WeaponDice: 1.5
+- WeaponDice: 2
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
   - Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 1
-      Multiplier: 1
-    Target: self
-    Name: Healing Surge
+  - Boosts:
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    Name: Boost
   - Cost:
       Fixed: 0.5
       Multiplier: 1
@@ -23,9 +23,8 @@ Attacks:
   Modifiers:
   - Name: SecondaryAttack
   - Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Amount: +2
-    Target: self
-    Name: +2 to Defense
+  - Boosts:
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    Name: Boost

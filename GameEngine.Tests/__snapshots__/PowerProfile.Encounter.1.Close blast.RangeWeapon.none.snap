@@ -11,9 +11,8 @@ Attacks:
     Type: Blast
     Name: Multiple
   - Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Amount: +2
-    Target: self
-    Name: +2 to Defense
+  - Boosts:
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    Name: Boost

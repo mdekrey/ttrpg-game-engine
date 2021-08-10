@@ -41,6 +41,7 @@ namespace GameEngine.Generator.Modifiers
         }
         public record SlideOpponent(bool IsPush, GameDiceExpression Amount) : SkirmishMovement("Slide Opponent")
         {
+            // TODO - give a 1.25 bonus on modifier to make it a round 5 for every 4
             public override double Cost() => Amount.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 2.0;
         }
 

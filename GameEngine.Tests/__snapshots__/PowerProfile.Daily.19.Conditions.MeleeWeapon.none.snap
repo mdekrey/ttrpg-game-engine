@@ -1,6 +1,6 @@
 ﻿Template: Conditions
 Attacks:
-- WeaponDice: 5
+- WeaponDice: 6
   DamageTypes:
   - Weapon
   Target: Melee
@@ -9,18 +9,15 @@ Attacks:
   - Conditions:
     - Name: Slowed
     Name: Condition
-  - Cost:
-      Fixed: 1
-      Multiplier: 1
-    Amount: +5
-    Target: self
-    Duration: EndOfEncounter
-    Name: Regeneration
-  - Cost:
-      Fixed: 1
-      Multiplier: 1
-    Target: self
-    Name: Healing Surge
+  - Boosts:
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    Name: Boost
+  - Movement:
+    - Amount: STR
+      Name: Shift
+    Name: Skirmish Movement
   - Cost:
       Fixed: 0.5
       Multiplier: 1

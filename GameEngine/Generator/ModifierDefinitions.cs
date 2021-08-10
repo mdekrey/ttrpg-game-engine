@@ -27,12 +27,7 @@ namespace GameEngine.Generator
             (ConditionsPowerTemplateName, new ConditionFormula()),
             (GeneralKeyword, new ImmediateConditionFormula("Prone", new PowerCost(1))),
             (SkirmishPowerTemplateName, new SkirmishFormula()),
-            (BonusPowerTemplateName, new ToHitBoostFormula()),
-            (BonusPowerTemplateName, new DefenseBoostFormula()),
-            (BonusPowerTemplateName, new TemporaryHitPointsFormula()),
-            (BonusPowerTemplateName, new AllyOneTimeBoostFormula("Extra Saving Throw", new PowerCost(1))),
-            (BonusPowerTemplateName, new AllyOneTimeBoostFormula("Healing Surge", new PowerCost(1))),
-            (BonusPowerTemplateName, new RegenerationFormula()),
+            (BonusPowerTemplateName, new BoostFormula()),
             // Slowed/Unconscious
             // Reroll attack
             // Disarm and catch
