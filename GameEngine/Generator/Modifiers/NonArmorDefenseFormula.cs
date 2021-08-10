@@ -14,21 +14,20 @@ namespace GameEngine.Generator.Modifiers
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
-            var cost = attack.PowerInfo.ToolProfile.Type == ToolType.Implement ? new PowerCost(0) : new PowerCost(0.5);
-            yield return new(BuildModifier(cost, attack.PowerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
-            yield return new(BuildModifier(cost, DefenseType.Fortitude), Chances: 1);
-            yield return new(BuildModifier(cost, DefenseType.Reflex), Chances: 1);
-            yield return new(BuildModifier(cost, DefenseType.Will), Chances: 1);
+            yield return new(BuildModifier(attack.PowerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
+            yield return new(BuildModifier(DefenseType.Fortitude), Chances: 1);
+            yield return new(BuildModifier(DefenseType.Reflex), Chances: 1);
+            yield return new(BuildModifier(DefenseType.Will), Chances: 1);
 
-            NonArmorDefenseModifier BuildModifier(PowerCost cost, DefenseType defense) =>
-                new (cost, defense);
+            NonArmorDefenseModifier BuildModifier(DefenseType defense) =>
+                new (defense);
         }
 
-        public record NonArmorDefenseModifier(PowerCost Cost, DefenseType Defense) : PowerModifier(ModifierName)
+        public record NonArmorDefenseModifier(DefenseType Defense) : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 0;
+            public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => Cost;
+            public override PowerCost GetCost() => new PowerCost(0.5);
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {

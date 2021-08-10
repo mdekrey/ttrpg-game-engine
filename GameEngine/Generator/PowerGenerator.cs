@@ -170,9 +170,9 @@ namespace GameEngine.Generator
 
         private static AttackProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfileBuilder(
-                new AttackLimits(basePower, 
-                    Minimum: GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator),
-                    MaxComplexity: GetAttackMaxComplexity(info.Usage)
+                new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0), 
+                    Minimum: GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
+                    MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
                 ),
                 randomGenerator.RandomEscalatingSelection(
                     info.ToolProfile.Abilities

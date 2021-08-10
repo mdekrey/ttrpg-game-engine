@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
@@ -18,29 +19,33 @@ namespace GameEngine.Generator.Modifiers
             // TODO: other
             var sizes = new[]
             {
-                (Cost: new PowerCost(Multiplier: 2.0 / 3), Size: "3x3"),
+                "3x3",
             };
 
             foreach (var size in sizes)
             {
                 if (attack.Target != TargetType.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new(BuildModifier(type: "Burst", size: size.Size, cost: size.Cost));
+                    yield return new(BuildModifier(type: "Burst", size: size));
                 if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                 {
-                    yield return new(BuildModifier(type: "Blast", size: size.Size, cost: size.Cost));
-                    yield return new(BuildModifier(type: "Area", size: size.Size, cost: size.Cost));
+                    yield return new(BuildModifier(type: "Blast", size: size));
+                    yield return new(BuildModifier(type: "Area", size: size));
                 }
             }
 
-            BurstModifier BuildModifier(string type, string size, PowerCost cost) =>
-                new (cost, size, type);
+            BurstModifier BuildModifier(string type, string size) =>
+                new (size, type);
         }
 
-        public record BurstModifier(PowerCost Cost, string Size, string Type) : PowerModifier(ModifierName)
+        public record BurstModifier(string Size, string Type) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => Cost;
+            public override PowerCost GetCost() => Size switch
+            {
+                "3x3" => new PowerCost(Multiplier: 2.0 / 3),
+                _ => throw new NotImplementedException(),
+            };
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 return Pipe(

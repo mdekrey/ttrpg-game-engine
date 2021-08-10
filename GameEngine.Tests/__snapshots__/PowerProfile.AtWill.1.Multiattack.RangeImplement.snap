@@ -1,14 +1,12 @@
 ﻿Template: Multiattack
 Tool: Implement
 Attacks:
-- WeaponDice: 0.5
+- WeaponDice: 1
   DamageTypes:
   - Radiant
   Target: Range
   Modifiers:
-  - Cost:
-      Multiplier: 1
-    Defense: Fortitude
+  - Defense: Fortitude
     Name: Non-Armor Defense
   - Name: Ability Modifier Damage
 - WeaponDice: 0.5
@@ -16,8 +14,6 @@ Attacks:
   - Radiant
   Target: Range
   Modifiers:
-  - Cost:
-      Multiplier: 1
-    Defense: Fortitude
+  - Name: SecondaryAttack
+  - Defense: Fortitude
     Name: Non-Armor Defense
-  - Name: Ability Modifier Damage

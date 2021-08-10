@@ -6,9 +6,7 @@ Attacks:
   - Radiant
   Target: Range
   Modifiers:
-  - Cost:
-      Multiplier: 1
-    Defense: Fortitude
+  - Defense: Fortitude
     Name: Non-Armor Defense
   - Name: Ability Modifier Damage
   - Conditions:

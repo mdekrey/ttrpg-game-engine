@@ -1,18 +1,14 @@
 ﻿Template: Close burst
 Tool: Implement
 Attacks:
-- WeaponDice: 0.83333333333333326
+- WeaponDice: 0.66666666666666652
   DamageTypes:
   - Radiant
   Target: Range
   Modifiers:
-  - Cost:
-      Multiplier: 0.66666666666666663
-    Size: 3x3
+  - Size: 3x3
     Type: Burst
     Name: Multiple
-  - Cost:
-      Multiplier: 1
-    Defense: Fortitude
+  - Defense: Fortitude
     Name: Non-Armor Defense
   - Name: Ability Modifier Damage

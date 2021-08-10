@@ -1,26 +1,18 @@
 ﻿Template: Close burst
 Attacks:
-- WeaponDice: 1
+- WeaponDice: 1.5
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
-  - Cost:
-      Multiplier: 0.66666666666666663
-    Size: 3x3
+  - Size: 3x3
     Type: Burst
     Name: Multiple
   - Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Defense: Fortitude
+  - Defense: Fortitude
     Name: Non-Armor Defense
   - Cost:
       Fixed: 0.5
       Multiplier: 1
     Amount: DEX
     Name: To-Hit Bonus to Current Attack
-  - Conditions:
-    - Name: Slowed
-    Name: Condition

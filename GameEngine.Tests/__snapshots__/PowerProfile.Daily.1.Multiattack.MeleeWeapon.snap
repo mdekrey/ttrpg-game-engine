@@ -1,21 +1,13 @@
 ﻿Template: Multiattack
 Attacks:
-- WeaponDice: 1.333333333333333
+- WeaponDice: 2.5
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
   - Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Defense: Fortitude
+  - Defense: Fortitude
     Name: Non-Armor Defense
-  - Cost:
-      Multiplier: 0.66666666666666663
-    Size: 3x3
-    Type: Burst
-    Name: Multiple
 - WeaponDice: 1
   DamageTypes:
   - Weapon
@@ -23,8 +15,5 @@ Attacks:
   Modifiers:
   - Name: SecondaryAttack
   - Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Defense: Fortitude
+  - Defense: Fortitude
     Name: Non-Armor Defense

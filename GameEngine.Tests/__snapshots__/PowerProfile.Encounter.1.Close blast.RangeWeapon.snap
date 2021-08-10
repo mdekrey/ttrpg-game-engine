@@ -5,14 +5,9 @@ Attacks:
   - Weapon
   Target: Range
   Modifiers:
-  - Cost:
-      Multiplier: 0.66666666666666663
-    Size: 3x3
+  - Size: 3x3
     Type: Blast
     Name: Multiple
   - Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Defense: Fortitude
+  - Defense: Fortitude
     Name: Non-Armor Defense
