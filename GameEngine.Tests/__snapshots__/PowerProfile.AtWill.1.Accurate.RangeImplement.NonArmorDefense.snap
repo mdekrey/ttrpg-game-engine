@@ -14,9 +14,5 @@ Attacks:
   - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Amount:
-      DieCodes:
-        Entries: []
-      Abilities:
-        Dexterity: 1
+    Amount: DEX
     Name: To-Hit Bonus to Current Attack

@@ -2,57 +2,19 @@
 using GameEngine.Rules;
 using Snapshooter.Xunit;
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
-using YamlDotNet.Core;
+using static GameEngine.Tests.YamlSerialization.Snapshots;
 
 namespace GameEngine.Tests
 {
+
     public class PowerGeneratorShould
     {
-        public class DictionaryTypeConverter : YamlDotNet.Serialization.IYamlTypeConverter
-        {
-            public bool Accepts(Type type)
-            {
-                return type.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IDictionary<,>));
-            }
-
-            public object? ReadYaml(IParser parser, Type type)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void WriteYaml(IEmitter emitter, object? value, Type type)
-            {
-                if (value == null)
-                {
-                    emitter.Emit(new YamlDotNet.Core.Events.Scalar(null, null!));
-                    return;
-                }
-                dynamic d = value;
-                emitter.Emit(new YamlDotNet.Core.Events.MappingStart());
-                IEnumerable<string> keys = d.Keys;
-                foreach (var key in keys.OrderBy(k => k))
-                {
-                    emitter.Emit(new YamlDotNet.Core.Events.Scalar(null, key));
-                    emitter.Emit(new YamlDotNet.Core.Events.Scalar(null, d[key]));
-                }
-                emitter.Emit(new YamlDotNet.Core.Events.MappingEnd());
-            }
-        }
-
-        private static readonly YamlDotNet.Serialization.ISerializer serializer = 
-            new YamlDotNet.Serialization.SerializerBuilder()
-                .DisableAliases()
-                .WithTypeConverter(new DictionaryTypeConverter())
-                .ConfigureDefaultValuesHandling(YamlDotNet.Serialization.DefaultValuesHandling.OmitDefaults)
-                .Build();
-
         [InlineData(1, PowerFrequency.AtWill, 2)]
         [InlineData(1, PowerFrequency.Encounter, 3)]
         [InlineData(1, PowerFrequency.Daily, 4.5)]
@@ -113,7 +75,7 @@ namespace GameEngine.Tests
                 new[] { powerTemplate }.ToImmutableList()
             );
 
-            Snapshot.Match(serializer.Serialize(powerProfile), $"PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolRange:g}{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
+            Snapshot.Match(Serializer.Serialize(powerProfile), $"PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolRange:g}{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}");
         }
 
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, "", PowerDefinitions.MultiattackPowerTemplateName)]
@@ -135,7 +97,7 @@ namespace GameEngine.Tests
             SerializedPower power = powerProfile.ToPower(level, powerFrequency);
             
             Snapshot.Match(
-                serializer.Serialize(new object[] { powerProfile, power }),
+                Serializer.Serialize(new object[] { powerProfile, power }),
                 $"Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{toolRange:g}{toolType:g}.{(preferredModifier is { Length: > 0 } ? Regex.Replace(preferredModifier, "[^a-zA-Z]", "") : "none")}"
             );
         }
@@ -147,7 +109,7 @@ namespace GameEngine.Tests
 
             var powerProfile = target.GenerateProfiles(CreateStrikerProfile());
 
-            Snapshot.Match(serializer.Serialize(powerProfile));
+            Snapshot.Match(Serializer.Serialize(powerProfile));
         }
 
         private ClassProfile CreateStrikerProfile() =>

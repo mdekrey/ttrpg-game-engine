@@ -12,11 +12,7 @@ Attacks:
   - Cost:
       Fixed: 1
       Multiplier: 1
-    Amount:
-      DieCodes:
-        Entries: []
-        Modifier: 5
-      Abilities: {}
+    Amount: +5
     Target: self
     Duration: EndOfEncounter
     Name: Regeneration

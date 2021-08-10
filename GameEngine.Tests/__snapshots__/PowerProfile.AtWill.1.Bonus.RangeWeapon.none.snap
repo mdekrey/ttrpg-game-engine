@@ -9,11 +9,7 @@ Attacks:
   - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Amount:
-      DieCodes:
-        Entries: []
-        Modifier: 2
-      Abilities: {}
+    Amount: +2
     Condition: next attack
     Target: self
     Name: To-Hit Bonus

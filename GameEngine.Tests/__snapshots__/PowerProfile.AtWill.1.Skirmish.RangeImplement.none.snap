@@ -14,9 +14,5 @@ Attacks:
   - Cost:
       Fixed: 0.5
       Multiplier: 1
-    Amount:
-      DieCodes:
-        Entries: []
-      Abilities:
-        Strength: 1
+    Amount: STR
     Name: Shift
