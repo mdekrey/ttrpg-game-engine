@@ -26,10 +26,11 @@
     - Ability: Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
-      Target: AllyWithin5
+      Target: Self
       Boosts:
-      - Amount: STR
-        Name: Regeneration
+      - Amount: +2
+        Defense: Fortitude
+        Name: Defense
       Name: Boost
 - Template: Accurate
   Tool: Weapon
@@ -120,11 +121,11 @@ Encounter1:
     - Ability: Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
-      Target: Self
+      Target: AllyWithin5
       Boosts:
-      - Amount: +2
-        Defense: Reflex
-        Name: Defense
+      - Amount: STR
+        Limit: NextAttack
+        Name: Attack
       Name: Boost
 - Template: Accurate
   Tool: Weapon
@@ -221,11 +222,10 @@ Daily1:
       - Name: Slowed
       Name: Condition
     - Duration: EndOfUserNextTurn
-      Target: AdjacentAlly
+      Target: AllyWithin5
       Boosts:
-      - Amount: +2
-        Defense: ArmorClass
-        Name: Defense
+      - Amount: DEX
+        Name: Temporary Hit Points
       Name: Boost
     - Cost:
         Fixed: 1
@@ -269,9 +269,9 @@ Encounter3:
     - Duration: EndOfUserNextTurn
       Target: AllyWithin5
       Boosts:
-      - Amount: DEX
-        Limit: Target
-        Name: Attack
+      - Amount: +2
+        Defense: Fortitude
+        Name: Defense
       Name: Boost
 - Template: Accurate
   Tool: Weapon
@@ -317,8 +317,9 @@ Daily5:
     - Duration: EndOfUserNextTurn
       Target: Self
       Boosts:
-      - Amount: DEX
-        Name: Temporary Hit Points
+      - Amount: +2
+        Limit: Target
+        Name: Attack
       Name: Boost
     - Duration: EndOfUserNextTurn
       Conditions:
@@ -359,8 +360,9 @@ Daily5:
     - Duration: EndOfUserNextTurn
       Target: AdjacentAlly
       Boosts:
-      - Amount: STR
-        Name: Regeneration
+      - Amount: DEX
+        Limit: NextAttack
+        Name: Attack
       Name: Boost
     - Movement:
       - Timing: After
@@ -479,14 +481,13 @@ Daily9:
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Conditions:
-      - Name: Weakened
+      - Name: Immobilized
       Name: Condition
     - Duration: EndOfUserNextTurn
       Target: AdjacentAlly
       Boosts:
-      - Amount: +2
-        Limit: Target
-        Name: Attack
+      - Amount: STR
+        Name: Temporary Hit Points
       Name: Boost
     - Cost:
         Fixed: 0.5
@@ -509,9 +510,9 @@ Daily9:
     - Duration: EndOfUserNextTurn
       Target: Self
       Boosts:
-      - Amount: +2
-        Defense: ArmorClass
-        Name: Defense
+      - Amount: STR
+        Limit: NextAttack
+        Name: Attack
       Name: Boost
 - Template: Multiattack
   Tool: Weapon
@@ -554,9 +555,9 @@ Daily9:
     - Duration: EndOfUserNextTurn
       Target: Self
       Boosts:
-      - Amount: +2
-        Defense: ArmorClass
-        Name: Defense
+      - Amount: STR
+        Limit: NextAttack
+        Name: Attack
       Name: Boost
 Encounter11:
 - Template: Multiattack
@@ -574,7 +575,7 @@ Encounter11:
       Target: AdjacentAlly
       Boosts:
       - Amount: STR
-        Name: Temporary Hit Points
+        Name: Regeneration
       Name: Boost
 - Template: Multiattack
   Tool: Weapon
@@ -634,7 +635,8 @@ Encounter11:
       Target: AdjacentAlly
       Boosts:
       - Amount: DEX
-        Name: Temporary Hit Points
+        Limit: Target
+        Name: Attack
       Name: Boost
 Encounter13:
 - Template: Multiattack
@@ -676,11 +678,10 @@ Encounter13:
     - Ability: Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
-      Target: AdjacentAlly
+      Target: AllyWithin5
       Boosts:
-      - Amount: +2
-        Defense: ArmorClass
-        Name: Defense
+      - Amount: DEX
+        Name: Temporary Hit Points
       Name: Boost
   - WeaponDice: 1
     Ability: Dexterity
@@ -711,7 +712,7 @@ Daily15:
 - Template: Multiattack
   Tool: Weapon
   Attacks:
-  - WeaponDice: 4
+  - WeaponDice: 5
     Ability: Strength
     DamageTypes:
     - Fire
@@ -719,18 +720,18 @@ Daily15:
     Modifiers:
     - Ability: Strength
       Name: Ability Modifier Damage
-    - Duration: EndOfEncounter
-      Target: AdjacentAlly
+    - Duration: EndOfUserNextTurn
+      Target: AllyWithin5
       Boosts:
-      - Amount: +2
-        Defense: Fortitude
-        Name: Defense
+      - Amount: DEX
+        Limit: Target
+        Name: Attack
       Name: Boost
     - Defense: Fortitude
       Name: Non-Armor Defense
     - Duration: EndOfUserNextTurn
       Conditions:
-      - Name: Dazed
+      - Name: Grants Combat Advantage
       Name: Condition
 - Template: Close blast
   Tool: Weapon
@@ -746,39 +747,17 @@ Daily15:
     - Duration: EndOfUserNextTurn
       Target: Self
       Boosts:
-      - Name: Healing Surge
+      - Amount: +2
+        Name: Temporary Hit Points
       Name: Boost
     - Duration: EndOfUserNextTurn
       Conditions:
       - Name: Dazed
       Name: Condition
-    - Size: 5
+    - Size: 6
       Type: Blast
       Name: Multiple
 - Template: Multiattack
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 4
-    Ability: Strength
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Duration: EndOfEncounter
-      Target: AllyWithin5
-      Boosts:
-      - Amount: +2
-        Defense: Will
-        Name: Defense
-      Name: Boost
-    - Duration: SaveEnds
-      Conditions:
-      - Defense: ArmorClass
-        Name: Defense Penalty
-      Name: Condition
-- Template: Conditions
   Tool: Weapon
   Attacks:
   - WeaponDice: 5
@@ -790,20 +769,44 @@ Daily15:
     - Ability: Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
+      Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Defense: Will
+        Name: Defense
+      Name: Boost
+    - Duration: EndOfUserNextTurn
       Conditions:
-      - Name: Immobilized
+      - Defense: Will
+        Name: Defense Penalty
+      Name: Condition
+    - Cost:
+        Fixed: 1
+        Multiplier: 1
+      Name: Prone
+- Template: Conditions
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 4.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: SaveEnds
+      Conditions:
+      - Amount: 5
+        Name: Ongoing
       Name: Condition
     - Duration: EndOfUserNextTurn
-      Target: AdjacentAlly
+      Target: AllyWithin5
       Boosts:
-      - Amount: DEX
-        Name: Regeneration
+      - Name: Extra Saving Throw
       Name: Boost
-    - Movement:
-      - Timing: Anytime
-        Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
+    - Defense: Fortitude
+      Name: Non-Armor Defense
 Encounter17:
 - Template: Multiattack
   Tool: Weapon
@@ -811,7 +814,7 @@ Encounter17:
   - WeaponDice: 1.5
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Fire
     Target: Range
     Modifiers:
     - Ability: Strength
@@ -819,397 +822,37 @@ Encounter17:
   - WeaponDice: 1.5
     Ability: Strength
     DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-- Template: Accurate
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 3
-    Ability: Dexterity
-    DamageTypes:
     - Fire
     Target: Range
     Modifiers:
     - Ability: Strength
       Name: Ability Modifier Damage
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Close blast
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 2.1666666666666665
-    Ability: Strength
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Size: 3
-      Type: Blast
-      Name: Multiple
-    - Ability: Strength
-      Name: Ability Modifier Damage
-- Template: Conditions
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 2
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Duration: EndOfUserNextTurn
-      Conditions:
-      - Name: Blinded
-      Name: Condition
-    - Duration: EndOfUserNextTurn
-      Target: AllyWithin5
-      Boosts:
-      - Amount: DEX
-        Name: Regeneration
-      Name: Boost
-Daily19:
-- Template: Multiattack
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 6.5
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Duration: EndOfUserNextTurn
-      Conditions:
-      - Defense: Fortitude
-        Name: Defense Penalty
-      Name: Condition
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-    - Duration: EndOfUserNextTurn
-      Target: AllyWithin5
-      Boosts:
-      - Amount: STR
-        Limit: NextAttack
-        Name: Attack
-      Name: Boost
-- Template: Interrupt Penalty
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 3
-    Ability: Strength
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Cost:
-        Fixed: 4.5
-        Multiplier: 1
-      Name: OpportunityAction
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Accurate
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 6.5
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Duration: EndOfUserNextTurn
-      Target: AllyWithin5
-      Boosts:
-      - Amount: STR
-        Limit: NextAttack
-        Name: Attack
-      Name: Boost
-    - Defense: Fortitude
-      Name: Non-Armor Defense
 - Template: Bonus
   Tool: Weapon
   Attacks:
-  - WeaponDice: 6.5
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Duration: EndOfUserNextTurn
-      Target: AllyWithin5
-      Boosts:
-      - Amount: +2
-        Limit: NextAttack
-        Name: Attack
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Conditions:
-      - Name: Slowed
-      Name: Condition
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-Daily20:
-- Template: Multiattack
-  Tool: Weapon
-  Attacks:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Weapon
     Target: Range
     Modifiers:
     - Ability: Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
-      Target: AdjacentAlly
+      Target: Self
       Boosts:
-      - Amount: DEX
-        Limit: Target
-        Name: Attack
+      - Amount: +2
+        Defense: Reflex
+        Name: Defense
       Name: Boost
+    - Duration: EndOfUserNextTurn
+      Conditions:
+      - Name: Grants Combat Advantage
+      Name: Condition
+- Template: Skirmish
+  Tool: Weapon
+  Attacks:
   - WeaponDice: 2.5
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Duration: EndOfUserNextTurn
-      Target: AdjacentAlly
-      Boosts:
-      - Amount: DEX
-        Name: Temporary Hit Points
-      Name: Boost
-  - WeaponDice: 1.5
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-- Template: Skirmish
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 6.5
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Movement:
-      - Timing: Anytime
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-    - Duration: EndOfUserNextTurn
-      Target: AllyWithin5
-      Boosts:
-      - Amount: +2
-        Name: Temporary Hit Points
-      Name: Boost
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-- Template: Multiattack
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 6
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-    - Duration: EndOfUserNextTurn
-      Conditions:
-      - Name: Immobilized
-      Name: Condition
-- Template: Bonus
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 5.5
-    Ability: Strength
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Duration: EndOfUserNextTurn
-      Target: Self
-      Boosts:
-      - Name: Extra Saving Throw
-      Name: Boost
-    - Duration: SaveEnds
-      Conditions:
-      - Name: Dazed
-      Name: Condition
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-Encounter23:
-- Template: Multiattack
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 2
-    Ability: Strength
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-  - WeaponDice: 2
-    Ability: Strength
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-- Template: Skirmish
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 3.5
-    Ability: Dexterity
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Movement:
-      - Timing: Anytime
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-    - Duration: EndOfUserNextTurn
-      Target: AllyWithin5
-      Boosts:
-      - Amount: +2
-        Name: Regeneration
-      Name: Boost
-- Template: Accurate
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 3
-    Ability: Strength
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Duration: EndOfUserNextTurn
-      Conditions:
-      - Name: Blinded
-      Name: Condition
-- Template: Interrupt Penalty
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 4
-    Ability: Strength
-    DamageTypes:
-    - Fire
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Duration: EndOfUserNextTurn
-      Target: AdjacentAlly
-      Boosts:
-      - Amount: STR
-        Name: Temporary Hit Points
-      Name: Boost
-Daily25:
-- Template: Multiattack
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 7.5
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Duration: EndOfUserNextTurn
-      Target: Self
-      Boosts:
-      - Amount: +2
-        Name: Regeneration
-      Name: Boost
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-- Template: Multiattack
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 5.5
-    Ability: Strength
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Duration: EndOfUserNextTurn
-      Target: Self
-      Boosts:
-      - Amount: STR
-        Limit: NextAttack
-        Name: Attack
-      Name: Boost
-    - Duration: SaveEnds
-      Conditions:
-      - Name: Blinded
-      Name: Condition
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
-- Template: Skirmish
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 6
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -1222,47 +865,29 @@ Daily25:
         Amount: +2
         Name: Shift
       Name: Skirmish Movement
-    - Duration: EndOfEncounter
-      Target: AdjacentAlly
-      Boosts:
-      - Amount: +2
-        Defense: ArmorClass
-        Name: Defense
-      Name: Boost
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+- Template: Accurate
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
     - Cost:
         Fixed: 0.5
         Multiplier: 1
       Amount: +2
       Name: To-Hit Bonus to Current Attack
-- Template: Accurate
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 7.5
-    Ability: Dexterity
-    DamageTypes:
-    - Weapon
-    Target: Range
-    Modifiers:
-    - Ability: Strength
-      Name: Ability Modifier Damage
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-    - Duration: EndOfUserNextTurn
-      Target: AllyWithin5
-      Boosts:
-      - Amount: +2
-        Name: Regeneration
-      Name: Boost
-    - Movement:
-      - Timing: After
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-Encounter27:
+Daily19:
 - Template: Multiattack
   Tool: Weapon
   Attacks:
-  - WeaponDice: 2
+  - WeaponDice: 3.5
     Ability: Strength
     DamageTypes:
     - Fire
@@ -1270,7 +895,7 @@ Encounter27:
     Modifiers:
     - Ability: Strength
       Name: Ability Modifier Damage
-  - WeaponDice: 2
+  - WeaponDice: 4
     Ability: Strength
     DamageTypes:
     - Fire
@@ -1282,6 +907,44 @@ Encounter27:
   Tool: Weapon
   Attacks:
   - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: EndOfUserNextTurn
+      Target: AdjacentAlly
+      Boosts:
+      - Amount: STR
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: EndOfUserNextTurn
+      Target: Self
+      Boosts:
+      - Amount: +2
+        Defense: Reflex
+        Name: Defense
+      Name: Boost
+    - Movement:
+      - Timing: Before
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+- Template: Bonus
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 6
     Ability: Strength
     DamageTypes:
     - Fire
@@ -1290,40 +953,130 @@ Encounter27:
     - Ability: Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
-      Target: AdjacentAlly
+      Target: AllyWithin5
       Boosts:
-      - Amount: +2
-        Limit: NextAttack
-        Name: Attack
+      - Amount: STR
+        Name: Temporary Hit Points
       Name: Boost
     - Duration: EndOfUserNextTurn
       Conditions:
-      - Name: Blinded
+      - Name: Immobilized
       Name: Condition
-- Template: Accurate
+    - Movement:
+      - Timing: Anytime
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+- Template: Conditions
   Tool: Weapon
   Attacks:
-  - WeaponDice: 3.5
-    Ability: Dexterity
+  - WeaponDice: 6.5
+    Ability: Strength
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: EndOfUserNextTurn
+      Conditions:
+      - Defense: Reflex
+        Name: Defense Penalty
+      Name: Condition
+    - Duration: EndOfUserNextTurn
+      Target: AllyWithin5
+      Boosts:
+      - Amount: DEX
+        Name: Regeneration
+      Name: Boost
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+Daily20:
+- Template: Multiattack
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 5.5
+    Ability: Strength
     DamageTypes:
     - Fire
     Target: Range
     Modifiers:
     - Ability: Strength
       Name: Ability Modifier Damage
-    - Defense: Reflex
-      Name: Non-Armor Defense
+    - Duration: SaveEnds
+      Conditions:
+      - Defense: Fortitude
+        Name: Defense Penalty
+      Name: Condition
+    - Duration: EndOfUserNextTurn
+      Target: AllyWithin5
+      Boosts:
+      - Name: Healing Surge
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+- Template: Multiattack
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 2
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: EndOfUserNextTurn
+      Target: AdjacentAlly
+      Boosts:
+      - Amount: DEX
+        Name: Temporary Hit Points
+      Name: Boost
+  - WeaponDice: 3.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: Self
       Boosts:
-      - Amount: STR
+      - Amount: DEX
+        Name: Regeneration
+      Name: Boost
+    - Duration: EndOfUserNextTurn
+      Conditions:
+      - Name: Weakened
+      Name: Condition
+- Template: Skirmish
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 3
+    Ability: Strength
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Before
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+    - Duration: EndOfUserNextTurn
+      Target: AdjacentAlly
+      Boosts:
+      - Amount: DEX
         Limit: Target
         Name: Attack
       Name: Boost
-- Template: Conditions
-  Tool: Weapon
-  Attacks:
-  - WeaponDice: 3.5
+  - WeaponDice: 2.5
     Ability: Strength
     DamageTypes:
     - Fire
@@ -1335,16 +1088,39 @@ Encounter27:
       Conditions:
       - Name: Slowed
       Name: Condition
-    - Movement:
-      - Timing: Anytime
-        Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
-Daily29:
+    - Duration: EndOfUserNextTurn
+      Target: Self
+      Boosts:
+      - Amount: +2
+        Name: Temporary Hit Points
+      Name: Boost
+- Template: Accurate
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 6
+    Ability: Strength
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+    - Duration: EndOfUserNextTurn
+      Conditions:
+      - Name: Defense Penalty
+      Name: Condition
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+Encounter23:
 - Template: Multiattack
   Tool: Weapon
   Attacks:
-  - WeaponDice: 8.5
+  - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
     - Weapon
@@ -1353,6 +1129,229 @@ Daily29:
     - Ability: Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
+      Target: AllyWithin5
+      Boosts:
+      - Amount: +2
+        Defense: ArmorClass
+        Name: Defense
+      Name: Boost
+- Template: Skirmish
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 3
+    Ability: Strength
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Before
+        Amount: +1
+        Name: Shift
+      - Timing: After
+        Amount: +1
+        Name: Shift
+      Name: Skirmish Movement
+    - Duration: EndOfUserNextTurn
+      Conditions:
+      - Name: Weakened
+      Name: Condition
+- Template: Interrupt Penalty
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 4
+    Ability: Strength
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: EndOfUserNextTurn
+      Target: AdjacentAlly
+      Boosts:
+      - Amount: STR
+        Name: Regeneration
+      Name: Boost
+- Template: Accurate
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 3.5
+    Ability: Strength
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Duration: EndOfUserNextTurn
+      Conditions:
+      - Name: Dazed
+      Name: Condition
+Daily25:
+- Template: Multiattack
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 3
+    Ability: Strength
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: EndOfUserNextTurn
+      Target: Self
+      Boosts:
+      - Amount: +2
+        Name: Regeneration
+      Name: Boost
+  - WeaponDice: 3.5
+    Ability: Strength
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: EndOfUserNextTurn
+      Target: AllyWithin5
+      Boosts:
+      - Amount: STR
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
+    - Duration: SaveEnds
+      Conditions:
+      - Amount: 5
+        Name: Ongoing
+      Name: Condition
+- Template: Multiattack
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 7.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Movement:
+      - Name: Non-Provoking Movement
+      Name: Skirmish Movement
+    - Duration: EndOfUserNextTurn
+      Target: AdjacentAlly
+      Boosts:
+      - Amount: DEX
+        Limit: Target
+        Name: Attack
+      Name: Boost
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+- Template: Skirmish
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 6.5
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Anytime
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+    - Duration: EndOfUserNextTurn
+      Target: Self
+      Boosts:
+      - Name: Extra Saving Throw
+      Name: Boost
+    - Duration: SaveEnds
+      Conditions:
+      - Defense: ArmorClass
+        Name: Defense Penalty
+      Name: Condition
+- Template: Accurate
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 7
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Movement:
+      - Name: Non-Provoking Movement
+      Name: Skirmish Movement
+    - Duration: SaveEnds
+      Conditions:
+      - Amount: 5
+        Name: Ongoing
+      Name: Condition
+Encounter27:
+- Template: Multiattack
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: EndOfUserNextTurn
+      Conditions:
+      - Name: Blinded
+      Name: Condition
+    - Cost:
+        Fixed: 0.5
+        Multiplier: 1
+      Amount: +2
+      Name: To-Hit Bonus to Current Attack
+- Template: Interrupt Penalty
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 4
+    Ability: Dexterity
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Before
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+- Template: Conditions
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 3
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Duration: SaveEnds
       Conditions:
       - Name: Dazed
       Name: Condition
@@ -1360,15 +1359,35 @@ Daily29:
       Target: AdjacentAlly
       Boosts:
       - Amount: STR
-        Limit: NextAttack
-        Name: Attack
+        Name: Temporary Hit Points
       Name: Boost
-    - Defense: Reflex
-      Name: Non-Armor Defense
-- Template: Conditions
+- Template: Skirmish
   Tool: Weapon
   Attacks:
-  - WeaponDice: 7
+  - WeaponDice: 3.5
+    Ability: Strength
+    DamageTypes:
+    - Fire
+    Target: Range
+    Modifiers:
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Anytime
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+    - Duration: EndOfUserNextTurn
+      Target: AdjacentAlly
+      Boosts:
+      - Amount: DEX
+        Name: Regeneration
+      Name: Boost
+Daily29:
+- Template: Multiattack
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 7.5
     Ability: Strength
     DamageTypes:
     - Weapon
@@ -1378,7 +1397,8 @@ Daily29:
       Name: Ability Modifier Damage
     - Duration: SaveEnds
       Conditions:
-      - Name: Immobilized
+      - Amount: 5
+        Name: Ongoing
       Name: Condition
     - Movement:
       - Timing: Anytime
@@ -1386,10 +1406,9 @@ Daily29:
         Name: Shift
       Name: Skirmish Movement
     - Duration: EndOfUserNextTurn
-      Target: AllyWithin5
+      Target: AdjacentAlly
       Boosts:
-      - Amount: +2
-        Name: Regeneration
+      - Name: Healing Surge
       Name: Boost
 - Template: Multiattack
   Tool: Weapon
@@ -1412,7 +1431,7 @@ Daily29:
         Amount: STR
         Name: Shift
       Name: Skirmish Movement
-- Template: Accurate
+- Template: Conditions
   Tool: Weapon
   Attacks:
   - WeaponDice: 8
@@ -1423,16 +1442,36 @@ Daily29:
     Modifiers:
     - Ability: Strength
       Name: Ability Modifier Damage
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-    - Duration: EndOfUserNextTurn
-      Target: AllyWithin5
-      Boosts:
-      - Amount: STR
-        Limit: Target
-        Name: Attack
-      Name: Boost
     - Duration: EndOfUserNextTurn
       Conditions:
       - Name: Immobilized
       Name: Condition
+    - Duration: EndOfUserNextTurn
+      Target: Self
+      Boosts:
+      - Amount: +2
+        Defense: ArmorClass
+        Name: Defense
+      Name: Boost
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+- Template: Interrupt Penalty
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 4
+    Ability: Dexterity
+    DamageTypes:
+    - Weapon
+    Target: Range
+    Modifiers:
+    - Cost:
+        Fixed: 5.5
+        Multiplier: 1
+      Name: OpportunityAction
+    - Ability: Strength
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Before
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement

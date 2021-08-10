@@ -9,32 +9,40 @@ namespace GameEngine.Generator.Modifiers
     public record BoostFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "Boost";
+
+        private static IEnumerable<Boost> GetBasicBoosts(AttackProfileBuilder attack)
+        {
+            var amounts = new GameDiceExpression[] { 2 }.Concat(attack.PowerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));
+            var defenses = new[] { DefenseType.ArmorClass, DefenseType.Fortitude, DefenseType.Reflex, DefenseType.Will };
+
+                foreach (var amount in amounts)
+                {
+                    yield return new AttackBoost(amount, Limit.NextAttack);
+                    yield return new AttackBoost(amount, Limit.Target);
+                    yield return new TemporaryHitPoints(amount);
+                    yield return new Regeneration(amount);
+                }
+                yield return new ExtraSavingThrow();
+                yield return new HealingSurge();
+
+                foreach (var defense in defenses)
+                {
+                    yield return new DefenseBoost(2, defense);
+                }
+        }
+
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
-            var amounts = new GameDiceExpression[] { 2 }.Concat(attack.PowerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));
+
             var targets = new[] { Target.Self, Target.AdjacentAlly, Target.AllyWithin5 };
-            var defenses = new[] { DefenseType.ArmorClass, DefenseType.Fortitude, DefenseType.Reflex, DefenseType.Will };
-            foreach (var target in targets)
+            foreach (var basicBoost in GetBasicBoosts(attack))
             {
-                foreach (var amount in amounts)
+                foreach (var target in targets)
                 {
-                    yield return new(BuildModifier(new AttackBoost(amount, Limit.NextAttack), Duration.EndOfUserNextTurn, target));
-                    yield return new(BuildModifier(new AttackBoost(amount, Limit.Target), Duration.EndOfUserNextTurn, target));
-                    yield return new(BuildModifier(new TemporaryHitPoints(amount), Duration.EndOfUserNextTurn, target));
-                    yield return new(BuildModifier(new Regeneration(amount), Duration.EndOfUserNextTurn, target));
-                }
-                yield return new(BuildModifier(new ExtraSavingThrow(), Duration.EndOfUserNextTurn, target));
-                yield return new(BuildModifier(new HealingSurge(), Duration.EndOfUserNextTurn, target));
-                
-                foreach (var defense in defenses)
-                {
-                    yield return new(BuildModifier(new DefenseBoost(2, defense), Duration.EndOfUserNextTurn, target));
-                    if (attack.PowerInfo.Usage == PowerFrequency.Daily)
-                        yield return new(BuildModifier(new DefenseBoost(2, defense), Duration.EndOfEncounter, target));
+                    yield return new(BuildModifier(basicBoost, Duration.EndOfUserNextTurn, target));
                 }
             }
-
 
             ToHitBoost BuildModifier(Boost boost, Duration duration, Target target) =>
                 new(duration, target, Build(boost));
