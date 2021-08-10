@@ -30,7 +30,7 @@ namespace GameEngine.Generator
     {
     }
 
-    public record AttackProfileBuilder(AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers)
+    public record AttackProfileBuilder(AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers, PowerHighLevelInfo PowerInfo)
     {
         public int Complexity => Modifiers.Aggregate(0, (prev, next) => prev + next.GetComplexity());
         public PowerCost TotalCost => Modifiers.Aggregate(PowerCost.Empty, (prev, next) => prev + next.GetCost());
@@ -62,7 +62,7 @@ namespace GameEngine.Generator
     }
     public abstract record PowerModifierFormula(string Name)
     {
-        public abstract IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo);
+        public abstract IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack);
 
         protected bool HasModifier(AttackProfileBuilder attack, string? name = null) => attack.Modifiers.Count(m => m.Name == (name ?? Name)) > 0;
 
@@ -76,7 +76,7 @@ namespace GameEngine.Generator
 
     public abstract record PowerTemplate(string Name)
     {
-        public abstract StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder, PowerHighLevelInfo powerInfo);
+        public abstract StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder);
         public abstract bool CanApply(PowerHighLevelInfo powerInfo);
     }
 

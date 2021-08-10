@@ -13,10 +13,10 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "To-Hit Bonus to Current Attack";
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
-            foreach (var entry in powerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
+            foreach (var entry in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
                 yield return new(BuildModifier(new PowerCost(0.5), (GameDiceExpression)entry), Chances: 1);
             yield return new(BuildModifier(new PowerCost(0.5), 2), Chances: 5);
 

@@ -29,6 +29,8 @@ namespace GameEngine.Generator
             (SkirmishPowerTemplateName, new SkirmishFormula()),
             (BonusPowerTemplateName, new BoostFormula()),
             // Slowed/Unconscious
+            // Aftereffects
+            // Stance
             // Reroll attack
             // Disarm and catch
             // Free basic attacks

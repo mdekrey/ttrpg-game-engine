@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Multiple";
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack) || HasModifier(attack, MultiattackFormula.ModifierName)) yield break;
 
@@ -23,9 +23,9 @@ namespace GameEngine.Generator.Modifiers
 
             foreach (var size in sizes)
             {
-                if (attack.Target != TargetType.Range || powerInfo.ToolProfile.Type != ToolType.Weapon)
+                if (attack.Target != TargetType.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                     yield return new(BuildModifier(type: "Burst", size: size.Size, cost: size.Cost));
-                if (attack.Target != TargetType.Melee || powerInfo.ToolProfile.Type != ToolType.Weapon)
+                if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                 {
                     yield return new(BuildModifier(type: "Blast", size: size.Size, cost: size.Cost));
                     yield return new(BuildModifier(type: "Area", size: size.Size, cost: size.Cost));

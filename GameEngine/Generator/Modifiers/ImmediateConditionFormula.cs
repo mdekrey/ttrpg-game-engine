@@ -6,7 +6,7 @@ namespace GameEngine.Generator.Modifiers
 {
     public record ImmediateConditionFormula(string Name, PowerCost Cost) : PowerModifierFormula(Name)
     {
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
 

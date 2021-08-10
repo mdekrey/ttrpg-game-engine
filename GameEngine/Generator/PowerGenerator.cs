@@ -107,15 +107,15 @@ namespace GameEngine.Generator
 
             var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
             var attack = RootBuilder(basePower, powerInfo, randomGenerator);
-            var attacks = GenerateAttacks(attack, powerInfo, PowerDefinitions.powerTemplates[template]);
+            var attacks = GenerateAttacks(attack, PowerDefinitions.powerTemplates[template]);
 
             return new PowerProfile(template, powerInfo.ToolProfile.Type, attacks.ToImmutableList());
         }
 
-        public IEnumerable<AttackProfile> GenerateAttacks(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo, PowerTemplate powerTemplate)
+        public IEnumerable<AttackProfile> GenerateAttacks(AttackProfileBuilder attack, PowerTemplate powerTemplate)
         {
             var attackBuilders = new Queue<AttackProfileBuilder>();
-            ApplyEach(powerTemplate.StarterFormulas(attack, powerInfo).Initial);
+            ApplyEach(powerTemplate.StarterFormulas(attack).Initial);
             attackBuilders = new Queue<AttackProfileBuilder>(new[] { attack }.Concat(attackBuilders));
 
             var appliedStandardStarter = false;
@@ -123,12 +123,12 @@ namespace GameEngine.Generator
             while (attackBuilders.Count > 0)
             {
                 attack = attackBuilders.Dequeue();
-                attack = attack.PreApply(powerInfo, randomGenerator);
+                attack = attack.PreApply(randomGenerator);
 
                 if (!appliedStandardStarter)
                 {
                     appliedStandardStarter = true;
-                    ApplyEach(powerTemplate.StarterFormulas(attack, powerInfo).Standard);
+                    ApplyEach(powerTemplate.StarterFormulas(attack).Standard);
                 }
 
                 while (true)
@@ -137,7 +137,7 @@ namespace GameEngine.Generator
                     if (applicableModifiers.Length == 0)
                         break;
                     var oldAttack = attack;
-                    attack = attack.ApplyRandomModifiers(powerInfo, applicableModifiers, randomGenerator);
+                    attack = attack.ApplyRandomModifiers(applicableModifiers, randomGenerator);
                     if (oldAttack == attack)
                         break;
                     TrySplit();
@@ -183,7 +183,8 @@ namespace GameEngine.Generator
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                 )),
                 info.ToolProfile.Range.ToTargetType(),
-                ImmutableList<PowerModifier>.Empty
+                ImmutableList<PowerModifier>.Empty,
+                info
             );
 
         private static int GetAttackMaxComplexity(PowerFrequency usage) =>

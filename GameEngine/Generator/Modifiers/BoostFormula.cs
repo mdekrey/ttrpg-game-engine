@@ -9,10 +9,10 @@ namespace GameEngine.Generator.Modifiers
     public record BoostFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "Boost";
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
-            var amounts = new GameDiceExpression[] { 2 }.Concat(powerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));
+            var amounts = new GameDiceExpression[] { 2 }.Concat(attack.PowerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));
             var targets = new[] { Target.Self, Target.AdjacentAlly, Target.AllyWithin5 };
             var defenses = new[] { DefenseType.ArmorClass, DefenseType.Fortitude, DefenseType.Reflex, DefenseType.Will };
             foreach (var target in targets)
@@ -30,7 +30,7 @@ namespace GameEngine.Generator.Modifiers
                 foreach (var defense in defenses)
                 {
                     yield return new(BuildModifier(new DefenseBoost(2, defense), Duration.EndOfUserNextTurn, target));
-                    if (powerInfo.Usage == PowerFrequency.Daily)
+                    if (attack.PowerInfo.Usage == PowerFrequency.Daily)
                         yield return new(BuildModifier(new DefenseBoost(2, defense), Duration.EndOfEncounter, target));
                 }
             }

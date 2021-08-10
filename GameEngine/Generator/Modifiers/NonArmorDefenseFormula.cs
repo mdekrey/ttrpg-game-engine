@@ -11,11 +11,11 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Non-Armor Defense";
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
-            var cost = powerInfo.ToolProfile.Type == ToolType.Implement ? new PowerCost(0) : new PowerCost(0.5);
-            yield return new(BuildModifier(cost, powerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
+            var cost = attack.PowerInfo.ToolProfile.Type == ToolType.Implement ? new PowerCost(0) : new PowerCost(0.5);
+            yield return new(BuildModifier(cost, attack.PowerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
             yield return new(BuildModifier(cost, DefenseType.Fortitude), Chances: 1);
             yield return new(BuildModifier(cost, DefenseType.Reflex), Chances: 1);
             yield return new(BuildModifier(cost, DefenseType.Will), Chances: 1);

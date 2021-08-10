@@ -33,7 +33,7 @@ namespace GameEngine.Generator.Modifiers
             DefensePenalty.Options(),
         }.SelectMany(e => e).ToArray();
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
 

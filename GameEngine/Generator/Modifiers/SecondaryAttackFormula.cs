@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Multiattack";
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack) || HasModifier(attack, BurstFormula.ModifierName)) yield break;
 

@@ -8,11 +8,11 @@ namespace GameEngine.Generator.Modifiers
 {
     public record AbilityModifierDamageFormula() : PowerModifierFormula("Ability Modifier Damage")
     {
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack, PowerHighLevelInfo powerInfo)
+        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
             // TODO - allow primary and secondary damage
-            yield return new(BuildModifier(powerInfo.ToolProfile.Abilities[0]));
+            yield return new(BuildModifier(attack.PowerInfo.ToolProfile.Abilities[0]));
 
             AbilityModifier BuildModifier(Ability ability) =>
                 new (Name, ability);
