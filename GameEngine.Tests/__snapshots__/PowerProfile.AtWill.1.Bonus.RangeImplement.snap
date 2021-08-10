@@ -1,7 +1,7 @@
 ﻿Template: Bonus
 Tool: Implement
 Attacks:
-- WeaponDice: 1
+- WeaponDice: 0.5
   Ability: Strength
   DamageTypes:
   - Radiant
@@ -17,4 +17,6 @@ Attacks:
     - Amount: +2
       Limit: NextAttack
       Name: Attack
+    - Amount: +2
+      Name: Temporary Hit Points
     Name: Boost
