@@ -6,11 +6,10 @@
     Target: Melee
     Modifiers:
     - Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 0.5
-        Multiplier: 1
-      Amount: STR
-      Name: Shift
+    - Movement:
+      - Amount: STR
+        Name: Shift
+      Name: Skirmish Movement
 - Name: Generated
   Keywords:
   - Weapon
@@ -26,6 +25,5 @@
               Types:
               - Weapon
       MeleeWeapon: {}
-    Slide:
-      Target: Self
+    Shift:
       Amount: STR

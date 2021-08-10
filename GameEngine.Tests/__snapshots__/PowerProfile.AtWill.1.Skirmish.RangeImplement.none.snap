@@ -11,8 +11,7 @@ Attacks:
     Defense: Fortitude
     Name: Non-Armor Defense
   - Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Amount: STR
-    Name: Shift
+  - Movement:
+    - Amount: STR
+      Name: Shift
+    Name: Skirmish Movement

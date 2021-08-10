@@ -54,14 +54,19 @@ namespace GameEngine.Rules
         RandomizedOptions? Randomized = null,
         AttackRollOptions? Attack = null,
         SerializedTarget? Target = null,
-        SerializedSlide? Slide = null,
+        SerializedShift? Shift = null,
         SerializedPower? Power = null
     )
     {
         public static readonly SerializedEffect Empty = new ();
     }
-
-    public record SerializedSlide(TargetType Target = TargetType.Self, string Amount = "1" /* Could be an ability mod */);
+    public enum ShiftTiming
+    {
+        Anytime,
+        Before,
+        After,
+    }
+    public record SerializedShift(ShiftTiming Timing, string Amount = "1" /* Could be an ability mod, or 'speed' */);
 
     public record SerializedPower
     (
