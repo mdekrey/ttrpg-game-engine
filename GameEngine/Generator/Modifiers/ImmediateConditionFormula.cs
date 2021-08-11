@@ -5,6 +5,7 @@ using GameEngine.Rules;
 
 namespace GameEngine.Generator.Modifiers
 {
+    // TODO - merge this into opponent movement control
     public record ImmediateConditionFormula(string Name, PowerCost Cost) : PowerModifierFormula(Name)
     {
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
