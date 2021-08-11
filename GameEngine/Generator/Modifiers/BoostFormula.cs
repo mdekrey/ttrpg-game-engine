@@ -83,7 +83,7 @@ namespace GameEngine.Generator.Modifiers
             // TODO - give a 1.25 bonus on modifier to make it a round 5 for every 4
             public override double Cost() => Amount.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 4.0
                 * (Limit == null ? 2 : 1);
-            public override bool DurationAffected() => true;
+            public override bool DurationAffected() => Limit != BoostFormula.Limit.NextAttack;
             public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack)
             {
                 if (Amount.Abilities == CharacterAbilities.Empty)
@@ -171,7 +171,15 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => new PowerCost(Fixed: Boosts.Select(m => m.Cost() * (m.DurationAffected() ? DurationMultiplier(Duration) : 1)).Sum());
+            public override PowerCost GetCost() => 
+                new PowerCost(
+                    Fixed: Boosts
+                        .Select(m => 
+                            m.Cost() 
+                                * (m.DurationAffected() ? DurationMultiplier(Duration) : 1)
+                                * TargetMultiplier(Target)
+                    ).Sum()
+                );
 
             public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 from set in new[]
@@ -182,8 +190,21 @@ namespace GameEngine.Generator.Modifiers
                     from boost in Boosts
                     from upgrade in boost.GetUpgrades(attack)
                     select this with { Boosts = Boosts.Remove(boost).Add(upgrade) },
-                    // TODO - upgrade Duration
-                    // TODO - upgrade Target
+
+                    from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
+                    where duration > Duration
+                    where duration switch
+                    {
+                        Duration.EndOfEncounter => attack.PowerInfo.Usage == PowerFrequency.Daily,
+                        Duration.SaveEnds => attack.Modifiers.OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds },
+                        _ => false,
+                    }
+                    where Boosts.Any(b => b.DurationAffected())
+                    select this with { Duration = duration },
+
+                    from target in new[] { Target.AllAllies, Target.AllAlliesAndSelf }
+                    where Target is not Target.AllAllies or Target.AllAlliesAndSelf
+                    select this with { Target = target },
                 }
                 from mod in set
                 select new RandomChances<PowerModifier>(mod);
