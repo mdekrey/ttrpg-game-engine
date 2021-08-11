@@ -44,7 +44,7 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            ToHitBoost BuildModifier(Boost boost, Duration duration, Target target) =>
+            BoostModifier BuildModifier(Boost boost, Duration duration, Target target) =>
                 new(duration, target, Build(boost));
         }
 
@@ -167,7 +167,7 @@ namespace GameEngine.Generator.Modifiers
         }
 
 
-        public record ToHitBoost(Duration Duration, Target Target, ImmutableList<Boost> Boosts) : PowerModifier(ModifierName)
+        public record BoostModifier(Duration Duration, Target Target, ImmutableList<Boost> Boosts) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 

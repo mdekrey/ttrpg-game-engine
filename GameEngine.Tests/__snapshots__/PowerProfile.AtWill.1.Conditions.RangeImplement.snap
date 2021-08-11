@@ -1,7 +1,7 @@
 ﻿Template: Conditions
 Tool: Implement
 Attacks:
-- WeaponDice: 1
+- WeaponDice: 0.5
   Ability: Strength
   DamageTypes:
   - Radiant
@@ -13,5 +13,5 @@ Attacks:
     Name: Ability Modifier Damage
   - Duration: EndOfUserNextTurn
     Conditions:
-    - Name: Slowed
+    - Name: Blinded
     Name: Condition

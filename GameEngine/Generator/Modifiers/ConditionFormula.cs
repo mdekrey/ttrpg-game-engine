@@ -14,43 +14,70 @@ namespace GameEngine.Generator.Modifiers
         public record ConditionOptionKey(Condition Condition, Duration Duration);
         public record ConditionOptionValue(PowerCost Cost, int Chances);
 
-        private static IEnumerable<KeyValuePair<ConditionOptionKey, ConditionOptionValue>> Default(string name, double cost) =>
-            new KeyValuePair<ConditionOptionKey, ConditionOptionValue>[]
+        private static readonly ImmutableSortedDictionary<string, double> basicConditions =
+            new[]
             {
-                new (new (new Condition(name), Duration.EndOfUserNextTurn), new (new PowerCost(Fixed: cost), 5 - (int)(cost * 2))),
-                new (new (new Condition(name), Duration.SaveEnds), new (new PowerCost(Fixed: cost * 2), 5 - (int)(cost * 4))),
-            };
-
-        private static readonly IReadOnlyList<KeyValuePair<ConditionOptionKey, ConditionOptionValue>> conditions = new[]
+                (Condition: "Slowed", Cost: 0.5), // TODO - do not stack this with Immobilized
+                (Condition: "Dazed", Cost: 0.5),
+                (Condition: "Immobilized", Cost: 1),
+                (Condition: "Weakened", Cost: 1),
+                (Condition: "Grants Combat Advantage", Cost: 0.5), // TODO - do not stack this with Dazed
+                (Condition: "Blinded", Cost: 1),
+            }.ToImmutableSortedDictionary(e => e.Condition, e => e.Cost);
+        private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
         {
-            Default("Slowed", 0.5),
-            Default("Dazed", 0.5),
-            Default("Immobilized", 1),
-            Default("Weakened", 1),
-            Default("Grants Combat Advantage", 1),
-            Default("Blinded", 1),
-            OngoingDamage.Options(),
-            DefensePenalty.Options(),
-        }.SelectMany(e => e).ToArray();
+            new DefensePenalty(DefenseType.ArmorClass),
+            new DefensePenalty(DefenseType.Fortitude),
+            new DefensePenalty(DefenseType.Reflex),
+            new DefensePenalty(DefenseType.Will),
+        }.ToImmutableList();
 
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
 
-            foreach (var entry in conditions)
+            foreach (var condition in basicConditions.Keys.Select(e => new Condition(e)).Concat(DefenseConditions))
             {
-                yield return new(new ConditionModifier(entry.Key.Duration, Build(entry.Key.Condition)), Chances: entry.Value.Chances);
+                yield return new(new ConditionModifier(Duration.EndOfUserNextTurn, Build(condition)));
             }
+            yield return new(new ConditionModifier(Duration.SaveEnds, Build<Condition>(new OngoingDamage(5))));
         }
+
+        public static double DurationMultiplier(Duration duration) =>
+            duration == Duration.EndOfEncounter ? 4
+            : duration == Duration.SaveEnds ? 2 // Must remain "SaveEnds" if there's a Boost dependent upon it
+            : 1;
 
         public record ConditionModifier(Duration Duration, ImmutableList<Condition> Conditions) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
-            public override PowerCost GetCost() => Conditions.Select(c => conditions.First(sample => sample.Key == new ConditionOptionKey(c, Duration)).Value.Cost).Aggregate((a, b) => a + b);
+            public override PowerCost GetCost() => new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(Duration)).Sum());
 
             public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
-                // TODO
-                Enumerable.Empty<RandomChances<PowerModifier>>();
+                from set in new[]
+                {
+                    from basicCondition in basicConditions.Keys
+                    where !Conditions.Select(b => b.Name).Contains(basicCondition)
+                    select this with { Conditions = Conditions.Add(new Condition(basicCondition)) },
+
+                    from condition in Conditions
+                    from upgrade in condition.GetUpgrades(attack)
+                    select this with { Conditions = Conditions.Remove(condition).Add(upgrade) },
+
+                    from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
+                    where attack.Modifiers.OfType<BoostFormula.BoostModifier>().FirstOrDefault() is not BoostFormula.BoostModifier { Duration: Duration.SaveEnds }
+                    where duration > Duration
+                    where duration switch
+                    {
+                        Duration.EndOfEncounter => attack.PowerInfo.Usage == PowerFrequency.Daily,
+                        Duration.SaveEnds => true,
+                        _ => false,
+                    }
+                    select this with { Duration = duration },
+                }
+                from mod in set
+                select new RandomChances<PowerModifier>(mod);
+
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 // TODO
@@ -60,35 +87,31 @@ namespace GameEngine.Generator.Modifiers
 
         public record Condition(string Name)
         {
+            public virtual double Cost() => basicConditions[Name];
+            public virtual IEnumerable<Condition> GetUpgrades(AttackProfileBuilder attack) =>
+                Enumerable.Empty<Condition>();
         }
 
         public record OngoingDamage(int Amount) : Condition("Ongoing")
         {
-            public static IEnumerable<KeyValuePair<ConditionOptionKey, ConditionOptionValue>> Options() =>
-                new KeyValuePair<ConditionOptionKey, ConditionOptionValue>[]
-                {
-                    new (new (new OngoingDamage(5), Duration.SaveEnds), new (new PowerCost(Fixed: 1), 3)),
-                    new (new (new OngoingDamage(10), Duration.SaveEnds), new (new PowerCost(Fixed: 2), 1)),
-                };
+            public override double Cost() => Amount / 5;
+
+            public override IEnumerable<Condition> GetUpgrades(AttackProfileBuilder attack)
+            {
+                if (Amount < 15)
+                    yield return new OngoingDamage(Amount + 5);
+            }
         }
 
         public record DefensePenalty(DefenseType? Defense) : Condition("Defense Penalty")
         {
-            public static IEnumerable<KeyValuePair<ConditionOptionKey, ConditionOptionValue>> Options() =>
-                new KeyValuePair<ConditionOptionKey, ConditionOptionValue>[]
-                {
-                    new (new (new DefensePenalty(DefenseType.ArmorClass), Duration.EndOfUserNextTurn), new (new PowerCost(0.5), 1)),
-                    new (new (new DefensePenalty(DefenseType.Fortitude), Duration.EndOfUserNextTurn), new (new PowerCost(0.5), 1)),
-                    new (new (new DefensePenalty(DefenseType.Reflex), Duration.EndOfUserNextTurn), new (new PowerCost(0.5), 1)),
-                    new (new (new DefensePenalty(DefenseType.Will), Duration.EndOfUserNextTurn), new (new PowerCost(0.5), 1)),
-                    new (new (new DefensePenalty(DefenseType.ArmorClass), Duration.SaveEnds), new (new PowerCost(1), 1)),
-                    new (new (new DefensePenalty(DefenseType.Fortitude), Duration.SaveEnds), new (new PowerCost(1), 1)),
-                    new (new (new DefensePenalty(DefenseType.Reflex), Duration.SaveEnds), new (new PowerCost(1), 1)),
-                    new (new (new DefensePenalty(DefenseType.Will), Duration.SaveEnds), new (new PowerCost(1), 1)),
+            public override double Cost() => Defense == null ? 1 : 0.5;
 
-                    new (new (new DefensePenalty(Defense: null), Duration.EndOfUserNextTurn), new (new PowerCost(1), 1)),
-                    new (new (new DefensePenalty(Defense: null), Duration.SaveEnds), new (new PowerCost(2), 1)),
-                };
+            public override IEnumerable<Condition> GetUpgrades(AttackProfileBuilder attack)
+            {
+                if (Defense != null)
+                    yield return new DefensePenalty((DefenseType?)null);
+            }
         }
     }
 }

@@ -11,7 +11,7 @@
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Conditions:
-      - Name: Slowed
+      - Name: Dazed
       Name: Condition
 - Name: Generated
   Frequency: AtWill
