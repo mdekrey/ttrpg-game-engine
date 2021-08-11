@@ -187,6 +187,7 @@ namespace GameEngine.Generator.Modifiers
                     from basicBoost in GetBasicBoosts(attack)
                     where !Boosts.Select(b => b.Name).Contains(basicBoost.Name)
                     select this with { Boosts = Boosts.Add(basicBoost) },
+
                     from boost in Boosts
                     from upgrade in boost.GetUpgrades(attack)
                     select this with { Boosts = Boosts.Remove(boost).Add(upgrade) },

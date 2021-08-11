@@ -29,20 +29,54 @@ namespace GameEngine.Generator.Modifiers
         public abstract record SkirmishMovement(string Name)
         {
             public abstract double Cost();
+            public abstract IEnumerable<SkirmishMovement> GetUpgrades(AttackProfileBuilder attack);
         }
         public record Shift(ShiftTiming Timing, GameDiceExpression? Amount) : SkirmishMovement("Shift")
         {
             // If Amount is null, it means "your speed"
             public override double Cost() => Amount == null ? 1 : (Amount.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 4.0);
+            public override IEnumerable<SkirmishMovement> GetUpgrades(AttackProfileBuilder attack)
+            {
+                if (Amount == null) yield break;
+                if (Amount.Abilities == CharacterAbilities.Empty)
+                {
+                    if (Amount.DieCodes.Modifier < 8) // actually 10
+                        yield return this with { Amount = Amount + Amount.DieCodes.Modifier };
+                    if (Amount.DieCodes.Modifier == 2)
+                    {
+                        foreach (var ability in attack.PowerInfo.ToolProfile.Abilities)
+                            yield return this with { Amount = Amount + ability };
+                    }
+                    if (Amount.DieCodes.Modifier <= 2)
+                        yield return this with { Amount = null };
+                }
+            }
         }
         public record MovementDoesNotProvoke() : SkirmishMovement("Non-Provoking Movement")
         {
             public override double Cost() => 0.5;
+            public override IEnumerable<SkirmishMovement> GetUpgrades(AttackProfileBuilder attack)
+            {
+                yield break;
+            }
         }
         public record SlideOpponent(bool IsPush, GameDiceExpression Amount) : SkirmishMovement("Slide Opponent")
         {
             // TODO - give a 1.25 bonus on modifier to make it a round 5 for every 4
             public override double Cost() => Amount.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 2.0;
+            public override IEnumerable<SkirmishMovement> GetUpgrades(AttackProfileBuilder attack)
+            {
+                if (Amount.Abilities == CharacterAbilities.Empty)
+                {
+                    if (Amount.DieCodes.Modifier < 8) // actually 10
+                        yield return this with { Amount = Amount + Amount.DieCodes.Modifier };
+                    if (Amount.DieCodes.Modifier == 2)
+                    {
+                        foreach (var ability in attack.PowerInfo.ToolProfile.Abilities)
+                            yield return this with { Amount = Amount + ability };
+                    }
+                }
+            }
         }
 
         public record SkirmishMovementModifier(ImmutableList<SkirmishMovement> Movement) : PowerModifier(ModifierName)
@@ -52,8 +86,17 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost() => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 
             public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
-                // TODO
-                Enumerable.Empty<RandomChances<PowerModifier>>();
+                from set in new[]
+                {
+                    // TODO - multiple types of movement?
+
+                    from movement in Movement
+                    from upgrade in movement.GetUpgrades(attack)
+                    select this with { Movement = Movement.Remove(movement).Add(upgrade) },
+                }
+                from mod in set
+                select new RandomChances<PowerModifier>(mod);
+
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 // TODO
