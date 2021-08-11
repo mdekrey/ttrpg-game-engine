@@ -18,7 +18,6 @@ Attacks:
     Conditions:
     - Name: Blinded
     - Name: Dazed
-    - Name: Grants Combat Advantage
     - Name: Immobilized
-    - Name: Slowed
+    - Name: Weakened
     Name: Condition

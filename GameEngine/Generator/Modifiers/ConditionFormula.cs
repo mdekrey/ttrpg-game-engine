@@ -14,14 +14,22 @@ namespace GameEngine.Generator.Modifiers
         public record ConditionOptionKey(Condition Condition, Duration Duration);
         public record ConditionOptionValue(PowerCost Cost, int Chances);
 
+        private static readonly ImmutableSortedDictionary<string, ImmutableList<string>> subsume =
+            new[]
+            {
+                (Parent: "Immobilized", Children: new[] { "Slowed" }),
+                (Parent: "Dazed", Children: new[] { "Grants Combat Advantage" }),
+                (Parent: "Unconscious", Children: new[] { "Immobilized", "Dazed", "Slowed", "Weakened", "Blinded" }),
+            }.ToImmutableSortedDictionary(e => e.Parent, e => e.Children.ToImmutableList());
+
         private static readonly ImmutableSortedDictionary<string, double> basicConditions =
             new[]
             {
-                (Condition: "Slowed", Cost: 0.5), // TODO - do not stack this with Immobilized
+                (Condition: "Slowed", Cost: 0.5),
                 (Condition: "Dazed", Cost: 0.5),
                 (Condition: "Immobilized", Cost: 1),
                 (Condition: "Weakened", Cost: 1),
-                (Condition: "Grants Combat Advantage", Cost: 0.5), // TODO - do not stack this with Dazed
+                (Condition: "Grants Combat Advantage", Cost: 0.5),
                 (Condition: "Blinded", Cost: 1),
             }.ToImmutableSortedDictionary(e => e.Condition, e => e.Cost);
         private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
@@ -58,11 +66,12 @@ namespace GameEngine.Generator.Modifiers
                 {
                     from basicCondition in basicConditions.Keys
                     where !Conditions.Select(b => b.Name).Contains(basicCondition)
-                    select this with { Conditions = Conditions.Add(new Condition(basicCondition)) },
+                    where !GetSubsumed(Conditions).Contains(basicCondition)
+                    select this with { Conditions = Filter(Conditions.Add(new Condition(basicCondition))) },
 
                     from condition in Conditions
                     from upgrade in condition.GetUpgrades(attack)
-                    select this with { Conditions = Conditions.Remove(condition).Add(upgrade) },
+                    select this with { Conditions = Filter(Conditions.Remove(condition).Add(upgrade)) },
 
                     from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
                     where attack.Modifiers.OfType<BoostFormula.BoostModifier>().FirstOrDefault() is not BoostFormula.BoostModifier { Duration: Duration.SaveEnds }
@@ -77,6 +86,17 @@ namespace GameEngine.Generator.Modifiers
                 }
                 from mod in set
                 select new RandomChances<PowerModifier>(mod);
+
+            private static ImmutableList<Condition> Filter(ImmutableList<Condition> conditions)
+            {
+                var subsumed = GetSubsumed(conditions);
+                return conditions.Where(c => !subsumed.Contains(c.Name)).ToImmutableList();
+            }
+
+            private static HashSet<string> GetSubsumed(ImmutableList<Condition> conditions) =>
+                conditions.Select(c => c.Name).SelectMany(c => subsume.ContainsKey(c)
+                                    ? subsume[c]
+                                    : Enumerable.Empty<string>()).ToHashSet();
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
