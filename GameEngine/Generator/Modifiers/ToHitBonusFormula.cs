@@ -25,14 +25,14 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => new PowerCost(Amount.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 4.0);
+            public override PowerCost GetCost() => new PowerCost(Amount.ToWeaponDice());
 
             public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack)
             {
                 if (Amount.Abilities == CharacterAbilities.Empty)
                 {
                     if (Amount.DieCodes.Modifier < 8) // actually 10
-                        yield return new(this with { Amount = Amount + Amount.DieCodes.Modifier });
+                        yield return new(this with { Amount = Amount.StepUpModifier() });
                     if (Amount.DieCodes.Modifier == 2)
                     {
                         foreach (var ability in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
@@ -45,7 +45,7 @@ namespace GameEngine.Generator.Modifiers
                 return Pipe(
                     (AttackRollOptions attack) => attack with
                     {
-                        Bonus = (GameDiceExpression.Parse(attack.Bonus) + Amount + (Amount.DieCodes.Modifier / 4)).ToString()
+                        Bonus = (GameDiceExpression.Parse(attack.Bonus) + Amount.RoundModifier()).ToString()
                     },
                     ModifyAttack,
                     ModifyTarget

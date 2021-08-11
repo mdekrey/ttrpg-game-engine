@@ -80,20 +80,13 @@ namespace GameEngine.Generator.Modifiers
         }
         public record AttackBoost(GameDiceExpression Amount, Limit? Limit) : Boost("Attack")
         {
-            // TODO - give a 1.25 bonus on modifier to make it a round 5 for every 4
-            public override double Cost() => Amount.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 4.0
+            public override double Cost() => Amount.ToWeaponDice()
                 * (Limit == null ? 2 : 1);
             public override bool DurationAffected() => Limit != BoostFormula.Limit.NextAttack;
             public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack)
             {
-                if (Amount.Abilities == CharacterAbilities.Empty)
-                {
-                    if (Amount.DieCodes.Modifier < 8) // actually 10
-                        yield return this with { Amount = Amount + Amount.DieCodes.Modifier };
-                    if (Amount.DieCodes.Modifier == 2)
-                        foreach (var ability in attack.PowerInfo.ToolProfile.Abilities)
-                            yield return this with { Amount = Amount + ability };
-                }
+                foreach (var entry in Amount.GetStandardIncreases(attack.PowerInfo.ToolProfile.Abilities))
+                    yield return this with { Amount = entry };
                 if (Limit != null)
                     yield return this with { Limit = null };
             }
@@ -101,39 +94,25 @@ namespace GameEngine.Generator.Modifiers
         }
         public record DefenseBoost(GameDiceExpression Amount, DefenseType? Defense) : Boost("Defense")
         {
-            // TODO - give a 1.25 bonus on modifier to make it a round 5 for every 4
-            public override double Cost() => Amount.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 4.0
+            public override double Cost() => Amount.ToWeaponDice()
                 * (Defense == null ? 2 : 1);
             public override bool DurationAffected() => true;
             public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack)
             {
-                if (Amount.Abilities == CharacterAbilities.Empty)
-                {
-                    if (Amount.DieCodes.Modifier < 8) // actually 10
-                        yield return this with { Amount = Amount + Amount.DieCodes.Modifier };
-                    if (Amount.DieCodes.Modifier == 2)
-                        foreach (var ability in attack.PowerInfo.ToolProfile.Abilities)
-                            yield return this with { Amount = Amount + ability };
-                }
+                foreach (var entry in Amount.GetStandardIncreases(attack.PowerInfo.ToolProfile.Abilities))
+                    yield return this with { Amount = entry };
                 if (Defense != null)
                     yield return this with { Defense = null };
             }
         }
         public record TemporaryHitPoints(GameDiceExpression Amount) : Boost("Temporary Hit Points")
         {
-            // TODO - give a 1.25 bonus on modifier to make it a round 5 for every 4
-            public override double Cost() => Amount.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 4.0;
+            public override double Cost() => Amount.ToWeaponDice();
             public override bool DurationAffected() => false;
             public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack)
             {
-                if (Amount.Abilities == CharacterAbilities.Empty)
-                {
-                    if (Amount.DieCodes.Modifier < 8) // actually 10
-                        yield return this with { Amount = Amount + Amount.DieCodes.Modifier };
-                    if (Amount.DieCodes.Modifier == 2)
-                        foreach (var ability in attack.PowerInfo.ToolProfile.Abilities)
-                            yield return this with { Amount = Amount + ability };
-                }
+                foreach (var entry in Amount.GetStandardIncreases(attack.PowerInfo.ToolProfile.Abilities))
+                    yield return this with { Amount = entry };
             }
         }
         public record ExtraSavingThrow() : Boost("Extra Saving Throw")
@@ -150,19 +129,12 @@ namespace GameEngine.Generator.Modifiers
         }
         public record Regeneration(GameDiceExpression Amount) : Boost("Regeneration")
         {
-            // TODO - give a 1.25 bonus on modifier to make it a round 5 for every 4
-            public override double Cost() => Amount.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 4.0; // TODO - verify
+            public override double Cost() => Amount.ToWeaponDice(); // TODO - verify
             public override bool DurationAffected() => true;
             public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack)
             {
-                if (Amount.Abilities == CharacterAbilities.Empty)
-                {
-                    if (Amount.DieCodes.Modifier < 8) // actually 10
-                        yield return this with { Amount = Amount + Amount.DieCodes.Modifier };
-                    if (Amount.DieCodes.Modifier == 2)
-                        foreach (var ability in attack.PowerInfo.ToolProfile.Abilities)
-                            yield return this with { Amount = Amount + ability };
-                }
+                foreach (var entry in Amount.GetStandardIncreases(attack.PowerInfo.ToolProfile.Abilities))
+                    yield return this with { Amount = entry };
             }
         }
 
