@@ -16,29 +16,36 @@ namespace GameEngine.Generator.Modifiers
         public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
+            yield return new(new ToHitBonus(2), Chances: 5);
             foreach (var entry in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
-                yield return new(BuildModifier(new PowerCost(0.5), (GameDiceExpression)entry), Chances: 1);
-            yield return new(BuildModifier(new PowerCost(0.5), 2), Chances: 5);
-
-            ToHitBonus BuildModifier(PowerCost powerCost, GameDiceExpression dice) =>
-                new (powerCost, dice);
+                yield return new(new ToHitBonus((GameDiceExpression)entry), Chances: 1);
         }
 
-        public record ToHitBonus(PowerCost Cost, GameDiceExpression Amount) : PowerModifier(ModifierName)
+        public record ToHitBonus(GameDiceExpression Amount) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => Cost;
+            public override PowerCost GetCost() => new PowerCost(Amount.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 4.0);
 
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
-                // TODO
-                Enumerable.Empty<RandomChances<PowerModifier>>();
+            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack)
+            {
+                if (Amount.Abilities == CharacterAbilities.Empty)
+                {
+                    if (Amount.DieCodes.Modifier < 8) // actually 10
+                        yield return new(this with { Amount = Amount + Amount.DieCodes.Modifier });
+                    if (Amount.DieCodes.Modifier == 2)
+                    {
+                        foreach (var ability in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
+                            yield return new(this with { Amount = Amount + ability });
+                    }
+                }
+            }
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 return Pipe(
                     (AttackRollOptions attack) => attack with
                     {
-                        Bonus = (GameDiceExpression.Parse(attack.Bonus) + Amount).ToString()
+                        Bonus = (GameDiceExpression.Parse(attack.Bonus) + Amount + (Amount.DieCodes.Modifier / 4)).ToString()
                     },
                     ModifyAttack,
                     ModifyTarget

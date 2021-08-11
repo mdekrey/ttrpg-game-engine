@@ -1,7 +1,7 @@
 ﻿Template: Accurate
 Tool: Implement
 Attacks:
-- WeaponDice: 1
+- WeaponDice: 0.5
   Ability: Strength
   DamageTypes:
   - Radiant
@@ -11,8 +11,5 @@ Attacks:
     Name: Non-Armor Defense
   - Ability: Strength
     Name: Ability Modifier Damage
-  - Cost:
-      Fixed: 0.5
-      Multiplier: 1
-    Amount: DEX
+  - Amount: +4
     Name: To-Hit Bonus to Current Attack
