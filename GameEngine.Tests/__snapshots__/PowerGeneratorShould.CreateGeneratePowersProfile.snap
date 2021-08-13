@@ -24,7 +24,8 @@
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: Self
@@ -43,7 +44,8 @@
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -57,7 +59,8 @@
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: Before
@@ -78,7 +81,8 @@ Encounter1:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -92,7 +96,8 @@ Encounter1:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Conditions:
@@ -112,7 +117,8 @@ Encounter1:
     - Size: 3
       Type: Blast
       Name: Multiple
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Accurate
@@ -124,7 +130,8 @@ Encounter1:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -148,7 +155,8 @@ Daily1:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AllyWithin5
@@ -162,7 +170,8 @@ Daily1:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -185,7 +194,8 @@ Daily1:
     - Size: 3
       Type: Blast
       Name: Multiple
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AdjacentAlly
@@ -204,7 +214,8 @@ Daily1:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AllyWithin5
@@ -234,7 +245,8 @@ Daily1:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Reflex
       Name: Non-Armor Defense
@@ -260,7 +272,8 @@ Encounter3:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   - WeaponDice: 1
     Ability: Dexterity
@@ -268,7 +281,8 @@ Encounter3:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Multiattack
@@ -280,7 +294,8 @@ Encounter3:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   - WeaponDice: 1
     Ability: Strength
@@ -288,7 +303,8 @@ Encounter3:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Conditions
@@ -300,7 +316,8 @@ Encounter3:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Conditions:
@@ -326,7 +343,8 @@ Encounter3:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -354,7 +372,8 @@ Daily5:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AdjacentAlly
@@ -378,7 +397,8 @@ Daily5:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: Anytime
@@ -413,7 +433,8 @@ Daily5:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -431,7 +452,8 @@ Daily5:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Accurate
@@ -443,7 +465,8 @@ Daily5:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Reflex
       Name: Non-Armor Defense
@@ -472,7 +495,8 @@ Encounter7:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   - WeaponDice: 1
     Ability: Dexterity
@@ -480,7 +504,8 @@ Encounter7:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Conditions
@@ -492,7 +517,8 @@ Encounter7:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -512,7 +538,8 @@ Encounter7:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AllyWithin5
@@ -530,7 +557,8 @@ Encounter7:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AdjacentAlly
@@ -550,7 +578,8 @@ Daily9:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -571,7 +600,8 @@ Daily9:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Bonus
@@ -583,7 +613,8 @@ Daily9:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfEncounter
       Target: AdjacentAlly
@@ -602,7 +633,8 @@ Daily9:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Reflex
       Name: Non-Armor Defense
@@ -627,7 +659,8 @@ Daily9:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: Before
@@ -652,7 +685,8 @@ Encounter11:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: Self
@@ -670,7 +704,8 @@ Encounter11:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Amount: STR
       Name: To-Hit Bonus to Current Attack
@@ -696,7 +731,8 @@ Encounter11:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   - WeaponDice: 1.5
     Ability: Dexterity
@@ -704,7 +740,8 @@ Encounter11:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Skirmish
@@ -716,7 +753,8 @@ Encounter11:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: After
@@ -741,7 +779,8 @@ Encounter13:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   - WeaponDice: 1.5
     Ability: Strength
@@ -749,7 +788,8 @@ Encounter13:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Multiattack
@@ -761,7 +801,8 @@ Encounter13:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: Self
@@ -776,7 +817,8 @@ Encounter13:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: Self
@@ -794,7 +836,8 @@ Encounter13:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -808,7 +851,8 @@ Encounter13:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AllAllies
@@ -837,7 +881,8 @@ Daily15:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AdjacentAlly
@@ -854,7 +899,8 @@ Daily15:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Amount: +2
       Name: To-Hit Bonus to Current Attack
@@ -883,7 +929,8 @@ Daily15:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   - WeaponDice: 3
     Ability: Strength
@@ -891,7 +938,8 @@ Daily15:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: Self
@@ -910,7 +958,8 @@ Daily15:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: After
@@ -943,7 +992,8 @@ Encounter17:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   - WeaponDice: 1.5
     Ability: Strength
@@ -951,7 +1001,8 @@ Encounter17:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Close blast
@@ -963,7 +1014,8 @@ Encounter17:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Amount: +2
       Name: To-Hit Bonus to Current Attack
@@ -977,7 +1029,8 @@ Encounter17:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   - WeaponDice: 1.5
     Ability: Dexterity
@@ -985,7 +1038,8 @@ Encounter17:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Skirmish
@@ -997,7 +1051,8 @@ Encounter17:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: After
@@ -1024,7 +1079,8 @@ Daily19:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AdjacentAlly
@@ -1047,7 +1103,8 @@ Daily19:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AllyWithin5
@@ -1069,7 +1126,8 @@ Daily19:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: After
@@ -1095,7 +1153,8 @@ Daily19:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -1118,7 +1177,8 @@ Daily19:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Cost:
         Fixed: 1
@@ -1147,7 +1207,8 @@ Daily20:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -1175,7 +1236,8 @@ Daily20:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -1198,7 +1260,8 @@ Daily20:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Amount: +2
       Name: To-Hit Bonus to Current Attack
@@ -1224,7 +1287,8 @@ Daily20:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Amount: +2
       Name: To-Hit Bonus to Current Attack
@@ -1258,7 +1322,8 @@ Encounter23:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AdjacentAlly
@@ -1277,7 +1342,8 @@ Encounter23:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AllyWithin5
@@ -1295,7 +1361,8 @@ Encounter23:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -1318,7 +1385,8 @@ Encounter23:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: After
@@ -1340,7 +1408,8 @@ Daily25:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -1370,7 +1439,8 @@ Daily25:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: Before
@@ -1404,7 +1474,8 @@ Daily25:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: Before
@@ -1431,7 +1502,8 @@ Daily25:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -1456,7 +1528,8 @@ Encounter27:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AllyWithin5
@@ -1475,7 +1548,8 @@ Encounter27:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -1497,7 +1571,8 @@ Encounter27:
     - Fire
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Conditions:
@@ -1525,7 +1600,8 @@ Encounter27:
     - Size: 3
       Type: Blast
       Name: Multiple
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 Daily29:
@@ -1538,7 +1614,8 @@ Daily29:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AllyWithin5
@@ -1559,7 +1636,8 @@ Daily29:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Target: AllyWithin5
@@ -1582,7 +1660,8 @@ Daily29:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Movement:
       - Timing: Anytime
@@ -1608,7 +1687,8 @@ Daily29:
     - Weapon
     Target: Range
     Modifiers:
-    - Ability: Strength
+    - Abilities:
+      - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense

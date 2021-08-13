@@ -10,7 +10,8 @@ Attacks:
   - Size: 3
     Type: Blast
     Name: Multiple
-  - Ability: Strength
+  - Abilities:
+    - Strength
     Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense

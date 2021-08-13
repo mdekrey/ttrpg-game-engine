@@ -9,7 +9,8 @@ Attacks:
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Ability: Strength
+  - Abilities:
+    - Strength
     Name: Ability Modifier Damage
   - Duration: EndOfUserNextTurn
     Conditions:

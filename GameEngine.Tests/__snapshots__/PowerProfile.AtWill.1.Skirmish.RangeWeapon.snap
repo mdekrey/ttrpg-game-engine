@@ -7,7 +7,8 @@ Attacks:
   - Weapon
   Target: Range
   Modifiers:
-  - Ability: Strength
+  - Abilities:
+    - Strength
     Name: Ability Modifier Damage
   - Movement:
     - Timing: Anytime

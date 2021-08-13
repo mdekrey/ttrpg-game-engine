@@ -28,12 +28,14 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => new PowerCost(0.5);
+            public override PowerCost GetCost() => new PowerCost(Defense == DefenseType.ArmorClass ? 0 : 0.5);
 
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 Enumerable.Empty<RandomChances<IAttackModifier>>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
+                if (Defense == DefenseType.ArmorClass)
+                    return effect;
                 return Pipe(
                     (AttackRollOptions attack) => attack with { Defense = Defense },
                     ModifyAttack,

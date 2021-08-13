@@ -15,14 +15,14 @@ namespace GameEngine.Generator.Modifiers
             yield return new(BuildModifier(attack.PowerInfo.ToolProfile.Abilities[0]));
 
             AbilityDamageModifier BuildModifier(Ability ability) =>
-                new (Name, ability);
+                new (Name, Build(ability));
         }
 
-        public record AbilityDamageModifier(string Name, Ability Ability, Ability? Secondary = null) : AttackModifier(Name)
+        public record AbilityDamageModifier(string Name, ImmutableList<Ability> Abilities) : AttackModifier(Name)
         {
             public override int GetComplexity() => 0;
 
-            public override PowerCost GetCost() => new PowerCost(Secondary == null ? 0.5 : 1);
+            public override PowerCost GetCost() => new PowerCost(Abilities.Count * 0.5);
 
             // TODO - how do we make this an upgrade of "last resort" to round out the numbers?
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
@@ -38,10 +38,10 @@ namespace GameEngine.Generator.Modifiers
                     damage =>
                     {
                         var initial = damage[0];
-                        var dice = GameDiceExpression.Parse(initial.Amount) + Ability;
+                        var dice = GameDiceExpression.Parse(initial.Amount);
 
-                        if (Secondary != null)
-                            dice += Secondary.Value;
+                        foreach (var ability in Abilities)
+                            dice += ability;
 
                         return damage.SetItem(0, initial with
                         {

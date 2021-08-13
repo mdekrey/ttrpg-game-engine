@@ -7,7 +7,8 @@ Attacks:
   - Weapon
   Target: Melee
   Modifiers:
-  - Ability: Strength
+  - Abilities:
+    - Strength
     Name: Ability Modifier Damage
   - Duration: EndOfUserNextTurn
     Conditions:

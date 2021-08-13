@@ -12,6 +12,7 @@ Attacks:
     Name: Multiple
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Ability: Strength
+  - Abilities:
+    - Strength
     Name: Ability Modifier Damage
 Modifiers: []
