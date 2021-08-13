@@ -7,30 +7,30 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record AbilityModifierDamageFormula() : PowerModifierFormula("Ability Modifier Damage")
+    public record AbilityModifierDamageFormula() : AttackModifierFormula("Ability Modifier Damage")
     {
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
             yield return new(BuildModifier(attack.PowerInfo.ToolProfile.Abilities[0]));
 
-            AbilityModifier BuildModifier(Ability ability) =>
+            AbilityDamageModifier BuildModifier(Ability ability) =>
                 new (Name, ability);
         }
 
-        public record AbilityModifier(string Name, Ability Ability, Ability? Secondary = null) : PowerModifier(Name)
+        public record AbilityDamageModifier(string Name, Ability Ability, Ability? Secondary = null) : AttackModifier(Name)
         {
             public override int GetComplexity() => 0;
 
             public override PowerCost GetCost() => new PowerCost(Secondary == null ? 0.5 : 1);
 
             // TODO - how do we make this an upgrade of "last resort" to round out the numbers?
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 /*Secondary == null
                     ? attack.PowerInfo.ToolProfile.Abilities.Skip(1).Select(secondary =>
                         new RandomChances<PowerModifier>(this with { Secondary = secondary }))
                     : */
-                Enumerable.Empty<RandomChances<PowerModifier>>();
+                Enumerable.Empty<RandomChances<IAttackModifier>>();
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {

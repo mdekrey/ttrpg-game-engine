@@ -13,6 +13,7 @@
     - Weapon
     Target: Melee
     Modifiers: []
+  Modifiers: []
 - Name: Generated
   Frequency: AtWill
   ActionType: Standard

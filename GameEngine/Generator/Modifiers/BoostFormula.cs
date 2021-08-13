@@ -6,13 +6,13 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record BoostFormula() : PowerModifierFormula(ModifierName)
+    public record BoostFormula() : AttackModifierFormula(ModifierName)
     {
         public const string ModifierName = "Boost";
 
-        private static IEnumerable<Boost> GetBasicBoosts(AttackProfileBuilder attack)
+        private static IEnumerable<Boost> GetBasicBoosts(PowerHighLevelInfo powerInfo)
         {
-            var amounts = new GameDiceExpression[] { 2 }.Concat(attack.PowerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));
+            var amounts = new GameDiceExpression[] { 2 }.Concat(powerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));
             var defenses = new[] { DefenseType.ArmorClass, DefenseType.Fortitude, DefenseType.Reflex, DefenseType.Will };
 
             foreach (var amount in amounts)
@@ -31,12 +31,12 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
 
             var targets = new[] { Target.Self, Target.AdjacentAlly, Target.AllyWithin5 };
-            foreach (var basicBoost in GetBasicBoosts(attack))
+            foreach (var basicBoost in GetBasicBoosts(attack.PowerInfo))
             {
                 foreach (var target in targets)
                 {
@@ -76,16 +76,16 @@ namespace GameEngine.Generator.Modifiers
         {
             public abstract double Cost();
             public abstract bool DurationAffected();
-            public abstract IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack);
+            public abstract IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo);
         }
         public record AttackBoost(GameDiceExpression Amount, Limit? Limit) : Boost("Attack")
         {
             public override double Cost() => Amount.ToWeaponDice()
                 * (Limit == null ? 2 : 1);
             public override bool DurationAffected() => Limit != BoostFormula.Limit.NextAttack;
-            public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
-                foreach (var entry in Amount.GetStandardIncreases(attack.PowerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
                     yield return this with { Amount = entry };
                 if (Limit != null)
                     yield return this with { Limit = null };
@@ -97,9 +97,9 @@ namespace GameEngine.Generator.Modifiers
             public override double Cost() => Amount.ToWeaponDice()
                 * (Defense == null ? 2 : 1);
             public override bool DurationAffected() => true;
-            public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
-                foreach (var entry in Amount.GetStandardIncreases(attack.PowerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
                     yield return this with { Amount = entry };
                 if (Defense != null)
                     yield return this with { Defense = null };
@@ -109,9 +109,9 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => Amount.ToWeaponDice();
             public override bool DurationAffected() => false;
-            public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
-                foreach (var entry in Amount.GetStandardIncreases(attack.PowerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
                     yield return this with { Amount = entry };
             }
         }
@@ -119,27 +119,27 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => 1;
             public override bool DurationAffected() => false;
-            public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack) => Enumerable.Empty<Boost>();
+            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
         }
         public record HealingSurge() : Boost("Healing Surge")
         {
             public override double Cost() => 1;
             public override bool DurationAffected() => false;
-            public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack) => Enumerable.Empty<Boost>();
+            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
         }
         public record Regeneration(GameDiceExpression Amount) : Boost("Regeneration")
         {
             public override double Cost() => Amount.ToWeaponDice(); // TODO - verify
             public override bool DurationAffected() => true;
-            public override IEnumerable<Boost> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
-                foreach (var entry in Amount.GetStandardIncreases(attack.PowerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
                     yield return this with { Amount = entry };
             }
         }
 
 
-        public record BoostModifier(Duration Duration, Target Target, ImmutableList<Boost> Boosts) : PowerModifier(ModifierName)
+        public record BoostModifier(Duration Duration, Target Target, ImmutableList<Boost> Boosts) : AttackAndPowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
@@ -153,23 +153,23 @@ namespace GameEngine.Generator.Modifiers
                     ).Sum()
                 );
 
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<RandomChances<AttackAndPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
                 from set in new[]
                 {
-                    from basicBoost in GetBasicBoosts(attack)
+                    from basicBoost in GetBasicBoosts(powerInfo)
                     where !Boosts.Select(b => b.Name).Contains(basicBoost.Name)
                     select this with { Boosts = Boosts.Add(basicBoost) },
 
                     from boost in Boosts
-                    from upgrade in boost.GetUpgrades(attack)
+                    from upgrade in boost.GetUpgrades(powerInfo)
                     select this with { Boosts = Boosts.Remove(boost).Add(upgrade) },
 
                     from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
                     where duration > Duration
                     where duration switch
                     {
-                        Duration.EndOfEncounter => attack.PowerInfo.Usage == PowerFrequency.Daily,
-                        Duration.SaveEnds => attack.Modifiers.OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds },
+                        Duration.EndOfEncounter => powerInfo.Usage == PowerFrequency.Daily,
+                        Duration.SaveEnds => modifiers.OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds },
                         _ => false,
                     }
                     where Boosts.Any(b => b.DurationAffected())
@@ -180,9 +180,9 @@ namespace GameEngine.Generator.Modifiers
                     select this with { Target = target },
                 }
                 from mod in set
-                select new RandomChances<PowerModifier>(mod);
+                select new RandomChances<AttackAndPowerModifier>(mod);
 
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
                 // TODO
                 return effect;

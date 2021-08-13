@@ -8,11 +8,11 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record BurstFormula() : PowerModifierFormula(ModifierName)
+    public record BurstFormula() : AttackModifierFormula(ModifierName)
     {
         public const string ModifierName = "Multiple";
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack) || HasModifier(attack, MultiattackFormula.ModifierName)) yield break;
 
@@ -40,19 +40,19 @@ namespace GameEngine.Generator.Modifiers
             Area,
         }
 
-        public record BurstModifier(int Size, BurstType Type) : PowerModifier(ModifierName)
+        public record BurstModifier(int Size, BurstType Type) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
             public override PowerCost GetCost() => new PowerCost(Multiplier: 2.0 / Size); // TODO - is this right?
 
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 new[]
                 {
-                    new RandomChances<PowerModifier>(this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) })
+                    new RandomChances<IAttackModifier>(this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) })
                 };
 
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attack)
             {
                 return Pipe(
                     (SerializedTarget target) =>

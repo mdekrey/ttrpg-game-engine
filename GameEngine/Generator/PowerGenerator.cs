@@ -106,30 +106,53 @@ namespace GameEngine.Generator
                     .Where(templateName => PowerDefinitions.powerTemplates[templateName].CanApply(powerInfo)));
 
             var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
-            var attack = RootBuilder(basePower, powerInfo, randomGenerator);
-            var attacks = GenerateAttacks(attack, PowerDefinitions.powerTemplates[template]);
+            var powerProfileBuilder = RootBuilder(basePower, template, powerInfo, randomGenerator);
+            powerProfileBuilder = ApplyEach(powerProfileBuilder, PowerDefinitions.powerTemplates[template].PowerFormulas(powerProfileBuilder));
 
-            return new PowerProfile(template, powerInfo.ToolProfile.Type, attacks.ToImmutableList());
+            var attack = RootAttackBuilder(basePower, powerInfo, randomGenerator);
+            attack = ApplyEach(attack, PowerDefinitions.powerTemplates[template].InitialAttackFormulas(attack));
+            powerProfileBuilder = powerProfileBuilder with
+            {
+                Attacks = GenerateAttacks(
+                    TrySplit(attack)
+                        .Select(a => a.PreApply(randomGenerator))
+                        .Select(a => ApplyEach(a, PowerDefinitions.powerTemplates[template].EachAttackFormulas(a)))
+                        .ToArray()
+                ).ToImmutableList(),
+            };
+
+            return powerProfileBuilder.Build();
+
+            TBuilder ApplyEach<TModifier, TBuilder>(TBuilder builder, IEnumerable<IEnumerable<RandomChances<TModifier>>>? modifiers)
+                where TModifier : class, IModifier
+                where TBuilder : ModifierBuilder<TModifier>
+            {
+                foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<RandomChances<TModifier>>>())
+                {
+                    var starterOptions = starterSet.Where(f => builder.CanApply(f.Result)).ToArray();
+                    if (starterOptions.Length == 0) continue;
+                    builder = randomGenerator.RandomSelection(starterOptions).Apply(builder);
+                }
+                return builder;
+            }
+
+            IEnumerable<AttackProfileBuilder> TrySplit(AttackProfileBuilder attack)
+            {
+                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is Modifiers.MultiattackFormula.MultiattackModifier secondaryAttackModifier)
+                {
+                    return secondaryAttackModifier.Split(attack);
+                }
+                return new[] { attack };
+            }
         }
 
-        public IEnumerable<AttackProfile> GenerateAttacks(AttackProfileBuilder attack, PowerTemplate powerTemplate)
+        public IEnumerable<AttackProfileBuilder> GenerateAttacks(IEnumerable<AttackProfileBuilder> attacks)
         {
-            var attackBuilders = new Queue<AttackProfileBuilder>();
-            ApplyEach(powerTemplate.StarterFormulas(attack).Initial);
-            attackBuilders = new Queue<AttackProfileBuilder>(new[] { attack }.Concat(attackBuilders));
-
-            var appliedStandardStarter = false;
+            var attackBuilders = new Queue<AttackProfileBuilder>(attacks);
 
             while (attackBuilders.Count > 0)
             {
-                attack = attackBuilders.Dequeue();
-                attack = attack.PreApply(randomGenerator);
-
-                if (!appliedStandardStarter)
-                {
-                    appliedStandardStarter = true;
-                    ApplyEach(powerTemplate.StarterFormulas(attack).Standard);
-                }
+                var attack = attackBuilders.Dequeue();
 
                 while (true)
                 {
@@ -140,35 +163,24 @@ namespace GameEngine.Generator
                     attack = attack.ApplyRandomModifiers(applicableModifiers, randomGenerator);
                     if (oldAttack == attack)
                         break;
-                    TrySplit();
                 }
 
-                yield return attack.Build();
-            }
-
-            void TrySplit()
-            {
-                if (Modifiers.MultiattackFormula.NeedToSplit(attack) is Modifiers.MultiattackFormula.MultiattackModifier secondaryAttackModifier)
-                {
-                    AttackProfileBuilder next;
-                    (attack, next) = secondaryAttackModifier.Unapply(attack);
-                    attackBuilders!.Enqueue(next);
-                }
-            }
-
-            void ApplyEach(IEnumerable<IEnumerable<RandomChances<PowerModifier>>>? modifiers)
-            {
-                foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<RandomChances<PowerModifier>>>())
-                {
-                    var starterOptions = starterSet.Where(f => attack.CanApply(f.Result)).ToArray();
-                    if (starterOptions.Length == 0) continue;
-                    attack = randomGenerator.RandomSelection(starterOptions).Apply(attack);
-                    TrySplit();
-                }
+                yield return attack;
             }
         }
 
-        private static AttackProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
+        private static PowerProfileBuilder RootBuilder(double basePower, string template, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
+            new PowerProfileBuilder(
+                template, 
+                new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
+                    Minimum: GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
+                    MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
+                ), 
+                info, 
+                ImmutableList<AttackProfileBuilder>.Empty, 
+                ImmutableList<IPowerModifier>.Empty
+            );
+        private static AttackProfileBuilder RootAttackBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfileBuilder(
                 new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0), 
                     Minimum: GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
@@ -183,7 +195,7 @@ namespace GameEngine.Generator
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                 )),
                 info.ToolProfile.Range.ToTargetType(),
-                ImmutableList<PowerModifier>.Empty,
+                ImmutableList<IAttackModifier>.Empty,
                 info
             );
 

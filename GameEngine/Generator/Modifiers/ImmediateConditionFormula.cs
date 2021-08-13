@@ -6,9 +6,9 @@ using GameEngine.Rules;
 namespace GameEngine.Generator.Modifiers
 {
     // TODO - merge this into opponent movement control
-    public record ImmediateConditionFormula(string Name, PowerCost Cost) : PowerModifierFormula(Name)
+    public record ImmediateConditionFormula(string Name, PowerCost Cost) : AttackModifierFormula(Name)
     {
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
 
@@ -18,15 +18,15 @@ namespace GameEngine.Generator.Modifiers
                 new (Name, Cost);
         }
 
-        public record ImmediateConditionModifier(string Name, PowerCost Cost) : PowerModifier(Name)
+        public record ImmediateConditionModifier(string Name, PowerCost Cost) : AttackModifier(Name)
         {
             public override int GetComplexity() => 1;
 
             public override PowerCost GetCost() => Cost;
 
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 // TODO
-                Enumerable.Empty<RandomChances<PowerModifier>>();
+                Enumerable.Empty<RandomChances<IAttackModifier>>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 // TODO

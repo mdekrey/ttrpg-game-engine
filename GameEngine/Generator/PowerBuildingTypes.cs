@@ -30,30 +30,40 @@ namespace GameEngine.Generator
     {
     }
 
-    public record AttackProfileBuilder(AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<PowerModifier> Modifiers, PowerHighLevelInfo PowerInfo)
+    public record ModifierBuilder<TModifier>(AttackLimits Limits, ImmutableList<TModifier> Modifiers) where TModifier : class, IModifier
     {
-        public int Complexity => GetComplexity(Modifiers);
-        public PowerCost TotalCost => GetTotalCost(Modifiers);
+        public int Complexity => Modifiers.Cast<IModifier>().GetComplexity();
+        public PowerCost TotalCost => Modifiers.Cast<IModifier>().GetTotalCost();
+
+        internal bool CanApply(TModifier modifier)
+        {
+            var mods = Modifiers.Concat(new[] { modifier });
+            return mods.Cast<IModifier>().GetTotalCost().Apply(Limits.Initial) >= Limits.Minimum
+                && mods.Cast<IModifier>().GetComplexity() <= Limits.MaxComplexity;
+        }
+
+        internal bool CanSwap(TModifier oldModifier, TModifier newModifier)
+        {
+            var mods = Modifiers.Except(new[] { oldModifier }).Concat(new[] { newModifier });
+            return mods.Cast<IModifier>().GetTotalCost().Apply(Limits.Initial) >= Limits.Minimum
+                && mods.Cast<IModifier>().GetComplexity() <= Limits.MaxComplexity;
+        }
+    }
+
+    public record AttackProfileBuilder(AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
+        : ModifierBuilder<IAttackModifier>(Limits, Modifiers)
+    {
         public double WeaponDice => TotalCost.Apply(Limits.Initial);
         internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers);
 
-        internal bool CanApply(PowerModifier modifier)
-        {
-            var mods = Modifiers.Concat(new[] { modifier });
-            return GetTotalCost(mods).Apply(Limits.Initial) >= Limits.Minimum
-                && GetComplexity(mods) <= Limits.MaxComplexity;
-        }
-
-        internal bool CanSwap(PowerModifier oldModifier, PowerModifier newModifier)
-        {
-            var mods = Modifiers.Except(new[] { oldModifier }).Concat(new[] { newModifier });
-            return GetTotalCost(mods).Apply(Limits.Initial) >= Limits.Minimum
-                && GetComplexity(mods) <= Limits.MaxComplexity;
-        }
-
-        private static int GetComplexity(IEnumerable<PowerModifier> modifiers) => modifiers.Select(m => m.GetComplexity()).DefaultIfEmpty(0).Sum();
-        private static PowerCost GetTotalCost(IEnumerable<PowerModifier> modifiers) => modifiers.Select(m => m.GetCost()).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
     }
+
+    public record PowerProfileBuilder(string Template, AttackLimits Limits, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers)
+        : ModifierBuilder<IPowerModifier>(Limits, Modifiers)
+    {
+        internal PowerProfile Build() => new PowerProfile(Template, PowerInfo.ToolProfile.Type, Attacks.Select(a => a.Build()).ToImmutableList(), Modifiers);
+    }
+
 
     public enum Duration
     {
@@ -64,7 +74,9 @@ namespace GameEngine.Generator
 
     public static class PowerModifierExtensions
     {
-        public static AttackProfileBuilder Apply(this PowerModifier target, AttackProfileBuilder attack, PowerModifier? toRemove = null)
+        public static TBuilder Apply<TModifier, TBuilder>(this TModifier target, TBuilder attack, TModifier? toRemove = null)
+            where TModifier : class, IModifier
+            where TBuilder : ModifierBuilder<TModifier>
         {
             attack = attack with
             {
@@ -73,9 +85,30 @@ namespace GameEngine.Generator
             return attack;
         }
     }
-    public abstract record PowerModifierFormula(string Name)
+
+    public interface IPowerModifierFormula
     {
-        public abstract IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack);
+        string Name { get; }
+        IEnumerable<RandomChances<IPowerModifier>> GetOptions(PowerProfileBuilder attack);
+    }
+
+    public abstract record PowerModifierFormula(string Name) : IPowerModifierFormula
+    {
+        public abstract IEnumerable<RandomChances<IPowerModifier>> GetOptions(PowerProfileBuilder attack);
+
+        protected bool HasModifier(PowerProfileBuilder attack, string? name = null) => attack.Modifiers.Count(m => m.Name == (name ?? Name)) > 0;
+
+    }
+
+    public interface IAttackModifierFormula
+    {
+        string Name { get; }
+        IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack);
+    }
+
+    public abstract record AttackModifierFormula(string Name) : IAttackModifierFormula
+    {
+        public abstract IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack);
 
         protected bool HasModifier(AttackProfileBuilder attack, string? name = null) => attack.Modifiers.Count(m => m.Name == (name ?? Name)) > 0;
 
@@ -85,11 +118,14 @@ namespace GameEngine.Generator
 
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 
-    public record StarterFormulas(IEnumerable<IEnumerable<RandomChances<PowerModifier>>>? Initial = null, IEnumerable<IEnumerable<RandomChances<PowerModifier>>>? Standard = null);
-
     public abstract record PowerTemplate(string Name)
     {
-        public abstract StarterFormulas StarterFormulas(AttackProfileBuilder attackProfileBuilder);
+        public virtual IEnumerable<IEnumerable<RandomChances<IPowerModifier>>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
+            Enumerable.Empty<IEnumerable<RandomChances<IPowerModifier>>>();
+        public virtual IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> InitialAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+            Enumerable.Empty<IEnumerable<RandomChances<IAttackModifier>>>();
+        public virtual IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+            Enumerable.Empty<IEnumerable<RandomChances<IAttackModifier>>>();
         public abstract bool CanApply(PowerHighLevelInfo powerInfo);
     }
 

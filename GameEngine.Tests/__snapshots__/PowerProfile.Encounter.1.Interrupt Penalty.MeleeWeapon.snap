@@ -7,11 +7,15 @@ Attacks:
   - Weapon
   Target: Melee
   Modifiers:
-  - Cost:
-      Fixed: 1
-      Multiplier: 1
-    Name: OpportunityAction
   - Ability: Strength
     Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense
+  - Size: 3
+    Type: Burst
+    Name: Multiple
+Modifiers:
+- Cost:
+    Fixed: 1
+    Multiplier: 1
+  Name: OpportunityAction

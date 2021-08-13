@@ -11,17 +11,17 @@ namespace GameEngine.Generator
     {
         public const string GeneralKeyword = "General";
 
-        public static readonly PowerModifierFormula NonArmorDefense = new NonArmorDefenseFormula();
-        public static readonly PowerModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula();
-        public static readonly PowerModifierFormula Multiple3x3 = new BurstFormula();
-        public static readonly PowerModifierFormula SecondaryAttack = new MultiattackFormula();
+        public static readonly AttackModifierFormula NonArmorDefense = new NonArmorDefenseFormula();
+        public static readonly AttackModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula();
+        public static readonly AttackModifierFormula Multiple3x3 = new BurstFormula();
+        public static readonly AttackModifierFormula SecondaryAttack = new MultiattackFormula();
         public static readonly PowerModifierFormula OpportunityAction = new OpportunityActionFormula();
-        public static readonly ImmutableList<(string keyword, PowerModifierFormula formula)> modifiers = new (string, PowerModifierFormula)[]
+        public static readonly ImmutableList<(string keyword, AttackModifierFormula formula)> modifiers = new (string, AttackModifierFormula)[]
         {
             (GeneralKeyword, AbilityModifierDamage),
             (AccuratePowerTemplateName, NonArmorDefense),
             (GeneralKeyword, Multiple3x3),
-            (GeneralKeyword, SecondaryAttack),
+            //(GeneralKeyword, SecondaryAttack),
             //(GeneralKeyword, OpportunityAction),
             (AccuratePowerTemplateName, new ToHitBonusFormula()),
             (ConditionsPowerTemplateName, new ConditionFormula()),

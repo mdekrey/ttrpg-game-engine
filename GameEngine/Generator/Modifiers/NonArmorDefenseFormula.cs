@@ -8,11 +8,11 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record NonArmorDefenseFormula() : PowerModifierFormula(ModifierName)
+    public record NonArmorDefenseFormula() : AttackModifierFormula(ModifierName)
     {
         public const string ModifierName = "Non-Armor Defense";
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
             yield return new(BuildModifier(attack.PowerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
@@ -24,14 +24,14 @@ namespace GameEngine.Generator.Modifiers
                 new (defense);
         }
 
-        public record NonArmorDefenseModifier(DefenseType Defense) : PowerModifier(ModifierName)
+        public record NonArmorDefenseModifier(DefenseType Defense) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
             public override PowerCost GetCost() => new PowerCost(0.5);
 
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
-                Enumerable.Empty<RandomChances<PowerModifier>>();
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+                Enumerable.Empty<RandomChances<IAttackModifier>>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 return Pipe(

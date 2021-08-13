@@ -9,11 +9,11 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "OpportunityAction";
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IEnumerable<RandomChances<IPowerModifier>> GetOptions(PowerProfileBuilder power)
         {
-            if (HasModifier(attack) || attack.PowerInfo.Usage == PowerFrequency.AtWill) yield break;
+            if (HasModifier(power) || power.PowerInfo.Usage == PowerFrequency.AtWill) yield break;
 
-            var cost = new PowerCost(PowerGenerator.GetBasePower(attack.PowerInfo.Level, attack.PowerInfo.Usage) - PowerGenerator.GetBasePower(attack.PowerInfo.Level, attack.PowerInfo.Usage - 1));
+            var cost = new PowerCost(PowerGenerator.GetBasePower(power.PowerInfo.Level, power.PowerInfo.Usage) - PowerGenerator.GetBasePower(power.PowerInfo.Level, power.PowerInfo.Usage - 1));
 
             yield return new(new OpportunityActionModifier(cost));
         }
@@ -24,9 +24,9 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost() => Cost;
 
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
-                Enumerable.Empty<RandomChances<PowerModifier>>();
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers) =>
+                Enumerable.Empty<RandomChances<IPowerModifier>>();
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
                 // TODO
                 return effect;

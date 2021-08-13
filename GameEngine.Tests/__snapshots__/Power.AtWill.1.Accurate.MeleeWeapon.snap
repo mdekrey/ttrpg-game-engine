@@ -11,6 +11,7 @@
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
+  Modifiers: []
 - Name: Generated
   Frequency: AtWill
   ActionType: Standard

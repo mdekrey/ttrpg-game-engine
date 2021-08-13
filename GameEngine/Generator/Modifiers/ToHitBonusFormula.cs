@@ -9,11 +9,11 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 namespace GameEngine.Generator.Modifiers
 {
 
-    public record ToHitBonusFormula() : PowerModifierFormula(ModifierName)
+    public record ToHitBonusFormula() : AttackModifierFormula(ModifierName)
     {
         public const string ModifierName = "To-Hit Bonus to Current Attack";
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
             yield return new(new ToHitBonus(2), Chances: 5);
@@ -21,13 +21,13 @@ namespace GameEngine.Generator.Modifiers
                 yield return new(new ToHitBonus((GameDiceExpression)entry), Chances: 1);
         }
 
-        public record ToHitBonus(GameDiceExpression Amount) : PowerModifier(ModifierName)
+        public record ToHitBonus(GameDiceExpression Amount) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
             public override PowerCost GetCost() => new PowerCost(Amount.ToWeaponDice());
 
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack)
             {
                 if (Amount.Abilities == CharacterAbilities.Empty)
                 {

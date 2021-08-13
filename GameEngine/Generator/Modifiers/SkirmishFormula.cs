@@ -6,11 +6,11 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record SkirmishFormula() : PowerModifierFormula(ModifierName)
+    public record SkirmishFormula() : AttackModifierFormula(ModifierName)
     {
         public const string ModifierName = "Skirmish Movement";
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
             yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, (GameDiceExpression)attack.PowerInfo.ToolProfile.Abilities[0]))));
@@ -29,17 +29,17 @@ namespace GameEngine.Generator.Modifiers
         public abstract record SkirmishMovement(string Name)
         {
             public abstract double Cost();
-            public abstract IEnumerable<SkirmishMovement> GetUpgrades(AttackProfileBuilder attack);
+            public abstract IEnumerable<SkirmishMovement> GetUpgrades(PowerHighLevelInfo powerInfo);
         }
         public record Shift(ShiftTiming Timing, GameDiceExpression? Amount) : SkirmishMovement("Shift")
         {
             // If Amount is null, it means "your speed"
-            public override double Cost() => Amount == null ? 1 : (Amount.ToWeaponDice());
-            public override IEnumerable<SkirmishMovement> GetUpgrades(AttackProfileBuilder attack)
+            public override double Cost() => Amount == null ? 1 : Amount.ToWeaponDice();
+            public override IEnumerable<SkirmishMovement> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 if (Amount == null) yield break;
 
-                foreach (var entry in Amount.GetStandardIncreases(attack.PowerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
                     yield return this with { Amount = entry };
                 if (Amount.Abilities == CharacterAbilities.Empty && Amount.DieCodes.Modifier <= 2)
                     yield return this with { Amount = null };
@@ -48,7 +48,7 @@ namespace GameEngine.Generator.Modifiers
         public record MovementDoesNotProvoke() : SkirmishMovement("Non-Provoking Movement")
         {
             public override double Cost() => 0.5;
-            public override IEnumerable<SkirmishMovement> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<SkirmishMovement> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 yield break;
             }
@@ -56,32 +56,32 @@ namespace GameEngine.Generator.Modifiers
         public record SlideOpponent(bool IsPush, GameDiceExpression Amount) : SkirmishMovement("Slide Opponent")
         {
             public override double Cost() => Amount.ToWeaponDice() * 2;
-            public override IEnumerable<SkirmishMovement> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<SkirmishMovement> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
-                foreach (var entry in Amount.GetStandardIncreases(attack.PowerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
                     yield return this with { Amount = entry };
             }
         }
 
-        public record SkirmishMovementModifier(ImmutableList<SkirmishMovement> Movement) : PowerModifier(ModifierName)
+        public record SkirmishMovementModifier(ImmutableList<SkirmishMovement> Movement) : AttackAndPowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
             public override PowerCost GetCost() => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<RandomChances<AttackAndPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
                 from set in new[]
                 {
                     // TODO - multiple types of movement?
 
                     from movement in Movement
-                    from upgrade in movement.GetUpgrades(attack)
+                    from upgrade in movement.GetUpgrades(powerInfo)
                     select this with { Movement = Movement.Remove(movement).Add(upgrade) },
                 }
                 from mod in set
-                select new RandomChances<PowerModifier>(mod);
+                select new RandomChances<AttackAndPowerModifier>(mod);
 
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
                 // TODO
                 return Movement.Aggregate(effect, (prev, movement) => movement switch

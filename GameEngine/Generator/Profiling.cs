@@ -54,19 +54,68 @@ namespace GameEngine.Generator
         }
     }
 
-    public abstract record PowerModifier(string Name)
+    public interface IModifier
+    {
+        string Name { get; }
+        int GetComplexity();
+        PowerCost GetCost();
+    }
+
+    public static class ModifierHelpers
+    {
+        public static int GetComplexity(this IEnumerable<IModifier> modifiers) => modifiers.Select(m => m.GetComplexity()).DefaultIfEmpty(0).Sum();
+        public static PowerCost GetTotalCost(this IEnumerable<IModifier> modifiers) => modifiers.Select(m => m.GetCost()).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+    }
+
+    public interface IPowerModifier : IModifier
+    {
+        IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers);
+        SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
+    }
+
+    public interface IAttackModifier : IModifier
+    {
+        IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack);
+        SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
+    }
+
+    public abstract record PowerModifier(string Name) : IPowerModifier
     {
         public abstract int GetComplexity();
         public abstract PowerCost GetCost();
-        public abstract IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack);
+        // TODO
+        public abstract IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers);
+        public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
+    }
+
+    public abstract record AttackModifier(string Name) : IAttackModifier
+    {
+        public abstract int GetComplexity();
+        public abstract PowerCost GetCost();
+        // TODO
+        public abstract IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
     }
 
-    public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<PowerModifier> Modifiers)
+    public abstract record AttackAndPowerModifier(string Name) : IAttackModifier, IPowerModifier
+    {
+        public abstract int GetComplexity();
+        public abstract PowerCost GetCost();
+        // TODO
+        IEnumerable<RandomChances<IAttackModifier>> IAttackModifier.GetUpgrades(AttackProfileBuilder attack) =>
+            GetUpgrades(attack.PowerInfo, attack.Modifiers).Convert<AttackAndPowerModifier, IAttackModifier>();
+        IEnumerable<RandomChances<IPowerModifier>> IPowerModifier.GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers) =>
+            GetUpgrades(powerInfo, modifiers).Convert<AttackAndPowerModifier, IPowerModifier>();
+        public abstract IEnumerable<RandomChances<AttackAndPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers);
+        SerializedEffect IAttackModifier.Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => Apply(effect, powerProfile);
+        public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
+    }
+
+    public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<IAttackModifier> Modifiers)
     {
     }
 
-    public record PowerProfile(string Template, ToolType Tool, EquatableImmutableList<AttackProfile> Attacks);
+    public record PowerProfile(string Template, ToolType Tool, EquatableImmutableList<AttackProfile> Attacks, EquatableImmutableList<IPowerModifier> Modifiers);
     public record PowerProfiles(
         EquatableImmutableList<PowerProfile> AtWill1,
         EquatableImmutableList<PowerProfile> Encounter1,

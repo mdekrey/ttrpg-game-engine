@@ -58,5 +58,10 @@ namespace GameEngine.Generator
             var selection = thresholds.First(t => roll < t.Threshold);
             return selection.Result;
         }
+
+        public static IEnumerable<RandomChances<TResult>> Convert<T, TResult>(this IEnumerable<RandomChances<T>> chanceList) =>
+            from entry in chanceList
+            where entry.Result is TResult
+            select new RandomChances<TResult>((TResult)(object)entry.Result, entry.Chances);
     }
 }

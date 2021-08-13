@@ -7,11 +7,11 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record MultiattackFormula() : PowerModifierFormula(ModifierName)
+    public record MultiattackFormula() : AttackModifierFormula(ModifierName)
     {
         public const string ModifierName = "Multiattack";
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack) || HasModifier(attack, BurstFormula.ModifierName)) yield break;
 
@@ -33,15 +33,15 @@ namespace GameEngine.Generator.Modifiers
                 new(cost, isFollowUp);
         }
 
-        public record MultiattackModifier(double Cost, bool IsFollowUp) : PowerModifier(ModifierName)
+        public record MultiattackModifier(double Cost, bool IsFollowUp) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => IsFollowUp ? 2 : 1;
 
             public override PowerCost GetCost() => new (Fixed: Cost);
 
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 // TODO
-                Enumerable.Empty<RandomChances<PowerModifier>>();
+                Enumerable.Empty<RandomChances<IAttackModifier>>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 // This modifier is a special case and should be removed to create an extra attack
@@ -49,10 +49,10 @@ namespace GameEngine.Generator.Modifiers
             }
 
 
-            public (AttackProfileBuilder original, AttackProfileBuilder secondary) Unapply(AttackProfileBuilder attack)
+            public IEnumerable<AttackProfileBuilder> Split(AttackProfileBuilder attack)
             {
                 // TODO - better complexity
-                return (
+                return new[] {
                     attack with
                     {
                         Modifiers = attack.Modifiers.Where(m => m.Name != ModifierName).ToImmutableList(),
@@ -65,15 +65,15 @@ namespace GameEngine.Generator.Modifiers
                     attack with
                     {
                         Modifiers = IsFollowUp
-                            ? Build<PowerModifier>(new SecondaryAttackModifier())
-                            : ImmutableList<PowerModifier>.Empty,
+                            ? Build<IAttackModifier>(new SecondaryAttackModifier())
+                            : ImmutableList<IAttackModifier>.Empty,
                         Limits = attack.Limits with
                         {
                             Initial = IsFollowUp ? Cost * 2 : Cost,
                             MaxComplexity = attack.Limits.MaxComplexity - (2 - GetComplexity()),
                         },
-                    }
-                );
+                    },
+                };
             }
         }
 
@@ -82,16 +82,16 @@ namespace GameEngine.Generator.Modifiers
             return attack.Modifiers.OfType<MultiattackModifier>().FirstOrDefault();
         }
 
-        public record SecondaryAttackModifier() : PowerModifier(SecondaryAttackModifier.ModifierName)
+        public record SecondaryAttackModifier() : AttackModifier(SecondaryAttackModifier.ModifierName)
         {
             public override int GetComplexity() => 0;
 
             public const string ModifierName = "SecondaryAttack";
 
             public override PowerCost GetCost() => PowerCost.Empty;
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 // TODO
-                Enumerable.Empty<RandomChances<PowerModifier>>();
+                Enumerable.Empty<RandomChances<IAttackModifier>>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 // TODO

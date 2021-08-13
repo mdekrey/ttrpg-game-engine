@@ -7,7 +7,7 @@ using System;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ConditionFormula() : PowerModifierFormula(ModifierName)
+    public record ConditionFormula() : AttackModifierFormula(ModifierName)
     {
         public const string ModifierName = "Condition";
 
@@ -40,7 +40,7 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public override IEnumerable<RandomChances<PowerModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (HasModifier(attack)) yield break;
 
@@ -56,12 +56,12 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Must remain "SaveEnds" if there's a Boost dependent upon it
             : 1;
 
-        public record ConditionModifier(Duration Duration, ImmutableList<Condition> Conditions) : PowerModifier(ModifierName)
+        public record ConditionModifier(Duration Duration, ImmutableList<Condition> Conditions) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
             public override PowerCost GetCost() => new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(Duration)).Sum());
 
-            public override IEnumerable<RandomChances<PowerModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 from set in new[]
                 {
                     from basicCondition in basicConditions.Keys
@@ -70,7 +70,7 @@ namespace GameEngine.Generator.Modifiers
                     select this with { Conditions = Filter(Conditions.Add(new Condition(basicCondition))) },
 
                     from condition in Conditions
-                    from upgrade in condition.GetUpgrades(attack)
+                    from upgrade in condition.GetUpgrades(attack.PowerInfo)
                     select this with { Conditions = Filter(Conditions.Remove(condition).Add(upgrade)) },
 
                     from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
@@ -85,7 +85,7 @@ namespace GameEngine.Generator.Modifiers
                     select this with { Duration = duration },
                 }
                 from mod in set
-                select new RandomChances<PowerModifier>(mod);
+                select new RandomChances<IAttackModifier>(mod);
 
             private static ImmutableList<Condition> Filter(ImmutableList<Condition> conditions)
             {
@@ -98,7 +98,7 @@ namespace GameEngine.Generator.Modifiers
                                     ? subsume[c]
                                     : Enumerable.Empty<string>()).ToHashSet();
 
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attack)
             {
                 // TODO
                 return effect;
@@ -108,7 +108,7 @@ namespace GameEngine.Generator.Modifiers
         public record Condition(string Name)
         {
             public virtual double Cost() => basicConditions[Name];
-            public virtual IEnumerable<Condition> GetUpgrades(AttackProfileBuilder attack) =>
+            public virtual IEnumerable<Condition> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 Enumerable.Empty<Condition>();
         }
 
@@ -116,7 +116,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => Amount / 5;
 
-            public override IEnumerable<Condition> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<Condition> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 if (Amount < 15)
                     yield return new OngoingDamage(Amount + 5);
@@ -127,7 +127,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => Defense == null ? 1 : 0.5;
 
-            public override IEnumerable<Condition> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<Condition> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 if (Defense != null)
                     yield return new DefensePenalty((DefenseType?)null);
