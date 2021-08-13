@@ -14,7 +14,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
-            if (HasModifier(attack) || HasModifier(attack, MultiattackFormula.ModifierName)) yield break;
+            if (this.HasModifier(attack) || this.HasModifier(attack, MultiattackFormula.ModifierName)) yield break;
 
             // TODO: other sizes
             var sizes = new[] { 3 };

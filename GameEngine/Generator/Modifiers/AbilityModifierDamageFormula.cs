@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
-            if (HasModifier(attack)) yield break;
+            if (this.HasModifier(attack)) yield break;
             yield return new(BuildModifier(attack.PowerInfo.ToolProfile.Abilities[0]));
 
             AbilityDamageModifier BuildModifier(Ability ability) =>

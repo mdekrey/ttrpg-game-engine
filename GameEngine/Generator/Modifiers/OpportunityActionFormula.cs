@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override IEnumerable<RandomChances<IPowerModifier>> GetOptions(PowerProfileBuilder power)
         {
-            if (HasModifier(power) || power.PowerInfo.Usage == PowerFrequency.AtWill) yield break;
+            if (this.HasModifier(power) || power.PowerInfo.Usage == PowerFrequency.AtWill) yield break;
 
             var cost = new PowerCost(PowerGenerator.GetBasePower(power.PowerInfo.Level, power.PowerInfo.Usage) - PowerGenerator.GetBasePower(power.PowerInfo.Level, power.PowerInfo.Usage - 1));
 

@@ -42,7 +42,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
-            if (HasModifier(attack)) yield break;
+            if (this.HasModifier(attack)) yield break;
 
             foreach (var condition in basicConditions.Keys.Select(e => new Condition(e)).Concat(DefenseConditions))
             {

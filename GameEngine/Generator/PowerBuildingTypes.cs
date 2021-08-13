@@ -83,34 +83,29 @@ namespace GameEngine.Generator
                 Modifiers = toRemove == null ? builder.Modifiers.Add(target) : builder.Modifiers.Remove(toRemove).Add(target),
             };
         }
+
+        public static bool HasModifier<TModifier, TBuilder>(this IModifierFormula<TModifier, TBuilder> modifier, TBuilder attack, string? name = null)
+            where TModifier : class, IModifier
+            where TBuilder : ModifierBuilder<TModifier> => attack.Modifiers.Count(m => m.Name == (name ?? modifier.Name)) > 0;
+
     }
 
-    public interface IPowerModifierFormula
+    public interface IModifierFormula<TModifier, TBuilder>
+            where TModifier : class, IModifier
+            where TBuilder : ModifierBuilder<TModifier>
     {
         string Name { get; }
-        IEnumerable<RandomChances<IPowerModifier>> GetOptions(PowerProfileBuilder attack);
+        IEnumerable<RandomChances<TModifier>> GetOptions(TBuilder builder);
     }
 
-    public abstract record PowerModifierFormula(string Name) : IPowerModifierFormula
+    public abstract record PowerModifierFormula(string Name) : IModifierFormula<IPowerModifier, PowerProfileBuilder>
     {
         public abstract IEnumerable<RandomChances<IPowerModifier>> GetOptions(PowerProfileBuilder attack);
-
-        protected bool HasModifier(PowerProfileBuilder attack, string? name = null) => attack.Modifiers.Count(m => m.Name == (name ?? Name)) > 0;
-
     }
 
-    public interface IAttackModifierFormula
-    {
-        string Name { get; }
-        IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack);
-    }
-
-    public abstract record AttackModifierFormula(string Name) : IAttackModifierFormula
+    public abstract record AttackModifierFormula(string Name) : IModifierFormula<IAttackModifier, AttackProfileBuilder>
     {
         public abstract IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack);
-
-        protected bool HasModifier(AttackProfileBuilder attack, string? name = null) => attack.Modifiers.Count(m => m.Name == (name ?? Name)) > 0;
-
     }
 
     public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile, ClassRole ClassRole);

@@ -15,7 +15,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
-            if (HasModifier(attack)) yield break;
+            if (this.HasModifier(attack)) yield break;
             yield return new(new ToHitBonus(2), Chances: 5);
             foreach (var entry in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
                 yield return new(new ToHitBonus((GameDiceExpression)entry), Chances: 1);

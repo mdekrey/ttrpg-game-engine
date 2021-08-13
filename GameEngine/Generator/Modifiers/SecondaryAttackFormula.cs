@@ -13,7 +13,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
-            if (HasModifier(attack) || HasModifier(attack, BurstFormula.ModifierName)) yield break;
+            if (this.HasModifier(attack) || this.HasModifier(attack, BurstFormula.ModifierName)) yield break;
 
             var available = attack.WeaponDice;
 
