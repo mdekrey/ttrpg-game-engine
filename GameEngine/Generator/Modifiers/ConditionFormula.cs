@@ -44,11 +44,7 @@ namespace GameEngine.Generator.Modifiers
         {
             if (this.HasModifier(attack)) yield break;
 
-            foreach (var condition in basicConditions.Keys.Select(e => new Condition(e)).Concat(DefenseConditions))
-            {
-                yield return new(new ConditionModifier(Duration.EndOfUserNextTurn, Build(condition)));
-            }
-            yield return new(new ConditionModifier(Duration.SaveEnds, Build<Condition>(new OngoingDamage(5))));
+            yield return new(new ConditionModifier(Duration.EndOfUserNextTurn, ImmutableList<Condition>.Empty));
         }
 
         public static double DurationMultiplier(Duration duration) =>

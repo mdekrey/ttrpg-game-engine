@@ -7,18 +7,17 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record AbilityModifierDamageFormula() : AttackModifierFormula("Ability Modifier Damage")
+    public record AbilityModifierDamageFormula() : AttackModifierFormula(ModifierName)
     {
+        const string ModifierName = "Ability Modifier Damage";
+
         public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (this.HasModifier(attack)) yield break;
-            yield return new(BuildModifier(attack.PowerInfo.ToolProfile.Abilities[0]));
-
-            AbilityDamageModifier BuildModifier(Ability ability) =>
-                new (Name, Build(ability));
+            yield return new(new AbilityDamageModifier(ImmutableList<Ability>.Empty));
         }
 
-        public record AbilityDamageModifier(string Name, ImmutableList<Ability> Abilities) : AttackModifier(Name)
+        public record AbilityDamageModifier(ImmutableList<Ability> Abilities) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 0;
 

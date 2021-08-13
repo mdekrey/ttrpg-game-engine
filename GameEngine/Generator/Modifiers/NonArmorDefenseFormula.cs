@@ -15,13 +15,8 @@ namespace GameEngine.Generator.Modifiers
         public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (this.HasModifier(attack)) yield break;
-            yield return new(BuildModifier(attack.PowerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
-            yield return new(BuildModifier(DefenseType.Fortitude), Chances: 1);
-            yield return new(BuildModifier(DefenseType.Reflex), Chances: 1);
-            yield return new(BuildModifier(DefenseType.Will), Chances: 1);
 
-            NonArmorDefenseModifier BuildModifier(DefenseType defense) =>
-                new (defense);
+            yield return new(new NonArmorDefenseModifier(DefenseType.ArmorClass));
         }
 
         public record NonArmorDefenseModifier(DefenseType Defense) : AttackModifier(ModifierName)
@@ -30,8 +25,18 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost() => new PowerCost(Defense == DefenseType.ArmorClass ? 0 : 0.5);
 
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
-                Enumerable.Empty<RandomChances<IAttackModifier>>();
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack)
+            {
+                if (Defense != DefenseType.ArmorClass)
+                    yield break;
+                yield return new(BuildModifier(attack.PowerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
+                yield return new(BuildModifier(DefenseType.Fortitude), Chances: 1);
+                yield return new(BuildModifier(DefenseType.Reflex), Chances: 1);
+                yield return new(BuildModifier(DefenseType.Will), Chances: 1);
+
+                NonArmorDefenseModifier BuildModifier(DefenseType defense) =>
+                    new(defense);
+            }
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
                 if (Defense == DefenseType.ArmorClass)

@@ -17,7 +17,7 @@ namespace GameEngine.Generator.Modifiers
             if (this.HasModifier(attack) || this.HasModifier(attack, MultiattackFormula.ModifierName)) yield break;
 
             // TODO: other sizes
-            var sizes = new[] { 3 };
+            var sizes = new[] { 1 };
 
             foreach (var size in sizes)
             {

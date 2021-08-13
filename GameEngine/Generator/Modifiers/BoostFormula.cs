@@ -36,16 +36,13 @@ namespace GameEngine.Generator.Modifiers
             if (this.HasModifier(attack)) yield break;
 
             var targets = new[] { Target.Self, Target.AdjacentAlly, Target.AllyWithin5 };
-            foreach (var basicBoost in GetBasicBoosts(attack.PowerInfo))
+            foreach (var target in targets)
             {
-                foreach (var target in targets)
-                {
-                    yield return new(BuildModifier(basicBoost, Duration.EndOfUserNextTurn, target));
-                }
+                yield return new(BuildModifier(Duration.EndOfUserNextTurn, target));
             }
 
-            BoostModifier BuildModifier(Boost boost, Duration duration, Target target) =>
-                new(duration, target, Build(boost));
+            BoostModifier BuildModifier(Duration duration, Target target) =>
+                new(duration, target, ImmutableList<Boost>.Empty);
         }
 
         public static double DurationMultiplier(Duration duration) =>

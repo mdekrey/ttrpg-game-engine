@@ -16,9 +16,10 @@ namespace GameEngine.Generator.Modifiers
         public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
         {
             if (this.HasModifier(attack)) yield break;
-            yield return new(new ToHitBonus(2), Chances: 5);
-            foreach (var entry in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
-                yield return new(new ToHitBonus((GameDiceExpression)entry), Chances: 1);
+            yield return new(new ToHitBonus(0));
+            //yield return new(new ToHitBonus(2), Chances: 5);
+            //foreach (var entry in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
+            //    yield return new(new ToHitBonus((GameDiceExpression)entry), Chances: 1);
         }
 
         public record ToHitBonus(GameDiceExpression Amount) : AttackModifier(ModifierName)
@@ -33,7 +34,7 @@ namespace GameEngine.Generator.Modifiers
                 {
                     if (Amount.DieCodes.Modifier < 8) // actually 10
                         yield return new(this with { Amount = Amount.StepUpModifier() });
-                    if (Amount.DieCodes.Modifier == 2)
+                    if (Amount.DieCodes.Modifier <= 2)
                     {
                         foreach (var ability in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
                             yield return new(this with { Amount = Amount + ability });
