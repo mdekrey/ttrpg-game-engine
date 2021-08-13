@@ -131,7 +131,7 @@ namespace GameEngine.Generator
                 {
                     var starterOptions = starterSet.Where(f => builder.CanApply(f.Result)).ToArray();
                     if (starterOptions.Length == 0) continue;
-                    builder = randomGenerator.RandomSelection(starterOptions).Apply(builder);
+                    builder = builder.Apply(randomGenerator.RandomSelection(starterOptions));
                 }
                 return builder;
             }

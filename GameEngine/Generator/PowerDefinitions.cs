@@ -48,7 +48,7 @@ namespace GameEngine.Generator
         {
             var modifiers = formula.GetOptions(attack).ToArray();
             var selected = randomGenerator.RandomSelection(modifiers);
-            return selected.Apply(attack);
+            return attack.Apply(selected);
         }
 
         public static AttackProfileBuilder ApplyRandomModifiers(this AttackProfileBuilder attack, AttackModifierFormula[] modifiers, RandomGenerator randomGenerator)
@@ -57,11 +57,11 @@ namespace GameEngine.Generator
                 from mod in modifiers
                 from entry in mod.GetOptions(attack)
                 where attack.CanApply(entry.Result)
-                select new RandomChances<Transform<AttackProfileBuilder>>(a => entry.Result.Apply(a), Chances: entry.Chances),
+                select new RandomChances<Transform<AttackProfileBuilder>>(a => a.Apply(entry.Result), Chances: entry.Chances),
                 from mod in attack.Modifiers
                 from upgrade in mod.GetUpgrades(attack)
                 where attack.CanSwap(mod, upgrade.Result)
-                select new RandomChances<Transform<AttackProfileBuilder>>(a => upgrade.Result.Apply(a, mod), Chances: upgrade.Chances)
+                select new RandomChances<Transform<AttackProfileBuilder>>(a => a.Apply(upgrade.Result, mod), Chances: upgrade.Chances)
             ).ToArray();
             if (validModifiers.Length == 0)
                 return attack;

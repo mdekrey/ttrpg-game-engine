@@ -74,15 +74,14 @@ namespace GameEngine.Generator
 
     public static class PowerModifierExtensions
     {
-        public static TBuilder Apply<TModifier, TBuilder>(this TModifier target, TBuilder attack, TModifier? toRemove = null)
+        public static TBuilder Apply<TModifier, TBuilder>(this TBuilder builder, TModifier target, TModifier? toRemove = null)
             where TModifier : class, IModifier
             where TBuilder : ModifierBuilder<TModifier>
         {
-            attack = attack with
+            return builder with
             {
-                Modifiers = toRemove == null ? attack.Modifiers.Add(target) : attack.Modifiers.Remove(toRemove).Add(target),
+                Modifiers = toRemove == null ? builder.Modifiers.Add(target) : builder.Modifiers.Remove(toRemove).Add(target),
             };
-            return attack;
         }
     }
 
