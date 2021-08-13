@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator
 {
@@ -160,7 +161,22 @@ namespace GameEngine.Generator
                     if (applicableModifiers.Length == 0)
                         break;
                     var oldAttack = attack;
-                    attack = attack.ApplyRandomModifiers(applicableModifiers, randomGenerator);
+                    var validModifiers = Enumerable.Concat(
+                        from mod in applicableModifiers
+                        from entry in mod.GetOptions(attack)
+                        where attack.CanApply(entry.Result)
+                        select new RandomChances<Transform<AttackProfileBuilder>>(a => a.Apply(entry.Result), Chances: entry.Chances),
+                        from mod in attack.Modifiers
+                        from upgrade in mod.GetUpgrades(attack)
+                        where attack.CanSwap(mod, upgrade.Result)
+                        select new RandomChances<Transform<AttackProfileBuilder>>(a => a.Apply(upgrade.Result, mod), Chances: upgrade.Chances)
+                    ).ToArray();
+                    if (validModifiers.Length == 0)
+                        break;
+                    var transform = randomGenerator.RandomSelection(validModifiers);
+                    if (transform != null)
+                        attack = transform(attack);
+
                     if (oldAttack == attack)
                         break;
                 }

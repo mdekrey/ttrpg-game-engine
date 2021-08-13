@@ -51,27 +51,6 @@ namespace GameEngine.Generator
             return attack.Apply(selected);
         }
 
-        public static AttackProfileBuilder ApplyRandomModifiers(this AttackProfileBuilder attack, AttackModifierFormula[] modifiers, RandomGenerator randomGenerator)
-        {
-            var validModifiers = Enumerable.Concat(
-                from mod in modifiers
-                from entry in mod.GetOptions(attack)
-                where attack.CanApply(entry.Result)
-                select new RandomChances<Transform<AttackProfileBuilder>>(a => a.Apply(entry.Result), Chances: entry.Chances),
-                from mod in attack.Modifiers
-                from upgrade in mod.GetUpgrades(attack)
-                where attack.CanSwap(mod, upgrade.Result)
-                select new RandomChances<Transform<AttackProfileBuilder>>(a => a.Apply(upgrade.Result, mod), Chances: upgrade.Chances)
-            ).ToArray();
-            if (validModifiers.Length == 0)
-                return attack;
-            var transform = randomGenerator.RandomSelection(validModifiers);
-            if (transform != null)
-                attack = transform(attack);
-
-            return attack;
-        }
-
         private record AccuratePowerTemplate : PowerTemplate
         {
             public AccuratePowerTemplate() : base(AccuratePowerTemplateName) { }
