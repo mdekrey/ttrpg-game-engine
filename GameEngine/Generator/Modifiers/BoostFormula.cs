@@ -35,33 +35,13 @@ namespace GameEngine.Generator.Modifiers
         {
             if (this.HasModifier(attack)) yield break;
 
-            var targets = new[] { Target.Self, Target.AdjacentAlly, Target.AllyWithin5 };
-            foreach (var target in targets)
-            {
-                yield return new(BuildModifier(Duration.EndOfUserNextTurn, target));
-            }
-
-            BoostModifier BuildModifier(Duration duration, Target target) =>
-                new(duration, target, ImmutableList<Boost>.Empty);
+            yield return new(new BoostModifier(Duration.EndOfUserNextTurn, ImmutableList<Boost>.Empty, ImmutableList<Boost>.Empty, AllyType.Single));
         }
 
         public static double DurationMultiplier(Duration duration) =>
             duration == Duration.EndOfEncounter ? 4
             : duration == Duration.SaveEnds ? 2 // Should only get to "SaveEnds" if there's another SaveEnds effect
             : 1;
-
-        public enum Target
-        {
-            Self,
-            // Could be adjacent to caster or adjacent to target
-            AdjacentAlly,
-            AllyWithin5,
-
-            AllAllies,
-            AllAlliesAndSelf,
-        }
-        public static double TargetMultiplier(Target target) =>
-            target is Target.AllAllies or Target.AllAlliesAndSelf ? 2 : 1;
 
         public enum Limit
         {
@@ -87,7 +67,7 @@ namespace GameEngine.Generator.Modifiers
                 if (Limit != null)
                     yield return this with { Limit = null };
             }
-                
+
         }
         public record DefenseBoost(GameDiceExpression Amount, DefenseType? Defense) : Boost("Defense")
         {
@@ -135,31 +115,66 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
+        public enum AllyType
+        {
+            Single,
+            All
+        }
 
-        public record BoostModifier(Duration Duration, Target Target, ImmutableList<Boost> Boosts) : AttackAndPowerModifier(ModifierName)
+        public record BoostModifier(Duration Duration, ImmutableList<Boost> SelfBoosts, ImmutableList<Boost> AllyBoosts, AllyType AllyType) : AttackAndPowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => 
+            public override PowerCost GetCost() =>
                 new PowerCost(
-                    Fixed: Boosts
-                        .Select(m => 
-                            m.Cost() 
-                                * (m.DurationAffected() ? DurationMultiplier(Duration) : 1)
-                                * TargetMultiplier(Target)
-                    ).Sum()
+                    Fixed:
+                    SelfBoosts
+                        .Select(m => m.Cost()
+                            * (m.DurationAffected() ? DurationMultiplier(Duration) : 1)
+                        )
+                        .Sum() +
+                    AllyBoosts
+                        .Select(m => m.Cost()
+                            * (m.DurationAffected() ? DurationMultiplier(Duration) : 1)
+                            * (AllyType == AllyType.All ? 2 : 1)
+                        )
+                        .Sum()
                 );
 
             public override IEnumerable<RandomChances<AttackAndPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
                 from set in new[]
                 {
                     from basicBoost in GetBasicBoosts(powerInfo)
-                    where !Boosts.Select(b => b.Name).Contains(basicBoost.Name)
-                    select this with { Boosts = Boosts.Add(basicBoost) },
+                    where !SelfBoosts.Select(b => b.Name).Contains(basicBoost.Name)
+                    where !AllyBoosts.Select(b => b.Name).Contains(basicBoost.Name)
+                    select this with { SelfBoosts = SelfBoosts.Add(basicBoost) },
 
-                    from boost in Boosts
+                    from basicBoost in GetBasicBoosts(powerInfo)
+                    where AllyType != AllyType.All
+                    where !AllyBoosts.Select(b => b.Name).Contains(basicBoost.Name)
+                    let boost = basicBoost
+                    select this with
+                    {
+                        AllyBoosts = AllyBoosts.Add(boost),
+                    },
+
+                    from basicBoost in GetBasicBoosts(powerInfo)
+                    where AllyType == AllyType.All
+                    where !AllyBoosts.Select(b => b.Name).Contains(basicBoost.Name)
+                    let boost = SelfBoosts.FirstOrDefault(b => b.Name == basicBoost.Name) ?? basicBoost
+                    select this with
+                    {
+                        AllyBoosts = AllyBoosts.Add(boost),
+                        SelfBoosts = SelfBoosts.Remove(boost),
+                    },
+
+                    from boost in SelfBoosts
                     from upgrade in boost.GetUpgrades(powerInfo)
-                    select this with { Boosts = Boosts.Remove(boost).Add(upgrade) },
+                    select this with { SelfBoosts = SelfBoosts.Remove(boost).Add(upgrade) },
+
+                    from boost in AllyBoosts
+                    from upgrade in boost.GetUpgrades(powerInfo)
+                    select this with { AllyBoosts = AllyBoosts.Remove(boost).Add(upgrade) },
 
                     from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
                     where duration > Duration
@@ -169,12 +184,24 @@ namespace GameEngine.Generator.Modifiers
                         Duration.SaveEnds => modifiers.OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds },
                         _ => false,
                     }
-                    where Boosts.Any(b => b.DurationAffected())
+                    where SelfBoosts.Concat(AllyBoosts).Any(b => b.DurationAffected())
                     select this with { Duration = duration },
 
-                    from target in new[] { Target.AllAllies, Target.AllAlliesAndSelf }
-                    where Target is not Target.AllAllies or Target.AllAlliesAndSelf
-                    select this with { Target = target },
+                    from target in new[] { AllyType.All }
+                    where AllyType != target && AllyBoosts.Count > 0
+                    select this with
+                    {
+                        AllyType = target,
+                        SelfBoosts = SelfBoosts.Where(self => !AllyBoosts.Select(ally => ally.Name).Contains(self.Name)).ToImmutableList(),
+                        AllyBoosts = AllyBoosts
+                            .Select(
+                                ally => (from boost in new[] { ally, SelfBoosts.FirstOrDefault(self => self.Name == ally.Name) }
+                                         where boost != null
+                                         orderby boost.Cost() descending
+                                         select boost).FirstOrDefault()
+                            )
+                            .ToImmutableList(),
+                    },
                 }
                 from mod in set
                 select new RandomChances<AttackAndPowerModifier>(mod);

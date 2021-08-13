@@ -7,12 +7,12 @@ Attacks:
   - Weapon
   Target: Melee
   Modifiers:
-  - Size: 3
-    Type: Burst
-    Name: Multiple
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
+  - Size: 3
+    Type: Burst
+    Name: Multiple
   - Defense: Fortitude
     Name: Non-Armor Defense
   - Amount: +4

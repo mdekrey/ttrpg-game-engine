@@ -48,6 +48,7 @@ namespace GameEngine.Generator
         {
             var modifiers = formula.GetOptions(attack).ToArray();
             var selected = randomGenerator.RandomSelection(modifiers);
+            selected = randomGenerator.RandomSelection(selected.GetUpgrades(attack));
             return attack.Apply(selected);
         }
 

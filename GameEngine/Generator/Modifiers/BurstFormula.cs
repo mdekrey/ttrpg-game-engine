@@ -16,21 +16,12 @@ namespace GameEngine.Generator.Modifiers
         {
             if (this.HasModifier(attack) || this.HasModifier(attack, MultiattackFormula.ModifierName)) yield break;
 
-            // TODO: other sizes
-            var sizes = new[] { 1 };
-
-            foreach (var size in sizes)
-            {
-                if (attack.Target != TargetType.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon && size % 2 == 1)
-                    yield return new(BuildModifier(type: BurstType.Burst, size: size));
-                if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new(BuildModifier(type: BurstType.Blast, size: size));
-                if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon && size % 2 == 1)
-                    yield return new(BuildModifier(type: BurstType.Area, size: size));
-            }
-
-            BurstModifier BuildModifier(BurstType type, int size) =>
-                new (size, type);
+            if (attack.Target != TargetType.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new(new BurstModifier(1, BurstType.Burst));
+            if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new(new BurstModifier(1, BurstType.Blast));
+            if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new(new BurstModifier(1, BurstType.Area));
         }
 
         public enum BurstType

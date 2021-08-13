@@ -7,12 +7,12 @@ Attacks:
   - Weapon
   Target: Range
   Modifiers:
-  - Size: 3
-    Type: Blast
-    Name: Multiple
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense
+  - Size: 3
+    Type: Blast
+    Name: Multiple
 Modifiers: []

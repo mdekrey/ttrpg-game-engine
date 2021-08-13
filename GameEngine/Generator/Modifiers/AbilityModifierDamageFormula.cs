@@ -25,11 +25,16 @@ namespace GameEngine.Generator.Modifiers
 
             // TODO - how do we make this an upgrade of "last resort" to round out the numbers?
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
-                /*Secondary == null
-                    ? attack.PowerInfo.ToolProfile.Abilities.Skip(1).Select(secondary =>
-                        new RandomChances<PowerModifier>(this with { Secondary = secondary }))
-                    : */
-                Enumerable.Empty<RandomChances<IAttackModifier>>();
+                attack.PowerInfo.ToolProfile.Abilities
+                    .Take(1) // remove this line when I figure out how to make these least priority
+                    .Except(Abilities)
+                    .Take(1)
+                    .Select(ability => 
+                        new RandomChances<IAttackModifier>(this with 
+                        { 
+                            Abilities = Abilities.Add(ability) 
+                        })
+                    );
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {

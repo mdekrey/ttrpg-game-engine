@@ -7,14 +7,14 @@
     - Radiant
     Target: Range
     Modifiers:
-    - Size: 3
-      Type: Burst
-      Name: Multiple
     - Defense: Fortitude
       Name: Non-Armor Defense
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
+    - Size: 3
+      Type: Burst
+      Name: Multiple
   Modifiers: []
 - Name: Generated
   Frequency: AtWill

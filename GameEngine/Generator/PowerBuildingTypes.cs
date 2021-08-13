@@ -54,14 +54,14 @@ namespace GameEngine.Generator
         : ModifierBuilder<IAttackModifier>(Limits, Modifiers)
     {
         public double WeaponDice => TotalCost.Apply(Limits.Initial);
-        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers);
+        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers.Where(m => m.GetCost() != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
 
     }
 
     public record PowerProfileBuilder(string Template, AttackLimits Limits, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers)
         : ModifierBuilder<IPowerModifier>(Limits, Modifiers)
     {
-        internal PowerProfile Build() => new PowerProfile(Template, PowerInfo.ToolProfile.Type, Attacks.Select(a => a.Build()).ToImmutableList(), Modifiers);
+        internal PowerProfile Build() => new PowerProfile(Template, PowerInfo.ToolProfile.Type, Attacks.Select(a => a.Build()).ToImmutableList(), Modifiers.Where(m => m.GetCost() != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
     }
 
 

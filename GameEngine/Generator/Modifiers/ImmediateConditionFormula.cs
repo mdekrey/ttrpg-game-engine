@@ -12,10 +12,7 @@ namespace GameEngine.Generator.Modifiers
         {
             if (this.HasModifier(attack)) yield break;
 
-            yield return new(BuildModifier());
-
-            ImmediateConditionModifier BuildModifier() =>
-                new (Name, Cost);
+            yield return new(new ImmediateConditionModifier(Name, Cost));
         }
 
         public record ImmediateConditionModifier(string Name, PowerCost Cost) : AttackModifier(Name)

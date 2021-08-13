@@ -89,6 +89,7 @@ namespace GameEngine.Generator.Modifiers
             public const string ModifierName = "SecondaryAttack";
 
             public override PowerCost GetCost() => PowerCost.Empty;
+            public override bool IsMetaModifier() => true;
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 // TODO
                 Enumerable.Empty<RandomChances<IAttackModifier>>();

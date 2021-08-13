@@ -59,6 +59,7 @@ namespace GameEngine.Generator
         string Name { get; }
         int GetComplexity();
         PowerCost GetCost();
+        bool IsMetaModifier();
     }
 
     public static class ModifierHelpers
@@ -83,7 +84,7 @@ namespace GameEngine.Generator
     {
         public abstract int GetComplexity();
         public abstract PowerCost GetCost();
-        // TODO
+        public virtual bool IsMetaModifier() => false;
         public abstract IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
     }
@@ -92,7 +93,7 @@ namespace GameEngine.Generator
     {
         public abstract int GetComplexity();
         public abstract PowerCost GetCost();
-        // TODO
+        public virtual bool IsMetaModifier() => false;
         public abstract IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
     }
@@ -101,6 +102,7 @@ namespace GameEngine.Generator
     {
         public abstract int GetComplexity();
         public abstract PowerCost GetCost();
+        public virtual bool IsMetaModifier() => false;
         // TODO
         IEnumerable<RandomChances<IAttackModifier>> IAttackModifier.GetUpgrades(AttackProfileBuilder attack) =>
             GetUpgrades(attack.PowerInfo, attack.Modifiers).Convert<AttackAndPowerModifier, IAttackModifier>();
