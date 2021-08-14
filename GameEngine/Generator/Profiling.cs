@@ -70,7 +70,7 @@ namespace GameEngine.Generator
 
     public interface IPowerModifier : IModifier
     {
-        IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers);
+        IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder power);
         SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
     }
 
@@ -85,7 +85,7 @@ namespace GameEngine.Generator
         public abstract int GetComplexity();
         public abstract PowerCost GetCost();
         public virtual bool IsMetaModifier() => false;
-        public abstract IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers);
+        public abstract IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder power);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
     }
 
@@ -106,8 +106,8 @@ namespace GameEngine.Generator
         // TODO
         IEnumerable<RandomChances<IAttackModifier>> IAttackModifier.GetUpgrades(AttackProfileBuilder attack) =>
             GetUpgrades(attack.PowerInfo, attack.Modifiers).Convert<AttackAndPowerModifier, IAttackModifier>();
-        IEnumerable<RandomChances<IPowerModifier>> IPowerModifier.GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers) =>
-            GetUpgrades(powerInfo, modifiers).Convert<AttackAndPowerModifier, IPowerModifier>();
+        IEnumerable<RandomChances<IPowerModifier>> IPowerModifier.GetUpgrades(PowerProfileBuilder power) =>
+            GetUpgrades(power.PowerInfo, power.Modifiers).Convert<AttackAndPowerModifier, IPowerModifier>();
         public abstract IEnumerable<RandomChances<AttackAndPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers);
         SerializedEffect IAttackModifier.Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => Apply(effect, powerProfile);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);

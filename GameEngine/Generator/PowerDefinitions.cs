@@ -78,15 +78,15 @@ namespace GameEngine.Generator
         private record MultiattackPowerTemplate : PowerTemplate
         {
             public MultiattackPowerTemplate() : base(MultiattackPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> InitialAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-                new[] { ModifierDefinitions.SecondaryAttack.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder) };
+            public override IEnumerable<IEnumerable<RandomChances<IPowerModifier>>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
+                new[] { ModifierDefinitions.SecondaryAttack.GetBaseModifier(powerProfileBuilder).GetUpgrades(powerProfileBuilder) };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
         }
 
         private record CloseBurstPowerTemplate : PowerTemplate
         {
             public CloseBurstPowerTemplate() : base(CloseBurstPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> InitialAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
                 new[] {
                     ModifierDefinitions.Multiple3x3.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder).Where(a => a.Result is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Burst })
                 };
@@ -117,7 +117,7 @@ namespace GameEngine.Generator
         private record CloseBlastPowerTemplate : PowerTemplate
         {
             public CloseBlastPowerTemplate() : base(CloseBlastPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> InitialAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
                     new[] { ModifierDefinitions.Multiple3x3.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder).Where(a => a.Result is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Blast }) };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { ToolProfile: { Type: ToolType.Implement } } or { ToolProfile: { Type: ToolType.Weapon, Range: ToolRange.Range }, Usage: not PowerFrequency.AtWill };
         }

@@ -7,29 +7,29 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record MultiattackFormula() : AttackModifierFormula(ModifierName)
+    public record MultiattackFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "Multiattack";
 
-        public override bool IsValid(AttackProfileBuilder builder) => true;
-        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack) =>
+        public override bool IsValid(PowerProfileBuilder builder) => true;
+        public override IPowerModifier GetBaseModifier(PowerProfileBuilder attack) =>
             new ShouldMultiattackModifier();
 
-        public record ShouldMultiattackModifier() : AttackModifier(ModifierName)
+        public record ShouldMultiattackModifier() : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
             public override PowerCost GetCost() => PowerCost.Empty;
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => effect;
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack)
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
+            public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder power)
             {
-                var available = attack.WeaponDice;
+                var available = power.Attacks.Select(a => a.WeaponDice).DefaultIfEmpty(power.Limits.Initial).Sum();
 
                 // TODO - two hits
                 // TODO - two targets
                 // TODO - three targets
                 // TODO - secondary attack
                 // TODO - secondary and tertiary attack
-                for (var (current, counter) = (attack.Limits.Minimum, 1); current <= available / 2; (current, counter) = (current + 0.5, counter * 2))
+                for (var (current, counter) = (power.Limits.Minimum, 1); current <= available / 2; (current, counter) = (current + 0.5, counter * 2))
                 {
                     var (a, b) = (current, available - current);
                     if (a * 2 < b)
@@ -44,16 +44,15 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record MultiattackModifier(double Cost, bool IsFollowUp) : AttackModifier(ModifierName)
+        public record MultiattackModifier(double Cost, bool IsFollowUp) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => IsFollowUp ? 2 : 1;
 
             public override PowerCost GetCost() => new (Fixed: Cost);
 
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
-                // TODO
-                Enumerable.Empty<RandomChances<IAttackModifier>>();
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder attack) =>
+                Enumerable.Empty<RandomChances<IPowerModifier>>();
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
                 // This modifier is a special case and should be removed to create an extra attack
                 throw new System.NotSupportedException();
@@ -66,7 +65,7 @@ namespace GameEngine.Generator.Modifiers
                 return new[] {
                     attack with
                     {
-                        Modifiers = attack.Modifiers.Where(m => m.Name != ModifierName).ToImmutableList(),
+                        Modifiers = attack.Modifiers.ToImmutableList(),
                         Limits = attack.Limits with
                         {
                             Initial = attack.Limits.Initial - Cost,
@@ -88,9 +87,9 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        internal static MultiattackModifier? NeedToSplit(AttackProfileBuilder attack)
+        internal static MultiattackModifier? NeedToSplit(PowerProfileBuilder power)
         {
-            return attack.Modifiers.OfType<MultiattackModifier>().FirstOrDefault();
+            return power.Modifiers.OfType<MultiattackModifier>().FirstOrDefault();
         }
 
         public record SecondaryAttackModifier() : AttackModifier(SecondaryAttackModifier.ModifierName)

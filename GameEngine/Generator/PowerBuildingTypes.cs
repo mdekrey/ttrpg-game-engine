@@ -68,7 +68,7 @@ namespace GameEngine.Generator
             from set in new[]
             {
                 from modifier in Modifiers
-                from upgrade in modifier.GetUpgrades(PowerInfo, Modifiers)
+                from upgrade in modifier.GetUpgrades(this)
                 where CanSwap(modifier, upgrade.Result)
                 select new RandomChances<Transform<PowerProfileBuilder>>(Chances: upgrade.Chances, Result: pb => pb.Apply(upgrade.Result, modifier)),
 
@@ -142,8 +142,6 @@ namespace GameEngine.Generator
     {
         public virtual IEnumerable<IEnumerable<RandomChances<IPowerModifier>>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
             Enumerable.Empty<IEnumerable<RandomChances<IPowerModifier>>>();
-        public virtual IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> InitialAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-            Enumerable.Empty<IEnumerable<RandomChances<IAttackModifier>>>();
         public virtual IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
             Enumerable.Empty<IEnumerable<RandomChances<IAttackModifier>>>();
         public abstract bool CanApply(PowerHighLevelInfo powerInfo);
