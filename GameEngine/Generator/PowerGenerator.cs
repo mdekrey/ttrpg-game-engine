@@ -121,6 +121,7 @@ namespace GameEngine.Generator
                         .ToArray()
                 ).ToImmutableList(),
             };
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder);
 
             return powerProfileBuilder.Build();
 
@@ -161,29 +162,41 @@ namespace GameEngine.Generator
                     if (applicableModifiers.Length == 0)
                         break;
                     var oldAttack = attack;
-                    var validModifiers = Enumerable.Concat(
+                    var validModifiers = (
                         from mod in applicableModifiers
                         where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
                         let entry = mod.GetBaseModifier(attack)
                         where attack.CanApply(entry)
-                        select new RandomChances<Transform<AttackProfileBuilder>>(a => a.Apply(entry)),
-
-                        from mod in attack.Modifiers
-                        from upgrade in mod.GetUpgrades(attack)
-                        where attack.CanSwap(mod, upgrade.Result)
-                        select new RandomChances<Transform<AttackProfileBuilder>>(a => a.Apply(upgrade.Result, mod), Chances: upgrade.Chances)
+                        select new RandomChances<IAttackModifier>(entry)
                     ).ToArray();
                     if (validModifiers.Length == 0)
                         break;
-                    var transform = randomGenerator.RandomSelection(validModifiers);
-                    if (transform != null)
-                        attack = transform(attack);
+                    var selectedModifier = randomGenerator.RandomSelection(validModifiers);
+                    if (selectedModifier != null)
+                        attack = attack.Apply(selectedModifier);
 
                     if (oldAttack == attack)
                         break;
                 }
 
                 yield return attack;
+            }
+        }
+
+        public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder)
+        {
+            while (true)
+            {
+                var oldBuilder = powerProfileBuilder;
+                var validModifiers = powerProfileBuilder.GetUpgrades().ToArray();
+                if (validModifiers.Length == 0)
+                    return powerProfileBuilder;
+                var transform = randomGenerator.RandomSelection(validModifiers);
+                if (transform != null)
+                    powerProfileBuilder = transform(powerProfileBuilder);
+
+                if (oldBuilder == powerProfileBuilder)
+                    return powerProfileBuilder;
             }
         }
 

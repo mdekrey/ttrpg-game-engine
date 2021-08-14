@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator
 {
@@ -62,6 +63,28 @@ namespace GameEngine.Generator
         : ModifierBuilder<IPowerModifier>(Limits, Modifiers)
     {
         internal PowerProfile Build() => new PowerProfile(Template, PowerInfo.ToolProfile.Type, Attacks.Select(a => a.Build()).ToImmutableList(), Modifiers.Where(m => m.GetCost() != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
+
+        internal IEnumerable<RandomChances<Transform<PowerProfileBuilder>>> GetUpgrades() =>
+            from set in new[]
+            {
+                from modifier in Modifiers
+                from upgrade in modifier.GetUpgrades(PowerInfo, Modifiers)
+                where CanSwap(modifier, upgrade.Result)
+                select new RandomChances<Transform<PowerProfileBuilder>>(Chances: upgrade.Chances, Result: pb => pb.Apply(upgrade.Result, modifier)),
+
+                from attackKvp in Attacks.Select((attack, index) => (attack, index))
+                let attack = attackKvp.attack
+                let index = attackKvp.index
+                from modifier in attack.Modifiers
+                from upgrade in modifier.GetUpgrades(attack)
+                where attack.CanSwap(modifier, upgrade.Result)
+                select new RandomChances<Transform<PowerProfileBuilder>>(
+                    Chances: upgrade.Chances, 
+                    Result: pb => pb with { Attacks = pb.Attacks.SetItem(index, attack.Apply(upgrade.Result, modifier)) }
+                ),
+            }
+            from entry in set
+            select entry;
     }
 
 
