@@ -32,6 +32,7 @@ namespace GameEngine.Generator.Modifiers
                 (Condition: "Grants Combat Advantage", Cost: 0.5),
                 (Condition: "Blinded", Cost: 1),
             }.ToImmutableSortedDictionary(e => e.Condition, e => e.Cost);
+        // TODO
         private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
         {
             new DefensePenalty(DefenseType.ArmorClass),
@@ -40,7 +41,6 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public override bool IsValid(AttackProfileBuilder builder) => true;
         public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
             return new ConditionModifier(Duration.EndOfUserNextTurn, ImmutableList<Condition>.Empty);

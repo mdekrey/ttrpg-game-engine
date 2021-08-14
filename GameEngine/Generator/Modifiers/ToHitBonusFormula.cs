@@ -13,7 +13,6 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "To-Hit Bonus to Current Attack";
 
-        public override bool IsValid(AttackProfileBuilder builder) => true;
         public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
             return new ToHitBonus(0);

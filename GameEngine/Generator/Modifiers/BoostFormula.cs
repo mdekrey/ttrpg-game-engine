@@ -31,7 +31,6 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public override bool IsValid(AttackProfileBuilder builder) => true;
         public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
             return new BoostModifier(Duration.EndOfUserNextTurn, ImmutableList<Boost>.Empty, ImmutableList<Boost>.Empty, AllyType.Single);

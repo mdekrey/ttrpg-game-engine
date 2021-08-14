@@ -130,7 +130,7 @@ namespace GameEngine.Generator
 
     public abstract record AttackModifierFormula(string Name) : IModifierFormula<IAttackModifier, AttackProfileBuilder>
     {
-        public abstract bool IsValid(AttackProfileBuilder builder);
+        public virtual bool IsValid(AttackProfileBuilder builder) => true;
         public abstract IAttackModifier GetBaseModifier(AttackProfileBuilder attack);
     }
 

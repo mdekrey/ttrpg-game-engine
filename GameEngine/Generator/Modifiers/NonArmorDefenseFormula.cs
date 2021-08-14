@@ -12,7 +12,6 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Non-Armor Defense";
 
-        public override bool IsValid(AttackProfileBuilder builder) => true;
         public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
             return new NonArmorDefenseModifier(DefenseType.ArmorClass);

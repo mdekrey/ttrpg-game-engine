@@ -183,10 +183,9 @@ Daily1:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Movement:
       - Timing: After
         Amount: STR
@@ -205,10 +204,9 @@ Daily1:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
   Modifiers: []
 - Template: Interrupt Penalty
   Tool: Weapon
@@ -222,10 +220,9 @@ Daily1:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Duration: EndOfUserNextTurn
       SelfBoosts:
       - Name: Extra Saving Throw
@@ -454,10 +451,9 @@ Encounter7:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Movement:
       - Timing: Anytime
         Amount: STR
@@ -498,10 +494,9 @@ Encounter7:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Duration: EndOfUserNextTurn
       Conditions:
       - Name: Dazed
@@ -552,10 +547,9 @@ Daily9:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Defense: Will
       Name: Non-Armor Defense
     - Movement:
@@ -1051,10 +1045,9 @@ Daily19:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Movement:
       - Name: Non-Provoking Movement
       Name: Skirmish Movement
@@ -1161,10 +1154,9 @@ Daily20:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Movement:
       - Timing: After
         Amount: STR
@@ -1188,10 +1180,9 @@ Daily20:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Duration: EndOfUserNextTurn
       SelfBoosts:
       - Amount: +2
@@ -1218,10 +1209,9 @@ Encounter23:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Duration: EndOfUserNextTurn
       SelfBoosts:
       - Amount: +2
@@ -1305,10 +1295,9 @@ Daily25:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Duration: EndOfUserNextTurn
       SelfBoosts:
       - Amount: +2
@@ -1593,10 +1582,9 @@ Daily29:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Cost:
-        Fixed: 1
-        Multiplier: 1
-      Name: Prone
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
     - Duration: EndOfUserNextTurn
       Conditions:
       - Name: Immobilized

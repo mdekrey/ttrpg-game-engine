@@ -12,7 +12,6 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Multiple";
 
-        public override bool IsValid(AttackProfileBuilder builder) => !builder.Modifiers.Any(m => m.Name == MultiattackFormula.ModifierName);
         public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
             return new MultipleAttackModifier();

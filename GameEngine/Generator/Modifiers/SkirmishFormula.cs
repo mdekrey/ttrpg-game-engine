@@ -10,7 +10,6 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Skirmish Movement";
 
-        public override bool IsValid(AttackProfileBuilder builder) => true;
         public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
             return new EmptySkirmishModifier();

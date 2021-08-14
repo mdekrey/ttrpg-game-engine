@@ -11,7 +11,6 @@ namespace GameEngine.Generator.Modifiers
     {
         const string ModifierName = "Ability Modifier Damage";
 
-        public override bool IsValid(AttackProfileBuilder builder) => true;
         public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
             return new AbilityDamageModifier(ImmutableList<Ability>.Empty);
