@@ -135,21 +135,6 @@ namespace GameEngine.Generator
             return builder;
         }
 
-
-        PowerProfileBuilder TrySplit(PowerProfileBuilder power)
-        {
-            if (Modifiers.MultiattackFormula.NeedToSplit(power) is Modifiers.MultiattackFormula.MultiattackModifier secondaryAttackModifier)
-            {
-                return power with 
-                { 
-                    Attacks = secondaryAttackModifier.Split(power.Attacks.Single()).ToImmutableList(),
-                    Modifiers = power.Modifiers.Remove(secondaryAttackModifier)
-                };
-            }
-            return power;
-        }
-
-
         public IEnumerable<AttackProfileBuilder> GenerateAttacks(IEnumerable<AttackProfileBuilder> attacks)
         {
             var attackBuilders = new Queue<AttackProfileBuilder>(attacks);
@@ -195,7 +180,7 @@ namespace GameEngine.Generator
                     return powerProfileBuilder;
                 var transform = randomGenerator.RandomSelection(validModifiers);
                 if (transform != null)
-                    powerProfileBuilder = TrySplit(transform(powerProfileBuilder));
+                    powerProfileBuilder = Modifiers.MultiattackFormula.TrySplit(transform(powerProfileBuilder));
                 
                 if (oldBuilder == powerProfileBuilder)
                     return powerProfileBuilder;
@@ -215,7 +200,7 @@ namespace GameEngine.Generator
                 ImmutableList<IPowerModifier>.Empty
             );
             result = ApplyEach(result, PowerDefinitions.powerTemplates[template].PowerFormulas(result));
-            result = TrySplit(result);
+            result = Modifiers.MultiattackFormula.TrySplit(result);
             return result;
         }
 

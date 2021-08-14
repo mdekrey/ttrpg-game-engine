@@ -58,38 +58,51 @@ namespace GameEngine.Generator.Modifiers
                 throw new System.NotSupportedException();
             }
 
-
-            public IEnumerable<AttackProfileBuilder> Split(AttackProfileBuilder attack)
+            public PowerProfileBuilder Split(PowerProfileBuilder power)
             {
+                var attack = power.Attacks.Single();
                 // TODO - better complexity
-                return new[] {
-                    attack with
-                    {
-                        Modifiers = attack.Modifiers.ToImmutableList(),
-                        Limits = attack.Limits with
+                return power with
+                {
+                    Attacks = new[] {
+                        attack with
                         {
-                            Initial = attack.Limits.Initial - Cost,
-                            MaxComplexity = attack.Limits.MaxComplexity - GetComplexity(),
-                        }
-                    },
-                    attack with
-                    {
-                        Modifiers = IsFollowUp
-                            ? Build<IAttackModifier>(new SecondaryAttackModifier())
-                            : ImmutableList<IAttackModifier>.Empty,
-                        Limits = attack.Limits with
-                        {
-                            Initial = IsFollowUp ? Cost * 2 : Cost,
-                            MaxComplexity = attack.Limits.MaxComplexity - (2 - GetComplexity()),
+                            Modifiers = attack.Modifiers.ToImmutableList(),
+                            Limits = attack.Limits with
+                            {
+                                Initial = attack.Limits.Initial - Cost,
+                                MaxComplexity = attack.Limits.MaxComplexity - GetComplexity(),
+                            }
                         },
-                    },
+                        attack with
+                        {
+                            Modifiers = IsFollowUp
+                                ? Build<IAttackModifier>(new SecondaryAttackModifier())
+                                : ImmutableList<IAttackModifier>.Empty,
+                            Limits = attack.Limits with
+                            {
+                                Initial = IsFollowUp ? Cost * 2 : Cost,
+                                MaxComplexity = attack.Limits.MaxComplexity - (2 - GetComplexity()),
+                            },
+                        },
+                    }.ToImmutableList(),
+                    Modifiers = power.Modifiers.Remove(this).Add(new MultiattackAppliedModifier()),
                 };
             }
         }
 
-        internal static MultiattackModifier? NeedToSplit(PowerProfileBuilder power)
+        public record MultiattackAppliedModifier() : PowerModifier(ModifierName)
         {
-            return power.Modifiers.OfType<MultiattackModifier>().FirstOrDefault();
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
+            public override int GetComplexity() => 0;
+            public override PowerCost GetCost() => PowerCost.Empty;
+            public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder power) => Enumerable.Empty<RandomChances<IPowerModifier>>();
+
+        }
+
+        internal static PowerProfileBuilder TrySplit(PowerProfileBuilder power)
+        {
+            return power.Modifiers.OfType<MultiattackModifier>().FirstOrDefault()?.Split(power) ?? power;
         }
 
         public record SecondaryAttackModifier() : AttackModifier(SecondaryAttackModifier.ModifierName)
