@@ -13,14 +13,17 @@ namespace GameEngine.Generator.Modifiers
 
         public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            return new ConditionModifier(Build(new MovementControl("Prone")));
+            return new ConditionModifier(ImmutableList<MovementControl>.Empty);
         }
 
-        private static readonly ImmutableSortedDictionary<string, double> basicEffects =
-            new[]
+        private static readonly ImmutableList<MovementControl> basicEffects =
+            new MovementControl[]
             {
-                (Condition: "Prone", Cost: 1.0),
-            }.ToImmutableSortedDictionary(e => e.Condition, e => e.Cost);
+                new Prone(),
+                new SlideOpponent(OpponentMovementMode.Pull, 1),
+                new SlideOpponent(OpponentMovementMode.Push, 1),
+                new SlideOpponent(OpponentMovementMode.Slide, 1),
+            }.ToImmutableList();
 
         public record ConditionModifier(ImmutableList<MovementControl> Effects) : AttackModifier(ModifierName)
         {
@@ -30,9 +33,9 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 from set in new[]
                 {
-                    from basicCondition in basicEffects.Keys
-                    where !Effects.Select(b => b.Name).Contains(basicCondition)
-                    select this with { Effects = Effects.Add(new MovementControl(basicCondition)) },
+                    from basicCondition in basicEffects
+                    where !Effects.Select(b => b.Name).Contains(basicCondition.Name)
+                    select this with { Effects = Effects.Add(basicCondition) },
 
                     from condition in Effects
                     from upgrade in condition.GetUpgrades(attack.PowerInfo)
@@ -49,26 +52,32 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record MovementControl(string Name)
+        public abstract record MovementControl(string Name)
         {
-            public virtual double Cost() => basicEffects[Name];
+            public abstract double Cost();
             public virtual IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 Enumerable.Empty<MovementControl>();
         }
 
-        public record ImmediateConditionModifier(string Name, PowerCost Cost) : AttackModifier(Name)
+        public record Prone() : MovementControl("Prone")
         {
-            public override int GetComplexity() => 1;
+            public override double Cost() => 1;
+        }
 
-            public override PowerCost GetCost() => Cost;
+        public enum OpponentMovementMode
+        {
+            Push,
+            Pull,
+            Slide
+        }
 
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
-                // TODO
-                Enumerable.Empty<RandomChances<IAttackModifier>>();
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+        public record SlideOpponent(OpponentMovementMode Mode, GameDiceExpression Amount) : MovementControl("Slide Opponent")
+        {
+            public override double Cost() => Amount.ToWeaponDice() * 2;
+            public override IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
-                // TODO
-                return effect;
+                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities, limit: 4))
+                    yield return this with { Amount = entry };
             }
         }
     }

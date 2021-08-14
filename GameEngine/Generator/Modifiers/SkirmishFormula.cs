@@ -14,9 +14,6 @@ namespace GameEngine.Generator.Modifiers
         {
             return new EmptySkirmishModifier();
 
-            // TODO - move sliding opponents to "opponent movement"?
-            //yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new SlideOpponent(false, 1))));
-            //yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new SlideOpponent(true, 1))));
         }
 
         public record EmptySkirmishModifier() : AttackAndPowerModifier(ModifierName)
@@ -66,16 +63,6 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             }
         }
-        public record SlideOpponent(bool IsPush, GameDiceExpression Amount) : SkirmishMovement("Slide Opponent")
-        {
-            public override double Cost() => Amount.ToWeaponDice() * 2;
-            public override IEnumerable<SkirmishMovement> GetUpgrades(PowerHighLevelInfo powerInfo)
-            {
-                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
-                    yield return this with { Amount = entry };
-            }
-        }
-
         public record SkirmishMovementModifier(ImmutableList<SkirmishMovement> Movement) : AttackAndPowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
