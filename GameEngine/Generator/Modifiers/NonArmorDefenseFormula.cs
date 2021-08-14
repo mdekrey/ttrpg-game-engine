@@ -12,11 +12,10 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Non-Armor Defense";
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override bool IsValid(AttackProfileBuilder builder) => true;
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            if (this.HasModifier(attack)) yield break;
-
-            yield return new(new NonArmorDefenseModifier(DefenseType.ArmorClass));
+            return new NonArmorDefenseModifier(DefenseType.ArmorClass);
         }
 
         public record NonArmorDefenseModifier(DefenseType Defense) : AttackModifier(ModifierName)

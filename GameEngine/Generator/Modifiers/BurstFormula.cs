@@ -12,16 +12,10 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Multiple";
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override bool IsValid(AttackProfileBuilder builder) => !builder.Modifiers.Any(m => m.Name == MultiattackFormula.ModifierName);
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            if (this.HasModifier(attack) || this.HasModifier(attack, MultiattackFormula.ModifierName)) yield break;
-
-            if (attack.Target != TargetType.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                yield return new(new BurstModifier(1, BurstType.Burst));
-            if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                yield return new(new BurstModifier(1, BurstType.Blast));
-            if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                yield return new(new BurstModifier(1, BurstType.Area));
+            return new MultipleAttackModifier();
         }
 
         public enum BurstType
@@ -29,6 +23,24 @@ namespace GameEngine.Generator.Modifiers
             Burst,
             Blast,
             Area,
+        }
+
+        public record MultipleAttackModifier() : AttackModifier(ModifierName)
+        {
+            public override int GetComplexity() => 1;
+            public override PowerCost GetCost() => PowerCost.Empty;
+
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack)
+            {
+                if (attack.Target != TargetType.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                    yield return new(new BurstModifier(1, BurstType.Burst));
+                if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                    yield return new(new BurstModifier(1, BurstType.Blast));
+                if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                    yield return new(new BurstModifier(1, BurstType.Area));
+            }
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => effect;
         }
 
         public record BurstModifier(int Size, BurstType Type) : AttackModifier(ModifierName)

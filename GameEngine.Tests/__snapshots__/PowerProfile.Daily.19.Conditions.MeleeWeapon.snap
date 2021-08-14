@@ -1,7 +1,7 @@
 ﻿Template: Conditions
 Tool: Weapon
 Attacks:
-- WeaponDice: 1.25
+- WeaponDice: 1.1666666666666661
   Ability: Strength
   DamageTypes:
   - Weapon
@@ -12,13 +12,14 @@ Attacks:
     Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Size: 5
+  - Size: 3
     Type: Burst
     Name: Multiple
   - Duration: EndOfUserNextTurn
     Conditions:
     - Name: Blinded
     - Name: Dazed
-    - Name: Slowed
+    - Name: Immobilized
+    - Name: Weakened
     Name: Condition
 Modifiers: []

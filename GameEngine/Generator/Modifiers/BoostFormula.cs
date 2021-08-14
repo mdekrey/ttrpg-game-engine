@@ -31,11 +31,10 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override bool IsValid(AttackProfileBuilder builder) => true;
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            if (this.HasModifier(attack)) yield break;
-
-            yield return new(new BoostModifier(Duration.EndOfUserNextTurn, ImmutableList<Boost>.Empty, ImmutableList<Boost>.Empty, AllyType.Single));
+            return new BoostModifier(Duration.EndOfUserNextTurn, ImmutableList<Boost>.Empty, ImmutableList<Boost>.Empty, AllyType.Single);
         }
 
         public static double DurationMultiplier(Duration duration) =>

@@ -9,13 +9,12 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "OpportunityAction";
 
-        public override IEnumerable<RandomChances<IPowerModifier>> GetOptions(PowerProfileBuilder power)
+        public override bool IsValid(PowerProfileBuilder builder) => builder.PowerInfo.Usage != PowerFrequency.AtWill;
+        public override IPowerModifier GetBaseModifier(PowerProfileBuilder power)
         {
-            if (this.HasModifier(power) || power.PowerInfo.Usage == PowerFrequency.AtWill) yield break;
-
             var cost = new PowerCost(PowerGenerator.GetBasePower(power.PowerInfo.Level, power.PowerInfo.Usage) - PowerGenerator.GetBasePower(power.PowerInfo.Level, power.PowerInfo.Usage - 1));
 
-            yield return new(new OpportunityActionModifier(cost));
+            return new OpportunityActionModifier(cost);
         }
 
         public record OpportunityActionModifier(PowerCost Cost) : PowerModifier(ModifierName)

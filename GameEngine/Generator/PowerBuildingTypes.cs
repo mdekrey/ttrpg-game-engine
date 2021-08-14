@@ -95,17 +95,20 @@ namespace GameEngine.Generator
             where TBuilder : ModifierBuilder<TModifier>
     {
         string Name { get; }
-        IEnumerable<RandomChances<TModifier>> GetOptions(TBuilder builder);
+        bool IsValid(TBuilder builder);
+        TModifier GetBaseModifier(TBuilder builder);
     }
 
     public abstract record PowerModifierFormula(string Name) : IModifierFormula<IPowerModifier, PowerProfileBuilder>
     {
-        public abstract IEnumerable<RandomChances<IPowerModifier>> GetOptions(PowerProfileBuilder attack);
+        public abstract bool IsValid(PowerProfileBuilder builder);
+        public abstract IPowerModifier GetBaseModifier(PowerProfileBuilder attack);
     }
 
     public abstract record AttackModifierFormula(string Name) : IModifierFormula<IAttackModifier, AttackProfileBuilder>
     {
-        public abstract IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack);
+        public abstract bool IsValid(AttackProfileBuilder builder);
+        public abstract IAttackModifier GetBaseModifier(AttackProfileBuilder attack);
     }
 
     public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile, ClassRole ClassRole);

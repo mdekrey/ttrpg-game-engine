@@ -163,9 +163,11 @@ namespace GameEngine.Generator
                     var oldAttack = attack;
                     var validModifiers = Enumerable.Concat(
                         from mod in applicableModifiers
-                        from entry in mod.GetOptions(attack)
-                        where attack.CanApply(entry.Result)
-                        select new RandomChances<Transform<AttackProfileBuilder>>(a => a.Apply(entry.Result), Chances: entry.Chances),
+                        where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
+                        let entry = mod.GetBaseModifier(attack)
+                        where attack.CanApply(entry)
+                        select new RandomChances<Transform<AttackProfileBuilder>>(a => a.Apply(entry)),
+
                         from mod in attack.Modifiers
                         from upgrade in mod.GetUpgrades(attack)
                         where attack.CanSwap(mod, upgrade.Result)

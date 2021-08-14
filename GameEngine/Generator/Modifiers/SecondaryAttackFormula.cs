@@ -11,26 +11,37 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Multiattack";
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override bool IsValid(AttackProfileBuilder builder) => true;
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack) =>
+            new ShouldMultiattackModifier();
+
+        public record ShouldMultiattackModifier() : AttackModifier(ModifierName)
         {
-            if (this.HasModifier(attack) || this.HasModifier(attack, BurstFormula.ModifierName)) yield break;
-
-            var available = attack.WeaponDice;
-
-            // TODO - double attack
-            // TODO - triple atack
-            for (var (current, counter) = (attack.Limits.Minimum, 1); current <= available / 2; (current, counter) = (current + 0.5, counter * 2))
+            public override int GetComplexity() => 1;
+            public override PowerCost GetCost() => PowerCost.Empty;
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => effect;
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack)
             {
-                var (a, b) = (current, available - current);
-                if (a * 2 < b)
-                    yield return new(BuildModifier(a, isFollowUp: true), Chances: counter * (a == b ? 2 : 1));
-                yield return new(BuildModifier(a), Chances: counter * (a == b ? 2 : 1));
-                if (a != b)
-                    yield return new(BuildModifier(b), Chances: counter);
-            }
+                var available = attack.WeaponDice;
 
-            MultiattackModifier BuildModifier(double cost, bool isFollowUp = false) =>
-                new(cost, isFollowUp);
+                // TODO - two hits
+                // TODO - two targets
+                // TODO - three targets
+                // TODO - secondary attack
+                // TODO - secondary and tertiary attack
+                for (var (current, counter) = (attack.Limits.Minimum, 1); current <= available / 2; (current, counter) = (current + 0.5, counter * 2))
+                {
+                    var (a, b) = (current, available - current);
+                    if (a * 2 < b)
+                        yield return new(BuildModifier(a, isFollowUp: true), Chances: counter * (a == b ? 2 : 1));
+                    yield return new(BuildModifier(a), Chances: counter * (a == b ? 2 : 1));
+                    if (a != b)
+                        yield return new(BuildModifier(b), Chances: counter);
+                }
+
+                MultiattackModifier BuildModifier(double cost, bool isFollowUp = false) =>
+                    new(cost, isFollowUp);
+            }
         }
 
         public record MultiattackModifier(double Cost, bool IsFollowUp) : AttackModifier(ModifierName)

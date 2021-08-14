@@ -11,10 +11,10 @@ namespace GameEngine.Generator.Modifiers
     {
         const string ModifierName = "Ability Modifier Damage";
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override bool IsValid(AttackProfileBuilder builder) => true;
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            if (this.HasModifier(attack)) yield break;
-            yield return new(new AbilityDamageModifier(ImmutableList<Ability>.Empty));
+            return new AbilityDamageModifier(ImmutableList<Ability>.Empty);
         }
 
         public record AbilityDamageModifier(ImmutableList<Ability> Abilities) : AttackModifier(ModifierName)

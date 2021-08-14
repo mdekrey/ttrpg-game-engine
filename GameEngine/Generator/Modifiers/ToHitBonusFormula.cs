@@ -13,13 +13,10 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "To-Hit Bonus to Current Attack";
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override bool IsValid(AttackProfileBuilder builder) => true;
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            if (this.HasModifier(attack)) yield break;
-            yield return new(new ToHitBonus(0));
-            //yield return new(new ToHitBonus(2), Chances: 5);
-            //foreach (var entry in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
-            //    yield return new(new ToHitBonus((GameDiceExpression)entry), Chances: 1);
+            return new ToHitBonus(0);
         }
 
         public record ToHitBonus(GameDiceExpression Amount) : AttackModifier(ModifierName)
@@ -40,6 +37,8 @@ namespace GameEngine.Generator.Modifiers
                             yield return new(this with { Amount = Amount + ability });
                     }
                 }
+                else if (Amount.DieCodes.Modifier == 0)
+                    yield return new(this with { Amount = 0 });
             }
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {

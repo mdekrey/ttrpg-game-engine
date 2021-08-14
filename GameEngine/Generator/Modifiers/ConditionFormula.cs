@@ -40,11 +40,10 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override bool IsValid(AttackProfileBuilder builder) => true;
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            if (this.HasModifier(attack)) yield break;
-
-            yield return new(new ConditionModifier(Duration.EndOfUserNextTurn, ImmutableList<Condition>.Empty));
+            return new ConditionModifier(Duration.EndOfUserNextTurn, ImmutableList<Condition>.Empty);
         }
 
         public static double DurationMultiplier(Duration duration) =>

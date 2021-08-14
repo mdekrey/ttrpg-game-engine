@@ -8,11 +8,10 @@ namespace GameEngine.Generator.Modifiers
     // TODO - merge this into opponent movement control
     public record ImmediateConditionFormula(string Name, PowerCost Cost) : AttackModifierFormula(Name)
     {
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override bool IsValid(AttackProfileBuilder builder) => true;
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            if (this.HasModifier(attack)) yield break;
-
-            yield return new(new ImmediateConditionModifier(Name, Cost));
+            return new ImmediateConditionModifier(Name, Cost);
         }
 
         public record ImmediateConditionModifier(string Name, PowerCost Cost) : AttackModifier(Name)
