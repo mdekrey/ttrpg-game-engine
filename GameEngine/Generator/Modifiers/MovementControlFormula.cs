@@ -6,7 +6,6 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    // TODO - merge this into opponent movement control
     public record MovementControlFormula() : AttackModifierFormula(ModifierName)
     {
         public const string ModifierName = "MovementControl";

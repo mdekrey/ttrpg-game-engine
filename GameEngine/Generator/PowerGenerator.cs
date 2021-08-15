@@ -180,8 +180,9 @@ namespace GameEngine.Generator
                     return powerProfileBuilder;
                 var transform = randomGenerator.RandomSelection(validModifiers);
                 if (transform != null)
-                    powerProfileBuilder = Modifiers.MultiattackFormula.TrySplit(transform(powerProfileBuilder));
-                
+                    powerProfileBuilder = transform(powerProfileBuilder);
+                powerProfileBuilder = powerProfileBuilder.Modifiers.Aggregate(powerProfileBuilder, (builder, modifier) => modifier.TryApplyToProfileAndRemove(builder));
+
                 if (oldBuilder == powerProfileBuilder)
                     return powerProfileBuilder;
             }
@@ -200,7 +201,7 @@ namespace GameEngine.Generator
                 ImmutableList<IPowerModifier>.Empty
             );
             result = ApplyEach(result, PowerDefinitions.powerTemplates[template].PowerFormulas(result));
-            result = Modifiers.MultiattackFormula.TrySplit(result);
+            result = result.Modifiers.Aggregate(result, (p, mod) => mod.TryApplyToProfileAndRemove(p));
             return result;
         }
 

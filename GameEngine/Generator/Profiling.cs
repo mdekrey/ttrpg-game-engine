@@ -72,6 +72,7 @@ namespace GameEngine.Generator
     {
         IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder power);
         SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
+        PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder);
     }
 
     public interface IAttackModifier : IModifier
@@ -87,6 +88,7 @@ namespace GameEngine.Generator
         public virtual bool IsMetaModifier() => false;
         public abstract IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder power);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
+        public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
     }
 
     public abstract record AttackModifier(string Name) : IAttackModifier
@@ -111,6 +113,7 @@ namespace GameEngine.Generator
         public abstract IEnumerable<RandomChances<AttackAndPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers);
         SerializedEffect IAttackModifier.Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => Apply(effect, powerProfile);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
+        public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
     }
 
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<IAttackModifier> Modifiers)
