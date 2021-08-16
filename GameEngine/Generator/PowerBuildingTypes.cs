@@ -23,7 +23,7 @@ namespace GameEngine.Generator
 
         public double Apply(double original)
         {
-            return (original * Multiplier) - Fixed;
+            return (original / Multiplier) - Fixed;
         }
     }
 

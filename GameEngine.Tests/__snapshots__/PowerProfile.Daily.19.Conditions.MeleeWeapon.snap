@@ -1,7 +1,7 @@
 ﻿Template: Conditions
 Tool: Weapon
 Attacks:
-- WeaponDice: 1.1666666666666661
+- WeaponDice: 1.166666666666667
   Ability: Strength
   DamageTypes:
   - Weapon

@@ -1,24 +1,16 @@
 ﻿Template: Multiattack
 Tool: Implement
 Attacks:
-- WeaponDice: 1
+- WeaponDice: 0.25
   Ability: Strength
   DamageTypes:
   - Radiant
   Target: Range
   Modifiers:
+  - Name: TwoHits
   - Defense: Fortitude
     Name: Non-Armor Defense
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-- WeaponDice: 0.5
-  Ability: Strength
-  DamageTypes:
-  - Radiant
-  Target: Range
-  Modifiers:
-  - Name: SecondaryAttack
-  - Defense: Fortitude
-    Name: Non-Armor Defense
 Modifiers: []

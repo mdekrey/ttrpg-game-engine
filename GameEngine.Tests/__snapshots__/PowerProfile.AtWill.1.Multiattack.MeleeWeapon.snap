@@ -6,11 +6,6 @@ Attacks:
   DamageTypes:
   - Weapon
   Target: Melee
-  Modifiers: []
-- WeaponDice: 1
-  Ability: Strength
-  DamageTypes:
-  - Weapon
-  Target: Melee
-  Modifiers: []
+  Modifiers:
+  - Name: TwoHits
 Modifiers: []

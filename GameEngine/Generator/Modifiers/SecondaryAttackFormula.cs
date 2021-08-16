@@ -24,22 +24,17 @@ namespace GameEngine.Generator.Modifiers
             {
                 var available = power.Attacks.Select(a => a.WeaponDice).DefaultIfEmpty(power.Limits.Initial).Sum();
 
-                // TODO - two hits
-                // TODO - two targets
-                // TODO - three targets
                 // TODO - secondary attack
                 // TODO - secondary and tertiary attack
-                //yield return new(new DelegateModifier(new UpToThreeTargetsModifier()));
-                for (var (current, counter) = (power.Limits.Minimum, 1); current <= available / 2; (current, counter) = (current + 0.5, counter * 2))
+                yield return new(new DelegateModifier(new TwoHitsModifier()));
+                yield return new(new DelegateModifier(new UpToThreeTargetsModifier()));
+                for (var (current, counter) = (power.Limits.Minimum, 1); current <= available / 3; (current, counter) = (current + 0.5, counter * 2))
                 {
                     var (a, b) = (current, available - current);
                     if (a * 2 < b)
                     {
                         yield return new(BuildModifier(a, isFollowUp: true), Chances: counter * (a == b ? 2 : 1));
                     }
-                    yield return new(BuildModifier(a), Chances: counter * (a == b ? 2 : 1));
-                    if (a != b)
-                        yield return new(BuildModifier(b), Chances: counter);
                 }
 
                 SplitAttackModifier BuildModifier(double cost, bool isFollowUp = false) =>
@@ -49,8 +44,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record DelegateModifier(IAttackModifier AttackModifier) : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 0;
-            public override PowerCost GetCost() => PowerCost.Empty;
+            public override int GetComplexity() => AttackModifier.GetComplexity();
+            public override PowerCost GetCost() => AttackModifier.GetCost();
 
             public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder attack) =>
                 Enumerable.Empty<RandomChances<IPowerModifier>>();
@@ -148,11 +143,29 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record UpToThreeTargetsModifier() : AttackModifier(UpToThreeTargetsModifier.ModifierName)
+        // Two Identical attacks
+        public record TwoHitsModifier() : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 0;
+            public const string ModifierName = "TwoHits";
+            public override PowerCost GetCost() => new PowerCost(Multiplier: 2);
+            public override bool IsMetaModifier() => true;
+            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+                Enumerable.Empty<RandomChances<IAttackModifier>>();
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO
+                return effect;
+            }
+        }
+
+        // Identical attacks against up to 3 targets.
+        public record UpToThreeTargetsModifier() : AttackModifier(ModifierName)
+        {
+            // TODO - modifiers if both hit
+            public override int GetComplexity() => 0;
             public const string ModifierName = "UpToThreeTargets";
-            public override PowerCost GetCost() => new PowerCost(1);
+            public override PowerCost GetCost() => new PowerCost(1.5);
             public override bool IsMetaModifier() => true;
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 Enumerable.Empty<RandomChances<IAttackModifier>>();
