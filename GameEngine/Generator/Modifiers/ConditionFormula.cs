@@ -54,7 +54,7 @@ namespace GameEngine.Generator.Modifiers
         public record ConditionModifier(Duration Duration, ImmutableList<Condition> Conditions) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
-            public override PowerCost GetCost() => new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(Duration)).Sum());
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(Duration)).Sum());
 
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 from set in new[]

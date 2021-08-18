@@ -13,7 +13,4 @@ Attacks:
   - Defense: Fortitude
     Name: Non-Armor Defense
 Modifiers:
-- Cost:
-    Fixed: 1
-    Multiplier: 1
-  Name: OpportunityAction
+- Name: OpportunityAction

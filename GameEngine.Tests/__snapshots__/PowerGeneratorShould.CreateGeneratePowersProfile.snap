@@ -211,10 +211,7 @@ Daily1:
         Name: Slide Opponent
       Name: MovementControl
   Modifiers:
-  - Cost:
-      Fixed: 1.5
-      Multiplier: 1
-    Name: OpportunityAction
+  - Name: OpportunityAction
 Encounter3:
 - Template: Multiattack
   Tool: Weapon
@@ -284,10 +281,7 @@ Encounter3:
       AllyType: Single
       Name: Boost
   Modifiers:
-  - Cost:
-      Fixed: 1
-      Multiplier: 1
-    Name: OpportunityAction
+  - Name: OpportunityAction
 Daily5:
 - Template: Multiattack
   Tool: Weapon
@@ -433,10 +427,7 @@ Encounter7:
       - Strength
       Name: Ability Modifier Damage
   Modifiers:
-  - Cost:
-      Fixed: 1
-      Multiplier: 1
-    Name: OpportunityAction
+  - Name: OpportunityAction
 Daily9:
 - Template: Multiattack
   Tool: Weapon
@@ -537,10 +528,7 @@ Daily9:
         Name: Slide Opponent
       Name: MovementControl
   Modifiers:
-  - Cost:
-      Fixed: 3.5
-      Multiplier: 1
-    Name: OpportunityAction
+  - Name: OpportunityAction
 Encounter11:
 - Template: Multiattack
   Tool: Weapon
@@ -606,10 +594,7 @@ Encounter11:
       - Strength
       Name: Ability Modifier Damage
   Modifiers:
-  - Cost:
-      Fixed: 2
-      Multiplier: 1
-    Name: OpportunityAction
+  - Name: OpportunityAction
 Encounter13:
 - Template: Multiattack
   Tool: Weapon
@@ -638,10 +623,7 @@ Encounter13:
       - Strength
       Name: Ability Modifier Damage
   Modifiers:
-  - Cost:
-      Fixed: 2
-      Multiplier: 1
-    Name: OpportunityAction
+  - Name: OpportunityAction
 - Template: Multiattack
   Tool: Weapon
   Attacks:
@@ -1032,10 +1014,7 @@ Daily20:
       AllyType: Single
       Name: Boost
   Modifiers:
-  - Cost:
-      Fixed: 4.5
-      Multiplier: 1
-    Name: OpportunityAction
+  - Name: OpportunityAction
 Encounter23:
 - Template: Multiattack
   Tool: Weapon
@@ -1249,10 +1228,7 @@ Encounter27:
       - Strength
       Name: Ability Modifier Damage
   Modifiers:
-  - Cost:
-      Fixed: 2
-      Multiplier: 1
-    Name: OpportunityAction
+  - Name: OpportunityAction
 - Template: Skirmish
   Tool: Weapon
   Attacks:

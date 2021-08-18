@@ -34,7 +34,7 @@ namespace GameEngine.Generator
     public abstract record ModifierBuilder<TModifier>(AttackLimits Limits, ImmutableList<TModifier> Modifiers) where TModifier : class, IModifier
     {
         public int Complexity => Modifiers.Cast<IModifier>().GetComplexity();
-        public PowerCost TotalCost => Modifiers.Cast<IModifier>().GetTotalCost();
+        public abstract PowerCost TotalCost { get; }
 
         public abstract bool IsValid();
     }
@@ -42,23 +42,27 @@ namespace GameEngine.Generator
     public record AttackProfileBuilder(double Multiplier, AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : ModifierBuilder<IAttackModifier>(Limits, Modifiers)
     {
+        public override PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+
         public double WeaponDice => TotalCost.Apply(Limits.Initial);
         public override bool IsValid()
         {
             return TotalCost.Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity()).Sum() <= Limits.MaxComplexity;
         }
-        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers.Where(m => m.GetCost() != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
+        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
 
     }
 
     public record PowerProfileBuilder(string Template, AttackLimits Limits, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers)
         : ModifierBuilder<IPowerModifier>(Limits, Modifiers)
     {
+        public override PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+   
         internal PowerProfile Build() => new PowerProfile(
             Template, 
             PowerInfo.ToolProfile.Type, 
             Attacks.Select(a => a.Build()).ToImmutableList(), 
-            Modifiers.Where(m => m.GetCost() != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList()
+            Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList()
         );
 
         public override bool IsValid()

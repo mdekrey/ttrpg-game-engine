@@ -20,7 +20,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 0;
 
-            public override PowerCost GetCost() => new PowerCost(Abilities.Count * 0.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Abilities.Count * 0.5);
 
             // TODO - how do we make this an upgrade of "last resort" to round out the numbers?
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>

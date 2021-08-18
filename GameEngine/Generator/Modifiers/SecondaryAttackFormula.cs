@@ -18,7 +18,7 @@ namespace GameEngine.Generator.Modifiers
         public record ShouldMultiattackModifier() : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
-            public override PowerCost GetCost() => PowerCost.Empty;
+            public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
             public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder power)
             {
@@ -45,7 +45,7 @@ namespace GameEngine.Generator.Modifiers
         public record DelegateModifier(IAttackModifier AttackModifier) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => AttackModifier.GetComplexity();
-            public override PowerCost GetCost() => AttackModifier.GetCost();
+            public override PowerCost GetCost(PowerProfileBuilder builder) => AttackModifier.GetCost(builder.Attacks[0]);
 
             public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder attack) =>
                 Enumerable.Empty<RandomChances<IPowerModifier>>();
@@ -75,7 +75,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => IsFollowUp ? 2 : 1;
 
-            public override PowerCost GetCost() => new (Fixed: Cost);
+            public override PowerCost GetCost(PowerProfileBuilder builder) => new (Fixed: Cost);
 
             public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder attack) =>
                 Enumerable.Empty<RandomChances<IPowerModifier>>();
@@ -122,7 +122,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
             public override int GetComplexity() => 0;
-            public override PowerCost GetCost() => PowerCost.Empty;
+            public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder power) => Enumerable.Empty<RandomChances<IPowerModifier>>();
         }
 
@@ -132,7 +132,7 @@ namespace GameEngine.Generator.Modifiers
 
             public const string ModifierName = "SecondaryAttack";
 
-            public override PowerCost GetCost() => PowerCost.Empty;
+            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
             public override bool IsMetaModifier() => true;
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 Enumerable.Empty<RandomChances<IAttackModifier>>();
@@ -148,7 +148,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 0;
             public const string ModifierName = "TwoHits";
-            public override PowerCost GetCost() => new PowerCost(Multiplier: 2);
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: 2);
             public override bool IsMetaModifier() => true;
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 Enumerable.Empty<RandomChances<IAttackModifier>>();
@@ -165,7 +165,7 @@ namespace GameEngine.Generator.Modifiers
             // TODO - modifiers if both hit
             public override int GetComplexity() => 0;
             public const string ModifierName = "UpToThreeTargets";
-            public override PowerCost GetCost() => new PowerCost(1.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(1.5);
             public override bool IsMetaModifier() => true;
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 Enumerable.Empty<RandomChances<IAttackModifier>>();

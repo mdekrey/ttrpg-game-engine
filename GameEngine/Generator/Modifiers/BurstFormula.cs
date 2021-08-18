@@ -27,7 +27,7 @@ namespace GameEngine.Generator.Modifiers
         public record MultipleAttackModifier() : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
-            public override PowerCost GetCost() => PowerCost.Empty;
+            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
 
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack)
             {
@@ -46,7 +46,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => new PowerCost(Multiplier: ((Size - 1) / 2.0 + 2) / 2.0); // TODO - is this right?
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: ((Size - 1) / 2.0 + 2) / 2.0); // TODO - is this right?
 
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
                 new[]

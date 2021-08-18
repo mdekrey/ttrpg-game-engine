@@ -21,7 +21,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => new PowerCost(Defense == DefenseType.ArmorClass ? 0 : 0.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Defense == DefenseType.ArmorClass ? 0 : 0.5);
 
             public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack)
             {
