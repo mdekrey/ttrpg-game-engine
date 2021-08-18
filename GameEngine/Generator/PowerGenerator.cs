@@ -128,9 +128,9 @@ namespace GameEngine.Generator
         {
             foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<RandomChances<TModifier>>>())
             {
-                var starterOptions = starterSet.Where(f => builder.CanApply(f.Result)).ToArray();
+                var starterOptions = starterSet.Select(chance => new RandomChances<TBuilder>(builder.Apply(chance.Result), chance.Chances)).Where(f => f.Result.IsValid()).ToArray();
                 if (starterOptions.Length == 0) continue;
-                builder = builder.Apply(randomGenerator.RandomSelection(starterOptions));
+                builder = randomGenerator.RandomSelection(starterOptions);
             }
             return builder;
         }
@@ -153,7 +153,7 @@ namespace GameEngine.Generator
                         from mod in applicableModifiers
                         where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
                         let entry = mod.GetBaseModifier(attack)
-                        where attack.CanApply(entry)
+                        where attack.Apply(entry).IsValid()
                         select new RandomChances<IAttackModifier>(entry)
                     ).ToArray();
                     if (validModifiers.Length == 0)
@@ -178,10 +178,9 @@ namespace GameEngine.Generator
                 var validModifiers = powerProfileBuilder.GetUpgrades().ToArray();
                 if (validModifiers.Length == 0)
                     return powerProfileBuilder;
-                var transform = randomGenerator.RandomSelection(validModifiers);
-                if (transform != null)
-                    powerProfileBuilder = transform(powerProfileBuilder);
+                powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);
                 powerProfileBuilder = powerProfileBuilder.Modifiers.Aggregate(powerProfileBuilder, (builder, modifier) => modifier.TryApplyToProfileAndRemove(builder));
+                powerProfileBuilder = powerProfileBuilder.AdjustRemaining();
 
                 if (oldBuilder == powerProfileBuilder)
                     return powerProfileBuilder;
@@ -207,6 +206,7 @@ namespace GameEngine.Generator
 
         private static AttackProfileBuilder RootAttackBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfileBuilder(
+                1,
                 new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0), 
                     Minimum: GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)

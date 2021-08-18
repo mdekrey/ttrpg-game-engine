@@ -12,9 +12,6 @@ Attacks:
     Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Size: 3
-    Type: Burst
-    Name: Multiple
 Modifiers:
 - Cost:
     Fixed: 1
