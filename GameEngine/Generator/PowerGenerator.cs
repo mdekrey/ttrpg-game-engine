@@ -122,13 +122,13 @@ namespace GameEngine.Generator
             return powerProfileBuilder.Build();
         }
         
-        private TBuilder ApplyEach<TModifier, TBuilder>(TBuilder builder, IEnumerable<IEnumerable<RandomChances<TModifier>>>? modifiers)
+        private TBuilder ApplyEach<TModifier, TBuilder>(TBuilder builder, IEnumerable<IEnumerable<TModifier>>? modifiers)
             where TModifier : class, IModifier
             where TBuilder : ModifierBuilder<TModifier>
         {
-            foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<RandomChances<TModifier>>>())
+            foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<TModifier>>())
             {
-                var starterOptions = starterSet.Select(chance => new RandomChances<TBuilder>(builder.Apply(chance.Result), chance.Chances)).Where(f => f.Result.IsValid()).ToArray();
+                var starterOptions = starterSet.Select(chance => builder.Apply(chance)).Where(f => f.IsValid()).Select(f => new RandomChances<TBuilder>(f, Chances: 1 /* TODO - weight by class config */)).ToArray();
                 if (starterOptions.Length == 0) continue;
                 builder = randomGenerator.RandomSelection(starterOptions);
             }

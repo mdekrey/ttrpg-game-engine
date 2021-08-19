@@ -47,38 +47,38 @@ namespace GameEngine.Generator
         private static AttackProfileBuilder Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, RandomGenerator randomGenerator)
         {
             var selected = formula.GetBaseModifier(attack);
-            selected = randomGenerator.RandomSelection(selected.GetUpgrades(attack));
+            selected = randomGenerator.RandomSelection(selected.GetUpgrades(attack).Select(upgrade => new RandomChances<IAttackModifier>(upgrade, Chances: 1 /* TODO - weight based on class config */)));
             return attack.Apply(selected);
         }
 
         private record AccuratePowerTemplate : PowerTemplate
         {
             public AccuratePowerTemplate() : base(AccuratePowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+            public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
                 new[] { from mod in ModifierDefinitions.modifiers
                         where mod.keyword == (AccuratePowerTemplateName)
                         where mod.formula.IsValid(attackProfileBuilder)
                         let applicable = mod.formula.GetBaseModifier(attackProfileBuilder)
-                        select new RandomChances<IAttackModifier>(applicable) };
+                        select applicable };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
         }
 
         private record SkirmishPowerTemplate : PowerTemplate
         {
             public SkirmishPowerTemplate() : base(SkirmishPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+            public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
                 new[] { from mod in ModifierDefinitions.modifiers
                         where mod.keyword == SkirmishPowerTemplateName
                         where mod.formula.IsValid(attackProfileBuilder)
                         let applicable = mod.formula.GetBaseModifier(attackProfileBuilder)
-                        select new RandomChances<IAttackModifier>(applicable) };
+                        select applicable };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
         }
 
         private record MultiattackPowerTemplate : PowerTemplate
         {
             public MultiattackPowerTemplate() : base(MultiattackPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IPowerModifier>>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
+            public override IEnumerable<IEnumerable<IPowerModifier>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
                 new[] { ModifierDefinitions.SecondaryAttack.GetBaseModifier(powerProfileBuilder).GetUpgrades(powerProfileBuilder) };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
         }
@@ -86,9 +86,9 @@ namespace GameEngine.Generator
         private record CloseBurstPowerTemplate : PowerTemplate
         {
             public CloseBurstPowerTemplate() : base(CloseBurstPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+            public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
                 new[] {
-                    ModifierDefinitions.Multiple3x3.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder).Where(a => a.Result is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Burst })
+                    ModifierDefinitions.Multiple3x3.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder).Where(a => a is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Burst })
                 };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill, ToolProfile: { Range: ToolRange.Melee } } or { ToolProfile: { Type: ToolType.Implement } };
         }
@@ -96,20 +96,20 @@ namespace GameEngine.Generator
         private record ConditionsPowerTemplate : PowerTemplate
         {
             public ConditionsPowerTemplate() : base(ConditionsPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+            public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
                 new[] { from mod in ModifierDefinitions.modifiers
                         where mod.keyword ==(ConditionsPowerTemplateName)
                         where mod.formula.IsValid(attackProfileBuilder)
                         let applicable = mod.formula.GetBaseModifier(attackProfileBuilder)
-                        select new RandomChances<IAttackModifier>(applicable) };
+                        select applicable };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
         }
 
         private record InterruptPenaltyPowerTemplate : PowerTemplate
         {
             public InterruptPenaltyPowerTemplate() : base(InterruptPenaltyPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IPowerModifier>>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
-                    new[] { new[] { new RandomChances<IPowerModifier>(ModifierDefinitions.OpportunityAction.GetBaseModifier(powerProfileBuilder)) } };
+            public override IEnumerable<IEnumerable<IPowerModifier>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
+                    new[] { new[] { ModifierDefinitions.OpportunityAction.GetBaseModifier(powerProfileBuilder) } };
 
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill };
         }
@@ -117,20 +117,20 @@ namespace GameEngine.Generator
         private record CloseBlastPowerTemplate : PowerTemplate
         {
             public CloseBlastPowerTemplate() : base(CloseBlastPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-                    new[] { ModifierDefinitions.Multiple3x3.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder).Where(a => a.Result is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Blast }) };
+            public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+                    new[] { ModifierDefinitions.Multiple3x3.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder).Where(a => a is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Blast }) };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { ToolProfile: { Type: ToolType.Implement } } or { ToolProfile: { Type: ToolType.Weapon, Range: ToolRange.Range }, Usage: not PowerFrequency.AtWill };
         }
 
         private record BonusPowerTemplate : PowerTemplate
         {
             public BonusPowerTemplate() : base(BonusPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+            public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
                 new[] { from mod in ModifierDefinitions.modifiers
                         where mod.keyword ==(BonusPowerTemplateName)
                         where mod.formula.IsValid(attackProfileBuilder)
                         let applicable = mod.formula.GetBaseModifier(attackProfileBuilder)
-                        select new RandomChances<IAttackModifier>(applicable) };
+                        select applicable };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
         }
 

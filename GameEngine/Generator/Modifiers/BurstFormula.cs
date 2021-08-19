@@ -29,14 +29,14 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => 1;
             public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
 
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack)
             {
                 if (attack.Target != TargetType.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new(new BurstModifier(1, BurstType.Burst));
+                    yield return new BurstModifier(1, BurstType.Burst);
                 if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new(new BurstModifier(1, BurstType.Blast));
+                    yield return new BurstModifier(1, BurstType.Blast);
                 if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new(new BurstModifier(1, BurstType.Area));
+                    yield return new BurstModifier(1, BurstType.Area);
             }
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => effect;
@@ -48,10 +48,10 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: ((Size - 1) / 2.0 + 2) / 2.0); // TODO - is this right?
 
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack) =>
                 new[]
                 {
-                    new RandomChances<IAttackModifier>(this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) })
+                    this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) }
                 };
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attack)

@@ -23,14 +23,14 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Defense == DefenseType.ArmorClass ? 0 : 0.5);
 
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack)
             {
                 if (Defense != DefenseType.ArmorClass)
                     yield break;
-                yield return new(BuildModifier(attack.PowerInfo.ToolProfile.PrimaryNonArmorDefense), Chances: 10);
-                yield return new(BuildModifier(DefenseType.Fortitude), Chances: 1);
-                yield return new(BuildModifier(DefenseType.Reflex), Chances: 1);
-                yield return new(BuildModifier(DefenseType.Will), Chances: 1);
+                yield return BuildModifier(attack.PowerInfo.ToolProfile.PrimaryNonArmorDefense);
+                yield return BuildModifier(DefenseType.Fortitude);
+                yield return BuildModifier(DefenseType.Reflex);
+                yield return BuildModifier(DefenseType.Will);
 
                 NonArmorDefenseModifier BuildModifier(DefenseType defense) =>
                     new(defense);

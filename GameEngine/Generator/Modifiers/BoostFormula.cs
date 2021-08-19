@@ -139,7 +139,7 @@ namespace GameEngine.Generator.Modifiers
                         .Sum()
                 );
 
-            public override IEnumerable<RandomChances<AttackAndPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
+            public override IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
                 from set in new[]
                 {
                     from basicBoost in GetBasicBoosts(powerInfo)
@@ -202,7 +202,7 @@ namespace GameEngine.Generator.Modifiers
                     },
                 }
                 from mod in set
-                select new RandomChances<AttackAndPowerModifier>(mod);
+                select mod;
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {

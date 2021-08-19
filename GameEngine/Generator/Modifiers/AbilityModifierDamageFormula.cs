@@ -23,16 +23,15 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Abilities.Count * 0.5);
 
             // TODO - how do we make this an upgrade of "last resort" to round out the numbers?
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack) =>
                 attack.PowerInfo.ToolProfile.Abilities
                     .Take(1) // remove this line when I figure out how to make these least priority
                     .Except(Abilities)
                     .Take(1)
-                    .Select(ability => 
-                        new RandomChances<IAttackModifier>(this with 
+                    .Select(ability => this with 
                         { 
                             Abilities = Abilities.Add(ability) 
-                        })
+                        }
                     );
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)

@@ -29,7 +29,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => 1;
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
 
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack) =>
                 from set in new[]
                 {
                     from basicCondition in basicEffects
@@ -41,7 +41,7 @@ namespace GameEngine.Generator.Modifiers
                     select this with { Effects = Effects.Remove(condition).Add(upgrade) },
                 }
                 from mod in set
-                select new RandomChances<IAttackModifier>(mod);
+                select mod;
 
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attack)

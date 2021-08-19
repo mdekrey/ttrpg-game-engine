@@ -56,7 +56,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => 1;
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(Duration)).Sum());
 
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack) =>
                 from set in new[]
                 {
                     from basicCondition in basicConditions.Keys
@@ -80,7 +80,7 @@ namespace GameEngine.Generator.Modifiers
                     select this with { Duration = duration },
                 }
                 from mod in set
-                select new RandomChances<IAttackModifier>(mod);
+                select mod;
 
             private static ImmutableList<Condition> Filter(ImmutableList<Condition> conditions)
             {

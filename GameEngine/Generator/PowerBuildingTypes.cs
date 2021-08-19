@@ -57,11 +57,11 @@ namespace GameEngine.Generator
         : ModifierBuilder<IPowerModifier>(Limits, Modifiers)
     {
         public override PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
-   
+
         internal PowerProfile Build() => new PowerProfile(
-            Template, 
-            PowerInfo.ToolProfile.Type, 
-            Attacks.Select(a => a.Build()).ToImmutableList(), 
+            Template,
+            PowerInfo.ToolProfile.Type,
+            Attacks.Select(a => a.Build()).ToImmutableList(),
             Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList()
         );
 
@@ -97,19 +97,19 @@ namespace GameEngine.Generator
             {
                 from modifier in Modifiers
                 from upgrade in modifier.GetUpgrades(this)
-                let upgraded = this.Apply(upgrade.Result, modifier)
+                let upgraded = this.Apply(upgrade, modifier)
                 where upgraded.IsValid()
-                select new RandomChances<PowerProfileBuilder>(Chances: upgrade.Chances, Result: upgraded),
+                select new RandomChances<PowerProfileBuilder>(Chances: 1 /* TODO - get weighting from class config */, Result: upgraded),
 
                 from attackKvp in Attacks.Select((attack, index) => (attack, index))
                 let attack = attackKvp.attack
                 let index = attackKvp.index
                 from modifier in attack.Modifiers
                 from upgrade in modifier.GetUpgrades(attack)
-                let upgraded = this with { Attacks = this.Attacks.SetItem(index, attack.Apply(upgrade.Result, modifier)) }
+                let upgraded = this with { Attacks = this.Attacks.SetItem(index, attack.Apply(upgrade, modifier)) }
                 where upgraded.IsValid()
                 select new RandomChances<PowerProfileBuilder>(
-                    Chances: upgrade.Chances, 
+                    Chances: 1 /* TODO - get weighting from class config */,
                     Result: upgraded
                 ),
             }
@@ -170,10 +170,10 @@ namespace GameEngine.Generator
 
     public abstract record PowerTemplate(string Name)
     {
-        public virtual IEnumerable<IEnumerable<RandomChances<IPowerModifier>>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
-            Enumerable.Empty<IEnumerable<RandomChances<IPowerModifier>>>();
-        public virtual IEnumerable<IEnumerable<RandomChances<IAttackModifier>>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-            Enumerable.Empty<IEnumerable<RandomChances<IAttackModifier>>>();
+        public virtual IEnumerable<IEnumerable<IPowerModifier>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
+            Enumerable.Empty<IEnumerable<IPowerModifier>>();
+        public virtual IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
+            Enumerable.Empty<IEnumerable<IAttackModifier>>();
         public abstract bool CanApply(PowerHighLevelInfo powerInfo);
     }
 

@@ -21,8 +21,8 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => new PowerCost(PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage) - PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage - 1));
 
-            public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerProfileBuilder power) =>
-                Enumerable.Empty<RandomChances<IPowerModifier>>();
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power) =>
+                Enumerable.Empty<IPowerModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
                 // TODO

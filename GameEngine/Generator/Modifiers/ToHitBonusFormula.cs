@@ -24,20 +24,20 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Amount.ToWeaponDice());
 
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack)
             {
                 if (Amount.Abilities == CharacterAbilities.Empty)
                 {
                     if (Amount.DieCodes.Modifier < 8) // actually 10
-                        yield return new(this with { Amount = Amount.StepUpModifier() });
+                        yield return this with { Amount = Amount.StepUpModifier() };
                     if (Amount.DieCodes.Modifier <= 2)
                     {
                         foreach (var ability in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
-                            yield return new(this with { Amount = Amount + ability });
+                            yield return this with { Amount = Amount + ability };
                     }
                 }
                 else if (Amount.DieCodes.Modifier == 0)
-                    yield return new(this with { Amount = 0 });
+                    yield return this with { Amount = 0 };
             }
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
