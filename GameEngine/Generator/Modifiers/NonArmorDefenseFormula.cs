@@ -23,7 +23,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Defense == DefenseType.ArmorClass ? 0 : 0.5);
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
             {
                 if (Defense != DefenseType.ArmorClass)
                     yield break;

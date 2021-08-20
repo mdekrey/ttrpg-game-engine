@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
@@ -23,16 +24,29 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Abilities.Count * 0.5);
 
             // TODO - how do we make this an upgrade of "last resort" to round out the numbers?
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack) =>
-                attack.PowerInfo.ToolProfile.Abilities
-                    .Take(1) // remove this line when I figure out how to make these least priority
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+                new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
+                    .Take(stage == UpgradeStage.Standard ? 1 : attack.PowerInfo.ToolProfile.Abilities.Count)
                     .Except(Abilities)
-                    .Take(1)
+                    .Take(AllowAdditionalModifier(attack) ? 1 : 0)
                     .Select(ability => this with 
                         { 
                             Abilities = Abilities.Add(ability) 
                         }
                     );
+
+            private bool AllowAdditionalModifier(AttackProfileBuilder attack)
+            {
+                var dice = attack.WeaponDice;
+                if (Abilities.Count > 0)
+                {
+                    return attack.PowerInfo.ToolProfile.Type == ToolType.Weapon && dice > 1 && (dice % 1) >= 0.5;
+                }
+                else 
+                {
+                    return true;
+                }
+            }
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {

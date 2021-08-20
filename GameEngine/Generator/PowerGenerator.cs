@@ -172,19 +172,23 @@ namespace GameEngine.Generator
 
         public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder)
         {
-            while (true)
+            foreach (var stage in new[] { UpgradeStage.Standard, UpgradeStage.Finalize })
             {
-                var oldBuilder = powerProfileBuilder;
-                var validModifiers = powerProfileBuilder.GetUpgrades().ToArray();
-                if (validModifiers.Length == 0)
-                    return powerProfileBuilder;
-                powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);
-                powerProfileBuilder = powerProfileBuilder.Modifiers.Aggregate(powerProfileBuilder, (builder, modifier) => modifier.TryApplyToProfileAndRemove(builder));
-                powerProfileBuilder = powerProfileBuilder.AdjustRemaining();
+                while (true)
+                {
+                    var oldBuilder = powerProfileBuilder;
+                    var validModifiers = powerProfileBuilder.GetUpgrades(stage).ToArray();
+                    if (validModifiers.Length == 0)
+                        break;
+                    powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);
+                    powerProfileBuilder = powerProfileBuilder.Modifiers.Aggregate(powerProfileBuilder, (builder, modifier) => modifier.TryApplyToProfileAndRemove(builder));
+                    powerProfileBuilder = powerProfileBuilder.AdjustRemaining();
 
-                if (oldBuilder == powerProfileBuilder)
-                    return powerProfileBuilder;
+                    if (oldBuilder == powerProfileBuilder)
+                        break;
+                }
             }
+            return powerProfileBuilder;
         }
 
         private PowerProfileBuilder RootBuilder(double basePower, string template, PowerHighLevelInfo info)

@@ -47,7 +47,7 @@ namespace GameEngine.Generator
         private static AttackProfileBuilder Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, RandomGenerator randomGenerator)
         {
             var selected = formula.GetBaseModifier(attack);
-            selected = randomGenerator.RandomSelection(selected.GetUpgrades(attack).Select(upgrade => new RandomChances<IAttackModifier>(upgrade, Chances: 1 /* TODO - weight based on class config */)));
+            selected = randomGenerator.RandomSelection(selected.GetUpgrades(attack, UpgradeStage.Standard).Select(upgrade => new RandomChances<IAttackModifier>(upgrade, Chances: 1 /* TODO - weight based on class config */)));
             return attack.Apply(selected);
         }
 
@@ -79,7 +79,7 @@ namespace GameEngine.Generator
         {
             public MultiattackPowerTemplate() : base(MultiattackPowerTemplateName) { }
             public override IEnumerable<IEnumerable<IPowerModifier>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
-                new[] { ModifierDefinitions.SecondaryAttack.GetBaseModifier(powerProfileBuilder).GetUpgrades(powerProfileBuilder) };
+                new[] { ModifierDefinitions.SecondaryAttack.GetBaseModifier(powerProfileBuilder).GetUpgrades(powerProfileBuilder, UpgradeStage.Standard) };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
         }
 
@@ -88,7 +88,7 @@ namespace GameEngine.Generator
             public CloseBurstPowerTemplate() : base(CloseBurstPowerTemplateName) { }
             public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
                 new[] {
-                    ModifierDefinitions.Multiple3x3.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder).Where(a => a is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Burst })
+                    ModifierDefinitions.Multiple3x3.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder, UpgradeStage.Standard).Where(a => a is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Burst })
                 };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill, ToolProfile: { Range: ToolRange.Melee } } or { ToolProfile: { Type: ToolType.Implement } };
         }
@@ -109,7 +109,7 @@ namespace GameEngine.Generator
         {
             public InterruptPenaltyPowerTemplate() : base(InterruptPenaltyPowerTemplateName) { }
             public override IEnumerable<IEnumerable<IPowerModifier>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
-                    new[] { ModifierDefinitions.OpportunityAction.GetBaseModifier(powerProfileBuilder).GetUpgrades(powerProfileBuilder) };
+                    new[] { ModifierDefinitions.OpportunityAction.GetBaseModifier(powerProfileBuilder).GetUpgrades(powerProfileBuilder, UpgradeStage.Standard) };
 
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill };
         }
@@ -118,7 +118,7 @@ namespace GameEngine.Generator
         {
             public CloseBlastPowerTemplate() : base(CloseBlastPowerTemplateName) { }
             public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-                    new[] { ModifierDefinitions.Multiple3x3.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder).Where(a => a is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Blast }) };
+                    new[] { ModifierDefinitions.Multiple3x3.GetBaseModifier(attackProfileBuilder).GetUpgrades(attackProfileBuilder, UpgradeStage.Standard).Where(a => a is Modifiers.BurstFormula.BurstModifier { Type: Modifiers.BurstFormula.BurstType.Blast }) };
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { ToolProfile: { Type: ToolType.Implement } } or { ToolProfile: { Type: ToolType.Weapon, Range: ToolRange.Range }, Usage: not PowerFrequency.AtWill };
         }
 

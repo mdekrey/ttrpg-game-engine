@@ -92,14 +92,14 @@ namespace GameEngine.Generator
             };
         }
 
-        internal IEnumerable<RandomChances<PowerProfileBuilder>> GetUpgrades() =>
+        internal IEnumerable<RandomChances<PowerProfileBuilder>> GetUpgrades(UpgradeStage stage) =>
             from set in new[]
             {
                 from attackKvp in Attacks.Select((attack, index) => (attack, index))
                 let attack = attackKvp.attack
                 let index = attackKvp.index
                 from modifier in attack.Modifiers
-                from upgrade in modifier.GetUpgrades(attack)
+                from upgrade in modifier.GetUpgrades(attack, stage)
                 let upgraded = this with { Attacks = this.Attacks.SetItem(index, attack.Apply(upgrade, modifier)) }
                 where upgraded.IsValid()
                 select new RandomChances<PowerProfileBuilder>(
@@ -108,7 +108,7 @@ namespace GameEngine.Generator
                 ),
 
                 from modifier in Modifiers
-                from upgrade in modifier.GetUpgrades(this)
+                from upgrade in modifier.GetUpgrades(this, stage)
                 let upgraded = this.Apply(upgrade, modifier)
                 where upgraded.IsValid()
                 select new RandomChances<PowerProfileBuilder>(Chances: 1 /* TODO - get weighting from class config */, Result: upgraded),

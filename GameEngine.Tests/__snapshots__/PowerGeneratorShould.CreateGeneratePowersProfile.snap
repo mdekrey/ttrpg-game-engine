@@ -107,7 +107,7 @@ Encounter1:
     Modifiers:
     - Name: TwoHits
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Bonus
@@ -120,7 +120,7 @@ Encounter1:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       SelfBoosts: []
@@ -142,7 +142,7 @@ Daily1:
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       SelfBoosts:
@@ -304,7 +304,7 @@ Daily5:
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       SelfBoosts: []
@@ -324,7 +324,7 @@ Daily5:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Movement:
       - Timing: Anytime
@@ -361,7 +361,7 @@ Daily5:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       SelfBoosts: []
@@ -408,7 +408,7 @@ Encounter7:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Defense: Reflex
       Name: Non-Armor Defense
@@ -514,7 +514,7 @@ Daily9:
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
   Modifiers:
   - Duration: EndOfUserNextTurn
@@ -587,7 +587,7 @@ Encounter11:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
   Modifiers:
   - Duration: EndOfUserNextTurn
@@ -680,7 +680,7 @@ Encounter13:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       SelfBoosts:
@@ -785,7 +785,7 @@ Daily15:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Conditions:
@@ -840,7 +840,7 @@ Encounter17:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Movement:
       - Timing: Before
@@ -861,7 +861,7 @@ Encounter17:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Conditions:
@@ -889,7 +889,7 @@ Encounter17:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       Conditions:
@@ -908,7 +908,7 @@ Daily19:
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Defense: Reflex
       Name: Non-Armor Defense
@@ -929,7 +929,7 @@ Daily19:
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
   Modifiers:
   - Duration: EndOfUserNextTurn
@@ -950,7 +950,7 @@ Daily19:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       SelfBoosts:
@@ -974,7 +974,7 @@ Daily19:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       SelfBoosts:
@@ -1085,7 +1085,7 @@ Daily20:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
   Modifiers:
   - Duration: EndOfUserNextTurn
@@ -1111,7 +1111,7 @@ Encounter23:
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Multiattack
@@ -1145,7 +1145,7 @@ Encounter23:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Amount: STR + 2
       Name: To-Hit Bonus to Current Attack
@@ -1162,7 +1162,7 @@ Encounter23:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Movement:
       - Timing: After
@@ -1190,7 +1190,7 @@ Daily25:
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
   Modifiers:
   - Duration: EndOfEncounter
@@ -1213,7 +1213,7 @@ Daily25:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Movement:
       - Timing: Anytime
@@ -1269,7 +1269,7 @@ Daily25:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       SelfBoosts:
@@ -1297,13 +1297,14 @@ Encounter27:
 - Template: Multiattack
   Tool: Weapon
   Attacks:
-  - WeaponDice: 4.5
+  - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
     - Fire
     Target: Range
     Modifiers:
     - Abilities:
+      - Dexterity
       - Strength
       Name: Ability Modifier Damage
   Modifiers: []
@@ -1318,7 +1319,7 @@ Encounter27:
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Accurate
@@ -1331,7 +1332,7 @@ Encounter27:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -1347,7 +1348,7 @@ Encounter27:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Movement:
       - Timing: Before
@@ -1372,7 +1373,7 @@ Daily29:
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Effects:
       - Mode: Slide
@@ -1400,7 +1401,7 @@ Daily29:
     Target: Range
     Modifiers:
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -1423,7 +1424,7 @@ Daily29:
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
-      - Strength
+      - Dexterity
       Name: Ability Modifier Damage
     - Duration: EndOfUserNextTurn
       SelfBoosts: []
@@ -1437,15 +1438,12 @@ Daily29:
 - Template: Conditions
   Tool: Weapon
   Attacks:
-  - WeaponDice: 2.5
+  - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Fire
     Target: Range
     Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
     - Defense: Reflex
       Name: Non-Armor Defense
     - Duration: EndOfEncounter
@@ -1458,4 +1456,8 @@ Daily29:
         Amount: +2
         Name: Slide Opponent
       Name: MovementControl
+    - Abilities:
+      - Dexterity
+      - Strength
+      Name: Ability Modifier Damage
   Modifiers: []

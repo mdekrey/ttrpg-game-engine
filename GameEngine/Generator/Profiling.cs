@@ -66,10 +66,16 @@ namespace GameEngine.Generator
         public static int GetComplexity(this IEnumerable<IModifier> modifiers) => modifiers.Select(m => m.GetComplexity()).DefaultIfEmpty(0).Sum();
     }
 
+    public enum UpgradeStage
+    {
+        Standard,
+        Finalize,
+    }
+
     public interface IPowerModifier : IModifier
     {
         PowerCost GetCost(PowerProfileBuilder builder);
-        IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power);
+        IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
         PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder);
     }
@@ -77,7 +83,7 @@ namespace GameEngine.Generator
     public interface IAttackModifier : IModifier
     {
         PowerCost GetCost(AttackProfileBuilder builder);
-        IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack);
+        IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
     }
 
@@ -86,7 +92,7 @@ namespace GameEngine.Generator
         public abstract int GetComplexity();
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
-        public abstract IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power);
+        public abstract IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
         public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
     }
@@ -96,7 +102,7 @@ namespace GameEngine.Generator
         public abstract int GetComplexity();
         public abstract PowerCost GetCost(AttackProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
-        public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack);
+        public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
     }
 
@@ -106,9 +112,9 @@ namespace GameEngine.Generator
         public abstract PowerCost GetCost();
         public virtual bool IsMetaModifier() => false;
         // TODO
-        IEnumerable<IAttackModifier> IAttackModifier.GetUpgrades(AttackProfileBuilder attack) =>
+        IEnumerable<IAttackModifier> IAttackModifier.GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
             GetUpgrades(attack.PowerInfo, attack.Modifiers);
-        IEnumerable<IPowerModifier> IPowerModifier.GetUpgrades(PowerProfileBuilder power) =>
+        IEnumerable<IPowerModifier> IPowerModifier.GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
             GetUpgrades(power.PowerInfo, power.Modifiers);
         public abstract IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers);
         SerializedEffect IAttackModifier.Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => Apply(effect, powerProfile);

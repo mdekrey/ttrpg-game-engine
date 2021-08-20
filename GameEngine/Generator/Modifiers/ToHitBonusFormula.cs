@@ -24,7 +24,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Amount.ToWeaponDice());
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack)
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
             {
                 if (Amount.Abilities == CharacterAbilities.Empty)
                 {

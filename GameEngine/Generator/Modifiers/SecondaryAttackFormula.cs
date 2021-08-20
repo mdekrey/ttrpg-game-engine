@@ -20,7 +20,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => 1;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
-            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power)
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage)
             {
                 var available = power.Attacks.Select(a => a.WeaponDice).DefaultIfEmpty(power.Limits.Initial).Sum();
 
@@ -47,7 +47,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => AttackModifier.GetComplexity();
             public override PowerCost GetCost(PowerProfileBuilder builder) => AttackModifier.GetCost(builder.Attacks[0]);
 
-            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack) =>
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
@@ -77,7 +77,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => new (Fixed: Cost);
 
-            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack) =>
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
@@ -123,7 +123,7 @@ namespace GameEngine.Generator.Modifiers
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
             public override int GetComplexity() => 0;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
-            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power) => Enumerable.Empty<IPowerModifier>();
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
         }
 
         public record SecondaryAttackModifier() : AttackModifier(SecondaryAttackModifier.ModifierName)
@@ -134,7 +134,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
             public override bool IsMetaModifier() => true;
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
@@ -150,7 +150,7 @@ namespace GameEngine.Generator.Modifiers
             public const string ModifierName = "TwoHits";
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: 2);
             public override bool IsMetaModifier() => true;
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
@@ -167,7 +167,7 @@ namespace GameEngine.Generator.Modifiers
             public const string ModifierName = "UpToThreeTargets";
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(1.5);
             public override bool IsMetaModifier() => true;
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
