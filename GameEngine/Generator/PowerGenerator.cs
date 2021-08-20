@@ -176,13 +176,17 @@ namespace GameEngine.Generator
             {
                 while (true)
                 {
+                    if (powerProfileBuilder.Attacks.Any(a => a.WeaponDice < 1))
+                        System.Diagnostics.Debugger.Break();
                     var oldBuilder = powerProfileBuilder;
                     var validModifiers = powerProfileBuilder.GetUpgrades(stage).ToArray();
                     if (validModifiers.Length == 0)
                         break;
+                    if (validModifiers.Any(r => r.Result.Attacks.Any(a => a.WeaponDice < 1)))
+                        System.Diagnostics.Debugger.Break();
                     powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);
-                    powerProfileBuilder = powerProfileBuilder.Modifiers.Aggregate(powerProfileBuilder, (builder, modifier) => modifier.TryApplyToProfileAndRemove(builder));
-                    powerProfileBuilder = powerProfileBuilder.AdjustRemaining();
+                    if (powerProfileBuilder.Attacks.Any(a => a.WeaponDice < 1))
+                        System.Diagnostics.Debugger.Break();
 
                     if (oldBuilder == powerProfileBuilder)
                         break;
@@ -204,7 +208,7 @@ namespace GameEngine.Generator
                 ImmutableList<IPowerModifier>.Empty
             );
             result = ApplyEach(result, PowerDefinitions.powerTemplates[template].PowerFormulas(result));
-            result = result.Modifiers.Aggregate(result, (p, mod) => mod.TryApplyToProfileAndRemove(p));
+            result = result.FinalizeUpgrade();
             return result;
         }
 

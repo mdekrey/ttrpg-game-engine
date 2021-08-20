@@ -22,23 +22,32 @@ namespace GameEngine.Generator.Modifiers
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
             public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage)
             {
+                if (power.Attacks.Count > 1)
+                    yield break;
+                var allocated = power.Attacks.Select(a => a.TotalCost.Fixed).Sum();
                 var available = power.Attacks.Select(a => a.WeaponDice).DefaultIfEmpty(power.Limits.Initial).Sum();
 
                 // TODO - secondary attack
                 // TODO - secondary and tertiary attack
                 yield return new DelegateModifier(new TwoHitsModifier());
                 yield return new DelegateModifier(new UpToThreeTargetsModifier());
-                for (var (current, counter) = (power.Limits.Minimum, 1); current <= available / 3; (current, counter) = (current + 0.5, counter * 2))
-                {
-                    var (a, b) = (current, available - current);
-                    if (a * 2 < b)
-                    {
-                        yield return BuildModifier(a, isFollowUp: true);
-                    }
-                }
 
-                SplitAttackModifier BuildModifier(double cost, bool isFollowUp = false) =>
-                    new(cost, isFollowUp);
+                var options = (from set in new[]
+                              {
+                                  new[] { available / 2, available / 2 },
+                                  new[] { available / 2 - 1, available / 2 + 1 },
+                                  new[] { available / 3, available / 3, available / 3 },
+                                  new[] { available / 3 - 1, available / 3, available / 3 + 1 },
+                              }
+                              where !set.Any(v => v < 1)
+                              from reversed in new[] { set, set.Reverse().ToArray() }
+                              let withAllocated = reversed.Take(reversed.Length - 1).Concat(new[] { reversed.Last() + allocated })
+                              select new EquatableImmutableList<double>(withAllocated)).Distinct();
+                foreach (var option in options)
+                {
+                    yield return new SplitAttackModifier(option.ToImmutableList(), false);
+                    yield return new SplitAttackModifier(option.ToImmutableList(), true);
+                }
             }
         }
 
@@ -71,11 +80,11 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record SplitAttackModifier(double Cost, bool IsFollowUp) : PowerModifier(ModifierName)
+        public record SplitAttackModifier(ImmutableList<double> Amounts, bool RequiresPreviousHit) : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => IsFollowUp ? 2 : 1;
+            public override int GetComplexity() => RequiresPreviousHit ? 2 : 1;
 
-            public override PowerCost GetCost(PowerProfileBuilder builder) => new (Fixed: Cost);
+            public override PowerCost GetCost(PowerProfileBuilder builder) => new (Fixed: Amounts.Select((v, i) => v * (i == 0 || !RequiresPreviousHit ? 1 : 0.5)).Sum() - builder.Attacks.Select(a => a.TotalCost.Fixed).Sum());
 
             public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
@@ -91,28 +100,23 @@ namespace GameEngine.Generator.Modifiers
                 // TODO - better complexity
                 return power with
                 {
-                    Attacks = new[] {
+                    Attacks = Amounts.Select((cost, index) =>
                         attack with
                         {
-                            Modifiers = attack.Modifiers.ToImmutableList(),
-                            Limits = attack.Limits with
+                            Modifiers = index switch
                             {
-                                Initial = attack.Limits.Initial - Cost,
-                                MaxComplexity = attack.Limits.MaxComplexity - GetComplexity(),
-                            }
-                        },
-                        attack with
-                        {
-                            Modifiers = IsFollowUp
-                                ? Build<IAttackModifier>(new SecondaryAttackModifier())
-                                : ImmutableList<IAttackModifier>.Empty,
-                            Limits = attack.Limits with
-                            {
-                                Initial = IsFollowUp ? Cost * 2 : Cost,
-                                MaxComplexity = attack.Limits.MaxComplexity - (2 - GetComplexity()),
+                                0 => ImmutableList<IAttackModifier>.Empty,
+                                _ when index < Amounts.Count - 1 && RequiresPreviousHit => Build<IAttackModifier>(new SecondaryAttackModifier()),
+                                _ when RequiresPreviousHit => attack.Modifiers.ToImmutableList().Add(new SecondaryAttackModifier()),
+                                _ => attack.Modifiers.ToImmutableList()
                             },
-                        },
-                    }.ToImmutableList(),
+                            Limits = attack.Limits with
+                            {
+                                Initial = cost,
+                                MaxComplexity = index switch { 0 => 0, _ => attack.Limits.MaxComplexity - GetComplexity() },
+                            }
+                        }
+                    ).ToImmutableList(),
                     Modifiers = power.Modifiers.Remove(this).Add(new MultiattackAppliedModifier()),
                 };
             }
@@ -132,7 +136,7 @@ namespace GameEngine.Generator.Modifiers
 
             public const string ModifierName = "RequiresPreviousHit";
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: 0.5);
             public override bool IsMetaModifier() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
