@@ -130,7 +130,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 0;
 
-            public const string ModifierName = "SecondaryAttack";
+            public const string ModifierName = "RequiresPreviousHit";
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
             public override bool IsMetaModifier() => true;
@@ -146,6 +146,7 @@ namespace GameEngine.Generator.Modifiers
         // Two Identical attacks
         public record TwoHitsModifier() : AttackModifier(ModifierName)
         {
+            // TODO - modifiers if both hit
             public override int GetComplexity() => 0;
             public const string ModifierName = "TwoHits";
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: 2);
@@ -162,7 +163,6 @@ namespace GameEngine.Generator.Modifiers
         // Identical attacks against up to 3 targets.
         public record UpToThreeTargetsModifier() : AttackModifier(ModifierName)
         {
-            // TODO - modifiers if both hit
             public override int GetComplexity() => 0;
             public const string ModifierName = "UpToThreeTargets";
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(1.5);

@@ -650,7 +650,7 @@ Encounter13:
     - Weapon
     Target: Range
     Modifiers:
-    - Name: SecondaryAttack
+    - Name: RequiresPreviousHit
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
