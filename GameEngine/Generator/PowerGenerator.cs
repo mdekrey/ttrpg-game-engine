@@ -110,13 +110,13 @@ namespace GameEngine.Generator
             var powerProfileBuilder = RootBuilder(basePower, template, powerInfo);
             powerProfileBuilder = powerProfileBuilder with
             {
-                Attacks = GenerateAttacks(
+                Attacks = 
                     powerProfileBuilder.Attacks
                         .Select(a => a.PreApply(randomGenerator))
                         .Select(a => ApplyEach(a, PowerDefinitions.powerTemplates[template].EachAttackFormulas(a)))
-                        .ToArray()
-                ).ToImmutableList(),
+                        .ToImmutableList(),
             };
+            powerProfileBuilder = AddExtraModifiers(powerProfileBuilder);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder);
 
             return powerProfileBuilder.Build();
@@ -135,39 +135,39 @@ namespace GameEngine.Generator
             return builder;
         }
 
-        public IEnumerable<AttackProfileBuilder> GenerateAttacks(IEnumerable<AttackProfileBuilder> attacks)
+        public PowerProfileBuilder AddExtraModifiers(PowerProfileBuilder builder)
         {
-            var attackBuilders = new Queue<AttackProfileBuilder>(attacks);
-
-            while (attackBuilders.Count > 0)
+            while (true)
             {
-                var attack = attackBuilders.Dequeue();
-
-                while (true)
-                {
-                    var applicableModifiers = ModifierDefinitions.modifiers.Select(m => m.formula).ToArray();
-                    if (applicableModifiers.Length == 0)
-                        break;
-                    var oldAttack = attack;
-                    var validModifiers = (
-                        from mod in applicableModifiers
-                        where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
-                        let entry = mod.GetBaseModifier(attack)
-                        where attack.Apply(entry).IsValid()
-                        select new RandomChances<IAttackModifier>(entry)
-                    ).ToArray();
-                    if (validModifiers.Length == 0)
-                        break;
-                    var selectedModifier = randomGenerator.RandomSelection(validModifiers);
-                    if (selectedModifier != null)
-                        attack = attack.Apply(selectedModifier);
-
-                    if (oldAttack == attack)
-                        break;
-                }
-
-                yield return attack;
+                var oldBuilder = builder;
+                var validModifiers = (from set in new[]
+                                      {
+                                          from mod in ModifierDefinitions.attackModifiers.Select(m => m.formula)
+                                          from attackWithIndex in builder.Attacks.Select((attack, index) => (attack, index))
+                                          let attack = attackWithIndex.attack
+                                          let index = attackWithIndex.index
+                                          where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
+                                          let entry = mod.GetBaseModifier(attack)
+                                          let appliedAttack = attack.Apply(entry)
+                                          where appliedAttack.IsValid()
+                                          let applied = builder with { Attacks = builder.Attacks.SetItem(index, appliedAttack) }
+                                          where applied.IsValid()
+                                          select new RandomChances<PowerProfileBuilder>(applied) // TODO - weight this based on class config
+                                          ,
+                                          from mod in ModifierDefinitions.powerModifiers.Select(m => m.formula)
+                                          where mod.IsValid(builder) && !builder.Modifiers.Any(m => m.Name == mod.Name)
+                                          let entry = mod.GetBaseModifier(builder)
+                                          let applied = builder.Apply(entry)
+                                          where applied.IsValid()
+                                          select new RandomChances<PowerProfileBuilder>(applied) // TODO - weight this based on class config
+                                      }
+                                      from entry in set
+                                      select entry).ToArray();
+                if (validModifiers.Length == 0)
+                    break;
+                builder = randomGenerator.RandomSelection(validModifiers);
             }
+            return builder;
         }
 
         public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder)

@@ -12,7 +12,18 @@ namespace GameEngine.Generator.Modifiers
         public override bool IsValid(PowerProfileBuilder builder) => builder.PowerInfo.Usage != PowerFrequency.AtWill;
         public override IPowerModifier GetBaseModifier(PowerProfileBuilder power)
         {
-            return new OpportunityActionModifier();
+            return new MaybeOpportunityActionModifier();
+        }
+
+        public record MaybeOpportunityActionModifier() : PowerModifier(ModifierName)
+        {
+            public override int GetComplexity() => 0;
+
+            public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
+
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power) =>
+                new[] { new OpportunityActionModifier() };
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
         }
 
         public record OpportunityActionModifier() : PowerModifier(ModifierName)
@@ -25,7 +36,7 @@ namespace GameEngine.Generator.Modifiers
                 Enumerable.Empty<IPowerModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
-                // TODO
+                // TODO - apply effect
                 return effect;
             }
         }

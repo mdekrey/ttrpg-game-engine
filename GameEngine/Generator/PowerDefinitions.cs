@@ -55,7 +55,7 @@ namespace GameEngine.Generator
         {
             public AccuratePowerTemplate() : base(AccuratePowerTemplateName) { }
             public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-                new[] { from mod in ModifierDefinitions.modifiers
+                new[] { from mod in ModifierDefinitions.attackModifiers
                         where mod.keyword == (AccuratePowerTemplateName)
                         where mod.formula.IsValid(attackProfileBuilder)
                         let applicable = mod.formula.GetBaseModifier(attackProfileBuilder)
@@ -67,7 +67,7 @@ namespace GameEngine.Generator
         {
             public SkirmishPowerTemplate() : base(SkirmishPowerTemplateName) { }
             public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-                new[] { from mod in ModifierDefinitions.modifiers
+                new[] { from mod in ModifierDefinitions.attackModifiers
                         where mod.keyword == SkirmishPowerTemplateName
                         where mod.formula.IsValid(attackProfileBuilder)
                         let applicable = mod.formula.GetBaseModifier(attackProfileBuilder)
@@ -97,7 +97,7 @@ namespace GameEngine.Generator
         {
             public ConditionsPowerTemplate() : base(ConditionsPowerTemplateName) { }
             public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-                new[] { from mod in ModifierDefinitions.modifiers
+                new[] { from mod in ModifierDefinitions.attackModifiers
                         where mod.keyword ==(ConditionsPowerTemplateName)
                         where mod.formula.IsValid(attackProfileBuilder)
                         let applicable = mod.formula.GetBaseModifier(attackProfileBuilder)
@@ -109,7 +109,7 @@ namespace GameEngine.Generator
         {
             public InterruptPenaltyPowerTemplate() : base(InterruptPenaltyPowerTemplateName) { }
             public override IEnumerable<IEnumerable<IPowerModifier>> PowerFormulas(PowerProfileBuilder powerProfileBuilder) =>
-                    new[] { new[] { ModifierDefinitions.OpportunityAction.GetBaseModifier(powerProfileBuilder) } };
+                    new[] { ModifierDefinitions.OpportunityAction.GetBaseModifier(powerProfileBuilder).GetUpgrades(powerProfileBuilder) };
 
             public override bool CanApply(PowerHighLevelInfo powerInfo) => powerInfo is { Usage: not PowerFrequency.AtWill };
         }
@@ -126,7 +126,7 @@ namespace GameEngine.Generator
         {
             public BonusPowerTemplate() : base(BonusPowerTemplateName) { }
             public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-                new[] { from mod in ModifierDefinitions.modifiers
+                new[] { from mod in ModifierDefinitions.attackModifiers
                         where mod.keyword ==(BonusPowerTemplateName)
                         where mod.formula.IsValid(attackProfileBuilder)
                         let applicable = mod.formula.GetBaseModifier(attackProfileBuilder)

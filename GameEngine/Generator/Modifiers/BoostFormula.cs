@@ -6,9 +6,11 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record BoostFormula() : AttackModifierFormula(ModifierName)
+    public record BoostFormula() : IModifierFormula<IAttackModifier, AttackProfileBuilder>, IModifierFormula<IPowerModifier, PowerProfileBuilder>
     {
         public const string ModifierName = "Boost";
+
+        public string Name => ModifierName;
 
         private static IEnumerable<Boost> GetBasicBoosts(PowerHighLevelInfo powerInfo)
         {
@@ -31,7 +33,7 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
+        public AttackAndPowerModifier GetBaseModifier()
         {
             return new BoostModifier(Duration.EndOfUserNextTurn, ImmutableList<Boost>.Empty, ImmutableList<Boost>.Empty, AllyType.Single);
         }
@@ -40,6 +42,14 @@ namespace GameEngine.Generator.Modifiers
             duration == Duration.EndOfEncounter ? 4
             : duration == Duration.SaveEnds ? 2 // Should only get to "SaveEnds" if there's another SaveEnds effect
             : 1;
+
+        bool IModifierFormula<IAttackModifier, AttackProfileBuilder>.IsValid(AttackProfileBuilder builder) => true;
+
+        IAttackModifier IModifierFormula<IAttackModifier, AttackProfileBuilder>.GetBaseModifier(AttackProfileBuilder builder) => GetBaseModifier();
+
+        bool IModifierFormula<IPowerModifier, PowerProfileBuilder>.IsValid(PowerProfileBuilder builder) => true;
+
+        IPowerModifier IModifierFormula<IPowerModifier, PowerProfileBuilder>.GetBaseModifier(PowerProfileBuilder builder) => GetBaseModifier();
 
         public enum Limit
         {

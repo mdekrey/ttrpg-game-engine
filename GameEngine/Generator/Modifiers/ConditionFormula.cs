@@ -32,7 +32,6 @@ namespace GameEngine.Generator.Modifiers
                 (Condition: "Grants Combat Advantage", Cost: 0.5),
                 (Condition: "Blinded", Cost: 1),
             }.ToImmutableSortedDictionary(e => e.Condition, e => e.Cost);
-        // TODO
         private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
         {
             new DefensePenalty(DefenseType.ArmorClass),
@@ -95,7 +94,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attack)
             {
-                // TODO
+                // TODO - apply effect
                 return effect;
             }
         }

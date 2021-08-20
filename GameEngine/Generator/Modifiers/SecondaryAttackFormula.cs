@@ -138,7 +138,7 @@ namespace GameEngine.Generator.Modifiers
                 Enumerable.Empty<IAttackModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
-                // TODO
+                // TODO - apply effect
                 return effect;
             }
         }
@@ -154,7 +154,7 @@ namespace GameEngine.Generator.Modifiers
                 Enumerable.Empty<IAttackModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
-                // TODO
+                // TODO - apply effect
                 return effect;
             }
         }
@@ -171,7 +171,7 @@ namespace GameEngine.Generator.Modifiers
                 Enumerable.Empty<IAttackModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {
-                // TODO
+                // TODO - apply effect
                 return effect;
             }
         }

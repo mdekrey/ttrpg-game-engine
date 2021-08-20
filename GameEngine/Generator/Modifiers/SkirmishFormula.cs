@@ -83,7 +83,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
-                // TODO
+                // TODO - apply effect
                 return Movement.Aggregate(effect, (prev, movement) => movement switch
                     {
                         Shift shift when effect is { Shift: null } => effect with { Shift = new SerializedShift(shift.Timing, Amount: shift.Amount?.ToString() ?? "speed") },
