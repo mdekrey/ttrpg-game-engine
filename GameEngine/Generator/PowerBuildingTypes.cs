@@ -45,6 +45,7 @@ namespace GameEngine.Generator
         public override PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         public double WeaponDice => TotalCost.Apply(Limits.Initial);
+        public double EffectiveWeaponDice => Modifiers.Aggregate(WeaponDice, (weaponDice, mod) => mod.ApplyEffectiveWeaponDice(weaponDice));
         public override bool IsValid()
         {
             return TotalCost.Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity()).Sum() <= Limits.MaxComplexity;
@@ -70,17 +71,19 @@ namespace GameEngine.Generator
             if (Complexity + Attacks.Select(a => a.Complexity).Sum() > Limits.MaxComplexity)
                 return false;
 
-            if (Attacks.Any(a => a.WeaponDice < a.Limits.Minimum))
+            if (Attacks.Any(a => a.EffectiveWeaponDice < a.Limits.Minimum))
                 return false;
 
             var remaining = TotalCost.Apply(Limits.Initial);
-            if (remaining < Limits.Minimum)
+            var expectedRatio = remaining / Attacks.Select(a => a.Limits.Initial).Sum();
+
+            if (Attacks.Select(a => a.EffectiveWeaponDice * expectedRatio).Sum() < Limits.Minimum)
                 return false;
 
-            var expectedRatio = remaining / Attacks.Select(a => a.Limits.Initial).Sum();
-            var finalRemaining = Attacks.Select(a => a.TotalCost.Apply(a.Limits.Initial * expectedRatio) * a.Multiplier).Sum();
+            if (PowerInfo.ToolProfile.Type == ToolType.Weapon && Attacks.Any(a => a.WeaponDice < 1))
+                return false; // Must have a full weapon die for any weapon
 
-            return finalRemaining >= Limits.Minimum;
+            return true;
         }
 
         public PowerProfileBuilder AdjustRemaining()

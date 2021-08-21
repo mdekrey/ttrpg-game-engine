@@ -84,7 +84,8 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => RequiresPreviousHit ? 2 : 1;
 
-            public override PowerCost GetCost(PowerProfileBuilder builder) => new (Fixed: Amounts.Select((v, i) => v * (i == 0 || !RequiresPreviousHit ? 1 : 0.5)).Sum() - builder.Attacks.Select(a => a.TotalCost.Fixed).Sum());
+            public override PowerCost GetCost(PowerProfileBuilder builder) =>
+                new (Fixed: Amounts.Take(Amounts.Count - 1).Select((v, i) => v * (i == 0 || !RequiresPreviousHit ? 1 : 0.5)).Sum() - builder.Attacks.Select(a => a.TotalCost.Fixed).Sum());
 
             public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
@@ -162,6 +163,7 @@ namespace GameEngine.Generator.Modifiers
                 // TODO - apply effect
                 return effect;
             }
+            public override double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice * 2;
         }
 
         // Identical attacks against up to 3 targets.

@@ -76,6 +76,21 @@ namespace GameEngine.Tests
 
             Snapshot.Match(Serializer.Serialize(powerProfile), $"PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolRange:g}{toolType:g}");
         }
+        [InlineData(1, PowerFrequency.Encounter, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, PowerDefinitions.MultiattackPowerTemplateName, 1)]
+        [Theory]
+        public void GenerateRandomPowerProfile(int Level, PowerFrequency powerFrequency, ToolType toolType, ToolRange toolRange, DamageType damageType, string powerTemplate, int seed)
+        {
+            var target = CreateTarget(new Random(seed).Next);
+
+            ToolProfile toolProfile = new(toolType, toolRange, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                    new[] { damageType }.ToImmutableList());
+
+            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, ClassRole.Striker),
+                new[] { powerTemplate }.ToImmutableList()
+            );
+
+            Snapshot.Match(Serializer.Serialize(powerProfile), $"{seed}.PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolRange:g}{toolType:g}");
+        }
 
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, PowerDefinitions.MultiattackPowerTemplateName)]
         [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, PowerDefinitions.SkirmishPowerTemplateName)]

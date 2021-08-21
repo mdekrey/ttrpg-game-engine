@@ -85,6 +85,7 @@ namespace GameEngine.Generator
         PowerCost GetCost(AttackProfileBuilder builder);
         IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
+        double ApplyEffectiveWeaponDice(double weaponDice);
     }
 
     public abstract record PowerModifier(string Name) : IPowerModifier
@@ -104,6 +105,7 @@ namespace GameEngine.Generator
         public virtual bool IsMetaModifier() => false;
         public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
+        public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
     }
 
     public abstract record AttackAndPowerModifier(string Name) : IAttackModifier, IPowerModifier
@@ -124,6 +126,7 @@ namespace GameEngine.Generator
         public virtual PowerCost GetCost(AttackProfileBuilder builder) => GetCost();
 
         public virtual PowerCost GetCost(PowerProfileBuilder builder) => GetCost();
+        public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
     }
 
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<IAttackModifier> Modifiers)

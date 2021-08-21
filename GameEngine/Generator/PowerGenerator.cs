@@ -122,13 +122,24 @@ namespace GameEngine.Generator
             return powerProfileBuilder.Build();
         }
         
-        private TBuilder ApplyEach<TModifier, TBuilder>(TBuilder builder, IEnumerable<IEnumerable<TModifier>>? modifiers)
-            where TModifier : class, IModifier
-            where TBuilder : ModifierBuilder<TModifier>
+        private AttackProfileBuilder ApplyEach(AttackProfileBuilder builder, IEnumerable<IEnumerable<IAttackModifier>>? modifiers)
         {
-            foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<TModifier>>())
+            foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<IAttackModifier>>())
             {
-                var starterOptions = starterSet.Select(chance => builder.Apply(chance)).Where(f => f.IsValid()).Select(f => new RandomChances<TBuilder>(f, Chances: 1 /* TODO - weight by class config */)).ToArray();
+                var temp = starterSet.Select(chance => builder.Apply(chance)).ToArray();
+                var starterOptions = temp.Where(f => f.IsValid()).Select(f => new RandomChances<AttackProfileBuilder>(f, Chances: 1 /* TODO - weight by class config */)).ToArray();
+                if (starterOptions.Length == 0) continue;
+                builder = randomGenerator.RandomSelection(starterOptions);
+            }
+            return builder;
+        }
+
+        private PowerProfileBuilder ApplyEach(PowerProfileBuilder builder, IEnumerable<IEnumerable<IPowerModifier>>? modifiers)
+        {
+            foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<IPowerModifier>>())
+            {
+                var temp = starterSet.Select(chance => builder.Apply(chance).FinalizeUpgrade()).ToArray();
+                var starterOptions = temp.Where(f => f.IsValid()).Select(f => new RandomChances<PowerProfileBuilder>(f, Chances: 1 /* TODO - weight by class config */)).ToArray();
                 if (starterOptions.Length == 0) continue;
                 builder = randomGenerator.RandomSelection(starterOptions);
             }
