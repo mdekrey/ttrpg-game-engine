@@ -264,30 +264,40 @@ namespace GameEngine.Generator
             from possibility in possibilities
             let chances = config.GetChance(possibility)
             where chances > 0
-            select new RandomChances<PowerProfileBuilder>(possibility, Chances: chances);
+            select new RandomChances<PowerProfileBuilder>(possibility, Chances: (int)chances);
 
         public static IEnumerable<RandomChances<AttackProfileBuilder>> ToChances(this IEnumerable<AttackProfileBuilder> possibilities, PowerProfileConfig config) =>
             from possibility in possibilities
             let chances = config.GetChance(possibility.Modifiers)
             where chances > 0
-            select new RandomChances<AttackProfileBuilder>(possibility, Chances: chances);
+            select new RandomChances<AttackProfileBuilder>(possibility, Chances: (int)chances);
 
-        public static int GetChance(this PowerProfileConfig config, PowerProfileBuilder builder) =>
+        public static double GetChance(this PowerProfileConfig config, PowerProfileBuilder builder) =>
             config.GetChance(new[] {
                 builder.Attacks.SelectMany(a => a.Modifiers),
                 (IEnumerable<IModifier>)builder.Modifiers,
             }.SelectMany(set => set));
-        public static int GetChance(this PowerProfileConfig config, IEnumerable<IModifier> modifiers) =>
+        public static double GetChance(this PowerProfileConfig config, IEnumerable<IModifier> modifiers) =>
             (from mod in modifiers
-             let v = config.GetChance(mod)
-             orderby Math.Max((1 / (double)v), v) descending
-             select v).First();
-        public static int GetChance(this PowerProfileConfig config, IModifier mod) =>
-            mod switch
+             select config.GetChance(mod)).Aggregate((lhs, rhs) => lhs * rhs);
+
+        public static double GetChance(this PowerProfileConfig config, IModifier mod)
+        {
+            if (!config.DisableSecondaryAttack) return 1;
+            var token = FromModifier(mod);
+            if (token.SelectToken("$[?(@.Name=='TwoHits')]") != null)
+                return 0;
+            if (token.SelectToken("$[?(@.Name=='UpToThreeTargets')]") != null)
+                return 0;
+            return 1;
+        }
+
+        private static Newtonsoft.Json.Linq.JToken FromModifier(IModifier mod)
+        {
+            return Newtonsoft.Json.Linq.JToken.FromObject(new[] { mod }, new Newtonsoft.Json.JsonSerializer()
             {
-                Modifiers.MultiattackFormula.TwoHitsModifier _ when config.DisableSecondaryAttack => 0,
-                Modifiers.MultiattackFormula.UpToThreeTargetsModifier _ when config.DisableSecondaryAttack => 0,
-                _ => 1
-            };
+                Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() }
+            });
+        }
     }
 }
