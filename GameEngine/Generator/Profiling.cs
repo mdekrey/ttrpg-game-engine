@@ -33,13 +33,12 @@ namespace GameEngine.Generator
         Range, // Target at a distance. An area becomes an "area"
     }
 
-    public record ClassProfile(ClassRole Role, ImmutableList<ToolProfile> Tools, ImmutableList<string> PowerTemplates)
+    public record ClassProfile(ClassRole Role, ImmutableList<ToolProfile> Tools)
     {
         internal bool IsValid()
         {
             return Tools is { Count: > 1 }
-                && Tools.All(t => t.IsValid())
-                && PowerTemplates is { Count: >= 1 };
+                && Tools.All(t => t.IsValid());
         }
     }
 
@@ -56,12 +55,7 @@ namespace GameEngine.Generator
 
     public record ModifierChance(string Selector, double Weight);
 
-    public record PowerProfileConfig(ImmutableList<ModifierChance> ModifierChances)
-    {
-        public static readonly PowerProfileConfig Empty = new(ImmutableList<ModifierChance>.Empty);
-        public static PowerProfileConfig From(params ModifierChance[] chances) =>
-            new(chances.ToImmutableList());
-    }
+    public record PowerProfileConfig(ImmutableList<ModifierChance> ModifierChances, ImmutableList<string> PowerTemplates);
 
     public interface IModifier
     {

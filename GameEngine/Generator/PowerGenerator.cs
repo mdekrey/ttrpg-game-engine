@@ -21,10 +21,6 @@ namespace GameEngine.Generator
 
         public PowerProfiles GenerateProfiles(ClassProfile classProfile)
         {
-            classProfile = classProfile with
-            {
-                PowerTemplates = classProfile.PowerTemplates.Intersect(PowerDefinitions.PowerTemplateNames).ToImmutableList(),
-            };
             return new PowerProfiles(
                 AtWill1:
                     GeneratePowerProfiles(level: 1, usage: PowerFrequency.AtWill, classProfile: classProfile),
@@ -65,25 +61,32 @@ namespace GameEngine.Generator
 
         private ImmutableList<PowerProfile> GeneratePowerProfiles(int level, PowerFrequency usage, ClassProfile classProfile)
         {
+            var excluded = new List<(ToolProfile tool, string template)>();
             var tools = Shuffle(classProfile.Tools);
             var result = new List<PowerProfile>();
-            result.Add(GenerateProfile(GetPowerInfo(), classProfile.PowerTemplates.Take(1)));
+            result.Add(Generate(GetPowerInfo(), true));
             while (result.Count < 4)
             {
-                var powerProfile = GenerateProfile(GetPowerInfo(), classProfile.PowerTemplates);
+                var powerInfo = GetPowerInfo();
+                var powerProfile = Generate(powerInfo, false);
                 if (result.Contains(powerProfile))
                     continue; // Exclude duplicates
                 result.Add(powerProfile);
-                classProfile = classProfile with
-                {
-                    PowerTemplates = classProfile.PowerTemplates.Where(p => p != powerProfile.Template).ToImmutableList()
-                };
+                excluded.Add((powerInfo.ToolProfile, powerProfile.Template));
             }
             return result.ToImmutableList();
 
             PowerHighLevelInfo GetPowerInfo()
             {
                 return new(Level: level, Usage: usage, ClassRole: classProfile.Role, ToolProfile: tools[result.Count % tools.Count]);
+            }
+
+            PowerProfile Generate(PowerHighLevelInfo info, bool isFirst)
+            {
+                return GenerateProfile(info, isFirst 
+                    ? info.ToolProfile.PowerProfileConfig.PowerTemplates.Take(1) 
+                    : info.ToolProfile.PowerProfileConfig.PowerTemplates.Where(pt => !excluded.Any(ex => ex.template == pt && ex.tool == info.ToolProfile))
+                );
             }
         }
 

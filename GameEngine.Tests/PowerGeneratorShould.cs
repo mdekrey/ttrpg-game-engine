@@ -85,17 +85,20 @@ namespace GameEngine.Tests
 
         private static readonly ImmutableDictionary<string, ToolProfile> profiles = new Dictionary<string, ToolProfile>
         {
-            { "MeleeWeapon", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(), 
-                new[] { DamageType.Normal }.ToImmutableList(), PowerProfileConfig.Empty) },
+            { "MeleeWeapon", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
             { "SecondAttackOnly", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Normal }.ToImmutableList(), PowerProfileConfig.From(
-                    new("$..[?(@.Name=='TwoHits')]", 0),
-                    new("$..[?(@.Name=='UpToThreeTargets')]", 0)
+                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(
+                    new ModifierChance[] {
+                        new("$..[?(@.Name=='TwoHits')]", 0),
+                        new("$..[?(@.Name=='UpToThreeTargets')]", 0),
+                    }.ToImmutableList(),
+                    ImmutableList<string>.Empty
                 )) },
             { "RangeWeapon", new(ToolType.Weapon, ToolRange.Range, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Normal }.ToImmutableList(), PowerProfileConfig.Empty) },
+                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
             { "RangeImplement", new(ToolType.Implement, ToolRange.Range, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Radiant }.ToImmutableList(), PowerProfileConfig.Empty) },
+                new[] { DamageType.Radiant }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
         }.ToImmutableDictionary();
 
 
@@ -132,7 +135,7 @@ namespace GameEngine.Tests
             var powerProfile = target.GenerateProfile(new(level, powerFrequency, toolProfile, ClassRole.Striker), new[] { powerTemplate }.ToImmutableList());
 
             SerializedPower power = powerProfile.ToPower(level, powerFrequency);
-            
+
             Snapshot.Match(
                 Serializer.Serialize(new object[] { powerProfile, power }),
                 $"Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{configName}"
@@ -157,19 +160,21 @@ namespace GameEngine.Tests
                         ToolType.Weapon, ToolRange.Range,
                         DefenseType.Fortitude,
                         new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                        new[] { DamageType.Normal, DamageType.Fire }.ToImmutableList(), 
-                        PowerProfileConfig.Empty
+                        new[] { DamageType.Normal, DamageType.Fire }.ToImmutableList(),
+                        new PowerProfileConfig(
+                            ImmutableList<ModifierChance>.Empty, 
+                            new[] {
+                                PowerDefinitions.MultiattackPowerTemplateName,
+                                PowerDefinitions.SkirmishPowerTemplateName,
+                                PowerDefinitions.AccuratePowerTemplateName,
+                                PowerDefinitions.ConditionsPowerTemplateName,
+                                PowerDefinitions.CloseBurstPowerTemplateName,
+                                PowerDefinitions.InterruptPenaltyPowerTemplateName,
+                                PowerDefinitions.CloseBlastPowerTemplateName,
+                                PowerDefinitions.BonusPowerTemplateName
+                            }.ToImmutableList()
+                        )
                     )
-                }.ToImmutableList(),
-                new[] {
-                        PowerDefinitions.MultiattackPowerTemplateName,
-                        PowerDefinitions.SkirmishPowerTemplateName,
-                        PowerDefinitions.AccuratePowerTemplateName,
-                        PowerDefinitions.ConditionsPowerTemplateName,
-                        PowerDefinitions.CloseBurstPowerTemplateName,
-                        PowerDefinitions.InterruptPenaltyPowerTemplateName,
-                        PowerDefinitions.CloseBlastPowerTemplateName,
-                        PowerDefinitions.BonusPowerTemplateName
                 }.ToImmutableList()
             );
 
