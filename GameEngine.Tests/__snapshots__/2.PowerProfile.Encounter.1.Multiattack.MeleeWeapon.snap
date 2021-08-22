@@ -7,7 +7,7 @@ Attacks:
   - Weapon
   Target: Melee
   Modifiers: []
-- WeaponDice: 3.5
+- WeaponDice: 3
   Ability: Strength
   DamageTypes:
   - Weapon
@@ -17,4 +17,6 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
+  - Defense: Reflex
+    Name: Non-Armor Defense
 Modifiers: []

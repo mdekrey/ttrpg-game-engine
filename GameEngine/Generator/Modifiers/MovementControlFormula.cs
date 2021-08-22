@@ -46,7 +46,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attack)
             {
-                // TODO
+                // TODO - apply effect
                 return effect;
             }
         }

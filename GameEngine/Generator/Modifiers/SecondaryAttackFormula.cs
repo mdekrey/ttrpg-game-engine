@@ -44,7 +44,8 @@ namespace GameEngine.Generator.Modifiers
                               select new EquatableImmutableList<double>(withAllocated)).Distinct();
                 foreach (var option in options)
                 {
-                    //yield return new SplitAttackModifier(option.ToImmutableList(), false);
+                    if (option.Skip(1).Any(o => o != option[0]))
+                        yield return new SplitAttackModifier(option.ToImmutableList(), false);
                     yield return new SplitAttackModifier(option.ToImmutableList(), true);
                 }
             }
@@ -82,7 +83,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record SplitAttackModifier(ImmutableList<double> Amounts, bool RequiresPreviousHit) : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => RequiresPreviousHit ? 2 : 1;
+            public override int GetComplexity() => RequiresPreviousHit ? 1 : 2;
 
             public override PowerCost GetCost(PowerProfileBuilder builder) =>
                 new (Fixed: Amounts.Take(Amounts.Count - 1).Select((v, i) => v * (i == 0 || !RequiresPreviousHit ? 1 : 0.5)).Sum() - builder.Attacks.Select(a => a.TotalCost.Fixed).Sum());
@@ -98,7 +99,6 @@ namespace GameEngine.Generator.Modifiers
             public override PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder power)
             {
                 var attack = power.Attacks.Single();
-                // TODO - better complexity
                 return power with
                 {
                     Attacks = Amounts.Select((cost, index) =>
@@ -113,7 +113,11 @@ namespace GameEngine.Generator.Modifiers
                             },
                             Limits = attack.Limits with
                             {
-                                Minimum = Math.Max(1, Math.Ceiling(attack.Limits.Minimum / Amounts.Count)),
+                                Minimum = index switch
+                                {
+                                    > 0 when RequiresPreviousHit => Math.Max(1, Math.Ceiling(attack.Limits.Minimum / Amounts.Count)) * 2,
+                                    _ => Math.Max(1, Math.Ceiling(attack.Limits.Minimum / Amounts.Count)),
+                                },
                                 Initial = index switch
                                 {
                                     > 0 when RequiresPreviousHit => cost * 2,
