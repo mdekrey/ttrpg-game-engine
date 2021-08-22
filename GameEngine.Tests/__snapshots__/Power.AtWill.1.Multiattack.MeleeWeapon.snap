@@ -6,13 +6,8 @@
     DamageTypes:
     - Weapon
     Target: Melee
-    Modifiers: []
-  - WeaponDice: 1
-    Ability: Strength
-    DamageTypes:
-    - Weapon
-    Target: Melee
-    Modifiers: []
+    Modifiers:
+    - Name: TwoHits
   Modifiers: []
 - Name: Generated
   Frequency: AtWill
@@ -21,22 +16,6 @@
   - Weapon
   Level: 1
   Effects:
-  - Target:
-      Effect:
-        Attack:
-          Kind: Strength
-          Bonus: +0
-          Defense: ArmorClass
-          Hit:
-            Damage:
-            - Amount: 1[W]
-              Types:
-              - Weapon
-      Type: Creature
-      YouChoose: false
-      MeleeWeapon:
-        AdditionalReach: 0
-        Offhand: false
   - Target:
       Effect:
         Attack:

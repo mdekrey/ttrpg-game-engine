@@ -1,5 +1,9 @@
 # Illusion
 
+## Powers
+
+- Phantasmal Force
+
 ## Modifiers
 
 - Senses

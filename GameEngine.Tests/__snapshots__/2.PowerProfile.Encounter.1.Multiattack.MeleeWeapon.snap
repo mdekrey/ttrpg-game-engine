@@ -1,4 +1,4 @@
-﻿Template: Interrupt Penalty
+﻿Template: Multiattack
 Tool: Weapon
 Attacks:
 - WeaponDice: 1
@@ -6,11 +6,17 @@ Attacks:
   DamageTypes:
   - Weapon
   Target: Melee
+  Modifiers: []
+- WeaponDice: 3
+  Ability: Strength
+  DamageTypes:
+  - Weapon
+  Target: Melee
   Modifiers:
+  - Name: RequiresPreviousHit
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Defense: Fortitude
+  - Defense: Reflex
     Name: Non-Armor Defense
-Modifiers:
-- Name: OpportunityAction
+Modifiers: []

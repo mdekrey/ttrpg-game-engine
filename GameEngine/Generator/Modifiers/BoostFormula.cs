@@ -6,9 +6,11 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record BoostFormula() : AttackModifierFormula(ModifierName)
+    public record BoostFormula() : IModifierFormula<IAttackModifier, AttackProfileBuilder>, IModifierFormula<IPowerModifier, PowerProfileBuilder>
     {
         public const string ModifierName = "Boost";
+
+        public string Name => ModifierName;
 
         private static IEnumerable<Boost> GetBasicBoosts(PowerHighLevelInfo powerInfo)
         {
@@ -31,17 +33,23 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public AttackAndPowerModifier GetBaseModifier()
         {
-            if (this.HasModifier(attack)) yield break;
-
-            yield return new(new BoostModifier(Duration.EndOfUserNextTurn, ImmutableList<Boost>.Empty, ImmutableList<Boost>.Empty, AllyType.Single));
+            return new BoostModifier(Duration.EndOfUserNextTurn, ImmutableList<Boost>.Empty, ImmutableList<Boost>.Empty, AllyType.Single);
         }
 
         public static double DurationMultiplier(Duration duration) =>
             duration == Duration.EndOfEncounter ? 4
             : duration == Duration.SaveEnds ? 2 // Should only get to "SaveEnds" if there's another SaveEnds effect
             : 1;
+
+        bool IModifierFormula<IAttackModifier, AttackProfileBuilder>.IsValid(AttackProfileBuilder builder) => true;
+
+        IAttackModifier IModifierFormula<IAttackModifier, AttackProfileBuilder>.GetBaseModifier(AttackProfileBuilder builder) => GetBaseModifier();
+
+        bool IModifierFormula<IPowerModifier, PowerProfileBuilder>.IsValid(PowerProfileBuilder builder) => true;
+
+        IPowerModifier IModifierFormula<IPowerModifier, PowerProfileBuilder>.GetBaseModifier(PowerProfileBuilder builder) => GetBaseModifier();
 
         public enum Limit
         {
@@ -141,7 +149,7 @@ namespace GameEngine.Generator.Modifiers
                         .Sum()
                 );
 
-            public override IEnumerable<RandomChances<AttackAndPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
+            public override IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
                 from set in new[]
                 {
                     from basicBoost in GetBasicBoosts(powerInfo)
@@ -204,11 +212,11 @@ namespace GameEngine.Generator.Modifiers
                     },
                 }
                 from mod in set
-                select new RandomChances<AttackAndPowerModifier>(mod);
+                select mod;
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
-                // TODO
+                // TODO - apply effect
                 return effect;
             }
         }

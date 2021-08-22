@@ -12,16 +12,9 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Multiple";
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            if (this.HasModifier(attack) || this.HasModifier(attack, MultiattackFormula.ModifierName)) yield break;
-
-            if (attack.Target != TargetType.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                yield return new(new BurstModifier(1, BurstType.Burst));
-            if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                yield return new(new BurstModifier(1, BurstType.Blast));
-            if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                yield return new(new BurstModifier(1, BurstType.Area));
+            return new MultipleAttackModifier();
         }
 
         public enum BurstType
@@ -31,16 +24,34 @@ namespace GameEngine.Generator.Modifiers
             Area,
         }
 
+        public record MultipleAttackModifier() : AttackModifier(ModifierName)
+        {
+            public override int GetComplexity() => 1;
+            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
+
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
+            {
+                if (attack.Target != TargetType.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                    yield return new BurstModifier(1, BurstType.Burst);
+                if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                    yield return new BurstModifier(1, BurstType.Blast);
+                if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                    yield return new BurstModifier(1, BurstType.Area);
+            }
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => effect;
+        }
+
         public record BurstModifier(int Size, BurstType Type) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => new PowerCost(Multiplier: 2.0 / ((Size - 1) / 2.0 + 2)); // TODO - is this right?
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: ((Size - 1) / 2.0 + 2) / 2.0); // TODO - is this right?
 
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 new[]
                 {
-                    new RandomChances<IAttackModifier>(this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) })
+                    this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) }
                 };
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attack)

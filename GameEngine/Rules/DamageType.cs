@@ -3,9 +3,6 @@
     public enum DamageType
     {
         Weapon,
-        Slashing,
-        Bludgeoning,
-        Piercing,
         Fire,
         Cold,
         Necrotic,
@@ -14,6 +11,6 @@
         Thunder,
         Poison,
         Force,
-        // TODO
+        // TODO - more damage types
     }
 }

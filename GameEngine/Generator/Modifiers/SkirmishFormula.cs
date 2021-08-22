@@ -10,20 +10,30 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Skirmish Movement";
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            if (this.HasModifier(attack)) yield break;
-            yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, (GameDiceExpression)attack.PowerInfo.ToolProfile.Abilities[0]))));
-            yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, (GameDiceExpression)attack.PowerInfo.ToolProfile.Abilities[0]))));
-            yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, (GameDiceExpression)attack.PowerInfo.ToolProfile.Abilities[0]))));
-            yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, 2))));
-            yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 2))));
-            yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, 2))));
-            yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 1), new Shift(ShiftTiming.After, 1))));
-            yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new MovementDoesNotProvoke())));
-            // TODO - should sliding opponents be here, or in "opponent movement"?
-            //yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new SlideOpponent(false, 1))));
-            //yield return new(new SkirmishMovementModifier(Build<SkirmishMovement>(new SlideOpponent(true, 1))));
+            return new EmptySkirmishModifier();
+
+        }
+
+        public record EmptySkirmishModifier() : AttackAndPowerModifier(ModifierName)
+        {
+            public override int GetComplexity() => 1;
+            public override PowerCost GetCost() => PowerCost.Empty;
+
+            public override IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers)
+            {
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, (GameDiceExpression)powerInfo.ToolProfile.Abilities[0])));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, (GameDiceExpression)powerInfo.ToolProfile.Abilities[0])));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, (GameDiceExpression)powerInfo.ToolProfile.Abilities[0])));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, 2)));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 2)));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, 2)));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 1), new Shift(ShiftTiming.After, 1)));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new MovementDoesNotProvoke()));
+            }
+
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
         }
 
         public abstract record SkirmishMovement(string Name)
@@ -53,23 +63,13 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             }
         }
-        public record SlideOpponent(bool IsPush, GameDiceExpression Amount) : SkirmishMovement("Slide Opponent")
-        {
-            public override double Cost() => Amount.ToWeaponDice() * 2;
-            public override IEnumerable<SkirmishMovement> GetUpgrades(PowerHighLevelInfo powerInfo)
-            {
-                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
-                    yield return this with { Amount = entry };
-            }
-        }
-
         public record SkirmishMovementModifier(ImmutableList<SkirmishMovement> Movement) : AttackAndPowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
             public override PowerCost GetCost() => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 
-            public override IEnumerable<RandomChances<AttackAndPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
+            public override IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
                 from set in new[]
                 {
                     // TODO - multiple types of movement?
@@ -79,11 +79,11 @@ namespace GameEngine.Generator.Modifiers
                     select this with { Movement = Movement.Remove(movement).Add(upgrade) },
                 }
                 from mod in set
-                select new RandomChances<AttackAndPowerModifier>(mod);
+                select mod;
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
-                // TODO
+                // TODO - apply effect
                 return Movement.Aggregate(effect, (prev, movement) => movement switch
                     {
                         Shift shift when effect is { Shift: null } => effect with { Shift = new SerializedShift(shift.Timing, Amount: shift.Amount?.ToString() ?? "speed") },

@@ -43,7 +43,7 @@ namespace GameEngine.Generator
         }
     }
 
-    public record ToolProfile(ToolType Type, ToolRange Range, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes)
+    public record ToolProfile(ToolType Type, ToolRange Range, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, PowerProfileConfig PowerProfileConfig)
     {
         internal bool IsValid()
         {
@@ -54,48 +54,63 @@ namespace GameEngine.Generator
         }
     }
 
+    public record PowerProfileConfig(bool DisableSecondaryAttack = false)
+    {
+        // TODO - allow customization
+    }
+
     public interface IModifier
     {
         string Name { get; }
         int GetComplexity();
-        PowerCost GetCost();
         bool IsMetaModifier();
     }
 
     public static class ModifierHelpers
     {
         public static int GetComplexity(this IEnumerable<IModifier> modifiers) => modifiers.Select(m => m.GetComplexity()).DefaultIfEmpty(0).Sum();
-        public static PowerCost GetTotalCost(this IEnumerable<IModifier> modifiers) => modifiers.Select(m => m.GetCost()).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+    }
+
+    public enum UpgradeStage
+    {
+        Standard,
+        Finalize,
     }
 
     public interface IPowerModifier : IModifier
     {
-        IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers);
+        PowerCost GetCost(PowerProfileBuilder builder);
+        IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
+        PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder);
     }
 
     public interface IAttackModifier : IModifier
     {
-        IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack);
+        PowerCost GetCost(AttackProfileBuilder builder);
+        IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
+        double ApplyEffectiveWeaponDice(double weaponDice);
     }
 
     public abstract record PowerModifier(string Name) : IPowerModifier
     {
         public abstract int GetComplexity();
-        public abstract PowerCost GetCost();
+        public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
-        public abstract IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers);
+        public abstract IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
+        public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
     }
 
     public abstract record AttackModifier(string Name) : IAttackModifier
     {
         public abstract int GetComplexity();
-        public abstract PowerCost GetCost();
+        public abstract PowerCost GetCost(AttackProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
-        public abstract IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack);
+        public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
+        public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
     }
 
     public abstract record AttackAndPowerModifier(string Name) : IAttackModifier, IPowerModifier
@@ -103,14 +118,20 @@ namespace GameEngine.Generator
         public abstract int GetComplexity();
         public abstract PowerCost GetCost();
         public virtual bool IsMetaModifier() => false;
-        // TODO
-        IEnumerable<RandomChances<IAttackModifier>> IAttackModifier.GetUpgrades(AttackProfileBuilder attack) =>
-            GetUpgrades(attack.PowerInfo, attack.Modifiers).Convert<AttackAndPowerModifier, IAttackModifier>();
-        IEnumerable<RandomChances<IPowerModifier>> IPowerModifier.GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers) =>
-            GetUpgrades(powerInfo, modifiers).Convert<AttackAndPowerModifier, IPowerModifier>();
-        public abstract IEnumerable<RandomChances<AttackAndPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers);
+
+        IEnumerable<IAttackModifier> IAttackModifier.GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            GetUpgrades(attack.PowerInfo, attack.Modifiers);
+        IEnumerable<IPowerModifier> IPowerModifier.GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+            GetUpgrades(power.PowerInfo, power.Modifiers);
+        public abstract IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers);
         SerializedEffect IAttackModifier.Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => Apply(effect, powerProfile);
         public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
+        public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
+
+        public virtual PowerCost GetCost(AttackProfileBuilder builder) => GetCost();
+
+        public virtual PowerCost GetCost(PowerProfileBuilder builder) => GetCost();
+        public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
     }
 
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<IAttackModifier> Modifiers)

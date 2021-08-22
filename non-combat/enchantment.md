@@ -1,5 +1,8 @@
 # Enchantment
 
+## Powers
+- Reroll social attempt
+
 ## Modifiers
 
 - Number of targets

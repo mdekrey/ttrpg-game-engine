@@ -6,11 +6,6 @@ Attacks:
   DamageTypes:
   - Weapon
   Target: Range
-  Modifiers: []
-- WeaponDice: 1
-  Ability: Strength
-  DamageTypes:
-  - Weapon
-  Target: Range
-  Modifiers: []
+  Modifiers:
+  - Name: TwoHits
 Modifiers: []

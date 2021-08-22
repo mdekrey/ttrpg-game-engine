@@ -9,26 +9,34 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "OpportunityAction";
 
-        public override IEnumerable<RandomChances<IPowerModifier>> GetOptions(PowerProfileBuilder power)
+        public override bool IsValid(PowerProfileBuilder builder) => builder.PowerInfo.Usage != PowerFrequency.AtWill;
+        public override IPowerModifier GetBaseModifier(PowerProfileBuilder power)
         {
-            if (this.HasModifier(power) || power.PowerInfo.Usage == PowerFrequency.AtWill) yield break;
-
-            var cost = new PowerCost(PowerGenerator.GetBasePower(power.PowerInfo.Level, power.PowerInfo.Usage) - PowerGenerator.GetBasePower(power.PowerInfo.Level, power.PowerInfo.Usage - 1));
-
-            yield return new(new OpportunityActionModifier(cost));
+            return new MaybeOpportunityActionModifier();
         }
 
-        public record OpportunityActionModifier(PowerCost Cost) : PowerModifier(ModifierName)
+        public record MaybeOpportunityActionModifier() : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => 0;
 
-            public override PowerCost GetCost() => Cost;
+            public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
 
-            public override IEnumerable<RandomChances<IPowerModifier>> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IPowerModifier> modifiers) =>
-                Enumerable.Empty<RandomChances<IPowerModifier>>();
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+                new[] { new OpportunityActionModifier() };
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
+        }
+
+        public record OpportunityActionModifier() : PowerModifier(ModifierName)
+        {
+            public override int GetComplexity() => 0;
+
+            public override PowerCost GetCost(PowerProfileBuilder builder) => new PowerCost(PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage) - PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage - 1));
+
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+                Enumerable.Empty<IPowerModifier>();
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
             {
-                // TODO
+                // TODO - apply effect
                 return effect;
             }
         }

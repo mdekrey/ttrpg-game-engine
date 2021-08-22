@@ -1,24 +1,13 @@
 ﻿Template: Multiattack
 Tool: Weapon
 Attacks:
-- WeaponDice: 2.5
+- WeaponDice: 1.25
   Ability: Strength
   DamageTypes:
   - Weapon
   Target: Melee
   Modifiers:
-  - Abilities:
-    - Strength
-    Name: Ability Modifier Damage
-  - Defense: Fortitude
-    Name: Non-Armor Defense
-- WeaponDice: 1
-  Ability: Strength
-  DamageTypes:
-  - Weapon
-  Target: Melee
-  Modifiers:
-  - Name: SecondaryAttack
+  - Name: TwoHits
   - Abilities:
     - Strength
     Name: Ability Modifier Damage

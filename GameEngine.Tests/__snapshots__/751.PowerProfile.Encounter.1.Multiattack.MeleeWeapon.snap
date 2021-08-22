@@ -1,15 +1,13 @@
 ﻿Template: Multiattack
-Tool: Implement
+Tool: Weapon
 Attacks:
-- WeaponDice: 0.25
+- WeaponDice: 1
   Ability: Strength
   DamageTypes:
-  - Radiant
-  Target: Range
+  - Weapon
+  Target: Melee
   Modifiers:
   - Name: TwoHits
-  - Defense: Fortitude
-    Name: Non-Armor Defense
   - Abilities:
     - Strength
     Name: Ability Modifier Damage

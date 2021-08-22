@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
@@ -11,30 +12,40 @@ namespace GameEngine.Generator.Modifiers
     {
         const string ModifierName = "Ability Modifier Damage";
 
-        public override IEnumerable<RandomChances<IAttackModifier>> GetOptions(AttackProfileBuilder attack)
+        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            if (this.HasModifier(attack)) yield break;
-            yield return new(new AbilityDamageModifier(ImmutableList<Ability>.Empty));
+            return new AbilityDamageModifier(ImmutableList<Ability>.Empty);
         }
 
         public record AbilityDamageModifier(ImmutableList<Ability> Abilities) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 0;
 
-            public override PowerCost GetCost() => new PowerCost(Abilities.Count * 0.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Abilities.Count * 0.5);
 
-            // TODO - how do we make this an upgrade of "last resort" to round out the numbers?
-            public override IEnumerable<RandomChances<IAttackModifier>> GetUpgrades(AttackProfileBuilder attack) =>
-                attack.PowerInfo.ToolProfile.Abilities
-                    .Take(1) // remove this line when I figure out how to make these least priority
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+                new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
+                    .Take(stage == UpgradeStage.Standard ? 1 : attack.PowerInfo.ToolProfile.Abilities.Count)
                     .Except(Abilities)
-                    .Take(1)
-                    .Select(ability => 
-                        new RandomChances<IAttackModifier>(this with 
+                    .Take(AllowAdditionalModifier(attack) ? 1 : 0)
+                    .Select(ability => this with 
                         { 
                             Abilities = Abilities.Add(ability) 
-                        })
+                        }
                     );
+
+            private bool AllowAdditionalModifier(AttackProfileBuilder attack)
+            {
+                var dice = attack.TotalCost.Apply(attack.Limits.Initial);
+                if (Abilities.Count > 0)
+                {
+                    return attack.PowerInfo.ToolProfile.Type == ToolType.Weapon && dice > 1 && (dice % 1) >= 0.5;
+                }
+                else 
+                {
+                    return attack.PowerInfo.ToolProfile.Type != ToolType.Weapon || dice >= 1.5;
+                }
+            }
 
             public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
             {

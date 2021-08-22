@@ -1,7 +1,7 @@
-﻿Template: Conditions
+﻿Template: Multiattack
 Tool: Weapon
 Attacks:
-- WeaponDice: 1.166666666666667
+- WeaponDice: 1
   Ability: Strength
   DamageTypes:
   - Weapon
@@ -10,16 +10,19 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
+- WeaponDice: 2
+  Ability: Strength
+  DamageTypes:
+  - Weapon
+  Target: Melee
+  Modifiers:
+  - Name: RequiresPreviousHit
+  - Abilities:
+    - Strength
+    Name: Ability Modifier Damage
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Size: 3
+  - Size: 5
     Type: Burst
     Name: Multiple
-  - Duration: EndOfUserNextTurn
-    Conditions:
-    - Name: Blinded
-    - Name: Dazed
-    - Name: Immobilized
-    - Name: Weakened
-    Name: Condition
 Modifiers: []
