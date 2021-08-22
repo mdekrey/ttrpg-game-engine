@@ -46,9 +46,9 @@ namespace GameEngine.Generator
 
         public double WeaponDice =>
             TotalCost.Apply(Limits.Initial);
-            //PowerInfo.ToolProfile.Type == ToolType.Implement 
-            //    ? TotalCost.Apply(Limits.Initial)
-            //    : Math.Floor(TotalCost.Apply(Limits.Initial));
+        //PowerInfo.ToolProfile.Type == ToolType.Implement
+        //    ? TotalCost.Apply(Limits.Initial)
+        //    : Math.Floor(TotalCost.Apply(Limits.Initial));
         public double EffectiveWeaponDice => Modifiers.Aggregate(WeaponDice, (weaponDice, mod) => mod.ApplyEffectiveWeaponDice(weaponDice));
         public override bool IsValid()
         {
@@ -214,8 +214,8 @@ namespace GameEngine.Generator
 
         public static Transform<SerializedEffect> ModifyTarget(Transform<SerializedTarget> modifyTarget)
         {
-            return (effect) => {
-
+            return (effect) =>
+            {
                 if (effect.Target == null)
                     throw new InvalidOperationException("Cannot apply to target");
                 return effect with
@@ -262,21 +262,32 @@ namespace GameEngine.Generator
 
         public static IEnumerable<RandomChances<PowerProfileBuilder>> ToChances(this IEnumerable<PowerProfileBuilder> possibilities, PowerProfileConfig config) =>
             from possibility in possibilities
-            select new RandomChances<PowerProfileBuilder>(possibility, Chances: config.GetChance(possibility));
+            let chances = config.GetChance(possibility)
+            where chances > 0
+            select new RandomChances<PowerProfileBuilder>(possibility, Chances: chances);
 
         public static IEnumerable<RandomChances<AttackProfileBuilder>> ToChances(this IEnumerable<AttackProfileBuilder> possibilities, PowerProfileConfig config) =>
-            possibilities.Select(f => new RandomChances<AttackProfileBuilder>(f, Chances: config.GetChance(f)));
+            from possibility in possibilities
+            let chances = config.GetChance(possibility.Modifiers)
+            where chances > 0
+            select new RandomChances<AttackProfileBuilder>(possibility, Chances: chances);
 
         public static int GetChance(this PowerProfileConfig config, PowerProfileBuilder builder) =>
-            builder.Attacks.Select(m => config.GetChance(m)).Sum() > 0 ? 1 : 0;
-        public static int GetChance(this PowerProfileConfig config, AttackProfileBuilder builder) =>
-            builder.Modifiers.Select(
-                mod => mod switch
-                {
-                    Modifiers.MultiattackFormula.TwoHitsModifier _ when config.DisableSecondaryAttack => 0,
-                    Modifiers.MultiattackFormula.UpToThreeTargetsModifier _ when config.DisableSecondaryAttack  => 0,
-                    _ => (int?)null
-                }
-            ).Where(v => v != null).Select(v => v!.Value).DefaultIfEmpty(1).FirstOrDefault();
+            config.GetChance(new[] {
+                builder.Attacks.SelectMany(a => a.Modifiers),
+                (IEnumerable<IModifier>)builder.Modifiers,
+            }.SelectMany(set => set));
+        public static int GetChance(this PowerProfileConfig config, IEnumerable<IModifier> modifiers) =>
+            (from mod in modifiers
+             let v = config.GetChance(mod)
+             orderby Math.Max((1 / (double)v), v) descending
+             select v).First();
+        public static int GetChance(this PowerProfileConfig config, IModifier mod) =>
+            mod switch
+            {
+                Modifiers.MultiattackFormula.TwoHitsModifier _ when config.DisableSecondaryAttack => 0,
+                Modifiers.MultiattackFormula.UpToThreeTargetsModifier _ when config.DisableSecondaryAttack => 0,
+                _ => 1
+            };
     }
 }
