@@ -4,7 +4,7 @@
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Melee
     Modifiers:
     - Abilities:
@@ -33,7 +33,7 @@
             Damage:
             - Amount: 1[W] + STR
               Types:
-              - Weapon
+              - Normal
       Type: Creature
       YouChoose: false
       MeleeWeapon:

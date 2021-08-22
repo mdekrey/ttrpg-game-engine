@@ -86,14 +86,14 @@ namespace GameEngine.Tests
         private static readonly ImmutableDictionary<string, ToolProfile> profiles = new Dictionary<string, ToolProfile>
         {
             { "MeleeWeapon", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(), 
-                new[] { DamageType.Weapon }.ToImmutableList(), PowerProfileConfig.Empty) },
+                new[] { DamageType.Normal }.ToImmutableList(), PowerProfileConfig.Empty) },
             { "SecondAttackOnly", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Weapon }.ToImmutableList(), PowerProfileConfig.From(
+                new[] { DamageType.Normal }.ToImmutableList(), PowerProfileConfig.From(
                     new("$..[?(@.Name=='TwoHits')]", 0),
                     new("$..[?(@.Name=='UpToThreeTargets')]", 0)
                 )) },
             { "RangeWeapon", new(ToolType.Weapon, ToolRange.Range, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Weapon }.ToImmutableList(), PowerProfileConfig.Empty) },
+                new[] { DamageType.Normal }.ToImmutableList(), PowerProfileConfig.Empty) },
             { "RangeImplement", new(ToolType.Implement, ToolRange.Range, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                 new[] { DamageType.Radiant }.ToImmutableList(), PowerProfileConfig.Empty) },
         }.ToImmutableDictionary();
@@ -157,7 +157,7 @@ namespace GameEngine.Tests
                         ToolType.Weapon, ToolRange.Range,
                         DefenseType.Fortitude,
                         new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                        new[] { DamageType.Weapon, DamageType.Fire }.ToImmutableList(), 
+                        new[] { DamageType.Normal, DamageType.Fire }.ToImmutableList(), 
                         PowerProfileConfig.Empty
                     )
                 }.ToImmutableList(),

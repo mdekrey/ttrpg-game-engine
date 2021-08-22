@@ -4,7 +4,7 @@
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Melee
     Modifiers:
     - Name: TwoHits
@@ -26,7 +26,7 @@
             Damage:
             - Amount: 1[W]
               Types:
-              - Weapon
+              - Normal
       Type: Creature
       YouChoose: false
       MeleeWeapon:

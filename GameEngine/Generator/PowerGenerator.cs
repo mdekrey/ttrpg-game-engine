@@ -235,7 +235,7 @@ namespace GameEngine.Generator
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                 ),
                 Build(randomGenerator.RandomEscalatingSelection(
-                    info.ToolProfile.PreferredDamageTypes.Where(d => d != DamageType.Weapon || info.ToolProfile.Type == ToolType.Weapon)
+                    info.ToolProfile.PreferredDamageTypes.Where(d => d != DamageType.Normal || info.ToolProfile.Type == ToolType.Weapon)
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                 )),
                 info.ToolProfile.Range.ToTargetType(),
@@ -347,7 +347,7 @@ namespace GameEngine.Generator
         private static ImmutableList<DamageEntry> ToDamageEffect(ToolType tool, double weaponDice, ImmutableList<DamageType> damageTypes)
         {
             if (tool == ToolType.Weapon)
-                return ImmutableList<DamageEntry>.Empty.Add(new ((GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString(), Build(DamageType.Weapon)));
+                return ImmutableList<DamageEntry>.Empty.Add(new ((GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString(), Build(DamageType.Normal)));
             var averageDamage = weaponDice * 5.5;
             var dieType = (
                 from entry in new[]

@@ -2,7 +2,7 @@
 {
     public enum DamageType
     {
-        Weapon,
+        Normal,
         Fire,
         Cold,
         Necrotic,

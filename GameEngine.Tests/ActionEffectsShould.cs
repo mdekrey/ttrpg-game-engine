@@ -45,7 +45,7 @@ namespace GameEngine.Tests
             var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
                 ""meleeWeapon"": {},
                 ""effect"": { ""attack"": {
-                    ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""[W] + STR"" } ] }
+                    ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""[W] + STR"" } ] }
                 } }
             }"));
 
@@ -64,7 +64,7 @@ namespace GameEngine.Tests
                 ""maxTargets"": 2,
                 ""meleeWeapon"": {},
                 ""effect"": { ""attack"": {
-                    ""hit"": { ""damage"": [ { ""types"": [""weapon""], ""amount"": ""[W] + STR"" } ] }
+                    ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""[W] + STR"" } ] }
                 } }
             }"));
 

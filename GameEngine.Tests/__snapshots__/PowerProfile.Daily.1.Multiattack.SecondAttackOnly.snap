@@ -4,7 +4,7 @@ Attacks:
 - WeaponDice: 1
   Ability: Strength
   DamageTypes:
-  - Weapon
+  - Normal
   Target: Melee
   Modifiers:
   - Abilities:
@@ -13,7 +13,7 @@ Attacks:
 - WeaponDice: 2
   Ability: Strength
   DamageTypes:
-  - Weapon
+  - Normal
   Target: Melee
   Modifiers:
   - Name: RequiresPreviousHit

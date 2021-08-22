@@ -8,7 +8,7 @@
           attack:
             hit:
               damage:
-              - types: [weapon]
+              - types: [normal]
                 amount: 1[W] + STR
   Ranged Basic Attack:
     comments: 'Ranged Basic Attack'
@@ -20,7 +20,7 @@
             kind: Dexterity
             hit:
               damage:
-              - types: [weapon]
+              - types: [normal]
                 amount: 1[W] + DEX
   Twin Strike:
     comments: 'Ranger At-Will 1'
@@ -36,7 +36,7 @@
               attack:
                 hit:
                   damage:
-                  - types: [weapon]
+                  - types: [normal]
                     amount: 1[W]
         - target:
             meleeWeapon:
@@ -45,7 +45,7 @@
               attack:
                 hit:
                   damage:
-                  - types: [weapon]
+                  - types: [normal]
                     amount: 1[W]
   Magic Missile:
     class: Wizard
@@ -73,7 +73,7 @@
             kind: Dexterity
             hit:
               damage:
-              - types: [weapon]
+              - types: [normal]
                 amount: 1[W] + DEX
               power:
                 trigger: the target attacks you before the start of your next turn
@@ -86,7 +86,7 @@
                       attack:
                         hit:
                           damage:
-                          - types: [weapon]
+                          - types: [normal]
                             amount: 1[W] + STR
   Torturous Strike:
     comments: 'Rogue Encounter 1 (Brutal Scoundrel)'
@@ -100,7 +100,7 @@
           attack:
             hit:
               damage:
-              - types: [weapon]
+              - types: [normal]
                 amount: 2[W] + DEX + STR
   Ray of Frost:
     class: Wizard

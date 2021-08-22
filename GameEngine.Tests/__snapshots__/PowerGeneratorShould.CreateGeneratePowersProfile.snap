@@ -5,7 +5,7 @@
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: TwoHits
@@ -16,7 +16,7 @@
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -33,7 +33,7 @@
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -48,7 +48,7 @@
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -94,7 +94,7 @@ Encounter1:
   - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -119,13 +119,13 @@ Encounter1:
   - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers: []
   - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
@@ -208,7 +208,7 @@ Daily1:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -313,7 +313,7 @@ Encounter3:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: TwoHits
@@ -327,7 +327,7 @@ Encounter3:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -412,7 +412,7 @@ Daily5:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -437,7 +437,7 @@ Daily5:
   - WeaponDice: 3
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -494,7 +494,7 @@ Encounter7:
   - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: TwoHits
@@ -529,7 +529,7 @@ Daily9:
   - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: UpToThreeTargets
@@ -551,7 +551,7 @@ Daily9:
   - WeaponDice: 5
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -589,7 +589,7 @@ Daily9:
   - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -620,13 +620,13 @@ Encounter11:
   - WeaponDice: 1.25
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers: []
   - WeaponDice: 1.25
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -643,7 +643,7 @@ Encounter11:
   - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -658,7 +658,7 @@ Encounter11:
   - WeaponDice: 3
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -680,7 +680,7 @@ Encounter13:
   - WeaponDice: 1.5
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: TwoHits
@@ -694,7 +694,7 @@ Encounter13:
   - WeaponDice: 3
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -715,13 +715,13 @@ Encounter13:
   - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers: []
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
@@ -756,7 +756,7 @@ Encounter13:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -797,7 +797,7 @@ Daily15:
   - WeaponDice: 2.975609756097561
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -806,7 +806,7 @@ Daily15:
   - WeaponDice: 7.5487804878048781
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
@@ -900,7 +900,7 @@ Encounter17:
   - WeaponDice: 1.4000000000000004
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -910,7 +910,7 @@ Encounter17:
   - WeaponDice: 2.2000000000000002
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
@@ -949,7 +949,7 @@ Encounter17:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -1056,7 +1056,7 @@ Daily19:
   - WeaponDice: 5
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -1081,7 +1081,7 @@ Daily20:
   - WeaponDice: 5
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: UpToThreeTargets
@@ -1148,7 +1148,7 @@ Daily20:
   - WeaponDice: 5
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -1193,13 +1193,13 @@ Encounter23:
   - WeaponDice: 1.5
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers: []
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -1208,7 +1208,7 @@ Encounter23:
   - WeaponDice: 1.1000000000000001
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -1263,7 +1263,7 @@ Daily25:
   - WeaponDice: 7.5
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: UpToThreeTargets
@@ -1352,7 +1352,7 @@ Daily25:
   - WeaponDice: 7
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -1378,7 +1378,7 @@ Encounter27:
   - WeaponDice: 1.384615384615385
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -1387,7 +1387,7 @@ Encounter27:
   - WeaponDice: 2.2307692307692308
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
@@ -1416,7 +1416,7 @@ Encounter27:
   - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Amount: +4
@@ -1450,7 +1450,7 @@ Encounter27:
   - WeaponDice: 1.5
     Ability: Strength
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: TwoHits
@@ -1495,13 +1495,13 @@ Daily29:
   - WeaponDice: 4.1999999999999993
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers: []
   - WeaponDice: 9.0999999999999996
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
@@ -1520,7 +1520,7 @@ Daily29:
   - WeaponDice: 3.1016949152542375
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Abilities:
@@ -1529,7 +1529,7 @@ Daily29:
   - WeaponDice: 6.2966101694915242
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
@@ -1573,13 +1573,13 @@ Daily29:
   - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers: []
   - WeaponDice: 2.333333333333333
     Ability: Dexterity
     DamageTypes:
-    - Weapon
+    - Normal
     Target: Range
     Modifiers:
     - Movement:

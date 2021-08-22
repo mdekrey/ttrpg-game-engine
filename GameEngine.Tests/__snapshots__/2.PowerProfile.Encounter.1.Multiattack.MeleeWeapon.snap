@@ -4,13 +4,13 @@ Attacks:
 - WeaponDice: 1
   Ability: Strength
   DamageTypes:
-  - Weapon
+  - Normal
   Target: Melee
   Modifiers: []
 - WeaponDice: 3
   Ability: Strength
   DamageTypes:
-  - Weapon
+  - Normal
   Target: Melee
   Modifiers:
   - Name: RequiresPreviousHit
