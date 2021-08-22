@@ -43,7 +43,7 @@ namespace GameEngine.Generator
         }
     }
 
-    public record ToolProfile(ToolType Type, ToolRange Range, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes)
+    public record ToolProfile(ToolType Type, ToolRange Range, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, PowerProfileConfig PowerProfileConfig)
     {
         internal bool IsValid()
         {
@@ -52,6 +52,11 @@ namespace GameEngine.Generator
                 && Abilities.Distinct().Count() == Abilities.Count
                 && PreferredDamageTypes is { Count: >= 1 };
         }
+    }
+
+    public record PowerProfileConfig(bool DisableSecondaryAttack = false)
+    {
+        // TODO - allow customization
     }
 
     public interface IModifier
@@ -113,7 +118,7 @@ namespace GameEngine.Generator
         public abstract int GetComplexity();
         public abstract PowerCost GetCost();
         public virtual bool IsMetaModifier() => false;
-        // TODO
+
         IEnumerable<IAttackModifier> IAttackModifier.GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
             GetUpgrades(attack.PowerInfo, attack.Modifiers);
         IEnumerable<IPowerModifier> IPowerModifier.GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>

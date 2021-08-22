@@ -103,31 +103,27 @@ namespace GameEngine.Generator
         }
 
         internal IEnumerable<RandomChances<PowerProfileBuilder>> GetUpgrades(UpgradeStage stage) =>
-            from set in new[]
-            {
-                from attackKvp in Attacks.Select((attack, index) => (attack, index))
-                let attack = attackKvp.attack
-                let index = attackKvp.index
-                from modifier in attack.Modifiers
-                from upgrade in modifier.GetUpgrades(attack, stage)
-                let upgraded = (this with { Attacks = this.Attacks.SetItem(index, attack.Apply(upgrade, modifier)) }).FinalizeUpgrade()
-                where upgraded.IsValid()
-                select new RandomChances<PowerProfileBuilder>(
-                    Chances: 1 /* TODO - get weighting from class config */,
-                    Result: upgraded
-                ),
+            (
+                from set in new[]
+                {
+                    from attackKvp in Attacks.Select((attack, index) => (attack, index))
+                    let attack = attackKvp.attack
+                    let index = attackKvp.index
+                    from modifier in attack.Modifiers
+                    from upgrade in modifier.GetUpgrades(attack, stage)
+                    let upgraded = (this with { Attacks = this.Attacks.SetItem(index, attack.Apply(upgrade, modifier)) }).FinalizeUpgrade()
+                    where upgraded.IsValid()
+                    select upgraded,
 
-                from modifier in Modifiers
-                from upgrade in modifier.GetUpgrades(this, stage)
-                let upgraded = this.Apply(upgrade, modifier).FinalizeUpgrade()
-                where upgraded.IsValid()
-                select new RandomChances<PowerProfileBuilder>(
-                    Chances: 1 /* TODO - get weighting from class config */, 
-                    Result: upgraded
-                ),
-            }
-            from entry in set
-            select entry;
+                    from modifier in Modifiers
+                    from upgrade in modifier.GetUpgrades(this, stage)
+                    let upgraded = this.Apply(upgrade, modifier).FinalizeUpgrade()
+                    where upgraded.IsValid()
+                    select upgraded,
+                }
+                from entry in set
+                select entry
+            ).ToChances(PowerInfo.ToolProfile.PowerProfileConfig);
 
         public PowerProfileBuilder FinalizeUpgrade() =>
             this.Modifiers.Aggregate(this, (builder, modifier) => modifier.TryApplyToProfileAndRemove(builder))
@@ -263,5 +259,24 @@ namespace GameEngine.Generator
         {
             return hit => hit with { Damage = modifyDamage(hit.Damage ?? ImmutableList<DamageEntry>.Empty) };
         }
+
+        public static IEnumerable<RandomChances<PowerProfileBuilder>> ToChances(this IEnumerable<PowerProfileBuilder> possibilities, PowerProfileConfig config) =>
+            from possibility in possibilities
+            select new RandomChances<PowerProfileBuilder>(possibility, Chances: config.GetChance(possibility));
+
+        public static IEnumerable<RandomChances<AttackProfileBuilder>> ToChances(this IEnumerable<AttackProfileBuilder> possibilities, PowerProfileConfig config) =>
+            possibilities.Select(f => new RandomChances<AttackProfileBuilder>(f, Chances: config.GetChance(f)));
+
+        public static int GetChance(this PowerProfileConfig config, PowerProfileBuilder builder) =>
+            builder.Attacks.Select(m => config.GetChance(m)).Sum() > 0 ? 1 : 0;
+        public static int GetChance(this PowerProfileConfig config, AttackProfileBuilder builder) =>
+            builder.Modifiers.Select(
+                mod => mod switch
+                {
+                    Modifiers.MultiattackFormula.TwoHitsModifier _ when config.DisableSecondaryAttack => 0,
+                    Modifiers.MultiattackFormula.UpToThreeTargetsModifier _ when config.DisableSecondaryAttack  => 0,
+                    _ => (int?)null
+                }
+            ).Where(v => v != null).Select(v => v!.Value).DefaultIfEmpty(1).FirstOrDefault();
     }
 }
