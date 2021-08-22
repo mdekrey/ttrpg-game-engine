@@ -36,14 +36,14 @@ namespace GameEngine.Generator.Modifiers
 
             private bool AllowAdditionalModifier(AttackProfileBuilder attack)
             {
-                var dice = attack.WeaponDice;
+                var dice = attack.TotalCost.Apply(attack.Limits.Initial);
                 if (Abilities.Count > 0)
                 {
                     return attack.PowerInfo.ToolProfile.Type == ToolType.Weapon && dice > 1 && (dice % 1) >= 0.5;
                 }
                 else 
                 {
-                    return true;
+                    return attack.PowerInfo.ToolProfile.Type != ToolType.Weapon || dice >= 1.5;
                 }
             }
 

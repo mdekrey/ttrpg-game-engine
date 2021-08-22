@@ -76,7 +76,10 @@ namespace GameEngine.Tests
 
             Snapshot.Match(Serializer.Serialize(powerProfile), $"PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{toolRange:g}{toolType:g}");
         }
-        [InlineData(1, PowerFrequency.Encounter, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, PowerDefinitions.MultiattackPowerTemplateName, 1)]
+        [InlineData(1, PowerFrequency.Encounter, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, PowerDefinitions.MultiattackPowerTemplateName, 2)]
+        [InlineData(1, PowerFrequency.Encounter, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, PowerDefinitions.MultiattackPowerTemplateName, 3)]
+        [InlineData(1, PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, PowerDefinitions.MultiattackPowerTemplateName, 751)]
+        [InlineData(1, PowerFrequency.Encounter, ToolType.Weapon, ToolRange.Melee, DamageType.Weapon, PowerDefinitions.MultiattackPowerTemplateName, 751)]
         [Theory]
         public void GenerateRandomPowerProfile(int Level, PowerFrequency powerFrequency, ToolType toolType, ToolRange toolRange, DamageType damageType, string powerTemplate, int seed)
         {

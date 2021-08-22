@@ -44,7 +44,11 @@ namespace GameEngine.Generator
     {
         public override PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
-        public double WeaponDice => TotalCost.Apply(Limits.Initial);
+        public double WeaponDice =>
+            TotalCost.Apply(Limits.Initial);
+            //PowerInfo.ToolProfile.Type == ToolType.Implement 
+            //    ? TotalCost.Apply(Limits.Initial)
+            //    : Math.Floor(TotalCost.Apply(Limits.Initial));
         public double EffectiveWeaponDice => Modifiers.Aggregate(WeaponDice, (weaponDice, mod) => mod.ApplyEffectiveWeaponDice(weaponDice));
         public override bool IsValid()
         {
@@ -71,7 +75,7 @@ namespace GameEngine.Generator
             if (Complexity + Attacks.Select(a => a.Complexity).Sum() > Limits.MaxComplexity)
                 return false;
 
-            if (Attacks.Any(a => a.EffectiveWeaponDice < a.Limits.Minimum))
+            if (Attacks.Any(a => a.WeaponDice < a.Limits.Minimum))
                 return false;
 
             var remaining = TotalCost.Apply(Limits.Initial);
@@ -90,7 +94,7 @@ namespace GameEngine.Generator
         {
             // TODO - put logic here to get closer to whole numbers?
             var remaining = TotalCost.Apply(Limits.Initial);
-            var expectedRatio = remaining / Attacks.Select(a => a.Limits.Initial).Sum();
+            var expectedRatio = remaining / Attacks.Select(a => a.Modifiers.Aggregate(a.Limits.Initial, (prev, next) => next.ApplyEffectiveWeaponDice(prev))).Sum();
             var finalRemaining = Attacks.Select(a => a.TotalCost.Apply(a.Limits.Initial * expectedRatio) * a.Multiplier).Sum();
             return this with
             {

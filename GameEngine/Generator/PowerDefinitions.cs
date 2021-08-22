@@ -42,12 +42,15 @@ namespace GameEngine.Generator
         private static AttackProfileBuilder PreApplyImplementNonArmorDefense(this AttackProfileBuilder attack, RandomGenerator randomGenerator) =>
             attack.PowerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, randomGenerator) : attack;
         private static AttackProfileBuilder PreApplyAbilityDamage(this AttackProfileBuilder attack, RandomGenerator randomGenerator) =>
-            (attack.WeaponDice, attack.PowerInfo.ToolProfile.Type) is ( > 0.5, ToolType.Implement) or ( > 1, _) ? ModifierDefinitions.AbilityModifierDamage.Apply(attack, randomGenerator) : attack;
+            ModifierDefinitions.AbilityModifierDamage.Apply(attack, randomGenerator);
 
         private static AttackProfileBuilder Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, RandomGenerator randomGenerator)
         {
             var selected = formula.GetBaseModifier(attack);
-            selected = randomGenerator.RandomSelection(selected.GetUpgrades(attack, UpgradeStage.Standard).Select(upgrade => new RandomChances<IAttackModifier>(upgrade, Chances: 1 /* TODO - weight based on class config */)));
+            var upgrades = selected.GetUpgrades(attack, UpgradeStage.Standard).ToArray();
+            if (upgrades.Length == 0)
+                return attack.Apply(selected);
+            selected = randomGenerator.RandomSelection(upgrades.Select(upgrade => new RandomChances<IAttackModifier>(upgrade, Chances: 1 /* TODO - weight based on class config */)));
             return attack.Apply(selected);
         }
 

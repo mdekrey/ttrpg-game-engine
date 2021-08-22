@@ -1,0 +1,11 @@
+﻿Template: Multiattack
+Tool: Weapon
+Attacks:
+- WeaponDice: 1
+  Ability: Strength
+  DamageTypes:
+  - Weapon
+  Target: Melee
+  Modifiers:
+  - Name: TwoHits
+Modifiers: []

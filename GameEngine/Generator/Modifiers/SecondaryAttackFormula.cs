@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -27,9 +28,7 @@ namespace GameEngine.Generator.Modifiers
                 var allocated = power.Attacks.Select(a => a.TotalCost.Fixed).Sum();
                 var available = power.Attacks.Select(a => a.WeaponDice).DefaultIfEmpty(power.Limits.Initial).Sum();
 
-                // TODO - secondary attack
-                // TODO - secondary and tertiary attack
-                yield return new DelegateModifier(new TwoHitsModifier());
+                yield return new DelegateModifier(new TwoHitsModifier(), limit => limit with { Minimum = Math.Max(1, limit.Minimum / 2), Initial = limit.Initial / 2, });
                 yield return new DelegateModifier(new UpToThreeTargetsModifier());
 
                 var options = (from set in new[]
@@ -45,13 +44,13 @@ namespace GameEngine.Generator.Modifiers
                               select new EquatableImmutableList<double>(withAllocated)).Distinct();
                 foreach (var option in options)
                 {
-                    yield return new SplitAttackModifier(option.ToImmutableList(), false);
+                    //yield return new SplitAttackModifier(option.ToImmutableList(), false);
                     yield return new SplitAttackModifier(option.ToImmutableList(), true);
                 }
             }
         }
 
-        public record DelegateModifier(IAttackModifier AttackModifier) : PowerModifier(ModifierName)
+        public record DelegateModifier(IAttackModifier AttackModifier, Transform<AttackLimits>? limitTransform = null) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => AttackModifier.GetComplexity();
             public override PowerCost GetCost(PowerProfileBuilder builder) => AttackModifier.GetCost(builder.Attacks[0]);
@@ -72,6 +71,7 @@ namespace GameEngine.Generator.Modifiers
                     Attacks = new[] {
                         attack with
                         {
+                            Limits = limitTransform?.Invoke(attack.Limits) ?? attack.Limits,
                             Modifiers = attack.Modifiers.Add(AttackModifier),
                         }
                     }.ToImmutableList(),
@@ -113,7 +113,12 @@ namespace GameEngine.Generator.Modifiers
                             },
                             Limits = attack.Limits with
                             {
-                                Initial = cost,
+                                Minimum = Math.Max(1, Math.Ceiling(attack.Limits.Minimum / Amounts.Count)),
+                                Initial = index switch
+                                {
+                                    > 0 when RequiresPreviousHit => cost * 2,
+                                    _ => cost,
+                                },
                                 MaxComplexity = index switch { 0 => 0, _ => attack.Limits.MaxComplexity - GetComplexity() },
                             }
                         }
@@ -154,7 +159,7 @@ namespace GameEngine.Generator.Modifiers
             // TODO - modifiers if both hit
             public override int GetComplexity() => 0;
             public const string ModifierName = "TwoHits";
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: 2);
+            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
             public override bool IsMetaModifier() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
