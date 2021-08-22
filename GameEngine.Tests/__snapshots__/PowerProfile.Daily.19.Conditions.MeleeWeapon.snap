@@ -1,7 +1,7 @@
 ﻿Template: Conditions
 Tool: Weapon
 Attacks:
-- WeaponDice: 1.166666666666667
+- WeaponDice: 2.166666666666667
   Ability: Strength
   DamageTypes:
   - Weapon
@@ -20,6 +20,5 @@ Attacks:
     - Name: Blinded
     - Name: Dazed
     - Name: Immobilized
-    - Name: Weakened
     Name: Condition
 Modifiers: []
