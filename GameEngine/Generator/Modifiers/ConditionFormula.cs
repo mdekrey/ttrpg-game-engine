@@ -32,6 +32,7 @@ namespace GameEngine.Generator.Modifiers
                 (Condition: "Grants Combat Advantage", Cost: 0.5),
                 (Condition: "Blinded", Cost: 1),
             }.ToImmutableSortedDictionary(e => e.Condition, e => e.Cost);
+        // TODO - add defense penalties
         private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
         {
             new DefensePenalty(DefenseType.ArmorClass),
