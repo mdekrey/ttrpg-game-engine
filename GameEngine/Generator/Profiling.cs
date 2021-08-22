@@ -54,9 +54,13 @@ namespace GameEngine.Generator
         }
     }
 
-    public record PowerProfileConfig(bool DisableSecondaryAttack = false)
+    public record ModifierChance(string Selector, double Weight);
+
+    public record PowerProfileConfig(ImmutableList<ModifierChance> ModifierChances)
     {
-        // TODO - allow customization
+        public static readonly PowerProfileConfig Empty = new(ImmutableList<ModifierChance>.Empty);
+        public static PowerProfileConfig From(params ModifierChance[] chances) =>
+            new(chances.ToImmutableList());
     }
 
     public interface IModifier

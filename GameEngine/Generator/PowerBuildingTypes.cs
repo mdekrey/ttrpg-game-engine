@@ -31,10 +31,22 @@ namespace GameEngine.Generator
     {
     }
 
-    public abstract record ModifierBuilder<TModifier>(AttackLimits Limits, ImmutableList<TModifier> Modifiers) where TModifier : class, IModifier
+    public interface IModifierBuilder
+    {
+        int Complexity { get; }
+        AttackLimits Limits { get; }
+        IEnumerable<IModifier> Modifiers { get; }
+        PowerCost TotalCost { get; }
+
+        bool IsValid();
+    }
+
+    public abstract record ModifierBuilder<TModifier>(AttackLimits Limits, ImmutableList<TModifier> Modifiers) : IModifierBuilder where TModifier : class, IModifier
     {
         public int Complexity => Modifiers.Cast<IModifier>().GetComplexity();
         public abstract PowerCost TotalCost { get; }
+
+        IEnumerable<IModifier> IModifierBuilder.Modifiers => Modifiers.OfType<IModifier>();
 
         public abstract bool IsValid();
     }
@@ -260,39 +272,20 @@ namespace GameEngine.Generator
             return hit => hit with { Damage = modifyDamage(hit.Damage ?? ImmutableList<DamageEntry>.Empty) };
         }
 
-        public static IEnumerable<RandomChances<PowerProfileBuilder>> ToChances(this IEnumerable<PowerProfileBuilder> possibilities, PowerProfileConfig config) =>
+        public static IEnumerable<RandomChances<TBuilder>> ToChances<TBuilder>(this IEnumerable<TBuilder> possibilities, PowerProfileConfig config) where TBuilder : IModifierBuilder =>
             from possibility in possibilities
             let chances = config.GetChance(possibility)
             where chances > 0
-            select new RandomChances<PowerProfileBuilder>(possibility, Chances: (int)chances);
+            select new RandomChances<TBuilder>(possibility, Chances: (int)chances);
 
-        public static IEnumerable<RandomChances<AttackProfileBuilder>> ToChances(this IEnumerable<AttackProfileBuilder> possibilities, PowerProfileConfig config) =>
-            from possibility in possibilities
-            let chances = config.GetChance(possibility.Modifiers)
-            where chances > 0
-            select new RandomChances<AttackProfileBuilder>(possibility, Chances: (int)chances);
-
-        public static double GetChance(this PowerProfileConfig config, PowerProfileBuilder builder) =>
-            config.GetChance(new[] {
-                builder.Attacks.SelectMany(a => a.Modifiers),
-                (IEnumerable<IModifier>)builder.Modifiers,
-            }.SelectMany(set => set));
-        public static double GetChance(this PowerProfileConfig config, IEnumerable<IModifier> modifiers) =>
-            (from mod in modifiers
-             select config.GetChance(mod)).Aggregate((lhs, rhs) => lhs * rhs);
-
-        public static double GetChance(this PowerProfileConfig config, IModifier mod)
+        public static double GetChance(this PowerProfileConfig config, IModifierBuilder builder)
         {
-            if (!config.DisableSecondaryAttack) return 1;
-            var token = FromModifier(mod);
-            if (token.SelectToken("$[?(@.Name=='TwoHits')]") != null)
-                return 0;
-            if (token.SelectToken("$[?(@.Name=='UpToThreeTargets')]") != null)
-                return 0;
-            return 1;
+            var token = FromBuilder(builder);
+            return config.ModifierChances.Select(entry => token.SelectToken(entry.Selector) == null ? 1 : entry.Weight)
+                .Aggregate(1.0, (lhs, rhs) => lhs * rhs);
         }
 
-        private static Newtonsoft.Json.Linq.JToken FromModifier(IModifier mod)
+        private static Newtonsoft.Json.Linq.JToken FromBuilder(IModifierBuilder mod)
         {
             return Newtonsoft.Json.Linq.JToken.FromObject(new[] { mod }, new Newtonsoft.Json.JsonSerializer()
             {
