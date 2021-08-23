@@ -12,7 +12,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            return new ConditionModifier(ImmutableList<MovementControl>.Empty);
+            return new MovementModifier(ImmutableList<MovementControl>.Empty);
         }
 
         private static readonly ImmutableList<MovementControl> basicEffects =
@@ -24,7 +24,7 @@ namespace GameEngine.Generator.Modifiers
                 new SlideOpponent(OpponentMovementMode.Slide, 1),
             }.ToImmutableList();
 
-        public record ConditionModifier(ImmutableList<MovementControl> Effects) : AttackModifier(ModifierName)
+        public record MovementModifier(ImmutableList<MovementControl> Effects) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());

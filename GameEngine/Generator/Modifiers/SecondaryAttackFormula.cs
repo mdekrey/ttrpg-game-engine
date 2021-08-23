@@ -41,7 +41,7 @@ namespace GameEngine.Generator.Modifiers
                               where !set.Any(v => v < 1)
                               from reversed in new[] { set, set.Reverse().ToArray() }
                               let withAllocated = reversed.Take(reversed.Length - 1).Concat(new[] { reversed.Last() + allocated })
-                              select new EquatableImmutableList<double>(withAllocated)).Distinct();
+                              select new EquatableImmutableList<double>(withAllocated.ToImmutableList())).Distinct();
                 foreach (var option in options)
                 {
                     if (option.Skip(1).Any(o => o != option[0]))

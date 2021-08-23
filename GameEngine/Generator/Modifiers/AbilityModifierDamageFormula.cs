@@ -17,20 +17,20 @@ namespace GameEngine.Generator.Modifiers
             return new AbilityDamageModifier(ImmutableList<Ability>.Empty);
         }
 
-        public record AbilityDamageModifier(ImmutableList<Ability> Abilities) : AttackModifier(ModifierName)
+        public record AbilityDamageModifier(EquatableImmutableList<Ability> Abilities) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 0;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Abilities.Count * 0.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Abilities.Items.Count * 0.5);
 
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
                     .Take(stage == UpgradeStage.Standard ? 1 : attack.PowerInfo.ToolProfile.Abilities.Count)
-                    .Except(Abilities)
+                    .Except(Abilities.Items)
                     .Take(AllowAdditionalModifier(attack) ? 1 : 0)
                     .Select(ability => this with 
                         { 
-                            Abilities = Abilities.Add(ability) 
+                            Abilities = Abilities.Items.Add(ability) 
                         }
                     );
 

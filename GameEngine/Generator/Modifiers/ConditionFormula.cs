@@ -51,7 +51,7 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Must remain "SaveEnds" if there's a Boost dependent upon it
             : 1;
 
-        public record ConditionModifier(Duration Duration, ImmutableList<Condition> Conditions) : AttackModifier(ModifierName)
+        public record ConditionModifier(Duration Duration, EquatableImmutableList<Condition> Conditions) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1 + Conditions.Count / 4;
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(Duration)).Sum());
@@ -62,11 +62,11 @@ namespace GameEngine.Generator.Modifiers
                     from basicCondition in basicConditions.Keys
                     where !Conditions.Select(b => b.Name).Contains(basicCondition)
                     where !GetSubsumed(Conditions).Contains(basicCondition)
-                    select this with { Conditions = Filter(Conditions.Add(new Condition(basicCondition))) },
+                    select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
 
                     from condition in Conditions
                     from upgrade in condition.GetUpgrades(attack.PowerInfo)
-                    select this with { Conditions = Filter(Conditions.Remove(condition).Add(upgrade)) },
+                    select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
 
                     from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
                     where attack.Modifiers.OfType<BoostFormula.BoostModifier>().FirstOrDefault() is not BoostFormula.BoostModifier { Duration: Duration.SaveEnds }

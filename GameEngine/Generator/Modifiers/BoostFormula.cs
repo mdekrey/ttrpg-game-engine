@@ -129,7 +129,7 @@ namespace GameEngine.Generator.Modifiers
             All
         }
 
-        public record BoostModifier(Duration Duration, ImmutableList<Boost> SelfBoosts, ImmutableList<Boost> AllyBoosts, AllyType AllyType) : AttackAndPowerModifier(ModifierName)
+        public record BoostModifier(Duration Duration, EquatableImmutableList<Boost> SelfBoosts, EquatableImmutableList<Boost> AllyBoosts, AllyType AllyType) : AttackAndPowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
@@ -155,7 +155,7 @@ namespace GameEngine.Generator.Modifiers
                     from basicBoost in GetBasicBoosts(powerInfo)
                     where !SelfBoosts.Select(b => b.Name).Contains(basicBoost.Name)
                     where !AllyBoosts.Select(b => b.Name).Contains(basicBoost.Name)
-                    select this with { SelfBoosts = SelfBoosts.Add(basicBoost) },
+                    select this with { SelfBoosts = SelfBoosts.Items.Add(basicBoost) },
 
                     from basicBoost in GetBasicBoosts(powerInfo)
                     where AllyType != AllyType.All
@@ -163,7 +163,7 @@ namespace GameEngine.Generator.Modifiers
                     let boost = basicBoost
                     select this with
                     {
-                        AllyBoosts = AllyBoosts.Add(boost),
+                        AllyBoosts = AllyBoosts.Items.Add(boost),
                     },
 
                     from basicBoost in GetBasicBoosts(powerInfo)
@@ -172,17 +172,17 @@ namespace GameEngine.Generator.Modifiers
                     let boost = SelfBoosts.FirstOrDefault(b => b.Name == basicBoost.Name) ?? basicBoost
                     select this with
                     {
-                        AllyBoosts = AllyBoosts.Add(boost),
-                        SelfBoosts = SelfBoosts.Remove(boost),
+                        AllyBoosts = AllyBoosts.Items.Add(boost),
+                        SelfBoosts = SelfBoosts.Items.Remove(boost),
                     },
 
                     from boost in SelfBoosts
                     from upgrade in boost.GetUpgrades(powerInfo)
-                    select this with { SelfBoosts = SelfBoosts.Remove(boost).Add(upgrade) },
+                    select this with { SelfBoosts = SelfBoosts.Items.Remove(boost).Add(upgrade) },
 
                     from boost in AllyBoosts
                     from upgrade in boost.GetUpgrades(powerInfo)
-                    select this with { AllyBoosts = AllyBoosts.Remove(boost).Add(upgrade) },
+                    select this with { AllyBoosts = AllyBoosts.Items.Remove(boost).Add(upgrade) },
 
                     from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
                     where duration > Duration

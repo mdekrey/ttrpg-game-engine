@@ -63,7 +63,7 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             }
         }
-        public record SkirmishMovementModifier(ImmutableList<SkirmishMovement> Movement) : AttackAndPowerModifier(ModifierName)
+        public record SkirmishMovementModifier(EquatableImmutableList<SkirmishMovement> Movement) : AttackAndPowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
 
@@ -76,7 +76,7 @@ namespace GameEngine.Generator.Modifiers
 
                     from movement in Movement
                     from upgrade in movement.GetUpgrades(powerInfo)
-                    select this with { Movement = Movement.Remove(movement).Add(upgrade) },
+                    select this with { Movement = Movement.Items.Remove(movement).Add(upgrade) },
                 }
                 from mod in set
                 select mod;

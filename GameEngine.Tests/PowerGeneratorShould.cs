@@ -1,4 +1,5 @@
 ﻿using GameEngine.Generator;
+using GameEngine.Generator.Serialization;
 using GameEngine.Rules;
 using Snapshooter.Xunit;
 using System;
@@ -126,6 +127,50 @@ namespace GameEngine.Tests
             var powerProfile = target.GenerateProfiles(CreateStrikerProfile());
 
             Snapshot.Match(Serializer.Serialize(powerProfile));
+        }
+
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.BonusPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.BonusPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.BonusPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBlastPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBurstPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.InterruptPenaltyPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.CloseBurstPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.CloseBlastPowerTemplateName)]
+        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName)]
+        [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName)]
+        [Theory]
+        public void DeserializeGeneratedPowersProfile(string configName, int Level, PowerFrequency powerFrequency, string powerTemplate)
+        {
+            var target = CreateTarget((min, max) => max - 1);
+
+            ToolProfile toolProfile = GetToolProfile(configName);
+
+            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, ClassRole.Striker),
+                new[] { powerTemplate }.ToImmutableList()
+            );
+
+            var serializer = new Newtonsoft.Json.JsonSerializer();
+            foreach (var converter in ProfileSerialization.GetJsonConverters())
+                serializer.Converters.Add(converter);
+
+            var serialized = Newtonsoft.Json.Linq.JToken.FromObject(powerProfile, serializer);
+            var deserialized = serialized.ToObject<PowerProfile>(serializer);
+
+            Assert.Equal(powerProfile, deserialized);
         }
 
         private static ToolProfile GetToolProfile(string configName)
