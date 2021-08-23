@@ -97,27 +97,27 @@ namespace GameEngine.Tests
             Snapshot.Match(Serializer.Serialize(powerProfile), $"{seed}.PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{configName}");
         }
 
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBurstPowerTemplateName)]
-        [Theory]
-        public void CreateGeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate)
-        {
-            var target = CreateTarget((min, max) => max - 1);
+        //[InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
+        //[InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
+        //[InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
+        //[InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
+        //[InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBurstPowerTemplateName)]
+        //[Theory]
+        //public void CreateGeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate)
+        //{
+        //    var target = CreateTarget((min, max) => max - 1);
 
-            ToolProfile toolProfile = GetToolProfile(configName);
+        //    ToolProfile toolProfile = GetToolProfile(configName);
 
-            var powerProfile = target.GenerateProfile(new(level, powerFrequency, toolProfile, ClassRole.Striker), new[] { powerTemplate }.ToImmutableList());
+        //    var powerProfile = target.GenerateProfile(new(level, powerFrequency, toolProfile, ClassRole.Striker), new[] { powerTemplate }.ToImmutableList());
 
-            SerializedPower power = powerProfile.ToPower(level, powerFrequency);
+        //    SerializedPower power = powerProfile.ToPower(level, powerFrequency);
 
-            Snapshot.Match(
-                Serializer.Serialize(new object[] { powerProfile, power }),
-                $"Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{configName}"
-            );
-        }
+        //    Snapshot.Match(
+        //        Serializer.Serialize(new object[] { powerProfile, power }),
+        //        $"Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{configName}"
+        //    );
+        //}
 
         [Fact]
         public void CreateGeneratePowersProfile()

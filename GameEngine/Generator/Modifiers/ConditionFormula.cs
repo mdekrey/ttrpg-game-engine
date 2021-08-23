@@ -92,12 +92,6 @@ namespace GameEngine.Generator.Modifiers
                 conditions.Select(c => c.Name).SelectMany(c => subsume.ContainsKey(c)
                                     ? subsume[c]
                                     : Enumerable.Empty<string>()).ToHashSet();
-
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attack)
-            {
-                // TODO - apply effect
-                return effect;
-            }
         }
 
         public record Condition(string Name)

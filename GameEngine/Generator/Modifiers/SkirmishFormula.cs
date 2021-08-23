@@ -16,6 +16,13 @@ namespace GameEngine.Generator.Modifiers
 
         }
 
+        public enum ShiftTiming
+        {
+            Anytime,
+            Before,
+            After,
+        }
+
         public record EmptySkirmishModifier() : AttackAndPowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
@@ -32,8 +39,6 @@ namespace GameEngine.Generator.Modifiers
                 yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 1), new Shift(ShiftTiming.After, 1)));
                 yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new MovementDoesNotProvoke()));
             }
-
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
         }
 
         public abstract record SkirmishMovement(string Name)
@@ -81,16 +86,6 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
-            {
-                // TODO - apply effect
-                return Movement.Aggregate(effect, (prev, movement) => movement switch
-                    {
-                        Shift shift when effect is { Shift: null } => effect with { Shift = new SerializedShift(shift.Timing, Amount: shift.Amount?.ToString() ?? "speed") },
-                        Shift shift => effect, // TODO - multiple effects
-                        _ => effect, // TODO
-                    });
-            }
         }
     }
 

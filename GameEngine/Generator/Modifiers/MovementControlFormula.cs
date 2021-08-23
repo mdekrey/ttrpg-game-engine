@@ -42,13 +42,6 @@ namespace GameEngine.Generator.Modifiers
                 }
                 from mod in set
                 select mod;
-
-
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attack)
-            {
-                // TODO - apply effect
-                return effect;
-            }
         }
 
         public abstract record MovementControl(string Name)

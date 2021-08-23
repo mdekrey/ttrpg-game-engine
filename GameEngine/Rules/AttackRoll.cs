@@ -6,15 +6,6 @@ namespace GameEngine.Rules
 {
     public class AttackRoll : IRandomizedEffect
     {
-        private readonly ICurrentActor attacker;
-        private readonly ICurrentTarget target;
-
-        public AttackRoll(ICurrentActor attacker, ICurrentTarget target)
-        {
-            this.attacker = attacker ?? throw new ArgumentNullException(nameof(attacker));
-            this.target = target ?? throw new ArgumentNullException(nameof(target));
-        }
-
         public Ability Kind { get; init; }
         public GameDiceExpression Bonus { get; init; } = GameDiceExpression.Empty;
         public DefenseType Defense { get; init; } = DefenseType.ArmorClass;

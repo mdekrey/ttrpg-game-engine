@@ -46,25 +46,6 @@ namespace GameEngine.Generator.Modifiers
                     return attack.PowerInfo.ToolProfile.Type != ToolType.Weapon || dice >= 1.5;
                 }
             }
-
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
-            {
-                return ModifyTarget(ModifyAttack(ModifyHit(ModifyDamage(
-                    damage =>
-                    {
-                        var initial = damage[0];
-                        var dice = GameDiceExpression.Parse(initial.Amount);
-
-                        foreach (var ability in Abilities)
-                            dice += ability;
-
-                        return damage.SetItem(0, initial with
-                        {
-                            Amount = dice.ToString(),
-                        });
-                    }
-                ))))(effect);
-            }
         }
     }
 

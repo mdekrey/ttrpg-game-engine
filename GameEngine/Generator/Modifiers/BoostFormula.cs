@@ -213,12 +213,6 @@ namespace GameEngine.Generator.Modifiers
                 }
                 from mod in set
                 select mod;
-
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
-            {
-                // TODO - apply effect
-                return effect;
-            }
         }
     }
 }

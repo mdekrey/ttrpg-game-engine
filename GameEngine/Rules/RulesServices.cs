@@ -54,7 +54,6 @@ namespace GameEngine.Rules
             services.AddScoped<CurrentTarget>();
             services.AddTransient<ICurrentActor>(sp => sp.GetRequiredService<CurrentActor>());
             services.AddTransient<ICurrentTarget>(sp => sp.GetRequiredService<CurrentTarget>());
-            services.AddTransient<ActionFactory>();
 
             return services;
         }

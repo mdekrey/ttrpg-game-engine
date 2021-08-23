@@ -281,22 +281,6 @@ namespace GameEngine.Generator
 
     public static class PowerProfileExtensions
     {
-        public static SerializedPower ToPower(this PowerProfile powerProfile, int level, PowerFrequency usageFrequency)
-        {
-            var result = SerializedPower.Empty with
-            {
-                Level = level,
-                Keywords = SerializedPower.Empty.Keywords.Add(powerProfile.Tool.ToKeyword()),
-                Frequency = usageFrequency,
-            };
-            result = result with
-            {
-                Effects = powerProfile.Attacks
-                    .Select(attackProfile => SerializedEffect.Empty.Apply(powerProfile, attackProfile)).ToImmutableList(),
-            };
-            return result;
-        }
-
         public static string ToKeyword(this ToolType tool) =>
             tool switch
             {
@@ -313,44 +297,10 @@ namespace GameEngine.Generator
                 _ => throw new ArgumentException("Invalid enum value for toolRange", nameof(toolRange)),
             };
 
-        public static SerializedEffect Apply(this SerializedEffect attack, PowerProfile powerProfile, AttackProfile attackProfile)
-        {
-            var result = attack with
-            {
-                Target = (attackProfile.Target, powerProfile.Tool) switch
-                {
-                    (TargetType.Melee, ToolType.Weapon) => SerializedTarget.Empty with { MeleeWeapon = new() },
-                    (TargetType.Melee, ToolType.Implement) => SerializedTarget.Empty with { Melee = new() },
-                    (TargetType.Personal, _) => SerializedTarget.Empty with { Personal = new() },
-                    (TargetType.Range, ToolType.Weapon) => SerializedTarget.Empty with { RangedWeapon = new() },
-                    (TargetType.Range, ToolType.Implement) => SerializedTarget.Empty with { Ranged = new() },
-                    _ => throw new NotImplementedException($"Range/Tool combination not implemented: {attackProfile.Target:g} {powerProfile.Tool:g}")
-                } with
-                {
-                    Effect = SerializedEffect.Empty with
-                    {
-                        Attack = AttackRollOptions.Empty with
-                        {
-                            Hit = SerializedEffect.Empty with
-                            {
-                                Damage = ToDamageEffect(powerProfile.Tool, attackProfile.WeaponDice, attackProfile.DamageTypes),
-                            }
-                        },
-                    },
-                }
-            };
-            result = attackProfile.Modifiers.Aggregate(
-                result,
-                (prev, modifier) =>
-                    modifier.Apply(effect: prev, powerProfile: powerProfile, attackProfile: attackProfile)
-            );
-            return result;
-        }
-
-        private static ImmutableList<DamageEntry> ToDamageEffect(ToolType tool, double weaponDice, ImmutableList<DamageType> damageTypes)
+        private static ImmutableList<(string GameDiceExpression, ImmutableList<DamageType> DamageTypes)> ToDamageEffect(ToolType tool, double weaponDice, ImmutableList<DamageType> damageTypes)
         {
             if (tool == ToolType.Weapon)
-                return ImmutableList<DamageEntry>.Empty.Add(new ((GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString(), Build(DamageType.Normal)));
+                return ImmutableList<(string GameDiceExpression, ImmutableList<DamageType> DamageTypes)>.Empty.Add(new ((GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString(), Build(DamageType.Normal)));
             var averageDamage = weaponDice * 5.5;
             var dieType = (
                 from entry in new[]
@@ -365,8 +315,7 @@ namespace GameEngine.Generator
             ).ToArray();
             var (type, count, remainder) = dieType.First();
 
-            // TODO - should not hard-code fire
-            return Build(new DamageEntry($"{count}{type}", damageTypes));
+            return Build<(string GameDiceExpression, ImmutableList<DamageType> DamageTypes)>(($"{count}{type}", damageTypes));
 
             (int dice, double remainder) GetDiceCount(double averageDamage, double damagePerDie)
             {

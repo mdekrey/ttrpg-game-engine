@@ -35,16 +35,6 @@ namespace GameEngine.Generator.Modifiers
                 NonArmorDefenseModifier BuildModifier(DefenseType defense) =>
                     new(defense);
             }
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
-            {
-                if (Defense == DefenseType.ArmorClass)
-                    return effect;
-                return Pipe(
-                    (AttackRollOptions attack) => attack with { Defense = Defense },
-                    ModifyAttack,
-                    ModifyTarget
-                )(effect);
-            }
         }
     }
 

@@ -39,17 +39,6 @@ namespace GameEngine.Generator.Modifiers
                 else if (Amount.DieCodes.Modifier == 0)
                     yield return this with { Amount = 0 };
             }
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
-            {
-                return Pipe(
-                    (AttackRollOptions attack) => attack with
-                    {
-                        Bonus = (GameDiceExpression.Parse(attack.Bonus) + Amount.RoundModifier()).ToString()
-                    },
-                    ModifyAttack,
-                    ModifyTarget
-                )(effect);
-            }
         }
     }
 

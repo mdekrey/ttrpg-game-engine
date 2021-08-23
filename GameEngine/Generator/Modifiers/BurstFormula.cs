@@ -38,8 +38,6 @@ namespace GameEngine.Generator.Modifiers
                 if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                     yield return new BurstModifier(1, BurstType.Area);
             }
-
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => effect;
         }
 
         public record BurstModifier(int Size, BurstType Type) : AttackModifier(ModifierName)
@@ -54,16 +52,6 @@ namespace GameEngine.Generator.Modifiers
                     this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) }
                 };
 
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attack)
-            {
-                return Pipe(
-                    (SerializedTarget target) =>
-                    {
-                        return target with { Burst = Size };
-                    },
-                    ModifyTarget
-                )(effect);
-            }
         }
     }
 }

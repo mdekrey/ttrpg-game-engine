@@ -81,7 +81,6 @@ namespace GameEngine.Generator
     {
         PowerCost GetCost(PowerProfileBuilder builder);
         IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
-        SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
         PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder);
     }
 
@@ -89,7 +88,6 @@ namespace GameEngine.Generator
     {
         PowerCost GetCost(AttackProfileBuilder builder);
         IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
-        SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
         double ApplyEffectiveWeaponDice(double weaponDice);
     }
 
@@ -99,7 +97,6 @@ namespace GameEngine.Generator
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
         public abstract IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
-        public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
         public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
     }
 
@@ -109,7 +106,6 @@ namespace GameEngine.Generator
         public abstract PowerCost GetCost(AttackProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
         public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
-        public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
     }
 
@@ -124,8 +120,6 @@ namespace GameEngine.Generator
         IEnumerable<IPowerModifier> IPowerModifier.GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
             GetUpgrades(power.PowerInfo, power.Modifiers);
         public abstract IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers);
-        SerializedEffect IAttackModifier.Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile) => Apply(effect, powerProfile);
-        public abstract SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile);
         public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
 
         public virtual PowerCost GetCost(AttackProfileBuilder builder) => GetCost();

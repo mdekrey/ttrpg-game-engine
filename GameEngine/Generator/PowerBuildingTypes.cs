@@ -224,54 +224,6 @@ namespace GameEngine.Generator
         public static Transform<TOutput> Pipe<TInput, T1, T2, T3, T4, T5, T6, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, T6> t6, Func<T6, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, t4, t5, t6, transform);
         public static Transform<TOutput> Pipe<TInput, T1, T2, T3, T4, T5, T6, T7, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, T6> t6, Func<T6, T7> t7, Func<T7, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, t4, t5, t6, t7, transform);
 
-        public static Transform<SerializedEffect> ModifyTarget(Transform<SerializedTarget> modifyTarget)
-        {
-            return (effect) =>
-            {
-                if (effect.Target == null)
-                    throw new InvalidOperationException("Cannot apply to target");
-                return effect with
-                {
-                    Target = modifyTarget(effect.Target)
-                };
-            };
-        }
-
-        public static Transform<SerializedTarget> ModifyAttack(Transform<AttackRollOptions> modifyAttack)
-        {
-            return (target) =>
-            {
-                if (target.Effect.Attack == null)
-                    throw new InvalidOperationException("Cannot apply to attack");
-                return target with
-                {
-                    Effect = target.Effect with
-                    {
-                        Attack = modifyAttack(target.Effect.Attack)
-                    }
-                };
-            };
-        }
-
-        public static Transform<AttackRollOptions> ModifyHit(Transform<SerializedEffect> modifyHit)
-        {
-            return attack =>
-            {
-                if (attack.Hit == null)
-                    throw new InvalidOperationException("Cannot apply to hit");
-
-                return attack with
-                {
-                    Hit = modifyHit(attack.Hit),
-                };
-            };
-        }
-
-        public static Transform<SerializedEffect> ModifyDamage(Transform<ImmutableList<DamageEntry>> modifyDamage)
-        {
-            return hit => hit with { Damage = modifyDamage(hit.Damage ?? ImmutableList<DamageEntry>.Empty) };
-        }
-
         public static IEnumerable<RandomChances<TBuilder>> ToChances<TBuilder>(this IEnumerable<TBuilder> possibilities, PowerProfileConfig config) where TBuilder : IModifierBuilder =>
             from possibility in possibilities
             let chances = config.GetChance(possibility)

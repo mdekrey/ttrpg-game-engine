@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
+using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Tests
 {
@@ -29,7 +30,7 @@ namespace GameEngine.Tests
         }
 
         [Fact]
-        public async Task MeetAverageEncounterLengthForSingleMonster()
+        public void MeetAverageEncounterLengthForSingleMonster()
         {
             using var scope = serviceProvider.CreateScope();
             const int level = 1;
@@ -39,9 +40,21 @@ namespace GameEngine.Tests
             var goblin = MonsterRoleTemplate.Skirmisher.GetStatsFor(level, new Rules.CharacterAbilities(2, 1, 3, -1, 1, -1));
 
             var pcBonusDamagePerRound = 
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""2[W] + STR"" } ] } } } } }");
+                ToDamage(scope, pc, goblin, new MeleeWeapon
+                {
+                    Effect = new AttackRoll
+                    {
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("2[W] + STR"), Build(DamageType.Normal)))),
+                    }
+                });
             var pcStandardDamagePerRound = 
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""[W] + STR"" } ] } } } } }");
+                ToDamage(scope, pc, goblin, new MeleeWeapon
+                {
+                    Effect = new AttackRoll
+                    {
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), Build(DamageType.Normal)))),
+                    }
+                });
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
 
             var healthRemainingPerRound = SimulateCombat(damage, 1, goblin).ToArray();
@@ -49,7 +62,7 @@ namespace GameEngine.Tests
         }
 
         [Fact]
-        public async Task MeetAverageEncounterLengthForSingleMonsterAsRanger()
+        public void MeetAverageEncounterLengthForSingleMonsterAsRanger()
         {
             using var scope = serviceProvider.CreateScope();
             const int level = 1;
@@ -59,12 +72,29 @@ namespace GameEngine.Tests
             var goblin = MonsterRoleTemplate.Skirmisher.GetStatsFor(level, new Rules.CharacterAbilities(2, 1, 3, -1, 1, -1));
 
             var pcBonusDamagePerRound =
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""2[W] + d6 + STR"" } ] } } } } }");
+                ToDamage(scope, pc, goblin, new MeleeWeapon
+                {
+                    Effect = new AttackRoll
+                    {
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("2[W] + d6 + STR"), Build(DamageType.Normal)))),
+                    }
+                });
             var pcStandardDamagePerRound =
-                await ParseToDamage(scope, pc, goblin, @"{ ""all"": [
-                    { ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": ""1"", ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""[W] + d6"" } ] } } } } },
-                    { ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": ""1"", ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""[W] - 1"" } ] } } } } }
-                ] }");
+                ToDamage(scope, pc, goblin, new MeleeWeapon
+                {
+                    Effect = new AllEffects(Build<IEffect>(
+                        new AttackRoll
+                        {
+                            Bonus = 1,
+                            Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + d6"), Build(DamageType.Normal)))),
+                        },
+                        new AttackRoll
+                        {
+                            Bonus = 1,
+                            Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] - 1"), Build(DamageType.Normal)))),
+                        }
+                    ))
+                });
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
 
             var healthRemainingPerRound = SimulateCombat(damage, 1, goblin).ToArray();
@@ -72,7 +102,7 @@ namespace GameEngine.Tests
         }
 
         [Fact]
-        public async Task MeetAverageEncounterLengthForSingleMonsterAsRangerWithCarefulAttack()
+        public void MeetAverageEncounterLengthForSingleMonsterAsRangerWithCarefulAttack()
         {
             using var scope = serviceProvider.CreateScope();
             const int level = 1;
@@ -82,9 +112,22 @@ namespace GameEngine.Tests
             var goblin = MonsterRoleTemplate.Skirmisher.GetStatsFor(level, new Rules.CharacterAbilities(2, 1, 3, -1, 1, -1));
 
             var pcBonusDamagePerRound =
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""2[W] + d6 + STR"" } ] } } } } }");
+                ToDamage(scope, pc, goblin, new MeleeWeapon
+                {
+                    Effect = new AttackRoll
+                    {
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("2[W] + d6 + STR"), Build(DamageType.Normal)))),
+                    }
+                });
             var pcStandardDamagePerRound =
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""bonus"": ""3"", ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""[W] + d6 + STR"" } ] } } } } }");
+                ToDamage(scope, pc, goblin, new MeleeWeapon
+                {
+                    Effect = new AttackRoll
+                    {
+                        Bonus = 3,
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + d6 + STR"), Build(DamageType.Normal)))),
+                    }
+                });
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
 
             var healthRemainingPerRound = SimulateCombat(damage, 1, goblin).ToArray();
@@ -92,7 +135,7 @@ namespace GameEngine.Tests
         }
 
         [Fact]
-        public async Task MeetAverageEncounterLengthForPartyOf4()
+        public void MeetAverageEncounterLengthForPartyOf4()
         {
             using var scope = serviceProvider.CreateScope();
             const int level = 1;
@@ -102,9 +145,22 @@ namespace GameEngine.Tests
             var goblin = MonsterRoleTemplate.Skirmisher.GetStatsFor(level, new Rules.CharacterAbilities(2, 1, 3, -1, 1, -1));
 
             var pcBonusDamagePerRound = 
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": { ""targetCount"": 2 }, ""effect"": { ""attack"": { ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""[W] + STR"" } ] } } } } }");
+                ToDamage(scope, pc, goblin, new MeleeWeapon
+                {
+                    TargetCount = 2,
+                    Effect = new AttackRoll
+                    {
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), Build(DamageType.Normal)))),
+                    }
+                });
             var pcStandardDamagePerRound = 
-                await ParseToDamage(scope, pc, goblin, @"{ ""target"": { ""meleeWeapon"": {}, ""effect"": { ""attack"": { ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""[W] + STR"" } ] } } } } }");
+                ToDamage(scope, pc, goblin, new MeleeWeapon
+                {
+                    Effect = new AttackRoll
+                    {
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), Build(DamageType.Normal)))),
+                    }
+                });
             var damage = GenerateDamagePerAction(new[] { (4, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
 
             var healthRemainingPerRound = SimulateCombat(damage, 4, goblin, goblin, goblin, goblin).ToArray();
@@ -143,22 +199,15 @@ namespace GameEngine.Tests
             }
         }
 
-        private static async Task<double> ParseToDamage(IServiceScope scope, CharacterStats actor, CharacterStats target, string action)
+        private static double ToDamage(IServiceScope scope, CharacterStats actor, CharacterStats target, IEffect action)
         {
             var damageCalculator = scope.ServiceProvider.GetRequiredService<IEffectsReducer<double>>();
-            var actionBuilder = scope.ServiceProvider.GetRequiredService<ActionFactory>();
             var currentTarget = scope.ServiceProvider.GetRequiredService<CurrentTarget>();
             var currentActor = scope.ServiceProvider.GetRequiredService<CurrentActor>();
             currentTarget.Current = target;
             currentActor.Current = actor;
 
-            var serializedEffect = Deserialize(action);
-            return damageCalculator!.ReduceEffects(await actionBuilder!.BuildAsync(serializedEffect));
-        }
-
-        private static SerializedEffect Deserialize(string json)
-        {
-            return JsonSerializer.Deserialize<SerializedEffect>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new System.Text.Json.Serialization.JsonStringEnumConverter() } })!;
+            return damageCalculator!.ReduceEffects(action);
         }
     }
 }

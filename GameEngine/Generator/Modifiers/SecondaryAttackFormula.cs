@@ -20,7 +20,6 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
             public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage)
             {
                 if (power.Attacks.Count > 1)
@@ -58,11 +57,6 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
-            {
-                // This modifier is a special case and should be removed to create an extra attack
-                throw new System.NotSupportedException();
-            }
 
             public override PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder power)
             {
@@ -90,11 +84,6 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile)
-            {
-                // This modifier is a special case and should be removed to create an extra attack
-                throw new System.NotSupportedException();
-            }
 
             public override PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder power)
             {
@@ -136,7 +125,6 @@ namespace GameEngine.Generator.Modifiers
 
         public record MultiattackAppliedModifier() : PowerModifier(ModifierName)
         {
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile) => effect;
             public override int GetComplexity() => 0;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
@@ -152,11 +140,6 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsMetaModifier() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
-            {
-                // TODO - apply effect
-                return effect;
-            }
         }
 
         public record SecondaryAttackModifier() : AttackModifier(SecondaryAttackModifier.ModifierName)
@@ -169,11 +152,6 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsMetaModifier() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
-            {
-                // TODO - apply effect
-                return effect;
-            }
         }
 
         // Two Identical attacks
@@ -186,11 +164,6 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsMetaModifier() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
-            {
-                // TODO - apply effect
-                return effect;
-            }
             public override double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice * 2;
         }
 
@@ -203,11 +176,6 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsMetaModifier() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
-            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
-            {
-                // TODO - apply effect
-                return effect;
-            }
         }
     }
 }

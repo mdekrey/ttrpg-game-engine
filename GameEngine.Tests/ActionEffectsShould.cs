@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Xunit;
+using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Tests
 {
@@ -24,49 +25,39 @@ namespace GameEngine.Tests
             services.AddMemoryCache().AddGameEngineRules();
             serviceProvider = services.BuildServiceProvider();
         }
-
-        private static SerializedTarget Deserialize(string json)
-        {
-            return JsonSerializer.Deserialize<SerializedTarget>(
-                json,
-                new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } }
-            )!;
-        }
-
+        
         [Fact]
-        public async Task GetAverageDamageForMelee()
+        public void GetAverageDamageForMelee()
         {
             using var scope = serviceProvider.CreateScope();
             var target = scope.ServiceProvider.GetRequiredService<EffectsReducer<double, double>>();
-            var actionBuilder = scope.ServiceProvider.GetRequiredService<ActionFactory>();
-            var currentTarget = scope.ServiceProvider.GetRequiredService<ICurrentTarget>();
-            var currentActor = scope.ServiceProvider.GetRequiredService<ICurrentActor>();
 
-            var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
-                ""meleeWeapon"": {},
-                ""effect"": { ""attack"": {
-                    ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""[W] + STR"" } ] }
-                } }
-            }"));
+            var attackAction = new MeleeWeapon
+            {
+                Effect = new AttackRoll
+                {
+                    Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), Build(DamageType.Normal)))),
+                }
+            };
 
             var averageDamage = target.ReduceEffects(attackAction);
             Assert.Equal(4.25, averageDamage);
         }
 
         [Fact]
-        public async Task GetAverageDamageForMeleeTwoAttacks()
+        public void GetAverageDamageForMeleeTwoAttacks()
         {
             using var scope = serviceProvider.CreateScope();
             var target = scope.ServiceProvider.GetRequiredService<EffectsReducer<double, double>>();
-            var actionBuilder = scope.ServiceProvider.GetRequiredService<ActionFactory>();
 
-            var attackAction = await actionBuilder.BuildAsync(Deserialize(@"{
-                ""maxTargets"": 2,
-                ""meleeWeapon"": {},
-                ""effect"": { ""attack"": {
-                    ""hit"": { ""damage"": [ { ""types"": [""normal""], ""amount"": ""[W] + STR"" } ] }
-                } }
-            }"));
+            var attackAction = new MeleeWeapon
+            {
+                TargetCount = 2,
+                Effect = new AttackRoll
+                {
+                    Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), Build(DamageType.Normal)))),
+                }
+            };
 
             var averageDamage = target.ReduceEffects(attackAction);
             Assert.Equal(8.5, averageDamage);
