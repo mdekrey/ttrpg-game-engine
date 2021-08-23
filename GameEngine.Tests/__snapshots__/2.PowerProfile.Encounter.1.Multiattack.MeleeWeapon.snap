@@ -6,7 +6,8 @@ Attacks:
   DamageTypes:
   - Normal
   Target: Melee
-  Modifiers: []
+  Modifiers:
+  - Name: RequiredHitForNextAttack
 - WeaponDice: 3
   Ability: Strength
   DamageTypes:

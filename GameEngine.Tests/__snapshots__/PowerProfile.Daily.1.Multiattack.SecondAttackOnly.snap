@@ -7,6 +7,7 @@ Attacks:
   - Normal
   Target: Melee
   Modifiers:
+  - Name: RequiredHitForNextAttack
   - Abilities:
     - Strength
     Name: Ability Modifier Damage

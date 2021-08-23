@@ -106,10 +106,12 @@ namespace GameEngine.Generator.Modifiers
                         {
                             Modifiers = index switch
                             {
-                                0 => ImmutableList<IAttackModifier>.Empty,
-                                _ when index < Amounts.Count - 1 && RequiresPreviousHit => Build<IAttackModifier>(new SecondaryAttackModifier()),
-                                _ when RequiresPreviousHit => attack.Modifiers.ToImmutableList().Add(new SecondaryAttackModifier()),
-                                _ => attack.Modifiers.ToImmutableList()
+                                0 when RequiresPreviousHit => Build<IAttackModifier>(new MustHitForNextAttackModifier()),
+                                _ when index < Amounts.Count - 1 && RequiresPreviousHit => Build<IAttackModifier>(new SecondaryAttackModifier(), new MustHitForNextAttackModifier()),
+                                _ when RequiresPreviousHit => attack.Modifiers.Add(new SecondaryAttackModifier()).ToImmutableList(),
+
+                                _ when index < Amounts.Count - 1 && !RequiresPreviousHit => ImmutableList<IAttackModifier>.Empty,
+                                _ => attack.Modifiers.ToImmutableList(),
                             },
                             Limits = attack.Limits with
                             {
@@ -138,6 +140,23 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => 0;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
+        }
+
+        public record MustHitForNextAttackModifier() : AttackModifier(MustHitForNextAttackModifier.ModifierName)
+        {
+            public override int GetComplexity() => 0;
+
+            public const string ModifierName = "RequiredHitForNextAttack";
+
+            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
+            public override bool IsMetaModifier() => true;
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+                Enumerable.Empty<IAttackModifier>();
+            public override SerializedEffect Apply(SerializedEffect effect, PowerProfile powerProfile, AttackProfile attackProfile)
+            {
+                // TODO - apply effect
+                return effect;
+            }
         }
 
         public record SecondaryAttackModifier() : AttackModifier(SecondaryAttackModifier.ModifierName)

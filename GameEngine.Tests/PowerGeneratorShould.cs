@@ -78,30 +78,6 @@ namespace GameEngine.Tests
             Snapshot.Match(Serializer.Serialize(powerProfile), $"PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{configName}");
         }
 
-        private static ToolProfile GetToolProfile(string configName)
-        {
-            return profiles[configName];
-        }
-
-        private static readonly ImmutableDictionary<string, ToolProfile> profiles = new Dictionary<string, ToolProfile>
-        {
-            { "MeleeWeapon", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
-            { "SecondAttackOnly", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(
-                    new ModifierChance[] {
-                        new("$..[?(@.Name=='TwoHits')]", 0),
-                        new("$..[?(@.Name=='UpToThreeTargets')]", 0),
-                    }.ToImmutableList(),
-                    ImmutableList<string>.Empty
-                )) },
-            { "RangeWeapon", new(ToolType.Weapon, ToolRange.Range, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
-            { "RangeImplement", new(ToolType.Implement, ToolRange.Range, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Radiant }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
-        }.ToImmutableDictionary();
-
-
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.MultiattackPowerTemplateName, 2)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.MultiattackPowerTemplateName, 3)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName, 751)]
@@ -151,6 +127,29 @@ namespace GameEngine.Tests
 
             Snapshot.Match(Serializer.Serialize(powerProfile));
         }
+
+        private static ToolProfile GetToolProfile(string configName)
+        {
+            return profiles[configName];
+        }
+
+        private static readonly ImmutableDictionary<string, ToolProfile> profiles = new Dictionary<string, ToolProfile>
+        {
+            { "MeleeWeapon", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
+            { "SecondAttackOnly", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(
+                    new ModifierChance[] {
+                        new("$..[?(@.Name=='TwoHits')]", 0),
+                        new("$..[?(@.Name=='UpToThreeTargets')]", 0),
+                    }.ToImmutableList(),
+                    ImmutableList<string>.Empty
+                )) },
+            { "RangeWeapon", new(ToolType.Weapon, ToolRange.Range, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
+            { "RangeImplement", new(ToolType.Implement, ToolRange.Range, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                new[] { DamageType.Radiant }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
+        }.ToImmutableDictionary();
 
         private ClassProfile CreateStrikerProfile() =>
             new ClassProfile(
