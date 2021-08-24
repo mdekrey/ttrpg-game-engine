@@ -30,7 +30,6 @@ namespace GameEngine.Generator
     /// </summary>
     public enum TargetType
     {
-        Personal, // Target starts at self. An area becomes a "close burst"
         Melee, // Target starts adjacent to self. An area becomes a "close blast"
         Range, // Target at a distance. An area becomes an "area"
     }
@@ -133,6 +132,7 @@ namespace GameEngine.Generator
     }
 
     public record PowerProfile(string Template, ToolType Tool, EquatableImmutableList<AttackProfile> Attacks, EquatableImmutableList<IPowerModifier> Modifiers);
+
     public record PowerProfiles(
         EquatableImmutableList<PowerProfile> AtWill1,
         EquatableImmutableList<PowerProfile> Encounter1,

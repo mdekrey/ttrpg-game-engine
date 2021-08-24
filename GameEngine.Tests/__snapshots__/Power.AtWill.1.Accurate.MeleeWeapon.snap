@@ -1,0 +1,27 @@
+﻿- Template: Accurate
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 1
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Target: Melee
+    Modifiers:
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  Modifiers: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  PowerUsage: At-Will
+  PowerKeywords:
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  Target: One creature
+  Attack: Strength vs. AC
+  RulesText:
+  - Label: Hit
+    Text: 1[W]  damage.

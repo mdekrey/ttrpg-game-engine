@@ -297,25 +297,25 @@ namespace GameEngine.Generator
                 _ => throw new ArgumentException("Invalid enum value for toolRange", nameof(toolRange)),
             };
 
-        private static ImmutableList<(string GameDiceExpression, ImmutableList<DamageType> DamageTypes)> ToDamageEffect(ToolType tool, double weaponDice, ImmutableList<DamageType> damageTypes)
+        public static GameDiceExpression ToDamageEffect(ToolType tool, double weaponDice)
         {
             if (tool == ToolType.Weapon)
-                return ImmutableList<(string GameDiceExpression, ImmutableList<DamageType> DamageTypes)>.Empty.Add(new ((GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice }).ToString(), Build(DamageType.Normal)));
+                return GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice };
             var averageDamage = weaponDice * 5.5;
             var dieType = (
                 from entry in new[]
                 {
-                    (type: "d10", results: GetDiceCount(averageDamage, 5.5)),
-                    (type: "d8", results: GetDiceCount(averageDamage, 4.5)),
-                    (type: "d6", results: GetDiceCount(averageDamage, 3.5)),
-                    (type: "d4", results: GetDiceCount(averageDamage, 2.5)),
+                    (sides: 10, results: GetDiceCount(averageDamage, 5.5)),
+                    (sides: 8, results: GetDiceCount(averageDamage, 4.5)),
+                    (sides: 6, results: GetDiceCount(averageDamage, 3.5)),
+                    (sides: 4, results: GetDiceCount(averageDamage, 2.5)),
                 }
                 orderby entry.results.remainder ascending
-                select (type: entry.type, count: entry.results.dice, remainder: entry.results.remainder)
+                select (sides: entry.sides, count: entry.results.dice, remainder: entry.results.remainder)
             ).ToArray();
-            var (type, count, remainder) = dieType.First();
+            var (sides, count, remainder) = dieType.First();
 
-            return Build<(string GameDiceExpression, ImmutableList<DamageType> DamageTypes)>(($"{count}{type}", damageTypes));
+            return new Dice.DieCode(count, sides);
 
             (int dice, double remainder) GetDiceCount(double averageDamage, double damagePerDie)
             {

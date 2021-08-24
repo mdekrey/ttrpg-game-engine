@@ -1,0 +1,23 @@
+﻿- Template: Multiattack
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 1
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Target: Melee
+    Modifiers:
+    - Name: TwoHits
+  Modifiers: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  PowerUsage: At-Will
+  PowerKeywords:
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  Target: One creature
+  Attack: Strength vs. AC
+  RulesText:
+  - Label: Hit
+    Text: 1[W]  damage.
