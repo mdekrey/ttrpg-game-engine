@@ -62,10 +62,30 @@ namespace GameEngine.Generator
         AttackInfo.Target TargetType,
         GameDiceExpression AttackExpression,
         DefenseType Defense,
-        string Hit,
-        string? Miss
+        GameDiceExpression DamageExpression,
+        ImmutableList<DamageType> DamageTypes,
+        ImmutableList<string> HitParts,
+        ImmutableList<string> HitSentences,
+        ImmutableList<string> MissParts
     )
     {
+        public string Hit =>
+            string.Join(" ",
+                new[] {
+                    PowerProfileTextGeneration.OxfordComma(Enumerable.Concat(new[] {
+                        string.Join(" ", new string[]
+                        {
+                            DamageExpression.ToString(),
+                            PowerProfileTextGeneration.OxfordComma(DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),
+                            "damage"
+                        }.Where(s => s is { Length: > 0 }))
+                    }, HitParts).ToArray()).FinishSentence().TransposeParenthesis()
+                }.Concat(HitSentences)
+            );
+
+        public string Miss =>
+            MissParts.Count == 0 ? "" : PowerProfileTextGeneration.OxfordComma(MissParts.ToArray()).FinishSentence().TransposeParenthesis();
+
         public enum Target
         {
             OneCreature,
@@ -122,23 +142,17 @@ namespace GameEngine.Generator
                 TargetType: AttackInfo.Target.OneCreature,
                 AttackExpression: (GameDiceExpression)profile.Ability,
                 Defense: DefenseType.ArmorClass,
-                Hit: string.Join(" ", new string[]
-                {
-                    dice.ToString(),
-                    OxfordComma(profile.DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),
-                    "damage"
-                }.Where(s => s is { Length: > 0 })),
-                Miss: null
+                DamageExpression: dice,
+                DamageTypes: profile.DamageTypes,
+                HitParts: ImmutableList<string>.Empty,
+                HitSentences: ImmutableList<string>.Empty,
+                MissParts: ImmutableList<string>.Empty
             );
             result = (from mod in profile.Modifiers
                      let mutator = mod.GetAttackInfoMutator()
                      orderby mutator.Priority
                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, powerHighLevelInfo, index));
-            return result with
-            {
-                Hit = result.Hit.FinishSentence(),
-                Miss = result.Miss == null ? null : result.Miss.FinishSentence(),
-            };
+            return result;
         }
 
         private static PowerTextBlock AddAttack(this PowerTextBlock power, AttackInfo attack, int index)
@@ -163,7 +177,7 @@ namespace GameEngine.Generator
                     Attack = attack.ToAttackText(),
                     RulesText = power.RulesText.Items
                         .Add(new("Hit", attack.Hit))
-                        .Add(new("Miss", attack.Miss ?? "")),
+                        .Add(new("Miss", attack.Miss)),
                 };
             }
             else
@@ -178,7 +192,7 @@ namespace GameEngine.Generator
                         }))
                         .Add(new($"{Ordinal(index).Capitalize()} Attack", attack.ToAttackText()))
                         .Add(new($"{Ordinal(index).Capitalize()} Hit", attack.Hit))
-                        .Add(new($"{Ordinal(index).Capitalize()} Miss", attack.Miss ?? ""))
+                        .Add(new($"{Ordinal(index).Capitalize()} Miss", attack.Miss))
                 };
             }
         }
@@ -196,10 +210,18 @@ namespace GameEngine.Generator
             }
         }
 
-        private static string FinishSentence(this string text)
+        public static string FinishSentence(this string text)
         {
             if (!text.EndsWith(".") && !text.EndsWith(".)"))
-                return text + ".";
+                return (text + ".").TransposeParenthesis();
+            return text;
+        }
+
+        public static string TransposeParenthesis(this string text)
+        {
+            // English is weird, man.
+            if (text.EndsWith(").") || text.EndsWith("),"))
+                return text[0..^2] + text[^1] + ")";
             return text;
         }
 

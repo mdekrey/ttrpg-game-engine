@@ -22,16 +22,16 @@ namespace GameEngine.Generator.Modifiers
                 (Parent: "Unconscious", Children: new[] { "Immobilized", "Dazed", "Slowed", "Weakened", "Blinded" }),
             }.ToImmutableSortedDictionary(e => e.Parent, e => e.Children.ToImmutableList());
 
-        private static readonly ImmutableSortedDictionary<string, double> basicConditions =
+        private static readonly ImmutableSortedDictionary<string, (double cost, string verb, string effect)> basicConditions =
             new[]
             {
-                (Condition: "Slowed", Cost: 0.5),
-                (Condition: "Dazed", Cost: 0.5),
-                (Condition: "Immobilized", Cost: 1),
-                (Condition: "Weakened", Cost: 1),
-                (Condition: "Grants Combat Advantage", Cost: 0.5),
-                (Condition: "Blinded", Cost: 1),
-            }.ToImmutableSortedDictionary(e => e.Condition, e => e.Cost);
+                (Condition: "Slowed", Cost: 0.5, Verb: "is", Effect: "Slowed"),
+                (Condition: "Dazed", Cost: 0.5, Verb: "is", Effect: "Dazed"),
+                (Condition: "Immobilized", Cost: 1, Verb: "is", Effect: "Immobilized"),
+                (Condition: "Weakened", Cost: 1, Verb: "is", Effect: "Weakened"),
+                (Condition: "Grants Combat Advantage", Cost: 0.5, Verb: "grants", Effect: "Combat Advantage"),
+                (Condition: "Blinded", Cost: 1, Verb: "is", Effect: "Blinded"),
+            }.ToImmutableSortedDictionary(e => e.Condition, e => (e.Cost, e.Verb, e.Effect));
         // TODO - add defense penalties
         private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
         {
@@ -96,23 +96,27 @@ namespace GameEngine.Generator.Modifiers
             public override AttackInfoMutator GetAttackInfoMutator() =>
                 new(0, (attack, info, index) => attack with
                 {
-                    // TODO - ongoing/defense penalty/grants combat advantage
-                    Hit = attack.Hit + ", and the target is " + PowerProfileTextGeneration.OxfordComma(Conditions.Select(c => c.Name.ToLower()).ToArray())
-                        + Duration switch 
+                    HitParts = attack.HitParts.Add("the target "
+                        + PowerProfileTextGeneration.OxfordComma((from condition in Conditions
+                                                                  group condition.Effect().ToLower() by condition.Verb() into verbGroup
+                                                                  select verbGroup.Key + " " + PowerProfileTextGeneration.OxfordComma(verbGroup.ToArray())).ToArray())
+                        + Duration switch
                         {
-                            Duration.EndOfUserNextTurn => " until the end of your next turn.",
-                            Duration.SaveEnds => " (save ends.)",
-                            Duration.EndOfEncounter => " until the end of the encounter.",
+                            Duration.EndOfUserNextTurn => " until the end of your next turn",
+                            Duration.SaveEnds => " (save ends)",
+                            Duration.EndOfEncounter => " until the end of the encounter",
                             _ => throw new NotImplementedException(),
-                        },
+                        }),
                 });
         }
 
         public record Condition(string Name)
         {
-            public virtual double Cost() => basicConditions[Name];
+            public virtual double Cost() => basicConditions[Name].cost;
             public virtual IEnumerable<Condition> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 Enumerable.Empty<Condition>();
+            public virtual string Verb() => basicConditions[Name].verb;
+            public virtual string Effect() => basicConditions[Name].effect;
         }
 
         public record OngoingDamage(int Amount) : Condition("Ongoing")
@@ -124,6 +128,8 @@ namespace GameEngine.Generator.Modifiers
                 if (Amount < 15)
                     yield return new OngoingDamage(Amount + 5);
             }
+            public override string Verb() => "takes";
+            public override string Effect() => $"ongoing {Amount}";
         }
 
         public record DefensePenalty(DefenseType? Defense) : Condition("Defense Penalty")
@@ -135,6 +141,8 @@ namespace GameEngine.Generator.Modifiers
                 if (Defense != null)
                     yield return new DefensePenalty((DefenseType?)null);
             }
+            public override string Verb() => "takes";
+            public override string Effect() => $"a -2 penalty to {Defense?.ToText() switch { string s => "its " + s, _ => "all defenses" }}";
         }
     }
 }

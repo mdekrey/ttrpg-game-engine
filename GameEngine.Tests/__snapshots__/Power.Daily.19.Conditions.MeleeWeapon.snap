@@ -1,7 +1,7 @@
 ﻿- Template: Conditions
   Tool: Weapon
   Attacks:
-  - WeaponDice: 1
+  - WeaponDice: 2.166666666666667
     Ability: Strength
     DamageTypes:
     - Normal
@@ -10,14 +10,21 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Size: 3
+      Type: Burst
+      Name: Multiple
     - Duration: EndOfUserNextTurn
       Conditions:
+      - Name: Blinded
       - Name: Dazed
+      - Name: Immobilized
       Name: Condition
   Modifiers: []
 - Name: Unknown
-  TypeInfo: Weapon Attack 1
-  PowerUsage: At-Will
+  TypeInfo: Weapon Attack 19
+  PowerUsage: Daily
   PowerKeywords:
   - Weapon
   ActionType: Standard Action
@@ -26,4 +33,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] damage and the target is dazed until the end of your next turn.
+    Text: 2[W] damage and the target is blinded, dazed, and immobilized until the end of your next turn.
