@@ -1,0 +1,32 @@
+﻿- Template: Close burst
+  Tool: Weapon
+  Attacks:
+  - WeaponDice: 1
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Target: Melee
+    Modifiers:
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - Size: 3
+      Type: Burst
+      Name: Multiple
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Amount: +4
+      Name: To-Hit Bonus to Current Attack
+  Modifiers: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  PowerUsage: Daily
+  PowerKeywords:
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee weapon
+  Target: One creature
+  Attack: STR + 4 vs. Fortitude
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage.

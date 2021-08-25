@@ -39,6 +39,9 @@ namespace GameEngine.Generator.Modifiers
                 else if (Amount.DieCodes.Modifier == 0)
                     yield return this with { Amount = 0 };
             }
+
+            public override AttackInfoMutator GetAttackInfoMutator() =>
+                new(0, (attack, info, index) => attack with { AttackExpression = attack.AttackExpression + Amount });
         }
     }
 

@@ -102,6 +102,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBurstPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.CloseBurstPowerTemplateName)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName)]
         [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName)]
         [Theory]
