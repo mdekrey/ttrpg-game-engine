@@ -35,6 +35,9 @@ namespace GameEngine.Generator.Modifiers
                 NonArmorDefenseModifier BuildModifier(DefenseType defense) =>
                     new(defense);
             }
+
+            public override AttackInfoMutator GetAttackInfoMutator() =>
+                new(0, (attack, info, index) => attack with { Defense = Defense });
         }
     }
 

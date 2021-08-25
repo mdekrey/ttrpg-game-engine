@@ -40,6 +40,6 @@
   - Label: Hit
     Text: 1[W] + STR damage.
   - Label: Secondary Attack
-    Text: STR vs. AC
+    Text: STR vs. Fortitude
   - Label: Secondary Hit
     Text: 2[W] + STR damage.

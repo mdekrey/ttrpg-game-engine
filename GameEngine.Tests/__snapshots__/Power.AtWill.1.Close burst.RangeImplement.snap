@@ -24,7 +24,7 @@
   ActionType: Standard Action
   AttackType: Ranged 10
   Target: One creature
-  Attack: STR vs. AC
+  Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
     Text: d6 + STR radiant damage.

@@ -21,7 +21,7 @@
   ActionType: Standard Action
   AttackType: Melee weapon
   Target: One creature
-  Attack: STR vs. AC
+  Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage.

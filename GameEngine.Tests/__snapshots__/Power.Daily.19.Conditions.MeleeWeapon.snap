@@ -30,7 +30,7 @@
   ActionType: Standard Action
   AttackType: Melee weapon
   Target: One creature
-  Attack: STR vs. AC
+  Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
     Text: 2[W] + STR damage and the target is blinded, dazed, and immobilized until the end of your next turn.
