@@ -76,11 +76,24 @@ namespace GameEngine.Generator
         Finalize,
     }
 
+    public record PowerTextMutator(int Priority, PowerTextMutator.PowerTextMutatorDelegate Apply)
+    {
+        public static readonly PowerTextMutator Empty = new(0, (text, info) => text);
+        public delegate PowerTextBlock PowerTextMutatorDelegate(PowerTextBlock textBlock, PowerHighLevelInfo powerInfo);
+    }
+    
     public interface IPowerModifier : IModifier
     {
         PowerCost GetCost(PowerProfileBuilder builder);
         IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder);
+        PowerTextMutator GetTextMutator();
+    }
+
+    public record AttackInfoMutator(int Priority, AttackInfoMutator.AttackInfoMutatorDelegate Apply)
+    {
+        public static readonly AttackInfoMutator Empty = new(0, (attack, info, index) => attack);
+        public delegate AttackInfo AttackInfoMutatorDelegate(AttackInfo textBlock, PowerHighLevelInfo powerInfo, int index);
     }
 
     public interface IAttackModifier : IModifier
@@ -88,6 +101,7 @@ namespace GameEngine.Generator
         PowerCost GetCost(AttackProfileBuilder builder);
         IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         double ApplyEffectiveWeaponDice(double weaponDice);
+        AttackInfoMutator GetAttackInfoMutator();
     }
 
     public abstract record PowerModifier(string Name) : IPowerModifier
@@ -97,6 +111,8 @@ namespace GameEngine.Generator
         public virtual bool IsMetaModifier() => false;
         public abstract IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
+
+        public virtual PowerTextMutator GetTextMutator() => PowerTextMutator.Empty;
     }
 
     public abstract record AttackModifier(string Name) : IAttackModifier
@@ -106,6 +122,8 @@ namespace GameEngine.Generator
         public virtual bool IsMetaModifier() => false;
         public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
+
+        public virtual AttackInfoMutator GetAttackInfoMutator() => AttackInfoMutator.Empty;
     }
 
     public abstract record AttackAndPowerModifier(string Name) : IAttackModifier, IPowerModifier
@@ -125,6 +143,10 @@ namespace GameEngine.Generator
 
         public virtual PowerCost GetCost(PowerProfileBuilder builder) => GetCost();
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
+
+        // TODO - make these abstract
+        public virtual PowerTextMutator GetTextMutator() => PowerTextMutator.Empty;
+        public virtual AttackInfoMutator GetAttackInfoMutator() => AttackInfoMutator.Empty;
     }
 
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<IAttackModifier> Modifiers)

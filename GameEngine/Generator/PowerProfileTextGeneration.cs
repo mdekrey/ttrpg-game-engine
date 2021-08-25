@@ -102,7 +102,10 @@ namespace GameEngine.Generator
 
             var attacks = profile.Attacks.Select((attack, index) => attack.ToAttackInfo(powerHighLevelInfo, index + 1)).ToArray();
             result = result.AddAttack(attacks[0], 1);
-            result = profile.Modifiers.Aggregate(result, (current, modifier) => current); // TODO - apply the modifier
+            result = (from mod in profile.Modifiers
+                     let mutator = mod.GetTextMutator()
+                     orderby mutator.Priority
+                     select mutator.Apply).Aggregate(result, (current, apply) => apply(current, powerHighLevelInfo));
             result = attacks.Select((attack, index) => (attack, index)).Skip(1).Aggregate(result, (powerBlock, attackBlock) => powerBlock.AddAttack(attackBlock.attack, attackBlock.index + 1));
 
             return result with
@@ -115,7 +118,7 @@ namespace GameEngine.Generator
         {
             var dice = PowerProfileExtensions.ToDamageEffect(powerHighLevelInfo.ToolProfile.Type, profile.WeaponDice);
             var result = new AttackInfo(
-                AttackType: AttackType.From(powerHighLevelInfo.ToolProfile), // TODO
+                AttackType: AttackType.From(powerHighLevelInfo.ToolProfile),
                 TargetType: AttackInfo.Target.OneCreature,
                 AttackExpression: (GameDiceExpression)profile.Ability,
                 Defense: DefenseType.ArmorClass,
@@ -127,7 +130,10 @@ namespace GameEngine.Generator
                 }.Where(s => s is { Length: > 0 })),
                 Miss: null
             );
-            result = profile.Modifiers.Aggregate(result, (current, modifier) => current); // TODO - attack modifiers
+            result = (from mod in profile.Modifiers
+                     let mutator = mod.GetAttackInfoMutator()
+                     orderby mutator.Priority
+                     select mutator.Apply).Aggregate(result, (current, apply) => apply(current, powerHighLevelInfo, index));
             return result with
             {
                 Hit = result.Hit.FinishSentence(),
@@ -192,7 +198,7 @@ namespace GameEngine.Generator
 
         private static string FinishSentence(this string text)
         {
-            if (!text.EndsWith("."))
+            if (!text.EndsWith(".") && !text.EndsWith(".)"))
                 return text + ".";
             return text;
         }

@@ -92,6 +92,20 @@ namespace GameEngine.Generator.Modifiers
                 conditions.Select(c => c.Name).SelectMany(c => subsume.ContainsKey(c)
                                     ? subsume[c]
                                     : Enumerable.Empty<string>()).ToHashSet();
+
+            public override AttackInfoMutator GetAttackInfoMutator() =>
+                new(0, (attack, info, index) => attack with
+                {
+                    // TODO - ongoing/defense penalty/grants combat advantage
+                    Hit = attack.Hit + ", and the target is " + PowerProfileTextGeneration.OxfordComma(Conditions.Select(c => c.Name.ToLower()).ToArray())
+                        + Duration switch 
+                        {
+                            Duration.EndOfUserNextTurn => " until the end of your next turn.",
+                            Duration.SaveEnds => " (save ends.)",
+                            Duration.EndOfEncounter => " until the end of the encounter.",
+                            _ => throw new NotImplementedException(),
+                        },
+                });
         }
 
         public record Condition(string Name)
