@@ -22,9 +22,9 @@
   PowerKeywords:
   - Implement
   ActionType: Standard Action
-  AttackType: Range
+  AttackType: Ranged 10
   Target: One creature
-  Attack: Strength vs. AC
+  Attack: STR vs. AC
   RulesText:
   - Label: Hit
     Text: d6 radiant damage.

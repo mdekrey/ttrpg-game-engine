@@ -13,14 +13,6 @@ namespace GameEngine.Rules
         EquatableImmutableList<RulesText> RulesText
     );
 
-    public record AttackTextBlock(
-        string Type,
-        string Target,
-        string Attack,
-        string Hit,
-        string? Miss
-    );
-
     public record RulesText(
         string Label,
         string Text

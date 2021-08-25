@@ -9,6 +9,77 @@ using System.Text;
 
 namespace GameEngine.Generator
 {
+    public abstract record AttackType()
+    {
+        public abstract string TypeText();
+        public abstract string AdditionalTargetText();
+
+        internal static AttackType From(ToolProfile toolProfile)
+        {
+            return toolProfile switch
+            {
+                { Type: ToolType.Weapon, Range: ToolRange.Melee } => new MeleeWeaponAttackType(),
+                { Type: ToolType.Implement, Range: ToolRange.Melee } => new MeleeTouchAttackType(),
+                { Type: ToolType.Weapon, Range: ToolRange.Range } => new RangedWeaponAttackType(),
+                { Type: ToolType.Implement, Range: ToolRange.Range } => new RangedAttackType(10),
+                _ => throw new NotSupportedException(),
+            };
+        }
+    }
+    public record MeleeWeaponAttackType() : AttackType()
+    {
+        public override string TypeText() => "Melee weapon";
+        public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
+    }
+    public record MeleeTouchAttackType() : AttackType()
+    {
+        public override string TypeText() => "Melee touch";
+        public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
+    }
+    public record RangedWeaponAttackType() : AttackType()
+    {
+        public override string TypeText() => $"Ranged weapon";
+        public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
+    }
+    public record RangedAttackType(int Range) : AttackType()
+    {
+        public override string TypeText() => $"Ranged {Range}";
+        public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
+    }
+    public record RangedSightAttackType(int Range) : AttackType()
+    {
+        public override string TypeText() => $"Ranged sight";
+        public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
+    }
+    // TODO - close burst
+    // TODO - close blast
+    // TODO - area burst
+    // TODO - area wall
+    // TODO - personal
+
+    public record AttackInfo(
+        AttackType AttackType,
+        AttackInfo.Target TargetType,
+        GameDiceExpression AttackExpression,
+        DefenseType Defense,
+        string Hit,
+        string? Miss
+    )
+    {
+        public enum Target
+        {
+            OneCreature,
+            EachEnemy,
+            YouOrOneAlly,
+            EachAlly,
+            OneOrTwoCreatures,
+            OneTwoOrThreeCreatures,
+        }
+
+        internal string ToAttackText() => $"{this.AttackExpression} vs. {this.Defense.ToText()}";
+    }
+
+
     public static class PowerProfileTextGeneration
     {
         public static PowerTextBlock ToPowerTextBlock(this PowerProfile profile, PowerHighLevelInfo powerHighLevelInfo)
@@ -29,25 +100,34 @@ namespace GameEngine.Generator
                 RulesText: ImmutableList<RulesText>.Empty
             );
 
-            var attacks = profile.Attacks.Select((attack, index) => attack.ToAttackTextBlock(powerHighLevelInfo, index + 1)).ToArray();
+            var attacks = profile.Attacks.Select((attack, index) => attack.ToAttackInfo(powerHighLevelInfo, index + 1)).ToArray();
             result = result.AddAttack(attacks[0], 1);
-            // TODO - add power modifiers
+            result = profile.Modifiers.Aggregate(result, (current, modifier) => current); // TODO - apply the modifier
             result = attacks.Select((attack, index) => (attack, index)).Skip(1).Aggregate(result, (powerBlock, attackBlock) => powerBlock.AddAttack(attackBlock.attack, attackBlock.index + 1));
 
-            return result;
+            return result with
+            {
+                RulesText = result.RulesText.Items.Where(rule => rule.Text is { Length: > 0 }).ToImmutableList(),
+            };
         }
 
-        public static AttackTextBlock ToAttackTextBlock(this AttackProfile profile, PowerHighLevelInfo powerHighLevelInfo, int index)
+        public static AttackInfo ToAttackInfo(this AttackProfile profile, PowerHighLevelInfo powerHighLevelInfo, int index)
         {
             var dice = PowerProfileExtensions.ToDamageEffect(powerHighLevelInfo.ToolProfile.Type, profile.WeaponDice);
-            var result = new AttackTextBlock(
-                Type: profile.Target.ToText(),
-                Target: "One creature", // TODO - different target line for non-primary attacks
-                Attack: $"{profile.Ability:g} vs. AC",
-                Hit: $"{dice} {OxfordComma(profile.DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray())} damage",
+            var result = new AttackInfo(
+                AttackType: AttackType.From(powerHighLevelInfo.ToolProfile), // TODO
+                TargetType: AttackInfo.Target.OneCreature,
+                AttackExpression: (GameDiceExpression)profile.Ability,
+                Defense: DefenseType.ArmorClass,
+                Hit: string.Join(" ", new string[]
+                {
+                    dice.ToString(),
+                    OxfordComma(profile.DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),
+                    "damage"
+                }.Where(s => s is { Length: > 0 })),
                 Miss: null
             );
-            // TODO - attack modifiers
+            result = profile.Modifiers.Aggregate(result, (current, modifier) => current); // TODO - attack modifiers
             return result with
             {
                 Hit = result.Hit.FinishSentence(),
@@ -55,7 +135,7 @@ namespace GameEngine.Generator
             };
         }
 
-        private static PowerTextBlock AddAttack(this PowerTextBlock power, AttackTextBlock attack, int index)
+        private static PowerTextBlock AddAttack(this PowerTextBlock power, AttackInfo attack, int index)
         {
             if (power.AttackType == null)
             {
@@ -63,22 +143,36 @@ namespace GameEngine.Generator
                     throw new ArgumentException();
                 return power with
                 {
-                    AttackType = attack.Type,
-                    Target = attack.Target,
-                    Attack = attack.Attack,
+                    AttackType = attack.AttackType.TypeText(),
+                    Target = attack.TargetType switch
+                    {
+                        AttackInfo.Target.OneCreature => "One creature",
+                        AttackInfo.Target.EachEnemy => "Each enemy in range",
+                        AttackInfo.Target.YouOrOneAlly => "You or one ally",
+                        AttackInfo.Target.EachAlly => "Each ally in range",
+                        AttackInfo.Target.OneOrTwoCreatures => "One or two creatures",
+                        AttackInfo.Target.OneTwoOrThreeCreatures => "One, two, or three creatures",
+                        _ => throw new NotImplementedException(),
+                    },
+                    Attack = attack.ToAttackText(),
                     RulesText = power.RulesText.Items
                         .Add(new("Hit", attack.Hit))
-                        .AddIf(attack.Miss != null, new("Miss", attack.Miss!)),
+                        .Add(new("Miss", attack.Miss ?? "")),
                 };
             }
             else
             {
+                // TODO: add "Make a secondary attack" message
                 return power with
                 {
                     RulesText = power.RulesText.Items
-                        .Add(new($"{Ordinal(index).Capitalize()} Target", attack.Target))
+                        .Add(new($"{Ordinal(index).Capitalize()} Target", attack.TargetType switch
+                        {
+                            _ => "", // TODO
+                        }))
+                        .Add(new($"{Ordinal(index).Capitalize()} Attack", attack.ToAttackText()))
                         .Add(new($"{Ordinal(index).Capitalize()} Hit", attack.Hit))
-                        .AddIf(attack.Miss != null, new($"{Ordinal(index).Capitalize()} Miss", attack.Miss!))
+                        .Add(new($"{Ordinal(index).Capitalize()} Miss", attack.Miss ?? ""))
                 };
             }
         }
@@ -125,9 +219,6 @@ namespace GameEngine.Generator
 
         public static string Capitalize(this string s) =>
             s[0..1].ToUpper() + s[1..^0];
-
-        private static ImmutableList<T> AddIf<T>(this ImmutableList<T> list, bool conditional, T item) =>
-            conditional ? list.Add(item) : list;
 
         public static string ToText(this Enum enumValue)
         {

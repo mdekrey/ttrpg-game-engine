@@ -21,9 +21,9 @@
   PowerKeywords:
   - Weapon
   ActionType: Standard Action
-  AttackType: Melee
+  AttackType: Melee weapon
   Target: One creature
-  Attack: Strength vs. AC
+  Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W]  damage.
+    Text: 1[W] damage.

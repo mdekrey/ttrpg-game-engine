@@ -1,4 +1,4 @@
-﻿- Template: Accurate
+﻿- Template: Multiattack
   Tool: Weapon
   Attacks:
   - WeaponDice: 1
@@ -7,15 +7,29 @@
     - Normal
     Target: Melee
     Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+  - WeaponDice: 2
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Target: Melee
+    Modifiers:
+    - Name: RequiresPreviousHit
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
+    - Size: 5
+      Type: Burst
+      Name: Multiple
   Modifiers: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
-  PowerUsage: At-Will
+  PowerUsage: Daily
   PowerKeywords:
   - Weapon
   ActionType: Standard Action
@@ -25,3 +39,7 @@
   RulesText:
   - Label: Hit
     Text: 1[W] damage.
+  - Label: Secondary Attack
+    Text: STR vs. AC
+  - Label: Secondary Hit
+    Text: 2[W] damage.
