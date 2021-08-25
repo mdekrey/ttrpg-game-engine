@@ -24,4 +24,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] damage.
+    Text: 1[W] + STR damage.

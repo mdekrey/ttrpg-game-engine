@@ -27,4 +27,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: d6 radiant damage.
+    Text: d6 + STR radiant damage.

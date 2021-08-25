@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
-using static GameEngine.Generator.ImmutableConstructorExtension;
-using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -46,6 +44,9 @@ namespace GameEngine.Generator.Modifiers
                     return attack.PowerInfo.ToolProfile.Type != ToolType.Weapon || dice >= 1.5;
                 }
             }
+
+            public override AttackInfoMutator GetAttackInfoMutator() =>
+                new(0, (attack, info, index) => attack with { DamageExpression = Abilities.Aggregate(attack.DamageExpression, (prev, next) => prev + next) });
         }
     }
 

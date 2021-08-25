@@ -33,4 +33,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 2[W] damage and the target is blinded, dazed, and immobilized until the end of your next turn.
+    Text: 2[W] + STR damage and the target is blinded, dazed, and immobilized until the end of your next turn.
