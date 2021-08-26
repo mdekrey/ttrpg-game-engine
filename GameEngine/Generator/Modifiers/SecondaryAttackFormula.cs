@@ -140,6 +140,12 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsMetaModifier() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
+
+            public override AttackInfoMutator GetAttackInfoMutator() =>
+                new(int.MaxValue, (attack, info, index) => attack with
+                {
+                    HitSentences = attack.HitSentences.Add($"Make a {PowerProfileTextGeneration.Ordinal(index + 1)} attack."), // TODO - "against the same target"?
+                });
         }
 
         public record SecondaryAttackModifier() : AttackModifier(SecondaryAttackModifier.ModifierName)

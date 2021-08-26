@@ -8,10 +8,7 @@
     Target: Melee
     Modifiers:
     - Name: RequiredHitForNextAttack
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-  - WeaponDice: 2
+  - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Normal
@@ -21,15 +18,12 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Defense: Fortitude
+    - Defense: Reflex
       Name: Non-Armor Defense
-    - Size: 5
-      Type: Burst
-      Name: Multiple
   Modifiers: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
-  PowerUsage: Daily
+  PowerUsage: Encounter
   PowerKeywords:
   - Weapon
   ActionType: Standard Action
@@ -38,8 +32,8 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. Make a secondary attack.
+    Text: 1[W] damage. Make a secondary attack.
   - Label: Secondary Attack
-    Text: STR vs. Fortitude
+    Text: STR vs. Reflex
   - Label: Secondary Hit
-    Text: 2[W] + STR damage.
+    Text: 3[W] + STR damage.

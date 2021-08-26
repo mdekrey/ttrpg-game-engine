@@ -97,18 +97,19 @@ namespace GameEngine.Tests
             Snapshot.Match(Serializer.Serialize(powerProfile), $"{seed}.PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{configName}");
         }
 
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBurstPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.CloseBurstPowerTemplateName)]
-        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.MultiattackPowerTemplateName, 2)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName, null)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBurstPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.CloseBurstPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName, null)]
+        [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName, null)]
         [Theory]
-        public void CreateGeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate)
+        public void CreateGeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
         {
-            var target = CreateTarget((min, max) => max - 1);
+            var target = CreateTarget(seed is int seedValue ? new Random(seedValue).Next : (min, max) => max - 1);
 
             ToolProfile toolProfile = GetToolProfile(configName);
 
@@ -119,7 +120,7 @@ namespace GameEngine.Tests
 
             Snapshot.Match(
                 Serializer.Serialize(new object[] { powerProfile, power }),
-                $"Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{configName}"
+                $"{(seed is int v ? $"{v}." : "")}Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{configName}"
             );
         }
 
