@@ -40,7 +40,7 @@ namespace GameEngine.Generator.Modifiers
                     yield return this with { Amount = 0 };
             }
 
-            public override AttackInfoMutator GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator() =>
                 new(0, (attack, info, index) => attack with { AttackExpression = attack.AttackExpression + Amount });
         }
     }

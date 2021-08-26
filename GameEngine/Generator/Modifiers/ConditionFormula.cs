@@ -93,7 +93,7 @@ namespace GameEngine.Generator.Modifiers
                                     ? subsume[c]
                                     : Enumerable.Empty<string>()).ToHashSet();
 
-            public override AttackInfoMutator GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator() =>
                 new(0, (attack, info, index) => attack with
                 {
                     HitParts = attack.HitParts.Add("the target "

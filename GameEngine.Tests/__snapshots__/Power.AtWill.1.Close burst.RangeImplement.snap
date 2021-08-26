@@ -22,8 +22,8 @@
   PowerKeywords:
   - Implement
   ActionType: Standard Action
-  AttackType: Ranged 10
-  Target: One creature
+  AttackType: Close burst 1
+  Target: Each enemy in range
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit

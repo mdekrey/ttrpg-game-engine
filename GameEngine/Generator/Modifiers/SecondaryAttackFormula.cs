@@ -141,10 +141,10 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
 
-            public override AttackInfoMutator GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator() =>
                 new(int.MaxValue, (attack, info, index) => attack with
                 {
-                    HitSentences = attack.HitSentences.Add($"Make a {PowerProfileTextGeneration.Ordinal(index + 1)} attack."), // TODO - "against the same target"?
+                    HitSentences = attack.HitSentences.Add($"Make a {PowerProfileTextGeneration.Ordinal(index + 1)} attack."),
                 });
         }
 
@@ -158,6 +158,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsMetaModifier() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
+            public override AttackInfoMutator? GetAttackInfoMutator() => null;
         }
 
         // Two Identical attacks
@@ -171,6 +172,12 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
             public override double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice * 2;
+            public override AttackInfoMutator? GetAttackInfoMutator() =>
+                new(0, (attack, info, index) => attack with
+                {
+                    TargetType = AttackInfo.Target.OneOrTwoCreatures,
+                    AttackNotes = ", two attacks"
+                });
         }
 
         // Identical attacks against up to 3 targets.
@@ -182,6 +189,12 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsMetaModifier() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();
+            public override AttackInfoMutator? GetAttackInfoMutator() =>
+                new(0, (attack, info, index) => attack with
+                {
+                    TargetType = AttackInfo.Target.OneTwoOrThreeCreatures,
+                    AttackNotes = ", one attack per target"
+                });
         }
     }
 }

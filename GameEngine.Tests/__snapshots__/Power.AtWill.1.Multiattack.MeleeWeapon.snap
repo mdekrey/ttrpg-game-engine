@@ -16,8 +16,8 @@
   - Weapon
   ActionType: Standard Action
   AttackType: Melee weapon
-  Target: One creature
-  Attack: STR vs. AC
+  Target: One or two creatures
+  Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
     Text: 1[W] damage.

@@ -45,7 +45,7 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            public override AttackInfoMutator GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator() =>
                 new(0, (attack, info, index) => attack with { DamageExpression = Abilities.Aggregate(attack.DamageExpression, (prev, next) => prev + next) });
         }
     }

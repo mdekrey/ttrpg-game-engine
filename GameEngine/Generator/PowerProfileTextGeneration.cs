@@ -46,21 +46,45 @@ namespace GameEngine.Generator
         public override string TypeText() => $"Ranged {Range}";
         public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
     }
-    public record RangedSightAttackType(int Range) : AttackType()
+    public record RangedSightAttackType() : AttackType()
     {
         public override string TypeText() => $"Ranged sight";
         public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
     }
-    // TODO - close burst
-    // TODO - close blast
-    // TODO - area burst
-    // TODO - area wall
+    public record CloseBurst(int Range) : AttackType()
+    {
+        public override string TypeText() => $"Close burst {Range}";
+        public override string AdditionalTargetText() => Range switch
+        {
+            1 => "All creatures adjacent to the primary target",
+            _ => $"All creatures within {Range} of the primary target"
+        }; // TODO - all enemies instead of "creatures"?
+    }
+    public record CloseBlast(int Range) : AttackType()
+    {
+        public override string TypeText() => $"Close blast {Range}";
+        public override string AdditionalTargetText() => Range switch
+        {
+            1 => "All creatures adjacent to the primary target",
+            _ => $"All creatures within {Range} of the primary target"
+        }; // TODO - all enemies instead of "creatures"?
+    }
+    public record AreaBurst(int Size, int Range) : AttackType()
+    {
+        public override string TypeText() => $"Area burst {Size} within {Range}";
+        public override string AdditionalTargetText() => Size switch
+        {
+            1 => "All creatures adjacent to the primary target",
+            _ => $"All creatures within {Size} of the primary target"
+        }; // TODO - all enemies instead of "creatures"?
+    }
     // TODO - personal
 
     public record AttackInfo(
         AttackType AttackType,
         AttackInfo.Target TargetType,
         GameDiceExpression AttackExpression,
+        string? AttackNotes,
         DefenseType Defense,
         GameDiceExpression DamageExpression,
         ImmutableList<DamageType> DamageTypes,
@@ -96,7 +120,8 @@ namespace GameEngine.Generator
             OneTwoOrThreeCreatures,
         }
 
-        internal string ToAttackText() => $"{this.AttackExpression} vs. {this.Defense.ToText()}";
+        internal string ToAttackText() => $"{this.AttackExpression} vs. {this.Defense.ToText()}"
+            + AttackNotes ?? "";
     }
 
 
@@ -124,7 +149,8 @@ namespace GameEngine.Generator
             result = result.AddAttack(attacks[0], 1);
             result = (from mod in profile.Modifiers
                      let mutator = mod.GetTextMutator()
-                     orderby mutator.Priority
+                      where mutator != null
+                      orderby mutator.Priority
                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, powerHighLevelInfo));
             result = attacks.Select((attack, index) => (attack, index)).Skip(1).Aggregate(result, (powerBlock, attackBlock) => powerBlock.AddAttack(attackBlock.attack, attackBlock.index + 1));
 
@@ -141,6 +167,7 @@ namespace GameEngine.Generator
                 AttackType: AttackType.From(powerHighLevelInfo.ToolProfile),
                 TargetType: AttackInfo.Target.OneCreature,
                 AttackExpression: (GameDiceExpression)profile.Ability,
+                AttackNotes: null,
                 Defense: DefenseType.ArmorClass,
                 DamageExpression: dice,
                 DamageTypes: profile.DamageTypes,
@@ -149,9 +176,10 @@ namespace GameEngine.Generator
                 MissParts: ImmutableList<string>.Empty
             );
             result = (from mod in profile.Modifiers
-                     let mutator = mod.GetAttackInfoMutator()
-                     orderby mutator.Priority
-                     select mutator.Apply).Aggregate(result, (current, apply) => apply(current, powerHighLevelInfo, index));
+                      let mutator = mod.GetAttackInfoMutator()
+                      where mutator != null
+                      orderby mutator.Priority
+                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, powerHighLevelInfo, index));
             return result;
         }
 
@@ -166,6 +194,7 @@ namespace GameEngine.Generator
                     AttackType = attack.AttackType.TypeText(),
                     Target = attack.TargetType switch
                     {
+                        // TODO - this should be dependent on the attack type AND target type - "each enemy in range" doesn't make sense for Area Burst attacks.
                         AttackInfo.Target.OneCreature => "One creature",
                         AttackInfo.Target.EachEnemy => "Each enemy in range",
                         AttackInfo.Target.YouOrOneAlly => "You or one ally",

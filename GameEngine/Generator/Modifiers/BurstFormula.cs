@@ -17,6 +17,7 @@ namespace GameEngine.Generator.Modifiers
             return new MultipleAttackModifier();
         }
 
+        // TODO - walls
         public enum BurstType
         {
             Burst,
@@ -52,6 +53,18 @@ namespace GameEngine.Generator.Modifiers
                     this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) }
                 };
 
+            public override AttackInfoMutator? GetAttackInfoMutator() =>
+                new(0, (attack, info, index) => attack with
+                {
+                    TargetType = AttackInfo.Target.EachEnemy,
+                    AttackType = Type switch
+                    {
+                        BurstType.Blast => new CloseBlast(Size),
+                        BurstType.Area => new AreaBurst(Size / 2, Size / 2 * 10),
+                        BurstType.Burst => new CloseBurst(Size / 2),
+                        _ => throw new NotImplementedException(),
+                    }
+                });
         }
     }
 }

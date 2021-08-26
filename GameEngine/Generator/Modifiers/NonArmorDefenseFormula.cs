@@ -36,7 +36,7 @@ namespace GameEngine.Generator.Modifiers
                     new(defense);
             }
 
-            public override AttackInfoMutator GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator() =>
                 new(0, (attack, info, index) => attack with { Defense = Defense });
         }
     }

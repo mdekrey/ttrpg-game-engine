@@ -28,8 +28,8 @@
   PowerKeywords:
   - Weapon
   ActionType: Standard Action
-  AttackType: Melee weapon
-  Target: One creature
+  AttackType: Close burst 1
+  Target: Each enemy in range
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit

@@ -87,7 +87,7 @@ namespace GameEngine.Generator
         PowerCost GetCost(PowerProfileBuilder builder);
         IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder);
-        PowerTextMutator GetTextMutator();
+        PowerTextMutator? GetTextMutator();
     }
 
     public record AttackInfoMutator(int Priority, AttackInfoMutator.AttackInfoMutatorDelegate Apply)
@@ -101,7 +101,7 @@ namespace GameEngine.Generator
         PowerCost GetCost(AttackProfileBuilder builder);
         IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         double ApplyEffectiveWeaponDice(double weaponDice);
-        AttackInfoMutator GetAttackInfoMutator();
+        AttackInfoMutator? GetAttackInfoMutator();
     }
 
     public abstract record PowerModifier(string Name) : IPowerModifier
@@ -112,7 +112,7 @@ namespace GameEngine.Generator
         public abstract IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
 
-        public virtual PowerTextMutator GetTextMutator() => PowerTextMutator.Empty;
+        public virtual PowerTextMutator? GetTextMutator() => PowerTextMutator.Empty;
     }
 
     public abstract record AttackModifier(string Name) : IAttackModifier
@@ -123,7 +123,7 @@ namespace GameEngine.Generator
         public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
-        public virtual AttackInfoMutator GetAttackInfoMutator() => AttackInfoMutator.Empty;
+        public virtual AttackInfoMutator? GetAttackInfoMutator() => throw new NotImplementedException();
     }
 
     public abstract record AttackAndPowerModifier(string Name) : IAttackModifier, IPowerModifier
@@ -146,7 +146,7 @@ namespace GameEngine.Generator
 
         // TODO - make these abstract
         public virtual PowerTextMutator GetTextMutator() => PowerTextMutator.Empty;
-        public virtual AttackInfoMutator GetAttackInfoMutator() => AttackInfoMutator.Empty;
+        public virtual AttackInfoMutator? GetAttackInfoMutator() => AttackInfoMutator.Empty;
     }
 
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<IAttackModifier> Modifiers)
