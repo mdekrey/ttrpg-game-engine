@@ -241,7 +241,6 @@ namespace GameEngine.Generator
                     info.ToolProfile.PreferredDamageTypes.Where(d => d != DamageType.Normal || info.ToolProfile.Type == ToolType.Weapon)
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                 )),
-                info.ToolProfile.Range.ToTargetType(),
                 ImmutableList<IAttackModifier>.Empty,
                 info
             );
@@ -287,14 +286,6 @@ namespace GameEngine.Generator
                 ToolType.Implement => "Implement",
                 ToolType.Weapon => "Weapon",
                 _ => throw new ArgumentException("Invalid enum value for tool", nameof(tool)),
-            };
-
-        public static TargetType ToTargetType(this ToolRange toolRange) =>
-            toolRange switch
-            {
-                ToolRange.Melee => TargetType.Melee,
-                ToolRange.Range => TargetType.Range,
-                _ => throw new ArgumentException("Invalid enum value for toolRange", nameof(toolRange)),
             };
 
         public static GameDiceExpression ToDamageEffect(ToolType tool, double weaponDice)

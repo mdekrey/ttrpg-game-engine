@@ -1,11 +1,13 @@
 ﻿- Template: Skirmish
+  Level: 1
+  Usage: AtWill
   Tool: Weapon
+  ToolRange: Melee
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Melee
     Modifiers:
     - Abilities:
       - Strength

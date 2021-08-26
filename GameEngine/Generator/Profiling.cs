@@ -25,15 +25,6 @@ namespace GameEngine.Generator
         Range,
     }
 
-    /// <summary>
-    /// These do not match what are in the rules, but instead match the basic concept of how a target is picked. Other modifiers can still apply
-    /// </summary>
-    public enum TargetType
-    {
-        Melee, // Target starts adjacent to self. An area becomes a "close blast"
-        Range, // Target at a distance. An area becomes an "area"
-    }
-
     public record ClassProfile(ClassRole Role, ImmutableList<ToolProfile> Tools)
     {
         internal bool IsValid()
@@ -79,7 +70,7 @@ namespace GameEngine.Generator
     public record PowerTextMutator(int Priority, PowerTextMutator.PowerTextMutatorDelegate Apply)
     {
         public static readonly PowerTextMutator Empty = new(0, (text, info) => text);
-        public delegate PowerTextBlock PowerTextMutatorDelegate(PowerTextBlock textBlock, PowerHighLevelInfo powerInfo);
+        public delegate PowerTextBlock PowerTextMutatorDelegate(PowerTextBlock textBlock, PowerProfile powerInfo);
     }
     
     public interface IPowerModifier : IModifier
@@ -93,7 +84,7 @@ namespace GameEngine.Generator
     public record AttackInfoMutator(int Priority, AttackInfoMutator.AttackInfoMutatorDelegate Apply)
     {
         public static readonly AttackInfoMutator Empty = new(0, (attack, info, index) => attack);
-        public delegate AttackInfo AttackInfoMutatorDelegate(AttackInfo textBlock, PowerHighLevelInfo powerInfo, int index);
+        public delegate AttackInfo AttackInfoMutatorDelegate(AttackInfo textBlock, PowerProfile powerInfo, int index);
     }
 
     public interface IAttackModifier : IModifier
@@ -149,11 +140,11 @@ namespace GameEngine.Generator
         public virtual AttackInfoMutator? GetAttackInfoMutator() => AttackInfoMutator.Empty;
     }
 
-    public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, TargetType Target, EquatableImmutableList<IAttackModifier> Modifiers)
+    public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, EquatableImmutableList<IAttackModifier> Modifiers)
     {
     }
 
-    public record PowerProfile(string Template, ToolType Tool, EquatableImmutableList<AttackProfile> Attacks, EquatableImmutableList<IPowerModifier> Modifiers);
+    public record PowerProfile(string Template, int Level, PowerFrequency Usage, ToolType Tool, ToolRange ToolRange, EquatableImmutableList<AttackProfile> Attacks, EquatableImmutableList<IPowerModifier> Modifiers);
 
     public record PowerProfiles(
         EquatableImmutableList<PowerProfile> AtWill1,

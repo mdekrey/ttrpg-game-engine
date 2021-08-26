@@ -14,14 +14,14 @@ namespace GameEngine.Generator
         public abstract string TypeText();
         public abstract string AdditionalTargetText();
 
-        internal static AttackType From(ToolProfile toolProfile)
+        internal static AttackType From(ToolType weapon, ToolRange range)
         {
-            return toolProfile switch
+            return (weapon, range) switch
             {
-                { Type: ToolType.Weapon, Range: ToolRange.Melee } => new MeleeWeaponAttackType(),
-                { Type: ToolType.Implement, Range: ToolRange.Melee } => new MeleeTouchAttackType(),
-                { Type: ToolType.Weapon, Range: ToolRange.Range } => new RangedWeaponAttackType(),
-                { Type: ToolType.Implement, Range: ToolRange.Range } => new RangedAttackType(10),
+                (ToolType.Weapon, ToolRange.Melee) => new MeleeWeaponAttackType(),
+                (ToolType.Implement, ToolRange.Melee) => new MeleeTouchAttackType(),
+                (ToolType.Weapon, ToolRange.Range) => new RangedWeaponAttackType(),
+                (ToolType.Implement, ToolRange.Range) => new RangedAttackType(10),
                 _ => throw new NotSupportedException(),
             };
         }
@@ -127,14 +127,14 @@ namespace GameEngine.Generator
 
     public static class PowerProfileTextGeneration
     {
-        public static PowerTextBlock ToPowerTextBlock(this PowerProfile profile, PowerHighLevelInfo powerHighLevelInfo)
+        public static PowerTextBlock ToPowerTextBlock(this PowerProfile profile)
         {
             var result = new PowerTextBlock(
                 Name: "Unknown",
-                TypeInfo: $"{powerHighLevelInfo.ToolProfile.Type:g} Attack {powerHighLevelInfo.Level}",
+                TypeInfo: $"{profile.Tool.ToText()} Attack {profile.Level}",
                 FlavorText: null,
-                PowerUsage: powerHighLevelInfo.Usage.ToText(),
-                PowerKeywords: ImmutableList<string>.Empty.Add(powerHighLevelInfo.ToolProfile.Type.ToKeyword()),
+                PowerUsage: profile.Usage.ToText(),
+                PowerKeywords: ImmutableList<string>.Empty.Add(profile.Tool.ToKeyword()),
                 ActionType: "Standard Action",
                 AttackType: null,
                 AttackTypeDetails: null,
@@ -145,13 +145,13 @@ namespace GameEngine.Generator
                 RulesText: ImmutableList<RulesText>.Empty
             );
 
-            var attacks = profile.Attacks.Select((attack, index) => attack.ToAttackInfo(powerHighLevelInfo, index + 1)).ToArray();
+            var attacks = profile.Attacks.Select((attack, index) => attack.ToAttackInfo(profile, index + 1)).ToArray();
             result = result.AddAttack(attacks[0], 1);
             result = (from mod in profile.Modifiers
                      let mutator = mod.GetTextMutator()
                       where mutator != null
                       orderby mutator.Priority
-                     select mutator.Apply).Aggregate(result, (current, apply) => apply(current, powerHighLevelInfo));
+                     select mutator.Apply).Aggregate(result, (current, apply) => apply(current, profile));
             result = attacks.Select((attack, index) => (attack, index)).Skip(1).Aggregate(result, (powerBlock, attackBlock) => powerBlock.AddAttack(attackBlock.attack, attackBlock.index + 1));
 
             return result with
@@ -160,11 +160,11 @@ namespace GameEngine.Generator
             };
         }
 
-        public static AttackInfo ToAttackInfo(this AttackProfile profile, PowerHighLevelInfo powerHighLevelInfo, int index)
+        public static AttackInfo ToAttackInfo(this AttackProfile profile, PowerProfile power, int index)
         {
-            var dice = PowerProfileExtensions.ToDamageEffect(powerHighLevelInfo.ToolProfile.Type, profile.WeaponDice);
+            var dice = PowerProfileExtensions.ToDamageEffect(power.Tool, profile.WeaponDice);
             var result = new AttackInfo(
-                AttackType: AttackType.From(powerHighLevelInfo.ToolProfile),
+                AttackType: AttackType.From(power.Tool, power.ToolRange),
                 TargetType: AttackInfo.Target.OneCreature,
                 AttackExpression: (GameDiceExpression)profile.Ability,
                 AttackNotes: null,
@@ -179,7 +179,7 @@ namespace GameEngine.Generator
                       let mutator = mod.GetAttackInfoMutator()
                       where mutator != null
                       orderby mutator.Priority
-                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, powerHighLevelInfo, index));
+                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, power, index));
             return result;
         }
 

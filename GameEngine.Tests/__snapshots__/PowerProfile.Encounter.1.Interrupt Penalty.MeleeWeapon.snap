@@ -1,11 +1,13 @@
 ﻿Template: Interrupt Penalty
+Level: 1
+Usage: Encounter
 Tool: Weapon
+ToolRange: Melee
 Attacks:
 - WeaponDice: 1
   Ability: Strength
   DamageTypes:
   - Normal
-  Target: Melee
   Modifiers:
   - Abilities:
     - Strength

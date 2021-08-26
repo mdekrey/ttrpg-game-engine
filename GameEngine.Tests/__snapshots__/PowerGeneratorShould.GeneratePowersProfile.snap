@@ -1,23 +1,27 @@
 ﻿AtWill1:
 - Template: Multiattack
+  Level: 1
+  Usage: AtWill
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: TwoHits
   Modifiers: []
 - Template: Conditions
+  Level: 1
+  Usage: AtWill
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -28,13 +32,15 @@
       Name: Condition
   Modifiers: []
 - Template: Accurate
+  Level: 1
+  Usage: AtWill
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -43,13 +49,15 @@
       Name: Non-Armor Defense
   Modifiers: []
 - Template: Bonus
+  Level: 1
+  Usage: AtWill
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -64,20 +72,21 @@
   Modifiers: []
 Encounter1:
 - Template: Multiattack
+  Level: 1
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
   - WeaponDice: 2
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -90,13 +99,15 @@ Encounter1:
       Name: Condition
   Modifiers: []
 - Template: Accurate
+  Level: 1
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -115,20 +126,21 @@ Encounter1:
       Name: Non-Armor Defense
   Modifiers: []
 - Template: Multiattack
+  Level: 1
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
   - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -141,13 +153,15 @@ Encounter1:
       Name: Skirmish Movement
   Modifiers: []
 - Template: Interrupt Penalty
+  Level: 1
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.5
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -156,19 +170,20 @@ Encounter1:
   - Name: OpportunityAction
 Daily1:
 - Template: Multiattack
+  Level: 1
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.1111111111111112
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers: []
   - WeaponDice: 1.3888888888888888
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -187,13 +202,15 @@ Daily1:
     AllyType: Single
     Name: Boost
 - Template: Accurate
+  Level: 1
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -205,13 +222,15 @@ Daily1:
       Name: Condition
   Modifiers: []
 - Template: Conditions
+  Level: 1
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -236,13 +255,15 @@ Daily1:
     AllyType: Single
     Name: Boost
 - Template: Multiattack
+  Level: 1
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2.3888888888888888
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -251,7 +272,6 @@ Daily1:
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers: []
   Modifiers:
   - Duration: EndOfUserNextTurn
@@ -263,20 +283,21 @@ Daily1:
     Name: Boost
 Encounter3:
 - Template: Multiattack
+  Level: 3
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
   - WeaponDice: 2
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -289,13 +310,15 @@ Encounter3:
       Name: Condition
   Modifiers: []
 - Template: Skirmish
+  Level: 3
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -311,13 +334,15 @@ Encounter3:
       Name: Skirmish Movement
   Modifiers: []
 - Template: Multiattack
+  Level: 3
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: TwoHits
     - Abilities:
@@ -325,13 +350,15 @@ Encounter3:
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Accurate
+  Level: 3
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -345,20 +372,21 @@ Encounter3:
   Modifiers: []
 Daily5:
 - Template: Multiattack
+  Level: 5
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.0405405405405406
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
   - WeaponDice: 3.4189189189189193
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -387,19 +415,20 @@ Daily5:
       Name: Boost
   Modifiers: []
 - Template: Accurate
+  Level: 5
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers: []
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -415,13 +444,15 @@ Daily5:
       Name: Boost
   Modifiers: []
 - Template: Multiattack
+  Level: 5
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 3.5
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
@@ -429,20 +460,21 @@ Daily5:
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Conditions
+  Level: 5
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2.0625
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
   - WeaponDice: 4.375
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -460,20 +492,21 @@ Daily5:
   Modifiers: []
 Encounter7:
 - Template: Multiattack
+  Level: 7
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
   - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -483,13 +516,15 @@ Encounter7:
       Name: Non-Armor Defense
   Modifiers: []
 - Template: Interrupt Penalty
+  Level: 7
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.5
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -497,20 +532,21 @@ Encounter7:
   Modifiers:
   - Name: OpportunityAction
 - Template: Multiattack
+  Level: 7
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
   - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -520,13 +556,15 @@ Encounter7:
       Name: Non-Armor Defense
   Modifiers: []
 - Template: Accurate
+  Level: 7
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -546,13 +584,15 @@ Encounter7:
     Name: Boost
 Daily9:
 - Template: Multiattack
+  Level: 9
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2.1714285714285717
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
     - Abilities:
@@ -562,7 +602,6 @@ Daily9:
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -581,13 +620,15 @@ Daily9:
     AllyType: All
     Name: Boost
 - Template: Multiattack
+  Level: 9
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 3.75
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -596,27 +637,27 @@ Daily9:
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Skirmish
+  Level: 9
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2.8888888888888888
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
   - WeaponDice: 2.2222222222222223
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Movement:
@@ -636,13 +677,15 @@ Daily9:
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Interrupt Penalty
+  Level: 9
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -667,13 +710,15 @@ Daily9:
     Name: Boost
 Encounter11:
 - Template: Multiattack
+  Level: 11
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.6000000000000005
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
     - Abilities:
@@ -683,7 +728,6 @@ Encounter11:
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -698,13 +742,15 @@ Encounter11:
     AllyType: Single
     Name: Boost
 - Template: Multiattack
+  Level: 11
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: TwoHits
     - Abilities:
@@ -714,13 +760,15 @@ Encounter11:
       Name: Non-Armor Defense
   Modifiers: []
 - Template: Interrupt Penalty
+  Level: 11
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -735,13 +783,15 @@ Encounter11:
     AllyType: Single
     Name: Boost
 - Template: Conditions
+  Level: 11
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -758,13 +808,15 @@ Encounter11:
   Modifiers: []
 Encounter13:
 - Template: Multiattack
+  Level: 13
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.5
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: TwoHits
     - Abilities:
@@ -772,13 +824,15 @@ Encounter13:
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Accurate
+  Level: 13
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -793,13 +847,15 @@ Encounter13:
     AllyType: Single
     Name: Boost
 - Template: Conditions
+  Level: 13
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -812,13 +868,15 @@ Encounter13:
       Name: Condition
   Modifiers: []
 - Template: Skirmish
+  Level: 13
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -833,13 +891,15 @@ Encounter13:
   Modifiers: []
 Daily15:
 - Template: Multiattack
+  Level: 15
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2.975609756097561
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
     - Abilities:
@@ -849,7 +909,6 @@ Daily15:
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -857,13 +916,15 @@ Daily15:
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Close blast
+  Level: 15
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -876,13 +937,15 @@ Daily15:
       Name: To-Hit Bonus to Current Attack
   Modifiers: []
 - Template: Accurate
+  Level: 15
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 4
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -911,13 +974,15 @@ Daily15:
     AllyType: Single
     Name: Boost
 - Template: Multiattack
+  Level: 15
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2.0666666666666669
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -926,7 +991,6 @@ Daily15:
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -947,13 +1011,15 @@ Daily15:
     Name: Boost
 Encounter17:
 - Template: Multiattack
+  Level: 17
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.4000000000000004
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
     - Abilities:
@@ -964,7 +1030,6 @@ Encounter17:
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -980,13 +1045,15 @@ Encounter17:
       Name: Skirmish Movement
   Modifiers: []
 - Template: Multiattack
+  Level: 17
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.5
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: TwoHits
     - Abilities:
@@ -994,13 +1061,15 @@ Encounter17:
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Conditions
+  Level: 17
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -1016,13 +1085,15 @@ Encounter17:
       Name: Condition
   Modifiers: []
 - Template: Close blast
+  Level: 17
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -1037,13 +1108,15 @@ Encounter17:
     Name: Boost
 Daily19:
 - Template: Multiattack
+  Level: 19
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2.75
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -1052,20 +1125,21 @@ Daily19:
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Accurate
+  Level: 19
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 6
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -1086,13 +1160,15 @@ Daily19:
       Name: Skirmish Movement
   Modifiers: []
 - Template: Conditions
+  Level: 19
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 5
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Defense: Fortitude
       Name: Non-Armor Defense
@@ -1108,13 +1184,15 @@ Daily19:
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Skirmish
+  Level: 19
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -1140,13 +1218,15 @@ Daily19:
   Modifiers: []
 Daily20:
 - Template: Multiattack
+  Level: 20
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2.75
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -1155,20 +1235,21 @@ Daily20:
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Bonus
+  Level: 20
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 5
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -1186,13 +1267,15 @@ Daily20:
       Name: Boost
   Modifiers: []
 - Template: Multiattack
+  Level: 20
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 4.75
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -1201,20 +1284,21 @@ Daily20:
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Conditions
+  Level: 20
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 5
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -1231,13 +1315,15 @@ Daily20:
   Modifiers: []
 Encounter23:
 - Template: Multiattack
+  Level: 23
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -1246,32 +1332,31 @@ Encounter23:
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Close blast
+  Level: 23
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.5
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers: []
   - WeaponDice: 1.5
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers: []
   - WeaponDice: 1.1000000000000001
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -1281,13 +1366,15 @@ Encounter23:
       Name: Multiple
   Modifiers: []
 - Template: Skirmish
+  Level: 23
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -1301,13 +1388,15 @@ Encounter23:
       Name: To-Hit Bonus to Current Attack
   Modifiers: []
 - Template: Accurate
+  Level: 23
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 4
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
@@ -1320,13 +1409,15 @@ Encounter23:
   Modifiers: []
 Daily25:
 - Template: Multiattack
+  Level: 25
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 7.5
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: UpToThreeTargets
     - Abilities:
@@ -1334,13 +1425,15 @@ Daily25:
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Interrupt Penalty
+  Level: 25
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 6
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -1356,13 +1449,15 @@ Daily25:
       Name: To-Hit Bonus to Current Attack
   Modifiers: []
 - Template: Multiattack
+  Level: 25
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
     - Abilities:
@@ -1372,7 +1467,6 @@ Daily25:
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -1410,13 +1504,15 @@ Daily25:
     AllyType: Single
     Name: Boost
 - Template: Accurate
+  Level: 25
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 7
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -1436,13 +1532,15 @@ Daily25:
     Name: Boost
 Encounter27:
 - Template: Multiattack
+  Level: 27
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.384615384615385
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiredHitForNextAttack
     - Abilities:
@@ -1452,7 +1550,6 @@ Encounter27:
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: RequiresPreviousHit
     - Abilities:
@@ -1475,13 +1572,15 @@ Encounter27:
     AllyType: Single
     Name: Boost
 - Template: Accurate
+  Level: 27
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Amount: +4
       Name: To-Hit Bonus to Current Attack
@@ -1491,13 +1590,15 @@ Encounter27:
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Conditions
+  Level: 27
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 3
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Duration: SaveEnds
       Conditions:
@@ -1509,13 +1610,15 @@ Encounter27:
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Multiattack
+  Level: 27
+  Usage: Encounter
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 1.5
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Name: TwoHits
     - Abilities:
@@ -1529,13 +1632,15 @@ Encounter27:
   Modifiers: []
 Daily29:
 - Template: Multiattack
+  Level: 29
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 2.75
     Ability: Dexterity
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Name: TwoHits
     - Abilities:
@@ -1554,38 +1659,40 @@ Daily29:
       Name: Boost
   Modifiers: []
 - Template: Accurate
+  Level: 29
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 4.333333333333333
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers: []
   - WeaponDice: 3.3333333333333326
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers: []
   - WeaponDice: 2.333333333333333
     Ability: Dexterity
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Dexterity
       Name: Ability Modifier Damage
   Modifiers: []
 - Template: Bonus
+  Level: 29
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 7
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength
@@ -1611,13 +1718,15 @@ Daily29:
       Name: MovementControl
   Modifiers: []
 - Template: Conditions
+  Level: 29
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Range
   Attacks:
   - WeaponDice: 7
     Ability: Strength
     DamageTypes:
     - Fire
-    Target: Range
     Modifiers:
     - Abilities:
       - Strength

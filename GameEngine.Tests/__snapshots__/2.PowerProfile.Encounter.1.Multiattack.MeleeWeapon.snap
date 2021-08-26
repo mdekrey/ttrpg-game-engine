@@ -1,18 +1,19 @@
 ﻿Template: Multiattack
+Level: 1
+Usage: Encounter
 Tool: Weapon
+ToolRange: Melee
 Attacks:
 - WeaponDice: 1
   Ability: Strength
   DamageTypes:
   - Normal
-  Target: Melee
   Modifiers:
   - Name: RequiredHitForNextAttack
 - WeaponDice: 3
   Ability: Strength
   DamageTypes:
   - Normal
-  Target: Melee
   Modifiers:
   - Name: RequiresPreviousHit
   - Abilities:

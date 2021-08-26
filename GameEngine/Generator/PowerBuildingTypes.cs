@@ -51,7 +51,7 @@ namespace GameEngine.Generator
         public abstract bool IsValid();
     }
 
-    public record AttackProfileBuilder(double Multiplier, AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, TargetType Target, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
+    public record AttackProfileBuilder(double Multiplier, AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : ModifierBuilder<IAttackModifier>(Limits, Modifiers)
     {
         public override PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
@@ -66,7 +66,7 @@ namespace GameEngine.Generator
         {
             return TotalCost.Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity()).Sum() <= Limits.MaxComplexity;
         }
-        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Target, Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
+        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
 
     }
 
@@ -77,7 +77,10 @@ namespace GameEngine.Generator
 
         internal PowerProfile Build() => new PowerProfile(
             Template,
+            PowerInfo.Level,
+            PowerInfo.Usage,
             PowerInfo.ToolProfile.Type,
+            PowerInfo.ToolProfile.Range,
             Attacks.Select(a => a.Build()).ToImmutableList(),
             Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList()
         );

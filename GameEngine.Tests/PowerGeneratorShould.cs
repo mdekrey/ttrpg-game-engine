@@ -66,7 +66,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName)]
         [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName)]
         [Theory]
-        public void CreateGeneratePowerProfile(string configName, int Level, PowerFrequency powerFrequency, string powerTemplate)
+        public void GeneratePowerProfile(string configName, int Level, PowerFrequency powerFrequency, string powerTemplate)
         {
             var target = CreateTarget((min, max) => max - 1);
 
@@ -107,7 +107,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName, null)]
         [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName, null)]
         [Theory]
-        public void CreateGeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
+        public void GeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
         {
             var target = CreateTarget(seed is int seedValue ? new Random(seedValue).Next : (min, max) => max - 1);
 
@@ -116,7 +116,7 @@ namespace GameEngine.Tests
             var powerHighLevelInfo = new PowerHighLevelInfo(level, powerFrequency, toolProfile, ClassRole.Striker);
             var powerProfile = target.GenerateProfile(powerHighLevelInfo, new[] { powerTemplate }.ToImmutableList());
 
-            PowerTextBlock power = powerProfile.ToPowerTextBlock(powerHighLevelInfo);
+            PowerTextBlock power = powerProfile.ToPowerTextBlock();
 
             Snapshot.Match(
                 Serializer.Serialize(new object[] { powerProfile, power }),
@@ -125,7 +125,7 @@ namespace GameEngine.Tests
         }
 
         [Fact]
-        public void CreateGeneratePowersProfile()
+        public void GeneratePowersProfile()
         {
             var target = CreateTarget();
 

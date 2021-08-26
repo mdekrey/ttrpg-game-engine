@@ -1,11 +1,13 @@
 ﻿- Template: Close burst
+  Level: 1
+  Usage: Daily
   Tool: Weapon
+  ToolRange: Melee
   Attacks:
   - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
-    Target: Melee
     Modifiers:
     - Abilities:
       - Strength

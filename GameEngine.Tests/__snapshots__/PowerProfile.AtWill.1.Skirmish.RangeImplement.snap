@@ -1,11 +1,13 @@
 ﻿Template: Skirmish
+Level: 1
+Usage: AtWill
 Tool: Implement
+ToolRange: Range
 Attacks:
 - WeaponDice: 1
   Ability: Strength
   DamageTypes:
   - Radiant
-  Target: Range
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense

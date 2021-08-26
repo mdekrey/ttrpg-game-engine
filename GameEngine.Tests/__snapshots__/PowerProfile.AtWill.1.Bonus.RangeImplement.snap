@@ -1,11 +1,13 @@
 ﻿Template: Bonus
+Level: 1
+Usage: AtWill
 Tool: Implement
+ToolRange: Range
 Attacks:
 - WeaponDice: 0.5
   Ability: Strength
   DamageTypes:
   - Radiant
-  Target: Range
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense

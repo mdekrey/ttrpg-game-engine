@@ -32,11 +32,11 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
             {
-                if (attack.Target != TargetType.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                if (attack.PowerInfo.ToolProfile.Range != ToolRange.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                     yield return new BurstModifier(1, BurstType.Burst);
-                if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                if (attack.PowerInfo.ToolProfile.Range != ToolRange.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                     yield return new BurstModifier(1, BurstType.Blast);
-                if (attack.Target != TargetType.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                if (attack.PowerInfo.ToolProfile.Range != ToolRange.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                     yield return new BurstModifier(1, BurstType.Area);
             }
         }
