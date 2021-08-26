@@ -25,6 +25,13 @@ namespace GameEngine.Generator
         Range,
     }
 
+    public enum PowerSource
+    {
+        Martial,
+        Divine,
+        Arcane,
+    }
+
     public record ClassProfile(ClassRole Role, ImmutableList<ToolProfile> Tools)
     {
         internal bool IsValid()
@@ -34,7 +41,7 @@ namespace GameEngine.Generator
         }
     }
 
-    public record ToolProfile(ToolType Type, ToolRange Range, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, PowerProfileConfig PowerProfileConfig)
+    public record ToolProfile(ToolType Type, ToolRange Range, PowerSource PowerSource, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, PowerProfileConfig PowerProfileConfig)
     {
         internal bool IsValid()
         {
@@ -144,7 +151,12 @@ namespace GameEngine.Generator
     {
     }
 
-    public record PowerProfile(string Template, int Level, PowerFrequency Usage, ToolType Tool, ToolRange ToolRange, EquatableImmutableList<AttackProfile> Attacks, EquatableImmutableList<IPowerModifier> Modifiers);
+    public record PowerProfile(
+        string Template, int Level, PowerFrequency Usage, 
+        ToolType Tool, ToolRange ToolRange, PowerSource PowerSource, 
+        EquatableImmutableList<AttackProfile> Attacks, 
+        EquatableImmutableList<IPowerModifier> Modifiers
+    );
 
     public record PowerProfiles(
         EquatableImmutableList<PowerProfile> AtWill1,

@@ -3,6 +3,7 @@ Level: 1
 Usage: Daily
 Tool: Weapon
 ToolRange: Melee
+PowerSource: Martial
 Attacks:
 - WeaponDice: 1
   Ability: Strength

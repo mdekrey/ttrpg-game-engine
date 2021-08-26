@@ -81,6 +81,7 @@ namespace GameEngine.Generator
             PowerInfo.Usage,
             PowerInfo.ToolProfile.Type,
             PowerInfo.ToolProfile.Range,
+            PowerInfo.ToolProfile.PowerSource,
             Attacks.Select(a => a.Build()).ToImmutableList(),
             Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList()
         );

@@ -3,6 +3,7 @@ Level: 1
 Usage: AtWill
 Tool: Implement
 ToolRange: Range
+PowerSource: Arcane
 Attacks:
 - WeaponDice: 0.5
   Ability: Strength

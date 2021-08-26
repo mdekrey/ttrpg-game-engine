@@ -3,6 +3,7 @@ Level: 1
 Usage: AtWill
 Tool: Weapon
 ToolRange: Range
+PowerSource: Martial
 Attacks:
 - WeaponDice: 1
   Ability: Strength

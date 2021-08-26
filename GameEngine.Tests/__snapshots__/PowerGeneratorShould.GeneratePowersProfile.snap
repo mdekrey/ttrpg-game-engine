@@ -4,6 +4,7 @@
   Usage: AtWill
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -17,6 +18,7 @@
   Usage: AtWill
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -36,6 +38,7 @@
   Usage: AtWill
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -53,6 +56,7 @@
   Usage: AtWill
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -76,6 +80,7 @@ Encounter1:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -103,6 +108,7 @@ Encounter1:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
@@ -130,6 +136,7 @@ Encounter1:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
@@ -157,6 +164,7 @@ Encounter1:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.5
     Ability: Strength
@@ -174,6 +182,7 @@ Daily1:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.1111111111111112
     Ability: Strength
@@ -206,6 +215,7 @@ Daily1:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
@@ -226,6 +236,7 @@ Daily1:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
@@ -259,6 +270,7 @@ Daily1:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2.3888888888888888
     Ability: Strength
@@ -287,6 +299,7 @@ Encounter3:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -314,6 +327,7 @@ Encounter3:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -338,6 +352,7 @@ Encounter3:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -354,6 +369,7 @@ Encounter3:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -376,6 +392,7 @@ Daily5:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.0405405405405406
     Ability: Dexterity
@@ -419,6 +436,7 @@ Daily5:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
@@ -448,6 +466,7 @@ Daily5:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 3.5
     Ability: Strength
@@ -464,6 +483,7 @@ Daily5:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2.0625
     Ability: Dexterity
@@ -496,6 +516,7 @@ Encounter7:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -520,6 +541,7 @@ Encounter7:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.5
     Ability: Dexterity
@@ -536,6 +558,7 @@ Encounter7:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -560,6 +583,7 @@ Encounter7:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
@@ -588,6 +612,7 @@ Daily9:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2.1714285714285717
     Ability: Strength
@@ -624,6 +649,7 @@ Daily9:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 3.75
     Ability: Strength
@@ -647,6 +673,7 @@ Daily9:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2.8888888888888888
     Ability: Dexterity
@@ -681,6 +708,7 @@ Daily9:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 4
     Ability: Dexterity
@@ -714,6 +742,7 @@ Encounter11:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.6000000000000005
     Ability: Strength
@@ -746,6 +775,7 @@ Encounter11:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
@@ -764,6 +794,7 @@ Encounter11:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 3
     Ability: Strength
@@ -787,6 +818,7 @@ Encounter11:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2
     Ability: Strength
@@ -812,6 +844,7 @@ Encounter13:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.5
     Ability: Dexterity
@@ -828,6 +861,7 @@ Encounter13:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
@@ -851,6 +885,7 @@ Encounter13:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2
     Ability: Strength
@@ -872,6 +907,7 @@ Encounter13:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2
     Ability: Dexterity
@@ -895,6 +931,7 @@ Daily15:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2.975609756097561
     Ability: Strength
@@ -920,6 +957,7 @@ Daily15:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 4
     Ability: Dexterity
@@ -941,6 +979,7 @@ Daily15:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 4
     Ability: Strength
@@ -978,6 +1017,7 @@ Daily15:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2.0666666666666669
     Ability: Strength
@@ -1015,6 +1055,7 @@ Encounter17:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.4000000000000004
     Ability: Dexterity
@@ -1049,6 +1090,7 @@ Encounter17:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.5
     Ability: Strength
@@ -1065,6 +1107,7 @@ Encounter17:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2
     Ability: Strength
@@ -1089,6 +1132,7 @@ Encounter17:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 3
     Ability: Dexterity
@@ -1112,6 +1156,7 @@ Daily19:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2.75
     Ability: Dexterity
@@ -1135,6 +1180,7 @@ Daily19:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 6
     Ability: Dexterity
@@ -1164,6 +1210,7 @@ Daily19:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 5
     Ability: Dexterity
@@ -1188,6 +1235,7 @@ Daily19:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 4
     Ability: Dexterity
@@ -1222,6 +1270,7 @@ Daily20:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2.75
     Ability: Strength
@@ -1245,6 +1294,7 @@ Daily20:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 5
     Ability: Dexterity
@@ -1271,6 +1321,7 @@ Daily20:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 4.75
     Ability: Dexterity
@@ -1294,6 +1345,7 @@ Daily20:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 5
     Ability: Strength
@@ -1319,6 +1371,7 @@ Encounter23:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Dexterity
@@ -1342,6 +1395,7 @@ Encounter23:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.5
     Ability: Strength
@@ -1370,6 +1424,7 @@ Encounter23:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 3
     Ability: Dexterity
@@ -1392,6 +1447,7 @@ Encounter23:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 4
     Ability: Dexterity
@@ -1413,6 +1469,7 @@ Daily25:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 7.5
     Ability: Strength
@@ -1429,6 +1486,7 @@ Daily25:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 6
     Ability: Strength
@@ -1453,6 +1511,7 @@ Daily25:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2
     Ability: Strength
@@ -1508,6 +1567,7 @@ Daily25:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 7
     Ability: Strength
@@ -1536,6 +1596,7 @@ Encounter27:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.384615384615385
     Ability: Dexterity
@@ -1576,6 +1637,7 @@ Encounter27:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 3
     Ability: Dexterity
@@ -1594,6 +1656,7 @@ Encounter27:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 3
     Ability: Dexterity
@@ -1614,6 +1677,7 @@ Encounter27:
   Usage: Encounter
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1.5
     Ability: Strength
@@ -1636,6 +1700,7 @@ Daily29:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2.75
     Ability: Dexterity
@@ -1663,6 +1728,7 @@ Daily29:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 4.333333333333333
     Ability: Dexterity
@@ -1688,6 +1754,7 @@ Daily29:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 7
     Ability: Strength
@@ -1722,6 +1789,7 @@ Daily29:
   Usage: Daily
   Tool: Weapon
   ToolRange: Range
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 7
     Ability: Strength

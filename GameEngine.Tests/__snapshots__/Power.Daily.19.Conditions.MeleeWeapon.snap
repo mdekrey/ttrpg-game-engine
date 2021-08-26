@@ -3,6 +3,7 @@
   Usage: Daily
   Tool: Weapon
   ToolRange: Melee
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 2.166666666666667
     Ability: Strength
@@ -29,6 +30,7 @@
   PowerUsage: Daily
   PowerKeywords:
   - Weapon
+  - Martial
   ActionType: Standard Action
   AttackType: Close burst 1
   Target: Each enemy in range

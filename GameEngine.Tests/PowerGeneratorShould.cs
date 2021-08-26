@@ -183,22 +183,24 @@ namespace GameEngine.Tests
             return profiles[configName];
         }
 
+        private static readonly PowerProfileConfig fullAccessProfileConfig = new (ImmutableList<ModifierChance>.Empty, PowerDefinitions.powerTemplates.Keys.ToImmutableList());
+
         private static readonly ImmutableDictionary<string, ToolProfile> profiles = new Dictionary<string, ToolProfile>
         {
-            { "MeleeWeapon", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
-            { "SecondAttackOnly", new(ToolType.Weapon, ToolRange.Melee, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+            { "MeleeWeapon", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                new[] { DamageType.Normal }.ToImmutableList(), fullAccessProfileConfig) },
+            { "RangeWeapon", new(ToolType.Weapon, ToolRange.Range, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                new[] { DamageType.Normal }.ToImmutableList(), fullAccessProfileConfig) },
+            { "RangeImplement", new(ToolType.Implement, ToolRange.Range, PowerSource.Arcane, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                new[] { DamageType.Radiant }.ToImmutableList(), fullAccessProfileConfig) },
+            { "SecondAttackOnly", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                 new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(
                     new ModifierChance[] {
                         new("$..[?(@.Name=='TwoHits')]", 0),
                         new("$..[?(@.Name=='UpToThreeTargets')]", 0),
                     }.ToImmutableList(),
-                    ImmutableList<string>.Empty
+                    fullAccessProfileConfig.PowerTemplates
                 )) },
-            { "RangeWeapon", new(ToolType.Weapon, ToolRange.Range, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
-            { "RangeImplement", new(ToolType.Implement, ToolRange.Range, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
-                new[] { DamageType.Radiant }.ToImmutableList(), new PowerProfileConfig(ImmutableList<ModifierChance>.Empty, ImmutableList<string>.Empty)) },
         }.ToImmutableDictionary();
 
         private ClassProfile CreateStrikerProfile() =>
@@ -206,7 +208,7 @@ namespace GameEngine.Tests
                 ClassRole.Striker,
                 new ToolProfile[] {
                     new(
-                        ToolType.Weapon, ToolRange.Range,
+                        ToolType.Weapon, ToolRange.Range, PowerSource.Martial,
                         DefenseType.Fortitude,
                         new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                         new[] { DamageType.Normal, DamageType.Fire }.ToImmutableList(),

@@ -3,6 +3,7 @@
   Usage: AtWill
   Tool: Weapon
   ToolRange: Melee
+  PowerSource: Martial
   Attacks:
   - WeaponDice: 1
     Ability: Strength
@@ -23,6 +24,7 @@
   PowerUsage: At-Will
   PowerKeywords:
   - Weapon
+  - Martial
   ActionType: Standard Action
   AttackType: Melee weapon
   Target: One creature
