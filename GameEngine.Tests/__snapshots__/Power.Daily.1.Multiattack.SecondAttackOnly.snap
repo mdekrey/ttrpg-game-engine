@@ -5,7 +5,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1
+  - WeaponDice: 1.3
     Ability: Strength
     DamageTypes:
     - Normal
@@ -14,7 +14,7 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-  - WeaponDice: 2
+  - WeaponDice: 1.7000000000000002
     Ability: Strength
     DamageTypes:
     - Normal
@@ -25,7 +25,7 @@
       Name: Ability Modifier Damage
     - Defense: Fortitude
       Name: Non-Armor Defense
-    - Size: 5
+    - Size: 3
       Type: Burst
       Name: Multiple
   Modifiers: []
@@ -43,8 +43,8 @@
   - Label: Hit
     Text: 1[W] + STR damage. Make a secondary attack.
   - Label: Secondary Target
-    Text: Each enemy within 2 of the primary target
+    Text: Each enemy adjacent to the primary target
   - Label: Secondary Attack
     Text: STR vs. Fortitude
   - Label: Secondary Hit
-    Text: 2[W] + STR damage.
+    Text: 1[W] + STR damage.

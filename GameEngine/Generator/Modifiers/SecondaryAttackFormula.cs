@@ -107,12 +107,12 @@ namespace GameEngine.Generator.Modifiers
                             {
                                 Minimum = index switch
                                 {
-                                    > 0 when RequiresPreviousHit => Math.Max(1, Math.Ceiling(attack.Limits.Minimum / Amounts.Count)) * 2,
+                                    > 0 when RequiresPreviousHit => Math.Max(1, Math.Ceiling(attack.Limits.Minimum / Amounts.Count)) * SecondaryAttackModifier.FollowupAttackPower,
                                     _ => Math.Max(1, Math.Ceiling(attack.Limits.Minimum / Amounts.Count)),
                                 },
                                 Initial = index switch
                                 {
-                                    > 0 when RequiresPreviousHit => cost * 2,
+                                    > 0 when RequiresPreviousHit => cost * SecondaryAttackModifier.FollowupAttackPower,
                                     _ => cost,
                                 },
                                 MaxComplexity = index switch { 0 => 0, _ => attack.Limits.MaxComplexity - GetComplexity() },
@@ -151,11 +151,13 @@ namespace GameEngine.Generator.Modifiers
 
         public record SecondaryAttackModifier() : AttackModifier(SecondaryAttackModifier.ModifierName)
         {
+            public const double FollowupAttackPower = 1.5;
+
             public override int GetComplexity() => 0;
 
             public const string ModifierName = "RequiresPreviousHit";
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: 0.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: 1 / FollowupAttackPower);
             public override bool IsMetaModifier() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IAttackModifier>();

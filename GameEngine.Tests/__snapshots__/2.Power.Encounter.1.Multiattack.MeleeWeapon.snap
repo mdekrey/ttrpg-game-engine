@@ -5,13 +5,13 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1
+  - WeaponDice: 1.0000000000000002
     Ability: Strength
     DamageTypes:
     - Normal
     Modifiers:
     - Name: RequiredHitForNextAttack
-  - WeaponDice: 3
+  - WeaponDice: 1.75
     Ability: Strength
     DamageTypes:
     - Normal
@@ -20,9 +20,15 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Defense: Reflex
-      Name: Non-Armor Defense
-  Modifiers: []
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    SelfBoosts: []
+    AllyBoosts:
+    - Amount: STR
+      Limit: NextAttack
+      Name: Attack
+    AllyType: Single
+    Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Encounter
@@ -39,6 +45,6 @@
   - Label: Secondary Target
     Text: One creature adjacent to the primary target
   - Label: Secondary Attack
-    Text: STR vs. Reflex
+    Text: STR vs. AC
   - Label: Secondary Hit
-    Text: 3[W] + STR damage.
+    Text: 1[W] + STR damage.
