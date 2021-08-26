@@ -56,7 +56,7 @@ namespace GameEngine.Generator.Modifiers
             public override AttackInfoMutator? GetAttackInfoMutator() =>
                 new(0, (attack, info, index) => attack with
                 {
-                    TargetType = AttackInfo.Target.EachEnemy,
+                    TargetType = AttackType.Target.EachEnemy,
                     AttackType = Type switch
                     {
                         BurstType.Blast => new CloseBlast(Size),

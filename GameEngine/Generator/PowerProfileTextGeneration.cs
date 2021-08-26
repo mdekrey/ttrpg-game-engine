@@ -12,7 +12,50 @@ namespace GameEngine.Generator
     public abstract record AttackType()
     {
         public abstract string TypeText();
-        public abstract string AdditionalTargetText();
+
+        public virtual string TargetText(Target targetType)
+        {
+            return targetType switch
+            {
+                Target.OneCreature => "One creature",
+                Target.EachEnemy => "Each enemy in range",
+                Target.YouOrOneAlly => "You or one ally",
+                Target.EachAlly => "Each ally in range",
+                Target.OneOrTwoCreatures => "One or two creatures",
+                Target.OneTwoOrThreeCreatures => "One, two, or three creatures",
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        public virtual string AdditionalTargetText(Target targetType, int index) => BlastAdditionalTargetText(1, targetType, index);
+
+        public static string BlastAdditionalTargetText(int range, Target targetType, int index) => targetType switch
+        {
+            Target.OneCreature => $"One creature {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
+            Target.EachEnemy => $"Each enemy {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
+            Target.YouOrOneAlly => $"You or one ally {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
+            Target.EachAlly => $"Each ally {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
+            Target.OneOrTwoCreatures => $"One or two creatures {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
+            Target.OneTwoOrThreeCreatures => $"One, two, or three creatures {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
+            _ => throw new NotImplementedException(),
+        };
+
+        protected static string AdjacentToOrWithinRangeOf(int range) =>
+            range switch
+            {
+                1 => "adjacent to",
+                _ => $"within {range} of"
+            };
+
+        public enum Target
+        {
+            OneCreature,
+            EachEnemy,
+            YouOrOneAlly,
+            EachAlly,
+            OneOrTwoCreatures,
+            OneTwoOrThreeCreatures,
+        }
 
         internal static AttackType From(ToolType weapon, ToolRange range)
         {
@@ -29,60 +72,43 @@ namespace GameEngine.Generator
     public record MeleeWeaponAttackType() : AttackType()
     {
         public override string TypeText() => "Melee weapon";
-        public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
     }
     public record MeleeTouchAttackType() : AttackType()
     {
         public override string TypeText() => "Melee touch";
-        public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
     }
     public record RangedWeaponAttackType() : AttackType()
     {
         public override string TypeText() => $"Ranged weapon";
-        public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
     }
     public record RangedAttackType(int Range) : AttackType()
     {
         public override string TypeText() => $"Ranged {Range}";
-        public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
     }
     public record RangedSightAttackType() : AttackType()
     {
         public override string TypeText() => $"Ranged sight";
-        public override string AdditionalTargetText() => "One creature other than the primary target"; // TODO
     }
     public record CloseBurst(int Range) : AttackType()
     {
         public override string TypeText() => $"Close burst {Range}";
-        public override string AdditionalTargetText() => Range switch
-        {
-            1 => "All creatures adjacent to the primary target",
-            _ => $"All creatures within {Range} of the primary target"
-        }; // TODO - all enemies instead of "creatures"?
+        public override string AdditionalTargetText(Target targetType, int index) => BlastAdditionalTargetText(Range, targetType, index);
     }
     public record CloseBlast(int Range) : AttackType()
     {
         public override string TypeText() => $"Close blast {Range}";
-        public override string AdditionalTargetText() => Range switch
-        {
-            1 => "All creatures adjacent to the primary target",
-            _ => $"All creatures within {Range} of the primary target"
-        }; // TODO - all enemies instead of "creatures"?
+        public override string AdditionalTargetText(Target targetType, int index) => BlastAdditionalTargetText(Range / 2, targetType, index);
     }
     public record AreaBurst(int Size, int Range) : AttackType()
     {
         public override string TypeText() => $"Area burst {Size} within {Range}";
-        public override string AdditionalTargetText() => Size switch
-        {
-            1 => "All creatures adjacent to the primary target",
-            _ => $"All creatures within {Size} of the primary target"
-        }; // TODO - all enemies instead of "creatures"?
+        public override string AdditionalTargetText(Target targetType, int index) => BlastAdditionalTargetText(Range, targetType, index);
     }
     // TODO - personal
 
     public record AttackInfo(
         AttackType AttackType,
-        AttackInfo.Target TargetType,
+        AttackType.Target TargetType,
         GameDiceExpression AttackExpression,
         string? AttackNotes,
         DefenseType Defense,
@@ -109,16 +135,6 @@ namespace GameEngine.Generator
 
         public string Miss =>
             MissParts.Count == 0 ? "" : PowerProfileTextGeneration.OxfordComma(MissParts.ToArray()).FinishSentence().TransposeParenthesis();
-
-        public enum Target
-        {
-            OneCreature,
-            EachEnemy,
-            YouOrOneAlly,
-            EachAlly,
-            OneOrTwoCreatures,
-            OneTwoOrThreeCreatures,
-        }
 
         internal string ToAttackText() => $"{this.AttackExpression} vs. {this.Defense.ToText()}"
             + AttackNotes ?? "";
@@ -165,7 +181,7 @@ namespace GameEngine.Generator
             var dice = PowerProfileExtensions.ToDamageEffect(power.Tool, profile.WeaponDice);
             var result = new AttackInfo(
                 AttackType: AttackType.From(power.Tool, power.ToolRange),
-                TargetType: AttackInfo.Target.OneCreature,
+                TargetType: AttackType.Target.OneCreature,
                 AttackExpression: (GameDiceExpression)profile.Ability,
                 AttackNotes: null,
                 Defense: DefenseType.ArmorClass,
@@ -192,17 +208,7 @@ namespace GameEngine.Generator
                 return power with
                 {
                     AttackType = attack.AttackType.TypeText(),
-                    Target = attack.TargetType switch
-                    {
-                        // TODO - this should be dependent on the attack type AND target type - "each enemy in range" doesn't make sense for Area Burst attacks.
-                        AttackInfo.Target.OneCreature => "One creature",
-                        AttackInfo.Target.EachEnemy => "Each enemy in range",
-                        AttackInfo.Target.YouOrOneAlly => "You or one ally",
-                        AttackInfo.Target.EachAlly => "Each ally in range",
-                        AttackInfo.Target.OneOrTwoCreatures => "One or two creatures",
-                        AttackInfo.Target.OneTwoOrThreeCreatures => "One, two, or three creatures",
-                        _ => throw new NotImplementedException(),
-                    },
+                    Target = attack.AttackType.TargetText(attack.TargetType),
                     Attack = attack.ToAttackText(),
                     RulesText = power.RulesText.Items
                         .Add(new("Hit", attack.Hit))
