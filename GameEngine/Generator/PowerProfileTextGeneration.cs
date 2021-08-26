@@ -2,10 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Text;
+using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator
 {
@@ -31,12 +30,12 @@ namespace GameEngine.Generator
 
         public static string BlastAdditionalTargetText(int range, Target targetType, int index) => targetType switch
         {
-            Target.OneCreature => $"One creature {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
-            Target.EachEnemy => $"Each enemy {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
-            Target.YouOrOneAlly => $"You or one ally {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
-            Target.EachAlly => $"Each ally {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
-            Target.OneOrTwoCreatures => $"One or two creatures {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
-            Target.OneTwoOrThreeCreatures => $"One, two, or three creatures {AdjacentToOrWithinRangeOf(range)} the {PowerProfileTextGeneration.Ordinal(index - 1)} target",
+            Target.OneCreature => $"One creature {AdjacentToOrWithinRangeOf(range)} the {Ordinal(index - 1)} target",
+            Target.EachEnemy => $"Each enemy {AdjacentToOrWithinRangeOf(range)} the {Ordinal(index - 1)} target",
+            Target.YouOrOneAlly => $"You or one ally {AdjacentToOrWithinRangeOf(range)} the {Ordinal(index - 1)} target",
+            Target.EachAlly => $"Each ally {AdjacentToOrWithinRangeOf(range)} the {Ordinal(index - 1)} target",
+            Target.OneOrTwoCreatures => $"One or two creatures {AdjacentToOrWithinRangeOf(range)} the {Ordinal(index - 1)} target",
+            Target.OneTwoOrThreeCreatures => $"One, two, or three creatures {AdjacentToOrWithinRangeOf(range)} the {Ordinal(index - 1)} target",
             _ => throw new NotImplementedException(),
         };
 
@@ -122,11 +121,11 @@ namespace GameEngine.Generator
         public string Hit =>
             string.Join(" ",
                 new[] {
-                    PowerProfileTextGeneration.OxfordComma(Enumerable.Concat(new[] {
+                    OxfordComma(Enumerable.Concat(new[] {
                         string.Join(" ", new string[]
                         {
                             DamageExpression.ToString(),
-                            PowerProfileTextGeneration.OxfordComma(DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),
+                            OxfordComma(DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),
                             "damage"
                         }.Where(s => s is { Length: > 0 }))
                     }, HitParts).ToArray()).FinishSentence().TransposeParenthesis()
@@ -134,7 +133,7 @@ namespace GameEngine.Generator
             );
 
         public string Miss =>
-            MissParts.Count == 0 ? "" : PowerProfileTextGeneration.OxfordComma(MissParts.ToArray()).FinishSentence().TransposeParenthesis();
+            MissParts.Count == 0 ? "" : OxfordComma(MissParts.ToArray()).FinishSentence().TransposeParenthesis();
 
         internal string ToAttackText() => $"{this.AttackExpression} vs. {this.Defense.ToText()}"
             + AttackNotes ?? "";
@@ -164,10 +163,10 @@ namespace GameEngine.Generator
             var attacks = profile.Attacks.Select((attack, index) => attack.ToAttackInfo(profile, index + 1)).ToArray();
             result = result.AddAttack(attacks[0], 1);
             result = (from mod in profile.Modifiers
-                     let mutator = mod.GetTextMutator()
+                      let mutator = mod.GetTextMutator()
                       where mutator != null
                       orderby mutator.Priority
-                     select mutator.Apply).Aggregate(result, (current, apply) => apply(current, profile));
+                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, profile));
             result = attacks.Select((attack, index) => (attack, index)).Skip(1).Aggregate(result, (powerBlock, attackBlock) => powerBlock.AddAttack(attackBlock.attack, attackBlock.index + 1));
 
             return result with
@@ -217,83 +216,15 @@ namespace GameEngine.Generator
             }
             else
             {
-                // TODO: add "Make a secondary attack" message
                 return power with
                 {
                     RulesText = power.RulesText.Items
-                        .Add(new($"{Ordinal(index).Capitalize()} Target", attack.TargetType switch
-                        {
-                            _ => "", // TODO
-                        }))
+                        .Add(new($"{Ordinal(index).Capitalize()} Target", attack.AttackType.AdditionalTargetText(attack.TargetType, index)))
                         .Add(new($"{Ordinal(index).Capitalize()} Attack", attack.ToAttackText()))
                         .Add(new($"{Ordinal(index).Capitalize()} Hit", attack.Hit))
                         .Add(new($"{Ordinal(index).Capitalize()} Miss", attack.Miss))
                 };
             }
         }
-
-        public static EquatableImmutableList<RulesText> AddSentence(this EquatableImmutableList<RulesText> rulesText, string label, string sentence)
-        {
-            if (rulesText.LastOrDefault(r => r.Label == label) is RulesText toReplace)
-            {
-                var result = rulesText.Items.Remove(toReplace);
-                return result.Add(toReplace with { Text = toReplace.Text.FinishSentence() + " " + sentence });
-            }
-            else
-            {
-                return rulesText.Items.Add(new(label, sentence));
-            }
-        }
-
-        public static string FinishSentence(this string text)
-        {
-            if (!text.EndsWith(".") && !text.EndsWith(".)"))
-                return (text + ".").TransposeParenthesis();
-            return text;
-        }
-
-        public static string TransposeParenthesis(this string text)
-        {
-            // English is weird, man.
-            if (text.EndsWith(").") || text.EndsWith("),"))
-                return text[0..^2] + text[^1] + ")";
-            return text;
-        }
-
-        public static string OxfordComma(params string[] parts) =>
-            parts switch
-            {
-                { Length: 0 } => "",
-                { Length: 1 } => parts[0],
-                { Length: 2 } => string.Join(" and ", parts),
-                { Length: >= 3 } => string.Join(", ", parts.Take(parts.Length - 1)) + ", and " + parts[^1],
-                _ => "",
-            };
-
-        public static string Ordinal(int index) =>
-            index switch
-            {
-                0 => throw new NotSupportedException("You probably meant to use index + 1"),
-                1 => "primary",
-                2 => "secondary",
-                3 => "tertiary",
-                _ => throw new NotImplementedException("We don't use monikers that high up!"),
-            };
-
-        public static string Capitalize(this string s) =>
-            s[0..1].ToUpper() + s[1..^0];
-
-        public static string ToText(this Enum enumValue)
-        {
-            Type type = enumValue.GetType();
-            FieldInfo info = type.GetField(enumValue.ToString());
-            DescriptionAttribute[] da = (DescriptionAttribute[])(info.GetCustomAttributes(typeof(DescriptionAttribute), false));
-
-            if (da.Length > 0)
-                return da[0].Description;
-            else
-                return enumValue.ToString("g");
-        }
-
     }
 }

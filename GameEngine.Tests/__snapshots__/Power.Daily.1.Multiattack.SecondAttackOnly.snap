@@ -42,6 +42,8 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage. Make a secondary attack.
+  - Label: Secondary Target
+    Text: Each enemy within 2 of the primary target
   - Label: Secondary Attack
     Text: STR vs. Fortitude
   - Label: Secondary Hit

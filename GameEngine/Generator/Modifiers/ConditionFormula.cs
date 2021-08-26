@@ -4,6 +4,7 @@ using GameEngine.Rules;
 using System.Linq;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 using System;
+using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -97,9 +98,9 @@ namespace GameEngine.Generator.Modifiers
                 new(0, (attack, info, index) => attack with
                 {
                     HitParts = attack.HitParts.Add("the target "
-                        + PowerProfileTextGeneration.OxfordComma((from condition in Conditions
+                        + OxfordComma((from condition in Conditions
                                                                   group condition.Effect().ToLower() by condition.Verb() into verbGroup
-                                                                  select verbGroup.Key + " " + PowerProfileTextGeneration.OxfordComma(verbGroup.ToArray())).ToArray())
+                                                                  select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())
                         + Duration switch
                         {
                             Duration.EndOfUserNextTurn => " until the end of your next turn",

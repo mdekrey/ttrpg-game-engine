@@ -36,6 +36,8 @@
   RulesText:
   - Label: Hit
     Text: 1[W] damage. Make a secondary attack.
+  - Label: Secondary Target
+    Text: One creature adjacent to the primary target
   - Label: Secondary Attack
     Text: STR vs. Reflex
   - Label: Secondary Hit

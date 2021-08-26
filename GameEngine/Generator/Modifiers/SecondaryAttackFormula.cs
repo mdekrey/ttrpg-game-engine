@@ -5,6 +5,7 @@ using System.Linq;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 using static GameEngine.Generator.PowerBuildingExtensions;
+using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -144,7 +145,7 @@ namespace GameEngine.Generator.Modifiers
             public override AttackInfoMutator? GetAttackInfoMutator() =>
                 new(int.MaxValue, (attack, info, index) => attack with
                 {
-                    HitSentences = attack.HitSentences.Add($"Make a {PowerProfileTextGeneration.Ordinal(index + 1)} attack."),
+                    HitSentences = attack.HitSentences.Add($"Make a {Ordinal(index + 1)} attack."),
                 });
         }
 
