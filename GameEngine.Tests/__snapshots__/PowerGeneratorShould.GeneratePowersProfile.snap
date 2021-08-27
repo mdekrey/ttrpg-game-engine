@@ -1234,21 +1234,22 @@ Daily20:
         Amount: +2
         Name: Slide Opponent
       Name: MovementControl
-  - WeaponDice: 2.695422535211268
+  - WeaponDice: 2.195422535211268
     Ability: Strength
     DamageTypes:
     - Fire
     Modifiers:
     - Name: RequiresPreviousHit
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
     - Effects:
       - Mode: Pull
         Amount: STR + 2
         Name: Slide Opponent
       - Name: Prone
       Name: MovementControl
+    - Abilities:
+      - Strength
+      - Dexterity
+      Name: Ability Modifier Damage
   Modifiers: []
 - Template: Skirmish
   Level: 20

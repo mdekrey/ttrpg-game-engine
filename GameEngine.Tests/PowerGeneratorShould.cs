@@ -183,7 +183,7 @@ namespace GameEngine.Tests
             return profiles[configName];
         }
 
-        private static readonly PowerProfileConfig fullAccessProfileConfig = new (ImmutableList<ModifierChance>.Empty, PowerDefinitions.powerTemplates.Keys.ToImmutableList());
+        public static readonly PowerProfileConfig fullAccessProfileConfig = new (ImmutableList<ModifierChance>.Empty, PowerDefinitions.powerTemplates.Keys.ToImmutableList());
 
         private static readonly ImmutableDictionary<string, ToolProfile> profiles = new Dictionary<string, ToolProfile>
         {

@@ -23,14 +23,14 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
+                    .Distinct()
                     .Take(stage == UpgradeStage.Standard ? 1 : attack.PowerInfo.ToolProfile.Abilities.Count)
                     .Except(Abilities.Items)
                     .Take(AllowAdditionalModifier(attack) ? 1 : 0)
-                    .Select(ability => this with 
-                        { 
-                            Abilities = Abilities.Items.Add(ability) 
-                        }
-                    );
+                    .Select(ability => this with
+                    {
+                        Abilities = Abilities.Items.Add(ability)
+                    });
 
             private bool AllowAdditionalModifier(AttackProfileBuilder attack)
             {
