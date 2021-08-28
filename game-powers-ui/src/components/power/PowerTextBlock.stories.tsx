@@ -1,9 +1,9 @@
 import { Meta, Story } from '@storybook/react';
-import { ComponentProps } from 'react';
 import { PowerTextBlock, PowerTextBlockProps } from './PowerTextBlock';
 
-type PowerStoryProps = ComponentProps<typeof PowerTextBlock> & {
+type PowerStoryProps = {
 	contents: keyof typeof contentsMapping;
+	className?: string;
 };
 
 const atWillPower: PowerTextBlockProps = {
@@ -73,7 +73,6 @@ const contentsMapping = {
 
 export default {
 	title: 'Powers/PowerTextBlock',
-	component: PowerTextBlock,
 	argTypes: {
 		className: {
 			name: 'size',
