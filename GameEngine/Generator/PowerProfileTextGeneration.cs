@@ -158,7 +158,7 @@ namespace GameEngine.Generator
                 TypeInfo: $"{profile.Tool.ToText()} Attack {profile.Level}",
                 FlavorText: null,
                 PowerUsage: profile.Usage.ToText(),
-                PowerKeywords: ImmutableList<string>.Empty.Add(profile.Tool.ToKeyword()).Add(profile.PowerSource.ToText()),
+                Keywords: ImmutableList<string>.Empty.Add(profile.Tool.ToKeyword()).Add(profile.PowerSource.ToText()),
                 ActionType: "Standard Action",
                 AttackType: null,
                 AttackTypeDetails: null,
@@ -180,6 +180,7 @@ namespace GameEngine.Generator
 
             return result with
             {
+                Keywords = result.Keywords.Items.OrderBy(k => k).ToImmutableList(),
                 RulesText = result.RulesText.Items.Where(rule => rule.Text is { Length: > 0 }).ToImmutableList(),
             };
         }

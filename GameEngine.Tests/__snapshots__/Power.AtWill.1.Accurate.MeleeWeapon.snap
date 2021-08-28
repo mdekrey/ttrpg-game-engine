@@ -19,9 +19,9 @@
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: At-Will
-  PowerKeywords:
-  - Weapon
+  Keywords:
   - Martial
+  - Weapon
   ActionType: Standard Action
   AttackType: Melee
   AttackTypeDetails: weapon

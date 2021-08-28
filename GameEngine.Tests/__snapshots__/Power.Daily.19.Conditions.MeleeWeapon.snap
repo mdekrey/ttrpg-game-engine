@@ -28,9 +28,9 @@
 - Name: Unknown
   TypeInfo: Weapon Attack 19
   PowerUsage: Daily
-  PowerKeywords:
-  - Weapon
+  Keywords:
   - Martial
+  - Weapon
   ActionType: Standard Action
   AttackType: Close
   AttackTypeDetails: burst 1

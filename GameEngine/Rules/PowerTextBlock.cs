@@ -5,7 +5,7 @@ namespace GameEngine.Rules
     public record PowerTextBlock(
         string Name, string TypeInfo, 
         string? FlavorText,
-        string PowerUsage, EquatableImmutableList<string> PowerKeywords, 
+        string PowerUsage, EquatableImmutableList<string> Keywords, 
         string? ActionType, string? AttackType, string? AttackTypeDetails, 
         string? Prerequisite, string? Requirement,
         string? Target,

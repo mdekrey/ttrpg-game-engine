@@ -22,9 +22,9 @@
 - Name: Unknown
   TypeInfo: Implement Attack 1
   PowerUsage: At-Will
-  PowerKeywords:
-  - Implement
+  Keywords:
   - Arcane
+  - Implement
   ActionType: Standard Action
   AttackType: Close
   AttackTypeDetails: burst 1

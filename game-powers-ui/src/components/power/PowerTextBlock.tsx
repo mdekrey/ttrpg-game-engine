@@ -14,7 +14,7 @@ export type PowerTextBlockProps = {
 	typeInfo: string;
 	flavorText?: string | null;
 	powerUsage: PowerType;
-	powerKeywords: string[];
+	keywords: string[];
 	actionType?: string | null;
 	attackType?: 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null;
 	attackTypeDetails?: string | null;
@@ -31,7 +31,7 @@ export function PowerTextBlock({
 	flavorText,
 	powerUsage,
 	className,
-	powerKeywords,
+	keywords,
 	actionType,
 	attackType,
 	attackTypeDetails,
@@ -50,7 +50,7 @@ export function PowerTextBlock({
 			flavorText={flavorText || undefined}>
 			<div>
 				<p className="font-bold">
-					{powerUsage} ✦ {powerKeywords.join(', ')}
+					{powerUsage} ✦ {keywords.join(', ')}
 				</p>
 				<div className="flex">
 					<p className="font-bold w-40">{actionType}</p>
