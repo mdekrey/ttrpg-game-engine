@@ -11,6 +11,7 @@ namespace GameEngine.Generator
     public abstract record AttackType()
     {
         public abstract string TypeText();
+        public abstract string TypeDetailsText();
 
         public virtual string TargetText(Target targetType)
         {
@@ -70,37 +71,45 @@ namespace GameEngine.Generator
     }
     public record MeleeWeaponAttackType() : AttackType()
     {
-        public override string TypeText() => "Melee weapon";
+        public override string TypeText() => "Melee";
+        public override string TypeDetailsText() => "weapon";
     }
     public record MeleeTouchAttackType() : AttackType()
     {
-        public override string TypeText() => "Melee touch";
+        public override string TypeText() => "Melee";
+        public override string TypeDetailsText() => "touch";
     }
     public record RangedWeaponAttackType() : AttackType()
     {
-        public override string TypeText() => $"Ranged weapon";
+        public override string TypeText() => $"Ranged";
+        public override string TypeDetailsText() => "weapon";
     }
     public record RangedAttackType(int Range) : AttackType()
     {
-        public override string TypeText() => $"Ranged {Range}";
+        public override string TypeText() => "Ranged";
+        public override string TypeDetailsText() => $"{Range}";
     }
     public record RangedSightAttackType() : AttackType()
     {
-        public override string TypeText() => $"Ranged sight";
+        public override string TypeText() => $"Ranged";
+        public override string TypeDetailsText() => $"sight";
     }
     public record CloseBurst(int Range) : AttackType()
     {
-        public override string TypeText() => $"Close burst {Range}";
+        public override string TypeText() => $"Close";
+        public override string TypeDetailsText() => $"burst {Range}";
         public override string AdditionalTargetText(Target targetType, int index) => BlastAdditionalTargetText(Range, targetType, index);
     }
     public record CloseBlast(int Range) : AttackType()
     {
-        public override string TypeText() => $"Close blast {Range}";
+        public override string TypeText() => $"Close";
+        public override string TypeDetailsText() => $"blast {Range}";
         public override string AdditionalTargetText(Target targetType, int index) => BlastAdditionalTargetText(Range / 2, targetType, index);
     }
     public record AreaBurst(int Size, int Range) : AttackType()
     {
-        public override string TypeText() => $"Area burst {Size} within {Range}";
+        public override string TypeText() => $"Area";
+        public override string TypeDetailsText() => $"burst {Size} within {Range}";
         public override string AdditionalTargetText(Target targetType, int index) => BlastAdditionalTargetText(Range, targetType, index);
     }
     // TODO - personal
@@ -207,6 +216,7 @@ namespace GameEngine.Generator
                 return power with
                 {
                     AttackType = attack.AttackType.TypeText(),
+                    AttackTypeDetails = attack.AttackType.TypeDetailsText(),
                     Target = attack.AttackType.TargetText(attack.TargetType),
                     Attack = attack.ToAttackText(),
                     RulesText = power.RulesText.Items

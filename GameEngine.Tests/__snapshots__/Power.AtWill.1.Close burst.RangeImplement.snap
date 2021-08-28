@@ -26,7 +26,8 @@
   - Implement
   - Arcane
   ActionType: Standard Action
-  AttackType: Close burst 1
+  AttackType: Close
+  AttackTypeDetails: burst 1
   Target: Each enemy in range
   Attack: STR vs. Fortitude
   RulesText:

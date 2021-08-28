@@ -162,7 +162,7 @@ Daily.args = {
 	name: 'Acid Arrow',
 	level: 'Wizard Attack 1',
 	flavorText:
-		'A shimmering arrow of green, glowing liquid streaks to your target and bursts in a spray of sizzling acit',
+		'A shimmering arrow of green, glowing liquid streaks to your target and bursts in a spray of sizzling acid.',
 	contents: 'complexPower',
 	icon: 'ranged',
 };

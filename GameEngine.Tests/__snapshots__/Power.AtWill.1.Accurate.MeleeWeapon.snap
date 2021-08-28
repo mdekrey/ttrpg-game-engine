@@ -23,7 +23,8 @@
   - Weapon
   - Martial
   ActionType: Standard Action
-  AttackType: Melee weapon
+  AttackType: Melee
+  AttackTypeDetails: weapon
   Target: One creature
   Attack: STR vs. Fortitude
   RulesText:

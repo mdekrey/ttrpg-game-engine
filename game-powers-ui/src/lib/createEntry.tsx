@@ -3,17 +3,21 @@ import ReactDOM from 'react-dom';
 import 'lib/index.css';
 import reportWebVitals from 'lib/reportWebVitals';
 
+type ReactStandardProps = {
+	data: any;
+};
+
 /**
  * Creates the entry point.
  * @param Component is the React component to render
  * @returns A function that renders the component in the given element. This function also returns an update function for subsequent updates (for nesting within other JS frameworks.)
  */
 export function createEntry(Component: React.ComponentType<any>) {
-	return (element: HTMLElement, context: any) => {
-		function render(actualData: any) {
+	return (element: HTMLElement, context: ReactStandardProps) => {
+		function render(actualData: ReactStandardProps) {
 			ReactDOM.render(
 				<React.StrictMode>
-					{actualData !== undefined ? <Component data={actualData} /> : <Component />}
+					{actualData !== undefined ? <Component data={actualData.data} /> : <Component />}
 				</React.StrictMode>,
 				element
 			);

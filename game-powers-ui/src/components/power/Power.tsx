@@ -19,7 +19,6 @@ export const Power = ({
 	flavorText?: string;
 	icon?: React.FunctionComponent<JSX.IntrinsicElements['svg']>;
 } & JSX.IntrinsicElements['section']) => {
-	console.log(Icon);
 	return (
 		<section {...props}>
 			<header

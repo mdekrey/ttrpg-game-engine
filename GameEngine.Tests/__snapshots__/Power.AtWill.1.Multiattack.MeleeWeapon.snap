@@ -19,7 +19,8 @@
   - Weapon
   - Martial
   ActionType: Standard Action
-  AttackType: Melee weapon
+  AttackType: Melee
+  AttackTypeDetails: weapon
   Target: One or two creatures
   Attack: STR vs. AC, two attacks
   RulesText:

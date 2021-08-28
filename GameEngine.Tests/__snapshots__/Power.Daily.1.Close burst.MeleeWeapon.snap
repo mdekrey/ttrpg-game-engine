@@ -28,7 +28,8 @@
   - Weapon
   - Martial
   ActionType: Standard Action
-  AttackType: Close burst 1
+  AttackType: Close
+  AttackTypeDetails: burst 1
   Target: Each enemy in range
   Attack: STR + 4 vs. Fortitude
   RulesText:
