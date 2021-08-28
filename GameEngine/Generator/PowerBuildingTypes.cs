@@ -38,6 +38,7 @@ namespace GameEngine.Generator
         IEnumerable<IModifier> Modifiers { get; }
         PowerCost TotalCost { get; }
 
+        IEnumerable<IModifier> AllModifiers();
         bool IsValid();
     }
 
@@ -47,6 +48,9 @@ namespace GameEngine.Generator
         public abstract PowerCost TotalCost { get; }
 
         IEnumerable<IModifier> IModifierBuilder.Modifiers => Modifiers.OfType<IModifier>();
+
+        public abstract IEnumerable<IModifier> AllModifiers();
+
 
         public abstract bool IsValid();
     }
@@ -67,6 +71,8 @@ namespace GameEngine.Generator
             return TotalCost.Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity()).Sum() <= Limits.MaxComplexity;
         }
         internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
+
+        public override IEnumerable<IModifier> AllModifiers() => Modifiers;
 
     }
 
@@ -144,6 +150,8 @@ namespace GameEngine.Generator
         public PowerProfileBuilder FinalizeUpgrade() =>
             this.Modifiers.Aggregate(this, (builder, modifier) => modifier.TryApplyToProfileAndRemove(builder))
                 .AdjustRemaining();
+
+        public override IEnumerable<IModifier> AllModifiers() => Modifiers.Concat<IModifier>(from attack in Attacks from mod in attack.Modifiers select mod);
     }
 
 
@@ -236,12 +244,16 @@ namespace GameEngine.Generator
 
         public static double GetChance(this PowerProfileConfig config, IModifierBuilder builder)
         {
-            var token = FromBuilder(builder);
-            return config.ModifierChances.Select(entry => token.SelectToken(entry.Selector) == null ? 1 : entry.Weight)
-                .Aggregate(1.0, (lhs, rhs) => lhs * rhs);
+            return (from mod in builder.AllModifiers()
+                    let token = FromBuilder(mod)
+                    from weight in (from entry in config.ModifierChances
+                                    where token.SelectToken(entry.Selector) != null
+                                    select entry.Weight).DefaultIfEmpty(0)
+                    select weight)
+                    .Aggregate(1.0, (lhs, rhs) => lhs * rhs);
         }
 
-        private static Newtonsoft.Json.Linq.JToken FromBuilder(IModifierBuilder mod)
+        private static Newtonsoft.Json.Linq.JToken FromBuilder(IModifier mod)
         {
             return Newtonsoft.Json.Linq.JToken.FromObject(new[] { mod }, new Newtonsoft.Json.JsonSerializer()
             {

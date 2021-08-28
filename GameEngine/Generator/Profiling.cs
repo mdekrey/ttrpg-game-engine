@@ -121,7 +121,7 @@ namespace GameEngine.Generator
         public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
-        public virtual AttackInfoMutator? GetAttackInfoMutator() => throw new NotImplementedException();
+        public abstract AttackInfoMutator? GetAttackInfoMutator();
     }
 
     public abstract record AttackAndPowerModifier(string Name) : IAttackModifier, IPowerModifier

@@ -39,6 +39,7 @@ namespace GameEngine.Generator.Modifiers
                 if (attack.PowerInfo.ToolProfile.Range != ToolRange.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                     yield return new BurstModifier(1, BurstType.Area);
             }
+            public override AttackInfoMutator? GetAttackInfoMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record BurstModifier(int Size, BurstType Type) : AttackModifier(ModifierName)

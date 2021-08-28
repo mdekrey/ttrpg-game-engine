@@ -47,10 +47,15 @@ namespace GameEngine.Generator
         private static AttackProfileBuilder Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, RandomGenerator randomGenerator)
         {
             var selected = formula.GetBaseModifier(attack);
+            if (!new[] { attack.Apply(selected) }.ToChances(attack.PowerInfo.ToolProfile.PowerProfileConfig).Any())
+                return attack;
             var upgrades = selected.GetUpgrades(attack, UpgradeStage.Standard).Select(upgrade => attack.Apply(upgrade)).ToArray();
             if (upgrades.Length == 0)
                 return attack.Apply(selected);
-            return randomGenerator.RandomSelection(upgrades.ToChances(attack.PowerInfo.ToolProfile.PowerProfileConfig));
+            var chances = upgrades.ToChances(attack.PowerInfo.ToolProfile.PowerProfileConfig).ToArray();
+            if (chances.Length == 0)
+                return attack.Apply(selected);
+            return randomGenerator.RandomSelection(chances);
         }
 
         private record AccuratePowerTemplate : PowerTemplate

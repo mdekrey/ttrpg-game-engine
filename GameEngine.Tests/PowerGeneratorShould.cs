@@ -106,6 +106,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.CloseBurstPowerTemplateName, null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName, null)]
         [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName, null)]
+        [InlineData("Control", 1, PowerFrequency.Daily, PowerDefinitions.SkirmishPowerTemplateName, null)]
         [Theory]
         public void GeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
         {
@@ -183,7 +184,7 @@ namespace GameEngine.Tests
             return profiles[configName];
         }
 
-        public static readonly PowerProfileConfig fullAccessProfileConfig = new (ImmutableList<ModifierChance>.Empty, PowerDefinitions.powerTemplates.Keys.ToImmutableList());
+        public static readonly PowerProfileConfig fullAccessProfileConfig = new (ImmutableList<ModifierChance>.Empty.Add(new("$", 1)), PowerDefinitions.powerTemplates.Keys.ToImmutableList());
 
         private static readonly ImmutableDictionary<string, ToolProfile> profiles = new Dictionary<string, ToolProfile>
         {
@@ -196,8 +197,17 @@ namespace GameEngine.Tests
             { "SecondAttackOnly", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                 new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(
                     new ModifierChance[] {
+                        new("$", 1),
                         new("$..[?(@.Name=='TwoHits')]", 0),
                         new("$..[?(@.Name=='UpToThreeTargets')]", 0),
+                    }.ToImmutableList(),
+                    fullAccessProfileConfig.PowerTemplates
+                )) },
+            { "Control", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+                new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(
+                    new ModifierChance[] {
+                        new("$..[?(@.Name=='Ability Modifier Damage')]", 1),
+                        new("$..[?(@.Name=='MovementControl')]", 1),
                     }.ToImmutableList(),
                     fullAccessProfileConfig.PowerTemplates
                 )) },
@@ -213,7 +223,7 @@ namespace GameEngine.Tests
                         new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                         new[] { DamageType.Normal, DamageType.Fire }.ToImmutableList(),
                         new PowerProfileConfig(
-                            ImmutableList<ModifierChance>.Empty, 
+                            ImmutableList<ModifierChance>.Empty.Add(new("$", 1)), 
                             new[] {
                                 PowerDefinitions.MultiattackPowerTemplateName,
                                 PowerDefinitions.SkirmishPowerTemplateName,

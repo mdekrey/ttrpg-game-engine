@@ -1,0 +1,36 @@
+﻿- Template: Skirmish
+  Level: 1
+  Usage: Daily
+  Tool: Weapon
+  ToolRange: Melee
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - Effects:
+      - Name: Prone
+      - Mode: Pull
+        Amount: +4
+        Name: Slide Opponent
+      Name: MovementControl
+  Modifiers: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One creature
+  Attack: STR vs. AC
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage, you pull the target +4 squares, and the target is knocked prone.

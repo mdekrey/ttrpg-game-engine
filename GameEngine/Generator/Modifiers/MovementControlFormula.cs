@@ -2,7 +2,6 @@
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
-using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -42,10 +41,20 @@ namespace GameEngine.Generator.Modifiers
                 }
                 from mod in set
                 select mod;
+
+            public override AttackInfoMutator? GetAttackInfoMutator() => new(100, (attack, info, index) => attack with
+            {
+                HitParts = attack.HitParts.AddRange(from effect in Effects
+                                                    orderby effect.HitPartOrder()
+                                                    select effect.HitPart()),
+            });
         }
 
         public abstract record MovementControl(string Name)
         {
+            public abstract int HitPartOrder();
+            public abstract string HitPart();
+
             public abstract double Cost();
             public virtual IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 Enumerable.Empty<MovementControl>();
@@ -54,6 +63,8 @@ namespace GameEngine.Generator.Modifiers
         public record Prone() : MovementControl("Prone")
         {
             public override double Cost() => 1;
+            public override int HitPartOrder() => 1;
+            public override string HitPart() => "the target is knocked prone";
         }
 
         public enum OpponentMovementMode
@@ -65,6 +76,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record SlideOpponent(OpponentMovementMode Mode, GameDiceExpression Amount) : MovementControl("Slide Opponent")
         {
+            public override int HitPartOrder() => 0;
+            public override string HitPart() => $"you {Mode.ToText().ToLower()} the target {Amount} squares";
             public override double Cost() => Amount.ToWeaponDice() * 2;
             public override IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
