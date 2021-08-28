@@ -1,8 +1,8 @@
-declare module '!babel-loader!@mdx-js/loader!*.mdx' {
+declare module '*.mdx' {
 	declare const component: React.FunctionComponent<MDXProviderProps>;
 	export default component;
 }
-declare module '!babel-loader!@mdx-js/loader!*.md' {
+declare module '*.md' {
 	declare const component: React.FunctionComponent<MDXProviderProps>;
 	export default component;
 }

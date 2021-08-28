@@ -1,8 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { MdxComponents } from './mdx-components';
 
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import Page from '!babel-loader!@mdx-js/loader!./page-sample.mdx';
+import Page from './page-sample.mdx';
 
 export default {
 	title: 'Example/PageSample',

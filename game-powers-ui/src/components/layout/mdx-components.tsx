@@ -16,7 +16,10 @@ function merge(lhs: JSX.Element, rhs: JSX.Element): JSX.Element {
 const headerTemplate = (
 	<i className={classNames('font-header font-bold', 'mt-4 first:mt-0')} style={{ pageBreakAfter: 'avoid' }} />
 );
-const rowTemplate = <tr className="odd:bg-tan-accent even:bg-tan-light border-b-2 border-white font-info" />;
+
+const rowTemplate = (
+	<tr className="even:bg-gradient-to-r from-tan-fading to-white odd:bg-tan-accent border-b-2 border-white font-info" />
+);
 const infoFontTemplate = <i className="font-info" />;
 
 const mdxComponents: Components = {

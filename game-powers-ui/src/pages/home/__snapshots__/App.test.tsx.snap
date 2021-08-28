@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div>
+  <div
+    class="storybook-md-theme"
+  >
+    <div
+      class="font-text"
+    >
+      <page-sample.mdx />
+    </div>
+  </div>
+</div>
+`;
