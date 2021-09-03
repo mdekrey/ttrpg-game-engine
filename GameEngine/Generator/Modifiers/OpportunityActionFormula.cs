@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
@@ -23,6 +24,8 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
                 new[] { new OpportunityActionModifier() };
+
+            public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record OpportunityActionModifier() : PowerModifier(ModifierName)
@@ -33,6 +36,14 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
+
+            public override PowerTextMutator? GetTextMutator() =>
+                new(0, (textBlock, powerInfo) => textBlock with
+                {
+                    ActionType = "Immediate Reaction",
+                    Trigger = "You or an ally is attacked by a creature", // TODO - other triggers?
+                    Target = "The attacking creature",
+                });
         }
     }
 }

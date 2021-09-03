@@ -164,6 +164,7 @@ namespace GameEngine.Generator
                 AttackTypeDetails: null,
                 Prerequisite: null,
                 Requirement: null,
+                Trigger: null,
                 Target: null,
                 Attack: null,
                 RulesText: ImmutableList<RulesText>.Empty

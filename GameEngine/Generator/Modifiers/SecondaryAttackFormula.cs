@@ -49,6 +49,8 @@ namespace GameEngine.Generator.Modifiers
                     yield return new SplitAttackModifier(option.ToImmutableList(), true);
                 }
             }
+        
+            public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record DelegateModifier(IAttackModifier AttackModifier, Transform<AttackLimits>? limitTransform = null) : PowerModifier(ModifierName)
@@ -74,6 +76,7 @@ namespace GameEngine.Generator.Modifiers
                     Modifiers = power.Modifiers.Remove(this).Add(new MultiattackAppliedModifier()),
                 };
             }
+            public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record SplitAttackModifier(ImmutableList<double> Amounts, bool RequiresPreviousHit) : PowerModifier(ModifierName)
@@ -122,6 +125,7 @@ namespace GameEngine.Generator.Modifiers
                     Modifiers = power.Modifiers.Remove(this).Add(new MultiattackAppliedModifier()),
                 };
             }
+            public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record MultiattackAppliedModifier() : PowerModifier(ModifierName)
@@ -129,6 +133,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => 0;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
+            public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record MustHitForNextAttackModifier() : AttackModifier(MustHitForNextAttackModifier.ModifierName)

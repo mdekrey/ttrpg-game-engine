@@ -1,0 +1,35 @@
+﻿- Template: Close blast
+  Level: 1
+  Usage: Encounter
+  Tool: Weapon
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Size: 3
+      Type: Blast
+      Name: Multiple
+  Modifiers: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  PowerUsage: Encounter
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Close
+  AttackTypeDetails: blast 3
+  Target: Each enemy in range
+  Attack: STR vs. Fortitude
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage.

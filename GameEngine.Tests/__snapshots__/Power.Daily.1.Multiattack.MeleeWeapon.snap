@@ -1,0 +1,33 @@
+﻿- Template: Multiattack
+  Level: 1
+  Usage: Daily
+  Tool: Weapon
+  ToolRange: Melee
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.25
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: TwoHits
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  Modifiers: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One or two creatures
+  Attack: STR vs. Fortitude, two attacks
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage.

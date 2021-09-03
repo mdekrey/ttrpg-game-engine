@@ -110,8 +110,7 @@ namespace GameEngine.Generator
         public abstract IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
 
-        // TODO - make this abstract
-        public virtual PowerTextMutator? GetTextMutator() => PowerTextMutator.Empty;
+        public abstract PowerTextMutator? GetTextMutator();
     }
 
     public abstract record AttackModifier(string Name) : IAttackModifier

@@ -35,6 +35,24 @@ const encounterPower: PowerTextBlockProps = {
 	attack: 'INT vs. Reflex',
 	rulesText: [{ label: 'Hit', text: '2d6 + INT fire damage.' }],
 };
+const encounterOpportunityPower: PowerTextBlockProps = {
+	name: 'Disruptive Strike',
+	typeInfo: 'Ranger Attack 1',
+	flavorText: `You thwart an enemy's attack with a timely thrust of your blade or a quick shot from your bow`,
+	powerUsage: 'Encounter',
+	keywords: ['Martial', 'Weapon'],
+	actionType: 'Immediate Interrupt',
+	attackType: 'Melee',
+	attackTypeDetails: 'weapon',
+	target: 'The attacking creature',
+	attack: 'STR vs. AC',
+	rulesText: [
+		{
+			label: 'Hit',
+			text: '1[W] + STR damage. The target takes a penalty to its attack roll for the triggering attack equal to 3 + WIS modifier',
+		},
+	],
+};
 const dailyPower: PowerTextBlockProps = {
 	name: 'Acid Arrow',
 	typeInfo: 'Wizard Attack 1',
@@ -68,6 +86,7 @@ const dailyPower: PowerTextBlockProps = {
 const contentsMapping = {
 	'Ray of Frost': atWillPower,
 	'Burning Hands': encounterPower,
+	'Disruptive Strike': encounterOpportunityPower,
 	'Acid Arrow': dailyPower,
 };
 

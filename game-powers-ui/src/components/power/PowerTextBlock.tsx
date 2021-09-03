@@ -20,6 +20,7 @@ export type PowerTextBlockProps = {
 	attackTypeDetails?: string | null;
 	prerequisite?: string | null;
 	requirement?: string | null;
+	trigger?: string | null;
 	target?: string | null;
 	attack?: string | null;
 	rulesText: { label?: string | null; text: string }[];
@@ -35,6 +36,7 @@ export function PowerTextBlock({
 	actionType,
 	attackType,
 	attackTypeDetails,
+	trigger,
 	target,
 	attack,
 	rulesText,
@@ -66,6 +68,7 @@ export function PowerTextBlock({
 						</p>
 					)}
 				</div>
+				{trigger && <RulesText label="Trigger">{trigger}</RulesText>}
 				{target && <RulesText label="Target">{target}</RulesText>}
 				{attack && <RulesText label="Attack">{attack}</RulesText>}
 			</div>
