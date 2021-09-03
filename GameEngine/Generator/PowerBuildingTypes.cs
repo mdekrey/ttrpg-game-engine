@@ -51,7 +51,6 @@ namespace GameEngine.Generator
 
         public abstract IEnumerable<IModifier> AllModifiers();
 
-
         public abstract bool IsValid();
     }
 

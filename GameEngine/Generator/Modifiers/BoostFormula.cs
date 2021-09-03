@@ -228,6 +228,12 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
+            public override PowerTextMutator GetTextMutator() =>
+                new(1000, (power, info) => power with
+                {
+                    RulesText = power.RulesText.AddEffectSentences(GetSentences()),
+                });
+
             public override AttackInfoMutator? GetAttackInfoMutator() =>
                 new(1000, (attack, info, index) => attack with
                 {

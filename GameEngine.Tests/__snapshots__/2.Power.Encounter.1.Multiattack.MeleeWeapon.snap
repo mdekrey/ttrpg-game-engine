@@ -43,6 +43,8 @@
   RulesText:
   - Label: Hit
     Text: 1[W] damage. Make a secondary attack.
+  - Label: Effect
+    Text: One ally of your choice within 5 squares or you gain a STR power bonus to attack rolls.
   - Label: Secondary Target
     Text: One creature adjacent to the primary target
   - Label: Secondary Attack

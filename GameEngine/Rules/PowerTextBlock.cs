@@ -1,4 +1,7 @@
 ﻿using GameEngine.Generator;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 
 namespace GameEngine.Rules
 {
@@ -17,4 +20,18 @@ namespace GameEngine.Rules
         string Label,
         string Text
     );
+
+    public static class RulesTextExtensions
+    {
+        public static ImmutableList<RulesText> AddEffectSentences(this EquatableImmutableList<RulesText> rulesText, IEnumerable<string> sentences)
+        {
+            var index = rulesText.Items.FindIndex(r => r.Label == "Effect");
+            if (index == -1)
+                return rulesText.Items.Add(new RulesText("Effect", string.Join(' ', sentences)));
+            return rulesText.Items.SetItem(index, rulesText.Items[index] with
+            {
+                Text = string.Join(' ', new[] { rulesText.Items[index].Text }.Concat(sentences))
+            });
+        }
+    }
 }

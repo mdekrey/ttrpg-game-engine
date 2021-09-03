@@ -139,8 +139,7 @@ namespace GameEngine.Generator
         public virtual PowerCost GetCost(PowerProfileBuilder builder) => GetCost();
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
-        // TODO - make this abstract
-        public virtual PowerTextMutator GetTextMutator() => PowerTextMutator.Empty;
+        public abstract PowerTextMutator GetTextMutator();
         public abstract AttackInfoMutator? GetAttackInfoMutator();
     }
 
