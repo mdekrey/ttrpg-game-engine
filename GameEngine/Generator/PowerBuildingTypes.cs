@@ -132,13 +132,13 @@ namespace GameEngine.Generator
                     let attack = attackKvp.attack
                     let index = attackKvp.index
                     from modifier in attack.Modifiers
-                    from upgrade in modifier.GetUpgrades(attack, stage)
+                    from upgrade in modifier.GetAttackUpgrades(attack, stage)
                     let upgraded = (this with { Attacks = this.Attacks.SetItem(index, attack.Apply(upgrade, modifier)) }).FinalizeUpgrade()
                     where upgraded.IsValid()
                     select upgraded,
 
                     from modifier in Modifiers
-                    from upgrade in modifier.GetUpgrades(this, stage)
+                    from upgrade in modifier.GetPowerUpgrades(this, stage)
                     let upgraded = this.Apply(upgrade, modifier).FinalizeUpgrade()
                     where upgraded.IsValid()
                     select upgraded,

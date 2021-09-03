@@ -21,7 +21,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
 
-            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+            public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
                 new[] { new OpportunityActionModifier() };
         }
 
@@ -31,7 +31,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => new PowerCost(PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage) - PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage - 1));
 
-            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+            public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
         }
     }

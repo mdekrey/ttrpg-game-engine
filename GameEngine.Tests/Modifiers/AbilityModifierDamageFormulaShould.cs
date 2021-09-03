@@ -39,7 +39,7 @@ namespace GameEngine.Tests.Modifiers
                 )
             );
 
-            var upgrades = attack.Modifiers.First().GetUpgrades(attack, UpgradeStage.Finalize);
+            var upgrades = attack.Modifiers.First().GetAttackUpgrades(attack, UpgradeStage.Finalize);
 
             Assert.Collection(upgrades, upgrade => Assert.True(upgrade is AbilityModifierDamageFormula.AbilityDamageModifier { Abilities: var abilities } 
                                                     && abilities.Contains(Rules.Ability.Strength) 

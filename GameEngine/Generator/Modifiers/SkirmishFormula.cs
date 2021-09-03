@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
@@ -28,23 +29,46 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => 1;
             public override PowerCost GetCost() => PowerCost.Empty;
 
-            public override IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers)
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
             {
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, (GameDiceExpression)powerInfo.ToolProfile.Abilities[0])));
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, (GameDiceExpression)powerInfo.ToolProfile.Abilities[0])));
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, (GameDiceExpression)powerInfo.ToolProfile.Abilities[0])));
+                // TODO - when should we use the secondary ability?
+                //var ability = attack.PowerInfo.ToolProfile.Abilities.Count == 1
+                //    ? attack.Ability
+                //    : attack.PowerInfo.ToolProfile.Abilities.Except(new[] { attack.Ability }).First();
+                var ability = attack.Ability;
+
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, (GameDiceExpression)ability)));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, (GameDiceExpression)ability)));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, 2)));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new MovementDoesNotProvoke()));
+            }
+
+            public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage)
+            {
+                // TODO - when should we use the secondary ability?
+                //var ability = power.PowerInfo.ToolProfile.Abilities.Count == 1
+                //    ? power.PowerInfo.ToolProfile.Abilities[0]
+                //    : power.PowerInfo.ToolProfile.Abilities.Except(power.Attacks.Select(attack => attack.Ability).Take(1)).First();
+                var ability = power.PowerInfo.ToolProfile.Abilities[0];
+
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, (GameDiceExpression)ability)));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, (GameDiceExpression)ability)));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, (GameDiceExpression)ability)));
                 yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, 2)));
                 yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 2)));
                 yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, 2)));
                 yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 1), new Shift(ShiftTiming.After, 1)));
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new MovementDoesNotProvoke()));
             }
+      
+            public override AttackInfoMutator? GetAttackInfoMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public abstract record SkirmishMovement(string Name)
         {
             public abstract double Cost();
             public abstract IEnumerable<SkirmishMovement> GetUpgrades(PowerHighLevelInfo powerInfo);
+
+            public abstract string GetAttackSentence();
         }
         public record Shift(ShiftTiming Timing, GameDiceExpression? Amount) : SkirmishMovement("Shift")
         {
@@ -59,6 +83,7 @@ namespace GameEngine.Generator.Modifiers
                 if (Amount.Abilities == CharacterAbilities.Empty && Amount.DieCodes.Modifier <= 2)
                     yield return this with { Amount = null };
             }
+            public override string GetAttackSentence() => $"You may shift {Amount} squares.";
         }
         public record MovementDoesNotProvoke() : SkirmishMovement("Non-Provoking Movement")
         {
@@ -67,6 +92,8 @@ namespace GameEngine.Generator.Modifiers
             {
                 yield break;
             }
+
+            public override string GetAttackSentence() => $"Any movement you take for the rest of the turn does not provoke opportunity attacks.";
         }
         public record SkirmishMovementModifier(EquatableImmutableList<SkirmishMovement> Movement) : AttackAndPowerModifier(ModifierName)
         {
@@ -74,7 +101,12 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost() => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 
-            public override IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+                GetUpgrades(attack.PowerInfo);
+            public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+                GetUpgrades(power.PowerInfo);
+
+            public IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 from set in new[]
                 {
                     // TODO - multiple types of movement?
@@ -85,6 +117,13 @@ namespace GameEngine.Generator.Modifiers
                 }
                 from mod in set
                 select mod;
+
+            public override AttackInfoMutator? GetAttackInfoMutator() =>
+                new(500, (attack, info, index) => attack with
+                {
+                    HitSentences = attack.HitSentences.AddRange(from movement in Movement
+                                                                select movement.GetAttackSentence()),
+                });
 
         }
     }

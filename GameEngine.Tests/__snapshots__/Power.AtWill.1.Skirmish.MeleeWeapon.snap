@@ -32,4 +32,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage.
+    Text: 1[W] + STR damage. You may shift STR squares.

@@ -57,7 +57,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => 1 + Conditions.Count / 4;
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(Duration)).Sum());
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 from set in new[]
                 {
                     from basicCondition in basicConditions.Keys

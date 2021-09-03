@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -62,6 +63,7 @@ namespace GameEngine.Generator.Modifiers
             public abstract double Cost();
             public abstract bool DurationAffected();
             public abstract IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo);
+            public abstract string BoostText();
         }
         public record AttackBoost(GameDiceExpression Amount, Limit? Limit) : Boost("Attack")
         {
@@ -75,6 +77,7 @@ namespace GameEngine.Generator.Modifiers
                 if (Limit != null)
                     yield return this with { Limit = null };
             }
+            public override string BoostText() => $"gain a {Amount} power bonus to attack rolls";
 
         }
         public record DefenseBoost(GameDiceExpression Amount, DefenseType? Defense) : Boost("Defense")
@@ -89,6 +92,7 @@ namespace GameEngine.Generator.Modifiers
                 if (Defense != null)
                     yield return this with { Defense = null };
             }
+            public override string BoostText() => $"gain a {Amount} power bonus to {Defense?.ToText() ?? "all defenses"}";
         }
         public record TemporaryHitPoints(GameDiceExpression Amount) : Boost("Temporary Hit Points")
         {
@@ -99,18 +103,22 @@ namespace GameEngine.Generator.Modifiers
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
                     yield return this with { Amount = entry };
             }
+
+            public override string BoostText() => $"gain {Amount} temporary hit points";
         }
         public record ExtraSavingThrow() : Boost("Extra Saving Throw")
         {
             public override double Cost() => 1;
             public override bool DurationAffected() => false;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
+            public override string BoostText() => $"may immediately make a saving throw";
         }
         public record HealingSurge() : Boost("Healing Surge")
         {
             public override double Cost() => 1;
             public override bool DurationAffected() => false;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
+            public override string BoostText() => $"may immediately spend a healing surge";
         }
         public record Regeneration(GameDiceExpression Amount) : Boost("Regeneration")
         {
@@ -121,6 +129,7 @@ namespace GameEngine.Generator.Modifiers
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
                     yield return this with { Amount = entry };
             }
+            public override string BoostText() => $"gain regeneration {Amount}";
         }
 
         public enum AllyType
@@ -149,7 +158,12 @@ namespace GameEngine.Generator.Modifiers
                         .Sum()
                 );
 
-            public override IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+                GetUpgrades(attack.PowerInfo, attack.Modifiers.OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds });
+            public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+                GetUpgrades(power.PowerInfo, power.AllModifiers().OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds });
+
+            public IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, bool hasSaveEnds) =>
                 from set in new[]
                 {
                     from basicBoost in GetBasicBoosts(powerInfo)
@@ -189,7 +203,7 @@ namespace GameEngine.Generator.Modifiers
                     where duration switch
                     {
                         Duration.EndOfEncounter => powerInfo.Usage == PowerFrequency.Daily,
-                        Duration.SaveEnds => modifiers.OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds },
+                        Duration.SaveEnds => hasSaveEnds,
                         _ => false,
                     }
                     where SelfBoosts.Concat(AllyBoosts).Any(b => b.DurationAffected())
@@ -213,6 +227,49 @@ namespace GameEngine.Generator.Modifiers
                 }
                 from mod in set
                 select mod;
+
+            public override AttackInfoMutator? GetAttackInfoMutator() =>
+                new(1000, (attack, info, index) => attack with
+                {
+                    HitSentences = attack.HitSentences.AddRange(GetSentences()),
+                });
+
+            public IEnumerable<string> GetSentences()
+            {
+                var duration = Duration switch
+                {
+                    Duration.EndOfUserNextTurn => "Until the end of your next turn,",
+                    Duration.SaveEnds => "While the effect persists,",
+                    Duration.EndOfEncounter => "Until the end of the encounter,",
+                    _ => throw new System.NotImplementedException(),
+                };
+                var allyTarget = AllyType switch
+                {
+                    AllyType.All => "you and all allies within 5 squares",
+                    AllyType.Single => "one ally of your choice within 5 squares or you",
+                    _ => throw new System.NotImplementedException(),
+                };
+                var parts = new List<string>();
+                if (AllyBoosts.Where(b => b.DurationAffected()).Any())
+                {
+                    parts.Add($"{allyTarget} {OxfordComma(AllyBoosts.Where(b => b.DurationAffected()).Select(b => b.BoostText()).ToArray())}");
+                }
+                if (SelfBoosts.Where(b => b.DurationAffected()).Any())
+                {
+                    parts.Add($"you {OxfordComma(AllyBoosts.Where(b => b.DurationAffected()).Select(b => b.BoostText()).ToArray())}");
+                }
+                if (parts.Any())
+                    yield return $"{duration} {OxfordComma(parts.ToArray())}".FinishSentence();
+
+                if (AllyBoosts.Where(b => !b.DurationAffected()).Any())
+                {
+                    yield return $"{allyTarget.Capitalize()} {OxfordComma(AllyBoosts.Where(b => !b.DurationAffected()).Select(b => b.BoostText()).ToArray())}".FinishSentence();
+                }
+                if (SelfBoosts.Where(b => !b.DurationAffected()).Any())
+                {
+                    yield return $"You {OxfordComma(AllyBoosts.Where(b => !b.DurationAffected()).Select(b => b.BoostText()).ToArray())}".FinishSentence();
+                }
+            }
         }
     }
 }

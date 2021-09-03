@@ -83,7 +83,7 @@ namespace GameEngine.Generator
     public interface IPowerModifier : IModifier
     {
         PowerCost GetCost(PowerProfileBuilder builder);
-        IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
+        IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder);
         PowerTextMutator? GetTextMutator();
     }
@@ -97,7 +97,7 @@ namespace GameEngine.Generator
     public interface IAttackModifier : IModifier
     {
         PowerCost GetCost(AttackProfileBuilder builder);
-        IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
+        IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         double ApplyEffectiveWeaponDice(double weaponDice);
         AttackInfoMutator? GetAttackInfoMutator();
     }
@@ -107,9 +107,10 @@ namespace GameEngine.Generator
         public abstract int GetComplexity();
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
-        public abstract IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
+        public abstract IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
 
+        // TODO - make this abstract
         public virtual PowerTextMutator? GetTextMutator() => PowerTextMutator.Empty;
     }
 
@@ -118,7 +119,7 @@ namespace GameEngine.Generator
         public abstract int GetComplexity();
         public abstract PowerCost GetCost(AttackProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
-        public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
+        public abstract IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
         public abstract AttackInfoMutator? GetAttackInfoMutator();
@@ -130,11 +131,8 @@ namespace GameEngine.Generator
         public abstract PowerCost GetCost();
         public virtual bool IsMetaModifier() => false;
 
-        IEnumerable<IAttackModifier> IAttackModifier.GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
-            GetUpgrades(attack.PowerInfo, attack.Modifiers);
-        IEnumerable<IPowerModifier> IPowerModifier.GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
-            GetUpgrades(power.PowerInfo, power.Modifiers);
-        public abstract IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, IEnumerable<IModifier> modifiers);
+        public abstract IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
+        public abstract IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public virtual PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder builder) => builder;
 
         public virtual PowerCost GetCost(AttackProfileBuilder builder) => GetCost();
@@ -142,9 +140,9 @@ namespace GameEngine.Generator
         public virtual PowerCost GetCost(PowerProfileBuilder builder) => GetCost();
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
-        // TODO - make these abstract
+        // TODO - make this abstract
         public virtual PowerTextMutator GetTextMutator() => PowerTextMutator.Empty;
-        public virtual AttackInfoMutator? GetAttackInfoMutator() => AttackInfoMutator.Empty;
+        public abstract AttackInfoMutator? GetAttackInfoMutator();
     }
 
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, EquatableImmutableList<IAttackModifier> Modifiers)

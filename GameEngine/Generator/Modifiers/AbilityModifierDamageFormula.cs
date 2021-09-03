@@ -21,7 +21,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Abilities.Items.Count * 0.5);
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
                     .Distinct()
                     .Take(stage == UpgradeStage.Standard ? 1 : attack.PowerInfo.ToolProfile.Abilities.Count)
