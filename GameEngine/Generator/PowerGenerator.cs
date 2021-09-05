@@ -61,7 +61,6 @@ namespace GameEngine.Generator
 
         private ImmutableList<PowerProfile> GeneratePowerProfiles(int level, PowerFrequency usage, ClassProfile classProfile)
         {
-            var excluded = new List<(ToolProfile tool, string template)>();
             var tools = Shuffle(classProfile.Tools);
             var result = new List<PowerProfile>();
             result.Add(Generate(GetPowerInfo(), true));
@@ -72,7 +71,6 @@ namespace GameEngine.Generator
                 if (result.Contains(powerProfile))
                     continue; // Exclude duplicates
                 result.Add(powerProfile);
-                excluded.Add((powerInfo.ToolProfile, powerProfile.Template));
             }
             return result.ToImmutableList();
 
@@ -85,7 +83,7 @@ namespace GameEngine.Generator
             {
                 return GenerateProfile(info, isFirst 
                     ? info.ToolProfile.PowerProfileConfig.PowerTemplates.Take(1) 
-                    : info.ToolProfile.PowerProfileConfig.PowerTemplates.Where(pt => !excluded.Any(ex => ex.template == pt && ex.tool == info.ToolProfile))
+                    : info.ToolProfile.PowerProfileConfig.PowerTemplates
                 );
             }
         }

@@ -81,7 +81,6 @@ namespace GameEngine.Generator
         public override PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         internal PowerProfile Build() => new PowerProfile(
-            Template,
             PowerInfo.Level,
             PowerInfo.Usage,
             PowerInfo.ToolProfile.Type,
