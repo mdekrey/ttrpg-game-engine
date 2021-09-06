@@ -26,7 +26,7 @@ namespace GameEngine.Generator.Modifiers
         public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => 
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
                 new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
@@ -44,18 +44,18 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => new(100, (attack, info, index) => attack with
-            {
-                HitParts = attack.HitParts.AddRange(from effect in Effects
-                                                    orderby effect.HitPartOrder()
-                                                    select effect.HitPart()),
-            });
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => new(100, (attack, info, index) => Effects.Aggregate(attack, (current, effect) => effect.Apply(current, power)));
         }
 
         public abstract record MovementControl(string Name)
         {
-            public abstract int HitPartOrder();
+            public abstract int Order();
             public abstract string HitPart();
+            public virtual AttackInfo Apply(AttackInfo attack, PowerProfile power) =>
+                attack with
+                {
+                    HitParts = attack.HitParts.Add(HitPart()),
+                };
 
             public abstract double Cost();
             public virtual IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo) =>
@@ -65,7 +65,7 @@ namespace GameEngine.Generator.Modifiers
         public record Prone() : MovementControl("Prone")
         {
             public override double Cost() => 1;
-            public override int HitPartOrder() => 1;
+            public override int Order() => 1;
             public override string HitPart() => "the target is knocked prone";
         }
 
@@ -78,13 +78,24 @@ namespace GameEngine.Generator.Modifiers
 
         public record SlideOpponent(OpponentMovementMode Mode, GameDiceExpression Amount) : MovementControl("Slide Opponent")
         {
-            public override int HitPartOrder() => 0;
+            public override int Order() => 0;
             public override string HitPart() => $"you {Mode.ToText().ToLower()} the target {Amount} squares";
             public override double Cost() => Amount.ToWeaponDice() * 2;
             public override IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities, limit: 4))
                     yield return this with { Amount = entry };
+            }
+
+            public override AttackInfo Apply(AttackInfo attack, PowerProfile power)
+            {
+                if (Mode != OpponentMovementMode.Pull || power.ToolRange != ToolRange.Melee)
+                    return base.Apply(attack, power);
+
+                return attack with
+                {
+                    SpecialSentences = attack.SpecialSentences.Add($"Before the attack, you may pull targets {Amount} squares to become valid targets of the attack.")
+                };
             }
         }
     }

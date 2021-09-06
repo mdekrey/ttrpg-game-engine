@@ -32,4 +32,6 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, you pull the target +4 squares, and the target is knocked prone.
+    Text: 1[W] + STR damage and the target is knocked prone.
+  - Label: Special
+    Text: Before the attack, you may pull targets +4 squares to become valid targets of the attack.

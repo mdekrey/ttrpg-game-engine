@@ -124,7 +124,8 @@ namespace GameEngine.Generator
         ImmutableList<DamageType> DamageTypes,
         ImmutableList<string> HitParts,
         ImmutableList<string> HitSentences,
-        ImmutableList<string> MissParts
+        ImmutableList<string> MissParts,
+        ImmutableList<string> SpecialSentences
     )
     {
         public string Hit =>
@@ -199,7 +200,8 @@ namespace GameEngine.Generator
                 DamageTypes: profile.DamageTypes,
                 HitParts: ImmutableList<string>.Empty,
                 HitSentences: ImmutableList<string>.Empty,
-                MissParts: ImmutableList<string>.Empty
+                MissParts: ImmutableList<string>.Empty,
+                SpecialSentences: ImmutableList<string>.Empty
             );
             result = (from mod in profile.Modifiers
                       let mutator = mod.GetAttackInfoMutator(power)
@@ -223,7 +225,8 @@ namespace GameEngine.Generator
                     Attack = attack.ToAttackText(),
                     RulesText = power.RulesText.Items
                         .Add(new("Hit", attack.Hit))
-                        .Add(new("Miss", attack.Miss)),
+                        .Add(new("Miss", attack.Miss))
+                        .Add(new("Special", string.Join(" ", attack.SpecialSentences))),
                 };
             }
             else

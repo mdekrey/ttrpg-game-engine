@@ -41,4 +41,6 @@
   Attack: STR + 4 vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, the target is blinded, dazed, and slowed (save ends), you pull the target +2 squares, and the target is knocked prone.
+    Text: 1[W] + STR damage, the target is blinded, dazed, and slowed (save ends), and the target is knocked prone.
+  - Label: Special
+    Text: Before the attack, you may pull targets +2 squares to become valid targets of the attack.
