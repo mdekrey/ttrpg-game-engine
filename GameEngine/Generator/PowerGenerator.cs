@@ -63,11 +63,10 @@ namespace GameEngine.Generator
         {
             var tools = Shuffle(classProfile.Tools);
             var result = new List<PowerProfile>();
-            result.Add(Generate(GetPowerInfo(), true));
             while (result.Count < 4)
             {
                 var powerInfo = GetPowerInfo();
-                var powerProfile = Generate(powerInfo, false);
+                var powerProfile = GenerateProfile(powerInfo, exclude: result);
                 if (result.Contains(powerProfile))
                     continue; // Exclude duplicates
                 result.Add(powerProfile);
@@ -77,11 +76,6 @@ namespace GameEngine.Generator
             PowerHighLevelInfo GetPowerInfo()
             {
                 return new(Level: level, Usage: usage, ClassRole: classProfile.Role, ToolProfile: tools[result.Count % tools.Count]);
-            }
-
-            PowerProfile Generate(PowerHighLevelInfo info, bool isFirst)
-            {
-                return GenerateProfile(info, exclude: result);
             }
         }
 
@@ -130,34 +124,35 @@ namespace GameEngine.Generator
                 if (powerProfileBuilder.Attacks.Any(a => a.WeaponDice < minAmount))
                     System.Diagnostics.Debugger.Break();
                 var oldBuilder = powerProfileBuilder;
-                var validModifiers = (from set in new[]
-                                      {
-                                          from mod in ModifierDefinitions.attackModifiers
-                                          from attackWithIndex in powerProfileBuilder.Attacks.Select((attack, index) => (attack, index))
-                                          let attack = attackWithIndex.attack
-                                          let index = attackWithIndex.index
-                                          where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
-                                          let entry = mod.GetBaseModifier(attack)
-                                          from e in (entry.MustUpgrade() ? entry.GetAttackUpgrades(attack, stage) : new[] { entry })
-                                          let appliedAttack = attack.Apply(e)
-                                          where appliedAttack.IsValid()
-                                          let applied = powerProfileBuilder with { Attacks = powerProfileBuilder.Attacks.SetItem(index, appliedAttack) }
-                                          where applied.IsValid()
-                                          select applied
-                                          ,
-                                          from mod in ModifierDefinitions.powerModifiers
-                                          where mod.IsValid(powerProfileBuilder) && !powerProfileBuilder.Modifiers.Any(m => m.Name == mod.Name)
-                                          let entry = mod.GetBaseModifier(powerProfileBuilder)
-                                          from e in (entry.MustUpgrade() ? entry.GetPowerUpgrades(powerProfileBuilder, stage) : new[] { entry })
-                                          from applied in powerProfileBuilder.Apply(e).FinalizeUpgrade()
-                                          where applied.IsValid()
-                                          select applied
-                                          ,
-                                          powerProfileBuilder.GetUpgrades(stage)
-                                      }
-                                      from entry in set
-                                      where !exclude.Contains(entry.Build())
-                                      select entry).ToChances(powerProfileBuilder.PowerInfo.ToolProfile.PowerProfileConfig).ToArray();
+                var preChance = (from set in new[]
+                                 {
+                                     from mod in ModifierDefinitions.attackModifiers
+                                     from attackWithIndex in powerProfileBuilder.Attacks.Select((attack, index) => (attack, index))
+                                     let attack = attackWithIndex.attack
+                                     let index = attackWithIndex.index
+                                     where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
+                                     let entry = mod.GetBaseModifier(attack)
+                                     from e in (entry.MustUpgrade() ? entry.GetAttackUpgrades(attack, stage) : new[] { entry })
+                                     let appliedAttack = attack.Apply(e)
+                                     where appliedAttack.IsValid()
+                                     let applied = powerProfileBuilder with { Attacks = powerProfileBuilder.Attacks.SetItem(index, appliedAttack) }
+                                     where applied.IsValid()
+                                     select applied
+                                     ,
+                                     from mod in ModifierDefinitions.powerModifiers
+                                     where mod.IsValid(powerProfileBuilder) && !powerProfileBuilder.Modifiers.Any(m => m.Name == mod.Name)
+                                     let entry = mod.GetBaseModifier(powerProfileBuilder)
+                                     from e in (entry.MustUpgrade() ? entry.GetPowerUpgrades(powerProfileBuilder, stage) : new[] { entry })
+                                     from applied in powerProfileBuilder.Apply(e).FinalizeUpgrade()
+                                     where applied.IsValid()
+                                     select applied
+                                     ,
+                                     powerProfileBuilder.GetUpgrades(stage)
+                                 }
+                                 from entry in set
+                                 where !exclude.Contains(entry.Build())
+                                 select entry).ToArray();
+                var validModifiers = preChance.ToChances(powerProfileBuilder.PowerInfo.ToolProfile.PowerProfileConfig).ToArray();
                 if (validModifiers.Length == 0)
                     break;
                 if (validModifiers.Any(r => r.Result.Attacks.Any(a => a.WeaponDice < minAmount)))
@@ -217,7 +212,7 @@ namespace GameEngine.Generator
         private static int GetAttackMinimumPower(double basePower, ClassRole role, RandomGenerator randomGenerator)
         {
             var powerMax = (int)(role == ClassRole.Striker ? (basePower - 1) : (basePower - 2));
-            var powerOptions = Enumerable.Range(1, powerMax).DefaultIfEmpty(1).Select(i => new RandomChances<int>(Chances: (int)Math.Pow(2, powerMax - Math.Abs(i - powerMax * 2.0/3)), Result: i));
+            var powerOptions = Enumerable.Range(1, powerMax).DefaultIfEmpty(1).Select(i => new RandomChances<int>(Chances: (int)Math.Pow(2, powerMax - Math.Abs(i - powerMax * 2.0 / 3)), Result: i));
             return randomGenerator.RandomSelection(powerOptions);
         }
 

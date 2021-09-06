@@ -176,7 +176,7 @@ namespace GameEngine.Generator.Modifiers
         public record TwoHitsModifier() : AttackModifier(ModifierName)
         {
             // TODO - modifiers if both hit
-            public override int GetComplexity() => 0;
+            public override int GetComplexity() => 1;
             public const string ModifierName = "TwoHits";
             public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
             public override bool IsMetaModifier() => true;
