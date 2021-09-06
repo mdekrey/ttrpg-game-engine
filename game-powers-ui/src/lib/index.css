@@ -21,7 +21,13 @@ ul.theme-4e-list li::marker {
 }
 
 .storybook-md-theme {
-    @apply max-w-2xl mx-auto;
+    @apply mx-auto;
+}
+
+@media not print {
+    .storybook-md-theme {
+        @apply max-w-2xl
+    }
 }
 
 @media print {
@@ -33,5 +39,8 @@ ul.theme-4e-list li::marker {
 @media print {
     * {
         -webkit-print-color-adjust: exact;
+    }
+    html {
+        font-size: 80%;
     }
 }
