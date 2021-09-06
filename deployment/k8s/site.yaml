@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: game-engine
+  name: game-deployment
+  labels:
+    app: game-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: game-pod
+  template:
+    metadata:
+      labels:
+        app: game-pod
+    spec:
+      imagePullSecrets:
+        - name: game-engine-registry
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: web
+          image: "dekreydotnet.azurecr.io/game-4e:latest"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: game-engine
+  name: game-ingress
+  labels:
+    app: game-ingress
+  annotations:
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    cert-manager.io/issuer: letsencrypt
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - 4e.dekrey.net
+      secretName: 4e-dekrey-net-tls
+  rules:
+    - host: 4e.dekrey.net
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: game-svc
+                port:
+                  number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: game-engine
+  name: game-svc
+  labels:
+    app: game-svc
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app: game-pod

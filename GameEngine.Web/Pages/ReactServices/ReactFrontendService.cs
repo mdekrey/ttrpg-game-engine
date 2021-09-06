@@ -9,6 +9,7 @@ namespace GameEngine.Web.Pages.ReactServices;
 public class ReactFrontendService
 {
     private readonly IWebHostEnvironment env;
+    private readonly ILogger<ReactFrontendService> logger;
     private readonly JsonSerializerSettings serializerSettings = new JsonSerializerSettings()
     {
         ContractResolver = new IgnorePageModelPropertiesContractResolver(new DefaultContractResolver()
@@ -26,6 +27,7 @@ public class ReactFrontendService
 #endif
     private JObject LoadManifest()
     {
+        logger.LogInformation("Loading asset-manifest.json from {path}", env.WebRootFileProvider.GetFileInfo("react-frontend/build/asset-manifest.json").PhysicalPath);
         using var contentStream = env.WebRootFileProvider.GetFileInfo("react-frontend/build/asset-manifest.json").CreateReadStream();
         using var textReader = new System.IO.StreamReader(contentStream);
         using var reader = new Newtonsoft.Json.JsonTextReader(textReader);
@@ -34,9 +36,10 @@ public class ReactFrontendService
     }
 
 
-    public ReactFrontendService(IWebHostEnvironment env)
+    public ReactFrontendService(IWebHostEnvironment env, ILogger<ReactFrontendService> logger)
     {
         this.env = env;
+        this.logger = logger;
 #if !DEBUG
             this.manifest = new Lazy<JObject>(LoadManifest);
 #endif

@@ -6,6 +6,7 @@
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <NodeReactDir>../game-powers-ui</NodeReactDir>
     <NodeReactOutDir>wwwroot/react-frontend/build</NodeReactOutDir>
+    <UserSecretsId>019fd143-8cec-4e2c-8587-2357c4d5f1ce</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <ReactFrontend Include="$(NodeReactDir)\src\**\*" Visible="false" />
