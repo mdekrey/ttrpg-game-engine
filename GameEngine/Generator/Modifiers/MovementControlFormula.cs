@@ -26,9 +26,10 @@ namespace GameEngine.Generator.Modifiers
         public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => 
+                new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
                 from set in new[]
                 {
@@ -43,7 +44,7 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            public override AttackInfoMutator? GetAttackInfoMutator() => new(100, (attack, info, index) => attack with
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => new(100, (attack, info, index) => attack with
             {
                 HitParts = attack.HitParts.AddRange(from effect in Effects
                                                     orderby effect.HitPartOrder()

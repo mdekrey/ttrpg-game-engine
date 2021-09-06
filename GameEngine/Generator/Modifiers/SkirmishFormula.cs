@@ -27,9 +27,9 @@ namespace GameEngine.Generator.Modifiers
         public record EmptySkirmishModifier() : AttackAndPowerModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
-            public override PowerCost GetCost() => PowerCost.Empty;
+            public override PowerCost GetCost(PowerProfileBuilder power) => PowerCost.Empty;
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
             {
                 if (stage < UpgradeStage.Standard) yield break;
 
@@ -65,8 +65,8 @@ namespace GameEngine.Generator.Modifiers
                 yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 1), new Shift(ShiftTiming.After, 1)));
             }
       
-            public override PowerTextMutator GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
-            public override AttackInfoMutator? GetAttackInfoMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
+            public override PowerTextMutator GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public abstract record SkirmishMovement(string Name)
@@ -118,9 +118,9 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
+            public override PowerCost GetCost(PowerProfileBuilder power) => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
                 GetUpgrades(attack.PowerInfo);
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
@@ -139,13 +139,13 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            public override PowerTextMutator GetTextMutator() =>
+            public override PowerTextMutator GetTextMutator(PowerProfile power) =>
                 new(500, (power, info) => power with
                 {
                     RulesText = power.RulesText.AddEffectSentences(from movement in Movement
                                                                    select movement.GetEffectSentence(info.Attacks.Count > 1)),
                 });
-            public override AttackInfoMutator? GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(500, (attack, info, index) => attack with
                 {
                     HitSentences = attack.HitSentences.AddRange(from movement in Movement

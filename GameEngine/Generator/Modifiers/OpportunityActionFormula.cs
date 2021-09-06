@@ -27,7 +27,7 @@ namespace GameEngine.Generator.Modifiers
                 stage != UpgradeStage.Standard ? Enumerable.Empty<IPowerModifier>() :
                 new[] { new OpportunityActionModifier() };
 
-            public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
+            public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record OpportunityActionModifier() : PowerModifier(ModifierName)
@@ -40,7 +40,7 @@ namespace GameEngine.Generator.Modifiers
                 stage != UpgradeStage.Standard ? Enumerable.Empty<IPowerModifier>() :
                 Enumerable.Empty<IPowerModifier>();
 
-            public override PowerTextMutator? GetTextMutator() =>
+            public override PowerTextMutator? GetTextMutator(PowerProfile power) =>
                 new(0, (textBlock, powerInfo) => textBlock with
                 {
                     ActionType = "Immediate Reaction",

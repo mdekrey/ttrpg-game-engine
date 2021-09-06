@@ -12,11 +12,12 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Duration: EndOfUserNextTurn
-      Conditions:
+    - Conditions:
       - Name: Dazed
       Name: Condition
-  Modifiers: []
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: At-Will

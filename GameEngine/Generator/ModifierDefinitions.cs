@@ -21,13 +21,13 @@ namespace GameEngine.Generator
             new MovementControlFormula(),
             new SkirmishFormula(),
             new BoostFormula()
-            // Slowed/Unconscious
+            // Slowed/Unconscious (Progressing effect after a save)
             // Aftereffects
             // Reroll attack
             // Disarm and catch
-            // Secondary burst (such as acid splash)
         );
         public static readonly ImmutableList<IModifierFormula<IPowerModifier, PowerProfileBuilder>> powerModifiers = Build<IModifierFormula<IPowerModifier, PowerProfileBuilder>>(
+            new EffectDurationFormula(),
             new MultiattackFormula(),
             new OpportunityActionFormula(),
             new BoostFormula()

@@ -44,7 +44,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
         {
-            return new ConditionModifier(Duration.EndOfUserNextTurn, ImmutableList<Condition>.Empty);
+            return new ConditionModifier(ImmutableList<Condition>.Empty);
         }
 
         public static double DurationMultiplier(Duration duration) =>
@@ -52,12 +52,13 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Must remain "SaveEnds" if there's a Boost dependent upon it
             : 1;
 
-        public record ConditionModifier(Duration Duration, EquatableImmutableList<Condition> Conditions) : AttackModifier(ModifierName)
+        public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : AttackModifier(ModifierName), EffectDurationFormula.IUsesDuration
         {
             public override int GetComplexity() => 1 + Conditions.Count / 4;
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(Duration)).Sum());
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => 
+                new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(EffectDurationFormula.GetDuration(power))).Sum());
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
                 from set in new[]
                 {
@@ -69,17 +70,6 @@ namespace GameEngine.Generator.Modifiers
                     from condition in Conditions
                     from upgrade in condition.GetUpgrades(attack.PowerInfo)
                     select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
-
-                    from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
-                    where attack.Modifiers.OfType<BoostFormula.BoostModifier>().FirstOrDefault() is not BoostFormula.BoostModifier { Duration: Duration.SaveEnds }
-                    where duration > Duration
-                    where duration switch
-                    {
-                        Duration.EndOfEncounter => attack.PowerInfo.Usage == PowerFrequency.Daily,
-                        Duration.SaveEnds => true,
-                        _ => false,
-                    }
-                    select this with { Duration = duration },
                 }
                 from mod in set
                 select mod;
@@ -95,14 +85,14 @@ namespace GameEngine.Generator.Modifiers
                                     ? subsume[c]
                                     : Enumerable.Empty<string>()).ToHashSet();
 
-            public override AttackInfoMutator? GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, info, index) => attack with
                 {
                     HitParts = attack.HitParts.Add("the target "
                         + OxfordComma((from condition in Conditions
                                                                   group condition.Effect().ToLower() by condition.Verb() into verbGroup
                                                                   select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())
-                        + Duration switch
+                        + EffectDurationFormula.GetDuration(power) switch
                         {
                             Duration.EndOfUserNextTurn => " until the end of your next turn",
                             Duration.SaveEnds => " (save ends)",
@@ -110,6 +100,7 @@ namespace GameEngine.Generator.Modifiers
                             _ => throw new NotImplementedException(),
                         }),
                 });
+            public bool CanSaveEnd() => Conditions.Any();
         }
 
         public record Condition(string Name)

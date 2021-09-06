@@ -21,9 +21,11 @@
       Name: Ability Modifier Damage
   Modifiers:
   - Duration: EndOfUserNextTurn
-    SelfBoosts:
+    Name: Duration
+  - SelfBoosts:
     - Amount: +2
-      Name: Regeneration
+      Defense: Will
+      Name: Defense
     AllyBoosts: []
     AllyType: Single
     Name: Boost
@@ -42,7 +44,7 @@
   - Label: Hit
     Text: 1[W] damage. Make a secondary attack.
   - Label: Effect
-    Text: Until the end of your next turn, you .
+    Text: Until the end of your next turn, you gain a +2 power bonus to Will.
   - Label: Secondary Target
     Text: One creature adjacent to the primary target
   - Label: Secondary Attack

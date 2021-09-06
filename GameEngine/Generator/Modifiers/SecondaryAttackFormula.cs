@@ -28,8 +28,8 @@ namespace GameEngine.Generator.Modifiers
                     yield break;
                 if (power.Attacks.Count > 1)
                     yield break;
-                var allocated = power.Attacks.Select(a => a.TotalCost.Fixed).Sum();
-                var available = power.Attacks.Select(a => a.WeaponDice).DefaultIfEmpty(power.Limits.Initial).Sum();
+                var allocated = power.Attacks.Select(a => a.TotalCost(power).Fixed).Sum();
+                var available = power.Attacks.Select(a => a.WeaponDice(power)).DefaultIfEmpty(power.Limits.Initial).Sum();
 
                 yield return new DelegateModifier(new TwoHitsModifier(), limit => limit with { Minimum = Math.Max(1, limit.Minimum / 2), Initial = limit.Initial / 2, });
                 yield return new DelegateModifier(new UpToThreeTargetsModifier());
@@ -53,13 +53,13 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
         
-            public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
+            public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record DelegateModifier(IAttackModifier AttackModifier, Transform<AttackLimits>? limitTransform = null) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => AttackModifier.GetComplexity();
-            public override PowerCost GetCost(PowerProfileBuilder builder) => AttackModifier.GetCost(builder.Attacks[0]);
+            public override PowerCost GetCost(PowerProfileBuilder power) => AttackModifier.GetCost(power.Attacks[0], power);
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
@@ -79,15 +79,15 @@ namespace GameEngine.Generator.Modifiers
                     Modifiers = power.Modifiers.Remove(this).Add(new MultiattackAppliedModifier()),
                 };
             }
-            public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
+            public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record SplitAttackModifier(ImmutableList<double> Amounts, bool RequiresPreviousHit) : PowerModifier(ModifierName)
         {
             public override int GetComplexity() => RequiresPreviousHit ? 1 : 2;
 
-            public override PowerCost GetCost(PowerProfileBuilder builder) =>
-                new (Fixed: Amounts.Take(Amounts.Count - 1).Select((v, i) => v * (i == 0 || !RequiresPreviousHit ? 1 : 0.5)).Sum() - builder.Attacks.Select(a => a.TotalCost.Fixed).Sum());
+            public override PowerCost GetCost(PowerProfileBuilder power) =>
+                new (Fixed: Amounts.Take(Amounts.Count - 1).Select((v, i) => v * (i == 0 || !RequiresPreviousHit ? 1 : 0.5)).Sum() - power.Attacks.Select(a => a.TotalCost(power).Fixed).Sum());
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
@@ -128,7 +128,7 @@ namespace GameEngine.Generator.Modifiers
                     Modifiers = power.Modifiers.Remove(this).Add(new MultiattackAppliedModifier()),
                 };
             }
-            public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
+            public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record MultiattackAppliedModifier() : PowerModifier(ModifierName)
@@ -136,7 +136,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity() => 0;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
-            public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
+            public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record MustHitForNextAttackModifier() : AttackModifier(MustHitForNextAttackModifier.ModifierName)
@@ -145,12 +145,12 @@ namespace GameEngine.Generator.Modifiers
 
             public const string ModifierName = "RequiredHitForNextAttack";
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => PowerCost.Empty;
             public override bool IsMetaModifier() => true;
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
 
-            public override AttackInfoMutator? GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(int.MaxValue, (attack, info, index) => attack with
                 {
                     HitSentences = attack.HitSentences.Add($"Make a {Ordinal(index + 1)} attack."),
@@ -165,11 +165,12 @@ namespace GameEngine.Generator.Modifiers
 
             public const string ModifierName = "RequiresPreviousHit";
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: 1 / FollowupAttackPower);
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
+                new PowerCost(Multiplier: 1 / FollowupAttackPower);
             public override bool IsMetaModifier() => true;
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
-            public override AttackInfoMutator? GetAttackInfoMutator() => null;
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => null;
         }
 
         // Two Identical attacks
@@ -178,12 +179,13 @@ namespace GameEngine.Generator.Modifiers
             // TODO - modifiers if both hit
             public override int GetComplexity() => 1;
             public const string ModifierName = "TwoHits";
-            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
+                PowerCost.Empty;
             public override bool IsMetaModifier() => true;
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
             public override double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice * 2;
-            public override AttackInfoMutator? GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, info, index) => attack with
                 {
                     TargetType = AttackType.Target.OneOrTwoCreatures,
@@ -196,11 +198,11 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 0;
             public const string ModifierName = "UpToThreeTargets";
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(1.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(1.5);
             public override bool IsMetaModifier() => true;
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
-            public override AttackInfoMutator? GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, info, index) => attack with
                 {
                     TargetType = AttackType.Target.OneTwoOrThreeCreatures,

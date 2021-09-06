@@ -36,40 +36,36 @@ namespace GameEngine.Generator
         int Complexity { get; }
         AttackLimits Limits { get; }
         IEnumerable<IModifier> Modifiers { get; }
-        PowerCost TotalCost { get; }
 
         IEnumerable<IModifier> AllModifiers();
-        bool IsValid();
     }
 
     public abstract record ModifierBuilder<TModifier>(AttackLimits Limits, ImmutableList<TModifier> Modifiers) : IModifierBuilder where TModifier : class, IModifier
     {
         public int Complexity => Modifiers.Cast<IModifier>().GetComplexity();
-        public abstract PowerCost TotalCost { get; }
 
         IEnumerable<IModifier> IModifierBuilder.Modifiers => Modifiers.OfType<IModifier>();
 
         public abstract IEnumerable<IModifier> AllModifiers();
-
-        public abstract bool IsValid();
     }
 
     public record AttackProfileBuilder(double Multiplier, AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : ModifierBuilder<IAttackModifier>(Limits, Modifiers)
     {
-        public override PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+        public PowerCost TotalCost(PowerProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
-        public double WeaponDice =>
-            TotalCost.Apply(Limits.Initial);
+        public double WeaponDice(PowerProfileBuilder builder) =>
+            TotalCost(builder).Apply(Limits.Initial);
         //PowerInfo.ToolProfile.Type == ToolType.Implement
         //    ? TotalCost.Apply(Limits.Initial)
         //    : Math.Floor(TotalCost.Apply(Limits.Initial));
-        public double EffectiveWeaponDice => Modifiers.Aggregate(WeaponDice, (weaponDice, mod) => mod.ApplyEffectiveWeaponDice(weaponDice));
-        public override bool IsValid()
+        public double EffectiveWeaponDice(PowerProfileBuilder builder) => Modifiers.Aggregate(WeaponDice(builder), (weaponDice, mod) => mod.ApplyEffectiveWeaponDice(weaponDice));
+        public bool IsValid(PowerProfileBuilder builder)
         {
-            return TotalCost.Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity()).Sum() <= Limits.MaxComplexity;
+            return TotalCost(builder).Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity()).Sum() <= Limits.MaxComplexity;
         }
-        internal AttackProfile Build() => new AttackProfile(WeaponDice, Ability, DamageTypes, Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
+        internal AttackProfile Build(PowerProfileBuilder builder) =>
+            new AttackProfile(WeaponDice(builder), Ability, DamageTypes, Modifiers.Where(m => m.GetCost(this, builder) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
 
         public override IEnumerable<IModifier> AllModifiers() => Modifiers;
 
@@ -78,7 +74,7 @@ namespace GameEngine.Generator
     public record PowerProfileBuilder(AttackLimits Limits, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers)
         : ModifierBuilder<IPowerModifier>(Limits, Modifiers)
     {
-        public override PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+        public PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         internal PowerProfile Build() => new PowerProfile(
             PowerInfo.Level,
@@ -86,25 +82,25 @@ namespace GameEngine.Generator
             PowerInfo.ToolProfile.Type,
             PowerInfo.ToolProfile.Range,
             PowerInfo.ToolProfile.PowerSource,
-            Attacks.Select(a => a.Build()).ToImmutableList(),
+            Attacks.Select(a => a.Build(this)).ToImmutableList(),
             Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList()
         );
 
-        public override bool IsValid()
+        public bool IsValid()
         {
             if (Complexity + Attacks.Select(a => a.Complexity).Sum() > Limits.MaxComplexity)
                 return false;
 
-            if (Attacks.Any(a => a.WeaponDice < a.Limits.Minimum))
+            if (Attacks.Any(a => a.WeaponDice(this) < a.Limits.Minimum))
                 return false;
 
             var remaining = TotalCost.Apply(Limits.Initial);
             var expectedRatio = remaining / Attacks.Select(a => a.Limits.Initial).Sum();
 
-            if (Attacks.Select(a => a.EffectiveWeaponDice * expectedRatio).Sum() < Limits.Minimum)
+            if (Attacks.Select(a => a.EffectiveWeaponDice(this) * expectedRatio).Sum() < Limits.Minimum)
                 return false;
 
-            if (PowerInfo.ToolProfile.Type == ToolType.Weapon && Attacks.Any(a => a.WeaponDice < 1))
+            if (PowerInfo.ToolProfile.Type == ToolType.Weapon && Attacks.Any(a => a.WeaponDice(this) < 1))
                 return false; // Must have a full weapon die for any weapon
 
             return true;
@@ -115,7 +111,7 @@ namespace GameEngine.Generator
             // TODO - put logic here to get closer to whole numbers?
             var remaining = TotalCost.Apply(Limits.Initial);
             var expectedRatio = remaining / Attacks.Select(a => a.Modifiers.Aggregate(a.Limits.Initial, (prev, next) => next.ApplyEffectiveWeaponDice(prev))).Sum();
-            var finalRemaining = Attacks.Select(a => a.TotalCost.Apply(a.Limits.Initial * expectedRatio) * a.Multiplier).Sum();
+            var finalRemaining = Attacks.Select(a => a.TotalCost(this).Apply(a.Limits.Initial * expectedRatio) * a.Multiplier).Sum();
             return this with
             {
                 Attacks = Attacks.Select(a => a with { Limits = a.Limits with { Initial = a.Limits.Initial * expectedRatio } }).ToImmutableList()
@@ -130,7 +126,7 @@ namespace GameEngine.Generator
                     let attack = attackKvp.attack
                     let index = attackKvp.index
                     from modifier in attack.Modifiers
-                    from upgrade in modifier.GetAttackUpgrades(attack, stage)
+                    from upgrade in modifier.GetAttackUpgrades(attack, stage, this)
                     from upgraded in (this with { Attacks = this.Attacks.SetItem(index, attack.Apply(upgrade, modifier)) }).FinalizeUpgrade()
                     where upgraded.IsValid()
                     select upgraded,

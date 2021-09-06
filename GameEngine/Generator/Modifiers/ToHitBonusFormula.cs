@@ -22,9 +22,9 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Amount.ToWeaponDice());
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Amount.ToWeaponDice());
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
             {
                 if (stage < UpgradeStage.Standard) yield break;
 
@@ -42,7 +42,7 @@ namespace GameEngine.Generator.Modifiers
                     yield return this with { Amount = 0 };
             }
 
-            public override AttackInfoMutator? GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, info, index) => attack with { AttackExpression = attack.AttackExpression + Amount });
         }
     }

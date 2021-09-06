@@ -19,9 +19,9 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 0;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Abilities.Items.Count * 0.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Abilities.Items.Count * 0.5);
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
                     .Distinct()
                     .Take(stage switch
@@ -31,15 +31,15 @@ namespace GameEngine.Generator.Modifiers
                         _ => 0
                     })
                     .Except(Abilities.Items)
-                    .Take(AllowAdditionalModifier(attack) ? 1 : 0)
+                    .Take(AllowAdditionalModifier(attack, power) ? 1 : 0)
                     .Select(ability => this with
                     {
                         Abilities = Abilities.Items.Add(ability)
                     });
 
-            private bool AllowAdditionalModifier(AttackProfileBuilder attack)
+            private bool AllowAdditionalModifier(AttackProfileBuilder attack, PowerProfileBuilder power)
             {
-                var dice = attack.TotalCost.Apply(attack.Limits.Initial);
+                var dice = attack.TotalCost(power).Apply(attack.Limits.Initial);
                 if (Abilities.Count > 0)
                 {
                     return attack.PowerInfo.ToolProfile.Type == ToolType.Weapon && dice > 1 && (dice % 1) >= 0.5;
@@ -50,7 +50,7 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            public override AttackInfoMutator? GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, info, index) => attack with { DamageExpression = Abilities.Aggregate(attack.DamageExpression, (prev, next) => prev + next) });
         }
     }

@@ -9,8 +9,7 @@
     DamageTypes:
     - Normal
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Conditions:
+    - Conditions:
       - Name: Blinded
       - Name: Dazed
       - Name: Immobilized
@@ -27,7 +26,9 @@
       - Strength
       - Dexterity
       Name: Ability Modifier Damage
-  Modifiers: []
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
 - Name: Unknown
   TypeInfo: Weapon Attack 19
   PowerUsage: Daily

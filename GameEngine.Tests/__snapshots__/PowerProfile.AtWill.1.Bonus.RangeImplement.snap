@@ -14,8 +14,7 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Duration: EndOfUserNextTurn
-    SelfBoosts:
+  - SelfBoosts:
     - Amount: +2
       Limit: NextAttack
       Name: Attack
@@ -24,4 +23,6 @@ Attacks:
     AllyBoosts: []
     AllyType: Single
     Name: Boost
-Modifiers: []
+Modifiers:
+- Duration: EndOfUserNextTurn
+  Name: Duration

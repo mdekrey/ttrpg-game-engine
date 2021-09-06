@@ -89,7 +89,7 @@ namespace GameEngine.Generator
         PowerCost GetCost(PowerProfileBuilder builder);
         IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder);
-        PowerTextMutator? GetTextMutator();
+        PowerTextMutator? GetTextMutator(PowerProfile power);
     }
 
     public record AttackInfoMutator(int Priority, AttackInfoMutator.AttackInfoMutatorDelegate Apply)
@@ -100,10 +100,10 @@ namespace GameEngine.Generator
 
     public interface IAttackModifier : IModifier
     {
-        PowerCost GetCost(AttackProfileBuilder builder);
-        IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
+        PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power);
+        IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power);
         double ApplyEffectiveWeaponDice(double weaponDice);
-        AttackInfoMutator? GetAttackInfoMutator();
+        AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
     }
 
     public abstract record PowerModifier(string Name) : IPowerModifier
@@ -115,39 +115,37 @@ namespace GameEngine.Generator
         public abstract IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public virtual IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder) { yield return builder; }
 
-        public abstract PowerTextMutator? GetTextMutator();
+        public abstract PowerTextMutator? GetTextMutator(PowerProfile power);
     }
 
     public abstract record AttackModifier(string Name) : IAttackModifier
     {
         public abstract int GetComplexity();
-        public abstract PowerCost GetCost(AttackProfileBuilder builder);
+        public abstract PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power);
         public virtual bool IsMetaModifier() => false;
         public virtual bool MustUpgrade() => false;
-        public abstract IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
+        public abstract IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
-        public abstract AttackInfoMutator? GetAttackInfoMutator();
+        public abstract AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
     }
 
     public abstract record AttackAndPowerModifier(string Name) : IAttackModifier, IPowerModifier
     {
         public abstract int GetComplexity();
-        public abstract PowerCost GetCost();
+        public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
         public virtual bool MustUpgrade() => false;
 
-        public abstract IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage);
+        public abstract IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power);
         public abstract IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public virtual IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder) { yield return builder; }
 
-        public virtual PowerCost GetCost(AttackProfileBuilder builder) => GetCost();
-
-        public virtual PowerCost GetCost(PowerProfileBuilder builder) => GetCost();
+        public virtual PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => GetCost(power);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
-        public abstract PowerTextMutator GetTextMutator();
-        public abstract AttackInfoMutator? GetAttackInfoMutator();
+        public abstract PowerTextMutator GetTextMutator(PowerProfile power);
+        public abstract AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
     }
 
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, EquatableImmutableList<IAttackModifier> Modifiers)

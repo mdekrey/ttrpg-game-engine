@@ -13,4 +13,6 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-Modifiers: []
+Modifiers:
+- Duration: EndOfUserNextTurn
+  Name: Duration

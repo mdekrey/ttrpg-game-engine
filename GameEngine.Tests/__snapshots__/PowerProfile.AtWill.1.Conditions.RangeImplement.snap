@@ -14,8 +14,9 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Duration: EndOfUserNextTurn
-    Conditions:
+  - Conditions:
     - Name: Blinded
     Name: Condition
-Modifiers: []
+Modifiers:
+- Duration: EndOfUserNextTurn
+  Name: Duration

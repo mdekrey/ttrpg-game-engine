@@ -22,13 +22,14 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Duration: EndOfUserNextTurn
-      Conditions:
+    - Conditions:
       - Name: Blinded
       Name: Condition
     - Amount: +4
       Name: To-Hit Bonus to Current Attack
-  Modifiers: []
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Daily

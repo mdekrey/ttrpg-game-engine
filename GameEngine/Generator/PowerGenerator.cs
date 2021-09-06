@@ -100,7 +100,7 @@ namespace GameEngine.Generator
             var powerProfileBuilder = RootBuilder(basePower, powerInfo);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.AttackSetup, exclude: toExclude);
 
-            var options = powerProfileBuilder.Attacks.Aggregate(Enumerable.Repeat(ImmutableList<AttackProfileBuilder>.Empty, 1), (prev, next) => prev.SelectMany(l => next.PreApply(UpgradeStage.InitializeAttacks).Select(o => l.Add(o))))
+            var options = powerProfileBuilder.Attacks.Aggregate(Enumerable.Repeat(ImmutableList<AttackProfileBuilder>.Empty, 1), (prev, next) => prev.SelectMany(l => next.PreApply(UpgradeStage.InitializeAttacks, powerProfileBuilder).Select(o => l.Add(o))))
                 .Select(attacks => powerProfileBuilder with
                 {
                     Attacks = attacks
@@ -129,10 +129,10 @@ namespace GameEngine.Generator
                                      let index = attackWithIndex.index
                                      where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
                                      let entry = mod.GetBaseModifier(attack)
-                                     from e in (entry.MustUpgrade() ? entry.GetAttackUpgrades(attack, stage) : new[] { entry })
+                                     from e in (entry.MustUpgrade() ? entry.GetAttackUpgrades(attack, stage, powerProfileBuilder with { Attacks = powerProfileBuilder.Attacks.SetItem(index, attack.Apply(entry)) }) : new[] { entry })
                                      let appliedAttack = attack.Apply(e)
-                                     where appliedAttack.IsValid()
                                      let applied = powerProfileBuilder with { Attacks = powerProfileBuilder.Attacks.SetItem(index, appliedAttack) }
+                                     where appliedAttack.IsValid(applied)
                                      where applied.IsValid()
                                      select applied
                                      ,

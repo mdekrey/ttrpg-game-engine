@@ -36,7 +36,7 @@ namespace GameEngine.Generator.Modifiers
 
         public AttackAndPowerModifier GetBaseModifier()
         {
-            return new BoostModifier(Duration.EndOfUserNextTurn, ImmutableList<Boost>.Empty, ImmutableList<Boost>.Empty, AllyType.Single);
+            return new BoostModifier(ImmutableList<Boost>.Empty, ImmutableList<Boost>.Empty, AllyType.Single);
         }
 
         public static double DurationMultiplier(Duration duration) =>
@@ -138,34 +138,34 @@ namespace GameEngine.Generator.Modifiers
             All
         }
 
-        public record BoostModifier(Duration Duration, EquatableImmutableList<Boost> SelfBoosts, EquatableImmutableList<Boost> AllyBoosts, AllyType AllyType) : AttackAndPowerModifier(ModifierName)
+        public record BoostModifier(EquatableImmutableList<Boost> SelfBoosts, EquatableImmutableList<Boost> AllyBoosts, AllyType AllyType) : AttackAndPowerModifier(ModifierName), EffectDurationFormula.IUsesDuration
         {
             public override int GetComplexity() => 1;
 
-            public override PowerCost GetCost() =>
+            public override PowerCost GetCost(PowerProfileBuilder power) =>
                 new PowerCost(
                     Fixed:
                     SelfBoosts
                         .Select(m => m.Cost()
-                            * (m.DurationAffected() ? DurationMultiplier(Duration) : 1)
+                            * (m.DurationAffected() ? DurationMultiplier(EffectDurationFormula.GetDuration(power)) : 1)
                         )
                         .Sum() +
                     AllyBoosts
                         .Select(m => m.Cost()
-                            * (m.DurationAffected() ? DurationMultiplier(Duration) : 1)
+                            * (m.DurationAffected() ? DurationMultiplier(EffectDurationFormula.GetDuration(power)) : 1)
                             * (AllyType == AllyType.All ? 2 : 1)
                         )
                         .Sum()
                 );
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 stage != UpgradeStage.Standard ? Enumerable.Empty<IAttackModifier>() :
-                GetUpgrades(attack.PowerInfo, attack.Modifiers.OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds });
+                GetUpgrades(attack.PowerInfo);
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
                 stage != UpgradeStage.Standard ? Enumerable.Empty<IPowerModifier>() :
-                GetUpgrades(power.PowerInfo, power.AllModifiers().OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds });
+                GetUpgrades(power.PowerInfo);
 
-            public IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, bool hasSaveEnds) =>
+            public IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 from set in new[]
                 {
                     from basicBoost in GetBasicBoosts(powerInfo)
@@ -200,17 +200,6 @@ namespace GameEngine.Generator.Modifiers
                     from upgrade in boost.GetUpgrades(powerInfo)
                     select this with { AllyBoosts = AllyBoosts.Items.Remove(boost).Add(upgrade) },
 
-                    from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
-                    where duration > Duration
-                    where duration switch
-                    {
-                        Duration.EndOfEncounter => powerInfo.Usage == PowerFrequency.Daily,
-                        Duration.SaveEnds => hasSaveEnds,
-                        _ => false,
-                    }
-                    where SelfBoosts.Concat(AllyBoosts).Any(b => b.DurationAffected())
-                    select this with { Duration = duration },
-
                     from target in new[] { AllyType.All }
                     where AllyType != target && AllyBoosts.Count > 0
                     select this with
@@ -230,21 +219,21 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            public override PowerTextMutator GetTextMutator() =>
+            public override PowerTextMutator GetTextMutator(PowerProfile builder) =>
                 new(1000, (power, info) => power with
                 {
-                    RulesText = power.RulesText.AddEffectSentences(GetSentences()),
+                    RulesText = power.RulesText.AddEffectSentences(GetSentences(builder)),
                 });
 
-            public override AttackInfoMutator? GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(1000, (attack, info, index) => attack with
                 {
-                    HitSentences = attack.HitSentences.AddRange(GetSentences()),
+                    HitSentences = attack.HitSentences.AddRange(GetSentences(power)),
                 });
 
-            public IEnumerable<string> GetSentences()
+            public IEnumerable<string> GetSentences(PowerProfile power)
             {
-                var duration = Duration switch
+                var duration = EffectDurationFormula.GetDuration(power) switch
                 {
                     Duration.EndOfUserNextTurn => "Until the end of your next turn,",
                     Duration.SaveEnds => "While the effect persists,",
@@ -264,7 +253,7 @@ namespace GameEngine.Generator.Modifiers
                 }
                 if (SelfBoosts.Where(b => b.DurationAffected()).Any())
                 {
-                    parts.Add($"you {OxfordComma(AllyBoosts.Where(b => b.DurationAffected()).Select(b => b.BoostText()).ToArray())}");
+                    parts.Add($"you {OxfordComma(SelfBoosts.Where(b => b.DurationAffected()).Select(b => b.BoostText()).ToArray())}");
                 }
                 if (parts.Any())
                     yield return $"{duration} {OxfordComma(parts.ToArray())}".FinishSentence();
@@ -278,6 +267,8 @@ namespace GameEngine.Generator.Modifiers
                     yield return $"You {OxfordComma(AllyBoosts.Where(b => !b.DurationAffected()).Select(b => b.BoostText()).ToArray())}".FinishSentence();
                 }
             }
+
+            public bool CanSaveEnd() => false;
         }
     }
 }

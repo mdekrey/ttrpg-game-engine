@@ -173,7 +173,7 @@ namespace GameEngine.Generator
             var attacks = profile.Attacks.Select((attack, index) => attack.ToAttackInfo(profile, index + 1)).ToArray();
             result = result.AddAttack(attacks[0], 1);
             result = (from mod in profile.Modifiers
-                      let mutator = mod.GetTextMutator()
+                      let mutator = mod.GetTextMutator(profile)
                       where mutator != null
                       orderby mutator.Priority
                       select mutator.Apply).Aggregate(result, (current, apply) => apply(current, profile));
@@ -202,7 +202,7 @@ namespace GameEngine.Generator
                 MissParts: ImmutableList<string>.Empty
             );
             result = (from mod in profile.Modifiers
-                      let mutator = mod.GetAttackInfoMutator()
+                      let mutator = mod.GetAttackInfoMutator(power)
                       where mutator != null
                       orderby mutator.Priority
                       select mutator.Apply).Aggregate(result, (current, apply) => apply(current, power, index));

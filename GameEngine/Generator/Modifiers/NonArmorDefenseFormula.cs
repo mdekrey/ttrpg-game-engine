@@ -23,9 +23,9 @@ namespace GameEngine.Generator.Modifiers
 
             public override bool MustUpgrade() => Defense == DefenseType.ArmorClass;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Defense == DefenseType.ArmorClass ? 0 : 0.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Defense == DefenseType.ArmorClass ? 0 : 0.5);
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
+            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
             {
                 if (Defense != DefenseType.ArmorClass)
                     yield break;
@@ -40,7 +40,7 @@ namespace GameEngine.Generator.Modifiers
                     new(defense);
             }
 
-            public override AttackInfoMutator? GetAttackInfoMutator() =>
+            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, info, index) => attack with { Defense = Defense });
         }
     }

@@ -38,8 +38,9 @@ namespace GameEngine.Tests.Modifiers
                     ClassRole: Rules.ClassRole.Striker
                 )
             );
+            var power = new PowerProfileBuilder(attack.Limits, attack.PowerInfo, Build(attack), Build<IPowerModifier>());
 
-            var upgrades = attack.Modifiers.First().GetAttackUpgrades(attack, UpgradeStage.Finalize);
+            var upgrades = attack.Modifiers.First().GetAttackUpgrades(attack, UpgradeStage.Finalize, power);
 
             Assert.Collection(upgrades, upgrade => Assert.True(upgrade is AbilityModifierDamageFormula.AbilityDamageModifier { Abilities: var abilities } 
                                                     && abilities.Contains(Rules.Ability.Strength) 

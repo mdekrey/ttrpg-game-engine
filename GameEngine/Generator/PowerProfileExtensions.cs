@@ -7,25 +7,25 @@ namespace GameEngine.Generator
 {
     public static class PowerProfileExtensions
     {
-        public static IEnumerable<AttackProfileBuilder> PreApply(this AttackProfileBuilder attack, UpgradeStage stage) => attack
-            .PreApplyImplementNonArmorDefense(stage)
-            .SelectMany(ab => ab.PreApplyAbilityDamage(stage));
+        public static IEnumerable<AttackProfileBuilder> PreApply(this AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) => attack
+            .PreApplyImplementNonArmorDefense(stage, power)
+            .SelectMany(ab => ab.PreApplyAbilityDamage(stage, power));
 
         // Implements get free non-armor defense due to lack of proficiency bonus
-        private static IEnumerable<AttackProfileBuilder> PreApplyImplementNonArmorDefense(this AttackProfileBuilder attack, UpgradeStage stage) =>
-            attack.PowerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, stage) : new[] { attack };
-        private static IEnumerable<AttackProfileBuilder> PreApplyAbilityDamage(this AttackProfileBuilder attack, UpgradeStage stage) =>
-            ModifierDefinitions.AbilityModifierDamage.Apply(attack, stage);
+        private static IEnumerable<AttackProfileBuilder> PreApplyImplementNonArmorDefense(this AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+            attack.PowerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, stage, power) : new[] { attack };
+        private static IEnumerable<AttackProfileBuilder> PreApplyAbilityDamage(this AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+            ModifierDefinitions.AbilityModifierDamage.Apply(attack, stage, power);
 
-        private static IEnumerable<AttackProfileBuilder> Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, UpgradeStage stage)
+        private static IEnumerable<AttackProfileBuilder> Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
         {
             var selected = formula.GetBaseModifier(attack);
-            if (attack.Modifiers.Any(m => m.Name == selected.Name) || !new[] { attack.Apply(selected) }.Where(a => a.IsValid()).ToChances(attack.PowerInfo.ToolProfile.PowerProfileConfig, skipProfile: true).Any())
+            if (attack.Modifiers.Any(m => m.Name == selected.Name) || !new[] { attack.Apply(selected) }.Where(a => a.IsValid(power)).ToChances(attack.PowerInfo.ToolProfile.PowerProfileConfig, skipProfile: true).Any())
                 return new[] { attack };
-            var upgrades = (from mod in selected.GetAttackUpgrades(attack, stage)
+            var upgrades = (from mod in selected.GetAttackUpgrades(attack, stage, power)
                             where !attack.Modifiers.Any(m => m.Name == mod.Name)
                             let a = attack.Apply(mod)
-                            where a.IsValid()
+                            where a.IsValid(power)
                             select a).ToArray();
             if (upgrades.Length == 0)
                 return new[] { attack.Apply(selected) };
