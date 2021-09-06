@@ -15,7 +15,11 @@ public class ReactFrontendService
         ContractResolver = new IgnorePageModelPropertiesContractResolver(new DefaultContractResolver()
         {
             NamingStrategy = new CamelCaseNamingStrategy(),
-        })
+        }),
+        Converters =
+        {
+            new Newtonsoft.Json.Converters.StringEnumConverter(),
+        }
     };
 
 #if DEBUG

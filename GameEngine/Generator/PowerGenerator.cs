@@ -19,43 +19,33 @@ namespace GameEngine.Generator
             this.randomGenerator = randomGenerator;
         }
 
+        private static ImmutableList<(int level, PowerFrequency usage)> providedPowers = new[] {
+            (level: 1, usage: PowerFrequency.AtWill),
+            (level: 1, usage: PowerFrequency.Encounter),
+            (level: 1, usage: PowerFrequency.Daily),
+            (level: 3, usage: PowerFrequency.Encounter),
+            (level: 5, usage: PowerFrequency.Daily),
+            (level: 7, usage: PowerFrequency.Encounter),
+            (level: 9, usage: PowerFrequency.Daily),
+            (level: 11, usage: PowerFrequency.Encounter),
+            (level: 13, usage: PowerFrequency.Encounter),
+            (level: 15, usage: PowerFrequency.Daily),
+            (level: 17, usage: PowerFrequency.Encounter),
+            (level: 19, usage: PowerFrequency.Daily),
+            (level: 20, usage: PowerFrequency.Daily),
+            (level: 23, usage: PowerFrequency.Encounter),
+            (level: 25, usage: PowerFrequency.Daily),
+            (level: 27, usage: PowerFrequency.Encounter),
+            (level: 29, usage: PowerFrequency.Daily),
+        }.ToImmutableList();
+
         public PowerProfiles GenerateProfiles(ClassProfile classProfile)
         {
             return new PowerProfiles(
-                AtWill1:
-                    GeneratePowerProfiles(level: 1, usage: PowerFrequency.AtWill, classProfile: classProfile),
-                Encounter1:
-                    GeneratePowerProfiles(level: 1, usage: PowerFrequency.Encounter, classProfile: classProfile),
-                Daily1:
-                    GeneratePowerProfiles(level: 1, usage: PowerFrequency.Daily, classProfile: classProfile),
-                Encounter3:
-                    GeneratePowerProfiles(level: 3, usage: PowerFrequency.Encounter, classProfile: classProfile),
-                Daily5:
-                    GeneratePowerProfiles(level: 5, usage: PowerFrequency.Daily, classProfile: classProfile),
-                Encounter7:
-                    GeneratePowerProfiles(level: 7, usage: PowerFrequency.Encounter, classProfile: classProfile),
-                Daily9:
-                    GeneratePowerProfiles(level: 9, usage: PowerFrequency.Daily, classProfile: classProfile),
-                Encounter11:
-                    GeneratePowerProfiles(level: 11, usage: PowerFrequency.Encounter, classProfile: classProfile),
-                Encounter13:
-                    GeneratePowerProfiles(level: 13, usage: PowerFrequency.Encounter, classProfile: classProfile),
-                Daily15:
-                    GeneratePowerProfiles(level: 15, usage: PowerFrequency.Daily, classProfile: classProfile),
-                Encounter17:
-                    GeneratePowerProfiles(level: 17, usage: PowerFrequency.Encounter, classProfile: classProfile),
-                Daily19:
-                    GeneratePowerProfiles(level: 19, usage: PowerFrequency.Daily, classProfile: classProfile),
-                Daily20:
-                    GeneratePowerProfiles(level: 20, usage: PowerFrequency.Daily, classProfile: classProfile),
-                Encounter23:
-                    GeneratePowerProfiles(level: 23, usage: PowerFrequency.Encounter, classProfile: classProfile),
-                Daily25:
-                    GeneratePowerProfiles(level: 25, usage: PowerFrequency.Daily, classProfile: classProfile),
-                Encounter27:
-                    GeneratePowerProfiles(level: 27, usage: PowerFrequency.Encounter, classProfile: classProfile),
-                Daily29:
-                    GeneratePowerProfiles(level: 29, usage: PowerFrequency.Daily, classProfile: classProfile)
+                (from powerSet in providedPowers
+                 let set = GeneratePowerProfiles(level: powerSet.level, usage: powerSet.usage, classProfile: classProfile)
+                 from entry in set
+                 select entry).ToImmutableList()
             );
         }
 

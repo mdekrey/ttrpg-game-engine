@@ -1,4 +1,4 @@
-﻿AtWill1:
+﻿Powers:
 - Level: 1
   Usage: AtWill
   Tool: Weapon
@@ -71,7 +71,6 @@
     Modifiers:
     - Name: TwoHits
   Modifiers: []
-Encounter1:
 - Level: 1
   Usage: Encounter
   Tool: Weapon
@@ -151,7 +150,6 @@ Encounter1:
     Name: Boost
   - Duration: EndOfUserNextTurn
     Name: Duration
-Daily1:
 - Level: 1
   Usage: Daily
   Tool: Weapon
@@ -258,7 +256,6 @@ Daily1:
       Name: Temporary Hit Points
     AllyType: Single
     Name: Boost
-Encounter3:
 - Level: 3
   Usage: Encounter
   Tool: Weapon
@@ -359,7 +356,6 @@ Encounter3:
   Modifiers:
   - Duration: EndOfUserNextTurn
     Name: Duration
-Daily5:
 - Level: 5
   Usage: Daily
   Tool: Weapon
@@ -516,7 +512,6 @@ Daily5:
     - Name: Extra Saving Throw
     AllyType: Single
     Name: Boost
-Encounter7:
 - Level: 7
   Usage: Encounter
   Tool: Weapon
@@ -622,7 +617,6 @@ Encounter7:
     AllyBoosts: []
     AllyType: Single
     Name: Boost
-Daily9:
 - Level: 9
   Usage: Daily
   Tool: Weapon
@@ -731,7 +725,6 @@ Daily9:
     Modifiers:
     - Name: UpToThreeTargets
   Modifiers: []
-Encounter11:
 - Level: 11
   Usage: Encounter
   Tool: Weapon
@@ -840,7 +833,6 @@ Encounter11:
       - Strength
       Name: Ability Modifier Damage
   Modifiers: []
-Encounter13:
 - Level: 13
   Usage: Encounter
   Tool: Weapon
@@ -944,7 +936,6 @@ Encounter13:
         Name: Slide Opponent
       Name: MovementControl
   Modifiers: []
-Daily15:
 - Level: 15
   Usage: Daily
   Tool: Weapon
@@ -1057,7 +1048,6 @@ Daily15:
       Name: Temporary Hit Points
     AllyType: Single
     Name: Boost
-Encounter17:
 - Level: 17
   Usage: Encounter
   Tool: Weapon
@@ -1178,7 +1168,6 @@ Encounter17:
         Name: Shift
       Name: Skirmish Movement
   Modifiers: []
-Daily19:
 - Level: 19
   Usage: Daily
   Tool: Weapon
@@ -1297,7 +1286,6 @@ Daily19:
     Modifiers:
     - Name: UpToThreeTargets
   Modifiers: []
-Daily20:
 - Level: 20
   Usage: Daily
   Tool: Weapon
@@ -1436,7 +1424,6 @@ Daily20:
     AllyBoosts: []
     AllyType: Single
     Name: Boost
-Encounter23:
 - Level: 23
   Usage: Encounter
   Tool: Weapon
@@ -1560,7 +1547,6 @@ Encounter23:
   Modifiers:
   - Duration: SaveEnds
     Name: Duration
-Daily25:
 - Level: 25
   Usage: Daily
   Tool: Weapon
@@ -1659,7 +1645,6 @@ Daily25:
     AllyBoosts: []
     AllyType: Single
     Name: Boost
-Encounter27:
 - Level: 27
   Usage: Encounter
   Tool: Weapon
@@ -1772,7 +1757,6 @@ Encounter27:
   Modifiers:
   - Duration: EndOfUserNextTurn
     Name: Duration
-Daily29:
 - Level: 29
   Usage: Daily
   Tool: Weapon

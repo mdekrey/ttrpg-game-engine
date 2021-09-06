@@ -160,23 +160,7 @@ namespace GameEngine.Generator
     );
 
     public record PowerProfiles(
-        EquatableImmutableList<PowerProfile> AtWill1,
-        EquatableImmutableList<PowerProfile> Encounter1,
-        EquatableImmutableList<PowerProfile> Daily1,
-        EquatableImmutableList<PowerProfile> Encounter3,
-        EquatableImmutableList<PowerProfile> Daily5,
-        EquatableImmutableList<PowerProfile> Encounter7,
-        EquatableImmutableList<PowerProfile> Daily9,
-        EquatableImmutableList<PowerProfile> Encounter11,
-        EquatableImmutableList<PowerProfile> Encounter13,
-        EquatableImmutableList<PowerProfile> Daily15,
-        EquatableImmutableList<PowerProfile> Encounter17,
-        EquatableImmutableList<PowerProfile> Daily19,
-        EquatableImmutableList<PowerProfile> Daily20,
-        EquatableImmutableList<PowerProfile> Encounter23,
-        EquatableImmutableList<PowerProfile> Daily25,
-        EquatableImmutableList<PowerProfile> Encounter27,
-        EquatableImmutableList<PowerProfile> Daily29
+        EquatableImmutableList<PowerProfile> Powers
     );
 
     public static class ImmutableConstructorExtension
