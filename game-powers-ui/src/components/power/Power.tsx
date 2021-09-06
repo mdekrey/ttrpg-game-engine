@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { addChildClasses } from 'lib/addChildClasses';
+import { addChildClasses } from 'core/jsx/addChildClasses';
 import { FlavorText } from './FlavorText';
 
 export type PowerType = 'At-Will' | 'Encounter' | 'Daily' | 'Item';
@@ -39,9 +39,7 @@ export const Power = ({
 			</header>
 			{addChildClasses(
 				<>
-					{flavorText && (
-						<FlavorText className="bg-gradient-to-r from-tan-fading px-2 font-info">{flavorText}</FlavorText>
-					)}
+					{flavorText && <FlavorText>{flavorText}</FlavorText>}
 					{children}
 				</>,
 				<p className="even:bg-gradient-to-r from-tan-fading px-2 font-info" />

@@ -1,17 +1,8 @@
 import { MDXProvider, Components } from '@mdx-js/react';
-import { cloneElement } from 'react';
 import classNames from 'classnames';
-import { addChildClasses } from 'lib/addChildClasses';
+import { addChildClasses } from 'core/jsx/addChildClasses';
 import QRCode from 'react-qr-code';
-
-function merge(lhs: JSX.Element, rhs: JSX.Element): JSX.Element {
-	return cloneElement(rhs, {
-		...lhs.props,
-		...rhs.props,
-		className: classNames(lhs.props.className, rhs.props.className),
-		style: { ...(lhs.props.style || {}), ...(rhs.props.style || {}) },
-	});
-}
+import { merge } from 'core/jsx/merge';
 
 const headerTemplate = (
 	<i className={classNames('font-header font-bold', 'mt-4 first:mt-0')} style={{ pageBreakAfter: 'avoid' }} />

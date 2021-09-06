@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const defaultColors = require('tailwindcss/colors');
 const plugin = require('tailwindcss/plugin');
 
 const colors = {
@@ -8,9 +9,29 @@ const colors = {
 		dark: 'rgb(128, 40, 52)',
 	},
 	gray: {
+		50: '#e9e9e9',
+		100: '#d2d3d3',
+		200: '#bcbcbc',
+		300: '#a5a6a6',
+		400: '#8f8f90',
+		500: '#78797a',
+		600: '#626263',
+		700: '#4b4c4d',
+		800: '#333334',
+		900: '#1a1a1a',
 		dark: 'rgb(75, 76, 77)',
 	},
 	blue: {
+		50: '#edf1f8',
+		100: '#d4dae5',
+		200: '#bbc4d1',
+		300: '#a2adbe',
+		400: '#8a96aa',
+		500: '#717f97',
+		600: '#586983',
+		700: '#3f5270',
+		800: '#263b5c',
+		900: '#0f1724',
 		dark: 'rgb(38, 59, 92)',
 	},
 	green: {

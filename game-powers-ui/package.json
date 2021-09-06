@@ -6,6 +6,8 @@
 	"dependencies": {
 		"@babel/preset-react": "^7.14.5",
 		"@craco/craco": "^6.2.0",
+		"@headlessui/react": "^1.4.1",
+		"@heroicons/react": "^1.0.4",
 		"@mdx-js/loader": "^1.6.22",
 		"@mdx-js/react": "^1.6.22",
 		"@principlestudios/react-scripts-lib": "4.0.5",
