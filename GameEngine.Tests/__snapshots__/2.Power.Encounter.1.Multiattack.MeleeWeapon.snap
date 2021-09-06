@@ -21,11 +21,10 @@
       Name: Ability Modifier Damage
   Modifiers:
   - Duration: EndOfUserNextTurn
-    SelfBoosts: []
-    AllyBoosts:
-    - Amount: STR
-      Limit: NextAttack
-      Name: Attack
+    SelfBoosts:
+    - Amount: +2
+      Name: Regeneration
+    AllyBoosts: []
     AllyType: Single
     Name: Boost
 - Name: Unknown
@@ -43,7 +42,7 @@
   - Label: Hit
     Text: 1[W] damage. Make a secondary attack.
   - Label: Effect
-    Text: One ally of your choice within 5 squares or you gain a STR power bonus to attack rolls.
+    Text: Until the end of your next turn, you .
   - Label: Secondary Target
     Text: One creature adjacent to the primary target
   - Label: Secondary Attack

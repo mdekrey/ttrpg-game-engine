@@ -12,11 +12,11 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
+  - Defense: Fortitude
+    Name: Non-Armor Defense
   - Size: 3
     Type: Burst
     Name: Multiple
-  - Defense: Fortitude
-    Name: Non-Armor Defense
   - Amount: +4
     Name: To-Hit Bonus to Current Attack
 Modifiers: []

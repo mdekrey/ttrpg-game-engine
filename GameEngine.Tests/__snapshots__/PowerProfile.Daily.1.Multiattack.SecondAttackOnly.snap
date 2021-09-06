@@ -13,7 +13,7 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-- WeaponDice: 1.7000000000000002
+- WeaponDice: 1.5500000000000007
   Ability: Strength
   DamageTypes:
   - Normal
@@ -22,9 +22,10 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Defense: Fortitude
-    Name: Non-Armor Defense
-  - Size: 3
-    Type: Burst
-    Name: Multiple
+  - Duration: EndOfUserNextTurn
+    Conditions:
+    - Name: Blinded
+    Name: Condition
+  - Amount: +4
+    Name: To-Hit Bonus to Current Attack
 Modifiers: []

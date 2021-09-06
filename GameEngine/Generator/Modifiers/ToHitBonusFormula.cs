@@ -26,6 +26,8 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
             {
+                if (stage < UpgradeStage.Standard) yield break;
+
                 if (Amount.Abilities == CharacterAbilities.Empty)
                 {
                     if (Amount.DieCodes.Modifier < 8) // actually 10

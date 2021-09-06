@@ -23,21 +23,22 @@ namespace GameEngine.Generator.Modifiers
                 new SlideOpponent(OpponentMovementMode.Slide, 1),
             }.ToImmutableList();
 
-        public record MovementModifier(ImmutableList<MovementControl> Effects) : AttackModifier(ModifierName)
+        public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : AttackModifier(ModifierName)
         {
             public override int GetComplexity() => 1;
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
                 from set in new[]
                 {
                     from basicCondition in basicEffects
                     where !Effects.Select(b => b.Name).Contains(basicCondition.Name)
-                    select this with { Effects = Effects.Add(basicCondition) },
+                    select this with { Effects = Effects.Items.Add(basicCondition) },
 
                     from condition in Effects
                     from upgrade in condition.GetUpgrades(attack.PowerInfo)
-                    select this with { Effects = Effects.Remove(condition).Add(upgrade) },
+                    select this with { Effects = Effects.Items.Remove(condition).Add(upgrade) },
                 }
                 from mod in set
                 select mod;

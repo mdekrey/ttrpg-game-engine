@@ -18,11 +18,13 @@ namespace GameEngine.Generator.Modifiers
 
         public record MaybeOpportunityActionModifier() : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 0;
+            public override int GetComplexity() => 1;
+            public override bool MustUpgrade() => true;
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+                stage != UpgradeStage.Standard ? Enumerable.Empty<IPowerModifier>() :
                 new[] { new OpportunityActionModifier() };
 
             public override PowerTextMutator? GetTextMutator() => throw new NotSupportedException("Should be upgraded or removed before this point");
@@ -30,11 +32,12 @@ namespace GameEngine.Generator.Modifiers
 
         public record OpportunityActionModifier() : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 0;
+            public override int GetComplexity() => 1;
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => new PowerCost(PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage) - PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage - 1));
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+                stage != UpgradeStage.Standard ? Enumerable.Empty<IPowerModifier>() :
                 Enumerable.Empty<IPowerModifier>();
 
             public override PowerTextMutator? GetTextMutator() =>

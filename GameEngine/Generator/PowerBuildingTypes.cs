@@ -75,7 +75,7 @@ namespace GameEngine.Generator
 
     }
 
-    public record PowerProfileBuilder(string Template, AttackLimits Limits, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers)
+    public record PowerProfileBuilder(AttackLimits Limits, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers)
         : ModifierBuilder<IPowerModifier>(Limits, Modifiers)
     {
         public override PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
@@ -122,7 +122,7 @@ namespace GameEngine.Generator
             };
         }
 
-        internal IEnumerable<RandomChances<PowerProfileBuilder>> GetUpgrades(UpgradeStage stage) =>
+        internal IEnumerable<PowerProfileBuilder> GetUpgrades(UpgradeStage stage) =>
             (
                 from set in new[]
                 {
@@ -131,23 +131,23 @@ namespace GameEngine.Generator
                     let index = attackKvp.index
                     from modifier in attack.Modifiers
                     from upgrade in modifier.GetAttackUpgrades(attack, stage)
-                    let upgraded = (this with { Attacks = this.Attacks.SetItem(index, attack.Apply(upgrade, modifier)) }).FinalizeUpgrade()
+                    from upgraded in (this with { Attacks = this.Attacks.SetItem(index, attack.Apply(upgrade, modifier)) }).FinalizeUpgrade()
                     where upgraded.IsValid()
                     select upgraded,
 
                     from modifier in Modifiers
                     from upgrade in modifier.GetPowerUpgrades(this, stage)
-                    let upgraded = this.Apply(upgrade, modifier).FinalizeUpgrade()
+                    from upgraded in this.Apply(upgrade, modifier).FinalizeUpgrade()
                     where upgraded.IsValid()
                     select upgraded,
                 }
                 from entry in set
                 select entry
-            ).ToChances(PowerInfo.ToolProfile.PowerProfileConfig);
+            );
 
-        public PowerProfileBuilder FinalizeUpgrade() =>
-            this.Modifiers.Aggregate(this, (builder, modifier) => modifier.TryApplyToProfileAndRemove(builder))
-                .AdjustRemaining();
+        public IEnumerable<PowerProfileBuilder> FinalizeUpgrade() =>
+            this.Modifiers.Aggregate(Enumerable.Repeat(this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder)))
+                .Select(b => b.AdjustRemaining());
 
         public override IEnumerable<IModifier> AllModifiers() => Modifiers.Concat<IModifier>(from attack in Attacks from mod in attack.Modifiers select mod);
     }
@@ -234,24 +234,32 @@ namespace GameEngine.Generator
         public static Transform<TOutput> Pipe<TInput, T1, T2, T3, T4, T5, T6, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, T6> t6, Func<T6, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, t4, t5, t6, transform);
         public static Transform<TOutput> Pipe<TInput, T1, T2, T3, T4, T5, T6, T7, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, T6> t6, Func<T6, T7> t7, Func<T7, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, t4, t5, t6, t7, transform);
 
-        public static IEnumerable<RandomChances<TBuilder>> ToChances<TBuilder>(this IEnumerable<TBuilder> possibilities, PowerProfileConfig config) where TBuilder : IModifierBuilder =>
+        public static IEnumerable<RandomChances<TBuilder>> ToChances<TBuilder>(this IEnumerable<TBuilder> possibilities, PowerProfileConfig config, bool skipProfile = false) where TBuilder : IModifierBuilder =>
             from possibility in possibilities
-            let chances = config.GetChance(possibility)
+            let chances = config.GetChance(possibility, skipProfile)
             where chances > 0
             select new RandomChances<TBuilder>(possibility, Chances: (int)chances);
 
-        public static double GetChance(this PowerProfileConfig config, IModifierBuilder builder)
+        public static double GetChance(this PowerProfileConfig config, IModifierBuilder builder, bool skipProfile = false)
         {
+            var powerToken = FromBuilder(builder);
             return (from mod in builder.AllModifiers()
                     let token = FromBuilder(mod)
                     from weight in (from entry in config.ModifierChances
-                                    where token.SelectToken(entry.Selector) != null
+                                    where token.SelectTokens(entry.Selector).Any()
                                     select entry.Weight).DefaultIfEmpty(0)
                     select weight)
+                    .Concat(
+                        skipProfile
+                            ? Enumerable.Empty<double>()
+                            : (from entry in config.PowerChances
+                               where powerToken.SelectTokens(entry.Selector).Any()
+                               select entry.Weight).DefaultIfEmpty(0)
+                    )
                     .Aggregate(1.0, (lhs, rhs) => lhs * rhs);
         }
 
-        private static Newtonsoft.Json.Linq.JToken FromBuilder(IModifier mod)
+        private static Newtonsoft.Json.Linq.JToken FromBuilder(object mod)
         {
             return Newtonsoft.Json.Linq.JToken.FromObject(new[] { mod }, new Newtonsoft.Json.JsonSerializer()
             {

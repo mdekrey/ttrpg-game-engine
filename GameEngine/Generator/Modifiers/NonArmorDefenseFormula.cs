@@ -21,11 +21,15 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
 
+            public override bool MustUpgrade() => Defense == DefenseType.ArmorClass;
+
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Defense == DefenseType.ArmorClass ? 0 : 0.5);
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
             {
                 if (Defense != DefenseType.ArmorClass)
+                    yield break;
+                if (stage != UpgradeStage.Standard && attack.PowerInfo.ToolProfile.Type == ToolType.Weapon)
                     yield break;
                 yield return BuildModifier(attack.PowerInfo.ToolProfile.PrimaryNonArmorDefense);
                 yield return BuildModifier(DefenseType.Fortitude);

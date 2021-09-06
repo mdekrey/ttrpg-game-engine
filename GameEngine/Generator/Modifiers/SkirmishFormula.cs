@@ -31,6 +31,8 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
             {
+                if (stage < UpgradeStage.Standard) yield break;
+
                 // TODO - when should we use the secondary ability?
                 //var ability = attack.PowerInfo.ToolProfile.Abilities.Count == 1
                 //    ? attack.Ability
@@ -45,6 +47,9 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage)
             {
+                if (stage < UpgradeStage.Standard)
+                    yield break;
+
                 // TODO - when should we use the secondary ability?
                 //var ability = power.PowerInfo.ToolProfile.Abilities.Count == 1
                 //    ? power.PowerInfo.ToolProfile.Abilities[0]
@@ -116,8 +121,10 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost() => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
                 GetUpgrades(attack.PowerInfo);
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IPowerModifier>() :
                 GetUpgrades(power.PowerInfo);
 
             public IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo) =>

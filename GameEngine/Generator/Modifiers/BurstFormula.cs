@@ -29,9 +29,11 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
             public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
+            public override bool MustUpgrade() => true;
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage)
             {
+                if (stage < UpgradeStage.Standard) yield break;
                 if (attack.PowerInfo.ToolProfile.Range != ToolRange.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                     yield return new BurstModifier(1, BurstType.Burst);
                 if (attack.PowerInfo.ToolProfile.Range != ToolRange.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
@@ -49,6 +51,7 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: ((Size - 1) / 2.0 + 2) / 2.0); // TODO - is this right?
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
                 new[]
                 {
                     this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) }

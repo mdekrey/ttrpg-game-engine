@@ -12,8 +12,8 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Defense: Fortitude
-      Name: Non-Armor Defense
+    - Amount: +2
+      Name: To-Hit Bonus to Current Attack
   Modifiers: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
@@ -25,7 +25,7 @@
   AttackType: Melee
   AttackTypeDetails: weapon
   Target: One creature
-  Attack: STR vs. Fortitude
+  Attack: STR + 2 vs. AC
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage.

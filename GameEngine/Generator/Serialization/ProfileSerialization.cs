@@ -16,6 +16,7 @@ namespace GameEngine.Generator.Serialization
             yield return GetConverter<Modifiers.BoostFormula.Boost>();
             yield return GetConverter<Modifiers.SkirmishFormula.SkirmishMovement>();
             yield return GetConverter<Modifiers.ConditionFormula.Condition>();
+            yield return GetConverter<Modifiers.MovementControlFormula.MovementControl>();
         }
 
         private static JsonConverter GetConverter<T>()

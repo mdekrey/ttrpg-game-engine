@@ -21,8 +21,11 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity() => 1;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
+            public override bool MustUpgrade() => true;
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage)
             {
+                if (stage != UpgradeStage.AttackSetup)
+                    yield break;
                 if (power.Attacks.Count > 1)
                     yield break;
                 var allocated = power.Attacks.Select(a => a.TotalCost.Fixed).Sum();
@@ -61,10 +64,10 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
 
-            public override PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder power)
+            public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder power)
             {
                 var attack = power.Attacks.Single();
-                return power with
+                yield return power with
                 {
                     Attacks = new[] {
                         attack with
@@ -89,10 +92,10 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
 
-            public override PowerProfileBuilder TryApplyToProfileAndRemove(PowerProfileBuilder power)
+            public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder power)
             {
                 var attack = power.Attacks.Single();
-                return power with
+                yield return power with
                 {
                     Attacks = Amounts.Select((cost, index) =>
                         attack with

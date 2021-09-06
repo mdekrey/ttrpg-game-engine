@@ -21,10 +21,9 @@ Attacks:
     Name: Ability Modifier Damage
 Modifiers:
 - Duration: EndOfUserNextTurn
-  SelfBoosts: []
-  AllyBoosts:
-  - Amount: STR
-    Limit: NextAttack
-    Name: Attack
+  SelfBoosts:
+  - Amount: +2
+    Name: Regeneration
+  AllyBoosts: []
   AllyType: Single
   Name: Boost

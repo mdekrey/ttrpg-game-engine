@@ -21,65 +21,29 @@ namespace GameEngine.Generator
         public const string CloseBlastPowerTemplateName = "Close blast";
         public const string BonusPowerTemplateName = "Bonus";
 
-        public static readonly ImmutableDictionary<string, PowerTemplate> powerTemplates = new PowerTemplate[]
-        {
-            new AccuratePowerTemplate(),
-            new SkirmishPowerTemplate(),
-            new MultiattackPowerTemplate(),
-            new CloseBurstPowerTemplate(),
-            new ConditionsPowerTemplate(),
-            new InterruptPenaltyPowerTemplate(),
-            new CloseBlastPowerTemplate(),
-            new BonusPowerTemplate(),
-        }.ToImmutableDictionary(template => template.Name);
-        public static IEnumerable<string> PowerTemplateNames => powerTemplates.Keys;
-
-        public static AttackProfileBuilder PreApply(this AttackProfileBuilder attack, RandomGenerator randomGenerator) => attack
-            .PreApplyImplementNonArmorDefense(randomGenerator)
-            .PreApplyAbilityDamage(randomGenerator);
+        public static IEnumerable<AttackProfileBuilder> PreApply(this AttackProfileBuilder attack, UpgradeStage stage) => attack
+            .PreApplyImplementNonArmorDefense(stage)
+            .SelectMany(ab => ab.PreApplyAbilityDamage(stage));
 
         // Implements get free non-armor defense due to lack of proficiency bonus
-        private static AttackProfileBuilder PreApplyImplementNonArmorDefense(this AttackProfileBuilder attack, RandomGenerator randomGenerator) =>
-            attack.PowerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, randomGenerator) : attack;
-        private static AttackProfileBuilder PreApplyAbilityDamage(this AttackProfileBuilder attack, RandomGenerator randomGenerator) =>
-            ModifierDefinitions.AbilityModifierDamage.Apply(attack, randomGenerator);
+        private static IEnumerable<AttackProfileBuilder> PreApplyImplementNonArmorDefense(this AttackProfileBuilder attack, UpgradeStage stage) =>
+            attack.PowerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, stage) : new[] { attack };
+        private static IEnumerable<AttackProfileBuilder> PreApplyAbilityDamage(this AttackProfileBuilder attack, UpgradeStage stage) =>
+            ModifierDefinitions.AbilityModifierDamage.Apply(attack, stage);
 
-        private static AttackProfileBuilder Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, RandomGenerator randomGenerator)
+        private static IEnumerable<AttackProfileBuilder> Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, UpgradeStage stage)
         {
             var selected = formula.GetBaseModifier(attack);
-            if (!new[] { attack.Apply(selected) }.ToChances(attack.PowerInfo.ToolProfile.PowerProfileConfig).Any())
-                return attack;
-            var upgrades = selected.GetAttackUpgrades(attack, UpgradeStage.Standard).Select(upgrade => attack.Apply(upgrade)).ToArray();
+            if (attack.Modifiers.Any(m => m.Name == selected.Name) || !new[] { attack.Apply(selected) }.Where(a => a.IsValid()).ToChances(attack.PowerInfo.ToolProfile.PowerProfileConfig, skipProfile: true).Any())
+                return new[] { attack };
+            var upgrades = (from mod in selected.GetAttackUpgrades(attack, stage)
+                            where !attack.Modifiers.Any(m => m.Name == mod.Name)
+                            let a = attack.Apply(mod)
+                            where a.IsValid()
+                            select a).ToArray();
             if (upgrades.Length == 0)
-                return attack.Apply(selected);
-            var chances = upgrades.ToChances(attack.PowerInfo.ToolProfile.PowerProfileConfig).ToArray();
-            if (chances.Length == 0)
-                return attack.Apply(selected);
-            return randomGenerator.RandomSelection(chances);
-        }
-
-        private record AccuratePowerTemplate : PowerTemplate
-        {
-            public AccuratePowerTemplate() : base(AccuratePowerTemplateName) { }
-            public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-                new[] { from mod in ModifierDefinitions.attackModifiers
-                        where mod.keyword == (AccuratePowerTemplateName)
-                        where mod.formula.IsValid(attackProfileBuilder)
-                        let applicable = mod.formula.GetBaseModifier(attackProfileBuilder)
-                        select applicable };
-            public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
-        }
-
-        private record SkirmishPowerTemplate : PowerTemplate
-        {
-            public SkirmishPowerTemplate() : base(SkirmishPowerTemplateName) { }
-            public override IEnumerable<IEnumerable<IAttackModifier>> EachAttackFormulas(AttackProfileBuilder attackProfileBuilder) =>
-                new[] { from mod in ModifierDefinitions.attackModifiers
-                        where mod.keyword == SkirmishPowerTemplateName
-                        where mod.formula.IsValid(attackProfileBuilder)
-                        let applicable = mod.formula.GetBaseModifier(attackProfileBuilder)
-                        select applicable };
-            public override bool CanApply(PowerHighLevelInfo powerInfo) => true;
+                return new[] { attack.Apply(selected) };
+            return upgrades;
         }
 
         private record MultiattackPowerTemplate : PowerTemplate

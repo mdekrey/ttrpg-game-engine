@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xunit;
 using static GameEngine.Tests.YamlSerialization.Snapshots;
+using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Tests
 {
@@ -70,13 +71,23 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget((min, max) => max - 1);
 
-            ToolProfile toolProfile = GetToolProfile(configName);
+            ToolProfile toolProfile = GetToolProfile(configName, powerTemplate);
 
-            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, ClassRole.Striker),
-                new[] { powerTemplate }.ToImmutableList()
-            );
+            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, ClassRole.Striker));
 
-            Snapshot.Match(Serializer.Serialize(powerProfile), $"PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{configName}");
+            Snapshot.Match(Serializer.Serialize(powerProfile), ToSnapshotName("PowerProfile", powerFrequency, Level, powerTemplate, configName));
+        }
+
+        private static string ToSnapshotName(params object?[] values)
+        {
+            return string.Join('.', from value in values
+                                    let str = value switch
+                                    {
+                                        Enum e => e.ToString("g"),
+                                        _ => value?.ToString()
+                                    }
+                                    where str is { Length: > 0 }
+                                    select str);
         }
 
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.MultiattackPowerTemplateName, 2)]
@@ -88,13 +99,11 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget(new Random(seed).Next);
 
-            ToolProfile toolProfile = GetToolProfile(configName);
+            ToolProfile toolProfile = GetToolProfile(configName, powerTemplate);
 
-            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, ClassRole.Striker),
-                new[] { powerTemplate }.ToImmutableList()
-            );
+            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, ClassRole.Striker));
 
-            Snapshot.Match(Serializer.Serialize(powerProfile), $"{seed}.PowerProfile.{powerFrequency:g}.{Level}.{powerTemplate:g}.{configName}");
+            Snapshot.Match(Serializer.Serialize(powerProfile), ToSnapshotName(seed, "PowerProfile", powerFrequency, Level, powerTemplate, configName));
         }
 
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.MultiattackPowerTemplateName, 2)]
@@ -109,22 +118,22 @@ namespace GameEngine.Tests
         [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.CloseBlastPowerTemplateName, null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName, null)]
         [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName, null)]
-        [InlineData("Control", 1, PowerFrequency.Daily, PowerDefinitions.SkirmishPowerTemplateName, null)]
+        [InlineData("Control", 1, PowerFrequency.Daily, "", null)]
         [Theory]
         public void GeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
         {
             var target = CreateTarget(seed is int seedValue ? new Random(seedValue).Next : (min, max) => max - 1);
 
-            ToolProfile toolProfile = GetToolProfile(configName);
+            ToolProfile toolProfile = GetToolProfile(configName, powerTemplate);
 
             var powerHighLevelInfo = new PowerHighLevelInfo(level, powerFrequency, toolProfile, ClassRole.Striker);
-            var powerProfile = target.GenerateProfile(powerHighLevelInfo, new[] { powerTemplate }.ToImmutableList());
+            var powerProfile = target.GenerateProfile(powerHighLevelInfo);
 
             PowerTextBlock power = powerProfile.ToPowerTextBlock();
 
             Snapshot.Match(
                 Serializer.Serialize(new object[] { powerProfile, power }),
-                $"{(seed is int v ? $"{v}." : "")}Power.{powerFrequency:g}.{level}.{powerTemplate:g}.{configName}"
+                ToSnapshotName(seed, "Power", powerFrequency, level, powerTemplate, configName)
             );
         }
 
@@ -166,11 +175,9 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget((min, max) => max - 1);
 
-            ToolProfile toolProfile = GetToolProfile(configName);
+            ToolProfile toolProfile = GetToolProfile(configName, powerTemplate);
 
-            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, ClassRole.Striker),
-                new[] { powerTemplate }.ToImmutableList()
-            );
+            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, ClassRole.Striker));
 
             var serializer = new Newtonsoft.Json.JsonSerializer();
             foreach (var converter in ProfileSerialization.GetJsonConverters())
@@ -182,12 +189,38 @@ namespace GameEngine.Tests
             Assert.Equal(powerProfile, deserialized);
         }
 
-        private static ToolProfile GetToolProfile(string configName)
+        private static (string[] require, string[] disallow) MakeModifierTemplate(params string[] require)
         {
-            return profiles[configName];
+            return (require, new[] { "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'" }.Except(require).ToArray());
         }
 
-        public static readonly PowerProfileConfig fullAccessProfileConfig = new (ImmutableList<ModifierChance>.Empty.Add(new("$", 1)), PowerDefinitions.powerTemplates.Keys.ToImmutableList());
+        public static readonly Dictionary<string, (string[] require, string[] disallow)> ModifierByTemplate = new Dictionary<string, (string[] require, string[] disallow)>
+        {
+            { "", (Array.Empty<string>(), Array.Empty<string>()) },
+            { PowerDefinitions.AccuratePowerTemplateName, MakeModifierTemplate("@.Name=='Non-Armor Defense'", "@.Name=='To-Hit Bonus to Current Attack'") },
+            { PowerDefinitions.SkirmishPowerTemplateName, MakeModifierTemplate("@.Name=='Skirmish Movement'") },
+            { PowerDefinitions.MultiattackPowerTemplateName, MakeModifierTemplate("@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'") },
+            { PowerDefinitions.CloseBurstPowerTemplateName, MakeModifierTemplate("@.Name=='Multiple' && @.Type=='Burst'") },
+            { PowerDefinitions.ConditionsPowerTemplateName, MakeModifierTemplate("@.Name=='Condition'") },
+            { PowerDefinitions.InterruptPenaltyPowerTemplateName, MakeModifierTemplate("@.Name=='OpportunityAction'") },
+            { PowerDefinitions.CloseBlastPowerTemplateName, MakeModifierTemplate("@.Name=='Multiple' && @.Type=='Blast'") },
+            { PowerDefinitions.BonusPowerTemplateName, MakeModifierTemplate("@.Name=='Boost'") },
+        };
+
+        private static ToolProfile GetToolProfile(string configName, string powerTemplate)
+        {
+            var tool = profiles[configName];
+            return tool with
+            {
+                PowerProfileConfig = tool.PowerProfileConfig with
+                {
+                    PowerChances = ModifierByTemplate[powerTemplate].require.Select(modName => new PowerChance($"$..[?({modName})]", 1)).DefaultIfEmpty(new("$", 1))
+                        .Concat(ModifierByTemplate[powerTemplate].disallow.Select(modName => new PowerChance($"$..[?({modName})]", 0))).ToImmutableList(),
+                }
+            };
+        }
+
+        public static readonly PowerProfileConfig fullAccessProfileConfig = new(ImmutableList<ModifierChance>.Empty.Add(new("$", 1)), Build(new PowerChance("$", 1)));
 
         private static readonly ImmutableDictionary<string, ToolProfile> profiles = new Dictionary<string, ToolProfile>
         {
@@ -204,7 +237,7 @@ namespace GameEngine.Tests
                         new("$..[?(@.Name=='TwoHits')]", 0),
                         new("$..[?(@.Name=='UpToThreeTargets')]", 0),
                     }.ToImmutableList(),
-                    fullAccessProfileConfig.PowerTemplates
+                    Build(new PowerChance("$", 1))
                 )) },
             { "Control", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                 new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(
@@ -212,7 +245,7 @@ namespace GameEngine.Tests
                         new("$..[?(@.Name=='Ability Modifier Damage')]", 1),
                         new("$..[?(@.Name=='MovementControl')]", 1),
                     }.ToImmutableList(),
-                    fullAccessProfileConfig.PowerTemplates
+                    Build(new PowerChance("$", 1))
                 )) },
         }.ToImmutableDictionary();
 
@@ -226,17 +259,8 @@ namespace GameEngine.Tests
                         new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                         new[] { DamageType.Normal, DamageType.Fire }.ToImmutableList(),
                         new PowerProfileConfig(
-                            ImmutableList<ModifierChance>.Empty.Add(new("$", 1)), 
-                            new[] {
-                                PowerDefinitions.MultiattackPowerTemplateName,
-                                PowerDefinitions.SkirmishPowerTemplateName,
-                                PowerDefinitions.AccuratePowerTemplateName,
-                                PowerDefinitions.ConditionsPowerTemplateName,
-                                PowerDefinitions.CloseBurstPowerTemplateName,
-                                PowerDefinitions.InterruptPenaltyPowerTemplateName,
-                                PowerDefinitions.CloseBlastPowerTemplateName,
-                                PowerDefinitions.BonusPowerTemplateName
-                            }.ToImmutableList()
+                            ImmutableList<ModifierChance>.Empty.Add(new("$", 1)),
+                            Build(new PowerChance("$", 1))
                         )
                     )
                 }.ToImmutableList()

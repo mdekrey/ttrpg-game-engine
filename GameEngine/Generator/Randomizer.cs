@@ -36,6 +36,8 @@ namespace GameEngine.Generator
         public static T RandomSelection<T>(this RandomGenerator randomGenerator, params RandomChances<T>[] chanceList) => randomGenerator.RandomSelection(chanceList.AsEnumerable());
         public static T RandomSelection<T>(this RandomGenerator randomGenerator, IEnumerable<RandomChances<T>> chanceList) =>
             randomGenerator.RandomSelectionByThreshold(SumChances(chanceList.Reverse()));
+        public static T RandomSelection<T>(this IEnumerable<RandomChances<T>> chanceList, RandomGenerator randomGenerator) =>
+            randomGenerator.RandomSelectionByThreshold(SumChances(chanceList.Reverse()));
 
         private static RandomThreshold<T>[] SumChances<T>(this IEnumerable<RandomChances<T>> chanceList)
         {

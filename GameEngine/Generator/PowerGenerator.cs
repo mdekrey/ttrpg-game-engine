@@ -81,10 +81,7 @@ namespace GameEngine.Generator
 
             PowerProfile Generate(PowerHighLevelInfo info, bool isFirst)
             {
-                return GenerateProfile(info, isFirst 
-                    ? info.ToolProfile.PowerProfileConfig.PowerTemplates.Take(1) 
-                    : info.ToolProfile.PowerProfileConfig.PowerTemplates
-                );
+                return GenerateProfile(info, exclude: result);
             }
         }
 
@@ -102,115 +99,82 @@ namespace GameEngine.Generator
             return result.ToImmutableList();
         }
 
-        public PowerProfile GenerateProfile(PowerHighLevelInfo powerInfo, IEnumerable<string> powerTemplates)
+        public PowerProfile GenerateProfile(PowerHighLevelInfo powerInfo, IEnumerable<PowerProfile>? exclude = null)
         {
-            var template = randomGenerator.RandomEscalatingSelection(powerTemplates
-                    .Where(templateName => PowerDefinitions.powerTemplates[templateName].CanApply(powerInfo)));
-
+            var toExclude = exclude ?? Enumerable.Empty<PowerProfile>();
             var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
-            var powerProfileBuilder = RootBuilder(basePower, template, powerInfo);
-            powerProfileBuilder = powerProfileBuilder with
-            {
-                Attacks = 
-                    powerProfileBuilder.Attacks
-                        .Select(a => a.PreApply(randomGenerator))
-                        .Select(a => ApplyEach(a, PowerDefinitions.powerTemplates[template].EachAttackFormulas(a)))
-                        .ToImmutableList(),
-            };
-            powerProfileBuilder = AddExtraModifiers(powerProfileBuilder);
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder);
+            var powerProfileBuilder = RootBuilder(basePower, powerInfo);
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.AttackSetup, exclude: toExclude);
+
+            var options = powerProfileBuilder.Attacks.Aggregate(Enumerable.Repeat(ImmutableList<AttackProfileBuilder>.Empty, 1), (prev, next) => prev.SelectMany(l => next.PreApply(UpgradeStage.InitializeAttacks).Select(o => l.Add(o))))
+                .Select(attacks => powerProfileBuilder with
+                {
+                    Attacks = attacks
+                })
+                .Where(pb => !toExclude.Contains(pb.Build()))
+                .ToArray();
+            powerProfileBuilder = options.ToChances(powerInfo.ToolProfile.PowerProfileConfig, skipProfile: true).RandomSelection(randomGenerator);
+
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.InitializeAttacks, exclude: toExclude);
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Standard, exclude: toExclude);
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Finalize, exclude: toExclude);
 
             return powerProfileBuilder.Build();
         }
-        
-        private AttackProfileBuilder ApplyEach(AttackProfileBuilder builder, IEnumerable<IEnumerable<IAttackModifier>>? modifiers)
-        {
-            foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<IAttackModifier>>())
-            {
-                var temp = starterSet.Select(chance => builder.Apply(chance)).ToArray();
-                var starterOptions = temp.Where(f => f.IsValid()).ToChances(builder.PowerInfo.ToolProfile.PowerProfileConfig).ToArray();
-                if (starterOptions.Length == 0) continue;
-                builder = randomGenerator.RandomSelection(starterOptions);
-            }
-            return builder;
-        }
 
-        private PowerProfileBuilder ApplyEach(PowerProfileBuilder builder, IEnumerable<IEnumerable<IPowerModifier>>? modifiers)
+        public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder, UpgradeStage stage, IEnumerable<PowerProfile> exclude)
         {
-            foreach (var starterSet in modifiers ?? Enumerable.Empty<IEnumerable<IPowerModifier>>())
-            {
-                var temp = starterSet.Select(chance => builder.Apply(chance).FinalizeUpgrade()).ToArray();
-                var starterOptions = temp.Where(f => f.IsValid()).ToChances(builder.PowerInfo.ToolProfile.PowerProfileConfig).ToArray();
-                if (starterOptions.Length == 0) continue;
-                builder = randomGenerator.RandomSelection(starterOptions);
-            }
-            return builder;
-        }
-
-        public PowerProfileBuilder AddExtraModifiers(PowerProfileBuilder builder)
-        {
+            var minAmount = powerProfileBuilder.PowerInfo.ToolProfile.Type == ToolType.Weapon ? 1 : 0.5;
             while (true)
             {
-                var oldBuilder = builder;
+                if (powerProfileBuilder.Attacks.Any(a => a.WeaponDice < minAmount))
+                    System.Diagnostics.Debugger.Break();
+                var oldBuilder = powerProfileBuilder;
                 var validModifiers = (from set in new[]
                                       {
                                           from mod in ModifierDefinitions.attackModifiers.Select(m => m.formula)
-                                          from attackWithIndex in builder.Attacks.Select((attack, index) => (attack, index))
+                                          from attackWithIndex in powerProfileBuilder.Attacks.Select((attack, index) => (attack, index))
                                           let attack = attackWithIndex.attack
                                           let index = attackWithIndex.index
                                           where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
                                           let entry = mod.GetBaseModifier(attack)
-                                          let appliedAttack = attack.Apply(entry)
+                                          from e in (entry.MustUpgrade() ? entry.GetAttackUpgrades(attack, stage) : new[] { entry })
+                                          let appliedAttack = attack.Apply(e)
                                           where appliedAttack.IsValid()
-                                          let applied = builder with { Attacks = builder.Attacks.SetItem(index, appliedAttack) }
+                                          let applied = powerProfileBuilder with { Attacks = powerProfileBuilder.Attacks.SetItem(index, appliedAttack) }
                                           where applied.IsValid()
                                           select applied
                                           ,
                                           from mod in ModifierDefinitions.powerModifiers.Select(m => m.formula)
-                                          where mod.IsValid(builder) && !builder.Modifiers.Any(m => m.Name == mod.Name)
-                                          let entry = mod.GetBaseModifier(builder)
-                                          let applied = builder.Apply(entry)
+                                          where mod.IsValid(powerProfileBuilder) && !powerProfileBuilder.Modifiers.Any(m => m.Name == mod.Name)
+                                          let entry = mod.GetBaseModifier(powerProfileBuilder)
+                                          from e in (entry.MustUpgrade() ? entry.GetPowerUpgrades(powerProfileBuilder, stage) : new[] { entry })
+                                          from applied in powerProfileBuilder.Apply(e).FinalizeUpgrade()
                                           where applied.IsValid()
                                           select applied
+                                          ,
+                                          powerProfileBuilder.GetUpgrades(stage)
                                       }
                                       from entry in set
-                                      select entry).ToChances(builder.PowerInfo.ToolProfile.PowerProfileConfig).ToArray();
+                                      where !exclude.Contains(entry.Build())
+                                      select entry).ToChances(powerProfileBuilder.PowerInfo.ToolProfile.PowerProfileConfig).ToArray();
                 if (validModifiers.Length == 0)
                     break;
-                builder = randomGenerator.RandomSelection(validModifiers);
-            }
-            return builder;
-        }
+                if (validModifiers.Any(r => r.Result.Attacks.Any(a => a.WeaponDice < minAmount)))
+                    System.Diagnostics.Debugger.Break();
+                powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);
+                if (powerProfileBuilder.Attacks.Any(a => a.WeaponDice < minAmount))
+                    System.Diagnostics.Debugger.Break();
 
-        public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder)
-        {
-            foreach (var stage in new[] { UpgradeStage.Standard, UpgradeStage.Finalize })
-            {
-                while (true)
-                {
-                    if (powerProfileBuilder.Attacks.Any(a => a.WeaponDice < 1))
-                        System.Diagnostics.Debugger.Break();
-                    var oldBuilder = powerProfileBuilder;
-                    var validModifiers = powerProfileBuilder.GetUpgrades(stage).ToArray();
-                    if (validModifiers.Length == 0)
-                        break;
-                    if (validModifiers.Any(r => r.Result.Attacks.Any(a => a.WeaponDice < 1)))
-                        System.Diagnostics.Debugger.Break();
-                    powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);
-                    if (powerProfileBuilder.Attacks.Any(a => a.WeaponDice < 1))
-                        System.Diagnostics.Debugger.Break();
-
-                    if (oldBuilder == powerProfileBuilder)
-                        break;
-                }
+                if (oldBuilder == powerProfileBuilder)
+                    break;
             }
             return powerProfileBuilder;
         }
 
-        private PowerProfileBuilder RootBuilder(double basePower, string template, PowerHighLevelInfo info)
+        private PowerProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info)
         {
             var result = new PowerProfileBuilder(
-                template,
                 new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     Minimum: GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
@@ -219,15 +183,13 @@ namespace GameEngine.Generator
                 Build(RootAttackBuilder(basePower, info, randomGenerator)),
                 ImmutableList<IPowerModifier>.Empty
             );
-            result = ApplyEach(result, PowerDefinitions.powerTemplates[template].PowerFormulas(result));
-            result = result.FinalizeUpgrade();
-            return result;
+            return result; // no modifiers yet, no need to finalize
         }
 
         private static AttackProfileBuilder RootAttackBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfileBuilder(
                 1,
-                new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0), 
+                new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     Minimum: GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
                 ),

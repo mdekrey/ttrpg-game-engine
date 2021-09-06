@@ -58,6 +58,7 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(Duration)).Sum());
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
                 from set in new[]
                 {
                     from basicCondition in basicConditions.Keys

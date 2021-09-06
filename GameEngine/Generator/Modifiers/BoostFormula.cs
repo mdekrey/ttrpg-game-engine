@@ -159,8 +159,10 @@ namespace GameEngine.Generator.Modifiers
                 );
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
+                stage != UpgradeStage.Standard ? Enumerable.Empty<IAttackModifier>() :
                 GetUpgrades(attack.PowerInfo, attack.Modifiers.OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds });
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
+                stage != UpgradeStage.Standard ? Enumerable.Empty<IPowerModifier>() :
                 GetUpgrades(power.PowerInfo, power.AllModifiers().OfType<ConditionFormula.ConditionModifier>().FirstOrDefault() is ConditionFormula.ConditionModifier { Duration: Duration.SaveEnds });
 
             public IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, bool hasSaveEnds) =>

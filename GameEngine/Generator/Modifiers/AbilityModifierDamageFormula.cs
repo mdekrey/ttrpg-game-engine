@@ -24,7 +24,12 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage) =>
                 new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
                     .Distinct()
-                    .Take(stage == UpgradeStage.Standard ? 1 : attack.PowerInfo.ToolProfile.Abilities.Count)
+                    .Take(stage switch
+                    {
+                        UpgradeStage.InitializeAttacks => 1,
+                        UpgradeStage.Finalize => attack.PowerInfo.ToolProfile.Abilities.Count,
+                        _ => 0
+                    })
                     .Except(Abilities.Items)
                     .Take(AllowAdditionalModifier(attack) ? 1 : 0)
                     .Select(ability => this with
