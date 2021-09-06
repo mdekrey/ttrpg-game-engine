@@ -100,6 +100,8 @@ namespace GameEngine.Generator.Modifiers
                             _ => throw new NotImplementedException(),
                         }),
                 });
+
+            public bool DurationAffected() => Conditions.Any();
             public bool CanSaveEnd() => Conditions.Any();
         }
 

@@ -23,10 +23,10 @@ Attacks:
     - Strength
     Name: Ability Modifier Damage
   - Conditions:
-    - Name: Blinded
+    - Name: Dazed
     Name: Condition
   - Amount: +4
     Name: To-Hit Bonus to Current Attack
 Modifiers:
-- Duration: EndOfUserNextTurn
+- Duration: SaveEnds
   Name: Duration

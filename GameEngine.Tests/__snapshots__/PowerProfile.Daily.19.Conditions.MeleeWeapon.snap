@@ -9,23 +9,22 @@ Attacks:
   DamageTypes:
   - Normal
   Modifiers:
+  - Abilities:
+    - Strength
+    Name: Ability Modifier Damage
+  - Amount: +4
+    Name: To-Hit Bonus to Current Attack
   - Conditions:
     - Name: Blinded
     - Name: Dazed
-    - Name: Immobilized
+    - Name: Slowed
     Name: Condition
-  - Amount: +8
-    Name: To-Hit Bonus to Current Attack
   - Effects:
     - Name: Prone
     - Mode: Pull
       Amount: +2
       Name: Slide Opponent
     Name: MovementControl
-  - Abilities:
-    - Strength
-    - Dexterity
-    Name: Ability Modifier Damage
 Modifiers:
-- Duration: EndOfUserNextTurn
+- Duration: SaveEnds
   Name: Duration

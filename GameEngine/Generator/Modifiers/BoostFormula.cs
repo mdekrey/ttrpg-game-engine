@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
@@ -13,7 +14,7 @@ namespace GameEngine.Generator.Modifiers
 
         public string Name => ModifierName;
 
-        private static IEnumerable<Boost> GetBasicBoosts(PowerHighLevelInfo powerInfo)
+        private static IEnumerable<Boost> GetBasicBoosts(PowerHighLevelInfo powerInfo, Duration duration, bool isDurationDecided)
         {
             var amounts = new GameDiceExpression[] { 2 }.Concat(powerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));
             var defenses = new[] { DefenseType.ArmorClass, DefenseType.Fortitude, DefenseType.Reflex, DefenseType.Will };
@@ -23,7 +24,8 @@ namespace GameEngine.Generator.Modifiers
                 yield return new AttackBoost(amount, Limit.NextAttack);
                 yield return new AttackBoost(amount, Limit.Target);
                 yield return new TemporaryHitPoints(amount);
-                yield return new Regeneration(amount);
+                if (duration > Duration.EndOfUserNextTurn || !isDurationDecided)
+                    yield return new Regeneration(amount);
             }
             yield return new ExtraSavingThrow();
             yield return new HealingSurge();
@@ -77,7 +79,16 @@ namespace GameEngine.Generator.Modifiers
                 if (Limit != null)
                     yield return this with { Limit = null };
             }
-            public override string BoostText() => $"gain a {Amount} power bonus to attack rolls";
+            public override string BoostText() => $"gain a {Amount} power bonus to attack rolls{LimitText}";
+
+            private string LimitText =>
+                Limit switch
+                {
+                    null => "",
+                    BoostFormula.Limit.Target => " against the target",
+                    BoostFormula.Limit.NextAttack => " on the next attack before the end of your next turn",
+                    _ => throw new NotImplementedException(),
+                };
 
         }
         public record DefenseBoost(GameDiceExpression Amount, DefenseType? Defense) : Boost("Defense")
@@ -160,20 +171,20 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 stage != UpgradeStage.Standard ? Enumerable.Empty<IAttackModifier>() :
-                GetUpgrades(attack.PowerInfo);
+                GetUpgrades(attack.PowerInfo, EffectDurationFormula.GetDuration(power), EffectDurationFormula.IsDurationUndecided(power));
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) =>
                 stage != UpgradeStage.Standard ? Enumerable.Empty<IPowerModifier>() :
-                GetUpgrades(power.PowerInfo);
+                GetUpgrades(power.PowerInfo, EffectDurationFormula.GetDuration(power), EffectDurationFormula.IsDurationUndecided(power));
 
-            public IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo) =>
+            public IEnumerable<AttackAndPowerModifier> GetUpgrades(PowerHighLevelInfo powerInfo, Duration duration, bool isDurationDecided) =>
                 from set in new[]
                 {
-                    from basicBoost in GetBasicBoosts(powerInfo)
+                    from basicBoost in GetBasicBoosts(powerInfo, duration, isDurationDecided)
                     where !SelfBoosts.Select(b => b.Name).Contains(basicBoost.Name)
                     where !AllyBoosts.Select(b => b.Name).Contains(basicBoost.Name)
                     select this with { SelfBoosts = SelfBoosts.Items.Add(basicBoost) },
 
-                    from basicBoost in GetBasicBoosts(powerInfo)
+                    from basicBoost in GetBasicBoosts(powerInfo, duration, isDurationDecided)
                     where AllyType != AllyType.All
                     where !AllyBoosts.Select(b => b.Name).Contains(basicBoost.Name)
                     let boost = basicBoost
@@ -182,7 +193,7 @@ namespace GameEngine.Generator.Modifiers
                         AllyBoosts = AllyBoosts.Items.Add(boost),
                     },
 
-                    from basicBoost in GetBasicBoosts(powerInfo)
+                    from basicBoost in GetBasicBoosts(powerInfo, duration, isDurationDecided)
                     where AllyType == AllyType.All
                     where !AllyBoosts.Select(b => b.Name).Contains(basicBoost.Name)
                     let boost = SelfBoosts.FirstOrDefault(b => b.Name == basicBoost.Name) ?? basicBoost
@@ -264,10 +275,11 @@ namespace GameEngine.Generator.Modifiers
                 }
                 if (SelfBoosts.Where(b => !b.DurationAffected()).Any())
                 {
-                    yield return $"You {OxfordComma(AllyBoosts.Where(b => !b.DurationAffected()).Select(b => b.BoostText()).ToArray())}".FinishSentence();
+                    yield return $"You {OxfordComma(SelfBoosts.Where(b => !b.DurationAffected()).Select(b => b.BoostText()).ToArray())}".FinishSentence();
                 }
             }
 
+            public bool DurationAffected() => AllyBoosts.Concat(SelfBoosts).Any(b => b.DurationAffected());
             public bool CanSaveEnd() => false;
         }
     }

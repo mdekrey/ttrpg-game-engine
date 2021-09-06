@@ -15,9 +15,7 @@
       Name: Ability Modifier Damage
     - Amount: +2
       Name: To-Hit Bonus to Current Attack
-  Modifiers:
-  - Duration: EndOfEncounter
-    Name: Duration
+  Modifiers: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Daily

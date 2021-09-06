@@ -142,7 +142,7 @@ namespace GameEngine.Generator
             );
 
         public IEnumerable<PowerProfileBuilder> FinalizeUpgrade() =>
-            this.Modifiers.Aggregate(Enumerable.Repeat(this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder)))
+            this.Modifiers.Aggregate(Enumerable.Repeat(this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)))
                 .Select(b => b.AdjustRemaining());
 
         public override IEnumerable<IModifier> AllModifiers() => Modifiers.Concat<IModifier>(from attack in Attacks from mod in attack.Modifiers select mod);

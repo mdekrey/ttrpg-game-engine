@@ -23,12 +23,12 @@
       - Strength
       Name: Ability Modifier Damage
     - Conditions:
-      - Name: Blinded
+      - Name: Dazed
       Name: Condition
     - Amount: +4
       Name: To-Hit Bonus to Current Attack
   Modifiers:
-  - Duration: EndOfUserNextTurn
+  - Duration: SaveEnds
     Name: Duration
 - Name: Unknown
   TypeInfo: Weapon Attack 1
@@ -49,4 +49,4 @@
   - Label: Secondary Attack
     Text: STR + 4 vs. AC
   - Label: Secondary Hit
-    Text: 1[W] + STR damage and the target is blinded until the end of your next turn.
+    Text: 1[W] + STR damage and the target is dazed (save ends.)

@@ -20,8 +20,6 @@ Attacks:
     - Strength
     Name: Ability Modifier Damage
 Modifiers:
-- Duration: EndOfUserNextTurn
-  Name: Duration
 - SelfBoosts:
   - Amount: +2
     Defense: Will
@@ -29,3 +27,5 @@ Modifiers:
   AllyBoosts: []
   AllyType: Single
   Name: Boost
+- Duration: EndOfUserNextTurn
+  Name: Duration

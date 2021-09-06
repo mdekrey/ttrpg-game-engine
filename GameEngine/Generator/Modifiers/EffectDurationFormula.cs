@@ -9,10 +9,45 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Duration";
         public override IPowerModifier GetBaseModifier(PowerProfileBuilder attack) =>
-            new EffectDurationModifier(Duration.EndOfUserNextTurn);
+            new EffectDurationPlaceholderModifier();
 
         public override bool IsValid(PowerProfileBuilder builder) => builder.AllModifiers().OfType<IUsesDuration>().Any();
 
+
+        public record EffectDurationPlaceholderModifier() : PowerModifier(ModifierName)
+        {
+            public override int GetComplexity() => 0;
+
+            public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
+
+            public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
+
+            public override PowerTextMutator? GetTextMutator(PowerProfile power) => null;
+
+            public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder power)
+            {
+                if (!power.AllModifiers().OfType<IUsesDuration>().Any(d => d.DurationAffected()))
+                    yield break;
+                if (power.PowerInfo.Usage < Rules.PowerFrequency.Daily)
+                    yield return power with { Modifiers = power.Modifiers.Remove(this).Add(new EffectDurationModifier(Duration.EndOfUserNextTurn)) };
+                if (power.PowerInfo.Usage >= Rules.PowerFrequency.Encounter)
+                {
+                    if (power.AllModifiers().OfType<IUsesDuration>().Any(d => d.CanSaveEnd()))
+                        yield return power with { Modifiers = power.Modifiers.Remove(this).Add(new EffectDurationModifier(Duration.SaveEnds)) };
+                    else
+                    {
+                        // Pick something with a save ends and try to upgrade to that
+                        var withSaveEnds = power with { Modifiers = power.Modifiers.Remove(this).Add(new EffectDurationModifier(Duration.SaveEnds)) };
+                        foreach (var entry in withSaveEnds.GetUpgrades(UpgradeStage.Standard).Where(upgraded => upgraded.AllModifiers().OfType<IUsesDuration>().Any(d => d.CanSaveEnd())))
+                        {
+                            yield return entry;
+                        }
+                    }
+                }
+                if (power.PowerInfo.Usage == Rules.PowerFrequency.Daily)
+                    yield return power with { Modifiers = power.Modifiers.Remove(this).Add(new EffectDurationModifier(Duration.EndOfEncounter)) };
+            }
+        }
 
         public record EffectDurationModifier(Duration Duration) : PowerModifier(ModifierName)
         {
@@ -23,16 +58,14 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage)
             {
-                if (stage < UpgradeStage.Standard)
-                    yield break;
-                if (Duration < Duration.SaveEnds && power.AllModifiers().OfType<IUsesDuration>().Any(d => d.CanSaveEnd()))
-                    yield return new EffectDurationModifier(Duration.SaveEnds);
-                if (Duration < Duration.EndOfEncounter && power.PowerInfo.Usage == Rules.PowerFrequency.Daily)
-                    yield return new EffectDurationModifier(Duration.EndOfEncounter);
+                yield break;
             }
 
             public override PowerTextMutator? GetTextMutator(PowerProfile power) => null;
         }
+
+        public static bool IsDurationUndecided(PowerProfileBuilder powerProfileBuilder) =>
+            powerProfileBuilder.Modifiers.OfType<EffectDurationPlaceholderModifier>().Any();
 
         public static Duration GetDuration(PowerProfileBuilder powerProfileBuilder) =>
             powerProfileBuilder.Modifiers.OfType<EffectDurationModifier>().SingleOrDefault()?.Duration ?? Duration.EndOfUserNextTurn;
@@ -42,6 +75,7 @@ namespace GameEngine.Generator.Modifiers
 
         public interface IUsesDuration
         {
+            bool DurationAffected();
             bool CanSaveEnd();
         }
     }

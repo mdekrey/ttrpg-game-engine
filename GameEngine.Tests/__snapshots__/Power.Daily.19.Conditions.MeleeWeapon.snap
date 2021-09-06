@@ -9,25 +9,24 @@
     DamageTypes:
     - Normal
     Modifiers:
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - Amount: +4
+      Name: To-Hit Bonus to Current Attack
     - Conditions:
       - Name: Blinded
       - Name: Dazed
-      - Name: Immobilized
+      - Name: Slowed
       Name: Condition
-    - Amount: +8
-      Name: To-Hit Bonus to Current Attack
     - Effects:
       - Name: Prone
       - Mode: Pull
         Amount: +2
         Name: Slide Opponent
       Name: MovementControl
-    - Abilities:
-      - Strength
-      - Dexterity
-      Name: Ability Modifier Damage
   Modifiers:
-  - Duration: EndOfUserNextTurn
+  - Duration: SaveEnds
     Name: Duration
 - Name: Unknown
   TypeInfo: Weapon Attack 19
@@ -39,7 +38,7 @@
   AttackType: Melee
   AttackTypeDetails: weapon
   Target: One creature
-  Attack: STR + 8 vs. AC
+  Attack: STR + 4 vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR + DEX damage, the target is blinded, dazed, and immobilized until the end of your next turn, you pull the target +2 squares, and the target is knocked prone.
+    Text: 1[W] + STR damage, the target is blinded, dazed, and slowed (save ends), you pull the target +2 squares, and the target is knocked prone.

@@ -19,6 +19,4 @@ Attacks:
     AllyBoosts: []
     AllyType: Single
     Name: Boost
-Modifiers:
-- Duration: EndOfUserNextTurn
-  Name: Duration
+Modifiers: []
