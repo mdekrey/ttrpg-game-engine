@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using static GameEngine.Generator.PowerDefinitions;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Generator.Modifiers;
@@ -13,33 +12,28 @@ namespace GameEngine.Generator
 
         public static readonly AttackModifierFormula NonArmorDefense = new NonArmorDefenseFormula();
         public static readonly AttackModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula();
-        public static readonly AttackModifierFormula Multiple3x3 = new BurstFormula();
-        public static readonly PowerModifierFormula SecondaryAttack = new MultiattackFormula();
-        public static readonly PowerModifierFormula OpportunityAction = new OpportunityActionFormula();
-        public static readonly ImmutableList<(string keyword, IModifierFormula<IAttackModifier, AttackProfileBuilder> formula)> attackModifiers = new (string, IModifierFormula<IAttackModifier, AttackProfileBuilder>)[]
-        {
-            (GeneralKeyword, AbilityModifierDamage),
-            (AccuratePowerTemplateName, NonArmorDefense),
-            (GeneralKeyword, Multiple3x3),
-            (AccuratePowerTemplateName, new ToHitBonusFormula()),
-            (ConditionsPowerTemplateName, new ConditionFormula()),
-            (GeneralKeyword, new MovementControlFormula()),
-            (SkirmishPowerTemplateName, new SkirmishFormula()),
-            (BonusPowerTemplateName, new BoostFormula()),
+        public static readonly ImmutableList<IModifierFormula<IAttackModifier, AttackProfileBuilder>> attackModifiers = Build<IModifierFormula<IAttackModifier, AttackProfileBuilder>>(
+            AbilityModifierDamage,
+            NonArmorDefense,
+            new BurstFormula(),
+            new ToHitBonusFormula(),
+            new ConditionFormula(),
+            new MovementControlFormula(),
+            new SkirmishFormula(),
+            new BoostFormula()
             // Slowed/Unconscious
             // Aftereffects
             // Reroll attack
             // Disarm and catch
             // Secondary burst (such as acid splash)
-        }.ToImmutableList();
-        public static readonly ImmutableList<(string keyword, IModifierFormula<IPowerModifier, PowerProfileBuilder> formula)> powerModifiers = new (string, IModifierFormula<IPowerModifier, PowerProfileBuilder>)[]
-        {
-            (GeneralKeyword, SecondaryAttack),
-            (GeneralKeyword, OpportunityAction),
-            (BonusPowerTemplateName, new BoostFormula()),
+        );
+        public static readonly ImmutableList<IModifierFormula<IPowerModifier, PowerProfileBuilder>> powerModifiers = Build<IModifierFormula<IPowerModifier, PowerProfileBuilder>>(
+            new MultiattackFormula(),
+            new OpportunityActionFormula(),
+            new BoostFormula()
             // Stance
             // Free basic attacks
             // Sustain
-        }.ToImmutableList();
+        );
     }
 }

@@ -18,7 +18,7 @@ public class SamplePowerModel : PageModel
 
     public void OnGet()
     {
-        var (configName, level, powerFrequency, powerTemplate) = ("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName);
+        var (configName, level, powerFrequency) = ("MeleeWeapon", 19, PowerFrequency.Daily);
 
         var target = new PowerGenerator((min, max) => max - 1);
 

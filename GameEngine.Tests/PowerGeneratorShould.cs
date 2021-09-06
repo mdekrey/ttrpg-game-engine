@@ -43,29 +43,29 @@ namespace GameEngine.Tests
             Assert.Equal(expected, power);
         }
 
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.BonusPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.BonusPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.BonusPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBlastPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBurstPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.InterruptPenaltyPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.CloseBurstPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.CloseBlastPowerTemplateName)]
-        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, CloseBlastPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, CloseBurstPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, InterruptPenaltyPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, MultiattackPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, CloseBurstPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, CloseBlastPowerTemplateName)]
+        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, ConditionsPowerTemplateName)]
+        [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, MultiattackPowerTemplateName)]
         [Theory]
         public void GeneratePowerProfile(string configName, int Level, PowerFrequency powerFrequency, string powerTemplate)
         {
@@ -90,10 +90,10 @@ namespace GameEngine.Tests
                                     select str);
         }
 
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.MultiattackPowerTemplateName, 2)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.MultiattackPowerTemplateName, 3)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName, 751)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.MultiattackPowerTemplateName, 751)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 2)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 3)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName, 751)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 751)]
         [Theory]
         public void GenerateRandomPowerProfile(string configName, int Level, PowerFrequency powerFrequency, string powerTemplate, int seed)
         {
@@ -106,18 +106,18 @@ namespace GameEngine.Tests
             Snapshot.Match(Serializer.Serialize(powerProfile), ToSnapshotName(seed, "PowerProfile", powerFrequency, Level, powerTemplate, configName));
         }
 
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.MultiattackPowerTemplateName, 2)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName, null)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName, null)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName, null)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName, null)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBurstPowerTemplateName, null)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.InterruptPenaltyPowerTemplateName, null)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName, null)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.CloseBurstPowerTemplateName, null)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.CloseBlastPowerTemplateName, null)]
-        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName, null)]
-        [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 2)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, AccuratePowerTemplateName, null)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, CloseBurstPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, InterruptPenaltyPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, MultiattackPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, CloseBurstPowerTemplateName, null)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, CloseBlastPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, ConditionsPowerTemplateName, null)]
+        [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, MultiattackPowerTemplateName, null)]
         [InlineData("Control", 1, PowerFrequency.Daily, "", null)]
         [Theory]
         public void GeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
@@ -147,29 +147,29 @@ namespace GameEngine.Tests
             Snapshot.Match(Serializer.Serialize(powerProfile));
         }
 
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.BonusPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, PowerDefinitions.BonusPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.MultiattackPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.SkirmishPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.AccuratePowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.BonusPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBlastPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, PowerDefinitions.CloseBurstPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.InterruptPenaltyPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, PowerDefinitions.CloseBurstPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, PowerDefinitions.CloseBlastPowerTemplateName)]
-        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, PowerDefinitions.ConditionsPowerTemplateName)]
-        [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, PowerDefinitions.MultiattackPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, CloseBlastPowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, CloseBurstPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, InterruptPenaltyPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, MultiattackPowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, CloseBurstPowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, CloseBlastPowerTemplateName)]
+        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, ConditionsPowerTemplateName)]
+        [InlineData("SecondAttackOnly", 1, PowerFrequency.Daily, MultiattackPowerTemplateName)]
         [Theory]
         public void DeserializeGeneratedPowersProfile(string configName, int Level, PowerFrequency powerFrequency, string powerTemplate)
         {
@@ -194,17 +194,27 @@ namespace GameEngine.Tests
             return (require, new[] { "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'" }.Except(require).ToArray());
         }
 
+
+        public const string AccuratePowerTemplateName = "Accurate"; // focus on bonus to hit
+        public const string SkirmishPowerTemplateName = "Skirmish"; // focus on movement
+        public const string MultiattackPowerTemplateName = "Multiattack";
+        public const string CloseBurstPowerTemplateName = "Close burst";
+        public const string ConditionsPowerTemplateName = "Conditions";
+        public const string InterruptPenaltyPowerTemplateName = "Interrupt Penalty"; // Cutting words, Disruptive Strike
+        public const string CloseBlastPowerTemplateName = "Close blast";
+        public const string BonusPowerTemplateName = "Bonus";
+
         public static readonly Dictionary<string, (string[] require, string[] disallow)> ModifierByTemplate = new Dictionary<string, (string[] require, string[] disallow)>
         {
             { "", (Array.Empty<string>(), Array.Empty<string>()) },
-            { PowerDefinitions.AccuratePowerTemplateName, MakeModifierTemplate("@.Name=='Non-Armor Defense'", "@.Name=='To-Hit Bonus to Current Attack'") },
-            { PowerDefinitions.SkirmishPowerTemplateName, MakeModifierTemplate("@.Name=='Skirmish Movement'") },
-            { PowerDefinitions.MultiattackPowerTemplateName, MakeModifierTemplate("@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'") },
-            { PowerDefinitions.CloseBurstPowerTemplateName, MakeModifierTemplate("@.Name=='Multiple' && @.Type=='Burst'") },
-            { PowerDefinitions.ConditionsPowerTemplateName, MakeModifierTemplate("@.Name=='Condition'") },
-            { PowerDefinitions.InterruptPenaltyPowerTemplateName, MakeModifierTemplate("@.Name=='OpportunityAction'") },
-            { PowerDefinitions.CloseBlastPowerTemplateName, MakeModifierTemplate("@.Name=='Multiple' && @.Type=='Blast'") },
-            { PowerDefinitions.BonusPowerTemplateName, MakeModifierTemplate("@.Name=='Boost'") },
+            { AccuratePowerTemplateName, MakeModifierTemplate("@.Name=='Non-Armor Defense'", "@.Name=='To-Hit Bonus to Current Attack'") },
+            { SkirmishPowerTemplateName, MakeModifierTemplate("@.Name=='Skirmish Movement'") },
+            { MultiattackPowerTemplateName, MakeModifierTemplate("@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'") },
+            { CloseBurstPowerTemplateName, MakeModifierTemplate("@.Name=='Multiple' && @.Type=='Burst'") },
+            { ConditionsPowerTemplateName, MakeModifierTemplate("@.Name=='Condition'") },
+            { InterruptPenaltyPowerTemplateName, MakeModifierTemplate("@.Name=='OpportunityAction'") },
+            { CloseBlastPowerTemplateName, MakeModifierTemplate("@.Name=='Multiple' && @.Type=='Blast'") },
+            { BonusPowerTemplateName, MakeModifierTemplate("@.Name=='Boost'") },
         };
 
         private static ToolProfile GetToolProfile(string configName, string powerTemplate)

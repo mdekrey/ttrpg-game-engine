@@ -132,7 +132,7 @@ namespace GameEngine.Generator
                 var oldBuilder = powerProfileBuilder;
                 var validModifiers = (from set in new[]
                                       {
-                                          from mod in ModifierDefinitions.attackModifiers.Select(m => m.formula)
+                                          from mod in ModifierDefinitions.attackModifiers
                                           from attackWithIndex in powerProfileBuilder.Attacks.Select((attack, index) => (attack, index))
                                           let attack = attackWithIndex.attack
                                           let index = attackWithIndex.index
@@ -145,7 +145,7 @@ namespace GameEngine.Generator
                                           where applied.IsValid()
                                           select applied
                                           ,
-                                          from mod in ModifierDefinitions.powerModifiers.Select(m => m.formula)
+                                          from mod in ModifierDefinitions.powerModifiers
                                           where mod.IsValid(powerProfileBuilder) && !powerProfileBuilder.Modifiers.Any(m => m.Name == mod.Name)
                                           let entry = mod.GetBaseModifier(powerProfileBuilder)
                                           from e in (entry.MustUpgrade() ? entry.GetPowerUpgrades(powerProfileBuilder, stage) : new[] { entry })
@@ -236,43 +236,5 @@ namespace GameEngine.Generator
             return weaponDice;
         }
 
-    }
-
-    public static class PowerProfileExtensions
-    {
-        public static string ToKeyword(this ToolType tool) =>
-            tool switch
-            {
-                ToolType.Implement => "Implement",
-                ToolType.Weapon => "Weapon",
-                _ => throw new ArgumentException("Invalid enum value for tool", nameof(tool)),
-            };
-
-        public static GameDiceExpression ToDamageEffect(ToolType tool, double weaponDice)
-        {
-            if (tool == ToolType.Weapon)
-                return GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice };
-            var averageDamage = weaponDice * 5.5;
-            var dieType = (
-                from entry in new[]
-                {
-                    (sides: 10, results: GetDiceCount(averageDamage, 5.5)),
-                    (sides: 8, results: GetDiceCount(averageDamage, 4.5)),
-                    (sides: 6, results: GetDiceCount(averageDamage, 3.5)),
-                    (sides: 4, results: GetDiceCount(averageDamage, 2.5)),
-                }
-                orderby entry.results.remainder ascending
-                select (sides: entry.sides, count: entry.results.dice, remainder: entry.results.remainder)
-            ).ToArray();
-            var (sides, count, remainder) = dieType.First();
-
-            return new Dice.DieCode(count, sides);
-
-            (int dice, double remainder) GetDiceCount(double averageDamage, double damagePerDie)
-            {
-                var dice = (int)(averageDamage / damagePerDie);
-                return (dice: dice, remainder: averageDamage % damagePerDie);
-            }
-        }
     }
 }
