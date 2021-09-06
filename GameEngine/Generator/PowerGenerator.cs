@@ -118,11 +118,8 @@ namespace GameEngine.Generator
 
         public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder, UpgradeStage stage, IEnumerable<PowerProfile> exclude)
         {
-            var minAmount = powerProfileBuilder.PowerInfo.ToolProfile.Type == ToolType.Weapon ? 1 : 0.5;
             while (true)
             {
-                if (powerProfileBuilder.Attacks.Any(a => a.WeaponDice < minAmount))
-                    System.Diagnostics.Debugger.Break();
                 var oldBuilder = powerProfileBuilder;
                 var preChance = (from set in new[]
                                  {
@@ -155,11 +152,7 @@ namespace GameEngine.Generator
                 var validModifiers = preChance.ToChances(powerProfileBuilder.PowerInfo.ToolProfile.PowerProfileConfig).ToArray();
                 if (validModifiers.Length == 0)
                     break;
-                if (validModifiers.Any(r => r.Result.Attacks.Any(a => a.WeaponDice < minAmount)))
-                    System.Diagnostics.Debugger.Break();
                 powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);
-                if (powerProfileBuilder.Attacks.Any(a => a.WeaponDice < minAmount))
-                    System.Diagnostics.Debugger.Break();
 
                 if (oldBuilder == powerProfileBuilder)
                     break;
