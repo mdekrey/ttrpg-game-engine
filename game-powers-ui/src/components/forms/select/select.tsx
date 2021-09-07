@@ -1,9 +1,11 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
-import { ReactNode, Fragment } from 'react';
+import { ReactNode, Fragment, forwardRef, ForwardedRef } from 'react';
 import { merge } from 'core/jsx/merge';
+import { ControllerRenderProps, FieldValues, Path, UseControllerProps } from 'react-hook-form';
 import { disabledInputBorder, inputBorder } from '../templates';
+import { Controlled } from '../Controlled';
 
 export type SelectProps<T> = {
 	value: T;
@@ -13,24 +15,22 @@ export type SelectProps<T> = {
 	optionDisplay: (opt: T) => ReactNode;
 	disabled?: boolean;
 	onChange: (value: T) => void;
+
+	name?: string;
+	onBlur?: () => void;
 };
 
-export function Select<T>({
-	value,
-	options,
-	optionKey,
-	optionHeaderDisplay,
-	optionDisplay,
-	disabled,
-	...props
-}: SelectProps<T>) {
+function SelectComponent<T>(
+	{ value, options, optionKey, optionHeaderDisplay, optionDisplay, disabled, name, onBlur, ...props }: SelectProps<T>,
+	ref: ForwardedRef<HTMLButtonElement>
+) {
 	return (
 		<Listbox value={value} {...props} disabled={disabled}>
 			<Listbox.Label className="block text-sm font-medium text-black">Tool</Listbox.Label>
 			<div className="relative">
 				{merge(
 					disabled ? disabledInputBorder : inputBorder,
-					<Listbox.Button className="text-left relative">
+					<Listbox.Button className="text-left relative" onBlur={onBlur} name={name} ref={ref}>
 						<span className="block truncate">{(optionHeaderDisplay || optionDisplay)(value)}</span>
 						<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
 							<SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
@@ -38,7 +38,7 @@ export function Select<T>({
 					</Listbox.Button>
 				)}
 				<Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
-					<Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+					<Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-10">
 						{options.map((option) => (
 							<Listbox.Option
 								key={optionKey(option)}
@@ -75,3 +75,15 @@ export function Select<T>({
 		</Listbox>
 	);
 }
+
+export const Select = forwardRef<HTMLButtonElement, SelectProps<unknown>>(SelectComponent) as <T>(
+	props: SelectProps<T>
+) => JSX.Element;
+
+export const ControlledSelect = Controlled(Select) as <
+	T,
+	TFieldValues extends FieldValues = FieldValues,
+	TName extends Path<TFieldValues> = Path<TFieldValues>
+>(
+	props: Omit<SelectProps<T>, keyof ControllerRenderProps> & UseControllerProps<TFieldValues, TName>
+) => JSX.Element;

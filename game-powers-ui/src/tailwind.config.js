@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const defaultColors = require('tailwindcss/colors');
 const plugin = require('tailwindcss/plugin');
 
 const colors = {
