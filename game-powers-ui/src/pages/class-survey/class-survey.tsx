@@ -1,8 +1,10 @@
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { useId } from 'core/hooks/useId';
 import { Button } from 'components/button/Button';
 import { Card } from 'components/card/card';
-import { ControlledSelect, ControlledTextbox, Label } from 'components/forms';
+import { ControlledSelect, ControlledTextbox, Label, ValidationMessages } from 'components/forms';
 
 type CharacterRole = 'Controller' | 'Defender' | 'Leader' | 'Striker';
 type ToolType = 'Weapon' | 'Implement';
@@ -15,6 +17,11 @@ type ClassSurveyForm = {
 
 const roles: CharacterRole[] = ['Controller', 'Defender', 'Leader', 'Striker'];
 const toolTypes: ToolType[] = ['Weapon', 'Implement'];
+const schema: yup.SchemaOf<ClassSurveyForm> = yup.object({
+	name: yup.string().required().label('Name'),
+	role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
+	toolType: yup.mixed<ToolType>().oneOf(toolTypes).required().label('Tool Type'),
+});
 
 export function ClassSurvey({
 	className,
@@ -23,12 +30,18 @@ export function ClassSurvey({
 	className?: string;
 	onSubmit?: (form: ClassSurveyForm) => void;
 }) {
-	const { handleSubmit, control } = useForm<ClassSurveyForm>({
+	const {
+		handleSubmit,
+		control,
+		formState: { errors },
+	} = useForm<ClassSurveyForm>({
+		mode: 'onBlur',
 		defaultValues: {
 			name: 'Custom Class',
 			role: 'Controller',
 			toolType: 'Weapon',
 		},
+		resolver: yupResolver(schema),
 	});
 	const id = useId();
 
@@ -39,6 +52,7 @@ export function ClassSurvey({
 					<div className="col-span-6 sm:col-span-3">
 						<Label htmlFor={`class-name-${id}`}>Name</Label>
 						<ControlledTextbox control={control} name="name" id={`class-name-${id}`} />
+						<ValidationMessages message={errors.name?.message} />
 					</div>
 					<div className="col-span-6 sm:col-span-3">
 						<ControlledSelect
@@ -48,6 +62,7 @@ export function ClassSurvey({
 							optionKey={(opt) => opt}
 							optionDisplay={(opt) => opt}
 						/>
+						<ValidationMessages message={errors.role?.message} />
 					</div>
 					<div className="col-span-6">
 						<ControlledSelect
@@ -57,6 +72,7 @@ export function ClassSurvey({
 							optionKey={(opt) => opt}
 							optionDisplay={(opt) => opt}
 						/>
+						<ValidationMessages message={errors.toolType?.message} />
 					</div>
 				</div>
 			</Card>

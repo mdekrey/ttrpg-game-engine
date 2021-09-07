@@ -8,6 +8,7 @@
 		"@craco/craco": "^6.2.0",
 		"@headlessui/react": "^1.4.1",
 		"@heroicons/react": "^1.0.4",
+		"@hookform/resolvers": "^2.8.0",
 		"@mdx-js/loader": "^1.6.22",
 		"@mdx-js/react": "^1.6.22",
 		"@principlestudios/react-scripts-lib": "4.0.5",
@@ -41,7 +42,8 @@
 		"tailwindcss-multi-column": "^1.0.2",
 		"touch-cli": "^0.0.1",
 		"typescript": "^4.1.2",
-		"web-vitals": "^1.0.1"
+		"web-vitals": "^1.0.1",
+		"yup": "^0.32.9"
 	},
 	"scripts": {
 		"postinstall": "touch node_modules/_._",
