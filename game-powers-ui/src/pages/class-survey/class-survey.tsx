@@ -1,26 +1,36 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useId } from 'core/hooks/useId';
 import { Button } from 'components/button/Button';
 import { Card } from 'components/card/card';
-import { ControlledSelect, ControlledTextbox, Label, ValidationMessages } from 'components/forms';
+import { SelectField, TextboxField } from 'components/forms';
+import { useState } from 'react';
 
 type CharacterRole = 'Controller' | 'Defender' | 'Leader' | 'Striker';
 type ToolType = 'Weapon' | 'Implement';
 
+type ToolSurveyForm = {
+	toolType: ToolType;
+	name: string;
+};
+
 type ClassSurveyForm = {
 	name: string;
 	role: CharacterRole;
-	toolType: ToolType;
+	tools: ToolSurveyForm[];
 };
 
 const roles: CharacterRole[] = ['Controller', 'Defender', 'Leader', 'Striker'];
 const toolTypes: ToolType[] = ['Weapon', 'Implement'];
-const schema: yup.SchemaOf<ClassSurveyForm> = yup.object({
+
+const toolSurveySchema: yup.SchemaOf<ToolSurveyForm> = yup.object({
+	toolType: yup.mixed<ToolType>().oneOf(toolTypes).required().label('Tool Type'),
+	name: yup.string().required().label('Name'),
+});
+const classSurveySchema: yup.SchemaOf<ClassSurveyForm> = yup.object({
 	name: yup.string().required().label('Name'),
 	role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
-	toolType: yup.mixed<ToolType>().oneOf(toolTypes).required().label('Tool Type'),
+	tools: yup.array(toolSurveySchema),
 });
 
 export function ClassSurvey({
@@ -30,55 +40,85 @@ export function ClassSurvey({
 	className?: string;
 	onSubmit?: (form: ClassSurveyForm) => void;
 }) {
+	const [tools, setTools] = useState([0]);
 	const {
 		handleSubmit,
 		control,
 		formState: { errors },
+		setValue,
+		getValues,
 	} = useForm<ClassSurveyForm>({
 		mode: 'onBlur',
 		defaultValues: {
 			name: 'Custom Class',
 			role: 'Controller',
-			toolType: 'Weapon',
+			tools: [{ toolType: 'Weapon', name: '' }],
 		},
-		resolver: yupResolver(schema),
+		resolver: yupResolver(classSurveySchema),
 	});
-	const id = useId();
 
 	return (
 		<form className={className} onSubmit={onSubmit && handleSubmit(onSubmit)}>
-			<Card>
-				<div className="grid grid-cols-6 gap-6">
-					<div className="col-span-6 sm:col-span-3">
-						<Label htmlFor={`class-name-${id}`}>Name</Label>
-						<ControlledTextbox control={control} name="name" id={`class-name-${id}`} />
-						<ValidationMessages message={errors.name?.message} />
-					</div>
-					<div className="col-span-6 sm:col-span-3">
-						<ControlledSelect
-							control={control}
-							name="role"
-							options={roles}
-							optionKey={(opt) => opt}
-							optionDisplay={(opt) => opt}
-						/>
-						<ValidationMessages message={errors.role?.message} />
-					</div>
-					<div className="col-span-6">
-						<ControlledSelect
-							control={control}
-							name="toolType"
-							options={toolTypes}
-							optionKey={(opt) => opt}
-							optionDisplay={(opt) => opt}
-						/>
-						<ValidationMessages message={errors.toolType?.message} />
-					</div>
-				</div>
+			<Card className="grid grid-cols-6 gap-6">
+				<TextboxField
+					label="Class Name"
+					className="col-span-6 sm:col-span-3"
+					control={control}
+					name="name"
+					error={errors.name?.message}
+				/>
+				<SelectField
+					className="col-span-6 sm:col-span-3"
+					label="Role"
+					control={control}
+					name="role"
+					options={roles}
+					optionKey={(opt) => opt}
+					optionDisplay={(opt) => opt}
+					error={errors.role?.message}
+				/>
 			</Card>
-			<Card className="mt-4">
+			{tools.map((toolKey, index) => (
+				<Card key={toolKey} className="mt-4 grid grid-cols-6 gap-6">
+					<SelectField
+						className="col-span-6 sm:col-span-3"
+						label="Tool"
+						control={control}
+						name={`tools.${index}.toolType`}
+						options={toolTypes}
+						optionKey={(opt) => opt}
+						optionDisplay={(opt) => opt}
+						error={errors.tools && errors.tools[index]?.toolType?.message}
+					/>
+					<TextboxField
+						label="Tool Name"
+						className="col-span-6 sm:col-span-3"
+						control={control}
+						name={`tools.${index}.name`}
+						error={errors.tools && errors.tools[index]?.name?.message}
+					/>
+					<Button type="button" onClick={() => removeTool(index)}>
+						Remove Tool
+					</Button>
+				</Card>
+			))}
+			<Card className="mt-4 flex flex-row-reverse justify-start gap-4">
 				<Button type="submit">Submit</Button>
+				<Button type="button" onClick={addTool}>
+					Add Tool
+				</Button>
 			</Card>
 		</form>
 	);
+
+	function addTool() {
+		setTools((t) => [...t, t.length]);
+		setValue('tools', [...getValues('tools'), { toolType: 'Weapon', name: '' }]);
+	}
+
+	function removeTool(index: number) {
+		setTools((t) => [...t.slice(0, index), ...t.slice(index + 1)]);
+		const currentTools = getValues('tools');
+		setValue('tools', [...currentTools.slice(0, index), ...currentTools.slice(index + 1)]);
+	}
 }

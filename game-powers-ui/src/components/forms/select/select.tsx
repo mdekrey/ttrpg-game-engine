@@ -3,17 +3,21 @@ import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
 import { ReactNode, Fragment, forwardRef, ForwardedRef } from 'react';
 import { merge } from 'core/jsx/merge';
-import { ControllerRenderProps, FieldValues, Path, UseControllerProps } from 'react-hook-form';
+import { FieldValues, Path, PathValue, UseControllerProps } from 'react-hook-form';
 import { disabledInputBorder, inputBorder } from '../templates';
 import { Controlled } from '../Controlled';
 
-export type SelectProps<T> = {
-	value: T;
+export type ControlledSelectProps<T> = {
+	label: ReactNode;
 	options: T[];
 	optionKey: (opt: T) => string;
 	optionHeaderDisplay?: (opt: T) => ReactNode;
 	optionDisplay: (opt: T) => ReactNode;
 	disabled?: boolean;
+};
+
+export type SelectProps<T> = ControlledSelectProps<T> & {
+	value: T;
 	onChange: (value: T) => void;
 
 	name?: string;
@@ -21,12 +25,23 @@ export type SelectProps<T> = {
 };
 
 function SelectComponent<T>(
-	{ value, options, optionKey, optionHeaderDisplay, optionDisplay, disabled, name, onBlur, ...props }: SelectProps<T>,
+	{
+		label,
+		value,
+		options,
+		optionKey,
+		optionHeaderDisplay,
+		optionDisplay,
+		disabled,
+		name,
+		onBlur,
+		...props
+	}: SelectProps<T>,
 	ref: ForwardedRef<HTMLButtonElement>
 ) {
 	return (
 		<Listbox value={value} {...props} disabled={disabled}>
-			<Listbox.Label className="block text-sm font-medium text-black">Tool</Listbox.Label>
+			<Listbox.Label className="block text-sm font-medium text-black">{label}</Listbox.Label>
 			<div className="relative">
 				{merge(
 					disabled ? disabledInputBorder : inputBorder,
@@ -81,9 +96,8 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps<unknown>>(Select
 ) => JSX.Element;
 
 export const ControlledSelect = Controlled(Select) as <
-	T,
 	TFieldValues extends FieldValues = FieldValues,
 	TName extends Path<TFieldValues> = Path<TFieldValues>
 >(
-	props: Omit<SelectProps<T>, keyof ControllerRenderProps> & UseControllerProps<TFieldValues, TName>
+	props: ControlledSelectProps<PathValue<TFieldValues, TName>> & UseControllerProps<TFieldValues, TName>
 ) => JSX.Element;
