@@ -234,13 +234,13 @@ namespace GameEngine.Tests
 
         private static readonly ImmutableDictionary<string, ToolProfile> profiles = new Dictionary<string, ToolProfile>
         {
-            { "MeleeWeapon", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+            { "MeleeWeapon", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                 new[] { DamageType.Normal }.ToImmutableList(), fullAccessProfileConfig) },
-            { "RangeWeapon", new(ToolType.Weapon, ToolRange.Range, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+            { "RangeWeapon", new(ToolType.Weapon, ToolRange.Range, PowerSource.Martial, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                 new[] { DamageType.Normal }.ToImmutableList(), fullAccessProfileConfig) },
-            { "RangeImplement", new(ToolType.Implement, ToolRange.Range, PowerSource.Arcane, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+            { "RangeImplement", new(ToolType.Implement, ToolRange.Range, PowerSource.Arcane, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                 new[] { DamageType.Radiant }.ToImmutableList(), fullAccessProfileConfig) },
-            { "SecondAttackOnly", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+            { "SecondAttackOnly", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                 new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(
                     new ModifierChance[] {
                         new("$", 1),
@@ -249,7 +249,7 @@ namespace GameEngine.Tests
                     }.ToImmutableList(),
                     Build(new PowerChance("$", 1))
                 )) },
-            { "Control", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+            { "Control", new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                 new[] { DamageType.Normal }.ToImmutableList(), new PowerProfileConfig(
                     new ModifierChance[] {
                         new("$..[?(@.Name=='Ability Modifier Damage')]", 1),
@@ -265,7 +265,6 @@ namespace GameEngine.Tests
                 new ToolProfile[] {
                     new(
                         ToolType.Weapon, ToolRange.Range, PowerSource.Martial,
-                        DefenseType.Fortitude,
                         new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                         new[] { DamageType.Normal, DamageType.Fire }.ToImmutableList(),
                         new PowerProfileConfig(

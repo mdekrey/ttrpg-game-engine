@@ -25,7 +25,6 @@ public class SamplePowersModel : PageModel
                 new ToolProfile[] {
                     new(
                         ToolType.Weapon, ToolRange.Range, PowerSource.Martial,
-                        DefenseType.Fortitude,
                         new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                         new[] { DamageType.Normal, DamageType.Fire }.ToImmutableList(),
                         new PowerProfileConfig(

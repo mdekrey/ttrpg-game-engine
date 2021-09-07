@@ -30,7 +30,6 @@ namespace GameEngine.Tests.Modifiers
                         ToolType.Weapon,
                         ToolRange.Melee,
                         PowerSource.Martial,
-                        Rules.DefenseType.Fortitude,
                         Build(Rules.Ability.Strength, Rules.Ability.Dexterity),
                         Build(DamageType.Normal),
                         PowerGeneratorShould.fullAccessProfileConfig

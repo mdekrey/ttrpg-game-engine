@@ -22,7 +22,7 @@ public class SamplePowerModel : PageModel
 
         var target = new PowerGenerator((min, max) => max - 1);
 
-        ToolProfile toolProfile = new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, DefenseType.Fortitude, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
+        ToolProfile toolProfile = new(ToolType.Weapon, ToolRange.Melee, PowerSource.Martial, new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                 new[] { DamageType.Normal }.ToImmutableList(), new(ImmutableList<ModifierChance>.Empty.Add(new("$", 1)), ImmutableList<PowerChance>.Empty.Add(new("$", 1))));
 
         var powerHighLevelInfo = new PowerHighLevelInfo(level, powerFrequency, toolProfile, ClassRole.Striker);

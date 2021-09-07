@@ -41,12 +41,11 @@ namespace GameEngine.Generator
         }
     }
 
-    public record ToolProfile(ToolType Type, ToolRange Range, PowerSource PowerSource, DefenseType PrimaryNonArmorDefense, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, PowerProfileConfig PowerProfileConfig)
+    public record ToolProfile(ToolType Type, ToolRange Range, PowerSource PowerSource, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, PowerProfileConfig PowerProfileConfig)
     {
         internal bool IsValid()
         {
-            return PrimaryNonArmorDefense != DefenseType.ArmorClass
-                && Abilities is { Count: > 1 }
+            return Abilities is { Count: > 1 }
                 && Abilities.Distinct().Count() == Abilities.Count
                 && PreferredDamageTypes is { Count: >= 1 };
         }

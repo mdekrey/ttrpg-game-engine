@@ -31,7 +31,6 @@ namespace GameEngine.Generator.Modifiers
                     yield break;
                 if (stage != UpgradeStage.Standard && attack.PowerInfo.ToolProfile.Type == ToolType.Weapon)
                     yield break;
-                yield return BuildModifier(attack.PowerInfo.ToolProfile.PrimaryNonArmorDefense);
                 yield return BuildModifier(DefenseType.Fortitude);
                 yield return BuildModifier(DefenseType.Reflex);
                 yield return BuildModifier(DefenseType.Will);
