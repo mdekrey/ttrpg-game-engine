@@ -22,9 +22,10 @@ public class SamplePowersModel : PageModel
     {
         var classProfile = new ClassProfile(
                 ClassRole.Striker,
+                PowerSource.Martial,
                 new ToolProfile[] {
                     new(
-                        ToolType.Weapon, ToolRange.Range, PowerSource.Martial,
+                        ToolType.Weapon, ToolRange.Range, 
                         new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                         new[] { DamageType.Normal, DamageType.Fire }.ToImmutableList(),
                         new PowerProfileConfig(

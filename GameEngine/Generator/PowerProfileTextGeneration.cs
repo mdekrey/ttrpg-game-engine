@@ -159,7 +159,7 @@ namespace GameEngine.Generator
                 TypeInfo: $"{profile.Tool.ToText()} Attack {profile.Level}",
                 FlavorText: null,
                 PowerUsage: profile.Usage.ToText(),
-                Keywords: ImmutableList<string>.Empty.Add(profile.Tool.ToKeyword()).Add(profile.PowerSource.ToText()),
+                Keywords: ImmutableList<string>.Empty.Add(profile.Tool.ToKeyword()).Add(profile.PowerSource),
                 ActionType: "Standard Action",
                 AttackType: null,
                 AttackTypeDetails: null,

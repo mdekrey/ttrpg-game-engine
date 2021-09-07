@@ -25,14 +25,14 @@ namespace GameEngine.Generator
         Range,
     }
 
-    public enum PowerSource
+    public static class PowerSource
     {
-        Martial,
-        Divine,
-        Arcane,
+        public const string Martial = nameof(Martial);
+        public const string Arcane = nameof(Arcane);
+        public const string Divine = nameof(Divine);
     }
 
-    public record ClassProfile(ClassRole Role, ImmutableList<ToolProfile> Tools)
+    public record ClassProfile(ClassRole Role, string PowerSource, ImmutableList<ToolProfile> Tools)
     {
         internal bool IsValid()
         {
@@ -41,7 +41,7 @@ namespace GameEngine.Generator
         }
     }
 
-    public record ToolProfile(ToolType Type, ToolRange Range, PowerSource PowerSource, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, PowerProfileConfig PowerProfileConfig)
+    public record ToolProfile(ToolType Type, ToolRange Range, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, PowerProfileConfig PowerProfileConfig)
     {
         internal bool IsValid()
         {
@@ -153,7 +153,7 @@ namespace GameEngine.Generator
 
     public record PowerProfile(
         int Level, PowerFrequency Usage, 
-        ToolType Tool, ToolRange ToolRange, PowerSource PowerSource, 
+        ToolType Tool, ToolRange ToolRange, string PowerSource, 
         EquatableImmutableList<AttackProfile> Attacks, 
         EquatableImmutableList<IPowerModifier> Modifiers
     );

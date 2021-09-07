@@ -15,6 +15,14 @@ namespace GameEngine.Tests.Modifiers
         [Fact]
         public void ProvideModifierThatCanIncreaseOnFinalize()
         {
+            var tool = new ToolProfile(
+                        ToolType.Weapon,
+                        ToolRange.Melee,
+                        Build(Rules.Ability.Strength, Rules.Ability.Dexterity),
+                        Build(DamageType.Normal),
+                        PowerGeneratorShould.fullAccessProfileConfig
+                    );
+
             var attack = new AttackProfileBuilder(
                 Multiplier: 1,
                 Limits: new AttackLimits(Minimum: 1, Initial: 2.3, MaxComplexity: 0),
@@ -26,15 +34,8 @@ namespace GameEngine.Tests.Modifiers
                 PowerInfo: new PowerHighLevelInfo(
                     1,
                     Rules.PowerFrequency.Daily,
-                    ToolProfile: new ToolProfile(
-                        ToolType.Weapon,
-                        ToolRange.Melee,
-                        PowerSource.Martial,
-                        Build(Rules.Ability.Strength, Rules.Ability.Dexterity),
-                        Build(DamageType.Normal),
-                        PowerGeneratorShould.fullAccessProfileConfig
-                    ),
-                    ClassRole: Rules.ClassRole.Striker
+                    ToolProfile: tool,
+                    ClassProfile: new ClassProfile(Rules.ClassRole.Striker, PowerSource.Martial, Build(tool))
                 )
             );
             var power = new PowerProfileBuilder(attack.Limits, attack.PowerInfo, Build(attack), Build<IPowerModifier>());

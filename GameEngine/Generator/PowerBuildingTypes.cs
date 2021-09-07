@@ -81,7 +81,7 @@ namespace GameEngine.Generator
             PowerInfo.Usage,
             PowerInfo.ToolProfile.Type,
             PowerInfo.ToolProfile.Range,
-            PowerInfo.ToolProfile.PowerSource,
+            PowerInfo.ClassProfile.PowerSource,
             Attacks.Select(a => a.Build(this)).ToImmutableList(),
             Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList()
         );
@@ -195,7 +195,7 @@ namespace GameEngine.Generator
         public abstract IAttackModifier GetBaseModifier(AttackProfileBuilder attack);
     }
 
-    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile, ClassRole ClassRole);
+    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile, ClassProfile ClassProfile);
 
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 

@@ -65,7 +65,7 @@ namespace GameEngine.Generator
 
             PowerHighLevelInfo GetPowerInfo()
             {
-                return new(Level: level, Usage: usage, ClassRole: classProfile.Role, ToolProfile: tools[result.Count % tools.Count]);
+                return new(Level: level, Usage: usage, ClassProfile: classProfile, ToolProfile: tools[result.Count % tools.Count]);
             }
         }
 
@@ -154,7 +154,7 @@ namespace GameEngine.Generator
         {
             var result = new PowerProfileBuilder(
                 new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
-                    Minimum: GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
+                    Minimum: GetAttackMinimumPower(basePower, info.ClassProfile.Role, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
                 ),
                 info,
@@ -168,7 +168,7 @@ namespace GameEngine.Generator
             new AttackProfileBuilder(
                 1,
                 new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
-                    Minimum: GetAttackMinimumPower(basePower, info.ClassRole, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
+                    Minimum: GetAttackMinimumPower(basePower, info.ClassProfile.Role, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
                 ),
                 randomGenerator.RandomEscalatingSelection(
