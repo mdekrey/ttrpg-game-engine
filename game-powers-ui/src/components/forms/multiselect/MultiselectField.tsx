@@ -1,9 +1,9 @@
 import { FieldValues, Path, PathValue } from 'react-hook-form';
 import { FieldProps } from '../FieldProps';
 import { ValidationMessages } from '../ValidationMessages';
-import { ControlledSelectProps, ControlledSelect } from './select';
+import { ControlledMultiselectProps, ControlledMultiselect } from './multiselect';
 
-export function SelectField<
+export function MultiselectField<
 	TFieldValues extends FieldValues = FieldValues,
 	TName extends Path<TFieldValues> = Path<TFieldValues>
 >({
@@ -11,10 +11,10 @@ export function SelectField<
 	form,
 	name,
 	...props
-}: FieldProps<ControlledSelectProps<PathValue<TFieldValues, TName>>, TFieldValues, TName>) {
+}: FieldProps<ControlledMultiselectProps<PathValue<TFieldValues, TName>[0]>, TFieldValues, TName>) {
 	return (
 		<div className={className}>
-			<ControlledSelect control={form.control} name={name} {...props} />
+			<ControlledMultiselect control={form.control} name={name} {...props} />
 			<ValidationMessages errors={form.formState.errors} name={name} />
 		</div>
 	);

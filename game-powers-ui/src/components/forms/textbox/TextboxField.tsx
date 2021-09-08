@@ -1,9 +1,9 @@
 import { useId } from 'core/hooks/useId';
-import { ReactNode, ComponentProps } from 'react';
 import { FieldValues, Path } from 'react-hook-form';
-import { ControlledComponentProps } from '../Controlled';
+import { ComponentProps } from 'react';
 import { Label } from '../label/label';
 import { ValidationMessages } from '../ValidationMessages';
+import { FieldProps } from '../FieldProps';
 import { ControlledTextbox, Textbox } from './textbox';
 
 export const TextboxField = <
@@ -12,20 +12,17 @@ export const TextboxField = <
 >({
 	label,
 	className,
-	error,
+	form,
+	name,
 	id,
 	...props
-}: ControlledComponentProps<ComponentProps<typeof Textbox>, TFieldValues, TName> & {
-	label: ReactNode;
-	className?: string;
-	error: string | undefined;
-}) => {
+}: FieldProps<ComponentProps<typeof Textbox>, TFieldValues, TName>) => {
 	const autoId = useId();
 	return (
 		<div className={className}>
 			<Label htmlFor={id || autoId}>{label}</Label>
-			<ControlledTextbox id={id || autoId} {...props} />
-			<ValidationMessages message={error} />
+			<ControlledTextbox control={form.control} name={name} id={id || autoId} {...props} />
+			<ValidationMessages errors={form.formState.errors} name={name} />
 		</div>
 	);
 };

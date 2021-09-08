@@ -4,15 +4,15 @@ import classNames from 'classnames';
 import { ReactNode, Fragment, forwardRef, ForwardedRef } from 'react';
 import { merge } from 'core/jsx/merge';
 import { FieldValues, Path, PathValue, UseControllerProps } from 'react-hook-form';
-import { disabledInputBorder, inputBorder } from '../templates';
+import { inputBorder } from '../templates';
 import { Controlled } from '../Controlled';
 
 export type ControlledSelectProps<T> = {
 	label: ReactNode;
-	options: T[];
-	optionKey: (opt: T) => string;
-	optionHeaderDisplay?: (opt: T) => ReactNode;
-	optionDisplay: (opt: T) => ReactNode;
+	options: readonly T[];
+	optionKey?: (opt: Readonly<T>) => string;
+	optionHeaderDisplay?: (opt: Readonly<T>) => ReactNode;
+	optionDisplay?: (opt: Readonly<T>) => ReactNode;
 	disabled?: boolean;
 };
 
@@ -39,14 +39,18 @@ function SelectComponent<T>(
 	}: SelectProps<T>,
 	ref: ForwardedRef<HTMLButtonElement>
 ) {
+	const toKey = optionKey || ((v: T) => v as unknown as string);
+	const toDisplay = optionDisplay || ((v: T) => v as unknown as ReactNode);
+	const toHeaderDisplay = optionHeaderDisplay || toDisplay;
+
 	return (
 		<Listbox value={value} {...props} disabled={disabled}>
 			<Listbox.Label className="block text-sm font-medium text-black">{label}</Listbox.Label>
 			<div className="relative">
 				{merge(
-					disabled ? disabledInputBorder : inputBorder,
+					inputBorder(disabled || false),
 					<Listbox.Button className="text-left relative" onBlur={onBlur} name={name} ref={ref}>
-						<span className="block truncate">{(optionHeaderDisplay || optionDisplay)(value)}</span>
+						<span className="block truncate">{toHeaderDisplay(value)}</span>
 						<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
 							<SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
 						</span>
@@ -56,7 +60,7 @@ function SelectComponent<T>(
 					<Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-10">
 						{options.map((option) => (
 							<Listbox.Option
-								key={optionKey(option)}
+								key={toKey(option)}
 								value={option}
 								className={({ active }) =>
 									classNames(
@@ -70,7 +74,7 @@ function SelectComponent<T>(
 								{({ selected, active }) => (
 									<>
 										<span className={`${selected ? 'font-medium' : 'font-normal'} block truncate`}>
-											{optionDisplay(option)}
+											{toDisplay(option)}
 										</span>
 										{selected ? (
 											<span

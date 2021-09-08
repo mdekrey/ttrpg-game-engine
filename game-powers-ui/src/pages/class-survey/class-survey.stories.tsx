@@ -12,5 +12,5 @@ const Template: ComponentStory<typeof ClassSurvey> = (args) => <ClassSurvey {...
 
 export const Primary = Template.bind({});
 Primary.args = {
-	className: 'bg-gray-50 p-16',
+	className: 'bg-gray-50 sm:p-16',
 };
