@@ -4,7 +4,8 @@ import { Button } from 'components/button/Button';
 import { Card } from 'components/card/card';
 import { MultiselectField, SelectField, TextboxField, ValidationMessages } from 'components/forms';
 import { useState } from 'react';
-import classNames from 'classnames';
+import { ListField, ListFieldProps } from 'components/forms/list-editor/ListEditor';
+import { ButtonRow } from '../../components/ButtonRow';
 
 type CharacterRole = 'Controller' | 'Defender' | 'Leader' | 'Striker';
 type ToolType = 'Weapon' | 'Implement';
@@ -88,10 +89,6 @@ const defaultToolProfile: Readonly<ToolSurveyForm> = {
 	powerProfileConfig: { modifierChances: [{ selector: '$', weight: 1 }], powerChances: [{ selector: '$', weight: 1 }] },
 };
 
-export function ButtonRow({ className, ...props }: JSX.IntrinsicElements['div']) {
-	return <div className={classNames(className, 'flex flex-row-reverse justify-start gap-4')} {...props} />;
-}
-
 export function ClassSurvey({
 	className,
 	onSubmit,
@@ -99,8 +96,7 @@ export function ClassSurvey({
 	className?: string;
 	onSubmit?: (form: ClassSurveyForm) => void;
 }) {
-	const [tools, setTools] = useState([0]);
-	const { handleSubmit, setValue, getValues, ...form } = useGameForm<ClassSurveyForm>({
+	const { handleSubmit, ...form } = useGameForm<ClassSurveyForm>({
 		defaultValues: {
 			name: 'Custom Class',
 			role: 'Controller',
@@ -116,15 +112,16 @@ export function ClassSurvey({
 				<TextboxField label="Class Name" className="col-span-6 sm:col-span-3" form={form} name="name" />
 				<SelectField className="col-span-6 sm:col-span-3" label="Role" form={form} name="role" options={roles} />
 				<TextboxField label="PowerSource" className="col-span-6 sm:col-span-3" form={form} name="powerSource" />
-				<div className="col-span-6">
-					<ButtonRow>
-						<Button type="button" onClick={addTool}>
-							Add Tool
-						</Button>
-						<span className="block text-sm font-medium text-gray-700 flex-grow">Tools</span>
-					</ButtonRow>
-					{tools.map((toolKey, index) => (
-						<Card key={toolKey} className="mt-4 grid grid-cols-6 gap-6" depth={1}>
+				<ListField
+					className="col-span-6"
+					addLabel="Add Tool"
+					removeLabel="Remove Tool"
+					label="Tools"
+					form={form}
+					defaultItem={defaultToolProfile}
+					name="tools"
+					itemEditor={(index) => (
+						<div className="grid grid-cols-6 gap-6">
 							<SelectField
 								className="col-span-6 sm:col-span-3"
 								label="Tool"
@@ -153,15 +150,9 @@ export function ClassSurvey({
 								name={`tools.${index}.preferredDamageTypes`}
 								options={damageTypes}
 							/>
-							<ButtonRow className="col-span-6">
-								<Button type="button" onClick={() => removeTool(index)}>
-									Remove Tool
-								</Button>
-							</ButtonRow>
-						</Card>
-					))}
-					<ValidationMessages<ClassSurveyForm, 'tools'> errors={form.formState.errors} name="tools" />
-				</div>
+						</div>
+					)}
+				/>
 				<pre className="col-span-6">{JSON.stringify(form.formState.errors, undefined, 4)}</pre>
 				<ButtonRow className="col-span-6">
 					<Button type="submit">Submit</Button>
@@ -169,15 +160,4 @@ export function ClassSurvey({
 			</Card>
 		</form>
 	);
-
-	function addTool() {
-		setTools((t) => [...t, t.length]);
-		setValue('tools', [...getValues('tools'), defaultToolProfile]);
-	}
-
-	function removeTool(index: number) {
-		setTools((t) => [...t.slice(0, index), ...t.slice(index + 1)]);
-		const currentTools = getValues('tools');
-		setValue('tools', [...currentTools.slice(0, index), ...currentTools.slice(index + 1)]);
-	}
 }

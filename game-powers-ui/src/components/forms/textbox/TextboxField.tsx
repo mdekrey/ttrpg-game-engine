@@ -16,7 +16,7 @@ export const TextboxField = <
 	name,
 	id,
 	...props
-}: FieldProps<ComponentProps<typeof Textbox>, TFieldValues, TName>) => {
+}: FieldProps<ComponentProps<typeof Textbox>, 'control' | 'formState', TFieldValues, TName>) => {
 	const autoId = useId();
 	return (
 		<div className={className}>

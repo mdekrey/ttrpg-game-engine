@@ -11,7 +11,7 @@ export function SelectField<
 	form,
 	name,
 	...props
-}: FieldProps<ControlledSelectProps<PathValue<TFieldValues, TName>>, TFieldValues, TName>) {
+}: FieldProps<ControlledSelectProps<PathValue<TFieldValues, TName>>, 'control' | 'formState', TFieldValues, TName>) {
 	return (
 		<div className={className}>
 			<ControlledSelect control={form.control} name={name} {...props} />
