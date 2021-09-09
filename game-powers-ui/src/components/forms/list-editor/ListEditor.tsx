@@ -6,17 +6,25 @@ import { FieldValues, Path, PathValue } from 'react-hook-form';
 import { FieldPropsBase } from '../FieldProps';
 import { ValidationMessages } from '../ValidationMessages';
 
-export type ListFieldProps<TFieldValues extends FieldValues, TName extends Path<TFieldValues>> = {
+export type ListFieldProps<
+	TFieldValues,
+	TName extends Path<TFieldValues>,
+	TItemName extends Path<TFieldValues> & `${TName}.${number}`
+> = {
 	className?: string;
 	depth?: number;
 	itemEditor: (path: `${TName}.${number}`) => ReactNode;
-	defaultItem: PathValue<TFieldValues, TName>[0];
+	defaultItem: PathValue<TFieldValues, TItemName>;
 	addLabel: ReactNode;
 	removeLabel: ReactNode;
 	label: ReactNode;
 } & FieldPropsBase<'formState' | 'getValues' | 'setValue', TFieldValues, TName>;
 
-export function ListField<TFieldValues extends FieldValues, TName extends Path<TFieldValues>>({
+export function ListField<
+	TFieldValues extends FieldValues,
+	TName extends Path<TFieldValues>,
+	TItemName extends Path<TFieldValues> & `${TName}.${number}`
+>({
 	className,
 	depth = 0,
 	itemEditor,
@@ -26,7 +34,7 @@ export function ListField<TFieldValues extends FieldValues, TName extends Path<T
 	addLabel,
 	removeLabel,
 	label,
-}: ListFieldProps<TFieldValues, TName>) {
+}: ListFieldProps<TFieldValues, TName, TItemName>) {
 	const [itemKeys, setItemKeys] = useState([0]);
 
 	function addItem() {

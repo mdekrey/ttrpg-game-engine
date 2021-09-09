@@ -125,7 +125,7 @@ export function ClassSurvey({
 					label="Tools"
 					form={form}
 					defaultItem={defaultToolProfile}
-					name={`tools` as const}
+					name="tools"
 					itemEditor={(path) => (
 						<div className="grid grid-cols-6 gap-6">
 							<SelectField
@@ -174,7 +174,9 @@ export function ClassSurvey({
 												form={form}
 												name={`${path2}.selector`}
 												options={Object.keys(modifierSelectors)}
-												optionDisplay={(selector) => modifierSelectors[selector as keyof typeof modifierSelectors]}
+												optionDisplay={(selector) =>
+													modifierSelectors[selector as keyof typeof modifierSelectors] || selector
+												}
 											/>
 											<NumberboxField
 												label="Weight"
@@ -203,7 +205,7 @@ export function ClassSurvey({
 											form={form}
 											name={`${path2}.selector`}
 											options={Object.keys(powerSelectors)}
-											optionDisplay={(selector) => powerSelectors[selector as keyof typeof powerSelectors]}
+											optionDisplay={(selector) => powerSelectors[selector as keyof typeof powerSelectors] || selector}
 										/>
 										<NumberboxField
 											label="Weight"
