@@ -6,23 +6,17 @@ import { FieldValues, Path, PathValue } from 'react-hook-form';
 import { FieldPropsBase } from '../FieldProps';
 import { ValidationMessages } from '../ValidationMessages';
 
-export type ListFieldProps<
-	TFieldValues extends FieldValues = FieldValues,
-	TName extends Path<TFieldValues> = Path<TFieldValues>
-> = {
+export type ListFieldProps<TFieldValues extends FieldValues, TName extends Path<TFieldValues>> = {
 	className?: string;
 	depth?: number;
-	itemEditor: (index: number) => ReactNode;
+	itemEditor: (path: `${TName}.${number}`) => ReactNode;
 	defaultItem: PathValue<TFieldValues, TName>[0];
 	addLabel: ReactNode;
 	removeLabel: ReactNode;
 	label: ReactNode;
 } & FieldPropsBase<'formState' | 'getValues' | 'setValue', TFieldValues, TName>;
 
-export function ListField<
-	TFieldValues extends FieldValues = FieldValues,
-	TName extends Path<TFieldValues> = Path<TFieldValues>
->({
+export function ListField<TFieldValues extends FieldValues, TName extends Path<TFieldValues>>({
 	className,
 	depth = 0,
 	itemEditor,
@@ -56,7 +50,7 @@ export function ListField<
 			</ButtonRow>
 			{itemKeys.map((itemKey, index) => (
 				<Card key={itemKey} className="mt-4 grid grid-cols-1 gap-6" depth={depth + 1}>
-					{itemEditor(index)}
+					{itemEditor(`${name}.${index}` as `${TName}.${number}` & Path<TFieldValues>)}
 					<ButtonRow>
 						<Button type="button" onClick={() => remove(index)}>
 							{removeLabel}

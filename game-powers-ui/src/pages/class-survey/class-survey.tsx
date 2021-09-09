@@ -125,35 +125,35 @@ export function ClassSurvey({
 					label="Tools"
 					form={form}
 					defaultItem={defaultToolProfile}
-					name="tools"
-					itemEditor={(index) => (
+					name={`tools` as const}
+					itemEditor={(path) => (
 						<div className="grid grid-cols-6 gap-6">
 							<SelectField
 								className="col-span-6 sm:col-span-3"
 								label="Tool"
 								form={form}
-								name={`tools.${index}.toolType`}
+								name={`${path}.toolType`}
 								options={toolTypes}
 							/>
 							<SelectField
 								className="col-span-6 sm:col-span-3"
 								label="Range"
 								form={form}
-								name={`tools.${index}.toolRange`}
+								name={`${path}.toolRange`}
 								options={toolRanges}
 							/>
 							<MultiselectField
 								className="col-span-6 sm:col-span-3"
 								label="Abilities"
 								form={form}
-								name={`tools.${index}.abilities`}
+								name={`${path}.abilities`}
 								options={abilities}
 							/>
 							<MultiselectField
 								className="col-span-6 sm:col-span-3"
 								label="Damage Types"
 								form={form}
-								name={`tools.${index}.preferredDamageTypes`}
+								name={`${path}.preferredDamageTypes`}
 								options={damageTypes}
 							/>
 							<ListField
@@ -164,25 +164,27 @@ export function ClassSurvey({
 								label="Modifier Chances"
 								form={form}
 								defaultItem={{ selector: '$', weight: 1 }}
-								name={`tools.${index}.powerProfileConfig.modifierChances`}
-								itemEditor={(chanceIndex) => (
-									<div className="grid grid-cols-6 gap-6">
-										<SelectField
-											label="Selector"
-											className="col-span-6 sm:col-span-4"
-											form={form}
-											name={`tools.${index}.powerProfileConfig.modifierChances.${chanceIndex}.selector`}
-											options={Object.keys(modifierSelectors)}
-											optionDisplay={(selector) => modifierSelectors[selector as keyof typeof modifierSelectors]}
-										/>
-										<NumberboxField
-											label="Weight"
-											className="col-span-6 sm:col-span-2"
-											form={form}
-											name={`tools.${index}.powerProfileConfig.modifierChances.${chanceIndex}.weight`}
-										/>
-									</div>
-								)}
+								name={`${path}.powerProfileConfig.modifierChances`}
+								itemEditor={(path2) => {
+									return (
+										<div className="grid grid-cols-6 gap-6">
+											<SelectField
+												label="Selector"
+												className="col-span-6 sm:col-span-4"
+												form={form}
+												name={`${path2}.selector`}
+												options={Object.keys(modifierSelectors)}
+												optionDisplay={(selector) => modifierSelectors[selector as keyof typeof modifierSelectors]}
+											/>
+											<NumberboxField
+												label="Weight"
+												className="col-span-6 sm:col-span-2"
+												form={form}
+												name={`${path2}.weight`}
+											/>
+										</div>
+									);
+								}}
 							/>
 							<ListField
 								depth={1}
@@ -192,14 +194,14 @@ export function ClassSurvey({
 								label="Power Chances"
 								form={form}
 								defaultItem={{ selector: '$', weight: 1 }}
-								name={`tools.${index}.powerProfileConfig.powerChances`}
-								itemEditor={(chanceIndex) => (
+								name={`${path}.powerProfileConfig.powerChances`}
+								itemEditor={(path2) => (
 									<div className="grid grid-cols-6 gap-6">
 										<SelectField
 											label="Selector"
 											className="col-span-6 sm:col-span-4"
 											form={form}
-											name={`tools.${index}.powerProfileConfig.powerChances.${chanceIndex}.selector`}
+											name={`${path2}.selector`}
 											options={Object.keys(powerSelectors)}
 											optionDisplay={(selector) => powerSelectors[selector as keyof typeof powerSelectors]}
 										/>
@@ -207,7 +209,7 @@ export function ClassSurvey({
 											label="Weight"
 											className="col-span-6 sm:col-span-2"
 											form={form}
-											name={`tools.${index}.powerProfileConfig.powerChances.${chanceIndex}.weight`}
+											name={`${path2}.weight`}
 										/>
 									</div>
 								)}
