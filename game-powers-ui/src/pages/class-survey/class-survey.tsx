@@ -2,9 +2,8 @@ import * as yup from 'yup';
 import { useGameForm } from 'core/hooks/useGameForm';
 import { Button } from 'components/button/Button';
 import { Card } from 'components/card/card';
-import { MultiselectField, SelectField, TextboxField, ValidationMessages } from 'components/forms';
-import { useState } from 'react';
-import { ListField, ListFieldProps } from 'components/forms/list-editor/ListEditor';
+import { MultiselectField, SelectField, TextboxField } from 'components/forms';
+import { ListField } from 'components/forms/list-editor/ListEditor';
 import { ButtonRow } from '../../components/ButtonRow';
 
 type CharacterRole = 'Controller' | 'Defender' | 'Leader' | 'Striker';
