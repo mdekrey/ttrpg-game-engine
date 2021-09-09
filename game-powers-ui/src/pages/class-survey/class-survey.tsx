@@ -2,9 +2,9 @@ import * as yup from 'yup';
 import { useGameForm } from 'core/hooks/useGameForm';
 import { Button } from 'components/button/Button';
 import { Card } from 'components/card/card';
-import { MultiselectField, SelectField, TextboxField } from 'components/forms';
+import { MultiselectField, NumberboxField, SelectField, TextboxField } from 'components/forms';
 import { ListField } from 'components/forms/list-editor/ListEditor';
-import { ButtonRow } from '../../components/ButtonRow';
+import { ButtonRow } from 'components/ButtonRow';
 
 type CharacterRole = 'Controller' | 'Defender' | 'Leader' | 'Striker';
 type ToolType = 'Weapon' | 'Implement';
@@ -88,6 +88,13 @@ const defaultToolProfile: Readonly<ToolSurveyForm> = {
 	powerProfileConfig: { modifierChances: [{ selector: '$', weight: 1 }], powerChances: [{ selector: '$', weight: 1 }] },
 };
 
+const powerSelectors = {
+	$: 'Anything',
+};
+const modifierSelectors = {
+	$: 'Anything',
+};
+
 export function ClassSurvey({
 	className,
 	onSubmit,
@@ -149,10 +156,65 @@ export function ClassSurvey({
 								name={`tools.${index}.preferredDamageTypes`}
 								options={damageTypes}
 							/>
+							<ListField
+								depth={1}
+								className="col-span-6 sm:col-span-3"
+								addLabel="Add Modifier Chance"
+								removeLabel="Remove Modifier Chance"
+								label="Modifier Chances"
+								form={form}
+								defaultItem={{ selector: '$', weight: 1 }}
+								name={`tools.${index}.powerProfileConfig.modifierChances`}
+								itemEditor={(chanceIndex) => (
+									<div className="grid grid-cols-6 gap-6">
+										<SelectField
+											label="Selector"
+											className="col-span-6 sm:col-span-4"
+											form={form}
+											name={`tools.${index}.powerProfileConfig.modifierChances.${chanceIndex}.selector`}
+											options={Object.keys(modifierSelectors)}
+											optionDisplay={(selector) => modifierSelectors[selector as keyof typeof modifierSelectors]}
+										/>
+										<NumberboxField
+											label="Weight"
+											className="col-span-6 sm:col-span-2"
+											form={form}
+											name={`tools.${index}.powerProfileConfig.modifierChances.${chanceIndex}.weight`}
+										/>
+									</div>
+								)}
+							/>
+							<ListField
+								depth={1}
+								className="col-span-6 sm:col-span-3"
+								addLabel="Add Power Chance"
+								removeLabel="Remove Power Chance"
+								label="Power Chances"
+								form={form}
+								defaultItem={{ selector: '$', weight: 1 }}
+								name={`tools.${index}.powerProfileConfig.powerChances`}
+								itemEditor={(chanceIndex) => (
+									<div className="grid grid-cols-6 gap-6">
+										<SelectField
+											label="Selector"
+											className="col-span-6 sm:col-span-4"
+											form={form}
+											name={`tools.${index}.powerProfileConfig.powerChances.${chanceIndex}.selector`}
+											options={Object.keys(powerSelectors)}
+											optionDisplay={(selector) => powerSelectors[selector as keyof typeof powerSelectors]}
+										/>
+										<NumberboxField
+											label="Weight"
+											className="col-span-6 sm:col-span-2"
+											form={form}
+											name={`tools.${index}.powerProfileConfig.powerChances.${chanceIndex}.weight`}
+										/>
+									</div>
+								)}
+							/>
 						</div>
 					)}
 				/>
-				<pre className="col-span-6">{JSON.stringify(form.formState.errors, undefined, 4)}</pre>
 				<ButtonRow className="col-span-6">
 					<Button type="submit">Submit</Button>
 				</ButtonRow>

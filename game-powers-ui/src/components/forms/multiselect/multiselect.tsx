@@ -54,7 +54,7 @@ function MultiselectComponent<T>(
 				<Listbox.Button
 					className={classNames(
 						{ 'border-gray-300': !disabled, 'border-gray-50': disabled },
-						'mt-1 py-1 px-3',
+						'mt-1 py-1 px-1',
 						'block w-full shadow-sm sm:text-sm',
 						'border rounded-md',
 						'focus:ring focus:ring-blue-dark focus:border-blue-dark outline-none transition-shadow',
@@ -66,7 +66,7 @@ function MultiselectComponent<T>(
 					<span className="block truncate">
 						{value.map((option) => (
 							<button
-								className="px-2 py-1 bg-blue-100 rounded text-blue-700 inline-flex items-center mr-2 text-sm"
+								className="px-2 py-1 bg-blue-100 rounded text-blue-700 inline-flex items-center mr-1 text-sm"
 								type="button"
 								onClick={(ev) => {
 									ev.stopPropagation();

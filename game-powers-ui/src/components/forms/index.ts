@@ -5,4 +5,6 @@ export * from './multiselect/multiselect';
 export * from './multiselect/MultiselectField';
 export * from './textbox/textbox';
 export * from './textbox/TextboxField';
+export * from './numberbox/numberbox';
+export * from './numberbox/NumberboxField';
 export * from './ValidationMessages';
