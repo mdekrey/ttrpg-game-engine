@@ -1,0 +1,124 @@
+openapi: '3.0.2'
+info:
+  title: Dnd Classes
+  version: '1.0'
+servers:
+  - url: /v1
+
+components:
+  schemas:
+    CharacterRole:
+      type: string
+      enum:
+        - Controller
+        - Defender
+        - Leader
+        - Striker
+    ToolType:
+      type: string
+      enum:
+        - Weapon
+        - Implement
+    ToolRange:
+      type: string
+      enum:
+        - Melee
+        - Range
+    Ability:
+      type: string
+      enum:
+        - Strength
+        - Constitution
+        - Dexterity
+        - Intelligence
+        - Wisdom
+        - Charisma
+    DamageType:
+      type: string
+      enum:
+        - Normal
+        - Fire
+        - Cold
+        - Necrotic
+        - Radiant
+        - Lightning
+        - Thunder
+        - Poison
+        - Force
+    ClassProfile:
+      type: object
+      required:
+        - name
+        - role
+        - powerSource
+        - tools
+      properties:
+        name:
+          type: string
+        role:
+          $ref: '#/components/schemas/CharacterRole'
+        powerSource:
+          type: string
+        tools:
+          type: array
+          items:
+            $ref: '#/components/schemas/ToolProfile'
+    ToolProfile:
+      type: object
+      required:
+        - toolType
+        - toolRange
+        - abilities
+        - preferredDamageTypes
+        - powerProfileConfig
+      properties:
+        toolType:
+          $ref: '#/components/schemas/ToolType'
+        toolRange:
+          $ref: '#/components/schemas/ToolRange'
+        abilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ability'
+        preferredDamageTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DamageType'
+        powerProfileConfig:
+          $ref: '#/components/schemas/PowerProfileConfig'
+    PowerProfileConfig:
+      type: object
+      required:
+        - modifierChances
+        - powerChances
+      properties:
+        modifierChances:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModifierChance'
+        powerChances:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModifierChance'
+    ModifierChance:
+      type: object
+      required:
+        - selector
+        - weight
+      properties:
+        selector:
+          type: string
+        weight:
+          type: number
+paths:
+  /generate-class:
+    post:
+      operationId: generateClassProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassProfile'
+      responses:
+        '200':
+          description: OK
