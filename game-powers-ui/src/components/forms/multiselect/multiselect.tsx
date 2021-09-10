@@ -50,14 +50,14 @@ function MultiselectComponent<T>(
 	return (
 		<Listbox value={null} onChange={toggle} {...props} disabled={disabled}>
 			<Listbox.Label className="block text-sm font-medium text-black">{label}</Listbox.Label>
-			<div className="relative">
+			<div className="relative mt-1 ">
 				<Listbox.Button
 					onBlur={onBlur}
 					name={name}
 					ref={ref}
 					className={classNames(
 						{ 'border-gray-300': !disabled, 'border-gray-50': disabled },
-						'mt-1 py-1 px-1',
+						'py-1 px-1',
 						'block w-full shadow-sm sm:text-sm',
 						'border rounded-md',
 						'focus-within:ring focus-within:ring-blue-dark focus-within:border-blue-dark outline-none transition-shadow',
@@ -68,7 +68,7 @@ function MultiselectComponent<T>(
 						<SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
 					</span>
 				</Listbox.Button>
-				<div className="absolute top-0 left-0 py-1 px-1">
+				<div className="absolute top-0 left-0 py-1 px-1 border border-transparent">
 					<span className="block truncate">
 						{value.map((option) => (
 							<button

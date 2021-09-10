@@ -2,6 +2,7 @@
 const plugin = require('tailwindcss/plugin');
 
 const colors = {
+	transparent: 'transparent',
 	white: '#ffffff',
 	black: '#000000',
 	red: {
