@@ -22,7 +22,7 @@ type PowerProfileConfig = {
 	powerChances: ModifierChance[];
 };
 
-type ToolSurveyForm = {
+type ToolProfile = {
 	toolType: ToolType;
 	toolRange: ToolRange;
 	abilities: Ability[];
@@ -30,11 +30,11 @@ type ToolSurveyForm = {
 	powerProfileConfig: PowerProfileConfig;
 };
 
-type ClassSurveyForm = {
+type ClassProfile = {
 	name: string;
 	role: CharacterRole;
 	powerSource: string;
-	tools: ToolSurveyForm[];
+	tools: ToolProfile[];
 };
 
 const roles: CharacterRole[] = ['Controller', 'Defender', 'Leader', 'Striker'];
@@ -63,7 +63,7 @@ const powerProfileConfigSchema: yup.SchemaOf<PowerProfileConfig> = yup.object({
 	modifierChances: yup.array(modifierChanceSchema).min(1).label('Modifier Chances'),
 	powerChances: yup.array(modifierChanceSchema).min(1).label('Power Chances'),
 });
-const toolSurveySchema: yup.SchemaOf<ToolSurveyForm> = yup.object({
+const toolSurveySchema: yup.SchemaOf<ToolProfile> = yup.object({
 	toolType: yup.mixed<ToolType>().oneOf(toolTypes).required().label('Tool Type'),
 	toolRange: yup.mixed<ToolRange>().oneOf(toolRanges).required().label('Tool Range'),
 	abilities: yup.array(abilitySchema).min(1).label('Abilities'),
@@ -73,14 +73,14 @@ const toolSurveySchema: yup.SchemaOf<ToolSurveyForm> = yup.object({
 		.label('Preferred Damage Types'),
 	powerProfileConfig: powerProfileConfigSchema,
 });
-const classSurveySchema: yup.SchemaOf<ClassSurveyForm> = yup.object({
+const classSurveySchema: yup.SchemaOf<ClassProfile> = yup.object({
 	name: yup.string().required().label('Name'),
 	role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
 	powerSource: yup.string().required().label('Power Source'),
 	tools: yup.array(toolSurveySchema).min(1, 'Must have at least one tool'),
 });
 
-const defaultToolProfile: Readonly<ToolSurveyForm> = {
+const defaultToolProfile: Readonly<ToolProfile> = {
 	toolType: 'Weapon',
 	toolRange: 'Melee',
 	abilities: [],
@@ -95,15 +95,17 @@ const modifierSelectors = {
 	$: 'Anything',
 };
 
-export function ClassSurvey({
+export function ClassSurveyForm({
 	className,
 	onSubmit,
+	defaultValues,
 }: {
 	className?: string;
-	onSubmit?: (form: ClassSurveyForm) => void;
+	onSubmit?: (form: ClassProfile) => void;
+	defaultValues?: ClassProfile;
 }) {
-	const { handleSubmit, ...form } = useGameForm<ClassSurveyForm>({
-		defaultValues: {
+	const { handleSubmit, ...form } = useGameForm<ClassProfile>({
+		defaultValues: defaultValues || {
 			name: 'Custom Class',
 			role: 'Controller',
 			powerSource: 'Martial',

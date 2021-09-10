@@ -52,17 +52,23 @@ function MultiselectComponent<T>(
 			<Listbox.Label className="block text-sm font-medium text-black">{label}</Listbox.Label>
 			<div className="relative">
 				<Listbox.Button
+					onBlur={onBlur}
+					name={name}
+					ref={ref}
 					className={classNames(
 						{ 'border-gray-300': !disabled, 'border-gray-50': disabled },
 						'mt-1 py-1 px-1',
 						'block w-full shadow-sm sm:text-sm',
 						'border rounded-md',
-						'focus:ring focus:ring-blue-dark focus:border-blue-dark outline-none transition-shadow',
+						'focus-within:ring focus-within:ring-blue-dark focus-within:border-blue-dark outline-none transition-shadow',
 						'text-left relative'
-					)}
-					onBlur={onBlur}
-					name={name}
-					ref={ref}>
+					)}>
+					<span className="py-1 inline-block">&nbsp;</span>
+					<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+						<SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+					</span>
+				</Listbox.Button>
+				<div className="absolute top-0 left-0 py-1 px-1">
 					<span className="block truncate">
 						{value.map((option) => (
 							<button
@@ -77,12 +83,8 @@ function MultiselectComponent<T>(
 								<XIcon className="w-5 h-5" aria-hidden="true" />
 							</button>
 						))}
-						<span className="py-1 inline-block">&nbsp;</span>
 					</span>
-					<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-						<SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-					</span>
-				</Listbox.Button>
+				</div>
 				<Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
 					<Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-10">
 						{options.map((option) => (

@@ -1,16 +1,9 @@
-import { ComponentMeta, Story } from '@storybook/react';
+import { Meta, Story } from '@storybook/react';
+import * as yup from 'yup';
 
+import { useGameForm } from 'core/hooks/useGameForm';
 import { Multiselect, MultiselectProps } from './multiselect';
-
-export default {
-	title: 'Components/Forms/Multiselect',
-	component: Multiselect,
-	argTypes: {},
-} as ComponentMeta<typeof Multiselect>;
-
-type Person = { id: number; name: string };
-
-const Template: Story<MultiselectProps<Person>> = (args) => <Multiselect {...args} />;
+import { MultiselectField } from './MultiselectField';
 
 const people = [
 	{ id: 1, name: 'Durward Reynolds' },
@@ -20,9 +13,25 @@ const people = [
 	{ id: 5, name: 'Katelyn Rohan' },
 ];
 
+export default {
+	title: 'Components/Forms/Multiselect',
+	component: Multiselect,
+	argTypes: {},
+} as Meta<MultiselectProps<typeof people[0]>>;
+
+type Person = { id: number; name: string };
+
+const Template: Story<MultiselectProps<typeof people[0]>> = (args) => {
+	// TODO - I think this should still be able to display decent code, but needs work (via decorators?)
+	const form = useGameForm<{ people: typeof people }>({
+		defaultValues: { people: [people[0], people[2], people[1]] },
+		schema: yup.object(),
+	});
+	return <MultiselectField {...args} label="People" options={people} form={form} name="people" />;
+};
+
 export const Primary = Template.bind({});
 Primary.args = {
-	value: [people[0], people[2], people[1]],
 	options: people,
 	optionKey: (opt: Person) => `${opt.id}`,
 	optionDisplay: (opt: Person) => opt.name,
