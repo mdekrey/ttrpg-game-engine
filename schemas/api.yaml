@@ -6,6 +6,17 @@ servers:
   - url: /v1
 
 components:
+  responses:
+    ModelValidation:
+      description: Request was sent that did not match validation rules in spec
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties:
+              type: array
+              items:
+                type: string
   schemas:
     CharacterRole:
       type: string
@@ -110,11 +121,112 @@ components:
           type: string
         weight:
           type: number
+    GenerateClassProfileResponse:
+      type: object
+      required:
+        - powerTextBlocks
+      properties:
+        powerTextBlocks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PowerTextProfile'
+    PowerTextProfile:
+      type: object
+      required:
+        - profile
+        - text
+      properties:
+        profile:
+          $ref: '#/components/schemas/PowerProfile'
+        text:
+          $ref: '#/components/schemas/PowerTextBlock'
+    PowerProfile:
+      type: object
+      required:
+        - level
+        - usage
+        - tool
+        - toolRange
+        - powerSource
+        # - attacks
+        # - modifiers
+      properties:
+        level:
+          type: number
+          format: int
+        usage:
+          $ref: '#/components/schemas/PowerFrequency'
+        tool:
+          $ref: '#/components/schemas/ToolType'
+        toolRange:
+          $ref: '#/components/schemas/ToolRange'
+        powerSource:
+          type: string
+        # - EquatableImmutableList<AttackProfile> Attacks
+        # - EquatableImmutableList<IPowerModifier> Modifiers
+    PowerFrequency:
+      type: string
+      enum:
+        - AtWill
+        - Encounter
+        - Daily
+    PowerTextBlock:
+      type: object
+      required:
+        - name
+        - typeInfo
+        - powerUsage
+        - keywords
+        - rulesText
+      properties:
+        name:
+          type: string
+        typeInfo:
+          type: string
+        flavorText:
+          type: string
+        powerUsage:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        actionType:
+          type: string
+        attackType:
+          type: string
+        attackTypeDetails:
+          type: string
+        prerequisite:
+          type: string
+        requirement:
+          type: string
+        trigger:
+          type: string
+        target:
+          type: string
+        attack:
+          type: string
+        rulesText:
+          type: array
+          items:
+            $ref: '#/components/schemas/RulesText'
+    RulesText:
+      type: object
+      required:
+        - label
+        - text
+      properties:
+        label:
+          type: string
+        text:
+          type: string
 paths:
   /generate-class:
     post:
-      operationId: generateClassProfile
+      operationId: generatePowers
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -122,3 +234,9 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateClassProfileResponse'
+        400:
+          $ref: '#/components/responses/ModelValidation'

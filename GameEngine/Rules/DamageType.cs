@@ -11,6 +11,5 @@
         Thunder,
         Poison,
         Force,
-        // TODO - more damage types
     }
 }

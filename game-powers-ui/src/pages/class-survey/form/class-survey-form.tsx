@@ -1,88 +1,15 @@
-import * as yup from 'yup';
 import { useGameForm } from 'core/hooks/useGameForm';
 import { Button } from 'components/button/Button';
 import { Card } from 'components/card/card';
 import { MultiselectField, NumberboxField, SelectField, TextboxField } from 'components/forms';
 import { ListField } from 'components/forms/list-editor/ListEditor';
 import { ButtonRow } from 'components/ButtonRow';
-
-type CharacterRole = 'Controller' | 'Defender' | 'Leader' | 'Striker';
-type ToolType = 'Weapon' | 'Implement';
-type ToolRange = 'Melee' | 'Range';
-type Ability = 'Strength' | 'Constitution' | 'Dexterity' | 'Intelligence' | 'Wisdom' | 'Charisma';
-type DamageType = 'Normal' | 'Fire' | 'Cold' | 'Necrotic' | 'Radiant' | 'Lightning' | 'Thunder' | 'Poison' | 'Force';
-
-type ModifierChance = {
-	selector: string;
-	weight: number;
-};
-
-type PowerProfileConfig = {
-	modifierChances: ModifierChance[];
-	powerChances: ModifierChance[];
-};
-
-type ToolProfile = {
-	toolType: ToolType;
-	toolRange: ToolRange;
-	abilities: Ability[];
-	preferredDamageTypes: DamageType[];
-	powerProfileConfig: PowerProfileConfig;
-};
-
-type ClassProfile = {
-	name: string;
-	role: CharacterRole;
-	powerSource: string;
-	tools: ToolProfile[];
-};
-
-const roles: CharacterRole[] = ['Controller', 'Defender', 'Leader', 'Striker'];
-const toolTypes: ToolType[] = ['Weapon', 'Implement'];
-const toolRanges: ToolRange[] = ['Melee', 'Range'];
-const abilities: Ability[] = ['Strength', 'Constitution', 'Dexterity', 'Intelligence', 'Wisdom', 'Charisma'];
-const damageTypes: DamageType[] = [
-	'Normal',
-	'Fire',
-	'Cold',
-	'Necrotic',
-	'Radiant',
-	'Lightning',
-	'Thunder',
-	'Poison',
-	'Force',
-];
-
-const abilitySchema = yup.mixed().oneOf(abilities).required().defined() as yup.SchemaOf<Ability>;
-const damageTypeSchema = yup.string().oneOf(damageTypes).required().defined() as yup.SchemaOf<DamageType>;
-const modifierChanceSchema: yup.SchemaOf<ModifierChance> = yup.object({
-	selector: yup.string().required(),
-	weight: yup.number().required().positive(),
-});
-const powerProfileConfigSchema: yup.SchemaOf<PowerProfileConfig> = yup.object({
-	modifierChances: yup.array(modifierChanceSchema).min(1).label('Modifier Chances'),
-	powerChances: yup.array(modifierChanceSchema).min(1).label('Power Chances'),
-});
-const toolSurveySchema: yup.SchemaOf<ToolProfile> = yup.object({
-	toolType: yup.mixed<ToolType>().oneOf(toolTypes).required().label('Tool Type'),
-	toolRange: yup.mixed<ToolRange>().oneOf(toolRanges).required().label('Tool Range'),
-	abilities: yup.array(abilitySchema).min(1).label('Abilities'),
-	preferredDamageTypes: yup
-		.array(damageTypeSchema)
-		.min(1, 'Must have at least one damage type')
-		.label('Preferred Damage Types'),
-	powerProfileConfig: powerProfileConfigSchema,
-});
-const classSurveySchema: yup.SchemaOf<ClassProfile> = yup.object({
-	name: yup.string().required().label('Name'),
-	role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
-	powerSource: yup.string().required().label('Power Source'),
-	tools: yup.array(toolSurveySchema).min(1, 'Must have at least one tool'),
-});
+import { CharacterRole, ClassProfile, ToolProfile, ToolRange, ToolType } from 'api';
+import { abilities, classSurveySchema, damageTypes, roles, toolRanges, toolTypes } from 'core/schemas/api';
 
 const defaultToolProfile: Readonly<ToolProfile> = {
-	toolType: 'Weapon',
-	toolRange: 'Melee',
+	toolType: ToolType.Weapon,
+	toolRange: ToolRange.Melee,
 	abilities: [],
 	preferredDamageTypes: [],
 	powerProfileConfig: { modifierChances: [{ selector: '$', weight: 1 }], powerChances: [{ selector: '$', weight: 1 }] },
@@ -107,7 +34,7 @@ export function ClassSurveyForm({
 	const { handleSubmit, ...form } = useGameForm<ClassProfile>({
 		defaultValues: defaultValues || {
 			name: 'Custom Class',
-			role: 'Controller',
+			role: CharacterRole.Controller,
 			powerSource: 'Martial',
 			tools: [defaultToolProfile],
 		},
