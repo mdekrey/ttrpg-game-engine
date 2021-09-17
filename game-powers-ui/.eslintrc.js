@@ -8,7 +8,15 @@ module.exports = {
 		project: './tsconfig.json',
 		tsconfigRootDir: __dirname
 	},
-	ignorePatterns: ['/*.js', '!/tailwind.config.js', 'node_modules/', 'package*.json', 'config/', 'scripts/'],
+	ignorePatterns: [
+		'/*.js',
+		'!/tailwind.config.js',
+		'node_modules/',
+		'package*.json',
+		'config/',
+		'scripts/',
+		'src/api/'
+	],
 	settings: {
 		react: {
 			version: 'detect'

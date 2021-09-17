@@ -1,42 +1,28 @@
 import * as yup from 'yup';
-import {
-	Ability,
-	CharacterRole,
-	ClassProfile,
-	DamageType,
-	ModifierChance,
-	PowerProfileConfig,
-	ToolProfile,
-	ToolRange,
-	ToolType,
-} from 'api';
+import { Ability } from 'api/models/Ability';
+import { CharacterRole } from 'api/models/CharacterRole';
+import { ClassProfile } from 'api/models/ClassProfile';
+import { DamageType } from 'api/models/DamageType';
+import { ModifierChance } from 'api/models/ModifierChance';
+import { PowerProfileConfig } from 'api/models/PowerProfileConfig';
+import { ToolProfile } from 'api/models/ToolProfile';
+import { ToolRange } from 'api/models/ToolRange';
+import { ToolType } from 'api/models/ToolType';
 
-export const roles: CharacterRole[] = [
-	CharacterRole.Controller,
-	CharacterRole.Defender,
-	CharacterRole.Leader,
-	CharacterRole.Striker,
-];
-export const toolTypes: ToolType[] = [ToolType.Weapon, ToolType.Implement];
-export const toolRanges: ToolRange[] = [ToolRange.Melee, ToolRange.Range];
-export const abilities: Ability[] = [
-	Ability.Strength,
-	Ability.Constitution,
-	Ability.Dexterity,
-	Ability.Intelligence,
-	Ability.Wisdom,
-	Ability.Charisma,
-];
+export const roles: CharacterRole[] = ['Controller', 'Defender', 'Leader', 'Striker'];
+export const toolTypes: ToolType[] = ['Weapon', 'Implement'];
+export const toolRanges: ToolRange[] = ['Melee', 'Range'];
+export const abilities: Ability[] = ['Strength', 'Constitution', 'Dexterity', 'Intelligence', 'Wisdom', 'Charisma'];
 export const damageTypes: DamageType[] = [
-	DamageType.Normal,
-	DamageType.Fire,
-	DamageType.Cold,
-	DamageType.Necrotic,
-	DamageType.Radiant,
-	DamageType.Lightning,
-	DamageType.Thunder,
-	DamageType.Poison,
-	DamageType.Force,
+	'Normal',
+	'Fire',
+	'Cold',
+	'Necrotic',
+	'Radiant',
+	'Lightning',
+	'Thunder',
+	'Poison',
+	'Force',
 ];
 
 export const abilitySchema = yup.mixed().oneOf(abilities).required().defined() as yup.SchemaOf<Ability>;

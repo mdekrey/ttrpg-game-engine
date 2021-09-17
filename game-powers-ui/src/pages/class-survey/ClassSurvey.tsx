@@ -1,4 +1,5 @@
-import { ClassProfile, PowerTextProfile } from 'api';
+import { ClassProfile } from 'api/models/ClassProfile';
+import { PowerTextProfile } from 'api/models/PowerTextProfile';
 import classNames from 'classnames';
 import { Card } from 'components/card/card';
 import { PowerTextBlock } from 'components/power';
@@ -52,11 +53,7 @@ export function ClassSurvey() {
 	);
 
 	async function submitClassProfile(classProfile: ClassProfile) {
-		const response = await api
-			.generatePowers({
-				classProfile,
-			})
-			.toPromise();
+		const response = await api.generatePowers({}, classProfile, 'application/json').toPromise();
 		if (response.statusCode !== 200) return;
 		const groups = groupBy(
 			(block) => `Level ${block.profile.level} ${block.profile.usage} Powers`,

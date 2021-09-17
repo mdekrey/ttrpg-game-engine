@@ -1,7 +1,8 @@
 import { createContext, useContext } from 'react';
-import { DefaultApi } from 'api';
+import operations from 'api/operations';
+import { toRxjsApi } from '@principlestudios/openapi-codegen-typescript-rxjs';
 
-const ApiContext = createContext<DefaultApi>(new DefaultApi({ basePath: '' }));
+const ApiContext = createContext(toRxjsApi(operations, ''));
 
 export const ApiProvider = ApiContext.Provider;
 

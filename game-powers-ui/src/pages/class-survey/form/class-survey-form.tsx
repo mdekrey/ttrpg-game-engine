@@ -4,12 +4,13 @@ import { Card } from 'components/card/card';
 import { MultiselectField, NumberboxField, SelectField, TextboxField } from 'components/forms';
 import { ListField } from 'components/forms/list-editor/ListEditor';
 import { ButtonRow } from 'components/ButtonRow';
-import { CharacterRole, ClassProfile, ToolProfile, ToolRange, ToolType } from 'api';
+import { ClassProfile } from 'api/models/ClassProfile';
+import { ToolProfile } from 'api/models/ToolProfile';
 import { abilities, classSurveySchema, damageTypes, roles, toolRanges, toolTypes } from 'core/schemas/api';
 
 const defaultToolProfile: Readonly<ToolProfile> = {
-	toolType: ToolType.Weapon,
-	toolRange: ToolRange.Melee,
+	toolType: 'Weapon',
+	toolRange: 'Melee',
 	abilities: [],
 	preferredDamageTypes: [],
 	powerProfileConfig: { modifierChances: [{ selector: '$', weight: 1 }], powerChances: [{ selector: '$', weight: 1 }] },
@@ -34,7 +35,7 @@ export function ClassSurveyForm({
 	const { handleSubmit, ...form } = useGameForm<ClassProfile>({
 		defaultValues: defaultValues || {
 			name: 'Custom Class',
-			role: CharacterRole.Controller,
+			role: 'Controller',
 			powerSource: 'Martial',
 			tools: [defaultToolProfile],
 		},
