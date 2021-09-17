@@ -268,9 +268,8 @@
     - Fire
     Modifiers:
     - Name: TwoHits
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
+    - Amount: +2
+      Name: To-Hit Bonus to Current Attack
   Modifiers: []
 - Level: 3
   Usage: Encounter
@@ -278,24 +277,28 @@
   ToolRange: Range
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1.2000000000000002
-    Ability: Strength
+  - WeaponDice: 1.0000000000000002
+    Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Normal
     Modifiers:
     - Name: RequiredHitForNextAttack
-  - WeaponDice: 1.7000000000000002
-    Ability: Strength
+  - WeaponDice: 1.75
+    Ability: Dexterity
     DamageTypes:
-    - Fire
+    - Normal
     Modifiers:
     - Name: RequiresPreviousHit
-    - Effects:
-      - Mode: Slide
-        Amount: +2
-        Name: Slide Opponent
-      Name: MovementControl
-  Modifiers: []
+    - Abilities:
+      - Dexterity
+      Name: Ability Modifier Damage
+  Modifiers:
+  - SelfBoosts:
+    - Amount: +2
+      Name: Temporary Hit Points
+    AllyBoosts: []
+    AllyType: Single
+    Name: Boost
 - Level: 3
   Usage: Encounter
   Tool: Weapon
@@ -1076,16 +1079,13 @@
     - Normal
     Modifiers:
     - Name: RequiredHitForNextAttack
-  - WeaponDice: 1.75
+  - WeaponDice: 2.25
     Ability: Strength
     DamageTypes:
     - Normal
     Modifiers:
     - Name: RequiresPreviousHit
     - Name: RequiredHitForNextAttack
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
   - WeaponDice: 1.75
     Ability: Strength
     DamageTypes:
@@ -1420,7 +1420,8 @@
   Modifiers:
   - SelfBoosts:
     - Amount: DEX
-      Name: Temporary Hit Points
+      Limit: NextAttack
+      Name: Attack
     AllyBoosts: []
     AllyType: Single
     Name: Boost

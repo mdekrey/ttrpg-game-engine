@@ -41,31 +41,35 @@ namespace GameEngine.Generator
 
         public PowerProfiles GenerateProfiles(ClassProfile classProfile)
         {
-            return new PowerProfiles(
-                (from powerSet in providedPowers
-                 let set = GeneratePowerProfiles(level: powerSet.level, usage: powerSet.usage, classProfile: classProfile)
-                 from entry in set
-                 select entry).ToImmutableList()
-            );
+            var result = ImmutableList<PowerProfile>.Empty;
+            while (RemainingPowers(result).FirstOrDefault() is (int level and > 0, PowerFrequency usage))
+            {
+                result = AddSinglePowerProfile(result, level: level, usage: usage, classProfile: classProfile);
+            }
+            return new PowerProfiles(result);
         }
 
-        private ImmutableList<PowerProfile> GeneratePowerProfiles(int level, PowerFrequency usage, ClassProfile classProfile)
+        public IEnumerable<(int level, PowerFrequency usage)> RemainingPowers(ImmutableList<PowerProfile> powers)
         {
-            var tools = Shuffle(classProfile.Tools);
-            var result = new List<PowerProfile>();
-            while (result.Count < 4)
-            {
-                var powerInfo = GetPowerInfo();
-                var powerProfile = GenerateProfile(powerInfo, exclude: result);
-                if (result.Contains(powerProfile))
-                    continue; // Exclude duplicates
-                result.Add(powerProfile);
-            }
-            return result.ToImmutableList();
+            return from powerSet in providedPowers
+                   let count = powers.Count(p => p.Level == powerSet.level && p.Usage == powerSet.usage)
+                   from response in Enumerable.Repeat(powerSet, Math.Max(0, 4 - count))
+                   select response;
+        }
+
+        public ImmutableList<PowerProfile> AddSinglePowerProfile(ImmutableList<PowerProfile> inputs, int level, PowerFrequency usage, ClassProfile classProfile)
+        {
+            var previousTools = inputs.Where(p => p.Level == level && p.Usage == usage).Select(p => (p.Tool, p.ToolRange)).ToHashSet();
+            var availableTools = classProfile.Tools.Where(t => !previousTools.Contains((t.Type, t.Range))).ToImmutableList() switch { { Count: 0 } => classProfile.Tools, var remaining => remaining };
+            var tools = Shuffle(availableTools);
+
+            var powerInfo = GetPowerInfo();
+            var powerProfile = GenerateProfile(powerInfo, exclude: inputs);
+            return inputs.Add(powerProfile);
 
             PowerHighLevelInfo GetPowerInfo()
             {
-                return new(Level: level, Usage: usage, ClassProfile: classProfile, ToolProfile: tools[result.Count % tools.Count]);
+                return new(Level: level, Usage: usage, ClassProfile: classProfile, ToolProfile: tools[0]);
             }
         }
 
@@ -85,7 +89,7 @@ namespace GameEngine.Generator
 
         public PowerProfile GenerateProfile(PowerHighLevelInfo powerInfo, IEnumerable<PowerProfile>? exclude = null)
         {
-            var toExclude = exclude ?? Enumerable.Empty<PowerProfile>();
+            var toExclude = (exclude ?? Enumerable.Empty<PowerProfile>()).Select(p => p with { Level = powerInfo.Level, Usage = powerInfo.Usage });
             var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
             var powerProfileBuilder = RootBuilder(basePower, powerInfo);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.AttackSetup, exclude: toExclude);
