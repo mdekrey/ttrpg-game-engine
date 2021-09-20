@@ -142,7 +142,7 @@ namespace GameEngine.Tests
         {
             var target = CreateTarget();
 
-            var powerProfile = target.GenerateProfiles(CreateStrikerProfile());
+            var powerProfile = target.GeneratePowerProfiles(CreateStrikerProfile());
 
             Snapshot.Match(Serializer.Serialize(powerProfile));
         }

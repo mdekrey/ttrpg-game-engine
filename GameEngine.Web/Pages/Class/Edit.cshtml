@@ -1,0 +1,6 @@
+﻿@page "/class/edit/{id:guid}"
+@model GameEngine.Web.Pages.Class.EditModel
+@{
+}
+
+@await Html.React("pages/class-survey/power-editor", new { Model.ClassId })

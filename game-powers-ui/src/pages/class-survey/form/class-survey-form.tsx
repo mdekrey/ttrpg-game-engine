@@ -11,8 +11,8 @@ import { abilities, classSurveySchema, damageTypes, roles, toolRanges, toolTypes
 const defaultToolProfile: Readonly<ToolProfile> = {
 	toolType: 'Weapon',
 	toolRange: 'Melee',
-	abilities: [],
-	preferredDamageTypes: [],
+	abilities: ['Strength'],
+	preferredDamageTypes: ['Normal'],
 	powerProfileConfig: { modifierChances: [{ selector: '$', weight: 1 }], powerChances: [{ selector: '$', weight: 1 }] },
 };
 

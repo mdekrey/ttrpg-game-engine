@@ -39,14 +39,14 @@ namespace GameEngine.Generator
             (level: 29, usage: PowerFrequency.Daily),
         }.ToImmutableList();
 
-        public PowerProfiles GenerateProfiles(ClassProfile classProfile)
+        public ImmutableList<PowerProfile> GeneratePowerProfiles(ClassProfile classProfile)
         {
             var result = ImmutableList<PowerProfile>.Empty;
             while (RemainingPowers(result).FirstOrDefault() is (int level and > 0, PowerFrequency usage))
             {
-                result = AddSinglePowerProfile(result, level: level, usage: usage, classProfile: classProfile);
+                result = result.Add(AddSinglePowerProfile(result, level: level, usage: usage, classProfile: classProfile));
             }
-            return new PowerProfiles(result);
+            return result;
         }
 
         public IEnumerable<(int level, PowerFrequency usage)> RemainingPowers(ImmutableList<PowerProfile> powers)
@@ -57,15 +57,15 @@ namespace GameEngine.Generator
                    select response;
         }
 
-        public ImmutableList<PowerProfile> AddSinglePowerProfile(ImmutableList<PowerProfile> inputs, int level, PowerFrequency usage, ClassProfile classProfile)
+        public PowerProfile AddSinglePowerProfile(ImmutableList<PowerProfile> previous, int level, PowerFrequency usage, ClassProfile classProfile)
         {
-            var previousTools = inputs.Where(p => p.Level == level && p.Usage == usage).Select(p => (p.Tool, p.ToolRange)).ToHashSet();
+            var previousTools = previous.Where(p => p.Level == level && p.Usage == usage).Select(p => (p.Tool, p.ToolRange)).ToHashSet();
             var availableTools = classProfile.Tools.Where(t => !previousTools.Contains((t.Type, t.Range))).ToImmutableList() switch { { Count: 0 } => classProfile.Tools, var remaining => remaining };
             var tools = Shuffle(availableTools);
 
             var powerInfo = GetPowerInfo();
-            var powerProfile = GenerateProfile(powerInfo, exclude: inputs);
-            return inputs.Add(powerProfile);
+            var powerProfile = GenerateProfile(powerInfo, exclude: previous);
+            return powerProfile;
 
             PowerHighLevelInfo GetPowerInfo()
             {

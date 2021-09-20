@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameEngine", "GameEngine\Ga
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameEngine.Tests", "GameEngine.Tests\GameEngine.Tests.csproj", "{691FACCC-D725-4FF1-83BA-C25E7BC94CC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine.Web", "GameEngine.Web\GameEngine.Web.csproj", "{59FD7E25-E810-4133-B72D-72B7240BA9A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameEngine.Web", "GameEngine.Web\GameEngine.Web.csproj", "{59FD7E25-E810-4133-B72D-72B7240BA9A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

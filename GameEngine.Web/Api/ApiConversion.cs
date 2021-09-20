@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using GameEngine.Generator;
+using System.Collections.Immutable;
 
 namespace GameEngine.Web.Api;
 
@@ -138,4 +139,15 @@ public static class ApiConversion
             _ => throw new NotSupportedException(),
         };
 
+
+    public static Api.ClassDetailsReadOnly ToApi(this Generator.GeneratedClassDetails generatedClassDetails) =>
+        new ClassDetailsReadOnly(
+            generatedClassDetails.Powers.Select(p => p.ToApiTemporary())
+        );
+
+    public static Api.PowerTextProfile ToApiTemporary(this Generator.PowerProfile powerProfile) =>
+        new Api.PowerTextProfile(
+            Text: powerProfile.ToPowerTextBlock().ToApi(),
+            Profile: powerProfile.ToApi()
+        );
 }

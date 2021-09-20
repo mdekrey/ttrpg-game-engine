@@ -1,10 +1,22 @@
+using GameEngine.Generator.Serialization;
 using GameEngine.Web.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-builder.Services.AddOpenApiDndClasses<GenerateClassController>();
+builder.Services.AddOpenApiDndClasses<ClassController>();
+builder.Services.AddTransient<GameEngine.Web.AsyncServices.AsyncClassGenerator>();
+builder.Services.Configure<GameEngine.Web.Storage.GameStorageOptions>(options =>
+{
+    options.ApplyJsonSerializerSettings = serializer =>
+    {
+        foreach (var converter in ProfileSerialization.GetJsonConverters())
+            serializer.Converters.Add(converter);
+        return serializer;
+    };
+});
+builder.Services.AddSingleton<GameEngine.Web.Storage.GameStorage>();
 
 var app = builder.Build();
 

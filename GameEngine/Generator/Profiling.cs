@@ -158,10 +158,6 @@ namespace GameEngine.Generator
         EquatableImmutableList<IPowerModifier> Modifiers
     );
 
-    public record PowerProfiles(
-        EquatableImmutableList<PowerProfile> Powers
-    );
-
     public static class ImmutableConstructorExtension
     {
         public static ImmutableDictionary<TKey, TValue> Build<TKey, TValue>(params (TKey key, TValue value)[] pairs) where TKey : notnull =>
