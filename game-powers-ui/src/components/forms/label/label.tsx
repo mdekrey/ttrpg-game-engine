@@ -1,5 +1,6 @@
-import classNames from 'classnames';
+import { merge } from 'core/jsx/merge';
+import { label } from '../templates';
 
-export function Label({ className, ...props }: JSX.IntrinsicElements['label']) {
-	return <label className={classNames(className, 'block text-sm font-medium text-gray-700')} {...props} />;
+export function Label({ ...props }: JSX.IntrinsicElements['label']) {
+	return merge(label(), <label {...props} />);
 }

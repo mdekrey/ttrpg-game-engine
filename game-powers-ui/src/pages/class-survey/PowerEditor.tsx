@@ -45,7 +45,7 @@ function PowerEdit({ power }: { power: PowerTextProfile }) {
 				powerUsage={powerUsage as PowerType}
 				attackType={(attackType || null) as 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null}
 			/>
-			<form onSubmit={handleSubmit(() => {})}>
+			<form onSubmit={handleSubmit(() => {})} className="grid grid-cols-1 gap-3 self-start">
 				<TextboxField label="Name" form={form} name="name" />
 				<TextboxField label="Flavor Text" form={form} name="flavorText" />
 			</form>

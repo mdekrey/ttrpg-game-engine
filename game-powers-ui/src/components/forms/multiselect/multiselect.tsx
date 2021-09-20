@@ -1,9 +1,11 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon, XIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
+import { merge } from 'core/jsx/merge';
 import { ReactNode, Fragment, forwardRef, ForwardedRef } from 'react';
 import { FieldValues, Path, PathValue, UseControllerProps } from 'react-hook-form';
 import { Controlled } from '../Controlled';
+import { label as labelTemplate } from '../templates';
 
 export type ControlledMultiselectProps<T> = {
 	label: ReactNode;
@@ -49,30 +51,33 @@ function MultiselectComponent<T>(
 
 	return (
 		<Listbox value={null} onChange={toggle} {...props} disabled={disabled}>
-			<Listbox.Label className="block text-sm font-medium text-black">{label}</Listbox.Label>
-			<div className="relative mt-1 ">
+			{merge(labelTemplate(), <Listbox.Label>{label}</Listbox.Label>)}
+			<div className="relative mt-1">
 				<Listbox.Button
 					onBlur={onBlur}
 					name={name}
 					ref={ref}
 					className={classNames(
 						{ 'border-gray-300': !disabled, 'border-gray-50': disabled },
-						'py-1 px-1',
+						'pb-px px-px pt-0.5',
 						'block w-full shadow-sm sm:text-sm',
-						'border rounded-md',
-						'focus-within:ring focus-within:ring-blue-dark focus-within:border-blue-dark outline-none transition-shadow',
+						'border-b',
+						'focus-within:ring focus-within:ring-blue-dark focus-within:border-transparent outline-none transition-shadow',
 						'text-left relative'
 					)}>
 					<span className="py-1 inline-block">&nbsp;</span>
-					<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+					<span className="absolute inset-y-0 right-0 flex items-center pr-px pointer-events-none">
 						<SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
 					</span>
 				</Listbox.Button>
-				<div className="absolute top-0 left-0 py-1 px-1 border border-transparent">
+				<div className="absolute top-0.5 left-0.5 border border-transparent">
 					<span className="block truncate">
 						{value.map((option) => (
 							<button
-								className="px-2 py-1 bg-blue-100 rounded text-blue-700 inline-flex items-center mr-1 text-sm"
+								className={classNames(
+									'px-1 py-0.5 bg-blue-100 rounded text-blue-700 inline-flex items-center mr-1 text-sm',
+									'focus:bg-blue-700 focus:text-blue-100 outline-none transition-colors'
+								)}
 								type="button"
 								onClick={(ev) => {
 									ev.stopPropagation();

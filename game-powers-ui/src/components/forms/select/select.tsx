@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { ReactNode, Fragment, forwardRef, ForwardedRef } from 'react';
 import { merge } from 'core/jsx/merge';
 import { FieldValues, Path, PathValue, UseControllerProps } from 'react-hook-form';
-import { inputBorder } from '../templates';
+import { inputBorder, label as labelTemplate } from '../templates';
 import { Controlled } from '../Controlled';
 
 export type ControlledSelectProps<T> = {
@@ -45,13 +45,13 @@ function SelectComponent<T>(
 
 	return (
 		<Listbox value={value} {...props} disabled={disabled}>
-			<Listbox.Label className="block text-sm font-medium text-black">{label}</Listbox.Label>
+			{merge(labelTemplate(), <Listbox.Label>{label}</Listbox.Label>)}
 			<div className="relative">
 				{merge(
 					inputBorder(disabled || false),
 					<Listbox.Button className="text-left relative" onBlur={onBlur} name={name} ref={ref}>
 						<span className="block truncate">{toHeaderDisplay(value)}</span>
-						<span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+						<span className="absolute inset-y-0 right-0 flex items-center pr-px pointer-events-none">
 							<SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
 						</span>
 					</Listbox.Button>
