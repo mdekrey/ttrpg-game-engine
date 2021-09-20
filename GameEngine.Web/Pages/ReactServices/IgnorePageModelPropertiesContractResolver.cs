@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json.Serialization;
+using System;
 
 namespace GameEngine.Web.Pages.ReactServices;
 internal class IgnorePageModelPropertiesContractResolver : IContractResolver
@@ -8,7 +9,8 @@ internal class IgnorePageModelPropertiesContractResolver : IContractResolver
 
     public IgnorePageModelPropertiesContractResolver(IContractResolver original)
     {
-        this.Original = original ?? throw new ArgumentNullException(nameof(original));
+        ArgumentNullException.ThrowIfNull(original, nameof(original));
+        this.Original = original;
     }
 
     public JsonContract ResolveContract(Type type)

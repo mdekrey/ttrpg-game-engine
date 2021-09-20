@@ -1,4 +1,7 @@
-﻿namespace GameEngine.Web.Pages.ReactServices;
+﻿using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+
+namespace GameEngine.Web.Pages.ReactServices;
 
 public interface IReactAutomaticProperty
 {

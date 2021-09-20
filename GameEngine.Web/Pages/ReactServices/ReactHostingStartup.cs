@@ -1,4 +1,8 @@
-﻿[assembly: Microsoft.AspNetCore.Hosting.HostingStartup(typeof(GameEngine.Web.Pages.ReactServices.ReactHostingStartup))]
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+
+[assembly: Microsoft.AspNetCore.Hosting.HostingStartup(typeof(GameEngine.Web.Pages.ReactServices.ReactHostingStartup))]
 namespace GameEngine.Web.Pages.ReactServices;
 
 public class ReactHostingStartup : IHostingStartup

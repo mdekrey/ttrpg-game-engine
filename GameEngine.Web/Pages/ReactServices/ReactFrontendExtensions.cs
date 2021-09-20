@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
+using System.Threading.Tasks;
+using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GameEngine.Web.Pages.ReactServices;
 public static class ReactFrontendExtensions

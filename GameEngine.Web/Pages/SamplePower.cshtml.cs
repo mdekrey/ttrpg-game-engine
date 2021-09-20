@@ -2,6 +2,7 @@
 using GameEngine.Rules;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
 
 namespace GameEngine.Web.Pages;

@@ -178,6 +178,7 @@ components:
           type: string
         powerUsage:
           type: string
+          # enum: ['At-Will', 'Encounter', 'Daily']
         keywords:
           type: array
           items:
@@ -186,6 +187,7 @@ components:
           type: string
         attackType:
           type: string
+          # enum: ['Personal', 'Ranged', 'Melee', 'Close', 'Area']
         attackTypeDetails:
           type: string
         prerequisite:
