@@ -217,21 +217,15 @@ components:
     ClassDetailsReadOnly:
       type: object
       required:
+        - name
         - powers
       properties:
+        name:
+          type: string
         powers:
           type: array
           items:
             $ref: '#/components/schemas/PowerTextProfile'
-            # type: object
-            # required:
-            #   - text
-            #   - profile
-            # properties:
-            #   text:
-            #     $ref: '#/components/schemas/PowerTextBlock'
-            #   profile:
-            #     $ref: '#/components/schemas/PowerProfile'
 paths:
   /generate-class:
     x-dotnet-mvc-server-controller: Class

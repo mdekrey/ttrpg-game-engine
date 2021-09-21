@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameEngine.Generator
 {
-    public record GeneratedClassDetails(ClassProfile ClassProfile, EquatableImmutableList<NamedPowerProfile> Powers)
+    public record GeneratedClassDetails(string Name, ClassProfile ClassProfile, EquatableImmutableList<NamedPowerProfile> Powers)
     {
     }
 

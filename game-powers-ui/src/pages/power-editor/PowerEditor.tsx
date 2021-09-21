@@ -13,7 +13,7 @@ type ReasonCode = 'NotFound';
 
 export function PowerEditor({ data: { classId } }: { data: { classId: string } }) {
 	const api = useApi();
-	const powers = useObservable(
+	const data = useObservable(
 		(input$) =>
 			input$.pipe(
 				map(([id]) =>
@@ -31,20 +31,21 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 				),
 				switchAll()
 			),
-		initial as Loadable<Dictionary<(PowerTextProfile & { index: number })[]>, ReasonCode>,
+		initial as Loadable<{ name: string; powers: Dictionary<(PowerTextProfile & { index: number })[]> }, ReasonCode>,
 		[classId] as const
 	);
 
 	return (
 		<div className="p-8">
 			<LoadableComponent
-				data={powers}
+				data={data}
 				errorComponent={() => <>Not Found</>}
 				loadedComponent={(loaded, isLoadingNext) => (
 					<>
 						<div className="storybook-md-theme">
-							{Object.keys(loaded).map((header) => (
-								<PowerSection header={header} key={header} powers={loaded[header]} classId={classId} />
+							<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl">{loaded.name}</h1>
+							{Object.keys(loaded.powers).map((header) => (
+								<PowerSection header={header} key={header} powers={loaded.powers[header]} classId={classId} />
 							))}
 						</div>
 						{isLoadingNext ? <>Loading</> : null}
@@ -55,10 +56,13 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 		</div>
 	);
 
-	function toPowerTextGroups(data: ClassDetailsReadOnly) {
-		return groupBy(
-			(block) => `Level ${block.profile.level} ${block.profile.usage} Powers`,
-			data.powers.map((p, index) => ({ ...p, index }))
-		);
+	function toPowerTextGroups(responseData: ClassDetailsReadOnly) {
+		return {
+			name: responseData.name,
+			powers: groupBy(
+				(block) => `Level ${block.profile.level} ${block.profile.usage} Powers`,
+				responseData.powers.map((p, index) => ({ ...p, index }))
+			),
+		};
 	}
 }

@@ -24,7 +24,7 @@ public class ClassController : ClassControllerBase
 
         var classProfile = generateClassProfileBody.FromApi();
 
-        var id = await asyncClassGenerator.BeginGeneratingNewClass(classProfile).ConfigureAwait(false);
+        var id = await asyncClassGenerator.BeginGeneratingNewClass(classProfile, generateClassProfileBody.Name).ConfigureAwait(false);
 
         return TypeSafeGeneratePowersResult.Ok(new GeneratePowersResponse(id.ToString()));
     }

@@ -19,13 +19,13 @@ public class AsyncClassGenerator
         this.gameStorage = gameStorage;
     }
 
-    internal async Task<Guid> BeginGeneratingNewClass(ClassProfile classProfile)
+    internal async Task<Guid> BeginGeneratingNewClass(ClassProfile classProfile, string name)
     {
         var classId = Guid.NewGuid();
-        var classDetails = new GeneratedClassDetails(classProfile, ImmutableList<NamedPowerProfile>.Empty);
+        var classDetails = new GeneratedClassDetails(name, classProfile, ImmutableList<NamedPowerProfile>.Empty);
 
         // TODO - save class first
-        await gameStorage.SaveAsync<AsyncProcessed<GeneratedClassDetails>>(classId, new(new GeneratedClassDetails(classProfile, ImmutableList<NamedPowerProfile>.Empty), InProgress: true) ).ConfigureAwait(false);
+        await gameStorage.SaveAsync<AsyncProcessed<GeneratedClassDetails>>(classId, new(new GeneratedClassDetails(name, classProfile, ImmutableList<NamedPowerProfile>.Empty), InProgress: true) ).ConfigureAwait(false);
 
         AsyncClassGenerationProcess.Initiate(serviceScopeFactory, classProfile, classId);
 

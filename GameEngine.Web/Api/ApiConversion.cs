@@ -144,6 +144,7 @@ public static class ApiConversion
 
     public static Api.ClassDetailsReadOnly ToApi(this Generator.GeneratedClassDetails generatedClassDetails) =>
         new ClassDetailsReadOnly(
+            generatedClassDetails.Name,
             generatedClassDetails.Powers.Select(p => p.ToApi())
         );
 
