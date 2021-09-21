@@ -3,6 +3,7 @@ const plugin = require('tailwindcss/plugin');
 
 const colors = {
 	transparent: 'transparent',
+	currentcolor: 'currentcolor',
 	white: '#ffffff',
 	black: '#000000',
 	red: {
@@ -75,6 +76,9 @@ module.exports = {
 			},
 			screens: {
 				print: { raw: 'print' },
+			},
+			spacing: {
+				em: '1em',
 			},
 		},
 		colors,

@@ -4,6 +4,8 @@ type Loaded<T> = { type: 'loaded'; value: T };
 type LoadingError<TError> = { type: 'error'; reason: TError };
 type Initial = { type: 'initial' };
 
+export function makeLoading(): Readonly<Loading<any>>;
+export function makeLoading<T>(previousValue: T): Readonly<Loading<T>>;
 export function makeLoading<T = unknown>(previousValue?: T): Readonly<Loading<T>> {
 	return arguments.length === 1 ? { type: 'loading', previousValue } : { type: 'loading' };
 }

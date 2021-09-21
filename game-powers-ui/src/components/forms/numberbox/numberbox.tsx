@@ -16,6 +16,7 @@ export const Numberbox = forwardRef<HTMLInputElement, NumberboxProps>(({ disable
 			onChange={(ev) => onChange && onChange(ev.currentTarget.value ? Number(ev.currentTarget.value) : undefined)}
 			{...props}
 			ref={ref}
+			disabled={disabled}
 		/>,
 		inputBorder(disabled || false)
 	);

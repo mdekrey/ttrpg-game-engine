@@ -29,7 +29,7 @@ export function useLoadableObservable<State, TError, Inputs extends DependencyLi
 			const first: Observable<Loadable<State, TError>> = input$.pipe(
 				map((x: Inputs) =>
 					observableFactory(...x).pipe(
-						startWith<Loadable<State, TError>>(makeLoading<State>()),
+						startWith<Loadable<State, TError>>(makeLoading()),
 						catchError((err) => of<Loadable<State, TError>>(makeError(err)))
 					)
 				),

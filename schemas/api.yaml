@@ -284,3 +284,37 @@ paths:
                     type: boolean
         404:
           description: Class not found
+  /class/{id}/power/{index}:
+    x-dotnet-mvc-server-controller: Class
+    post:
+      operationId: setPowerFlavor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - flavorText
+              properties:
+                name:
+                  type: string
+                flavorText:
+                  type: string
+      responses:
+        200:
+          description: OK
+        404:
+          description: Class not found

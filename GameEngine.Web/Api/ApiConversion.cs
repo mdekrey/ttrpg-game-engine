@@ -144,12 +144,16 @@ public static class ApiConversion
 
     public static Api.ClassDetailsReadOnly ToApi(this Generator.GeneratedClassDetails generatedClassDetails) =>
         new ClassDetailsReadOnly(
-            generatedClassDetails.Powers.Select(p => p.ToApiTemporary())
+            generatedClassDetails.Powers.Select(p => p.ToApi())
         );
 
-    public static Api.PowerTextProfile ToApiTemporary(this Generator.PowerProfile powerProfile) =>
+    public static Api.PowerTextProfile ToApi(this Generator.NamedPowerProfile powerProfile) =>
         new Api.PowerTextProfile(
-            Text: powerProfile.ToPowerTextBlock().ToApi(),
-            Profile: powerProfile.ToApi()
+            Text: (powerProfile.Profile.ToPowerTextBlock() with
+            {
+                Name = powerProfile.Name,
+                FlavorText = powerProfile.FlavorText,
+            }).ToApi(),
+            Profile: powerProfile.Profile.ToApi()
         );
 }

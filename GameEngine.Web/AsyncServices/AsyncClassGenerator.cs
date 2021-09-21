@@ -22,10 +22,10 @@ public class AsyncClassGenerator
     internal async Task<Guid> BeginGeneratingNewClass(ClassProfile classProfile)
     {
         var classId = Guid.NewGuid();
-        var classDetails = new GeneratedClassDetails(classProfile, ImmutableList<PowerProfile>.Empty);
+        var classDetails = new GeneratedClassDetails(classProfile, ImmutableList<NamedPowerProfile>.Empty);
 
         // TODO - save class first
-        await gameStorage.SaveAsync<AsyncProcessed<GeneratedClassDetails>>(classId, new(new GeneratedClassDetails(classProfile, ImmutableList<PowerProfile>.Empty), InProgress: true) ).ConfigureAwait(false);
+        await gameStorage.SaveAsync<AsyncProcessed<GeneratedClassDetails>>(classId, new(new GeneratedClassDetails(classProfile, ImmutableList<NamedPowerProfile>.Empty), InProgress: true) ).ConfigureAwait(false);
 
         AsyncClassGenerationProcess.Initiate(serviceScopeFactory, classProfile, classId);
 
@@ -55,13 +55,13 @@ class AsyncClassGenerationProcess
         while (powerGenerator.RemainingPowers(result).FirstOrDefault() is (int level and > 0, Rules.PowerFrequency usage))
         {
             var newPower = powerGenerator.AddSinglePowerProfile(result, level: level, usage: usage, classProfile: classProfile);
-            result = await AddAsync(newPower).ConfigureAwait(false);
+            result = (await AddAsync(newPower).ConfigureAwait(false)).Select(p => p.Profile).ToImmutableList();
         }
 
         await FinishAsync().ConfigureAwait(false);
     }
 
-    private async Task<ImmutableList<Generator.PowerProfile>> AddAsync(Generator.PowerProfile powerProfile)
+    private async Task<ImmutableList<Generator.NamedPowerProfile>> AddAsync(Generator.PowerProfile powerProfile)
     {
         using var scope = serviceScopeFactory.CreateScope();
         var storage = scope.ServiceProvider.GetRequiredService<GameStorage>();
@@ -71,7 +71,7 @@ class AsyncClassGenerationProcess
         {
             Original = current.Original with
             {
-                Powers = current.Original.Powers.Items.Add(powerProfile),
+                Powers = current.Original.Powers.Items.Add(new NamedPowerProfile("Unknown", "", powerProfile)),
             }
         };
         await storage.SaveAsync(classId, next).ConfigureAwait(false);
