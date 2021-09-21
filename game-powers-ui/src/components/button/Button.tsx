@@ -18,7 +18,7 @@ export const Button = ({
 				className,
 				{
 					'rounded-sm py-1 px-2': contents === 'text',
-					'rounded-full p-1': contents === 'icon',
+					'rounded-full p-1 self-center': contents === 'icon',
 					'bg-blue-dark': look === 'primary' && !disabled,
 					'bg-red-dark': look === 'cancel' && !disabled,
 					'bg-gray-500': disabled,

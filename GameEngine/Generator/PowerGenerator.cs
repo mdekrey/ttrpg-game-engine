@@ -1,4 +1,5 @@
 ﻿using GameEngine.Rules;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -13,10 +14,12 @@ namespace GameEngine.Generator
     public class PowerGenerator
     {
         private readonly RandomGenerator randomGenerator;
+        private readonly ILogger<PowerGenerator>? logger;
 
-        public PowerGenerator(RandomGenerator randomGenerator)
+        public PowerGenerator(RandomGenerator randomGenerator, ILogger<PowerGenerator>? logger = null)
         {
             this.randomGenerator = randomGenerator;
+            this.logger = logger;
         }
 
         private static ImmutableList<(int level, PowerFrequency usage)> providedPowers = new[] {
@@ -44,7 +47,10 @@ namespace GameEngine.Generator
             var result = ImmutableList<PowerProfile>.Empty;
             while (RemainingPowers(result).FirstOrDefault() is (int level and > 0, PowerFrequency usage))
             {
-                result = result.Add(AddSinglePowerProfile(result, level: level, usage: usage, classProfile: classProfile));
+                var newPower = AddSinglePowerProfile(result, level: level, usage: usage, classProfile: classProfile);
+                if (newPower == null)
+                    break;
+                result = result.Add(newPower);
             }
             return result;
         }
@@ -57,15 +63,24 @@ namespace GameEngine.Generator
                    select response;
         }
 
-        public PowerProfile AddSinglePowerProfile(ImmutableList<PowerProfile> previous, int level, PowerFrequency usage, ClassProfile classProfile)
+        public PowerProfile? AddSinglePowerProfile(ImmutableList<PowerProfile> previous, int level, PowerFrequency usage, ClassProfile classProfile)
         {
             var previousTools = previous.Where(p => p.Level == level && p.Usage == usage).Select(p => (p.Tool, p.ToolRange)).ToHashSet();
             var availableTools = classProfile.Tools.Where(t => !previousTools.Contains((t.Type, t.Range))).ToImmutableList() switch { { Count: 0 } => classProfile.Tools, var remaining => remaining };
             var tools = Shuffle(availableTools);
 
             var powerInfo = GetPowerInfo();
-            var powerProfile = GenerateProfile(powerInfo, exclude: previous);
-            return powerProfile;
+
+            try
+            {
+                var powerProfile = GenerateProfile(powerInfo, exclude: previous);
+                return powerProfile;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "While creating another power {usage} {level} for {tool}", powerInfo.Usage.ToText(), powerInfo.Level, powerInfo.ToolProfile);
+                return null;
+            }
 
             PowerHighLevelInfo GetPowerInfo()
             {

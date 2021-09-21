@@ -2,6 +2,7 @@
 using GameEngine.Generator;
 using GameEngine.Web.Storage;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Immutable;
 using System.Linq;
@@ -12,11 +13,13 @@ public class AsyncClassGenerator
 {
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly GameStorage gameStorage;
+    private readonly ILogger<PowerGenerator> powerGeneratorLogger;
 
-    public AsyncClassGenerator(IServiceScopeFactory serviceScopeFactory, Storage.GameStorage gameStorage)
+    public AsyncClassGenerator(IServiceScopeFactory serviceScopeFactory, Storage.GameStorage gameStorage, ILogger<PowerGenerator> powerGeneratorLogger)
     {
         this.serviceScopeFactory = serviceScopeFactory;
         this.gameStorage = gameStorage;
+        this.powerGeneratorLogger = powerGeneratorLogger;
     }
 
     internal async Task<Guid> BeginGeneratingNewClass(ClassProfile classProfile, string name)
@@ -24,10 +27,9 @@ public class AsyncClassGenerator
         var classId = Guid.NewGuid();
         var classDetails = new GeneratedClassDetails(name, classProfile, ImmutableList<NamedPowerProfile>.Empty);
 
-        // TODO - save class first
-        await gameStorage.SaveAsync<AsyncProcessed<GeneratedClassDetails>>(classId, new(new GeneratedClassDetails(name, classProfile, ImmutableList<NamedPowerProfile>.Empty), InProgress: true) ).ConfigureAwait(false);
+        await gameStorage.SaveAsync<AsyncProcessed<GeneratedClassDetails>>(classId, new(classDetails, InProgress: true) ).ConfigureAwait(false);
 
-        AsyncClassGenerationProcess.Initiate(serviceScopeFactory, classProfile, classId);
+        AsyncClassGenerationProcess.Initiate(serviceScopeFactory, classProfile, classId, powerGeneratorLogger);
 
 
         return classId;
@@ -41,12 +43,12 @@ class AsyncClassGenerationProcess
     private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly PowerGenerator powerGenerator;
 
-    public AsyncClassGenerationProcess(Guid classId, ClassProfile classProfile, IServiceScopeFactory serviceScopeFactory)
+    public AsyncClassGenerationProcess(Guid classId, ClassProfile classProfile, IServiceScopeFactory serviceScopeFactory, ILogger<PowerGenerator> powerGeneratorLogger)
     {
         this.classId = classId;
         this.classProfile = classProfile;
         this.serviceScopeFactory = serviceScopeFactory;
-        this.powerGenerator = new PowerGenerator(new Random().Next);
+        this.powerGenerator = new PowerGenerator(new Random().Next, powerGeneratorLogger);
     }
 
     public async Task Run()
@@ -55,6 +57,8 @@ class AsyncClassGenerationProcess
         while (powerGenerator.RemainingPowers(result).FirstOrDefault() is (int level and > 0, Rules.PowerFrequency usage))
         {
             var newPower = powerGenerator.AddSinglePowerProfile(result, level: level, usage: usage, classProfile: classProfile);
+            if (newPower == null)
+                break;
             result = (await AddAsync(newPower).ConfigureAwait(false)).Select(p => p.Profile).ToImmutableList();
         }
 
@@ -91,11 +95,11 @@ class AsyncClassGenerationProcess
         await storage.SaveAsync(classId, next).ConfigureAwait(false);
     }
 
-    internal static async void Initiate(IServiceScopeFactory serviceScopeFactory, ClassProfile classProfile, Guid classId)
+    internal static async void Initiate(IServiceScopeFactory serviceScopeFactory, ClassProfile classProfile, Guid classId, ILogger<PowerGenerator> powerGeneratorLogger)
     {
         await Task.Run(async () =>
         {
-            var process = new AsyncClassGenerationProcess(classId, classProfile, serviceScopeFactory);
+            var process = new AsyncClassGenerationProcess(classId, classProfile, serviceScopeFactory, powerGeneratorLogger);
             await process.Run().ConfigureAwait(false);
 
         }).ConfigureAwait(false);

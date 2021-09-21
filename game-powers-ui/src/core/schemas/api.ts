@@ -28,8 +28,16 @@ export const damageTypes: DamageType[] = [
 export const abilitySchema = yup.mixed().oneOf(abilities).required().defined() as yup.SchemaOf<Ability>;
 export const damageTypeSchema = yup.string().oneOf(damageTypes).required().defined() as yup.SchemaOf<DamageType>;
 export const modifierChanceSchema: yup.SchemaOf<ModifierChance> = yup.object({
-	selector: yup.string().required(),
-	weight: yup.number().required().positive(),
+	selector: yup.string().required().label('Selector'),
+	weight: yup
+		.number()
+		.label('Weight')
+		.required()
+		.test({
+			name: 'positive-or-zero',
+			test: (v) => v !== undefined && v >= 0,
+			message: ({ label }) => `${label} must be greater than or equal to 0`,
+		}),
 });
 export const powerProfileConfigSchema: yup.SchemaOf<PowerProfileConfig> = yup.object({
 	modifierChances: yup.array(modifierChanceSchema).min(1).label('Modifier Chances'),
