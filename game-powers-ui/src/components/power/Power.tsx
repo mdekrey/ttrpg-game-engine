@@ -1,5 +1,7 @@
 import classNames from 'classnames';
-import { addChildClasses } from 'core/jsx/addChildClasses';
+import { recurse } from 'core/jsx/recurse';
+import { pipeJsx } from 'core/jsx/pipeJsx';
+import { mergeStyles } from 'core/jsx/mergeStyles';
 import { FlavorText } from './FlavorText';
 
 export type PowerType = 'At-Will' | 'Encounter' | 'Daily' | 'Item';
@@ -37,12 +39,12 @@ export const Power = ({
 				</span>
 				<span className="text-sm leading-tight">{level}</span>
 			</header>
-			{addChildClasses(
+			{pipeJsx(
 				<>
 					{flavorText && <FlavorText>{flavorText}</FlavorText>}
 					{children}
 				</>,
-				<p className="even:bg-gradient-to-r from-tan-fading px-2 font-info" />
+				recurse(mergeStyles(<p className="even:bg-gradient-to-r from-tan-fading px-2 font-info" />))
 			)}
 		</section>
 	);

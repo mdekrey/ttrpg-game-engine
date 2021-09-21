@@ -1,4 +1,4 @@
-import { merge } from 'core/jsx/merge';
+import { pipeJsx } from 'core/jsx/pipeJsx';
 import { forwardRef } from 'react';
 import { inputBorder } from '../templates';
 import { Controlled } from '../Controlled';
@@ -10,14 +10,14 @@ type NumberboxProps = Omit<JSX.IntrinsicElements['input'], 'type' | 'value' | 'd
 };
 
 export const Numberbox = forwardRef<HTMLInputElement, NumberboxProps>(({ disabled, onChange, ...props }, ref) => {
-	return merge(
-		inputBorder(disabled || false),
+	return pipeJsx(
 		<input
 			type="text"
 			onChange={(ev) => onChange && onChange(ev.currentTarget.value ? Number(ev.currentTarget.value) : undefined)}
 			{...props}
 			ref={ref}
-		/>
+		/>,
+		inputBorder(disabled || false)
 	);
 });
 

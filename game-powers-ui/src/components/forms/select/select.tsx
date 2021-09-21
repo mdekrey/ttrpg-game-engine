@@ -2,7 +2,7 @@ import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
 import { ReactNode, Fragment, forwardRef, ForwardedRef } from 'react';
-import { merge } from 'core/jsx/merge';
+import { pipeJsx } from 'core/jsx/pipeJsx';
 import { FieldValues, Path, PathValue, UseControllerProps } from 'react-hook-form';
 import { inputBorder, label as labelTemplate } from '../templates';
 import { Controlled } from '../Controlled';
@@ -45,16 +45,16 @@ function SelectComponent<T>(
 
 	return (
 		<Listbox value={value} {...props} disabled={disabled}>
-			{merge(labelTemplate(), <Listbox.Label>{label}</Listbox.Label>)}
+			{pipeJsx(<Listbox.Label>{label}</Listbox.Label>, labelTemplate())}
 			<div className="relative">
-				{merge(
-					inputBorder(disabled || false),
+				{pipeJsx(
 					<Listbox.Button className="text-left relative" onBlur={onBlur} name={name} ref={ref}>
 						<span className="block truncate">{toHeaderDisplay(value)}</span>
 						<span className="absolute inset-y-0 right-0 flex items-center pr-px pointer-events-none">
 							<SelectorIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
 						</span>
-					</Listbox.Button>
+					</Listbox.Button>,
+					inputBorder(disabled || false)
 				)}
 				<Transition as={Fragment} leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
 					<Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-10">

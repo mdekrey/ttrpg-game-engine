@@ -1,60 +1,61 @@
 import { MDXProvider, Components } from '@mdx-js/react';
 import classNames from 'classnames';
-import { addChildClasses } from 'core/jsx/addChildClasses';
+import { recurse } from 'core/jsx/recurse';
 import QRCode from 'react-qr-code';
-import { merge } from 'core/jsx/merge';
+import { pipeJsx } from 'core/jsx/pipeJsx';
+import { mergeStyles } from 'core/jsx/mergeStyles';
 
-const headerTemplate = (
+const headerTemplate = mergeStyles(
 	<i className={classNames('font-header font-bold', 'mt-4 first:mt-0')} style={{ pageBreakAfter: 'avoid' }} />
 );
 
-const rowTemplate = (
+const rowTemplate = mergeStyles(
 	<tr className="even:bg-gradient-to-r from-tan-fading to-white odd:bg-tan-accent border-b-2 border-white font-info" />
 );
-const infoFontTemplate = <i className="font-info" />;
+const infoFontTemplate = mergeStyles(<i className="font-info" />);
 
 const mdxComponents: Components = {
 	h1: ({ children, className, ...props }) =>
-		merge(
-			headerTemplate,
+		pipeJsx(
 			<h2 className={classNames(className, 'text-theme text-2xl')} {...props}>
 				{children}
-			</h2>
+			</h2>,
+			headerTemplate
 		),
 	h2: ({ children, className, ...props }) =>
-		merge(
-			headerTemplate,
+		pipeJsx(
 			<h3 className={classNames(className, 'text-theme text-xl')} {...props}>
 				{children}
-			</h3>
+			</h3>,
+			headerTemplate
 		),
 	h3: ({ children, className, ...props }) =>
-		merge(
-			headerTemplate,
+		pipeJsx(
 			<h4 className={classNames(className, 'text-lg')} {...props}>
 				{children}
-			</h4>
+			</h4>,
+			headerTemplate
 		),
 	h4: ({ children, className, ...props }) =>
-		merge(
-			headerTemplate,
+		pipeJsx(
 			<h5 className={classNames(className, 'text-base')} {...props}>
 				{children}
-			</h5>
+			</h5>,
+			headerTemplate
 		),
 	h5: ({ children, className, ...props }) =>
-		merge(
-			headerTemplate,
+		pipeJsx(
 			<h6 className={classNames(className, 'text-sm')} {...props}>
 				{children}
-			</h6>
+			</h6>,
+			headerTemplate
 		),
 	h6: ({ children, className, ...props }) =>
-		merge(
-			headerTemplate,
+		pipeJsx(
 			<h6 className={classNames(className, 'text-xs')} {...props}>
 				{children}
-			</h6>
+			</h6>,
+			headerTemplate
 		),
 	p: ({ children, className, ...props }) => (
 		<p className={classNames(className, 'theme-4e-indent')} {...props}>
@@ -76,7 +77,7 @@ const mdxComponents: Components = {
 			{children}
 		</thead>
 	),
-	tbody: ({ children, ...props }) => <tbody {...props}>{addChildClasses(children, rowTemplate)}</tbody>,
+	tbody: ({ children, ...props }) => <tbody {...props}>{pipeJsx(<>{children}</>, recurse(rowTemplate))}</tbody>,
 	td: ({ children, className, ...props }) => (
 		<td className={classNames(className, 'px-2 font-bold')} {...props}>
 			{children}
@@ -108,7 +109,7 @@ const mdxComponents: Components = {
 			className={classNames(className, 'bg-gradient-to-r from-tan-fading p-2 my-4')}
 			style={{ pageBreakInside: 'avoid' }}
 			{...props}>
-			{addChildClasses(children, infoFontTemplate)}
+			{pipeJsx(<>{children}</>, recurse(infoFontTemplate))}
 		</blockquote>
 	),
 	img: ({ src, alt, ...props }) =>

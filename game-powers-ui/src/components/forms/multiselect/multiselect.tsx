@@ -1,7 +1,7 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon, XIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
-import { merge } from 'core/jsx/merge';
+import { pipeJsx } from 'core/jsx/pipeJsx';
 import { ReactNode, Fragment, forwardRef, ForwardedRef } from 'react';
 import { FieldValues, Path, PathValue, UseControllerProps } from 'react-hook-form';
 import { Controlled } from '../Controlled';
@@ -51,7 +51,7 @@ function MultiselectComponent<T>(
 
 	return (
 		<Listbox value={null} onChange={toggle} {...props} disabled={disabled}>
-			{merge(labelTemplate(), <Listbox.Label>{label}</Listbox.Label>)}
+			{pipeJsx(<Listbox.Label>{label}</Listbox.Label>, labelTemplate())}
 			<div className="relative mt-1">
 				<Listbox.Button
 					onBlur={onBlur}
