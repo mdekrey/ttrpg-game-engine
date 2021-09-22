@@ -33,33 +33,45 @@ public class ClassController : ClassControllerBase
     {
         if (!Guid.TryParse(id, out var guid))
             return TypeSafeGetClassResult.NotFound();
-        var classDetails = await gameStorage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(guid).ConfigureAwait(false);
+        var status = await gameStorage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(guid).ConfigureAwait(false);
 
-        return TypeSafeGetClassResult.Ok(new(Original: classDetails.Original.ToApi(), InProgress: classDetails.InProgress));
+        return status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var classDetails }
+            ? TypeSafeGetClassResult.Ok(new(Original: classDetails.Original.ToApi(), InProgress: classDetails.InProgress))
+            : TypeSafeGetClassResult.NotFound();
     }
 
     protected override async Task<TypeSafeSetPowerFlavorResult> SetPowerFlavorTypeSafe(string id, int index, SetPowerFlavorRequest setPowerFlavorBody)
     {
         if (!Guid.TryParse(id, out var guid) || index < 0)
             return TypeSafeSetPowerFlavorResult.NotFound();
-        // TODO - retry and make sure correlation id matches
-        var classDetails = await gameStorage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(guid).ConfigureAwait(false);
-
-        if (index >= classDetails.Original.Powers.Items.Count)
-            return TypeSafeSetPowerFlavorResult.NotFound();
-
-        classDetails = classDetails with
-        { 
-            Original = classDetails.Original with 
+        // TODO - retry
+        try
+        {
+            var status = await gameStorage.UpdateAsync<GeneratedClassDetails>(guid, classDetails =>
             {
-                Powers = classDetails.Original.Powers.Items.SetItem(index, classDetails.Original.Powers.Items[index] with
+                if (index >= classDetails.Original.Powers.Items.Count)
+                    throw new InvalidOperationException();
+
+                return classDetails with
                 {
-                    Name = setPowerFlavorBody.Name,
-                    FlavorText = setPowerFlavorBody.FlavorText,
-                })
-            }
-        };
-        await gameStorage.SaveAsync(guid, classDetails).ConfigureAwait(false);
-        return TypeSafeSetPowerFlavorResult.Ok();
+                    Original = classDetails.Original with
+                    {
+                        Powers = classDetails.Original.Powers.Items.SetItem(index, classDetails.Original.Powers.Items[index] with
+                        {
+                            Name = setPowerFlavorBody.Name,
+                            FlavorText = setPowerFlavorBody.FlavorText,
+                        })
+                    }
+                };
+            });
+
+            return status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success
+                ? TypeSafeSetPowerFlavorResult.Ok()
+                : TypeSafeSetPowerFlavorResult.Conflict();
+        }
+        catch (InvalidOperationException)
+        {
+            return TypeSafeSetPowerFlavorResult.NotFound();
+        }
     }
 }

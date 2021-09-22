@@ -1,7 +1,7 @@
 import { PlusIcon } from '@heroicons/react/solid';
 import { Button } from 'components/button/Button';
 import { ButtonRow } from 'components/ButtonRow';
-import { ReactNode } from 'react';
+import { Fragment, ReactNode } from 'react';
 import { FieldValues, Path, PathValue } from 'react-hook-form';
 import { FieldPropsBase } from '../FieldProps';
 import { ValidationMessages } from '../ValidationMessages';
@@ -52,9 +52,11 @@ export function ListField<
 				</Button>
 				<span className="block text-sm font-medium text-gray-700 flex-grow">{label}</span>
 			</ButtonRow>
-			{itemKeys.map((itemKey, index) =>
-				itemEditor(`${name}.${index}` as `${TName}.${number}` & Path<TFieldValues>, () => remove(index))
-			)}
+			{itemKeys.map((itemKey, index) => (
+				<Fragment key={itemKey}>
+					{itemEditor(`${name}.${index}` as `${TName}.${number}` & Path<TFieldValues>, () => remove(index))}
+				</Fragment>
+			))}
 			<ValidationMessages errors={formState.errors} name={name} />
 		</div>
 	);
