@@ -54,7 +54,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : AttackModifier(ModifierName), EffectDurationFormula.IUsesDuration
         {
-            public override int GetComplexity() => 1 + Conditions.Count / 4;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1 + Conditions.Count / 4;
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => 
                 new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(EffectDurationFormula.GetDuration(power))).Sum());
 

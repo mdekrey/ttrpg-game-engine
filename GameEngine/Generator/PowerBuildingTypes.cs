@@ -40,9 +40,9 @@ namespace GameEngine.Generator
         IEnumerable<IModifier> AllModifiers();
     }
 
-    public abstract record ModifierBuilder<TModifier>(AttackLimits Limits, ImmutableList<TModifier> Modifiers) : IModifierBuilder where TModifier : class, IModifier
+    public abstract record ModifierBuilder<TModifier>(AttackLimits Limits, ImmutableList<TModifier> Modifiers, PowerHighLevelInfo PowerInfo) : IModifierBuilder where TModifier : class, IModifier
     {
-        public int Complexity => Modifiers.Cast<IModifier>().GetComplexity();
+        public int Complexity => Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
 
         IEnumerable<IModifier> IModifierBuilder.Modifiers => Modifiers.OfType<IModifier>();
 
@@ -50,7 +50,7 @@ namespace GameEngine.Generator
     }
 
     public record AttackProfileBuilder(double Multiplier, AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
-        : ModifierBuilder<IAttackModifier>(Limits, Modifiers)
+        : ModifierBuilder<IAttackModifier>(Limits, Modifiers, PowerInfo)
     {
         public PowerCost TotalCost(PowerProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
@@ -62,7 +62,7 @@ namespace GameEngine.Generator
         public double EffectiveWeaponDice(PowerProfileBuilder builder) => Modifiers.Aggregate(WeaponDice(builder), (weaponDice, mod) => mod.ApplyEffectiveWeaponDice(weaponDice));
         public bool IsValid(PowerProfileBuilder builder)
         {
-            return TotalCost(builder).Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity()).Sum() <= Limits.MaxComplexity;
+            return TotalCost(builder).Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity(builder.PowerInfo)).Sum() <= Limits.MaxComplexity;
         }
         internal AttackProfile Build(PowerProfileBuilder builder) =>
             new AttackProfile(WeaponDice(builder), Ability, DamageTypes, Modifiers.Where(m => m.GetCost(this, builder) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
@@ -72,7 +72,7 @@ namespace GameEngine.Generator
     }
 
     public record PowerProfileBuilder(AttackLimits Limits, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers)
-        : ModifierBuilder<IPowerModifier>(Limits, Modifiers)
+        : ModifierBuilder<IPowerModifier>(Limits, Modifiers, PowerInfo)
     {
         public PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 

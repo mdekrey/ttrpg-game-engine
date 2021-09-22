@@ -18,7 +18,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record MaybeOpportunityActionModifier() : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override bool MustUpgrade() => true;
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
@@ -32,7 +32,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record OpportunityActionModifier() : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => new PowerCost(PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage) - PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage - 1));
 

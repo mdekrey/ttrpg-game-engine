@@ -151,7 +151,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record BoostModifier(EquatableImmutableList<Boost> SelfBoosts, EquatableImmutableList<Boost> AllyBoosts, AllyType AllyType) : AttackAndPowerModifier(ModifierName), EffectDurationFormula.IUsesDuration
         {
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
 
             public override PowerCost GetCost(PowerProfileBuilder power) =>
                 new PowerCost(

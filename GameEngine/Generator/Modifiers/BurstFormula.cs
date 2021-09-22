@@ -27,7 +27,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record MultipleAttackModifier() : AttackModifier(ModifierName)
         {
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => PowerCost.Empty;
             public override bool MustUpgrade() => true;
 
@@ -46,7 +46,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record BurstModifier(int Size, BurstType Type) : AttackModifier(ModifierName)
         {
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
 
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Multiplier: ((Size - 1) / 2.0 + 2) / 2.0); // TODO - is this right?
 

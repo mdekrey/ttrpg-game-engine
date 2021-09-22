@@ -147,6 +147,16 @@ namespace GameEngine.Tests
             Snapshot.Match(Serializer.Serialize(powerProfile));
         }
 
+        [Fact]
+        public void GenerateImplementStrikerPowersProfile()
+        {
+            var target = CreateTarget();
+
+            var powerProfile = target.GeneratePowerProfiles(CreateImplementStrikerProfile());
+
+            Snapshot.Match(Serializer.Serialize(powerProfile));
+        }
+
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
@@ -270,6 +280,23 @@ namespace GameEngine.Tests
                         ToolType.Weapon, ToolRange.Range, 
                         new[] { Ability.Strength, Ability.Dexterity }.ToImmutableList(),
                         new[] { DamageType.Normal, DamageType.Fire }.ToImmutableList(),
+                        new PowerProfileConfig(
+                            ImmutableList<ModifierChance>.Empty.Add(new("$", 1)),
+                            Build(new PowerChance("$", 1))
+                        )
+                    )
+                }.ToImmutableList()
+            );
+
+        private ClassProfile CreateImplementStrikerProfile() =>
+            new ClassProfile(
+                ClassRole.Striker,
+                PowerSource.Martial,
+                new ToolProfile[] {
+                    new(
+                        ToolType.Implement, ToolRange.Range,
+                        new[] { Ability.Wisdom }.ToImmutableList(),
+                        new[] { DamageType.Normal }.ToImmutableList(),
                         new PowerProfileConfig(
                             ImmutableList<ModifierChance>.Empty.Add(new("$", 1)),
                             Build(new PowerChance("$", 1))

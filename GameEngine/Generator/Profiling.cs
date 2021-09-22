@@ -59,14 +59,14 @@ namespace GameEngine.Generator
     public interface IModifier
     {
         string Name { get; }
-        int GetComplexity();
+        int GetComplexity(PowerHighLevelInfo powerInfo);
         bool IsMetaModifier();
         bool MustUpgrade();
     }
 
     public static class ModifierHelpers
     {
-        public static int GetComplexity(this IEnumerable<IModifier> modifiers) => modifiers.Select(m => m.GetComplexity()).DefaultIfEmpty(0).Sum();
+        public static int GetComplexity(this IEnumerable<IModifier> modifiers, PowerHighLevelInfo powerInfo) => modifiers.Select(m => m.GetComplexity(powerInfo)).DefaultIfEmpty(0).Sum();
     }
 
     public enum UpgradeStage
@@ -107,7 +107,7 @@ namespace GameEngine.Generator
 
     public abstract record PowerModifier(string Name) : IPowerModifier
     {
-        public abstract int GetComplexity();
+        public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
         public virtual bool MustUpgrade() => false;
@@ -119,7 +119,7 @@ namespace GameEngine.Generator
 
     public abstract record AttackModifier(string Name) : IAttackModifier
     {
-        public abstract int GetComplexity();
+        public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public abstract PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power);
         public virtual bool IsMetaModifier() => false;
         public virtual bool MustUpgrade() => false;
@@ -131,7 +131,7 @@ namespace GameEngine.Generator
 
     public abstract record AttackAndPowerModifier(string Name) : IAttackModifier, IPowerModifier
     {
-        public abstract int GetComplexity();
+        public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsMetaModifier() => false;
         public virtual bool MustUpgrade() => false;

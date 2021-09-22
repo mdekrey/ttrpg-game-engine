@@ -4,7 +4,7 @@ Tool: Implement
 ToolRange: Range
 PowerSource: Arcane
 Attacks:
-- WeaponDice: 1
+- WeaponDice: 0.5
   Ability: Strength
   DamageTypes:
   - Radiant
@@ -19,4 +19,6 @@ Attacks:
       Amount: STR
       Name: Shift
     Name: Skirmish Movement
+  - Amount: +2
+    Name: To-Hit Bonus to Current Attack
 Modifiers: []

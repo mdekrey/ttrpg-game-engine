@@ -109,7 +109,10 @@ namespace GameEngine.Generator
             var powerProfileBuilder = RootBuilder(basePower, powerInfo);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.AttackSetup, exclude: toExclude);
 
-            var options = powerProfileBuilder.Attacks.Aggregate(Enumerable.Repeat(ImmutableList<AttackProfileBuilder>.Empty, 1), (prev, next) => prev.SelectMany(l => next.PreApply(UpgradeStage.InitializeAttacks, powerProfileBuilder).Select(o => l.Add(o))))
+            var options = powerProfileBuilder.Attacks.Aggregate(
+                    Enumerable.Repeat(ImmutableList<AttackProfileBuilder>.Empty, 1), 
+                    (prev, next) => prev.SelectMany(l => next.PreApply(UpgradeStage.InitializeAttacks, powerProfileBuilder).Select(o => l.Add(o)))
+                )
                 .Select(attacks => powerProfileBuilder with
                 {
                     Attacks = attacks
@@ -172,7 +175,7 @@ namespace GameEngine.Generator
         private PowerProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info)
         {
             var result = new PowerProfileBuilder(
-                new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
+                new AttackLimits(basePower,
                     Minimum: GetAttackMinimumPower(basePower, info.ClassProfile.Role, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
                 ),
@@ -190,13 +193,15 @@ namespace GameEngine.Generator
                     Minimum: GetAttackMinimumPower(basePower, info.ClassProfile.Role, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
                 ),
-                randomGenerator.RandomEscalatingSelection(
+                randomGenerator.RandomSelection(
                     info.ToolProfile.Abilities
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
+                        .Select(v => new RandomChances<Ability>(v))
                 ),
-                Build(randomGenerator.RandomEscalatingSelection(
-                    info.ToolProfile.PreferredDamageTypes.Where(d => d != DamageType.Normal || info.ToolProfile.Type == ToolType.Weapon)
+                Build(randomGenerator.RandomSelection(
+                    info.ToolProfile.PreferredDamageTypes
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
+                        .Select(v => new RandomChances<DamageType>(v))
                 )),
                 ImmutableList<IAttackModifier>.Empty,
                 info

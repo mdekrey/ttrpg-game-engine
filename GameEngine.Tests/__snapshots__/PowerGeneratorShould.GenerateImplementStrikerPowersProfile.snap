@@ -1,0 +1,1953 @@
+﻿- Level: 1
+  Usage: AtWill
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 0.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Name: UpToThreeTargets
+  Modifiers: []
+- Level: 1
+  Usage: AtWill
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 0.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Name: UpToThreeTargets
+  Modifiers: []
+- Level: 1
+  Usage: AtWill
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 0.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: UpToThreeTargets
+  Modifiers: []
+- Level: 1
+  Usage: AtWill
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 0.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 1
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: TwoHits
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 1
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: TwoHits
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 1
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 1
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Reflex
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 1
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.25
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: TwoHits
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: After
+        Amount: WIS
+        Name: Shift
+      Name: Skirmish Movement
+  Modifiers: []
+- Level: 1
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+  - WeaponDice: 1.75
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Anytime
+        Amount: WIS
+        Name: Shift
+      Name: Skirmish Movement
+    - Effects:
+      - Name: Prone
+      - Mode: Pull
+        Amount: +2
+        Name: Slide Opponent
+      Name: MovementControl
+    - Amount: +2
+      Name: To-Hit Bonus to Current Attack
+  Modifiers: []
+- Level: 1
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.2391304347826089
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 1.6413043478260874
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts:
+      - Amount: +2
+        Name: Temporary Hit Points
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  Modifiers: []
+- Level: 1
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.25
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  - WeaponDice: 1.25
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Anytime
+        Amount: WIS
+        Name: Shift
+      Name: Skirmish Movement
+    - SelfBoosts: []
+      AllyBoosts:
+      - Amount: WIS
+        Limit: NextAttack
+        Name: Attack
+      AllyType: All
+      Name: Boost
+  Modifiers: []
+- Level: 3
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 0.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts: []
+      AllyBoosts:
+      - Amount: WIS
+        Limit: Target
+        Name: Attack
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
+- Level: 3
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 0.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: UpToThreeTargets
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts: []
+      AllyBoosts:
+      - Amount: +2
+        Defense: Will
+        Name: Defense
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
+- Level: 3
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: TwoHits
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 3
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+  - WeaponDice: 1.75
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers:
+  - SelfBoosts:
+    - Amount: WIS
+      Name: Temporary Hit Points
+    AllyBoosts: []
+    AllyType: Single
+    Name: Boost
+- Level: 5
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.7000000000000002
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 1.8000000000000003
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Name: RequiredHitForNextAttack
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Amount: +4
+      Name: To-Hit Bonus to Current Attack
+  - WeaponDice: 1.6500000000000001
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 5
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 3.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: UpToThreeTargets
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 5
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 3.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 5
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Reflex
+      Name: Non-Armor Defense
+  - WeaponDice: 1.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Name: RequiresPreviousHit
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts:
+      - Amount: WIS
+        Name: Temporary Hit Points
+      - Amount: WIS
+        Limit: Target
+        Name: Attack
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - SelfBoosts:
+    - Name: Extra Saving Throw
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    AllyBoosts: []
+    AllyType: Single
+    Name: Boost
+  - Duration: EndOfEncounter
+    Name: Duration
+- Level: 7
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.2000000000000002
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  - WeaponDice: 1.7000000000000002
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Name: RequiresPreviousHit
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts:
+      - Amount: WIS
+        Name: Temporary Hit Points
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  Modifiers: []
+- Level: 7
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.0000000000000002
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+  - WeaponDice: 1.75
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers:
+  - SelfBoosts: []
+    AllyBoosts:
+    - Amount: +2
+      Name: Temporary Hit Points
+    AllyType: Single
+    Name: Boost
+- Level: 7
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: TwoHits
+    - Defense: Will
+      Name: Non-Armor Defense
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
+  - SelfBoosts:
+    - Amount: +2
+      Limit: Target
+      Name: Attack
+    AllyBoosts:
+    - Amount: +2
+      Defense: Reflex
+      Name: Defense
+    AllyType: Single
+    Name: Boost
+- Level: 7
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: UpToThreeTargets
+  Modifiers: []
+- Level: 9
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.25
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: TwoHits
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts:
+      - Amount: WIS
+        Name: Temporary Hit Points
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  Modifiers: []
+- Level: 9
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.1428571428571432
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+  - WeaponDice: 2.3571428571428577
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts: []
+      AllyBoosts:
+      - Amount: WIS + 2
+        Limit: NextAttack
+        Name: Attack
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - SelfBoosts: []
+    AllyBoosts:
+    - Amount: +2
+      Name: Temporary Hit Points
+    AllyType: Single
+    Name: Boost
+- Level: 9
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.5952380952380953
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 1.1666666666666665
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Anytime
+        Amount: WIS
+        Name: Shift
+      Name: Skirmish Movement
+  - WeaponDice: 1.2380952380952381
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 9
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 4.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Name: UpToThreeTargets
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 11
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.3888888888888888
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 1.1111111111111112
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 11
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+  - WeaponDice: 1.75
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 1.75
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 11
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Will
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 11
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: UpToThreeTargets
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts: []
+      AllyBoosts:
+      - Amount: WIS
+        Limit: NextAttack
+        Name: Attack
+      AllyType: Single
+      Name: Boost
+  Modifiers: []
+- Level: 13
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.1111111111111112
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  - WeaponDice: 1.3888888888888888
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - SelfBoosts:
+      - Name: Extra Saving Throw
+      - Amount: WIS
+        Limit: Target
+        Name: Attack
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
+- Level: 13
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  - WeaponDice: 1.75
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Name: RequiredHitForNextAttack
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 1.75
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: RequiresPreviousHit
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 13
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.1000000000000001
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 1.6000000000000001
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Effects:
+      - Name: Prone
+      - Mode: Pull
+        Amount: +1
+        Name: Slide Opponent
+      Name: MovementControl
+  Modifiers: []
+- Level: 13
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Amount: +2
+      Name: To-Hit Bonus to Current Attack
+  Modifiers: []
+- Level: 15
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 3.4473684210526319
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 4.8289473684210531
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: RequiresPreviousHit
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 15
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.3125
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 2.1875
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts:
+      - Amount: +2
+        Defense: Reflex
+        Name: Defense
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - Duration: EndOfEncounter
+    Name: Duration
+- Level: 15
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.6578947368421053
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 3.2631578947368434
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts: []
+      AllyBoosts:
+      - Amount: +2
+        Name: Temporary Hit Points
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - SelfBoosts:
+    - Name: Healing Surge
+    - Amount: WIS
+      Name: Temporary Hit Points
+    AllyBoosts: []
+    AllyType: Single
+    Name: Boost
+- Level: 15
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 3.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Slowed
+      Name: Condition
+  Modifiers:
+  - Duration: EndOfEncounter
+    Name: Duration
+- Level: 17
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.25
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: TwoHits
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers:
+  - SelfBoosts:
+    - Amount: WIS
+      Limit: NextAttack
+      Name: Attack
+    AllyBoosts: []
+    AllyType: Single
+    Name: Boost
+- Level: 17
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  - WeaponDice: 1.75
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 1.75
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Name: RequiresPreviousHit
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 17
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: TwoHits
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: After
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+  Modifiers: []
+- Level: 17
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Name: TwoHits
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
+  - SelfBoosts:
+    - Amount: +2
+      Defense: Reflex
+      Name: Defense
+    AllyBoosts:
+    - Amount: WIS
+      Name: Temporary Hit Points
+    AllyType: Single
+    Name: Boost
+- Level: 19
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.0399999999999998
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+  - WeaponDice: 2.5099999999999998
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Anytime
+        Amount: WIS
+        Name: Shift
+      Name: Skirmish Movement
+  - WeaponDice: 1.6800000000000006
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: RequiresPreviousHit
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Amount: +2
+      Name: To-Hit Bonus to Current Attack
+    - Conditions:
+      - Name: Dazed
+      - Name: Slowed
+      Name: Condition
+  Modifiers:
+  - Duration: SaveEnds
+    Name: Duration
+  - SelfBoosts: []
+    AllyBoosts:
+    - Amount: +2
+      Defense: ArmorClass
+      Name: Defense
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    - Amount: +2
+      Name: Temporary Hit Points
+    AllyType: Single
+    Name: Boost
+- Level: 19
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 3.25
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Name: TwoHits
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers:
+  - SelfBoosts: []
+    AllyBoosts:
+    - Amount: WIS
+      Name: Temporary Hit Points
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    AllyType: Single
+    Name: Boost
+- Level: 19
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 6.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 19
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.2826086956521738
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 3.195652173913043
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts:
+      - Amount: WIS + 2
+        Name: Temporary Hit Points
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  - WeaponDice: 3.1304347826086958
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Will
+      Name: Non-Armor Defense
+  Modifiers:
+  - SelfBoosts: []
+    AllyBoosts:
+    - Amount: +2
+      Name: Temporary Hit Points
+    AllyType: Single
+    Name: Boost
+- Level: 20
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 4.3488372093023253
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+  - WeaponDice: 6.2267441860465107
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 20
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.8055555555555554
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 2.1944444444444446
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts:
+      - Amount: +2
+        Defense: ArmorClass
+        Name: Defense
+      - Amount: WIS
+        Limit: NextAttack
+        Name: Attack
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - Duration: EndOfEncounter
+    Name: Duration
+- Level: 20
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 3.8235294117647065
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 2.1764705882352939
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers:
+  - SelfBoosts:
+    - Name: Healing Surge
+    AllyBoosts:
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    AllyType: Single
+    Name: Boost
+- Level: 20
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.4565217391304346
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 3.4891304347826084
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: After
+        Amount: WIS
+        Name: Shift
+      Name: Skirmish Movement
+    - SelfBoosts:
+      - Amount: WIS
+        Name: Temporary Hit Points
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  - WeaponDice: 3.3260869565217392
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Reflex
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 23
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.4411764705882351
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 3.0882352941176467
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Name: RequiresPreviousHit
+  Modifiers: []
+- Level: 23
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.4411764705882351
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 3.0882352941176467
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Will
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 23
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Will
+      Name: Non-Armor Defense
+  - WeaponDice: 3
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Anytime
+        Amount: WIS
+        Name: Shift
+      Name: Skirmish Movement
+    - Effects:
+      - Mode: Slide
+        Amount: +1
+        Name: Slide Opponent
+      Name: MovementControl
+  Modifiers: []
+- Level: 23
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: TwoHits
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
+  - SelfBoosts:
+    - Name: Healing Surge
+    AllyBoosts:
+    - Amount: WIS
+      Limit: Target
+      Name: Attack
+    AllyType: All
+    Name: Boost
+- Level: 25
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1.102409638554217
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 4.1506024096385543
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Anytime
+        Amount: WIS
+        Name: Shift
+      Name: Skirmish Movement
+  - WeaponDice: 1.6957831325301216
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Effects:
+      - Mode: Pull
+        Amount: +1
+        Name: Slide Opponent
+      Name: MovementControl
+    - Conditions:
+      - Name: Immobilized
+      Name: Condition
+  Modifiers:
+  - Duration: EndOfEncounter
+    Name: Duration
+- Level: 25
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 7.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 25
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 5.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
+  Modifiers:
+  - SelfBoosts:
+    - Amount: WIS
+      Limit: Target
+      Name: Attack
+    AllyBoosts: []
+    AllyType: Single
+    Name: Boost
+  - Duration: SaveEnds
+    Name: Duration
+- Level: 25
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 3
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 4.75
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers:
+  - Duration: EndOfEncounter
+    Name: Duration
+  - SelfBoosts:
+    - Amount: +2
+      Defense: Fortitude
+      Name: Defense
+    AllyBoosts:
+    - Amount: WIS
+      Limit: NextAttack
+      Name: Attack
+    AllyType: Single
+    Name: Boost
+- Level: 27
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.9090909090909092
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 1.0909090909090908
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 27
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 3.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 27
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 1
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Name: TwoHits
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Dazed
+      - Name: Slowed
+      Name: Condition
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
+- Level: 27
+  Usage: Encounter
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 2.4411764705882351
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 3.0882352941176467
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  Modifiers: []
+- Level: 29
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 5.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - SelfBoosts: []
+      AllyBoosts:
+      - Amount: +2
+        Limit: Target
+        Name: Attack
+      AllyType: Single
+      Name: Boost
+    - Conditions:
+      - Name: Blinded
+      Name: Condition
+  Modifiers:
+  - Duration: SaveEnds
+    Name: Duration
+- Level: 29
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 8.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 29
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 4.6509433962264151
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  - WeaponDice: 4.5235849056603783
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Will
+      Name: Non-Armor Defense
+    - Name: RequiresPreviousHit
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: After
+        Amount: +2
+        Name: Shift
+      Name: Skirmish Movement
+    - Effects:
+      - Mode: Slide
+        Amount: +1
+        Name: Slide Opponent
+      Name: MovementControl
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
+  Modifiers:
+  - Duration: EndOfEncounter
+    Name: Duration
+- Level: 29
+  Usage: Daily
+  Tool: Implement
+  ToolRange: Range
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 6.5
+    Ability: Wisdom
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Defense: Reflex
+      Name: Non-Armor Defense
+    - Name: UpToThreeTargets
+    - Abilities:
+      - Wisdom
+      Name: Ability Modifier Damage
+  Modifiers:
+  - SelfBoosts:
+    - Amount: WIS + 2
+      Limit: NextAttack
+      Name: Attack
+    AllyBoosts:
+    - Amount: WIS
+      Name: Temporary Hit Points
+    AllyType: All
+    Name: Boost

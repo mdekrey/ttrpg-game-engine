@@ -19,7 +19,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record ShouldMultiattackModifier() : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override bool MustUpgrade() => true;
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage)
@@ -58,7 +58,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record DelegateModifier(IAttackModifier AttackModifier, Transform<AttackLimits>? limitTransform = null) : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => AttackModifier.GetComplexity();
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => AttackModifier.GetComplexity(powerInfo);
             public override PowerCost GetCost(PowerProfileBuilder power) => AttackModifier.GetCost(power.Attacks[0], power);
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
@@ -84,7 +84,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record SplitAttackModifier(ImmutableList<double> Amounts, bool RequiresPreviousHit) : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => RequiresPreviousHit ? 1 : 2;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => RequiresPreviousHit ? 1 : 2;
 
             public override PowerCost GetCost(PowerProfileBuilder power) =>
                 new (Fixed: Amounts.Take(Amounts.Count - 1).Select((v, i) => v * (i == 0 || !RequiresPreviousHit ? 1 : 0.5)).Sum() - power.Attacks.Select(a => a.TotalCost(power).Fixed).Sum());
@@ -121,7 +121,7 @@ namespace GameEngine.Generator.Modifiers
                                     > 0 when RequiresPreviousHit => cost * SecondaryAttackModifier.FollowupAttackPower,
                                     _ => cost,
                                 },
-                                MaxComplexity = index switch { 0 => 0, _ => attack.Limits.MaxComplexity - GetComplexity() },
+                                MaxComplexity = index switch { 0 => 0, _ => attack.Limits.MaxComplexity - GetComplexity(attack.PowerInfo) },
                             }
                         }
                     ).ToImmutableList(),
@@ -133,7 +133,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record MultiattackAppliedModifier() : PowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 0;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
             public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
@@ -141,7 +141,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record MustHitForNextAttackModifier() : AttackModifier(MustHitForNextAttackModifier.ModifierName)
         {
-            public override int GetComplexity() => 0;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
 
             public const string ModifierName = "RequiredHitForNextAttack";
 
@@ -161,7 +161,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public const double FollowupAttackPower = 1.5;
 
-            public override int GetComplexity() => 0;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
 
             public const string ModifierName = "RequiresPreviousHit";
 
@@ -177,7 +177,7 @@ namespace GameEngine.Generator.Modifiers
         public record TwoHitsModifier() : AttackModifier(ModifierName)
         {
             // TODO - modifiers if both hit
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public const string ModifierName = "TwoHits";
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
                 PowerCost.Empty;
@@ -196,7 +196,7 @@ namespace GameEngine.Generator.Modifiers
         // Identical attacks against up to 3 targets.
         public record UpToThreeTargetsModifier() : AttackModifier(ModifierName)
         {
-            public override int GetComplexity() => 0;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
             public const string ModifierName = "UpToThreeTargets";
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(1.5);
             public override bool IsMetaModifier() => true;

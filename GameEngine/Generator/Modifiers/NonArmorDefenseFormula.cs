@@ -19,11 +19,13 @@ namespace GameEngine.Generator.Modifiers
 
         public record NonArmorDefenseModifier(DefenseType Defense) : AttackModifier(ModifierName)
         {
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => powerInfo.ToolProfile.Type == ToolType.Implement ? 0 : 1;
 
             public override bool MustUpgrade() => Defense == DefenseType.ArmorClass;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Defense == DefenseType.ArmorClass ? 0 : 0.5);
+            public override bool IsMetaModifier() => Defense != DefenseType.ArmorClass;
+
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Defense == DefenseType.ArmorClass || power.PowerInfo.ToolProfile.Type == ToolType.Implement ? 0 : 0.5);
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
             {

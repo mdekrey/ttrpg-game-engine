@@ -4,10 +4,12 @@ Tool: Implement
 ToolRange: Range
 PowerSource: Arcane
 Attacks:
-- WeaponDice: 1.25
+- WeaponDice: 1
   Ability: Strength
   DamageTypes:
   - Radiant
   Modifiers:
   - Name: TwoHits
+  - Defense: Fortitude
+    Name: Non-Armor Defense
 Modifiers: []

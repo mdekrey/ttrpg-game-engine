@@ -26,7 +26,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record EmptySkirmishModifier() : AttackAndPowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override PowerCost GetCost(PowerProfileBuilder power) => PowerCost.Empty;
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
@@ -116,7 +116,7 @@ namespace GameEngine.Generator.Modifiers
         }
         public record SkirmishMovementModifier(EquatableImmutableList<SkirmishMovement> Movement) : AttackAndPowerModifier(ModifierName)
         {
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
 
             public override PowerCost GetCost(PowerProfileBuilder power) => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 

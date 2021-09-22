@@ -25,7 +25,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : AttackModifier(ModifierName)
         {
-            public override int GetComplexity() => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
                 new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
 

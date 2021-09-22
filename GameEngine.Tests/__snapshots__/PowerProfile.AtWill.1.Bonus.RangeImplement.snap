@@ -18,9 +18,9 @@ Attacks:
     - Amount: +2
       Limit: NextAttack
       Name: Attack
-    - Amount: +2
-      Name: Temporary Hit Points
     AllyBoosts: []
     AllyType: Single
     Name: Boost
+  - Amount: +2
+    Name: To-Hit Bonus to Current Attack
 Modifiers: []

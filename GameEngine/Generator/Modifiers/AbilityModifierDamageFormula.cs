@@ -17,7 +17,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record AbilityDamageModifier(EquatableImmutableList<Ability> Abilities) : AttackModifier(ModifierName)
         {
-            public override int GetComplexity() => 0;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
 
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Abilities.Items.Count * 0.5);
 
