@@ -21,9 +21,11 @@ RUN dotnet publish "GameEngine.Web.csproj" -c Release -o /app/publish /p:SkipUiB
 
 FROM node:16 AS build-ui
 WORKDIR /src
-RUN apt-get update \
-  && mkdir -p /usr/share/man/man1/ \
-  && apt-get install -y openjdk-11-jre-headless \
+RUN wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+  && dpkg -i packages-microsoft-prod.deb \
+  && rm packages-microsoft-prod.deb \
+  && apt-get update \
+  && apt-get install -y apt-transport-https aspnetcore-runtime-3.1 \
   && apt-get clean
 
 COPY ["./game-powers-ui/package.json", "./game-powers-ui/"]
