@@ -8,13 +8,13 @@ import { useApi } from 'core/hooks/useApi';
 import { useGameForm } from 'core/hooks/useGameForm';
 import { useObservable } from 'core/hooks/useObservable';
 import { initial, isLoading, Loadable, makeError, makeLoaded, makeLoading } from 'core/loadable/loadable';
-import { map, startWith, switchAll } from 'rxjs/operators';
-import { SaveIcon } from '@heroicons/react/solid';
+import { map, startWith, switchAll, tap } from 'rxjs/operators';
+import { SaveIcon, TrashIcon } from '@heroicons/react/solid';
 import { ButtonRow } from 'components/ButtonRow';
 import { Spinner } from 'components/spinner/spinner';
-import { useMemo } from 'react';
 import { Subject } from 'rxjs';
 import { RequestParams } from 'api/operations/setPowerFlavor';
+import useConstant from 'use-constant';
 
 export type PowerTextInfo = {
 	name: string;
@@ -26,9 +26,18 @@ export const powerTextInfoSchema: yup.SchemaOf<PowerTextInfo> = yup.object({
 	flavorText: yup.string().required().label('Flavor Text'),
 });
 
-export function PowerEdit({ power, param }: { power: PowerTextProfile; param: RequestParams }) {
+export function PowerEdit({
+	power,
+	param,
+	onRequestReload,
+}: {
+	power: PowerTextProfile;
+	param: RequestParams;
+	onRequestReload: () => void;
+}) {
 	const api = useApi();
-	const submitSubject = useMemo(() => new Subject<PowerTextInfo>(), []);
+	const submitSubject = useConstant(() => new Subject<PowerTextInfo>());
+	const deleteSubject = useConstant(() => new Subject<void>());
 	const { powerUsage, attackType, name: originalName, flavorText: originalFlavor, ...text } = power.text;
 
 	const { handleSubmit, ...form } = useGameForm<PowerTextInfo>({
@@ -39,7 +48,7 @@ export function PowerEdit({ power, param }: { power: PowerTextProfile; param: Re
 		schema: powerTextInfoSchema,
 	});
 
-	const maybe = useObservable<Loadable<boolean>>(
+	const maybeSaving = useObservable<Loadable<boolean>>(
 		() =>
 			submitSubject.pipe(
 				map((data) =>
@@ -53,7 +62,24 @@ export function PowerEdit({ power, param }: { power: PowerTextProfile; param: Re
 		initial
 	);
 
-	const disabled = isLoading(maybe);
+	const maybeDeleting = useObservable<Loadable<boolean>>(
+		() =>
+			deleteSubject.pipe(
+				map(() =>
+					api.replacePower(param).pipe(
+						map((response) => (response.statusCode === 200 ? makeLoaded(true) : makeError(response))),
+						startWith(makeLoading()),
+						tap((status) => status.type === 'loaded' && onRequestReload && onRequestReload())
+					)
+				),
+				switchAll()
+			),
+		initial
+	);
+
+	const disabled = isLoading(maybeSaving);
+
+	if (maybeDeleting.type === 'loaded') return null;
 
 	return (
 		<div className="grid grid-cols-3 gap-4">
@@ -72,7 +98,10 @@ export function PowerEdit({ power, param }: { power: PowerTextProfile; param: Re
 				<TextboxField label="Flavor Text" form={form} name="flavorText" disabled={disabled} />
 				<ButtonRow>
 					<Button contents="icon" type="submit" disabled={disabled}>
-						{disabled ? <Spinner /> : <SaveIcon className="w-5 h-5" />}
+						{isLoading(maybeSaving) ? <Spinner /> : <SaveIcon className="w-5 h-5" />}
+					</Button>
+					<Button contents="icon" look="cancel" disabled={disabled} onClick={() => deleteSubject.next()}>
+						{isLoading(maybeDeleting) ? <Spinner /> : <TrashIcon className="w-5 h-5" />}
 					</Button>
 				</ButtonRow>
 			</form>

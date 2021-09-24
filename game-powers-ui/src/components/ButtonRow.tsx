@@ -6,6 +6,6 @@ export function ButtonRow({
 	...props
 }: JSX.IntrinsicElements['div'] & { reversed?: boolean }) {
 	return (
-		<div className={classNames(className, { 'flex-row-reverse': reversed }, 'flex justify-start gap-4')} {...props} />
+		<div className={classNames(className, { 'flex-row-reverse': reversed }, 'flex justify-start gap-2')} {...props} />
 	);
 }

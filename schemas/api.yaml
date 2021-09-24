@@ -311,6 +311,26 @@ paths:
         200:
           description: OK
         404:
-          description: Class not found
+          description: Class or power not found
+        409:
+          description: Failed to save due to async changes
+    delete:
+      operationId: replacePower
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: index
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Power removed and new one will be added
+        404:
+          description: Class or power not found
         409:
           description: Failed to save due to async changes

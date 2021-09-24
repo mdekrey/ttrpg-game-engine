@@ -6,10 +6,12 @@ export function PowerSection({
 	header,
 	powers,
 	classId,
+	onRequestReload,
 }: {
 	header: string;
 	powers: (PowerTextProfile & { index: number })[];
 	classId: string;
+	onRequestReload: () => void;
 }) {
 	return (
 		<section>
@@ -20,7 +22,7 @@ export function PowerSection({
 						{i === 0 && (
 							<h2 className={classNames('font-header font-bold', 'mt-4 first:mt-0', 'text-theme text-xl')}>{header}</h2>
 						)}
-						<PowerEdit power={p} param={{ id: classId, _index: p.index }} />
+						<PowerEdit power={p} param={{ id: classId, _index: p.index }} onRequestReload={onRequestReload} />
 					</article>
 				);
 			})}

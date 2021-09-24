@@ -6,16 +6,20 @@ import { initial, Loadable, makeError, makeLoaded, makeLoading } from 'core/load
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { Dictionary } from 'lodash';
 import { groupBy } from 'lodash/fp';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { delay, map, repeatWhen, switchAll, takeWhile } from 'rxjs/operators';
+import useConstant from 'use-constant';
 import { PowerSection } from './powers/PowerSection';
 
 type ReasonCode = 'NotFound';
 
 export function PowerEditor({ data: { classId } }: { data: { classId: string } }) {
+	const restartPolling = useConstant(() => new BehaviorSubject<void>(undefined));
 	const api = useApi();
 	const data = useObservable(
 		(input$) =>
-			input$.pipe(
+			combineLatest([input$, restartPolling]).pipe(
+				map(([inputs]) => inputs),
 				map(([id]) =>
 					api.getClass({ id }).pipe(
 						repeatWhen((completed) => completed.pipe(delay(1000))),
@@ -45,7 +49,13 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 						<div className="storybook-md-theme">
 							<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl">{loaded.name}</h1>
 							{Object.keys(loaded.powers).map((header) => (
-								<PowerSection header={header} key={header} powers={loaded.powers[header]} classId={classId} />
+								<PowerSection
+									header={header}
+									key={header}
+									powers={loaded.powers[header]}
+									classId={classId}
+									onRequestReload={() => restartPolling.next()}
+								/>
 							))}
 						</div>
 						{isLoadingNext ? <>Loading</> : null}

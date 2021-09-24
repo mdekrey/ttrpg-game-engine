@@ -40,6 +40,42 @@ public class ClassController : ClassControllerBase
             : TypeSafeGetClassResult.NotFound();
     }
 
+    protected override async Task<TypeSafeReplacePowerResult> ReplacePowerTypeSafe(string id, int index)
+    {
+        if (!Guid.TryParse(id, out var guid) || index < 0)
+            return TypeSafeReplacePowerResult.NotFound();
+        // TODO - retry
+        try
+        {
+            var status = await gameStorage.UpdateAsync<GeneratedClassDetails>(guid, classDetails =>
+            {
+                if (index >= classDetails.Original.Powers.Items.Count)
+                    throw new InvalidOperationException();
+
+                return classDetails with
+                {
+                    Original = classDetails.Original with
+                    {
+                        Powers = classDetails.Original.Powers.Items.RemoveAt(index)
+                    }
+                };
+            });
+
+            if (status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var v })
+            {
+                if (!v.InProgress)
+                    await asyncClassGenerator.ResumeGeneratingNewClass(guid);
+                return TypeSafeReplacePowerResult.Ok();
+            }
+
+            return TypeSafeReplacePowerResult.Conflict();
+        }
+        catch (InvalidOperationException)
+        {
+            return TypeSafeReplacePowerResult.NotFound();
+        }
+    }
+
     protected override async Task<TypeSafeSetPowerFlavorResult> SetPowerFlavorTypeSafe(string id, int index, SetPowerFlavorRequest setPowerFlavorBody)
     {
         if (!Guid.TryParse(id, out var guid) || index < 0)
