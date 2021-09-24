@@ -114,10 +114,7 @@ namespace GameEngine.Generator
                     Enumerable.Repeat(ImmutableList<AttackProfileBuilder>.Empty, 1), 
                     (prev, next) => prev.SelectMany(l => next.PreApply(UpgradeStage.InitializeAttacks, powerProfileBuilder).Select(o => l.Add(o)))
                 )
-                .Select(attacks => powerProfileBuilder with
-                {
-                    Attacks = attacks
-                })
+                .Select(attacks => powerProfileBuilder with { Attacks = attacks })
                 .Where(pb => !toExclude.Contains(pb.Build()))
                 .ToArray();
             if (options.Length > 0)

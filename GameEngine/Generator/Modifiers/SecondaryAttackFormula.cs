@@ -42,7 +42,7 @@ namespace GameEngine.Generator.Modifiers
                                   new[] { available / 3, available / 3, available / 3 },
                                   new[] { available / 3 - 1, available / 3, available / 3 + 1 },
                               }
-                              where !set.Any(v => v < 1)
+                              where !set.Any(v => (power.Limits.Initial == 2) ? v < 1 : v < 1.5)
                               from reversed in new[] { set, set.Reverse().ToArray() }
                               let withAllocated = reversed.Take(reversed.Length - 1).Concat(new[] { reversed.Last() + allocated })
                               select new EquatableImmutableList<double>(withAllocated.ToImmutableList())).Distinct();
