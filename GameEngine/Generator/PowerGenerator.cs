@@ -78,6 +78,7 @@ namespace GameEngine.Generator
             }
             catch (Exception ex)
             {
+                if (logger == null) throw;
                 logger.LogError(ex, "While creating another power {usage} {level} for {tool}", powerInfo.Usage.ToText(), powerInfo.Level, powerInfo.ToolProfile);
                 return null;
             }
@@ -119,7 +120,8 @@ namespace GameEngine.Generator
                 })
                 .Where(pb => !toExclude.Contains(pb.Build()))
                 .ToArray();
-            powerProfileBuilder = options.ToChances(powerInfo.ToolProfile.PowerProfileConfig, skipProfile: true).RandomSelection(randomGenerator);
+            if (options.Length > 0)
+                powerProfileBuilder = options.ToChances(powerInfo.ToolProfile.PowerProfileConfig, skipProfile: true).RandomSelection(randomGenerator);
 
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.InitializeAttacks, exclude: toExclude);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Standard, exclude: toExclude);
@@ -177,7 +179,7 @@ namespace GameEngine.Generator
             var result = new PowerProfileBuilder(
                 new AttackLimits(basePower,
                     Minimum: GetAttackMinimumPower(basePower, info.ClassProfile.Role, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
-                    MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
+                    MaxComplexity: GetAttackMaxComplexity(info.Usage)
                 ),
                 info,
                 Build(RootAttackBuilder(basePower, info, randomGenerator)),

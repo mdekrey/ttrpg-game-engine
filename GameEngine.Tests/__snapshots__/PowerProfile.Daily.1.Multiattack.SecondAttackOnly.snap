@@ -13,7 +13,7 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-- WeaponDice: 1.5500000000000007
+- WeaponDice: 1.7000000000000002
   Ability: Strength
   DamageTypes:
   - Normal
@@ -22,11 +22,9 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Conditions:
-    - Name: Dazed
-    Name: Condition
-  - Amount: +4
-    Name: To-Hit Bonus to Current Attack
-Modifiers:
-- Duration: SaveEnds
-  Name: Duration
+  - Defense: Fortitude
+    Name: Non-Armor Defense
+  - Size: 3
+    Type: Burst
+    Name: Multiple
+Modifiers: []

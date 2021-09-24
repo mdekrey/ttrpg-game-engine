@@ -4,27 +4,24 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1
+  - WeaponDice: 1.166666666666667
     Ability: Strength
     DamageTypes:
     - Normal
     Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Amount: +4
-      Name: To-Hit Bonus to Current Attack
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Size: 3
+      Type: Burst
+      Name: Multiple
     - Conditions:
       - Name: Blinded
       - Name: Dazed
-      - Name: Slowed
       Name: Condition
-    - Effects:
-      - Name: Prone
-      - Mode: Pull
-        Amount: +2
-        Name: Slide Opponent
-      Name: MovementControl
+    - Abilities:
+      - Strength
+      - Dexterity
+      Name: Ability Modifier Damage
   Modifiers:
   - Duration: SaveEnds
     Name: Duration
@@ -35,12 +32,10 @@
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Melee
-  AttackTypeDetails: weapon
-  Target: One creature
-  Attack: STR + 4 vs. AC
+  AttackType: Close
+  AttackTypeDetails: burst 1
+  Target: Each enemy in range
+  Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, the target is blinded, dazed, and slowed (save ends), and the target is knocked prone.
-  - Label: Special
-    Text: Before the attack, you may pull targets +2 squares to become valid targets of the attack.
+    Text: 1[W] + STR + DEX damage and the target is blinded and dazed (save ends.)

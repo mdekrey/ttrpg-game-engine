@@ -19,7 +19,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record NonArmorDefenseModifier(DefenseType Defense) : AttackModifier(ModifierName)
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => powerInfo.ToolProfile.Type == ToolType.Implement ? 0 : 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => (powerInfo.ToolProfile.Type == ToolType.Implement || IsPlaceholder()) ? 0 : 1;
 
             public override bool MustUpgrade() => Defense == DefenseType.ArmorClass;
 

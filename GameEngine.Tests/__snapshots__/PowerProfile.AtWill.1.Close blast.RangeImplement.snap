@@ -4,7 +4,7 @@ Tool: Implement
 ToolRange: Range
 PowerSource: Arcane
 Attacks:
-- WeaponDice: 0.60000000000000009
+- WeaponDice: 0.5
   Ability: Strength
   DamageTypes:
   - Radiant
@@ -14,9 +14,7 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Size: 2
+  - Size: 5
     Type: Blast
     Name: Multiple
-  - Amount: +2
-    Name: To-Hit Bonus to Current Attack
 Modifiers: []

@@ -13,7 +13,7 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-  - WeaponDice: 1.5500000000000007
+  - WeaponDice: 1.7000000000000002
     Ability: Strength
     DamageTypes:
     - Normal
@@ -22,14 +22,12 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Conditions:
-      - Name: Dazed
-      Name: Condition
-    - Amount: +4
-      Name: To-Hit Bonus to Current Attack
-  Modifiers:
-  - Duration: SaveEnds
-    Name: Duration
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+    - Size: 3
+      Type: Burst
+      Name: Multiple
+  Modifiers: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Daily
@@ -45,8 +43,8 @@
   - Label: Hit
     Text: 1[W] + STR damage. Make a secondary attack.
   - Label: Secondary Target
-    Text: One creature adjacent to the primary target
+    Text: Each enemy adjacent to the primary target
   - Label: Secondary Attack
-    Text: STR + 4 vs. AC
+    Text: STR vs. Fortitude
   - Label: Secondary Hit
-    Text: 1[W] + STR damage and the target is dazed (save ends.)
+    Text: 1[W] + STR damage.

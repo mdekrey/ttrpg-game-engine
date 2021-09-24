@@ -20,6 +20,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override bool IsPlaceholder() => true;
+            public override bool MustUpgrade() => false;
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
 

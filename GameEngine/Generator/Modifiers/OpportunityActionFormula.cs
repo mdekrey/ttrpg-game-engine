@@ -18,7 +18,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record MaybeOpportunityActionModifier() : PowerModifier(ModifierName)
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
             public override bool MustUpgrade() => true;
             public override bool IsPlaceholder() => true;
 

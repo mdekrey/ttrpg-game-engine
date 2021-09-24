@@ -26,7 +26,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record EmptySkirmishModifier() : AttackAndPowerModifier(ModifierName)
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
             public override PowerCost GetCost(PowerProfileBuilder power) => PowerCost.Empty;
             public override bool IsPlaceholder() => true;
 

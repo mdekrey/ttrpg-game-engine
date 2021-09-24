@@ -12,6 +12,6 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Amount: +2
-    Name: To-Hit Bonus to Current Attack
+  - Defense: Fortitude
+    Name: Non-Armor Defense
 Modifiers: []

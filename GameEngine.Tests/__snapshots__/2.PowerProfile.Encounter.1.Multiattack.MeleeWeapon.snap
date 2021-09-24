@@ -4,13 +4,13 @@ Tool: Weapon
 ToolRange: Melee
 PowerSource: Martial
 Attacks:
-- WeaponDice: 1.0000000000000002
+- WeaponDice: 1.2000000000000002
   Ability: Strength
   DamageTypes:
   - Normal
   Modifiers:
   - Name: RequiredHitForNextAttack
-- WeaponDice: 1.75
+- WeaponDice: 1.7000000000000002
   Ability: Strength
   DamageTypes:
   - Normal
@@ -19,13 +19,6 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-Modifiers:
-- SelfBoosts:
-  - Amount: +2
-    Defense: Will
-    Name: Defense
-  AllyBoosts: []
-  AllyType: Single
-  Name: Boost
-- Duration: EndOfUserNextTurn
-  Name: Duration
+  - Defense: Reflex
+    Name: Non-Armor Defense
+Modifiers: []

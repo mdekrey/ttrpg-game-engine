@@ -14,11 +14,7 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Amount: +2
-    Name: To-Hit Bonus to Current Attack
-  - Conditions:
-    - Name: Dazed
-    Name: Condition
-Modifiers:
-- Duration: EndOfUserNextTurn
-  Name: Duration
+  - Size: 5
+    Type: Burst
+    Name: Multiple
+Modifiers: []

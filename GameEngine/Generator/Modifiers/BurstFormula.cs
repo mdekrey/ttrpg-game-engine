@@ -27,7 +27,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record MultipleAttackModifier() : AttackModifier(ModifierName)
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => PowerCost.Empty;
             public override bool MustUpgrade() => true;
             public override bool IsPlaceholder() => true;
@@ -36,11 +36,11 @@ namespace GameEngine.Generator.Modifiers
             {
                 if (stage < UpgradeStage.Standard) yield break;
                 if (attack.PowerInfo.ToolProfile.Range != ToolRange.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new BurstModifier(1, BurstType.Burst);
+                    yield return new BurstModifier(3, BurstType.Burst);
                 if (attack.PowerInfo.ToolProfile.Range != ToolRange.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                     yield return new BurstModifier(1, BurstType.Blast);
                 if (attack.PowerInfo.ToolProfile.Range != ToolRange.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new BurstModifier(1, BurstType.Area);
+                    yield return new BurstModifier(3, BurstType.Area);
             }
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }

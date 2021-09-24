@@ -4,13 +4,13 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1.0000000000000002
+  - WeaponDice: 1.2000000000000002
     Ability: Strength
     DamageTypes:
     - Normal
     Modifiers:
     - Name: RequiredHitForNextAttack
-  - WeaponDice: 1.75
+  - WeaponDice: 1.7000000000000002
     Ability: Strength
     DamageTypes:
     - Normal
@@ -19,16 +19,9 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-  Modifiers:
-  - SelfBoosts:
-    - Amount: +2
-      Defense: Will
-      Name: Defense
-    AllyBoosts: []
-    AllyType: Single
-    Name: Boost
-  - Duration: EndOfUserNextTurn
-    Name: Duration
+    - Defense: Reflex
+      Name: Non-Armor Defense
+  Modifiers: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Encounter
@@ -43,11 +36,9 @@
   RulesText:
   - Label: Hit
     Text: 1[W] damage. Make a secondary attack.
-  - Label: Effect
-    Text: Until the end of your next turn, you gain a +2 power bonus to Will.
   - Label: Secondary Target
     Text: One creature adjacent to the primary target
   - Label: Secondary Attack
-    Text: STR vs. AC
+    Text: STR vs. Reflex
   - Label: Secondary Hit
     Text: 1[W] + STR damage.

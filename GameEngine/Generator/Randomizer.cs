@@ -53,6 +53,8 @@ namespace GameEngine.Generator
 
         public static T RandomSelectionByThreshold<T>(this RandomGenerator randomGenerator, RandomThreshold<T>[] thresholds)
         {
+            if (thresholds.Length == 0)
+                throw new ArgumentException("Must provide thresholds", nameof(thresholds));
             if (thresholds.Length == 1)
                 return thresholds[0].Result;
             var max = thresholds[thresholds.Length - 1].Threshold;

@@ -4,7 +4,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1.25
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
@@ -13,9 +13,16 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  Modifiers:
+  - SelfBoosts:
     - Amount: +2
-      Name: To-Hit Bonus to Current Attack
-  Modifiers: []
+      Limit: NextAttack
+      Name: Attack
+    AllyBoosts: []
+    AllyType: Single
+    Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Daily
@@ -26,7 +33,9 @@
   AttackType: Melee
   AttackTypeDetails: weapon
   Target: One or two creatures
-  Attack: STR + 2 vs. AC, two attacks
+  Attack: STR vs. Fortitude, two attacks
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage.
+  - Label: Effect
+    Text: You gain a +2 power bonus to attack rolls on the next attack before the end of your next turn.

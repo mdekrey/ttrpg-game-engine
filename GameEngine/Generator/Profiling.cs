@@ -110,7 +110,7 @@ namespace GameEngine.Generator
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsPlaceholder() => false;
-        public virtual bool MustUpgrade() => false;
+        public virtual bool MustUpgrade() => IsPlaceholder();
         public abstract IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public virtual IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder) { yield return builder; }
 
@@ -122,7 +122,7 @@ namespace GameEngine.Generator
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public abstract PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power);
         public virtual bool IsPlaceholder() => false;
-        public virtual bool MustUpgrade() => false;
+        public virtual bool MustUpgrade() => IsPlaceholder();
         public abstract IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
@@ -134,7 +134,7 @@ namespace GameEngine.Generator
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsPlaceholder() => false;
-        public virtual bool MustUpgrade() => false;
+        public virtual bool MustUpgrade() => IsPlaceholder();
 
         public abstract IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power);
         public abstract IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
