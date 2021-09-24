@@ -23,7 +23,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override bool MustUpgrade() => Defense == DefenseType.ArmorClass;
 
-            public override bool IsMetaModifier() => Defense != DefenseType.ArmorClass;
+            public override bool IsPlaceholder() => Defense == DefenseType.ArmorClass;
 
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Defense == DefenseType.ArmorClass || power.PowerInfo.ToolProfile.Type == ToolType.Implement ? 0 : 0.5);
 

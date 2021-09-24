@@ -65,7 +65,7 @@ namespace GameEngine.Generator
             return TotalCost(builder).Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity(builder.PowerInfo)).Sum() <= Limits.MaxComplexity;
         }
         internal AttackProfile Build(PowerProfileBuilder builder) =>
-            new AttackProfile(WeaponDice(builder), Ability, DamageTypes, Modifiers.Where(m => m.GetCost(this, builder) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList());
+            new AttackProfile(WeaponDice(builder), Ability, DamageTypes, Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
 
         public override IEnumerable<IModifier> AllModifiers() => Modifiers;
 
@@ -83,7 +83,7 @@ namespace GameEngine.Generator
             PowerInfo.ToolProfile.Range,
             PowerInfo.ClassProfile.PowerSource,
             Attacks.Select(a => a.Build(this)).ToImmutableList(),
-            Modifiers.Where(m => m.GetCost(this) != PowerCost.Empty || m.IsMetaModifier()).ToImmutableList()
+            Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList()
         );
 
         public bool IsValid()

@@ -20,6 +20,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override bool MustUpgrade() => true;
+            public override bool IsPlaceholder() => true;
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
 

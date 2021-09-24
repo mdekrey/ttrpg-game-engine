@@ -28,6 +28,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
                 new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
+            public override bool IsPlaceholder() => Effects.Count == 0;
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :

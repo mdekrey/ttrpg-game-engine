@@ -19,6 +19,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
+            public override bool IsPlaceholder() => true;
 
             public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
 
@@ -52,7 +53,7 @@ namespace GameEngine.Generator.Modifiers
         public record EffectDurationModifier(Duration Duration) : PowerModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
-            public override bool IsMetaModifier() => true;
+            public override bool IsPlaceholder() => false;
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
 

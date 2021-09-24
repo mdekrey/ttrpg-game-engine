@@ -20,6 +20,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
 
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Abilities.Items.Count * 0.5);
+            public override bool IsPlaceholder() => Abilities.Count == 0;
 
             public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
