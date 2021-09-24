@@ -67,7 +67,7 @@ namespace GameEngine.Generator
         {
             var previousTools = previous.Where(p => p.Level == level && p.Usage == usage).Select(p => (p.Tool, p.ToolRange)).ToHashSet();
             var availableTools = classProfile.Tools.Where(t => !previousTools.Contains((t.Type, t.Range))).ToImmutableList() switch { { Count: 0 } => classProfile.Tools, var remaining => remaining };
-            var tools = Shuffle(availableTools);
+            var tools = Shuffle(availableTools); // TODO - how this is shuffled needs to change
 
             var powerInfo = GetPowerInfo();
 
@@ -85,7 +85,7 @@ namespace GameEngine.Generator
 
             PowerHighLevelInfo GetPowerInfo()
             {
-                return new(Level: level, Usage: usage, ClassProfile: classProfile, ToolProfile: tools[0]);
+                return new(Level: level, Usage: usage, ClassProfile: classProfile, ToolProfile: tools[0], PowerProfileConfig: tools[0].PowerProfileConfigs[0]);
             }
         }
 
@@ -118,7 +118,7 @@ namespace GameEngine.Generator
                 .Where(pb => !toExclude.Contains(pb.Build()))
                 .ToArray();
             if (options.Length > 0)
-                powerProfileBuilder = options.ToChances(powerInfo.ToolProfile.PowerProfileConfig, skipProfile: true).RandomSelection(randomGenerator);
+                powerProfileBuilder = options.ToChances(powerInfo.PowerProfileConfig, skipProfile: true).RandomSelection(randomGenerator);
 
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.InitializeAttacks, exclude: toExclude);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Standard, exclude: toExclude);
@@ -160,7 +160,7 @@ namespace GameEngine.Generator
                                  from entry in set
                                  where !exclude.Contains(entry.Build())
                                  select entry).ToArray();
-                var validModifiers = preChance.ToChances(powerProfileBuilder.PowerInfo.ToolProfile.PowerProfileConfig).ToArray();
+                var validModifiers = preChance.ToChances(powerProfileBuilder.PowerInfo.PowerProfileConfig).ToArray();
                 if (validModifiers.Length == 0)
                     break;
                 powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);

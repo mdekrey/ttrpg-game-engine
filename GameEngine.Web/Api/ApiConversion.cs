@@ -16,7 +16,7 @@ public static class ApiConversion
             Range: FromApi(apiModel.ToolRange),
             Abilities: apiModel.Abilities.Select(a => FromApi(a)).ToImmutableList(),
             PreferredDamageTypes: apiModel.PreferredDamageTypes.Select(a => FromApi(a)).ToImmutableList(),
-            PowerProfileConfig: apiModel.PowerProfileConfig.FromApi()
+            PowerProfileConfigs: ImmutableList<GameEngine.Generator.PowerProfileConfig>.Empty.Add(apiModel.PowerProfileConfig.FromApi()) // TODO - multiple of these
         );
 
     public static GameEngine.DamageType FromApi(this Api.DamageType apiModel) =>

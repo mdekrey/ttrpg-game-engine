@@ -20,7 +20,7 @@ namespace GameEngine.Generator
         private static IEnumerable<AttackProfileBuilder> Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
         {
             var selected = formula.GetBaseModifier(attack);
-            if (attack.Modifiers.Any(m => m.Name == selected.Name) || !new[] { attack.Apply(selected) }.Where(a => a.IsValid(power)).ToChances(attack.PowerInfo.ToolProfile.PowerProfileConfig, skipProfile: true).Any())
+            if (attack.Modifiers.Any(m => m.Name == selected.Name) || !new[] { attack.Apply(selected) }.Where(a => a.IsValid(power)).ToChances(attack.PowerInfo.PowerProfileConfig, skipProfile: true).Any())
                 return new[] { attack };
             var upgrades = (from mod in selected.GetAttackUpgrades(attack, stage, power)
                             where !attack.Modifiers.Any(m => m.Name == mod.Name)

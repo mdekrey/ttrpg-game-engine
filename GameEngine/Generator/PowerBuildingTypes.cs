@@ -195,7 +195,7 @@ namespace GameEngine.Generator
         public abstract IAttackModifier GetBaseModifier(AttackProfileBuilder attack);
     }
 
-    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile, ClassProfile ClassProfile);
+    public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile, ClassProfile ClassProfile, PowerProfileConfig PowerProfileConfig);
 
     public delegate T Generation<T>(RandomGenerator randomGenerator);
 

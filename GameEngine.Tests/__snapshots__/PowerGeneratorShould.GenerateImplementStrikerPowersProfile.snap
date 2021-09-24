@@ -2,7 +2,7 @@
   Usage: AtWill
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 0.5
     Ability: Wisdom
@@ -20,7 +20,7 @@
   Usage: AtWill
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -35,7 +35,7 @@
   Usage: AtWill
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -50,7 +50,7 @@
   Usage: AtWill
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -65,7 +65,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -86,7 +86,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.2
     Ability: Wisdom
@@ -124,7 +124,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -162,7 +162,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -183,7 +183,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -227,7 +227,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.9500000000000002
     Ability: Wisdom
@@ -259,7 +259,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.1000000000000001
     Ability: Wisdom
@@ -305,7 +305,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -346,7 +346,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -367,7 +367,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.5
     Ability: Wisdom
@@ -385,7 +385,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.2
     Ability: Wisdom
@@ -423,7 +423,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -444,7 +444,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.6428571428571428
     Ability: Wisdom
@@ -476,7 +476,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.125
     Ability: Wisdom
@@ -535,7 +535,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -569,7 +569,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.3333333333333333
     Ability: Wisdom
@@ -610,7 +610,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -631,7 +631,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -649,7 +649,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.2
     Ability: Wisdom
@@ -684,7 +684,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.2
     Ability: Wisdom
@@ -718,7 +718,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.5
     Ability: Wisdom
@@ -769,7 +769,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.4642857142857144
     Ability: Wisdom
@@ -812,7 +812,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.5
     Ability: Wisdom
@@ -843,7 +843,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.25
     Ability: Wisdom
@@ -878,7 +878,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 0.5
     Ability: Wisdom
@@ -910,7 +910,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.1000000000000001
     Ability: Wisdom
@@ -953,7 +953,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.5
     Ability: Wisdom
@@ -971,7 +971,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -1001,7 +1001,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.5
     Ability: Wisdom
@@ -1019,7 +1019,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.1000000000000001
     Ability: Wisdom
@@ -1064,7 +1064,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -1108,7 +1108,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.1000000000000001
     Ability: Wisdom
@@ -1150,7 +1150,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 5.5
     Ability: Wisdom
@@ -1171,7 +1171,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.0624999999999998
     Ability: Wisdom
@@ -1226,7 +1226,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 3.4473684210526319
     Ability: Wisdom
@@ -1258,7 +1258,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.1000000000000001
     Ability: Wisdom
@@ -1306,7 +1306,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -1350,7 +1350,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -1394,7 +1394,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1
     Ability: Wisdom
@@ -1424,7 +1424,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.5
     Ability: Wisdom
@@ -1442,7 +1442,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 3.5
     Ability: Wisdom
@@ -1478,7 +1478,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.75
     Ability: Wisdom
@@ -1505,7 +1505,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.8255813953488373
     Ability: Wisdom
@@ -1556,7 +1556,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.75
     Ability: Wisdom
@@ -1595,7 +1595,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.2999999999999998
     Ability: Wisdom
@@ -1649,7 +1649,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2
     Ability: Wisdom
@@ -1705,7 +1705,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 4.3888888888888893
     Ability: Wisdom
@@ -1739,7 +1739,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 3.1111111111111107
     Ability: Wisdom
@@ -1783,7 +1783,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.5
     Ability: Wisdom
@@ -1813,7 +1813,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.5
     Ability: Wisdom
@@ -1840,7 +1840,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.25
     Ability: Wisdom
@@ -1891,7 +1891,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.125
     Ability: Wisdom
@@ -1944,7 +1944,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 3.0999999999999996
     Ability: Wisdom
@@ -1993,7 +1993,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 7.5
     Ability: Wisdom
@@ -2014,7 +2014,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.2166666666666668
     Ability: Wisdom
@@ -2068,7 +2068,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 4.8999999999999995
     Ability: Wisdom
@@ -2104,7 +2104,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2
     Ability: Wisdom
@@ -2142,7 +2142,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.75
     Ability: Wisdom
@@ -2166,7 +2166,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 1.5
     Ability: Wisdom
@@ -2203,7 +2203,7 @@
   Usage: Encounter
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 2.5
     Ability: Wisdom
@@ -2233,7 +2233,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 5.4090909090909092
     Ability: Wisdom
@@ -2275,7 +2275,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 3.4245283018867916
     Ability: Wisdom
@@ -2325,7 +2325,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 4.8181818181818175
     Ability: Wisdom
@@ -2365,7 +2365,7 @@
   Usage: Daily
   Tool: Implement
   ToolRange: Range
-  PowerSource: Martial
+  PowerSource: Arcane
   Attacks:
   - WeaponDice: 3.1818181818181817
     Ability: Wisdom

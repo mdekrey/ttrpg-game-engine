@@ -20,7 +20,7 @@ namespace GameEngine.Tests.Modifiers
                         ToolRange.Melee,
                         Build(Rules.Ability.Strength, Rules.Ability.Dexterity),
                         Build(DamageType.Normal),
-                        PowerGeneratorShould.fullAccessProfileConfig
+                        Build(PowerGeneratorShould.fullAccessProfileConfig)
                     );
 
             var attack = new AttackProfileBuilder(
@@ -35,7 +35,8 @@ namespace GameEngine.Tests.Modifiers
                     1,
                     Rules.PowerFrequency.Daily,
                     ToolProfile: tool,
-                    ClassProfile: new ClassProfile(Rules.ClassRole.Striker, PowerSource.Martial, Build(tool))
+                    ClassProfile: new ClassProfile(Rules.ClassRole.Striker, PowerSource.Martial, Build(tool)),
+                    PowerProfileConfig: tool.PowerProfileConfigs[0]
                 )
             );
             var power = new PowerProfileBuilder(attack.Limits, attack.PowerInfo, Build(attack), Build<IPowerModifier>());
