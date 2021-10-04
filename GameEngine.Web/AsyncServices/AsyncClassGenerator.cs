@@ -56,20 +56,33 @@ class AsyncClassGenerationProcess
 
     public async Task Run()
     {
-        var classProfile = await GetClassProfile();
-        var result = ImmutableList<Generator.PowerProfile>.Empty;
-        while (powerGenerator.RemainingPowers(result).FirstOrDefault() is (int level and > 0, Rules.PowerFrequency usage))
-        {
-            var newPower = powerGenerator.AddSinglePowerProfile(result, level: level, usage: usage, classProfile: classProfile);
-            if (newPower == null)
-                break;
-            result = (await AddAsync(newPower).ConfigureAwait(false)).Select(p => p.Profile).ToImmutableList();
-        }
+        var (_, classProfile, powers) = await GetClassDetails().ConfigureAwait(false);
 
+        var addingTask = Task.CompletedTask;
+        var shouldContinue = true;
+        while (shouldContinue)
+        {
+            var result = powers.Items.Select(p => p.Profile).ToImmutableList();
+            shouldContinue = false;
+            powerGenerator.GeneratePowerProfiles(classProfile, () => result, newPower =>
+            {
+                shouldContinue = true;
+                result = result.Add(newPower);
+                addingTask = addingTask.ContinueWith(async t =>
+                {
+                    await AddAsync(newPower).ConfigureAwait(false);
+                }).Unwrap();
+            });
+            if (shouldContinue)
+            {
+                (_, _, powers) = await GetClassDetails().ConfigureAwait(false);
+            }
+        }
+        await addingTask.ConfigureAwait(false);
         await FinishAsync().ConfigureAwait(false);
     }
 
-    private async Task<ClassProfile> GetClassProfile()
+    private async Task<GeneratedClassDetails> GetClassDetails()
     {
         using var scope = serviceScopeFactory.CreateScope();
         var storage = scope.ServiceProvider.GetRequiredService<GameStorage>();
@@ -78,7 +91,7 @@ class AsyncClassGenerationProcess
         var classDetails = await storage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(classId).ConfigureAwait(false);
 
         return classDetails is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var next }
-            ? next.Original.ClassProfile
+            ? next.Original
             : throw new InvalidOperationException();
     }
 
@@ -92,7 +105,7 @@ class AsyncClassGenerationProcess
         {
             Original = current.Original with
             {
-                Powers = current.Original.Powers.Items.Add(new NamedPowerProfile("Unknown", "", powerProfile)),
+                Powers = current.Original.Powers.Items.Add(new NamedPowerProfile(Guid.NewGuid(), "Unknown", "", powerProfile)),
             }
         }).ConfigureAwait(false);
 

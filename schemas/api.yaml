@@ -124,9 +124,12 @@ components:
     PowerTextProfile:
       type: object
       required:
+        - id
         - profile
         - text
       properties:
+        id:
+          type: string
         profile:
           $ref: '#/components/schemas/PowerProfile'
         text:
@@ -278,21 +281,21 @@ paths:
                     type: boolean
         404:
           description: Class not found
-  /class/{id}/power/{index}:
+  /class/{classId}/power/{powerId}:
     x-dotnet-mvc-server-controller: Class
     post:
       operationId: setPowerFlavor
       parameters:
-        - name: id
+        - name: classId
           in: path
           required: true
           schema:
             type: string
-        - name: index
+        - name: powerId
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -317,16 +320,16 @@ paths:
     delete:
       operationId: replacePower
       parameters:
-        - name: id
+        - name: classId
           in: path
           required: true
           schema:
             type: string
-        - name: index
+        - name: powerId
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         200:
           description: Power removed and new one will be added

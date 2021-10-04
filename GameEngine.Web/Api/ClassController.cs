@@ -40,31 +40,28 @@ public class ClassController : ClassControllerBase
             : TypeSafeGetClassResult.NotFound();
     }
 
-    protected override async Task<TypeSafeReplacePowerResult> ReplacePowerTypeSafe(string id, int index)
+    protected override async Task<TypeSafeReplacePowerResult> ReplacePowerTypeSafe(string classStringId, string powerStringId)
     {
-        if (!Guid.TryParse(id, out var guid) || index < 0)
+        if (!Guid.TryParse(classStringId, out var classId) || !Guid.TryParse(powerStringId, out var powerId))
             return TypeSafeReplacePowerResult.NotFound();
         // TODO - retry
         try
         {
-            var status = await gameStorage.UpdateAsync<GeneratedClassDetails>(guid, classDetails =>
+            var status = await gameStorage.UpdateAsync<GeneratedClassDetails>(classId, classDetails =>
             {
-                if (index >= classDetails.Original.Powers.Items.Count)
-                    throw new InvalidOperationException();
-
                 return classDetails with
                 {
                     Original = classDetails.Original with
                     {
-                        Powers = classDetails.Original.Powers.Items.RemoveAt(index)
+                        Powers = classDetails.Original.Powers.Items.Where(power => power.Id != powerId).ToImmutableList()
                     }
                 };
             });
 
-            if (status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var v })
+            if (status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success { Value: AsyncProcessed<GeneratedClassDetails> v })
             {
                 if (!v.InProgress)
-                    await asyncClassGenerator.ResumeGeneratingNewClass(guid);
+                    await asyncClassGenerator.ResumeGeneratingNewClass(classId);
                 return TypeSafeReplacePowerResult.Ok();
             }
 
@@ -76,16 +73,17 @@ public class ClassController : ClassControllerBase
         }
     }
 
-    protected override async Task<TypeSafeSetPowerFlavorResult> SetPowerFlavorTypeSafe(string id, int index, SetPowerFlavorRequest setPowerFlavorBody)
+    protected override async Task<TypeSafeSetPowerFlavorResult> SetPowerFlavorTypeSafe(string classStringId, string powerStringId, SetPowerFlavorRequest setPowerFlavorBody)
     {
-        if (!Guid.TryParse(id, out var guid) || index < 0)
+        if (!Guid.TryParse(classStringId, out var classId) || !Guid.TryParse(powerStringId, out var powerId))
             return TypeSafeSetPowerFlavorResult.NotFound();
         // TODO - retry
         try
         {
-            var status = await gameStorage.UpdateAsync<GeneratedClassDetails>(guid, classDetails =>
+            var status = await gameStorage.UpdateAsync<GeneratedClassDetails>(classId, classDetails =>
             {
-                if (index >= classDetails.Original.Powers.Items.Count)
+                var index = classDetails.Original.Powers.Items.FindIndex(power => power.Id == powerId);
+                if (index < 0)
                     throw new InvalidOperationException();
 
                 return classDetails with

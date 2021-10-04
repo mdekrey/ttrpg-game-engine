@@ -9,7 +9,7 @@ export function PowerSection({
 	onRequestReload,
 }: {
 	header: string;
-	powers: (PowerTextProfile & { index: number })[];
+	powers: PowerTextProfile[];
 	classId: string;
 	onRequestReload: () => void;
 }) {
@@ -18,11 +18,11 @@ export function PowerSection({
 			{powers.map((p, i) => {
 				return (
 					// eslint-disable-next-line react/no-array-index-key
-					<article className="mb-4" style={{ pageBreakInside: 'avoid' }} key={i}>
+					<article className="mb-4" style={{ pageBreakInside: 'avoid' }} key={p.id}>
 						{i === 0 && (
 							<h2 className={classNames('font-header font-bold', 'mt-4 first:mt-0', 'text-theme text-xl')}>{header}</h2>
 						)}
-						<PowerEdit power={p} param={{ id: classId, _index: p.index }} onRequestReload={onRequestReload} />
+						<PowerEdit power={p} param={{ classId, powerId: p.id }} onRequestReload={onRequestReload} />
 					</article>
 				);
 			})}

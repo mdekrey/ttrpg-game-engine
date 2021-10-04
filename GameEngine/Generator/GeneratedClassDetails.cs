@@ -8,5 +8,5 @@ namespace GameEngine.Generator
     {
     }
 
-    public record NamedPowerProfile(string Name, string FlavorText, PowerProfile Profile);
+    public record NamedPowerProfile(Guid Id, string Name, string FlavorText, PowerProfile Profile);
 }

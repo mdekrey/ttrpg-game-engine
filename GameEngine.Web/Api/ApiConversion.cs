@@ -16,7 +16,7 @@ public static class ApiConversion
             Range: FromApi(apiModel.ToolRange),
             Abilities: apiModel.Abilities.Select(a => FromApi(a)).ToImmutableList(),
             PreferredDamageTypes: apiModel.PreferredDamageTypes.Select(a => FromApi(a)).ToImmutableList(),
-            PowerProfileConfigs: ImmutableList<GameEngine.Generator.PowerProfileConfig>.Empty.Add(apiModel.PowerProfileConfig.FromApi()) // TODO - multiple of these
+            PowerProfileConfigs: apiModel.PowerProfileConfig.FromApi()
         );
 
     public static GameEngine.DamageType FromApi(this Api.DamageType apiModel) =>
@@ -34,11 +34,12 @@ public static class ApiConversion
             _ => throw new NotSupportedException(),
         };
 
-    public static Generator.PowerProfileConfig FromApi(this Api.PowerProfileConfig apiModel) =>
+    public static ImmutableList<Generator.PowerProfileConfig> FromApi(this Api.PowerProfileConfig apiModel) =>
+        apiModel.PowerChances.Select(powerChance => ImmutableList<Generator.PowerChance>.Empty.Add(FromApiToPower(powerChance))).Select(powerChance => 
         new Generator.PowerProfileConfig(
             ModifierChances: apiModel.ModifierChances.Select(a => FromApiToModifier(a)).ToImmutableList(),
-            PowerChances: apiModel.PowerChances.Select(a => FromApiToPower(a)).ToImmutableList()
-        );
+            PowerChances: powerChance
+        )).ToImmutableList();
 
     public static Generator.ModifierChance FromApiToModifier(this Api.ModifierChance apiModel) =>
         new Generator.ModifierChance(apiModel.Selector, apiModel.Weight);
@@ -150,6 +151,7 @@ public static class ApiConversion
 
     public static Api.PowerTextProfile ToApi(this Generator.NamedPowerProfile powerProfile) =>
         new Api.PowerTextProfile(
+            Id: powerProfile.Id.ToString(),
             Text: (powerProfile.Profile.ToPowerTextBlock() with
             {
                 Name = powerProfile.Name,

@@ -35,7 +35,7 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 				),
 				switchAll()
 			),
-		initial as Loadable<{ name: string; powers: Dictionary<(PowerTextProfile & { index: number })[]> }, ReasonCode>,
+		initial as Loadable<{ name: string; powers: Dictionary<PowerTextProfile[]> }, ReasonCode>,
 		[classId] as const
 	);
 
@@ -69,10 +69,7 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 	function toPowerTextGroups(responseData: ClassDetailsReadOnly) {
 		return {
 			name: responseData.name,
-			powers: groupBy(
-				(block) => `Level ${block.profile.level} ${block.profile.usage} Powers`,
-				responseData.powers.map((p, index) => ({ ...p, index }))
-			),
+			powers: groupBy((block) => `Level ${block.profile.level} ${block.profile.usage} Powers`, responseData.powers),
 		};
 	}
 }

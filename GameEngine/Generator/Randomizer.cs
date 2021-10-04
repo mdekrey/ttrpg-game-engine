@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
@@ -10,6 +11,22 @@ namespace GameEngine.Generator
 
     public static class Randomizer
     {
+        public static IReadOnlyList<T> Shuffle<T>(this IReadOnlyList<T> source, RandomGenerator randomGenerator)
+        {
+            if (source.Count <= 1)
+                return source;
+            var result = new List<T>();
+            var temp = source.ToImmutableList();
+            while (temp.Count > 1)
+            {
+                var index = randomGenerator(0, temp.Count);
+                result.Add(temp[index]);
+                temp = temp.RemoveAt(index);
+            }
+            result.Add(temp[0]);
+            return result.ToImmutableList();
+        }
+
         public static T RandomEscalatingSelection<T>(this RandomGenerator randomGenerator, IEnumerable<T> sourceList, double escalator = 1.5, IEnumerable<T>? minimalSources = null) => 
             randomGenerator.RandomSelectionByThreshold(sourceList.EscalatingOdds(escalator, minimalSources));
 
