@@ -21,7 +21,7 @@ ul.theme-4e-list li::marker {
 }
 
 .storybook-md-theme {
-    @apply mx-auto;
+    @apply my-4 mx-4 md:mx-auto;
 }
 
 @media not print {
