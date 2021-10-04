@@ -115,10 +115,10 @@ const mdxComponents: Components = {
 	img: ({ src, alt, ...props }) =>
 		src?.startsWith('qr:') ? (
 			<a className="float-right text-center" href={src.substr(3)} target="_blank" rel="noreferrer">
-				<div className="p-1 mx-2 mt-2 inline-block">
+				<span className="p-1 mx-2 mt-2 block">
 					<QRCode value={src.substr(3)} size={128} alt={alt} fgColor="currentcolor" bgColor="transparent" />
-				</div>
-				{alt && <p className="text-xs w-32 mx-auto font-info">{alt}</p>}
+				</span>
+				{alt && <span className="text-xs w-32 mx-auto font-info block">{alt}</span>}
 			</a>
 		) : (
 			<img src={src} alt={alt} {...props} />

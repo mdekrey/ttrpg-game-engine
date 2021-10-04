@@ -61,9 +61,11 @@ namespace GameEngine.Generator
                 {
                     var shuffledTools = GeneratePowerProfileSelection(level, usage, classProfile, getPowers());
 
-                    for (var iTool = 0; iTool < shuffledTools.Count && added < count; iTool++)
+                    foreach (var tool in shuffledTools)
                     {
-                        var newPowers = shuffledTools[iTool].Distinct().Take(count - added).ToArray();
+                        if (added >= count)
+                            break;
+                        var newPowers = tool.Distinct().Take(count - added).ToArray();
                         foreach (var p in newPowers)
                         {
                             onAddPower(p);
@@ -83,16 +85,15 @@ namespace GameEngine.Generator
                    select (level: powerSet.level, usage: powerSet.usage, count: Math.Max(0, 4 - count));
         }
 
-        public ImmutableList<IEnumerable<PowerProfile>> GeneratePowerProfileSelection(int level, PowerFrequency usage, ClassProfile classProfile, IEnumerable<PowerProfile>? exclude = null)
+        public IEnumerable<IEnumerable<PowerProfile>> GeneratePowerProfileSelection(int level, PowerFrequency usage, ClassProfile classProfile, IEnumerable<PowerProfile>? exclude = null)
         {
-            return (from tool in classProfile.Tools
-                    select (from powerProfileConfig in tool.PowerProfileConfigs.Shuffle(randomGenerator)
-                            let powerInfo = GetPowerInfo(tool, powerProfileConfig)
-                            let power = BuildPower(powerInfo)
-                            where power != null
-                            where !exclude.Contains(power)
-                            select power)
-                   ).ToImmutableList().Shuffle(randomGenerator).ToImmutableList();
+            return from tool in classProfile.Tools.Shuffle(randomGenerator)
+                   select (from powerProfileConfig in tool.PowerProfileConfigs.Shuffle(randomGenerator)
+                           let powerInfo = GetPowerInfo(tool, powerProfileConfig)
+                           let power = BuildPower(powerInfo)
+                           where power != null
+                           where !exclude.Contains(power)
+                           select power);
 
             PowerProfile? BuildPower(PowerHighLevelInfo powerInfo)
             {
