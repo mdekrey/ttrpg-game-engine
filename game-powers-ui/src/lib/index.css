@@ -32,7 +32,7 @@ ul.theme-4e-list li::marker {
 
 @media print {
     .storybook-md-theme {
-        @apply col-count-2
+        @apply col-count-2;
     }
 }
 
@@ -43,4 +43,9 @@ ul.theme-4e-list li::marker {
     html {
         font-size: 80%;
     }
+}
+
+.full-page, .full-page + * {
+    @apply relative;
+    column-span: all;
 }
