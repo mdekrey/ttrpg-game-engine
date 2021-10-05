@@ -14,7 +14,7 @@ const rowTemplate = mergeStyles(
 );
 const infoFontTemplate = mergeStyles(<i className="font-info" />);
 
-const mdxComponents: Components = {
+export const mdxComponents: Components = {
 	h1: ({ children, className, ...props }) =>
 		pipeJsx(
 			<h2 className={classNames(className, 'text-theme text-2xl')} {...props}>
@@ -81,12 +81,12 @@ const mdxComponents: Components = {
 	),
 	tbody: ({ children, ...props }) => <tbody {...props}>{pipeJsx(<>{children}</>, recurse(rowTemplate))}</tbody>,
 	td: ({ children, className, ...props }) => (
-		<td className={classNames(className, 'px-2 font-bold')} {...props}>
+		<td className={classNames(className, 'px-2 font-bold align-top')} {...props}>
 			{children}
 		</td>
 	),
 	th: ({ children, className, ...props }) => (
-		<th className={classNames(className, 'px-2 font-bold')} {...props}>
+		<th className={classNames(className, 'px-2 font-bold align-bottom')} {...props}>
 			{children}
 		</th>
 	),
@@ -125,6 +125,11 @@ const mdxComponents: Components = {
 		) : (
 			<img src={src} alt={alt} {...props} />
 		),
+	strong: ({ children, ...props }) => (
+		<span className="font-bold" {...props}>
+			{children}
+		</span>
+	),
 };
 
 export const MdxComponents = ({ children, className }: { children: React.ReactNode; className?: string }) => (
