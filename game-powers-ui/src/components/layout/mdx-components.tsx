@@ -63,9 +63,11 @@ const mdxComponents: Components = {
 		</p>
 	),
 	table: ({ children, className, ...props }) => (
-		<table className={classNames(className, 'w-full border-collapse')} style={{ pageBreakInside: 'avoid' }} {...props}>
-			{children}
-		</table>
+		<div className="overflow-auto print:overflow-visible my-2" style={{ breakInside: 'avoid' }}>
+			<table className={classNames(className, 'w-full border-collapse')} style={{ breakInside: 'avoid' }} {...props}>
+				{children}
+			</table>
+		</div>
 	),
 	a: ({ children, className, ...props }) => (
 		<a className={classNames(className, 'underline text-theme')} {...props}>
