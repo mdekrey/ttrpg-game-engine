@@ -1,20 +1,18 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { MdxComponents } from './mdx-components';
+import { ReaderLayout } from 'components/reader-layout';
 
 import Page from './page-sample.mdx';
 
 export default {
 	title: 'Example/PageSample',
-	component: MdxComponents,
+	component: ReaderLayout,
 	argTypes: {},
-} as ComponentMeta<typeof Page>;
+} as ComponentMeta<typeof ReaderLayout>;
 
-const Template: ComponentStory<typeof Page> = (args) => (
-	<div className="storybook-md-theme">
-		<MdxComponents {...args}>
-			<Page />
-		</MdxComponents>
-	</div>
+const Template: ComponentStory<typeof ReaderLayout> = (args) => (
+	<ReaderLayout {...args}>
+		<Page />
+	</ReaderLayout>
 );
 
 export const Primary = Template.bind({});

@@ -20,22 +20,6 @@ ul.theme-4e-list li::marker {
     @apply text-theme;
 }
 
-.storybook-md-theme {
-    @apply my-4 mx-4 md:mx-auto;
-}
-
-@media not print {
-    .storybook-md-theme {
-        @apply max-w-2xl
-    }
-}
-
-@media print {
-    .storybook-md-theme {
-        @apply col-count-2;
-    }
-}
-
 @media print {
     * {
         -webkit-print-color-adjust: exact;

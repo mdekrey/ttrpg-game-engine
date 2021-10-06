@@ -82,7 +82,7 @@ export function PowerEdit({
 	if (maybeDeleting.type === 'loaded') return null;
 
 	return (
-		<div className="grid grid-cols-3 gap-4">
+		<div className="grid grid-cols-3 gap-4 print:grid-cols-2">
 			<PowerTextBlock
 				className="col-span-2"
 				name={form.watch('name')}
@@ -93,7 +93,7 @@ export function PowerEdit({
 			/>
 			<form
 				onSubmit={disabled ? () => {} : handleSubmit((d) => submitSubject.next(d))}
-				className="grid grid-cols-1 gap-3 self-start">
+				className="grid grid-cols-1 gap-3 self-start print:hidden">
 				<TextboxField label="Name" form={form} name="name" disabled={disabled} />
 				<TextboxField label="Flavor Text" form={form} name="flavorText" disabled={disabled} />
 				<ButtonRow>

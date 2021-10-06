@@ -1,20 +1,18 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { MdxComponents } from 'components/layout/mdx-components';
+import { ReaderLayout } from 'components/reader-layout';
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import Page from '!babel-loader!@mdx-js/loader!./non-combat-encounter.md';
 
 export default {
 	title: 'Rules/Non-Combat Encounters',
-	component: MdxComponents,
-} as ComponentMeta<typeof MdxComponents>;
+	component: ReaderLayout,
+} as ComponentMeta<typeof ReaderLayout>;
 
-const Template: ComponentStory<typeof Page> = (args) => (
-	<div className="storybook-md-theme">
-		<MdxComponents {...args}>
-			<Page />
-		</MdxComponents>
-	</div>
+const Template: ComponentStory<typeof ReaderLayout> = (args) => (
+	<ReaderLayout {...args}>
+		<Page />
+	</ReaderLayout>
 );
 
 export const Primary = Template.bind({});

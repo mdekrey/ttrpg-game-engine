@@ -3,13 +3,9 @@
 exports[`renders 1`] = `
 <div>
   <div
-    class="storybook-md-theme"
+    class="my-4 mx-4 md:mx-auto print:col-count-2 max-w-2xl print:max-w-none font-text"
   >
-    <div
-      class="font-text"
-    >
-      <page-sample.mdx />
-    </div>
+    <page-sample.mdx />
   </div>
 </div>
 `;

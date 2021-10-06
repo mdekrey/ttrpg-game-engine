@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import groupBy from 'lodash/fp/groupBy';
 import zip from 'lodash/fp/zip';
 import { PowerTextBlock, PowerTextBlockProps } from 'components/power';
+import { ReaderLayout } from 'components/reader-layout';
 
 type PowerProfileProps = {
 	level: number;
@@ -40,10 +41,10 @@ export function SamplePowers({
 	const groups = groupBy(([, profile]) => `Level ${profile!.level} ${profile!.usage} Powers`, zipped);
 
 	return (
-		<div className="storybook-md-theme">
+		<ReaderLayout>
 			{Object.keys(groups).map((header) => (
 				<PowerSection header={header} key={header} powers={groups[header].map(([power]) => power!)} />
 			))}
-		</div>
+		</ReaderLayout>
 	);
 }

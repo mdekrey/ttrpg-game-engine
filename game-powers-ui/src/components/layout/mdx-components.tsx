@@ -132,8 +132,6 @@ export const mdxComponents: Components = {
 	),
 };
 
-export const MdxComponents = ({ children, className }: { children: React.ReactNode; className?: string }) => (
-	<MDXProvider components={mdxComponents}>
-		<div className={classNames('font-text', className)}>{children}</div>
-	</MDXProvider>
+export const MdxComponents = ({ children }: { children: React.ReactNode }) => (
+	<MDXProvider components={mdxComponents}>{children}</MDXProvider>
 );

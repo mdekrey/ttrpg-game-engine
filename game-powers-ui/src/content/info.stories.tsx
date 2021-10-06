@@ -1,8 +1,8 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { MdxComponents } from 'components/layout/mdx-components';
+import { ReaderLayout } from 'components/reader-layout';
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import Page from '!babel-loader!@mdx-js/loader!./info.md';
+import Page from '!babel-loader!@mdx-js/loader!./info.mdx';
 
 export default {
 	title: 'Rules/Info',
@@ -13,11 +13,9 @@ export default {
 } as ComponentMeta<typeof Page>;
 
 const Template: ComponentStory<typeof Page> = (args) => (
-	<div className="storybook-md-theme">
-		<MdxComponents>
-			<Page {...args} />
-		</MdxComponents>
-	</div>
+	<ReaderLayout>
+		<Page {...args} />
+	</ReaderLayout>
 );
 
 export const Primary = Template.bind({});

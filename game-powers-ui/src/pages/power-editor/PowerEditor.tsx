@@ -1,5 +1,6 @@
 import { ClassDetailsReadOnly } from 'api/models/ClassDetailsReadOnly';
 import { PowerTextProfile } from 'api/models/PowerTextProfile';
+import { ReaderLayout } from 'components/reader-layout';
 import { useApi } from 'core/hooks/useApi';
 import { useObservable } from 'core/hooks/useObservable';
 import { initial, Loadable, makeError, makeLoaded, makeLoading } from 'core/loadable/loadable';
@@ -46,7 +47,7 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 				errorComponent={() => <>Not Found</>}
 				loadedComponent={(loaded, isLoadingNext) => (
 					<>
-						<div className="storybook-md-theme">
+						<ReaderLayout>
 							<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl">{loaded.name}</h1>
 							{Object.keys(loaded.powers).map((header) => (
 								<PowerSection
@@ -57,7 +58,7 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 									onRequestReload={() => restartPolling.next()}
 								/>
 							))}
-						</div>
+						</ReaderLayout>
 						{isLoadingNext ? <>Loading</> : null}
 					</>
 				)}
