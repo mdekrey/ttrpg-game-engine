@@ -15,11 +15,14 @@ export const LevelTable = ({ className }: { className?: string }) => {
 						<TH align="left">Features</TH>
 						{/* <TH align="right">Level Bonus</TH> */}
 						{/* <TH align="center">Feats Known</TH> */}
-						<TH align="right">Skill Points</TH>
+						<TH align="right">
+							<span className="whitespace-nowrap">Skill Points</span>{' '}
+							<span className="whitespace-nowrap">(Total/Max)</span>
+						</TH>
 						<TH align="right">
 							<span className="whitespace-nowrap">Total Powers Known</span>{' '}
 							<span className="whitespace-nowrap">(At-Will/Encounter/</span>{' '}
-							<span className="whitespace-nowrap">Daily/Utility)</span>
+							<span className="whitespace-nowrap">Daily/Skill)</span>
 						</TH>
 					</tr>
 				</THead>
@@ -34,12 +37,24 @@ export const LevelTable = ({ className }: { className?: string }) => {
 								<TD align="right">{level.totalXp}</TD>
 								<TD align="right">{level.level}</TD>
 								<TD align="center" className="whitespace-nowrap">
-									{level.abilities === 1 ? '+1 to one' : level.abilities === 'all' ? '+1 to all' : <>&mdash;</>}
+									{level.abilities === 1 ? (
+										'+1 to one'
+									) : level.abilities === 2 ? (
+										'+1 to two'
+									) : level.abilities === 'all' ? (
+										'+1 to all'
+									) : (
+										<>&mdash;</>
+									)}
 								</TD>
 								<TD align="left">{features.length ? features.join('; ') : <>&mdash;</>}</TD>
 								{/* <TD align="right">+{level.levelMod}</TD> */}
 								{/* <TD align="center">{level.featsKnown}</TD> */}
-								<TD align="right">25</TD>
+								<TD align="right">
+									{level.skillPoints}/{level.skillMax}
+									{/* ({Math.floor(level.skillPoints / level.skillMax)} +{' '}
+									{level.skillPoints % level.skillMax}) */}
+								</TD>
 								<TD align="right">
 									{level.atWillPowers}/{level.encounterPowers}
 									{level.retrainPower === 'encounter' ? '*' : ''}/{level.dailyPowers}

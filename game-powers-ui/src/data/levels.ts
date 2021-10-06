@@ -1,7 +1,7 @@
 export type LevelInfo = {
 	totalXp: number;
 	level: number;
-	abilities: null | 1 | 'all';
+	abilities: null | 1 | 2 | 'all';
 	features: string[];
 	levelMod: number;
 	featsKnown: number;
@@ -10,6 +10,8 @@ export type LevelInfo = {
 	dailyPowers: number;
 	utilityPowers: number;
 	retrainPower: null | 'encounter' | 'daily';
+	skillPoints: number;
+	skillMax: number;
 };
 
 const levelMod = (level: number) => Math.floor(level / 2);
@@ -40,10 +42,19 @@ function toLevel(
 			totalPowersKnown
 		);
 	if (!match || !match.groups) throw Error('invalid powers format');
+
+	// If half-level is not added to all skill checks...
+	const skillMax = levelMod(level) + 5;
+	const skillPoints = skillMax * 5 + level;
+
+	// If half-level is added to all skill checks...
+	// const skillMax = 5;
+	// const skillPoints = skillMax * 5 + levelMod(level);
+
 	return {
 		totalXp,
 		level,
-		abilities: plusAllAbilities.includes(level) ? 'all' : plusOneAbility.includes(level) ? 1 : null,
+		abilities: level === 1 ? 2 : plusAllAbilities.includes(level) ? 'all' : plusOneAbility.includes(level) ? 1 : null,
 		features,
 		levelMod: levelMod(level),
 		featsKnown: featCount(level),
@@ -52,6 +63,8 @@ function toLevel(
 		dailyPowers: parseInt(match.groups.daily, 10),
 		utilityPowers: parseInt(match.groups.utility, 10),
 		retrainPower: match.groups.retrainEncounter ? 'encounter' : match.groups.retrainDaily ? 'daily' : null,
+		skillMax,
+		skillPoints,
 	};
 }
 
