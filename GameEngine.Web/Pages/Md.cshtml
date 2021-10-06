@@ -1,0 +1,6 @@
+﻿@page "/rules/{*doc}"
+@{
+	string doc = RouteData.Values["doc"]!.ToString()!;
+}
+
+@await Html.React($"pages/md/{doc}")
