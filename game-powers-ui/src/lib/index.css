@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 @page {
-    margin: 0.75in;
+    margin: 0.25in;
 }
 
 body {

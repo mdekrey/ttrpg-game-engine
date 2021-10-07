@@ -68,6 +68,11 @@ module.exports = {
 	darkMode: false, // or 'media' or 'class'
 	theme: {
 		extend: {
+			fontSize: {
+				'4xs': '0.375rem',
+				'3xs': '0.5rem',
+				'2xs': '0.625rem',
+			},
 			fontFamily: {
 				header: ['"Martel"', 'serif'],
 				text: ['"Source Serif Pro"', 'serif'],

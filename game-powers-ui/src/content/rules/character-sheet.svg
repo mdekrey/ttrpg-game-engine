@@ -1,0 +1,246 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1512 2016">
+    <defs>
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Martel|Source+Serif+Pro|IM+Fell+Great+Primer" type="text/css"/>
+        <style>
+            .title {
+                font-family: "Source Serif Pro", serif;
+                font-size: 64px;
+                font-weight: bold;
+            }
+
+            .section-title {
+                font-family: "Lato", sans-serif;
+                font-size: 20px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            .stat-word {
+                font-family: "Lato", sans-serif;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .stat-abbreviation {
+                font-family: "Lato", sans-serif;
+                font-size: 28px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            .stat-annotation {
+                font-family: "Lato", sans-serif;
+                font-size: 16px;
+            }
+
+            .stat-label {
+                font-family: "Source Serif Pro", serif;
+                font-size: 14px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+            .label {
+                font-family: "Source Serif Pro", serif;
+                font-size: 14px;
+                font-weight: bold;
+            }
+        </style>
+    </defs>
+
+    <g id="title-bar">
+        <rect width="1512" height="94" fill="#333333" />
+        <text class="title" y="20" x="15" fill="white" dominant-baseline="hanging">DnD: ME</text>
+        <rect x="1025" y="52" width="462" height="38" stroke-width="2" stroke="#333333" fill="white" />
+        <text class="label" x="1027" y="88" dominant-baseline="ideographic">Player Name</text>
+        <text class="title" style="font-size: 48px" x="1487" y="5" text-anchor="end" dominant-baseline="hanging" fill="white">Character Sheet</text>
+    </g>
+
+    <g id="character-name-bar" transform="translate(0 94)">
+        <g transform="translate(0 0)">
+            <line x1="0" x2="490" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Character Name</text>
+        </g>
+
+        <g transform="translate(509 0)">
+            <rect x="0" y="6" width="88" height="38" stroke-width="2" stroke="#333333" fill="transparent" />
+            <text class="label" y="53" x="44" dominant-baseline="hanging" text-anchor="middle">Level</text>
+        </g>
+
+        <g transform="translate(613 0)">
+            <line x1="0" x2="230" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Class</text>
+        </g>
+
+        <g transform="translate(852 0)">
+            <line x1="0" x2="236" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Paragon Path</text>
+        </g>
+
+        <g transform="translate(1099 0)">
+            <line x1="0" x2="244" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Epic Destiny</text>
+        </g>
+
+        <g transform="translate(1348 0)">
+            <rect x="0" y="6" width="154" height="38" stroke-width="2" stroke="#333333" fill="transparent" />
+            <text class="label" y="53" x="77" dominant-baseline="hanging" text-anchor="middle">Total XP</text>
+        </g>
+    </g>
+
+    <g id="aesthetics-bar" transform="translate(0 143)">
+        <g transform="translate(0 0)">
+            <line x1="0" x2="293" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Race</text>
+        </g>
+
+        <g transform="translate(306 0)">
+            <line x1="0" x2="79" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Size</text>
+        </g>
+
+        <g transform="translate(398 0)">
+            <line x1="0" x2="60" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Age</text>
+        </g>
+
+        <g transform="translate(473 0)">
+            <line x1="0" x2="71" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Height</text>
+        </g>
+
+        <g transform="translate(558 0)">
+            <line x1="0" x2="71" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Weight</text>
+        </g>
+
+        <g transform="translate(643 0)">
+            <line x1="0" x2="76" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Alignment</text>
+        </g>
+
+        <g transform="translate(733 0)">
+            <line x1="0" x2="155" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Pronouns</text>
+        </g>
+
+        <g transform="translate(901 0)">
+            <line x1="0" x2="158" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Deity</text>
+        </g>
+
+        <g transform="translate(1071 0)">
+            <line x1="0" x2="435" y1="44" y2="44" stroke-width="2" stroke="#333333" />
+            <text class="label" y="53" dominant-baseline="hanging">Adventuring Company or Other Affiliations</text>
+        </g>
+
+    </g>
+
+    <g id="movement" transform="translate(0 215)">
+        <g>
+            <rect width="498" height="34" fill="#333333" />
+            <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Movement</text>
+        </g>
+        <g transform="translate(0 52)">
+            <rect x="16" width="482" height="50" fill="#333333" />
+            <text class="stat-label" y="1" x="2" dominant-baseline="ideographic">Score</text>
+            <rect y="5" width="65" height="40" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-word" y="36" x="82" fill="white">Speed</text>
+            <text class="stat-annotation" y="36" x="174" fill="white">(Squares)</text>
+
+            <text x="282" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Base</text>
+            <rect x="282" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="336" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Armor</text>
+            <rect x="336" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="390" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Item</text>
+            <rect x="390" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="444" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+            <rect x="444" y="7" width="47" height="36" fill="white" stroke-width="0" />
+        </g>
+        <g transform="translate(0 125)">
+            <text class="stat-label" y="1" x="2" dominant-baseline="ideographic">Special Movement</text>
+        </g>
+    </g>
+
+    <g id="ability-scores" transform="translate(0 360)">
+        <g>
+            <rect width="498" height="34" fill="#333333" />
+            <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Ability Scores</text>
+        </g>
+        <g transform="translate(16 0)">
+            <g transform="translate(0 50)">
+                <text class="stat-label" y="1" x="2" dominant-baseline="ideographic">Score</text>
+                <text class="stat-label" y="1" x="388" text-anchor="middle" dominant-baseline="ideographic">Score + 1 / 2 LVL</text>
+            </g>
+            <g transform="translate(0 50)">
+                <rect x="190" y="23" width="234" height="53" fill="#888888" />
+                <path transform="translate(0 23)" d="M424 0v53L539 0z" fill="#888888" />
+                <g>
+                    <rect x="16" width="174" height="48" fill="#333333" />
+                    <rect y="4" width="65" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                    <text class="stat-abbreviation" y="31" x="127" text-anchor="middle" dominant-baseline="ideographic" fill="white">STR</text>
+                    <text class="stat-annotation" y="31" x="127" text-anchor="middle" dominant-baseline="hanging" fill="white">Strength</text>
+
+                    <rect x="350" width="43" height="48" fill="#333333" />
+                    <rect x="353" y="4" width="69" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                </g>
+
+                <g transform="translate(0 51)">
+                    <rect x="16" width="174" height="48" fill="#333333" />
+                    <rect y="4" width="65" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                    <text class="stat-abbreviation" y="31" x="127" text-anchor="middle" dominant-baseline="ideographic" fill="white">CON</text>
+                    <text class="stat-annotation" y="31" x="127" text-anchor="middle" dominant-baseline="hanging" fill="white">Constitution</text>
+
+                    <rect x="350" width="43" height="48" fill="#333333" />
+                    <rect x="353" y="4" width="69" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                </g>
+            </g>
+            <g transform="translate(0 170)">
+                <rect x="190" y="23" width="234" height="53" fill="#888888" />
+                <path transform="translate(0 23)" d="M424 0v53L539 0z" fill="#888888" />
+                <g>
+                    <rect x="16" width="174" height="48" fill="#333333" />
+                    <rect y="4" width="65" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                    <text class="stat-abbreviation" y="31" x="127" text-anchor="middle" dominant-baseline="ideographic" fill="white">DEX</text>
+                    <text class="stat-annotation" y="31" x="127" text-anchor="middle" dominant-baseline="hanging" fill="white">Dexterity</text>
+
+                    <rect x="350" width="43" height="48" fill="#333333" />
+                    <rect x="353" y="4" width="69" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                </g>
+
+                <g transform="translate(0 51)">
+                    <rect x="16" width="174" height="48" fill="#333333" />
+                    <rect y="4" width="65" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                    <text class="stat-abbreviation" y="31" x="127" text-anchor="middle" dominant-baseline="ideographic" fill="white">INT</text>
+                    <text class="stat-annotation" y="31" x="127" text-anchor="middle" dominant-baseline="hanging" fill="white">Intelligence</text>
+
+                    <rect x="350" width="43" height="48" fill="#333333" />
+                    <rect x="353" y="4" width="69" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                </g>
+            </g>
+            <g transform="translate(0 290)">
+                <rect x="190" y="23" width="234" height="53" fill="#888888" />
+                <path transform="translate(0 23)" d="M424 0v53L539 0z" fill="#888888" />
+                <g>
+                    <rect x="16" width="174" height="48" fill="#333333" />
+                    <rect y="4" width="65" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                    <text class="stat-abbreviation" y="31" x="127" text-anchor="middle" dominant-baseline="ideographic" fill="white">WIS</text>
+                    <text class="stat-annotation" y="31" x="127" text-anchor="middle" dominant-baseline="hanging" fill="white">Wisdom</text>
+
+                    <rect x="350" width="43" height="48" fill="#333333" />
+                    <rect x="353" y="4" width="69" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                </g>
+
+                <g transform="translate(0 51)">
+                    <rect x="16" width="174" height="48" fill="#333333" />
+                    <rect y="4" width="65" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                    <text class="stat-abbreviation" y="31" x="127" text-anchor="middle" dominant-baseline="ideographic" fill="white">CHA</text>
+                    <text class="stat-annotation" y="31" x="127" text-anchor="middle" dominant-baseline="hanging" fill="white">Charisma</text>
+
+                    <rect x="350" width="43" height="48" fill="#333333" />
+                    <rect x="353" y="4" width="69" height="40" fill="white" stroke-width="2" stroke="#333333" />
+                </g>
+            </g>
+        </g>
+    </g>
+
+</svg>
