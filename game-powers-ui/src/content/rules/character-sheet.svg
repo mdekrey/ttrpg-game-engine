@@ -431,4 +431,77 @@
 
         </g>
     </g>
+
+    <g id="attack-workspace" transform="translate(1026 215)">
+        <g>
+            <rect width="498" height="34" fill="#333333" />
+            <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Attack Workspace</text>
+        </g>
+        <g transform="translate(0 36)" id="attack-workspace-ability">
+            <text class="stat-label" y="1" x="2" dominant-baseline="hanging">Ability:</text>
+            <g transform="translate(0 52)">
+                <rect x="16" width="482" height="48" fill="#333333" />
+                <text x="2" y="1" class="stat-label" dominant-baseline="ideographic">ATK Bonus</text>
+                <rect y="3" width="65" height="42" fill="white" stroke-width="2" stroke="#333333" />
+
+                <text x="141" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">1/2 LVL</text>
+                <rect x="141" y="6" width="47" height="36" fill="white" stroke-width="0" />
+                <text x="192" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Abil</text>
+                <rect x="192" y="6" width="47" height="36" fill="white" stroke-width="0" />
+                <text x="243" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Class</text>
+                <rect x="243" y="6" width="47" height="36" fill="white" stroke-width="0" />
+                <text x="294" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Prof</text>
+                <rect x="294" y="6" width="47" height="36" fill="white" stroke-width="0" />
+                <text x="345" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Feat</text>
+                <rect x="345" y="6" width="47" height="36" fill="white" stroke-width="0" />
+                <text x="396" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Enh</text>
+                <rect x="396" y="6" width="47" height="36" fill="white" stroke-width="0" />
+                <text x="447" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+                <rect x="447" y="6" width="47" height="36" fill="white" stroke-width="0" />
+            </g>
+            <g transform="translate(0 118)">
+                <rect x="16" width="482" height="48" fill="#333333" />
+                <text x="2" y="1" class="stat-label" dominant-baseline="ideographic">Damage</text>
+                <rect y="3" width="165" height="42" fill="white" stroke-width="2" stroke="#333333" />
+
+                <text x="243" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Abil</text>
+                <rect x="243" y="6" width="47" height="36" fill="white" stroke-width="0" />
+                <text x="294" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Feat</text>
+                <rect x="294" y="6" width="47" height="36" fill="white" stroke-width="0" />
+                <text x="345" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Enh</text>
+                <rect x="345" y="6" width="47" height="36" fill="white" stroke-width="0" />
+                <text x="396" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+                <rect x="396" y="6" width="47" height="36" fill="white" stroke-width="0" />
+                <text x="447" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+                <rect x="447" y="6" width="47" height="36" fill="white" stroke-width="0" />
+            </g>
+        </g>
+        <use transform="translate(0 170)" href="#attack-workspace-ability" />
+        <use transform="translate(0 340)" href="#attack-workspace-ability" />
+
+    </g>
+
+    <g id="action-points" transform="translate(1026 762)">
+        <g>
+            <rect width="498" height="34" fill="#333333" />
+            <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Basic Attacks</text>
+        </g>
+        <g transform="translate(0 36)" id="attack-workspace-ability">
+            <text class="stat-label" y="1" x="31" text-anchor="middle" dominant-baseline="hanging">Attack</text>
+            <text class="stat-label" y="1" x="128" text-anchor="middle" dominant-baseline="hanging">Defense</text>
+            <text class="stat-label" y="1" x="269" text-anchor="middle" dominant-baseline="hanging">Weapon or Power</text>
+            <text class="stat-label" y="1" x="440" text-anchor="middle" dominant-baseline="hanging">Damage</text>
+        </g>
+        <g transform="translate(0 50)" id="basic-attack">
+            <rect y="0" width="62" height="42" fill="white" stroke-width="2" stroke="#333333" />
+            <rect y="0" x="97" width="62" height="42" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="label" y="32" x="79" text-anchor="middle" dominant-baseline="ideographic">vs</text>
+            <line x1="171" x2="368" y1="42" y2="42" stroke-width="2" stroke="#333333" />
+            <line x1="382" x2="498" y1="42" y2="42" stroke-width="2" stroke="#333333" />
+        </g>
+        <use href="#basic-attack" transform="translate(0 50)"/>
+        <use href="#basic-attack" transform="translate(0 100)"/>
+        <use href="#basic-attack" transform="translate(0 150)"/>
+    </g>
+
 </svg>
