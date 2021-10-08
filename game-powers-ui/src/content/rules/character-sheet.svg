@@ -248,7 +248,7 @@
         </g>
     </g>
 
-    <g id="defenses" transform="translate(513 215)">
+    <g id="defenses" transform="translate(507 215)">
         <g>
             <rect width="498" height="34" fill="#333333" />
             <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Defenses</text>
@@ -406,7 +406,7 @@
         </g>
     </g>
 
-    <g id="action-points" transform="translate(513 762)">
+    <g id="action-points" transform="translate(507 762)">
         <g>
             <rect width="498" height="34" fill="#333333" />
             <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Action Points</text>
@@ -432,7 +432,7 @@
         </g>
     </g>
 
-    <g id="attack-workspace" transform="translate(1026 215)">
+    <g id="attack-workspace" transform="translate(1014 215)">
         <g>
             <rect width="498" height="34" fill="#333333" />
             <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Attack Workspace</text>
@@ -481,7 +481,7 @@
 
     </g>
 
-    <g id="basic-attacks" transform="translate(1026 762)">
+    <g id="basic-attacks" transform="translate(1014 762)">
         <g>
             <rect width="498" height="34" fill="#333333" />
             <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Basic Attacks</text>
@@ -502,6 +502,19 @@
         <use href="#basic-attack" transform="translate(0 50)"/>
         <use href="#basic-attack" transform="translate(0 100)"/>
         <use href="#basic-attack" transform="translate(0 150)"/>
+    </g>
+
+    <g id="languages" transform="translate(0 1310)">
+        <g>
+            <rect width="498" height="34" fill="#333333" />
+            <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Languages Known</text>
+        </g>
+        <g transform="translate(0 34)" id="attack-workspace-ability">
+            <line x1="0" x2="498" y1="36" y2="36" stroke-width="2" stroke="#333333" />
+        </g>
+        <g transform="translate(0 70)" id="attack-workspace-ability">
+            <line x1="0" x2="498" y1="36" y2="36" stroke-width="2" stroke="#333333" />
+        </g>
     </g>
 
 </svg>
