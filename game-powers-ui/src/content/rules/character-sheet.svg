@@ -481,7 +481,7 @@
 
     </g>
 
-    <g id="action-points" transform="translate(1026 762)">
+    <g id="basic-attacks" transform="translate(1026 762)">
         <g>
             <rect width="498" height="34" fill="#333333" />
             <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Basic Attacks</text>
