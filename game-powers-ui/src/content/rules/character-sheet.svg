@@ -406,4 +406,29 @@
         </g>
     </g>
 
+    <g id="action-points" transform="translate(513 762)">
+        <g>
+            <rect width="498" height="34" fill="#333333" />
+            <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Action Points</text>
+        </g>
+        <g transform="translate(0 50)">
+            <rect x="16" width="249" height="48" fill="#333333" />
+            <rect y="4" width="65" height="40" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-word" y="26" x="72" text-anchor="left" dominant-baseline="middle" fill="white">Action Points</text>
+            <g>
+                <text class="stat-label" dy="-2" y="0" x="318" text-anchor="middle" dominant-baseline="hanging">Milestones</text>
+                <text class="stat-label" dy="-2" y="13" x="318" text-anchor="middle" dominant-baseline="hanging">0</text>
+                <text class="stat-label" dy="-2" y="26" x="318" text-anchor="middle" dominant-baseline="hanging">1</text>
+                <text class="stat-label" dy="-2" y="39" x="318" text-anchor="middle" dominant-baseline="hanging">2</text>
+            </g>
+            <g>
+                <text class="stat-label" dy="-2" y="0" x="428" text-anchor="middle" dominant-baseline="hanging">Action Points</text>
+                <text class="stat-label" dy="-2" y="13" x="428" text-anchor="middle" dominant-baseline="hanging">1</text>
+                <text class="stat-label" dy="-2" y="26" x="428" text-anchor="middle" dominant-baseline="hanging">2</text>
+                <text class="stat-label" dy="-2" y="39" x="428" text-anchor="middle" dominant-baseline="hanging">3</text>
+            </g>
+            <text class="stat-label" y="50" x="2" text-anchor="start" dominant-baseline="hanging">Additional Effects for Spending Action Points</text>
+
+        </g>
+    </g>
 </svg>
