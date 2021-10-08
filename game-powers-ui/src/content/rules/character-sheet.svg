@@ -34,13 +34,18 @@
             }
 
             .stat-label {
-                font-family: "Source Serif Pro", serif;
+                font-family: "Lato", sans-serif;
                 font-size: 14px;
                 font-weight: bold;
                 text-transform: uppercase;
             }
+            .stat-label.large {
+                font-size: 20px;
+                font-weight: bold;
+                text-transform: initial;
+            }
             .label {
-                font-family: "Source Serif Pro", serif;
+                font-family: "Lato", sans-serif;
                 font-size: 14px;
                 font-weight: bold;
             }
@@ -240,6 +245,164 @@
                     <rect x="353" y="4" width="69" height="40" fill="white" stroke-width="2" stroke="#333333" />
                 </g>
             </g>
+        </g>
+    </g>
+
+    <g id="defenses" transform="translate(513 215)">
+        <g>
+            <rect width="498" height="34" fill="#333333" />
+            <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Defenses</text>
+        </g>
+        <g transform="translate(0 52)">
+            <text class="stat-label" y="1" x="2" dominant-baseline="ideographic">Score</text>
+        </g>
+        <g transform="translate(0 67)">
+            <rect x="16" width="482" height="50" fill="#333333" />
+            <circle cy="25" cx="28" r="28" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-abbreviation" y="36" x="96" text-anchor="middle" fill="white">AC</text>
+
+            <text x="141" dx="23" y="1" dy="-14" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">10 +</text>
+            <text x="141" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">1/2 LVL</text>
+            <rect x="141" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="192" dx="23" y="1" dy="-14" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Armor /</text>
+            <text x="192" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Abil</text>
+            <rect x="192" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="243" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Class</text>
+            <rect x="243" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="294" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Feat</text>
+            <rect x="294" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="345" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">ENH</text>
+            <rect x="345" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="396" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+            <rect x="396" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="447" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+            <rect x="447" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text class="stat-label" y="74" x="2" dominant-baseline="ideographic">Conditional Bonuses</text>
+        </g>
+
+        <g transform="translate(0 203)">
+            <rect x="16" width="482" height="50" fill="#333333" />
+            <circle cy="25" cx="28" r="28" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-abbreviation" y="36" x="96" text-anchor="middle" fill="white">FORT</text>
+
+            <text x="141" dx="23" y="1" dy="-14" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">10 +</text>
+            <text x="141" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">1/2 LVL</text>
+            <rect x="141" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="192" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Abil</text>
+            <rect x="192" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="243" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Class</text>
+            <rect x="243" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="294" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Feat</text>
+            <rect x="294" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="345" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">ENH</text>
+            <rect x="345" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="396" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+            <rect x="396" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="447" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+            <rect x="447" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text class="stat-label" y="74" x="2" dominant-baseline="ideographic">Conditional Bonuses</text>
+        </g>
+
+        <g transform="translate(0 323)">
+            <rect x="16" width="482" height="50" fill="#333333" />
+            <circle cy="25" cx="28" r="28" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-abbreviation" y="36" x="96" text-anchor="middle" fill="white">REFL</text>
+
+            <text x="141" dx="23" y="1" dy="-14" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">10 +</text>
+            <text x="141" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">1/2 LVL</text>
+            <rect x="141" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="192" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Abil</text>
+            <rect x="192" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="243" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Class</text>
+            <rect x="243" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="294" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Feat</text>
+            <rect x="294" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="345" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">ENH</text>
+            <rect x="345" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="396" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+            <rect x="396" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="447" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+            <rect x="447" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text class="stat-label" y="74" x="2" dominant-baseline="ideographic">Conditional Bonuses</text>
+        </g>
+
+        <g transform="translate(0 443)">
+            <rect x="16" width="482" height="50" fill="#333333" />
+            <circle cy="25" cx="28" r="28" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-abbreviation" y="36" x="96" text-anchor="middle" fill="white">WILL</text>
+
+            <text x="141" dx="23" y="1" dy="-14" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">10 +</text>
+            <text x="141" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">1/2 LVL</text>
+            <rect x="141" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="192" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Abil</text>
+            <rect x="192" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="243" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Class</text>
+            <rect x="243" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="294" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Feat</text>
+            <rect x="294" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="345" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">ENH</text>
+            <rect x="345" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="396" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+            <rect x="396" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text x="447" dx="23" y="1" class="stat-label" text-anchor="middle" dominant-baseline="ideographic">Misc</text>
+            <rect x="447" y="7" width="47" height="36" fill="white" stroke-width="0" />
+            <text class="stat-label" y="74" x="2" dominant-baseline="ideographic">Conditional Bonuses</text>
+        </g>
+
+    </g>
+
+    <g id="health" transform="translate(0 762)">
+        <g>
+            <rect width="498" height="34" fill="#333333" />
+            <text class="section-title" y="8.5" x="249" fill="white" text-anchor="middle" dominant-baseline="hanging">Hit Points</text>
+        </g>
+        <g transform="translate(0 34)">
+            <text class="stat-label large" y="28" x="55" text-anchor="middle" dominant-baseline="ideographic">Max HP</text>
+            <rect x="2" y="33" width="106" height="59" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-label" y="45" x="180" text-anchor="middle" dominant-baseline="ideographic">Bloodied</text>
+            <rect x="122" y="47" width="116" height="40" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-label" y="89" x="180" text-anchor="middle" dominant-baseline="hanging">1/2 HP</text>
+
+            <text class="stat-label large" y="28" x="383" text-anchor="middle" dominant-baseline="ideographic">Healing Surges</text>
+            <text class="stat-label" y="45" x="325" text-anchor="middle" dominant-baseline="ideographic">Surge Value</text>
+            <rect x="267" y="47" width="116" height="40" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-label" y="89" x="325" text-anchor="middle" dominant-baseline="hanging">1/4 HP</text>
+            <text class="stat-label" y="45" x="446" text-anchor="middle" dominant-baseline="ideographic">Surges/Day</text>
+            <rect x="394" y="47" width="104" height="40" fill="white" stroke-width="2" stroke="#333333" />
+        </g>
+        <g transform="translate(0 140)">
+            <rect x="0" y="0" width="498" height="111" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-label" y="2" x="2" text-anchor="start" dominant-baseline="hanging">Current Hit Points</text>
+            <text class="stat-label" y="2" x="496" text-anchor="end" dominant-baseline="hanging">Current Surge Uses</text>
+        </g>
+        <g transform="translate(0 251)">
+            <rect width="498" height="26" fill="#333333" />
+            <text class="stat-label large" y="13" x="200" text-anchor="middle" dominant-baseline="middle" fill="white">Second Wind 1/Encounter</text>
+            <text class="stat-label large" y="13" x="400" text-anchor="end" dominant-baseline="middle" fill="white">Used</text>
+            <rect x="404" y="3" width="20" height="20" fill="white" stroke-width="2" stroke="#333333" />
+        </g>
+        <g transform="translate(0 277)">
+            <rect x="0" y="0" width="498" height="67" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-label" y="2" x="2" text-anchor="start" dominant-baseline="hanging">Temporary Points</text>
+        </g>
+        <g transform="translate(0 344)">
+            <rect width="498" height="26" fill="#333333" />
+            <text class="stat-label large" y="13" x="200" text-anchor="middle" dominant-baseline="middle" fill="white">Death Saving Throw Failures</text>
+            <rect x="381" y="3" width="20" height="20" fill="white" stroke-width="2" stroke="#333333" />
+            <rect x="404" y="3" width="20" height="20" fill="white" stroke-width="2" stroke="#333333" />
+            <rect x="427" y="3" width="20" height="20" fill="white" stroke-width="2" stroke="#333333" />
+        </g>
+        <g transform="translate(0 370)">
+            <rect x="0" y="0" width="498" height="50" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-label" y="2" x="2" text-anchor="start" dominant-baseline="hanging">Saving Throw Mods</text>
+        </g>
+        <g transform="translate(0 420)">
+            <rect x="0" y="0" width="498" height="62" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-label" y="2" x="2" text-anchor="start" dominant-baseline="hanging">Resistances</text>
+        </g>
+        <g transform="translate(0 482)">
+            <rect x="0" y="0" width="498" height="62" fill="white" stroke-width="2" stroke="#333333" />
+            <text class="stat-label" y="2" x="2" text-anchor="start" dominant-baseline="hanging">Current Conditions and Effects</text>
         </g>
     </g>
 
