@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { ReactComponent } from './character-sheet.svg';
+import { CharacterSheet } from './character-sheet';
 
 export const CharacterSheetContainer = () => {
 	const svgRef = useRef<SVGSVGElement | null>(null);
@@ -10,7 +10,7 @@ export const CharacterSheetContainer = () => {
 					Downloadable
 				</button>
 			</p>
-			<ReactComponent
+			<CharacterSheet
 				ref={svgRef}
 				style={{
 					width: '7.5in',
