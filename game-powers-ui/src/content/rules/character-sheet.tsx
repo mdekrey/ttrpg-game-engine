@@ -191,47 +191,100 @@ function ModifierBar({
 	height,
 	modifiers,
 	children,
+	mode = 'box',
 }: {
 	firstLabel: string;
-	firstBoxWidth: number;
 	x: number;
 	y: number;
 	width: number;
 	height: number;
 	modifiers: Array<string | string[]>;
-	children: ReactNode;
-}) {
-	const modWidth = 54;
+	children?: BoxProps['children'];
+	mode?: 'box' | 'circle';
+} & ({ firstBoxWidth: number; mode?: 'box' } | { firstBoxWidth?: undefined; mode: 'circle' })) {
+	const modWidth = 54 - Math.max(0, modifiers.length - 4);
 	return (
 		<HiddenBox left={x} top={height - 50} outerWidth={width} outerHeight={50}>
 			<rect x="16" width={width - 16} height={50} fill={black} />
 			<text className="stat-label" y="1" x="2" {...text.y.base}>
 				{firstLabel}
 			</text>
-			<rect y="5" width={firstBoxWidth} height="40" fill="white" strokeWidth="2" stroke={black} />
-			<HiddenBox
-				left={firstBoxWidth}
-				top={5}
-				outerWidth={width - firstBoxWidth - modifiers.length * modWidth}
-				outerHeight={40}>
-				{children}
-			</HiddenBox>
-
+			{mode === 'box' ? (
+				<rect y="5" width={firstBoxWidth} height="40" fill="white" strokeWidth="2" stroke={black} />
+			) : (
+				<circle cy="25" cx="28" r="28" fill="white" strokeWidth="2" stroke={black} />
+			)}
 			{modifiers.map((modifier, index) => {
 				const mx = width - (modifiers.length - index) * modWidth;
+				const lines = typeof modifier === 'string' ? [modifier] : modifier;
 				return (
 					// eslint-disable-next-line react/no-array-index-key
 					<Fragment key={index}>
-						<text x={mx} dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							{modifier}
-						</text>
+						{lines.map((line, lineIndex) => (
+							<text
+								// eslint-disable-next-line react/no-array-index-key
+								key={lineIndex}
+								x={mx}
+								dx="23"
+								y="1"
+								dy={14 * (lineIndex - lines.length + 1)}
+								className="stat-label"
+								{...text.x.center}
+								{...text.y.base}>
+								{line}
+							</text>
+						))}
 						<rect x={mx} y="7" width="47" height="36" fill="white" strokeWidth="0" />
 					</Fragment>
 				);
 			})}
+			<HiddenBox
+				left={firstBoxWidth || 28 * 2}
+				top={5}
+				outerWidth={width - (firstBoxWidth || 28 * 2) - modifiers.length * modWidth}
+				outerHeight={40}>
+				{children}
+			</HiddenBox>
 		</HiddenBox>
 	);
 }
+
+function AttributeBar({
+	x,
+	y,
+	width,
+	height,
+	abbreviation,
+	name,
+}: {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	abbreviation: string;
+	name: string;
+}) {
+	return (
+		<HiddenBox left={x} top={y} outerWidth={width} outerHeight={height}>
+			<rect x="16" width={174} height={48} fill={black} />
+			<rect y="4" width={65} height="40" fill="white" strokeWidth="2" stroke={black} />
+			<HiddenBox left={65} top={4} outerWidth={174 - 65} outerHeight={40}>
+				<text className="stat-abbreviation" y="26" x="62" {...text.x.center} {...text.y.base} fill="white">
+					{abbreviation}
+				</text>
+				<text className="stat-annotation" y="26" x="62" {...text.x.center} {...text.y.hanging} fill="white">
+					{name}
+				</text>
+			</HiddenBox>
+
+			<rect x="350" width="43" height="48" fill={black} />
+			<rect x="353" y="4" width="69" height="40" fill="white" strokeWidth="2" stroke={black} />
+		</HiddenBox>
+	);
+}
+
+const acModifiers = [['10 +', '1/2 LVL'], ['Armor /', 'Abil'], 'Class', 'Feat', 'ENH', 'Misc', 'Misc'];
+const defenseModifiers = [['10'], ['Abil +', '1/2 LVL'], 'Class', 'Feat', 'ENH', 'Misc', 'Misc'];
 
 export const CharacterSheet = forwardRef(
 	({ ...props }: JSX.IntrinsicElements['svg'], ref: ForwardedRef<SVGSVGElement>) => {
@@ -317,300 +370,102 @@ export const CharacterSheet = forwardRef(
 					</HiddenBox>
 				</HiddenBox>
 
-				<g id="ability-scores" transform="translate(0 360)">
-					<g>
-						<rect width="498" height="34" fill={black} />
-						<text className="section-title" y="8.5" x="249" fill="white" {...text.x.center} {...text.y.hanging}>
-							Ability Scores
+				<HiddenBox left={0} top={360} outerWidth={498} outerHeight={402} id="ability-scores">
+					<MiniBanner width={498} height={34} label="Ability Scores" />
+					<g transform="translate(16 50)">
+						<text className="stat-label" y="1" x="2" {...text.y.base}>
+							Score
+						</text>
+						<text className="stat-label" y="1" x="388" {...text.x.center} {...text.y.base}>
+							Score + 1 / 2 LVL
 						</text>
 					</g>
-					<g transform="translate(16 0)">
-						<g transform="translate(0 50)">
-							<text className="stat-label" y="1" x="2" {...text.y.base}>
-								Score
-							</text>
-							<text className="stat-label" y="1" x="388" {...text.x.center} {...text.y.base}>
-								Score + 1 / 2 LVL
-							</text>
-						</g>
-						<g transform="translate(0 50)">
-							<rect x="190" y="23" width="234" height="53" fill="#888888" />
-							<path transform="translate(0 23)" d="M424 0v53L539 0z" fill="#888888" />
-							<g>
-								<rect x="16" width="174" height="48" fill={black} />
-								<rect y="4" width="65" height="40" fill="white" strokeWidth="2" stroke={black} />
-								<text className="stat-abbreviation" y="31" x="127" {...text.x.center} {...text.y.base} fill="white">
-									STR
-								</text>
-								<text className="stat-annotation" y="31" x="127" {...text.x.center} {...text.y.hanging} fill="white">
-									Strength
-								</text>
-
-								<rect x="350" width="43" height="48" fill={black} />
-								<rect x="353" y="4" width="69" height="40" fill="white" strokeWidth="2" stroke={black} />
-							</g>
-
-							<g transform="translate(0 51)">
-								<rect x="16" width="174" height="48" fill={black} />
-								<rect y="4" width="65" height="40" fill="white" strokeWidth="2" stroke={black} />
-								<text className="stat-abbreviation" y="31" x="127" {...text.x.center} {...text.y.base} fill="white">
-									CON
-								</text>
-								<text className="stat-annotation" y="31" x="127" {...text.x.center} {...text.y.hanging} fill="white">
-									Constitution
-								</text>
-
-								<rect x="350" width="43" height="48" fill={black} />
-								<rect x="353" y="4" width="69" height="40" fill="white" strokeWidth="2" stroke={black} />
-							</g>
-						</g>
-						<g transform="translate(0 170)">
-							<rect x="190" y="23" width="234" height="53" fill="#888888" />
-							<path transform="translate(0 23)" d="M424 0v53L539 0z" fill="#888888" />
-							<g>
-								<rect x="16" width="174" height="48" fill={black} />
-								<rect y="4" width="65" height="40" fill="white" strokeWidth="2" stroke={black} />
-								<text className="stat-abbreviation" y="31" x="127" {...text.x.center} {...text.y.base} fill="white">
-									DEX
-								</text>
-								<text className="stat-annotation" y="31" x="127" {...text.x.center} {...text.y.hanging} fill="white">
-									Dexterity
-								</text>
-
-								<rect x="350" width="43" height="48" fill={black} />
-								<rect x="353" y="4" width="69" height="40" fill="white" strokeWidth="2" stroke={black} />
-							</g>
-
-							<g transform="translate(0 51)">
-								<rect x="16" width="174" height="48" fill={black} />
-								<rect y="4" width="65" height="40" fill="white" strokeWidth="2" stroke={black} />
-								<text className="stat-abbreviation" y="31" x="127" {...text.x.center} {...text.y.base} fill="white">
-									INT
-								</text>
-								<text className="stat-annotation" y="31" x="127" {...text.x.center} {...text.y.hanging} fill="white">
-									Intelligence
-								</text>
-
-								<rect x="350" width="43" height="48" fill={black} />
-								<rect x="353" y="4" width="69" height="40" fill="white" strokeWidth="2" stroke={black} />
-							</g>
-						</g>
-						<g transform="translate(0 290)">
-							<rect x="190" y="23" width="234" height="53" fill="#888888" />
-							<path transform="translate(0 23)" d="M424 0v53L539 0z" fill="#888888" />
-							<g>
-								<rect x="16" width="174" height="48" fill={black} />
-								<rect y="4" width="65" height="40" fill="white" strokeWidth="2" stroke={black} />
-								<text className="stat-abbreviation" y="31" x="127" {...text.x.center} {...text.y.base} fill="white">
-									WIS
-								</text>
-								<text className="stat-annotation" y="31" x="127" {...text.x.center} {...text.y.hanging} fill="white">
-									Wisdom
-								</text>
-
-								<rect x="350" width="43" height="48" fill={black} />
-								<rect x="353" y="4" width="69" height="40" fill="white" strokeWidth="2" stroke={black} />
-							</g>
-
-							<g transform="translate(0 51)">
-								<rect x="16" width="174" height="48" fill={black} />
-								<rect y="4" width="65" height="40" fill="white" strokeWidth="2" stroke={black} />
-								<text className="stat-abbreviation" y="31" x="127" {...text.x.center} {...text.y.base} fill="white">
-									CHA
-								</text>
-								<text className="stat-annotation" y="31" x="127" {...text.x.center} {...text.y.hanging} fill="white">
-									Charisma
-								</text>
-
-								<rect x="350" width="43" height="48" fill={black} />
-								<rect x="353" y="4" width="69" height="40" fill="white" strokeWidth="2" stroke={black} />
-							</g>
-						</g>
+					<g transform="translate(16 50)">
+						<path transform="translate(0 23)" d="M190 0v53H424L539 0z" fill="#888888" />
+						<AttributeBar width={482} height={48} x={0} y={0} abbreviation="STR" name="Strength" />
+						<AttributeBar width={482} height={48} x={0} y={51} abbreviation="CON" name="Constitution" />
 					</g>
-				</g>
+					<g transform="translate(16 170)">
+						<path transform="translate(0 23)" d="M190 0v53H424L539 0z" fill="#888888" />
+						<AttributeBar width={482} height={48} x={0} y={0} abbreviation="DEX" name="Dexterity" />
+						<AttributeBar width={482} height={48} x={0} y={51} abbreviation="INT" name="Intelligence" />
+					</g>
+					<g transform="translate(16 290)">
+						<path transform="translate(0 23)" d="M190 0v53H424L539 0z" fill="#888888" />
+						<AttributeBar width={482} height={48} x={0} y={0} abbreviation="WIS" name="Wisdom" />
+						<AttributeBar width={482} height={48} x={0} y={51} abbreviation="CHA" name="Charisma" />
+					</g>
+				</HiddenBox>
 
 				<g id="defenses" transform="translate(507 215)">
-					<g>
-						<rect width="498" height="34" fill={black} />
-						<text className="section-title" y="8.5" x="249" fill="white" {...text.x.center} {...text.y.hanging}>
-							Defenses
-						</text>
-					</g>
+					<MiniBanner width={498} height={34} label="Defenses" />
 					<g transform="translate(0 52)">
 						<text className="stat-label" y="1" x="2" {...text.y.base}>
 							Score
 						</text>
 					</g>
 					<g transform="translate(0 67)">
-						<rect x="16" width="482" height="50" fill={black} />
-						<circle cy="25" cx="28" r="28" fill="white" strokeWidth="2" stroke={black} />
-						<text className="stat-abbreviation" y="36" x="96" {...text.x.center} fill="white">
-							AC
-						</text>
-
-						<text x="141" dx="23" y="1" dy="-14" className="stat-label" {...text.x.center} {...text.y.base}>
-							10 +
-						</text>
-						<text x="141" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							1/2 LVL
-						</text>
-						<rect x="141" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="192" dx="23" y="1" dy="-14" className="stat-label" {...text.x.center} {...text.y.base}>
-							Armor /
-						</text>
-						<text x="192" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Abil
-						</text>
-						<rect x="192" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="243" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Class
-						</text>
-						<rect x="243" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="294" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Feat
-						</text>
-						<rect x="294" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="345" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							ENH
-						</text>
-						<rect x="345" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="396" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Misc
-						</text>
-						<rect x="396" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="447" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Misc
-						</text>
-						<rect x="447" y="7" width="47" height="36" fill="white" strokeWidth="0" />
+						<ModifierBar mode="circle" firstLabel="" x={0} y={0} height={50} width={498} modifiers={acModifiers}>
+							{({ width }) => (
+								<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
+									AC
+								</text>
+							)}
+						</ModifierBar>
 						<text className="stat-label" y="74" x="2" {...text.y.base}>
 							Conditional Bonuses
 						</text>
 					</g>
 
 					<g transform="translate(0 203)">
-						<rect x="16" width="482" height="50" fill={black} />
-						<circle cy="25" cx="28" r="28" fill="white" strokeWidth="2" stroke={black} />
-						<text className="stat-abbreviation" y="36" x="96" {...text.x.center} fill="white">
-							FORT
-						</text>
-
-						<text x="141" dx="23" y="1" dy="-14" className="stat-label" {...text.x.center} {...text.y.base}>
-							10 +
-						</text>
-						<text x="141" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							1/2 LVL
-						</text>
-						<rect x="141" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="192" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Abil
-						</text>
-						<rect x="192" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="243" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Class
-						</text>
-						<rect x="243" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="294" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Feat
-						</text>
-						<rect x="294" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="345" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							ENH
-						</text>
-						<rect x="345" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="396" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Misc
-						</text>
-						<rect x="396" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="447" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Misc
-						</text>
-						<rect x="447" y="7" width="47" height="36" fill="white" strokeWidth="0" />
+						<ModifierBar mode="circle" firstLabel="" x={0} y={0} height={50} width={498} modifiers={defenseModifiers}>
+							{({ width }) => (
+								<>
+									<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
+										FORT
+									</text>
+									<text className="stat-abbreviation" y="31" x={width + 47 / 2} {...text.x.center} fill={black}>
+										10
+									</text>
+								</>
+							)}
+						</ModifierBar>
 						<text className="stat-label" y="74" x="2" {...text.y.base}>
 							Conditional Bonuses
 						</text>
 					</g>
 
 					<g transform="translate(0 323)">
-						<rect x="16" width="482" height="50" fill={black} />
-						<circle cy="25" cx="28" r="28" fill="white" strokeWidth="2" stroke={black} />
-						<text className="stat-abbreviation" y="36" x="96" {...text.x.center} fill="white">
-							REFL
-						</text>
-
-						<text x="141" dx="23" y="1" dy="-14" className="stat-label" {...text.x.center} {...text.y.base}>
-							10 +
-						</text>
-						<text x="141" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							1/2 LVL
-						</text>
-						<rect x="141" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="192" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Abil
-						</text>
-						<rect x="192" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="243" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Class
-						</text>
-						<rect x="243" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="294" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Feat
-						</text>
-						<rect x="294" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="345" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							ENH
-						</text>
-						<rect x="345" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="396" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Misc
-						</text>
-						<rect x="396" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="447" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Misc
-						</text>
-						<rect x="447" y="7" width="47" height="36" fill="white" strokeWidth="0" />
+						<ModifierBar mode="circle" firstLabel="" x={0} y={0} height={50} width={498} modifiers={defenseModifiers}>
+							{({ width }) => (
+								<>
+									<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
+										REFL
+									</text>
+									<text className="stat-abbreviation" y="31" x={width + 47 / 2} {...text.x.center} fill={black}>
+										10
+									</text>
+								</>
+							)}
+						</ModifierBar>
 						<text className="stat-label" y="74" x="2" {...text.y.base}>
 							Conditional Bonuses
 						</text>
 					</g>
 
 					<g transform="translate(0 443)">
-						<rect x="16" width="482" height="50" fill={black} />
-						<circle cy="25" cx="28" r="28" fill="white" strokeWidth="2" stroke={black} />
-						<text className="stat-abbreviation" y="36" x="96" {...text.x.center} fill="white">
-							WILL
-						</text>
-
-						<text x="141" dx="23" y="1" dy="-14" className="stat-label" {...text.x.center} {...text.y.base}>
-							10 +
-						</text>
-						<text x="141" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							1/2 LVL
-						</text>
-						<rect x="141" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="192" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Abil
-						</text>
-						<rect x="192" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="243" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Class
-						</text>
-						<rect x="243" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="294" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Feat
-						</text>
-						<rect x="294" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="345" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							ENH
-						</text>
-						<rect x="345" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="396" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Misc
-						</text>
-						<rect x="396" y="7" width="47" height="36" fill="white" strokeWidth="0" />
-						<text x="447" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-							Misc
-						</text>
-						<rect x="447" y="7" width="47" height="36" fill="white" strokeWidth="0" />
+						<ModifierBar mode="circle" firstLabel="" x={0} y={0} height={50} width={498} modifiers={defenseModifiers}>
+							{({ width }) => (
+								<>
+									<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
+										WILL
+									</text>
+									<text className="stat-abbreviation" y="31" x={width + 47 / 2} {...text.x.center} fill={black}>
+										10
+									</text>
+								</>
+							)}
+						</ModifierBar>
 						<text className="stat-label" y="74" x="2" {...text.y.base}>
 							Conditional Bonuses
 						</text>
@@ -618,12 +473,7 @@ export const CharacterSheet = forwardRef(
 				</g>
 
 				<g id="health" transform="translate(0 762)">
-					<g>
-						<rect width="498" height="34" fill={black} />
-						<text className="section-title" y="8.5" x="249" fill="white" {...text.x.center} {...text.y.hanging}>
-							Hit Points
-						</text>
-					</g>
+					<MiniBanner width={498} height={34} label="Hit Points" />
 					<g transform="translate(0 34)">
 						<text className="stat-label large" y="28" x="55" {...text.x.center} {...text.y.base}>
 							Max HP
@@ -707,12 +557,7 @@ export const CharacterSheet = forwardRef(
 				</g>
 
 				<g id="action-points" transform="translate(507 762)">
-					<g>
-						<rect width="498" height="34" fill={black} />
-						<text className="section-title" y="8.5" x="249" fill="white" {...text.x.center} {...text.y.hanging}>
-							Action Points
-						</text>
-					</g>
+					<MiniBanner width={498} height={34} label="Action Points" />
 					<g transform="translate(0 50)">
 						<rect x="16" width="249" height="48" fill={black} />
 						<rect y="4" width="65" height="40" fill="white" strokeWidth="2" stroke={black} />
@@ -754,79 +599,32 @@ export const CharacterSheet = forwardRef(
 				</g>
 
 				<g id="attack-workspace" transform="translate(1014 215)">
-					<g>
-						<rect width="498" height="34" fill={black} />
-						<text className="section-title" y="8.5" x="249" fill="white" {...text.x.center} {...text.y.hanging}>
-							Attack Workspace
-						</text>
-					</g>
+					<MiniBanner width={498} height={34} label="Attack Workspace" />
 					<g transform="translate(0 36)" id="attack-workspace-ability">
 						<text className="stat-label" y="1" x="2" {...text.y.hanging}>
 							Ability:
 						</text>
 						<g transform="translate(0 52)">
-							<rect x="16" width="482" height="48" fill={black} />
-							<text x="2" y="1" className="stat-label" {...text.y.base}>
-								ATK Bonus
-							</text>
-							<rect y="3" width="65" height="42" fill="white" strokeWidth="2" stroke={black} />
-
-							<text x="141" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								1/2 LVL
-							</text>
-							<rect x="141" y="6" width="47" height="36" fill="white" strokeWidth="0" />
-							<text x="192" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Abil
-							</text>
-							<rect x="192" y="6" width="47" height="36" fill="white" strokeWidth="0" />
-							<text x="243" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Class
-							</text>
-							<rect x="243" y="6" width="47" height="36" fill="white" strokeWidth="0" />
-							<text x="294" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Prof
-							</text>
-							<rect x="294" y="6" width="47" height="36" fill="white" strokeWidth="0" />
-							<text x="345" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Feat
-							</text>
-							<rect x="345" y="6" width="47" height="36" fill="white" strokeWidth="0" />
-							<text x="396" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Enh
-							</text>
-							<rect x="396" y="6" width="47" height="36" fill="white" strokeWidth="0" />
-							<text x="447" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Misc
-							</text>
-							<rect x="447" y="6" width="47" height="36" fill="white" strokeWidth="0" />
+							<ModifierBar
+								x={0}
+								y={0}
+								height={50}
+								width={498}
+								firstLabel="ATK Bonus"
+								firstBoxWidth={65}
+								modifiers={['1/2 LVL', 'ABIL', 'Class', 'Prof', 'Feat', 'Enh', 'Misc']}
+							/>
 						</g>
 						<g transform="translate(0 118)">
-							<rect x="16" width="482" height="48" fill={black} />
-							<text x="2" y="1" className="stat-label" {...text.y.base}>
-								Damage
-							</text>
-							<rect y="3" width="165" height="42" fill="white" strokeWidth="2" stroke={black} />
-
-							<text x="243" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Abil
-							</text>
-							<rect x="243" y="6" width="47" height="36" fill="white" strokeWidth="0" />
-							<text x="294" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Feat
-							</text>
-							<rect x="294" y="6" width="47" height="36" fill="white" strokeWidth="0" />
-							<text x="345" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Enh
-							</text>
-							<rect x="345" y="6" width="47" height="36" fill="white" strokeWidth="0" />
-							<text x="396" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Misc
-							</text>
-							<rect x="396" y="6" width="47" height="36" fill="white" strokeWidth="0" />
-							<text x="447" dx="23" y="1" className="stat-label" {...text.x.center} {...text.y.base}>
-								Misc
-							</text>
-							<rect x="447" y="6" width="47" height="36" fill="white" strokeWidth="0" />
+							<ModifierBar
+								x={0}
+								y={0}
+								height={50}
+								width={498}
+								firstLabel="Damage"
+								firstBoxWidth={165}
+								modifiers={['ABIL', 'Feat', 'Enh', 'Misc', 'Misc']}
+							/>
 						</g>
 					</g>
 					<use transform="translate(0 170)" href="#attack-workspace-ability" />
@@ -834,12 +632,7 @@ export const CharacterSheet = forwardRef(
 				</g>
 
 				<g id="basic-attacks" transform="translate(1014 762)">
-					<g>
-						<rect width="498" height="34" fill={black} />
-						<text className="section-title" y="8.5" x="249" fill="white" {...text.x.center} {...text.y.hanging}>
-							Basic Attacks
-						</text>
-					</g>
+					<MiniBanner width={498} height={34} label="Basic Attacks" />
 					<g transform="translate(0 36)" id="attack-workspace-ability">
 						<text className="stat-label" y="1" x="31" {...text.x.center} {...text.y.hanging}>
 							Attack
@@ -869,12 +662,7 @@ export const CharacterSheet = forwardRef(
 				</g>
 
 				<g id="languages" transform="translate(0 1310)">
-					<g>
-						<rect width="498" height="34" fill={black} />
-						<text className="section-title" y="8.5" x="249" fill="white" {...text.x.center} {...text.y.hanging}>
-							Languages Known
-						</text>
-					</g>
+					<MiniBanner width={498} height={34} label="Languages Known" />
 					<g transform="translate(0 34)" id="attack-workspace-ability">
 						<line x1="0" x2="498" y1="36" y2="36" strokeWidth="2" stroke={black} />
 					</g>
