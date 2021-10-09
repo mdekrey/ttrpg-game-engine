@@ -340,7 +340,7 @@ export const CharacterSheet = forwardRef(
 
 				<BlackBox id="title-bar" outerWidth={1512} outerHeight={94} left={0} top={0}>
 					<text className="title" y={94 / 2} {...text.y.middle} x="15" fill="white">
-						DnD: ME
+						D&amp;D: Mashup
 					</text>
 					<BorderBox right={1487} top={52} innerWidth={462} innerHeight={handwritingHeight}>
 						{({ height }) => (
