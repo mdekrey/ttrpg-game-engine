@@ -12,11 +12,12 @@ export const CharacterSheetContainer = () => {
 			</p>
 			<CharacterSheet
 				ref={svgRef}
-				style={{
-					width: '1512px',
-					// width: '7.5in',
-					// height: '10in',
-				}}
+				style={
+					{
+						// width: '7.5in',
+						// height: '10in',
+					}
+				}
 				className="print:m-0 border border-black print:border-0"
 			/>
 		</div>

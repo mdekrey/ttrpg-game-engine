@@ -104,8 +104,8 @@ function Box({
 			: outerHeight !== undefined
 			? outerHeight - strokeWidth
 			: (undefined as never);
-	const x = left !== undefined ? left : right !== undefined ? right - width : (undefined as never);
-	const y = top !== undefined ? top : bottom !== undefined ? bottom - height : (undefined as never);
+	const x = left !== undefined ? left + strokeWidth / 2 : right !== undefined ? right - width : (undefined as never);
+	const y = top !== undefined ? top + strokeWidth / 2 : bottom !== undefined ? bottom - height : (undefined as never);
 
 	return (
 		<g transform={`translate(${x} ${y})`}>
@@ -209,8 +209,8 @@ function ModifierBar({
 			<text className="stat-label" y="1" x="2" {...text.y.base}>
 				{firstLabel}
 			</text>
-			{mode === 'box' ? (
-				<rect y="5" width={firstBoxWidth} height="40" fill="white" strokeWidth="2" stroke={black} />
+			{mode === 'box' && firstBoxWidth ? (
+				<rect x="1" y="5" width={firstBoxWidth - 2} height="40" fill="white" strokeWidth="2" stroke={black} />
 			) : (
 				<circle cy="25" cx="28" r="28" fill="white" strokeWidth="2" stroke={black} />
 			)}
@@ -280,6 +280,44 @@ function AttributeBar({
 			<rect x="350" width="43" height="48" fill={black} />
 			<rect x="353" y="4" width="69" height="40" fill="white" strokeWidth="2" stroke={black} />
 		</HiddenBox>
+	);
+}
+
+function TextLines({ x, y, width, height }: { x: number; y: number; width: number; height: number }) {
+	const count = Math.floor(height / handwritingHeight);
+	return (
+		<>
+			{Array(count)
+				.fill(0)
+				.map((_, i) => i + 1)
+				.map((i) => (
+					<line
+						key={i}
+						x1={x}
+						x2={width - x}
+						y1={y + i * handwritingHeight}
+						y2={y + i * handwritingHeight}
+						strokeWidth="2"
+						stroke={black}
+					/>
+				))}
+		</>
+	);
+}
+
+function TextSection({
+	x,
+	y,
+	width,
+	height,
+	label,
+	...props
+}: JSX.IntrinsicElements['g'] & { x: number; y: number; width: number; height: number; label: string }) {
+	return (
+		<g transform={`translate(${x} ${y})`} {...props}>
+			<MiniBanner width={width} height={34} label={label} />
+			<TextLines x={0} y={handwritingHeight} width={width} height={height - handwritingHeight} />
+		</g>
 	);
 }
 
@@ -502,15 +540,18 @@ export const CharacterSheet = forwardRef(
 						</text>
 						<rect x="394" y="47" width="104" height="40" fill="white" strokeWidth="2" stroke={black} />
 					</g>
-					<g transform="translate(0 140)">
-						<rect x="0" y="0" width="498" height="111" fill="white" strokeWidth="2" stroke={black} />
-						<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
-							Current Hit Points
-						</text>
-						<text className="stat-label" y="2" x="496" {...text.x.right} {...text.y.hanging}>
-							Current Surge Uses
-						</text>
-					</g>
+					<BorderBox left={0} outerWidth={498} top={140} innerHeight={111}>
+						{({ width }) => (
+							<>
+								<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
+									Current Hit Points
+								</text>
+								<text className="stat-label" y="2" x={width - 2} {...text.x.right} {...text.y.hanging}>
+									Current Surge Uses
+								</text>
+							</>
+						)}
+					</BorderBox>
 					<g transform="translate(0 251)">
 						<rect width="498" height="26" fill={black} />
 						<text className="stat-label large" y="13" x="200" {...text.x.center} {...text.y.middle} fill="white">
@@ -521,12 +562,11 @@ export const CharacterSheet = forwardRef(
 						</text>
 						<rect x="404" y="3" width="20" height="20" fill="white" strokeWidth="2" stroke={black} />
 					</g>
-					<g transform="translate(0 277)">
-						<rect x="0" y="0" width="498" height="67" fill="white" strokeWidth="2" stroke={black} />
+					<BorderBox left={0} outerWidth={498} top={277} innerHeight={67}>
 						<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
 							Temporary Points
 						</text>
-					</g>
+					</BorderBox>
 					<g transform="translate(0 344)">
 						<rect width="498" height="26" fill={black} />
 						<text className="stat-label large" y="13" x="200" {...text.x.center} {...text.y.middle} fill="white">
@@ -536,24 +576,21 @@ export const CharacterSheet = forwardRef(
 						<rect x="404" y="3" width="20" height="20" fill="white" strokeWidth="2" stroke={black} />
 						<rect x="427" y="3" width="20" height="20" fill="white" strokeWidth="2" stroke={black} />
 					</g>
-					<g transform="translate(0 370)">
-						<rect x="0" y="0" width="498" height="50" fill="white" strokeWidth="2" stroke={black} />
+					<BorderBox left={0} outerWidth={498} top={370} innerHeight={50}>
 						<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
 							Saving Throw Mods
 						</text>
-					</g>
-					<g transform="translate(0 420)">
-						<rect x="0" y="0" width="498" height="62" fill="white" strokeWidth="2" stroke={black} />
+					</BorderBox>
+					<BorderBox left={0} outerWidth={498} top={420} innerHeight={62}>
 						<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
 							Resistances
 						</text>
-					</g>
-					<g transform="translate(0 482)">
-						<rect x="0" y="0" width="498" height="62" fill="white" strokeWidth="2" stroke={black} />
+					</BorderBox>
+					<BorderBox left={0} outerWidth={498} top={482} innerHeight={62}>
 						<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
 							Current Conditions and Effects
 						</text>
-					</g>
+					</BorderBox>
 				</g>
 
 				<g id="action-points" transform="translate(507 762)">
@@ -661,15 +698,13 @@ export const CharacterSheet = forwardRef(
 					<use href="#basic-attack" transform="translate(0 150)" />
 				</g>
 
-				<g id="languages" transform="translate(0 1310)">
-					<MiniBanner width={498} height={34} label="Languages Known" />
-					<g transform="translate(0 34)" id="attack-workspace-ability">
-						<line x1="0" x2="498" y1="36" y2="36" strokeWidth="2" stroke={black} />
-					</g>
-					<g transform="translate(0 70)" id="attack-workspace-ability">
-						<line x1="0" x2="498" y1="36" y2="36" strokeWidth="2" stroke={black} />
-					</g>
-				</g>
+				<TextSection label="Race Features" x={0} y={1315} width={498} height={288} />
+				<TextSection label="Class / Path / Destiny Features" x={0} y={1603} width={498} height={396} />
+
+				<TextSection label="Skills (TBD)" x={507} y={883} width={498} height={1116} />
+
+				<TextSection label="Feats" x={1014} y={1027} width={498} height={828} />
+				<TextSection label="Languages Known" x={1014} y={1855} width={498} height={144} />
 			</svg>
 		);
 	}
