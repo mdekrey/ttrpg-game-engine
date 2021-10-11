@@ -189,6 +189,7 @@ function ModifierBar({
 	x,
 	width,
 	height,
+	fill,
 	modifiers,
 	children,
 	mode = 'box',
@@ -198,6 +199,7 @@ function ModifierBar({
 	y: number;
 	width: number;
 	height: number;
+	fill?: string;
 	modifiers: Array<string | string[]>;
 	children?: BoxProps['children'];
 	mode?: 'box' | 'circle';
@@ -205,7 +207,7 @@ function ModifierBar({
 	const modWidth = 54 - Math.max(0, modifiers.length - 4);
 	return (
 		<HiddenBox left={x} top={height - 50} outerWidth={width} outerHeight={50}>
-			<rect x="16" width={width - 16} height={50} fill={black} />
+			<rect x="17" width={width - 16 - 1} height={50 - 1} stroke={black} strokeWidth={2} fill={fill || black} />
 			<text className="stat-label" y="1" x="2" {...text.y.base}>
 				{firstLabel}
 			</text>
@@ -234,7 +236,7 @@ function ModifierBar({
 								{line}
 							</text>
 						))}
-						<rect x={mx} y="7" width="47" height="36" fill="white" strokeWidth="0" />
+						<rect x={mx - 1} y="6" width="49" height="38" fill="white" strokeWidth="2" stroke={black} />
 					</Fragment>
 				);
 			})}
@@ -283,40 +285,61 @@ function AttributeBar({
 	);
 }
 
-function TextLines({ x, y, width, height }: { x: number; y: number; width: number; height: number }) {
-	const count = Math.floor(height / handwritingHeight);
-	return (
-		<>
-			{Array(count)
-				.fill(0)
-				.map((_, i) => i + 1)
-				.map((i) => (
-					<line
-						key={i}
-						x1={x}
-						x2={width - x}
-						y1={y + i * handwritingHeight}
-						y2={y + i * handwritingHeight}
-						strokeWidth="2"
-						stroke={black}
-					/>
-				))}
-		</>
-	);
-}
-
 function TextSection({
-	x,
-	y,
 	width,
-	height,
-	label,
 	...props
 }: JSX.IntrinsicElements['g'] & { x: number; y: number; width: number; height: number; label: string }) {
 	return (
+		<RepeatingSection width={width} {...props} heightPerItem={handwritingHeight} align={17}>
+			<line x1={0} x2={width} y1={handwritingHeight} y2={handwritingHeight} strokeWidth="2" stroke={black} />
+		</RepeatingSection>
+	);
+}
+
+function RepeatingSection({
+	x,
+	y,
+	height,
+	width,
+	children,
+	align,
+	heightPerItem,
+	label,
+	extraRow,
+	extraRowHeight = 0,
+	...props
+}: JSX.IntrinsicElements['g'] & {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	align?: number;
+	label: string;
+	heightPerItem: number;
+	extraRowHeight?: number;
+	extraRow?: JSX.Element;
+}) {
+	const bannerHeight = 34;
+	const innerPadding = 2;
+	const base =
+		align === undefined
+			? bannerHeight + innerPadding + extraRowHeight
+			: Math.ceil((bannerHeight + innerPadding + extraRowHeight + y + align) / heightPerItem) * heightPerItem -
+			  (y + align);
+	const bodyHeight = height - base;
+	const repeating = Math.floor(bodyHeight / heightPerItem);
+	return (
 		<g transform={`translate(${x} ${y})`} {...props}>
-			<MiniBanner width={width} height={34} label={label} />
-			<TextLines x={0} y={handwritingHeight} width={width} height={height - handwritingHeight} />
+			<MiniBanner width={width} height={bannerHeight} label={label} />
+			{extraRow && <g transform={`translate(0 ${base - extraRowHeight})`}>{extraRow}</g>}
+			{Array(repeating)
+				.fill(0)
+				.map((_, i) => i)
+				.map((index) => (
+					<g transform={`translate(0 ${base + heightPerItem * index})`} key={index}>
+						{children}
+					</g>
+				))}
 		</g>
 	);
 }
@@ -635,76 +658,98 @@ export const CharacterSheet = forwardRef(
 					</g>
 				</g>
 
-				<g id="attack-workspace" transform="translate(1014 215)">
-					<MiniBanner width={498} height={34} label="Attack Workspace" />
-					<g transform="translate(0 36)" id="attack-workspace-ability">
-						<text className="stat-label" y="1" x="2" {...text.y.hanging}>
-							Ability:
-						</text>
-						<g transform="translate(0 52)">
-							<ModifierBar
-								x={0}
-								y={0}
-								height={50}
-								width={498}
-								firstLabel="ATK Bonus"
-								firstBoxWidth={65}
-								modifiers={['1/2 LVL', 'ABIL', 'Class', 'Prof', 'Feat', 'Enh', 'Misc']}
-							/>
-						</g>
-						<g transform="translate(0 118)">
-							<ModifierBar
-								x={0}
-								y={0}
-								height={50}
-								width={498}
-								firstLabel="Damage"
-								firstBoxWidth={165}
-								modifiers={['ABIL', 'Feat', 'Enh', 'Misc', 'Misc']}
-							/>
-						</g>
+				<RepeatingSection
+					id="attack-workspace"
+					x={1014}
+					y={215}
+					width={498}
+					label="Attack Workspace"
+					height={547}
+					heightPerItem={170}>
+					<text className="stat-label" y="1" x="2" {...text.y.hanging}>
+						Ability:
+					</text>
+					<g transform="translate(0 52)">
+						<ModifierBar
+							x={0}
+							y={0}
+							height={50}
+							width={498}
+							firstLabel="ATK Bonus"
+							firstBoxWidth={65}
+							modifiers={['1/2 LVL', 'ABIL', 'Class', 'Prof', 'Feat', 'Enh', 'Misc']}
+						/>
 					</g>
-					<use transform="translate(0 170)" href="#attack-workspace-ability" />
-					<use transform="translate(0 340)" href="#attack-workspace-ability" />
-				</g>
+					<g transform="translate(0 118)">
+						<ModifierBar
+							x={0}
+							y={0}
+							height={50}
+							width={498}
+							firstLabel="Damage"
+							firstBoxWidth={165}
+							modifiers={['ABIL', 'Feat', 'Enh', 'Misc', 'Misc']}
+						/>
+					</g>
+				</RepeatingSection>
 
-				<g id="basic-attacks" transform="translate(1014 762)">
-					<MiniBanner width={498} height={34} label="Basic Attacks" />
-					<g transform="translate(0 36)" id="attack-workspace-ability">
-						<text className="stat-label" y="1" x="31" {...text.x.center} {...text.y.hanging}>
-							Attack
-						</text>
-						<text className="stat-label" y="1" x="128" {...text.x.center} {...text.y.hanging}>
-							Defense
-						</text>
-						<text className="stat-label" y="1" x="269" {...text.x.center} {...text.y.hanging}>
-							Weapon or Power
-						</text>
-						<text className="stat-label" y="1" x="440" {...text.x.center} {...text.y.hanging}>
-							Damage
-						</text>
-					</g>
-					<g transform="translate(0 50)" id="basic-attack">
-						<rect y="0" width="62" height="42" fill="white" strokeWidth="2" stroke={black} />
-						<rect y="0" x="97" width="62" height="42" fill="white" strokeWidth="2" stroke={black} />
-						<text className="label" y="32" x="79" {...text.x.center} {...text.y.base}>
-							vs
-						</text>
-						<line x1="171" x2="368" y1="42" y2="42" strokeWidth="2" stroke={black} />
-						<line x1="382" x2="498" y1="42" y2="42" strokeWidth="2" stroke={black} />
-					</g>
-					<use href="#basic-attack" transform="translate(0 50)" />
-					<use href="#basic-attack" transform="translate(0 100)" />
-					<use href="#basic-attack" transform="translate(0 150)" />
-				</g>
+				<RepeatingSection
+					id="basic-attacks"
+					x={1014}
+					y={762}
+					width={498}
+					label="Basic Attacks"
+					height={265}
+					heightPerItem={50}
+					extraRowHeight={16}
+					extraRow={
+						<>
+							<text className="stat-label" y="1" x="31" {...text.x.center} {...text.y.hanging}>
+								Attack
+							</text>
+							<text className="stat-label" y="1" x="128" {...text.x.center} {...text.y.hanging}>
+								Defense
+							</text>
+							<text className="stat-label" y="1" x="269" {...text.x.center} {...text.y.hanging}>
+								Weapon or Power
+							</text>
+							<text className="stat-label" y="1" x="440" {...text.x.center} {...text.y.hanging}>
+								Damage
+							</text>
+						</>
+					}>
+					<rect y="0" width="62" height="42" fill="white" strokeWidth="2" stroke={black} />
+					<rect y="0" x="97" width="62" height="42" fill="white" strokeWidth="2" stroke={black} />
+					<text className="label" y="32" x="79" {...text.x.center} {...text.y.base}>
+						vs
+					</text>
+					<line x1="171" x2="368" y1="42" y2="42" strokeWidth="2" stroke={black} />
+					<line x1="382" x2="498" y1="42" y2="42" strokeWidth="2" stroke={black} />
+				</RepeatingSection>
 
 				<TextSection label="Race Features" x={0} y={1315} width={498} height={288} />
 				<TextSection label="Class / Path / Destiny Features" x={0} y={1603} width={498} height={396} />
 
-				<TextSection label="Skills (TBD)" x={507} y={883} width={498} height={1116} />
+				<RepeatingSection x={1014} y={1027} width={498} height={972} label="Skills" heightPerItem={104}>
+					<text className="stat-label" y="1" x="2" {...text.y.hanging}>
+						Skill Name:
+					</text>
+					<g transform="translate(0 52)">
+						<ModifierBar
+							firstLabel="Skill Bonus"
+							firstBoxWidth={65}
+							x={0}
+							y={0}
+							width={498}
+							height={50}
+							modifiers={['Abil', 'Points', 'Misc', 'Misc']}
+						/>
+					</g>
+				</RepeatingSection>
 
-				<TextSection label="Feats" x={1014} y={1027} width={498} height={828} />
-				<TextSection label="Languages Known" x={1014} y={1855} width={498} height={144} />
+				<TextSection label="Feats" x={507} y={883} width={498} height={1603 - 883} />
+				<TextSection label="Weapon &amp; Armor Proficiencies" x={507} y={1603} width={498} height={1819 - 1603} />
+				<TextSection label="Languages Known" x={507} y={1819} width={498} height={2016 - 1819} />
 			</svg>
 		);
 	}
