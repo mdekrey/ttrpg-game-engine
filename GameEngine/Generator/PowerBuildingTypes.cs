@@ -56,16 +56,20 @@ namespace GameEngine.Generator
 
         public double WeaponDice(PowerProfileBuilder builder) =>
             TotalCost(builder).Apply(Limits.Initial);
-        //PowerInfo.ToolProfile.Type == ToolType.Implement
-        //    ? TotalCost.Apply(Limits.Initial)
-        //    : Math.Floor(TotalCost.Apply(Limits.Initial));
+        public double FinalWeaponDice(PowerProfileBuilder builder) =>
+            (WeaponDice(builder), PowerInfo.ToolProfile.Type) switch
+            {
+                (double dice, ToolType.Weapon) => Math.Floor(dice),
+                (double dice, _) => dice
+            };
         public double EffectiveWeaponDice(PowerProfileBuilder builder) => Modifiers.Aggregate(WeaponDice(builder), (weaponDice, mod) => mod.ApplyEffectiveWeaponDice(weaponDice));
         public bool IsValid(PowerProfileBuilder builder)
         {
             return TotalCost(builder).Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity(builder.PowerInfo)).Sum() <= Limits.MaxComplexity;
         }
         internal AttackProfile Build(PowerProfileBuilder builder) =>
-            new AttackProfile(WeaponDice(builder), Ability, DamageTypes, Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
+            new AttackProfile(FinalWeaponDice(builder), Ability, DamageTypes, Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
+
 
         public override IEnumerable<IModifier> AllModifiers() => Modifiers;
 

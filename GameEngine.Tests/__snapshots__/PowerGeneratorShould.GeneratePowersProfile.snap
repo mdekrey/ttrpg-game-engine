@@ -41,7 +41,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1.5
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
@@ -76,7 +76,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 2.5
+  - WeaponDice: 2
     Ability: Strength
     DamageTypes:
     - Normal
@@ -108,13 +108,13 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1.2000000000000002
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
     Modifiers:
     - Name: RequiredHitForNextAttack
-  - WeaponDice: 1.7000000000000002
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
@@ -157,7 +157,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1.0999999999999999
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
@@ -166,7 +166,7 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-  - WeaponDice: 1.6000000000000001
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
@@ -259,7 +259,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 2.5
+  - WeaponDice: 2
     Ability: Strength
     DamageTypes:
     - Normal
@@ -282,7 +282,7 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Defense: Will
+    - Defense: Reflex
       Name: Non-Armor Defense
   Modifiers:
   - SelfBoosts:
@@ -303,13 +303,13 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1.0000000000000002
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
     Modifiers:
     - Name: RequiredHitForNextAttack
-  - WeaponDice: 1.75
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
@@ -321,13 +321,10 @@
   Modifiers:
   - SelfBoosts:
     - Amount: +2
-      Limit: Target
-      Name: Attack
+      Name: Temporary Hit Points
     AllyBoosts: []
     AllyType: Single
     Name: Boost
-  - Duration: EndOfUserNextTurn
-    Name: Duration
 - Level: 3
   Usage: Encounter
   Tool: Weapon
@@ -466,7 +463,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 2.5
+  - WeaponDice: 2
     Ability: Strength
     DamageTypes:
     - Normal
@@ -698,7 +695,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 3.5
+  - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Normal
@@ -763,15 +760,16 @@
       Name: Ability Modifier Damage
     - Movement:
       - Timing: After
-        Amount: +2
+        Amount: STR
         Name: Shift
       Name: Skirmish Movement
     - SelfBoosts: []
       AllyBoosts:
       - Amount: STR
-        Name: Temporary Hit Points
+        Limit: NextAttack
+        Name: Attack
       - Amount: +2
-        Defense: Fortitude
+        Defense: Will
         Name: Defense
       AllyType: Single
       Name: Boost
@@ -801,7 +799,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 3.5
+  - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Normal
@@ -986,7 +984,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 3.5
+  - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Normal
@@ -1019,7 +1017,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 4.4411764705882355
+  - WeaponDice: 4
     Ability: Strength
     DamageTypes:
     - Normal
@@ -1027,7 +1025,7 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-  - WeaponDice: 3.0588235294117645
+  - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Normal
@@ -1098,13 +1096,13 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 1.007042253521127
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
     Modifiers:
     - Name: RequiredHitForNextAttack
-  - WeaponDice: 2.0017605633802811
+  - WeaponDice: 2
     Ability: Strength
     DamageTypes:
     - Normal
@@ -1117,7 +1115,7 @@
       - Strength
       - Dexterity
       Name: Ability Modifier Damage
-  - WeaponDice: 1.7376760563380289
+  - WeaponDice: 1
     Ability: Strength
     DamageTypes:
     - Normal
@@ -1267,12 +1265,11 @@
       - Strength
       Name: Ability Modifier Damage
     - Conditions:
-      - Name: Blinded
+      - Name: Dazed
       Name: Condition
     - SelfBoosts:
-      - Amount: +2
-        Limit: Target
-        Name: Attack
+      - Amount: DEX + 2
+        Name: Temporary Hit Points
       AllyBoosts: []
       AllyType: Single
       Name: Boost
@@ -1285,7 +1282,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 4
+  - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Normal
@@ -1293,8 +1290,11 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Defense: Reflex
-      Name: Non-Armor Defense
+    - Movement:
+      - Name: Non-Provoking Movement
+      Name: Skirmish Movement
+    - Amount: +4
+      Name: To-Hit Bonus to Current Attack
   Modifiers: []
 - Level: 23
   Usage: Encounter
@@ -1319,6 +1319,91 @@
       - Strength
       Name: Ability Modifier Damage
   Modifiers: []
+- Level: 25
+  Usage: Daily
+  Tool: Weapon
+  ToolRange: Melee
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 8
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - Defense: Fortitude
+      Name: Non-Armor Defense
+  Modifiers:
+  - SelfBoosts: []
+    AllyBoosts:
+    - Amount: STR
+      Name: Regeneration
+    AllyType: Single
+    Name: Boost
+- Level: 25
+  Usage: Daily
+  Tool: Weapon
+  ToolRange: Melee
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 6
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Anytime
+        Amount: STR
+        Name: Shift
+      Name: Skirmish Movement
+    - SelfBoosts:
+      - Amount: STR
+        Name: Regeneration
+      - Amount: +2
+        Defense: ArmorClass
+        Name: Defense
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - SelfBoosts:
+    - Name: Extra Saving Throw
+    AllyBoosts:
+    - Amount: +2
+      Name: Regeneration
+    AllyType: Single
+    Name: Boost
+- Level: 25
+  Usage: Daily
+  Tool: Weapon
+  ToolRange: Melee
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 7
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - Conditions:
+      - Name: Weakened
+      - Name: Dazed
+      Name: Condition
+  Modifiers:
+  - SelfBoosts:
+    - Amount: +2
+      Defense: ArmorClass
+      Name: Defense
+    AllyBoosts: []
+    AllyType: Single
+    Name: Boost
 - Level: 25
   Usage: Daily
   Tool: Weapon
@@ -1334,13 +1419,29 @@
       - Strength
       Name: Ability Modifier Damage
   Modifiers: []
-- Level: 25
-  Usage: Daily
+- Level: 27
+  Usage: Encounter
   Tool: Weapon
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 8
+  - WeaponDice: 3
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: UpToThreeTargets
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 27
+  Usage: Encounter
+  Tool: Weapon
+  ToolRange: Melee
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Normal
@@ -1349,16 +1450,42 @@
       - Strength
       Name: Ability Modifier Damage
     - Conditions:
-      - Name: Weakened
+      - Name: Slowed
       Name: Condition
-  Modifiers: []
-- Level: 25
-  Usage: Daily
+    - SelfBoosts:
+      - Amount: DEX
+        Name: Temporary Hit Points
+      - Amount: +2
+        Defense: Fortitude
+        Name: Defense
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - Duration: EndOfUserNextTurn
+    Name: Duration
+- Level: 27
+  Usage: Encounter
   Tool: Weapon
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 7
+  - WeaponDice: 4
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+  Modifiers: []
+- Level: 27
+  Usage: Encounter
+  Tool: Weapon
+  ToolRange: Melee
+  PowerSource: Martial
+  Attacks:
+  - WeaponDice: 3
     Ability: Strength
     DamageTypes:
     - Normal
@@ -1373,140 +1500,12 @@
       Name: Skirmish Movement
     - SelfBoosts: []
       AllyBoosts:
-      - Amount: +2
-        Name: Regeneration
-      AllyType: All
-      Name: Boost
-  Modifiers:
-  - SelfBoosts:
-    - Amount: DEX
-      Name: Temporary Hit Points
-    AllyBoosts: []
-    AllyType: Single
-    Name: Boost
-- Level: 25
-  Usage: Daily
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 6
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-  Modifiers:
-  - SelfBoosts: []
-    AllyBoosts:
-    - Name: Healing Surge
-    - Amount: +2
-      Defense: ArmorClass
-      Name: Defense
-    - Amount: STR
-      Name: Regeneration
-    AllyType: Single
-    Name: Boost
-- Level: 27
-  Usage: Encounter
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 1
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Name: TwoHits
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - SelfBoosts:
       - Amount: DEX
         Limit: Target
         Name: Attack
-      AllyBoosts:
-      - Amount: +2
-        Name: Temporary Hit Points
-      AllyType: Single
+      AllyType: All
       Name: Boost
   Modifiers:
-  - Duration: EndOfUserNextTurn
-    Name: Duration
-- Level: 27
-  Usage: Encounter
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 3
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Movement:
-      - Timing: After
-        Amount: +2
-        Name: Shift
-      Name: Skirmish Movement
-  Modifiers:
-  - SelfBoosts:
-    - Name: Healing Surge
-    AllyBoosts: []
-    AllyType: Single
-    Name: Boost
-- Level: 27
-  Usage: Encounter
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 4.5
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-  Modifiers: []
-- Level: 27
-  Usage: Encounter
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 3
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Defense: Will
-      Name: Non-Armor Defense
-  Modifiers:
-  - SelfBoosts:
-    - Amount: +2
-      Defense: Will
-      Name: Defense
-    - Amount: DEX
-      Limit: NextAttack
-      Name: Attack
-    AllyBoosts: []
-    AllyType: Single
-    Name: Boost
   - Duration: EndOfUserNextTurn
     Name: Duration
 - Level: 29
@@ -1515,7 +1514,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 7
+  - WeaponDice: 5
     Ability: Strength
     DamageTypes:
     - Normal
@@ -1524,20 +1523,27 @@
       - Strength
       Name: Ability Modifier Damage
     - Conditions:
-      - Name: Weakened
+      - Name: Immobilized
       Name: Condition
     - SelfBoosts:
-      - Amount: DEX
+      - Amount: DEX + 2
+        Limit: Target
         Name: Attack
-      AllyBoosts: []
+      AllyBoosts:
+      - Amount: STR
+        Name: Regeneration
       AllyType: Single
       Name: Boost
   Modifiers:
   - SelfBoosts:
+    - Name: Extra Saving Throw
     - Amount: +2
-      Name: Temporary Hit Points
+      Defense: Reflex
+      Name: Defense
     AllyBoosts:
-    - Amount: DEX
+    - Amount: STR
+      Name: Regeneration
+    - Amount: +2
       Limit: Target
       Name: Attack
     AllyType: Single
@@ -1548,6 +1554,63 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
+  - WeaponDice: 2
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+    - Abilities:
+      - Strength
+      - Dexterity
+      Name: Ability Modifier Damage
+  - WeaponDice: 3
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Name: RequiredHitForNextAttack
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - SelfBoosts:
+      - Name: Healing Surge
+      AllyBoosts:
+      - Amount: +2
+        Defense: Fortitude
+        Name: Defense
+      AllyType: All
+      Name: Boost
+  - WeaponDice: 3
+    Ability: Strength
+    DamageTypes:
+    - Normal
+    Modifiers:
+    - Name: RequiresPreviousHit
+    - Abilities:
+      - Strength
+      Name: Ability Modifier Damage
+    - SelfBoosts:
+      - Amount: DEX
+        Name: Temporary Hit Points
+      AllyBoosts: []
+      AllyType: Single
+      Name: Boost
+  Modifiers:
+  - SelfBoosts: []
+    AllyBoosts:
+    - Amount: DEX
+      Limit: NextAttack
+      Name: Attack
+    AllyType: Single
+    Name: Boost
+- Level: 29
+  Usage: Daily
+  Tool: Weapon
+  ToolRange: Melee
+  PowerSource: Martial
+  Attacks:
   - WeaponDice: 6
     Ability: Strength
     DamageTypes:
@@ -1556,59 +1619,31 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
-    - Movement:
-      - Timing: After
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
+    - Defense: Fortitude
+      Name: Non-Armor Defense
     - SelfBoosts:
-      - Name: Healing Surge
       - Amount: DEX
-        Name: Regeneration
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
-  Modifiers:
-  - SelfBoosts:
-    - Amount: STR
-      Limit: NextAttack
-      Name: Attack
-    - Name: Extra Saving Throw
-    - Amount: STR
-      Name: Temporary Hit Points
-    AllyBoosts: []
-    AllyType: Single
-    Name: Boost
-- Level: 29
-  Usage: Daily
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 8
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Amount: +2
-      Name: To-Hit Bonus to Current Attack
-    - SelfBoosts: []
+        Limit: NextAttack
+        Name: Attack
       AllyBoosts:
-      - Amount: +2
+      - Amount: DEX
+        Limit: Target
+        Name: Attack
+      - Amount: STR + 2
         Name: Temporary Hit Points
       AllyType: Single
       Name: Boost
   Modifiers:
   - SelfBoosts:
-    - Amount: +2
-      Limit: NextAttack
-      Name: Attack
-    AllyBoosts:
     - Amount: STR
       Name: Regeneration
+    - Amount: DEX
+      Limit: Target
+      Name: Attack
+    AllyBoosts:
+    - Amount: +2
+      Defense: Reflex
+      Name: Defense
     AllyType: Single
     Name: Boost
 - Level: 29
@@ -1617,7 +1652,7 @@
   ToolRange: Melee
   PowerSource: Martial
   Attacks:
-  - WeaponDice: 10
+  - WeaponDice: 7
     Ability: Strength
     DamageTypes:
     - Normal
@@ -1625,4 +1660,24 @@
     - Abilities:
       - Strength
       Name: Ability Modifier Damage
+    - Movement:
+      - Timing: Anytime
+        Amount: STR
+        Name: Shift
+      Name: Skirmish Movement
+    - Effects:
+      - Name: Prone
+      Name: MovementControl
+    - SelfBoosts:
+      - Amount: DEX
+        Name: Temporary Hit Points
+      AllyBoosts:
+      - Amount: STR
+        Limit: Target
+        Name: Attack
+      - Amount: +2
+        Defense: Fortitude
+        Name: Defense
+      AllyType: Single
+      Name: Boost
   Modifiers: []

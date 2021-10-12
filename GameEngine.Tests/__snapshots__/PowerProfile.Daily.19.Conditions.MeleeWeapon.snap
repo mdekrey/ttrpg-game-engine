@@ -4,7 +4,7 @@ Tool: Weapon
 ToolRange: Melee
 PowerSource: Martial
 Attacks:
-- WeaponDice: 1.166666666666667
+- WeaponDice: 1
   Ability: Strength
   DamageTypes:
   - Normal

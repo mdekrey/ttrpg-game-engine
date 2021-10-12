@@ -24,6 +24,9 @@ namespace GameEngine.Generator
             this.logger = logger;
         }
 
+        public int Generated => generated;
+        public TimeSpan Time => time;
+
         private static ImmutableList<(int level, PowerFrequency usage)> providedPowers = new[] {
             (level: 1, usage: PowerFrequency.AtWill),
             (level: 1, usage: PowerFrequency.Encounter),
@@ -101,7 +104,7 @@ namespace GameEngine.Generator
                 try
                 {
                     sw.Start();
-                    var powerProfile = GenerateProfile(powerInfo);
+                    var powerProfile = GenerateProfile(powerInfo, exclude);
                     return powerProfile;
                 }
                 catch (Exception ex)
@@ -178,7 +181,8 @@ namespace GameEngine.Generator
                                      powerProfileBuilder.GetUpgrades(stage)
                                  }
                                  from entry in set
-                                 where !exclude.Contains(entry.Build())
+                                 let builtEntry = entry.Build()
+                                 where !exclude.Any(excluded => excluded.Matches(builtEntry))
                                  select entry).ToArray();
                 var validModifiers = preChance.ToChances(powerProfileBuilder.PowerInfo.PowerProfileConfig).ToArray();
                 if (validModifiers.Length == 0)
