@@ -13,7 +13,7 @@ namespace GameEngine.Generator
                 new AttackProfile(
                     WeaponDice: 1, 
                     Ability: Rules.Ability.Strength, 
-                    DamageTypes: Build<DamageType>(), 
+                    DamageTypes: Build<DamageType>(DamageType.Normal), 
                     Modifiers: Build<IAttackModifier>(
                         new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Strength))
                     )
@@ -30,7 +30,7 @@ namespace GameEngine.Generator
                 new AttackProfile(
                     WeaponDice: 1,
                     Ability: Rules.Ability.Dexterity,
-                    DamageTypes: Build<DamageType>(),
+                    DamageTypes: Build<DamageType>(DamageType.Normal),
                     Modifiers: Build<IAttackModifier>(
                         new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Dexterity))
                     )

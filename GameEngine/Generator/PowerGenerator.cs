@@ -95,7 +95,7 @@ namespace GameEngine.Generator
                            let powerInfo = GetPowerInfo(tool, powerProfileConfig)
                            let power = BuildPower(powerInfo)
                            where power != null
-                           where !exclude.Contains(power)
+                           where !exclude.Concat(BasicPowers.All).Any(prev => prev.Matches(power))
                            select new ClassPowerProfile(Level: level, PowerProfile: power));
 
             PowerProfile? BuildPower(PowerHighLevelInfo powerInfo)

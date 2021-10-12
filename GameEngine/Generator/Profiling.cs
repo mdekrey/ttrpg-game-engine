@@ -86,6 +86,8 @@ namespace GameEngine.Generator
     
     public interface IPowerModifier : IModifier
     {
+        bool ExcludeFromUniqueness();
+
         PowerCost GetCost(PowerProfileBuilder builder);
         IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder);
@@ -108,6 +110,8 @@ namespace GameEngine.Generator
 
     public abstract record PowerModifier(string Name) : IPowerModifier
     {
+        public virtual bool ExcludeFromUniqueness() => false;
+
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsPlaceholder() => false;
@@ -132,6 +136,7 @@ namespace GameEngine.Generator
 
     public abstract record AttackAndPowerModifier(string Name) : IAttackModifier, IPowerModifier
     {
+        public virtual bool ExcludeFromUniqueness() => false;
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsPlaceholder() => false;
@@ -157,7 +162,17 @@ namespace GameEngine.Generator
         ToolType Tool, ToolRange ToolRange,
         EquatableImmutableList<AttackProfile> Attacks,
         EquatableImmutableList<IPowerModifier> Modifiers
-    );
+    )
+    {
+        internal bool Matches(PowerProfile power)
+        {
+            return Usage == power.Usage
+                && Tool == power.Tool
+                && ToolRange == power.ToolRange
+                && Attacks.Equals(power.Attacks)
+                && Modifiers.Where(m => !m.ExcludeFromUniqueness()).SequenceEqual(power.Modifiers.Where(m => !m.ExcludeFromUniqueness()));
+        }
+    }
 
     public record ClassPowerProfile(
         int Level,

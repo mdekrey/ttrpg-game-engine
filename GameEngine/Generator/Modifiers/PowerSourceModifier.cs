@@ -7,6 +7,8 @@ namespace GameEngine.Generator.Modifiers
     {
         const string ModifierName = "Power Source";
 
+        public override bool ExcludeFromUniqueness() => true;
+
         public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
 
         public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;

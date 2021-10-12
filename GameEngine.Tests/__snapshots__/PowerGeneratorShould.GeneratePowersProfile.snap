@@ -53,7 +53,12 @@
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
+      - Conditions:
+        - Name: Dazed
+        Name: Condition
     Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
 - Level: 1
@@ -67,15 +72,8 @@
       DamageTypes:
       - Normal
       Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-      - Conditions:
-        - Name: Dazed
-        Name: Condition
+      - Name: TwoHits
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
 - Level: 1
