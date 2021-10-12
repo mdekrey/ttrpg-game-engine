@@ -129,7 +129,7 @@ namespace GameEngine.Generator
 
         public PowerProfile GenerateProfile(PowerHighLevelInfo powerInfo, IEnumerable<PowerProfile>? exclude = null)
         {
-            var toExclude = (exclude ?? Enumerable.Empty<PowerProfile>()).Select(p => p with { Level = powerInfo.Level, Usage = powerInfo.Usage });
+            var toExclude = (exclude ?? Enumerable.Empty<PowerProfile>()).Concat(BasicPowers.All).Select(p => p with { Usage = powerInfo.Usage });
             var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
             var powerProfileBuilder = RootBuilder(basePower, powerInfo);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.AttackSetup, exclude: toExclude);
