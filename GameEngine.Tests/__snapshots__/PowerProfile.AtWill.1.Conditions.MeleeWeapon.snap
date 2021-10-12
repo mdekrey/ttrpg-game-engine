@@ -1,7 +1,6 @@
 ﻿Usage: AtWill
 Tool: Weapon
 ToolRange: Melee
-PowerSource: Martial
 Attacks:
 - WeaponDice: 1
   Ability: Strength
@@ -17,3 +16,5 @@ Attacks:
 Modifiers:
 - Duration: EndOfUserNextTurn
   Name: Duration
+- PowerSource: Martial
+  Name: Power Source

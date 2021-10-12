@@ -147,7 +147,7 @@ namespace GameEngine.Generator
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Standard, exclude: toExclude);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Finalize, exclude: toExclude);
 
-            return powerProfileBuilder.Build();
+            return (powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) }).Build();
         }
 
         public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder, UpgradeStage stage, IEnumerable<PowerProfile> exclude)

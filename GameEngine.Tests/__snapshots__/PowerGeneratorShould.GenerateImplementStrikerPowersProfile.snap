@@ -3,7 +3,6 @@
     Usage: AtWill
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 0.5
       Ability: Wisdom
@@ -27,12 +26,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: AtWill
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -47,13 +47,14 @@
       - Movement:
         - Name: Non-Provoking Movement
         Name: Skirmish Movement
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: AtWill
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2
       Ability: Wisdom
@@ -65,13 +66,14 @@
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: AtWill
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 0.5
       Ability: Wisdom
@@ -86,13 +88,14 @@
       - Size: 5
         Type: Blast
         Name: Multiple
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -114,13 +117,14 @@
           Name: Attack
         AllyType: Single
         Name: Boost
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -148,12 +152,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -174,12 +179,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -205,12 +211,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -242,12 +249,13 @@
         Name: Regeneration
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -275,12 +283,13 @@
       AllyBoosts: []
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.9499999999999997
       Ability: Wisdom
@@ -311,12 +320,13 @@
         Name: Temporary Hit Points
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 1
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -349,12 +359,13 @@
         Name: Defense
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 3
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -381,12 +392,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 3
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1
       Ability: Wisdom
@@ -402,13 +414,14 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 3
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 0.5
       Ability: Wisdom
@@ -438,12 +451,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 3
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -468,12 +482,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 5
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -510,12 +525,13 @@
         Name: Temporary Hit Points
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 5
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -543,12 +559,13 @@
       AllyBoosts: []
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 5
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -583,12 +600,13 @@
         Name: Attack
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 5
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.1999999999999997
       Ability: Wisdom
@@ -620,13 +638,14 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 7
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 0.5
       Ability: Wisdom
@@ -651,12 +670,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 7
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.2
       Ability: Wisdom
@@ -690,12 +710,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 7
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -712,12 +733,13 @@
         Name: Multiple
     Modifiers:
     - Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 7
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 0.5
       Ability: Wisdom
@@ -745,12 +767,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 9
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -792,12 +815,13 @@
         Name: Attack
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 9
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.7727272727272729
       Ability: Wisdom
@@ -845,12 +869,13 @@
       AllyBoosts: []
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 9
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 3.5
       Ability: Wisdom
@@ -881,12 +906,13 @@
         Name: Attack
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 9
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 3.5
       Ability: Wisdom
@@ -919,12 +945,13 @@
         Name: Defense
       AllyType: All
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 11
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -949,13 +976,14 @@
           Name: Attack
         AllyType: Single
         Name: Boost
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 11
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1
       Ability: Wisdom
@@ -994,13 +1022,14 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 11
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.6666666666666665
       Ability: Wisdom
@@ -1025,12 +1054,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 11
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -1058,12 +1088,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 13
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -1088,12 +1119,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 13
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -1120,12 +1152,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 13
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -1152,12 +1185,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 13
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -1182,12 +1216,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 15
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -1215,12 +1250,13 @@
         Name: Boost
     Modifiers:
     - Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 15
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 3.5
       Ability: Wisdom
@@ -1259,12 +1295,13 @@
         Name: Attack
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 15
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -1294,12 +1331,13 @@
         Name: Defense
       AllyType: All
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 15
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 4.5
       Ability: Wisdom
@@ -1331,12 +1369,13 @@
         Name: Temporary Hit Points
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 17
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -1362,13 +1401,14 @@
           Amount: +4
           Name: Shift
         Name: Skirmish Movement
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 17
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -1402,12 +1442,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 17
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1.5
       Ability: Wisdom
@@ -1436,12 +1477,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 17
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 1
       Ability: Wisdom
@@ -1480,13 +1522,14 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 19
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 8.5
       Ability: Wisdom
@@ -1498,13 +1541,14 @@
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 19
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 4.5
       Ability: Wisdom
@@ -1539,12 +1583,13 @@
         Name: Defense
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 19
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 5.5
       Ability: Wisdom
@@ -1581,12 +1626,13 @@
         Name: Defense
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 19
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 4.5
       Ability: Wisdom
@@ -1618,12 +1664,13 @@
         Name: Temporary Hit Points
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 20
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 3.5
       Ability: Wisdom
@@ -1654,12 +1701,13 @@
         Name: Attack
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 20
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 4.5
       Ability: Wisdom
@@ -1695,12 +1743,13 @@
         Name: Defense
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 20
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 6.5
       Ability: Wisdom
@@ -1729,12 +1778,13 @@
         Name: Attack
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 20
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 5.5
       Ability: Wisdom
@@ -1760,13 +1810,14 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 23
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -1794,12 +1845,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 23
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -1826,12 +1878,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 23
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -1860,12 +1913,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 23
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -1897,12 +1951,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 25
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5389610389610389
       Ability: Wisdom
@@ -1953,12 +2008,13 @@
       AllyBoosts: []
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 25
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 7.5
       Ability: Wisdom
@@ -1983,13 +2039,14 @@
       - Conditions:
         - Name: Dazed
         Name: Condition
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 25
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 6.7000000000000002
       Ability: Wisdom
@@ -2011,12 +2068,13 @@
       AllyBoosts: []
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 25
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 5.5
       Ability: Wisdom
@@ -2049,12 +2107,13 @@
         Name: Temporary Hit Points
       AllyType: All
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 27
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 3.5
       Ability: Wisdom
@@ -2082,12 +2141,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 27
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -2113,12 +2173,13 @@
       Name: Boost
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 27
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 2.5
       Ability: Wisdom
@@ -2144,12 +2205,13 @@
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 27
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 5
       Ability: Wisdom
@@ -2161,13 +2223,14 @@
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 29
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 6.5
       Ability: Wisdom
@@ -2206,12 +2269,13 @@
         Name: Attack
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 29
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 4.6509433962264151
       Ability: Wisdom
@@ -2256,13 +2320,14 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 29
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 5.5
       Ability: Wisdom
@@ -2298,13 +2363,14 @@
           Name: Attack
         AllyType: Single
         Name: Boost
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Level: 29
   PowerProfile:
     Usage: Daily
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 6.5
       Ability: Wisdom
@@ -2339,3 +2405,5 @@
         Name: Regeneration
       AllyType: Single
       Name: Boost
+    - PowerSource: Arcane
+      Name: Power Source

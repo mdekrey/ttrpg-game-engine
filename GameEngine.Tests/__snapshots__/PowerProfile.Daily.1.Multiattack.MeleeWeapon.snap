@@ -1,7 +1,6 @@
 ﻿Usage: Daily
 Tool: Weapon
 ToolRange: Melee
-PowerSource: Martial
 Attacks:
 - WeaponDice: 1
   Ability: Strength
@@ -22,3 +21,5 @@ Modifiers:
   AllyBoosts: []
   AllyType: Single
   Name: Boost
+- PowerSource: Martial
+  Name: Power Source

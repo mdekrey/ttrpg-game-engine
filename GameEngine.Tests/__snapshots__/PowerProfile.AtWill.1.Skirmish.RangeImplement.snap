@@ -1,7 +1,6 @@
 ﻿Usage: AtWill
 Tool: Implement
 ToolRange: Range
-PowerSource: Arcane
 Attacks:
 - WeaponDice: 1.5
   Ability: Strength
@@ -18,4 +17,6 @@ Attacks:
       Amount: STR
       Name: Shift
     Name: Skirmish Movement
-Modifiers: []
+Modifiers:
+- PowerSource: Arcane
+  Name: Power Source

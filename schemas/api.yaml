@@ -141,7 +141,6 @@ components:
         - usage
         - tool
         - toolRange
-        - powerSource
         # - attacks
         # - modifiers
       properties:
@@ -153,8 +152,6 @@ components:
           $ref: '#/components/schemas/ToolType'
         toolRange:
           $ref: '#/components/schemas/ToolRange'
-        powerSource:
-          type: string
         # - EquatableImmutableList<AttackProfile> Attacks
         # - EquatableImmutableList<IPowerModifier> Modifiers
     PowerFrequency:

@@ -1,7 +1,6 @@
 ﻿Usage: AtWill
 Tool: Implement
 ToolRange: Range
-PowerSource: Arcane
 Attacks:
 - WeaponDice: 0.5
   Ability: Strength
@@ -22,4 +21,6 @@ Attacks:
     AllyBoosts: []
     AllyType: Single
     Name: Boost
-Modifiers: []
+Modifiers:
+- PowerSource: Arcane
+  Name: Power Source

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
@@ -55,5 +54,4 @@ namespace GameEngine.Generator.Modifiers
                 new(0, (attack, info, index) => attack with { DamageExpression = Abilities.Aggregate(attack.DamageExpression, (prev, next) => prev + next) });
         }
     }
-
 }

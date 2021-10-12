@@ -154,7 +154,7 @@ namespace GameEngine.Generator
 
     public record PowerProfile(
         PowerFrequency Usage,
-        ToolType Tool, ToolRange ToolRange, string PowerSource,
+        ToolType Tool, ToolRange ToolRange,
         EquatableImmutableList<AttackProfile> Attacks,
         EquatableImmutableList<IPowerModifier> Modifiers
     );

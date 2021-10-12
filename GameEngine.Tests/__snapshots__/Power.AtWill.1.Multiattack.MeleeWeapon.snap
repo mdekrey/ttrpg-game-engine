@@ -3,7 +3,6 @@
     Usage: AtWill
     Tool: Weapon
     ToolRange: Melee
-    PowerSource: Martial
     Attacks:
     - WeaponDice: 1
       Ability: Strength
@@ -11,7 +10,9 @@
       - Normal
       Modifiers:
       - Name: TwoHits
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: At-Will

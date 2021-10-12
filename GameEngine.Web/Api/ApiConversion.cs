@@ -114,7 +114,6 @@ public static class ApiConversion
             Usage: model.Usage.ToApi(),
             Tool: model.Tool.ToApi(),
             ToolRange: model.ToolRange.ToApi(),
-            PowerSource: model.PowerSource,
             Level: level
         // Attacks: model.Attacks,
         // Modifiers: model.Modifiers

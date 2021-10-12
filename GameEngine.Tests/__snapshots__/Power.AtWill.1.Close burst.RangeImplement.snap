@@ -3,7 +3,6 @@
     Usage: AtWill
     Tool: Implement
     ToolRange: Range
-    PowerSource: Arcane
     Attacks:
     - WeaponDice: 0.5
       Ability: Strength
@@ -18,7 +17,9 @@
       - Size: 5
         Type: Burst
         Name: Multiple
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
 - Name: Unknown
   TypeInfo: Implement Attack 1
   PowerUsage: At-Will

@@ -84,7 +84,6 @@ namespace GameEngine.Generator
             PowerInfo.Usage,
             PowerInfo.ToolProfile.Type,
             PowerInfo.ToolProfile.Range,
-            PowerInfo.ClassProfile.PowerSource,
             Attacks.Select(a => a.Build(this)).ToImmutableList(),
             Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList()
         );

@@ -9,7 +9,6 @@ namespace GameEngine.Generator
             Usage: Rules.PowerFrequency.AtWill, 
             Tool: ToolType.Weapon, 
             ToolRange: ToolRange.Melee, 
-            PowerSource: "", 
             Attacks: Build(
                 new AttackProfile(
                     WeaponDice: 1, 
@@ -27,7 +26,6 @@ namespace GameEngine.Generator
             Usage: Rules.PowerFrequency.AtWill,
             Tool: ToolType.Weapon,
             ToolRange: ToolRange.Range,
-            PowerSource: "",
             Attacks: Build(
                 new AttackProfile(
                     WeaponDice: 1,

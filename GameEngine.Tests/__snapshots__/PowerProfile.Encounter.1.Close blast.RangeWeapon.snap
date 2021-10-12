@@ -1,7 +1,6 @@
 ﻿Usage: Encounter
 Tool: Weapon
 ToolRange: Range
-PowerSource: Martial
 Attacks:
 - WeaponDice: 1
   Ability: Strength
@@ -16,4 +15,6 @@ Attacks:
   - Size: 3
     Type: Blast
     Name: Multiple
-Modifiers: []
+Modifiers:
+- PowerSource: Martial
+  Name: Power Source

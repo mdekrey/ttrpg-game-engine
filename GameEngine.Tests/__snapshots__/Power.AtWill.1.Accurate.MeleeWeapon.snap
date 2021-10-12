@@ -3,7 +3,6 @@
     Usage: AtWill
     Tool: Weapon
     ToolRange: Melee
-    PowerSource: Martial
     Attacks:
     - WeaponDice: 1
       Ability: Strength
@@ -15,7 +14,9 @@
         Name: Ability Modifier Damage
       - Defense: Fortitude
         Name: Non-Armor Defense
-    Modifiers: []
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: At-Will

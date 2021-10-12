@@ -1,7 +1,6 @@
 ﻿Usage: AtWill
 Tool: Weapon
 ToolRange: Range
-PowerSource: Martial
 Attacks:
 - WeaponDice: 1
   Ability: Strength
@@ -18,4 +17,6 @@ Attacks:
     AllyBoosts: []
     AllyType: Single
     Name: Boost
-Modifiers: []
+Modifiers:
+- PowerSource: Martial
+  Name: Power Source

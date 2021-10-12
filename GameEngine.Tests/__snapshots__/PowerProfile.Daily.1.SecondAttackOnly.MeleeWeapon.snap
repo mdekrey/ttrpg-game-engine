@@ -1,7 +1,6 @@
 ﻿Usage: Daily
 Tool: Weapon
 ToolRange: Melee
-PowerSource: Martial
 Attacks:
 - WeaponDice: 1
   Ability: Strength
@@ -26,4 +25,6 @@ Attacks:
   - Size: 3
     Type: Burst
     Name: Multiple
-Modifiers: []
+Modifiers:
+- PowerSource: Martial
+  Name: Power Source
