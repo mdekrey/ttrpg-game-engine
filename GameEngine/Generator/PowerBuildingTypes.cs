@@ -81,7 +81,6 @@ namespace GameEngine.Generator
         public PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         internal PowerProfile Build() => new PowerProfile(
-            PowerInfo.Level,
             PowerInfo.Usage,
             PowerInfo.ToolProfile.Type,
             PowerInfo.ToolProfile.Range,

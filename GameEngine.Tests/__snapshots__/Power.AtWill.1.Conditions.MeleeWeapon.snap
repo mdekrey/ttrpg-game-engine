@@ -1,23 +1,24 @@
 ﻿- Level: 1
-  Usage: AtWill
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 1
-    Ability: Strength
-    DamageTypes:
-    - Normal
+  PowerProfile:
+    Usage: AtWill
+    Tool: Weapon
+    ToolRange: Melee
+    PowerSource: Martial
+    Attacks:
+    - WeaponDice: 1
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+      - Conditions:
+        - Name: Dazed
+        Name: Condition
     Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Conditions:
-      - Name: Dazed
-      Name: Condition
-  Modifiers:
-  - Duration: EndOfUserNextTurn
-    Name: Duration
+    - Duration: EndOfUserNextTurn
+      Name: Duration
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: At-Will

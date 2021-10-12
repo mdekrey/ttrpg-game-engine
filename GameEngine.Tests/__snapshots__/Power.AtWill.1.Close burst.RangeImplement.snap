@@ -1,23 +1,24 @@
 ﻿- Level: 1
-  Usage: AtWill
-  Tool: Implement
-  ToolRange: Range
-  PowerSource: Arcane
-  Attacks:
-  - WeaponDice: 0.5
-    Ability: Strength
-    DamageTypes:
-    - Radiant
-    Modifiers:
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Size: 5
-      Type: Burst
-      Name: Multiple
-  Modifiers: []
+  PowerProfile:
+    Usage: AtWill
+    Tool: Implement
+    ToolRange: Range
+    PowerSource: Arcane
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Strength
+      DamageTypes:
+      - Radiant
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+      - Size: 5
+        Type: Burst
+        Name: Multiple
+    Modifiers: []
 - Name: Unknown
   TypeInfo: Implement Attack 1
   PowerUsage: At-Will

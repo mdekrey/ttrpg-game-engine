@@ -1,16 +1,17 @@
 ﻿- Level: 1
-  Usage: AtWill
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 1
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Name: TwoHits
-  Modifiers: []
+  PowerProfile:
+    Usage: AtWill
+    Tool: Weapon
+    ToolRange: Melee
+    PowerSource: Martial
+    Attacks:
+    - WeaponDice: 1
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Modifiers:
+      - Name: TwoHits
+    Modifiers: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: At-Will

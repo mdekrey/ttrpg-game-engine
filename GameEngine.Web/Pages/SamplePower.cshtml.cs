@@ -28,7 +28,7 @@ public class SamplePowerModel : PageModel
         ClassProfile classProfile = new(ClassRole.Striker, PowerSource.Martial, ImmutableList<ToolProfile>.Empty.Add(toolProfile));
 
         var powerHighLevelInfo = new PowerHighLevelInfo(level, powerFrequency, toolProfile, classProfile, toolProfile.PowerProfileConfigs[0]);
-        var powerProfile = target.GenerateProfile(powerHighLevelInfo);
+        var powerProfile = new ClassPowerProfile(level, target.GenerateProfile(powerHighLevelInfo));
 
         PowerTextBlock power = powerProfile.ToPowerTextBlock();
 

@@ -152,14 +152,14 @@ namespace GameEngine.Generator
 
     public static class PowerProfileTextGeneration
     {
-        public static PowerTextBlock ToPowerTextBlock(this PowerProfile profile)
+        public static PowerTextBlock ToPowerTextBlock(this ClassPowerProfile profile)
         {
             var result = new PowerTextBlock(
                 Name: "Unknown",
-                TypeInfo: $"{profile.Tool.ToText()} Attack {profile.Level}",
+                TypeInfo: $"{profile.PowerProfile.Tool.ToText()} Attack {profile.Level}",
                 FlavorText: null,
-                PowerUsage: profile.Usage.ToText(),
-                Keywords: ImmutableList<string>.Empty.Add(profile.Tool.ToKeyword()).Add(profile.PowerSource),
+                PowerUsage: profile.PowerProfile.Usage.ToText(),
+                Keywords: ImmutableList<string>.Empty.Add(profile.PowerProfile.Tool.ToKeyword()).Add(profile.PowerProfile.PowerSource),
                 ActionType: "Standard Action",
                 AttackType: null,
                 AttackTypeDetails: null,
@@ -171,13 +171,13 @@ namespace GameEngine.Generator
                 RulesText: ImmutableList<RulesText>.Empty
             );
 
-            var attacks = profile.Attacks.Select((attack, index) => attack.ToAttackInfo(profile, index + 1)).ToArray();
+            var attacks = profile.PowerProfile.Attacks.Select((attack, index) => attack.ToAttackInfo(profile.PowerProfile, index + 1)).ToArray();
             result = result.AddAttack(attacks[0], 1);
-            result = (from mod in profile.Modifiers
-                      let mutator = mod.GetTextMutator(profile)
+            result = (from mod in profile.PowerProfile.Modifiers
+                      let mutator = mod.GetTextMutator(profile.PowerProfile)
                       where mutator != null
                       orderby mutator.Priority
-                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, profile));
+                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, profile.PowerProfile));
             result = attacks.Select((attack, index) => (attack, index)).Skip(1).Aggregate(result, (powerBlock, attackBlock) => powerBlock.AddAttack(attackBlock.attack, attackBlock.index + 1));
 
             return result with

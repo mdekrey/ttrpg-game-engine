@@ -1,30 +1,31 @@
 ﻿- Level: 19
-  Usage: Daily
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 1
-    Ability: Strength
-    DamageTypes:
-    - Normal
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    PowerSource: Martial
+    Attacks:
+    - WeaponDice: 1
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Size: 3
+        Type: Burst
+        Name: Multiple
+      - Conditions:
+        - Name: Blinded
+        - Name: Dazed
+        Name: Condition
+      - Abilities:
+        - Strength
+        - Dexterity
+        Name: Ability Modifier Damage
     Modifiers:
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-    - Size: 3
-      Type: Burst
-      Name: Multiple
-    - Conditions:
-      - Name: Blinded
-      - Name: Dazed
-      Name: Condition
-    - Abilities:
-      - Strength
-      - Dexterity
-      Name: Ability Modifier Damage
-  Modifiers:
-  - Duration: SaveEnds
-    Name: Duration
+    - Duration: SaveEnds
+      Name: Duration
 - Name: Unknown
   TypeInfo: Weapon Attack 19
   PowerUsage: Daily

@@ -106,15 +106,18 @@ public static class ApiConversion
     public static Api.RulesText ToApi(this GameEngine.Rules.RulesText model) =>
         new Api.RulesText(Label: model.Label, Text: model.Text);
 
-    public static Api.PowerProfile ToApi(this GameEngine.Generator.PowerProfile model) =>
+    public static Api.PowerProfile ToApi(this GameEngine.Generator.ClassPowerProfile model) =>
+        model.PowerProfile.ToApi(model.Level);
+
+    public static Api.PowerProfile ToApi(this GameEngine.Generator.PowerProfile model, int? level = null) =>
         new Api.PowerProfile(
-            Level: model.Level,
             Usage: model.Usage.ToApi(),
             Tool: model.Tool.ToApi(),
             ToolRange: model.ToolRange.ToApi(),
-            PowerSource: model.PowerSource
-            // Attacks: model.Attacks,
-            // Modifiers: model.Modifiers
+            PowerSource: model.PowerSource,
+            Level: level
+        // Attacks: model.Attacks,
+        // Modifiers: model.Modifiers
         );
 
     public static Api.PowerFrequency ToApi(this Rules.PowerFrequency model) =>

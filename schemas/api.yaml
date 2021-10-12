@@ -137,7 +137,7 @@ components:
     PowerProfile:
       type: object
       required:
-        - level
+        # - level
         - usage
         - tool
         - toolRange
@@ -146,8 +146,7 @@ components:
         # - modifiers
       properties:
         level:
-          type: number
-          format: int
+          type: integer
         usage:
           $ref: '#/components/schemas/PowerFrequency'
         tool:

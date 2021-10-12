@@ -153,19 +153,16 @@ namespace GameEngine.Generator
     }
 
     public record PowerProfile(
-        int Level, PowerFrequency Usage,
+        PowerFrequency Usage,
         ToolType Tool, ToolRange ToolRange, string PowerSource,
         EquatableImmutableList<AttackProfile> Attacks,
         EquatableImmutableList<IPowerModifier> Modifiers
-    )
-    {
-        internal bool Matches(PowerProfile other)
-        {
-            if (other with { Level = Level } == this)
-                return true;
-            return false;
-        }
-    }
+    );
+
+    public record ClassPowerProfile(
+        int Level,
+        PowerProfile PowerProfile
+    );
 
     public static class ImmutableConstructorExtension
     {

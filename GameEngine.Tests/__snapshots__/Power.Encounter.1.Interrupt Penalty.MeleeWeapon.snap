@@ -1,21 +1,22 @@
 ﻿- Level: 1
-  Usage: Encounter
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 1
-    Ability: Strength
-    DamageTypes:
-    - Normal
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    PowerSource: Martial
+    Attacks:
+    - WeaponDice: 1
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+      - Defense: Fortitude
+        Name: Non-Armor Defense
     Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-  Modifiers:
-  - Name: OpportunityAction
+    - Name: OpportunityAction
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Encounter

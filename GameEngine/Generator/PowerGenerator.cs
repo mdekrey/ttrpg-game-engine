@@ -47,14 +47,14 @@ namespace GameEngine.Generator
             (level: 29, usage: PowerFrequency.Daily),
         }.ToImmutableList();
 
-        public ImmutableList<PowerProfile> GeneratePowerProfiles(ClassProfile classProfile)
+        public ImmutableList<ClassPowerProfile> GeneratePowerProfiles(ClassProfile classProfile)
         {
-            var result = ImmutableList<PowerProfile>.Empty;
+            var result = ImmutableList<ClassPowerProfile>.Empty;
             GeneratePowerProfiles(classProfile, () => result, p => result = result.Add(p));
             return result;
         }
 
-        public void GeneratePowerProfiles(ClassProfile classProfile, Func<ImmutableList<PowerProfile>> getPowers, Action<PowerProfile> onAddPower)
+        public void GeneratePowerProfiles(ClassProfile classProfile, Func<ImmutableList<ClassPowerProfile>> getPowers, Action<ClassPowerProfile> onAddPower)
         {
             var remaining = RemainingPowers(getPowers()).ToArray();
             foreach (var (level, usage, count) in remaining)
@@ -62,7 +62,7 @@ namespace GameEngine.Generator
                 var added = 0;
                 for (var i = 0; i <= count / classProfile.Tools.Count && added < count; i++)
                 {
-                    var shuffledTools = GeneratePowerProfileSelection(level, usage, classProfile, getPowers());
+                    var shuffledTools = GeneratePowerProfileSelection(level, usage, classProfile, getPowers().Select(cp => cp.PowerProfile));
 
                     foreach (var tool in shuffledTools)
                     {
@@ -79,16 +79,16 @@ namespace GameEngine.Generator
             }
         }
 
-        public IEnumerable<(int level, PowerFrequency usage, int count)> RemainingPowers(ImmutableList<PowerProfile> powers)
+        public IEnumerable<(int level, PowerFrequency usage, int count)> RemainingPowers(ImmutableList<ClassPowerProfile> powers)
         {
-            var countBySet = powers.GroupBy(p => (level: p.Level, usage: p.Usage)).ToDictionary(kvp => kvp.Key, kvp => kvp.Count());
+            var countBySet = powers.GroupBy(p => (level: p.Level, usage: p.PowerProfile.Usage)).ToDictionary(kvp => kvp.Key, kvp => kvp.Count());
 
             return from powerSet in providedPowers
                    let count = countBySet.TryGetValue((powerSet.level, powerSet.usage), out int c) ? c : 0
                    select (level: powerSet.level, usage: powerSet.usage, count: Math.Max(0, 4 - count));
         }
 
-        public IEnumerable<IEnumerable<PowerProfile>> GeneratePowerProfileSelection(int level, PowerFrequency usage, ClassProfile classProfile, IEnumerable<PowerProfile>? exclude = null)
+        public IEnumerable<IEnumerable<ClassPowerProfile>> GeneratePowerProfileSelection(int level, PowerFrequency usage, ClassProfile classProfile, IEnumerable<PowerProfile>? exclude = null)
         {
             return from tool in classProfile.Tools.Shuffle(randomGenerator)
                    select (from powerProfileConfig in tool.PowerProfileConfigs.Shuffle(randomGenerator)
@@ -96,7 +96,7 @@ namespace GameEngine.Generator
                            let power = BuildPower(powerInfo)
                            where power != null
                            where !exclude.Contains(power)
-                           select power);
+                           select new ClassPowerProfile(Level: level, PowerProfile: power));
 
             PowerProfile? BuildPower(PowerHighLevelInfo powerInfo)
             {
@@ -182,7 +182,7 @@ namespace GameEngine.Generator
                                  }
                                  from entry in set
                                  let builtEntry = entry.Build()
-                                 where !exclude.Any(excluded => excluded.Matches(builtEntry))
+                                 where !exclude.Contains(builtEntry)
                                  select entry).ToArray();
                 var validModifiers = preChance.ToChances(powerProfileBuilder.PowerInfo.PowerProfileConfig).ToArray();
                 if (validModifiers.Length == 0)

@@ -120,7 +120,7 @@ namespace GameEngine.Tests
             var (toolProfile, classProfile, powerProfileConfig) = GetToolProfile(configName, powerTemplate);
 
             var powerHighLevelInfo = new PowerHighLevelInfo(level, powerFrequency, toolProfile, classProfile, powerProfileConfig);
-            var powerProfile = target.GenerateProfile(powerHighLevelInfo);
+            var powerProfile = new ClassPowerProfile(level, target.GenerateProfile(powerHighLevelInfo));
 
             PowerTextBlock power = powerProfile.ToPowerTextBlock();
 

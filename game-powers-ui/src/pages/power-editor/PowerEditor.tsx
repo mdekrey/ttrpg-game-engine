@@ -70,7 +70,10 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 	function toPowerTextGroups(responseData: ClassDetailsReadOnly) {
 		return {
 			name: responseData.name,
-			powers: groupBy((block) => `Level ${block.profile.level} ${block.profile.usage} Powers`, responseData.powers),
+			powers: groupBy(
+				(block) => `${block.profile.level && `Level ${block.profile.level} `}${block.profile.usage} Powers`,
+				responseData.powers
+			),
 		};
 	}
 }

@@ -1,23 +1,24 @@
 ﻿- Level: 1
-  Usage: AtWill
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 1
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Movement:
-      - Timing: Anytime
-        Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
-  Modifiers: []
+  PowerProfile:
+    Usage: AtWill
+    Tool: Weapon
+    ToolRange: Melee
+    PowerSource: Martial
+    Attacks:
+    - WeaponDice: 1
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+      - Movement:
+        - Timing: Anytime
+          Amount: STR
+          Name: Shift
+        Name: Skirmish Movement
+    Modifiers: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: At-Will

@@ -1,33 +1,34 @@
 ﻿- Level: 1
-  Usage: Daily
-  Tool: Weapon
-  ToolRange: Melee
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 1
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Name: RequiredHitForNextAttack
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-  - WeaponDice: 1
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Name: RequiresPreviousHit
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-    - Size: 3
-      Type: Burst
-      Name: Multiple
-  Modifiers: []
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    PowerSource: Martial
+    Attacks:
+    - WeaponDice: 1
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    - WeaponDice: 1
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Size: 3
+        Type: Burst
+        Name: Multiple
+    Modifiers: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Daily

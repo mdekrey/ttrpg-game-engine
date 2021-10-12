@@ -6,7 +6,6 @@ namespace GameEngine.Generator
     public static class BasicPowers
     {
         public static readonly PowerProfile BasicMelee = new PowerProfile(
-            Level: 1, 
             Usage: Rules.PowerFrequency.AtWill, 
             Tool: ToolType.Weapon, 
             ToolRange: ToolRange.Melee, 
@@ -25,7 +24,6 @@ namespace GameEngine.Generator
         );
 
         public static readonly PowerProfile BasicRanged = new PowerProfile(
-            Level: 1,
             Usage: Rules.PowerFrequency.AtWill,
             Tool: ToolType.Weapon,
             ToolRange: ToolRange.Range,

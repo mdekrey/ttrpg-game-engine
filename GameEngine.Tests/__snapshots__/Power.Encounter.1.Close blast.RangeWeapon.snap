@@ -1,23 +1,24 @@
 ﻿- Level: 1
-  Usage: Encounter
-  Tool: Weapon
-  ToolRange: Range
-  PowerSource: Martial
-  Attacks:
-  - WeaponDice: 1
-    Ability: Strength
-    DamageTypes:
-    - Normal
-    Modifiers:
-    - Abilities:
-      - Strength
-      Name: Ability Modifier Damage
-    - Defense: Fortitude
-      Name: Non-Armor Defense
-    - Size: 3
-      Type: Blast
-      Name: Multiple
-  Modifiers: []
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Range
+    PowerSource: Martial
+    Attacks:
+    - WeaponDice: 1
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Size: 3
+        Type: Blast
+        Name: Multiple
+    Modifiers: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Encounter
