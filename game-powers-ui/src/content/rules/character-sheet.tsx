@@ -16,12 +16,14 @@ const sharedCss = `
 	font-size: 20px;
 	font-weight: bold;
 	text-transform: uppercase;
+    fill: white;
 }
 
 .stat-word {
 	font-family: "Lato", sans-serif;
 	font-size: 28px;
 	font-weight: bold;
+    fill: white;
 }
 
 .stat-abbreviation {
@@ -29,11 +31,13 @@ const sharedCss = `
 	font-size: 28px;
 	font-weight: bold;
 	text-transform: uppercase;
+    fill: white;
 }
 
 .stat-annotation {
 	font-family: "Lato", sans-serif;
 	font-size: 16px;
+    fill: white;
 }
 
 .stat-label {
@@ -41,16 +45,19 @@ const sharedCss = `
 	font-size: 14px;
 	font-weight: bold;
 	text-transform: uppercase;
+    fill: ${black};
 }
 .stat-label.large {
 	font-size: 20px;
 	font-weight: bold;
 	text-transform: initial;
+    fill: ${black};
 }
 .label {
 	font-family: "Lato", sans-serif;
 	font-size: 14px;
 	font-weight: bold;
+    fill:  ${black};
 }
 `;
 const handwritingHeight = 36;
@@ -208,7 +215,7 @@ function ModifierBar({
 	return (
 		<HiddenBox left={x} top={height - 50} outerWidth={width} outerHeight={50}>
 			<rect x="17" width={width - 16 - 1} height={50 - 1} stroke={black} strokeWidth={2} fill={fill || black} />
-			<text className="stat-label" y="1" x="2" {...text.y.base}>
+			<text className="stat-label" y="0" x="2" {...text.y.base}>
 				{firstLabel}
 			</text>
 			{mode === 'box' && firstBoxWidth ? (
@@ -228,7 +235,7 @@ function ModifierBar({
 								key={lineIndex}
 								x={mx}
 								dx="23"
-								y="1"
+								y="0"
 								dy={14 * (lineIndex - lines.length + 1)}
 								className="stat-label"
 								{...text.x.center}
