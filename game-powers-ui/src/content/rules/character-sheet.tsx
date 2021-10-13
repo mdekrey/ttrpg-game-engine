@@ -34,6 +34,10 @@ const sharedCss = `
     fill: white;
 }
 
+.stat-abbreviation.black {
+    fill: ${black};
+}
+
 .stat-annotation {
 	font-family: "Lato", sans-serif;
 	font-size: 16px;
@@ -492,7 +496,7 @@ export const CharacterSheet = forwardRef(
 									<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
 										FORT
 									</text>
-									<text className="stat-abbreviation" y="31" x={width + 47 / 2} {...text.x.center} fill={black}>
+									<text className="stat-abbreviation black" y="31" x={width + 47 / 2} {...text.x.center}>
 										10
 									</text>
 								</>
@@ -510,7 +514,7 @@ export const CharacterSheet = forwardRef(
 									<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
 										REFL
 									</text>
-									<text className="stat-abbreviation" y="31" x={width + 47 / 2} {...text.x.center} fill={black}>
+									<text className="stat-abbreviation black" y="31" x={width + 47 / 2} {...text.x.center}>
 										10
 									</text>
 								</>
@@ -528,7 +532,7 @@ export const CharacterSheet = forwardRef(
 									<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
 										WILL
 									</text>
-									<text className="stat-abbreviation" y="31" x={width + 47 / 2} {...text.x.center} fill={black}>
+									<text className="stat-abbreviation black" y="31" x={width + 47 / 2} {...text.x.center}>
 										10
 									</text>
 								</>
