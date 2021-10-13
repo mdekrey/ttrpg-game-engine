@@ -53,9 +53,10 @@ const sharedCss = `
 }
 .stat-label.large {
 	font-size: 20px;
-	font-weight: bold;
 	text-transform: initial;
-    fill: ${black};
+}
+.stat-label.white {
+	fill: white;
 }
 .label {
 	font-family: "Lato", sans-serif;
@@ -588,10 +589,10 @@ export const CharacterSheet = forwardRef(
 					</BorderBox>
 					<g transform="translate(0 251)">
 						<rect width="498" height="26" fill={black} />
-						<text className="stat-label large" y="13" x="200" {...text.x.center} {...text.y.middle} fill="white">
+						<text className="stat-label large white" y="13" x="200" {...text.x.center} {...text.y.middle}>
 							Second Wind 1/Encounter
 						</text>
-						<text className="stat-label large" y="13" x="400" {...text.x.right} {...text.y.middle} fill="white">
+						<text className="stat-label large white" y="13" x="400" {...text.x.right} {...text.y.middle}>
 							Used
 						</text>
 						<rect x="404" y="3" width="20" height="20" fill="white" strokeWidth="2" stroke={black} />
@@ -603,7 +604,7 @@ export const CharacterSheet = forwardRef(
 					</BorderBox>
 					<g transform="translate(0 344)">
 						<rect width="498" height="26" fill={black} />
-						<text className="stat-label large" y="13" x="200" {...text.x.center} {...text.y.middle} fill="white">
+						<text className="stat-label large white" y="13" x="200" {...text.x.center} {...text.y.middle}>
 							Death Saving Throw Failures
 						</text>
 						<rect x="381" y="3" width="20" height="20" fill="white" strokeWidth="2" stroke={black} />
