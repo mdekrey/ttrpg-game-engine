@@ -255,7 +255,7 @@ namespace GameEngine.Generator.Modifiers
                 var allyTarget = AllyType switch
                 {
                     AllyType.All => "you and all allies within 5 squares",
-                    AllyType.Single => "one ally of your choice within 5 squares or you",
+                    AllyType.Single => "you or one ally of your choice within 5 squares",
                     _ => throw new System.NotImplementedException(),
                 };
                 var parts = new List<string>();
