@@ -75,6 +75,7 @@ class AsyncClassGenerationProcess
             });
             if (shouldContinue)
             {
+                await addingTask.ConfigureAwait(false);
                 (_, _, powers) = await GetClassDetails().ConfigureAwait(false);
             }
         }
