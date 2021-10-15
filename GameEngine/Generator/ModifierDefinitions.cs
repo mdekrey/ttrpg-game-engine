@@ -12,25 +12,26 @@ namespace GameEngine.Generator
 
         public static readonly AttackModifierFormula NonArmorDefense = new NonArmorDefenseFormula();
         public static readonly AttackModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula();
+        public static readonly ImmutableList<IModifierFormula<ITargetEffectModifier, TargetEffectBuilder>> targetEffectModifiers = Build<IModifierFormula<ITargetEffectModifier, TargetEffectBuilder>>(
+            new ConditionFormula(),
+            new SkirmishFormula(),
+            new BoostFormula()
+            // Slowed/Unconscious (Progressing effect after a save)
+            // Aftereffects
+            // Disarm and catch
+        );
         public static readonly ImmutableList<IModifierFormula<IAttackModifier, AttackProfileBuilder>> attackModifiers = Build<IModifierFormula<IAttackModifier, AttackProfileBuilder>>(
             AbilityModifierDamage,
             NonArmorDefense,
             new BurstFormula(),
             new ToHitBonusFormula(),
-            new ConditionFormula(),
-            new MovementControlFormula(),
-            new SkirmishFormula(),
-            new BoostFormula()
-            // Slowed/Unconscious (Progressing effect after a save)
-            // Aftereffects
+            new MovementControlFormula()
             // Reroll attack
-            // Disarm and catch
         );
         public static readonly ImmutableList<IModifierFormula<IPowerModifier, PowerProfileBuilder>> powerModifiers = Build<IModifierFormula<IPowerModifier, PowerProfileBuilder>>(
-            new EffectDurationFormula(),
+            // new EffectDurationFormula(),
             new MultiattackFormula(),
-            new OpportunityActionFormula(),
-            new BoostFormula()
+            new OpportunityActionFormula()
             // Stance
             // Free basic attacks
             // Sustain

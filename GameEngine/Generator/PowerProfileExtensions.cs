@@ -22,7 +22,7 @@ namespace GameEngine.Generator
             var selected = formula.GetBaseModifier(attack);
             if (attack.Modifiers.Any(m => m.Name == selected.Name) || !new[] { attack.Apply(selected) }.Where(a => a.IsValid(power)).ToChances(attack.PowerInfo.PowerProfileConfig, skipProfile: true).Any())
                 return new[] { attack };
-            var upgrades = (from mod in selected.GetAttackUpgrades(attack, stage, power)
+            var upgrades = (from mod in selected.GetUpgrades(attack, stage, power)
                             where !attack.Modifiers.Any(m => m.Name == mod.Name)
                             let a = attack.Apply(mod)
                             where a.IsValid(power)

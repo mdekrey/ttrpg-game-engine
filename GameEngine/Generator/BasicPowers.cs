@@ -12,8 +12,10 @@ namespace GameEngine.Generator
             Attacks: Build(
                 new AttackProfile(
                     WeaponDice: 1, 
+                    Duration: Duration.EndOfUserNextTurn,
                     Ability: Rules.Ability.Strength, 
                     DamageTypes: Build<DamageType>(DamageType.Normal), 
+                    Effects: Build(new TargetEffect(Target.Enemy, Build<ITargetEffectModifier>())),
                     Modifiers: Build<IAttackModifier>(
                         new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Strength))
                     )
@@ -29,8 +31,10 @@ namespace GameEngine.Generator
             Attacks: Build(
                 new AttackProfile(
                     WeaponDice: 1,
+                    Duration: Duration.EndOfUserNextTurn,
                     Ability: Rules.Ability.Dexterity,
                     DamageTypes: Build<DamageType>(DamageType.Normal),
+                    Effects: Build(new TargetEffect(Target.Enemy, Build<ITargetEffectModifier>())),
                     Modifiers: Build<IAttackModifier>(
                         new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Dexterity))
                     )

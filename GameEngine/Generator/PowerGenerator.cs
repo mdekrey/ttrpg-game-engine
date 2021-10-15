@@ -163,9 +163,26 @@ namespace GameEngine.Generator
                                      let index = attackWithIndex.index
                                      where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
                                      let entry = mod.GetBaseModifier(attack)
-                                     from e in (entry.MustUpgrade() ? entry.GetAttackUpgrades(attack, stage, powerProfileBuilder with { Attacks = powerProfileBuilder.Attacks.SetItem(index, attack.Apply(entry)) }) : new[] { entry })
+                                     from e in EnsureUpgraded(entry, attack, stage, powerProfileBuilder)
                                      let appliedAttack = attack.Apply(e)
                                      let applied = powerProfileBuilder with { Attacks = powerProfileBuilder.Attacks.SetItem(index, appliedAttack) }
+                                     where appliedAttack.IsValid(applied)
+                                     where applied.IsValid()
+                                     select applied
+                                     ,
+                                     from mod in ModifierDefinitions.targetEffectModifiers
+                                     from attackWithIndex in powerProfileBuilder.Attacks.Select((attack, index) => (attack, index))
+                                     let attack = attackWithIndex.attack
+                                     let attackIndex = attackWithIndex.index
+                                     from targetEffectWithIndex in attack.TargetEffects.Select((effect, index) => (effect, index))
+                                     let effect = targetEffectWithIndex.effect
+                                     let effectIndex = targetEffectWithIndex.index
+                                     where mod.IsValid(effect) && !effect.Modifiers.Any(m => m.Name == mod.Name)
+                                     let entry = mod.GetBaseModifier(effect)
+                                     from e in EnsureUpgraded(entry, effect, stage, powerProfileBuilder)
+                                     let appliedEffect = effect.Apply(e)
+                                     let appliedAttack = attack with { TargetEffects = attack.TargetEffects.SetItem(effectIndex, appliedEffect) }
+                                     let applied = powerProfileBuilder with { Attacks = powerProfileBuilder.Attacks.SetItem(attackIndex, appliedAttack) }
                                      where appliedAttack.IsValid(applied)
                                      where applied.IsValid()
                                      select applied
@@ -173,8 +190,20 @@ namespace GameEngine.Generator
                                      from mod in ModifierDefinitions.powerModifiers
                                      where mod.IsValid(powerProfileBuilder) && !powerProfileBuilder.Modifiers.Any(m => m.Name == mod.Name)
                                      let entry = mod.GetBaseModifier(powerProfileBuilder)
-                                     from e in (entry.MustUpgrade() ? entry.GetPowerUpgrades(powerProfileBuilder, stage) : new[] { entry })
+                                     from e in EnsureUpgraded(entry, powerProfileBuilder, stage, powerProfileBuilder)
                                      from applied in powerProfileBuilder.Apply(e).FinalizeUpgrade()
+                                     where applied.IsValid()
+                                     select applied
+                                     ,
+                                     from mod in ModifierDefinitions.targetEffectModifiers
+                                     from targetEffectWithIndex in powerProfileBuilder.Effects.Select((effect, index) => (effect, index))
+                                     let effect = targetEffectWithIndex.effect
+                                     let effectIndex = targetEffectWithIndex.index
+                                     where mod.IsValid(effect) && !effect.Modifiers.Any(m => m.Name == mod.Name)
+                                     let entry = mod.GetBaseModifier(effect)
+                                     from e in EnsureUpgraded(entry, effect, stage, powerProfileBuilder)
+                                     let appliedEffect = effect.Apply(e)
+                                     let applied = powerProfileBuilder with { Effects = powerProfileBuilder.Effects.SetItem(effectIndex, appliedEffect) }
                                      where applied.IsValid()
                                      select applied
                                      ,
@@ -195,6 +224,11 @@ namespace GameEngine.Generator
             return powerProfileBuilder;
         }
 
+        private static IEnumerable<TModifier> EnsureUpgraded<TBuilder, TModifier>(TModifier entry, TBuilder builder, UpgradeStage stage, PowerProfileBuilder powerProfileBuilder)
+            where TBuilder : ModifierBuilder<TBuilder, TModifier>
+            where TModifier : class, IUpgradableModifier<TBuilder, TModifier> =>
+                entry.MustUpgrade() ? entry.GetUpgrades(builder, stage, powerProfileBuilder) : new[] { entry };
+
         private PowerProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info)
         {
             var result = new PowerProfileBuilder(
@@ -204,7 +238,8 @@ namespace GameEngine.Generator
                 ),
                 info,
                 Build(RootAttackBuilder(basePower, info, randomGenerator)),
-                ImmutableList<IPowerModifier>.Empty
+                ImmutableList<IPowerModifier>.Empty,
+                ImmutableList<TargetEffectBuilder>.Empty
             );
             return result; // no modifiers yet, no need to finalize
         }
@@ -212,6 +247,7 @@ namespace GameEngine.Generator
         private static AttackProfileBuilder RootAttackBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfileBuilder(
                 1,
+                Duration.EndOfUserNextTurn,
                 new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     Minimum: GetAttackMinimumPower(basePower, info.ClassProfile.Role, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
@@ -226,6 +262,7 @@ namespace GameEngine.Generator
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                         .Select(v => new RandomChances<DamageType>(v))
                 )),
+                Build(new TargetEffectBuilder(Target.Enemy, ImmutableList<ITargetEffectModifier>.Empty, info)),
                 ImmutableList<IAttackModifier>.Empty,
                 info
             );
@@ -234,8 +271,8 @@ namespace GameEngine.Generator
             usage switch
             {
                 PowerFrequency.AtWill => 1,
-                PowerFrequency.Encounter => 2,
-                PowerFrequency.Daily => 3,
+                PowerFrequency.Encounter => 1,
+                PowerFrequency.Daily => 2,
                 _ => throw new ArgumentException($"Invalid enum value: {usage:g}", nameof(usage)),
             };
 

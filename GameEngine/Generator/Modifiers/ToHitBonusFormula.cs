@@ -25,7 +25,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Amount.ToWeaponDice());
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
             {
                 if (stage < UpgradeStage.Standard) yield break;
 

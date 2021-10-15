@@ -30,7 +30,7 @@ namespace GameEngine.Generator.Modifiers
                 new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
             public override bool IsPlaceholder() => Effects.Count == 0;
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
                 from set in new[]
                 {

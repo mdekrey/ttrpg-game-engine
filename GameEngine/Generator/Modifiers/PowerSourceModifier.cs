@@ -13,7 +13,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
 
-        public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage)
+        public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage)
         {
             yield break;
         }

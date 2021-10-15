@@ -32,7 +32,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool MustUpgrade() => true;
             public override bool IsPlaceholder() => true;
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
             {
                 if (stage < UpgradeStage.Standard) yield break;
                 if (attack.PowerInfo.ToolProfile.Range != ToolRange.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
@@ -51,7 +51,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Multiplier: ((Size - 1) / 2.0 + 2) / 2.0); // TODO - is this right?
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
                 new[]
                 {

@@ -83,13 +83,18 @@ namespace GameEngine.Generator
         public static readonly PowerTextMutator Empty = new(0, (text, info) => text);
         public delegate PowerTextBlock PowerTextMutatorDelegate(PowerTextBlock textBlock, PowerProfile powerInfo);
     }
+
+    public record EmptyContext()
+    {
+        public static readonly EmptyContext Instance = new();
+    }
     
-    public interface IPowerModifier : IModifier
+    public interface IPowerModifier : IUpgradableModifier<PowerProfileBuilder, IPowerModifier>
     {
         bool ExcludeFromUniqueness();
 
         PowerCost GetCost(PowerProfileBuilder builder);
-        IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
+        IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder);
         PowerTextMutator? GetTextMutator(PowerProfile power);
     }
@@ -100,12 +105,18 @@ namespace GameEngine.Generator
         public delegate AttackInfo AttackInfoMutatorDelegate(AttackInfo textBlock, PowerProfile powerInfo, int index);
     }
 
-    public interface IAttackModifier : IModifier
+    public interface IAttackModifier : IUpgradableModifier<AttackProfileBuilder, IAttackModifier>
     {
-        PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power);
-        IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power);
+        PowerCost GetCost(AttackProfileBuilder builder);
         double ApplyEffectiveWeaponDice(double weaponDice);
         AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
+    }
+
+    public interface ITargetEffectModifier : IUpgradableModifierWithCost<TargetEffectBuilder, ITargetEffectModifier, AttackProfileBuilder>
+    {
+        bool UsesDuration();
+        double ApplyEffectiveWeaponDice(double weaponDice);
+        // AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
     }
 
     public abstract record PowerModifier(string Name) : IPowerModifier
@@ -116,44 +127,51 @@ namespace GameEngine.Generator
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
-        public abstract IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
+        public abstract IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
         public virtual IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder) { yield return builder; }
 
         public abstract PowerTextMutator? GetTextMutator(PowerProfile power);
+
+        IEnumerable<IPowerModifier> IUpgradableModifier<PowerProfileBuilder, IPowerModifier>.GetUpgrades(PowerProfileBuilder _, UpgradeStage stage, PowerProfileBuilder power) =>
+            GetUpgrades(power, stage);
     }
 
     public abstract record AttackModifier(string Name) : IAttackModifier
     {
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
-        public abstract PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power);
+        public abstract PowerCost GetCost(AttackProfileBuilder builder);
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
-        public abstract IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power);
+        public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
         public abstract AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
     }
 
-    public abstract record AttackAndPowerModifier(string Name) : IAttackModifier, IPowerModifier
+    public abstract record TargetEffectModifier(string Name) : ITargetEffectModifier
     {
-        public virtual bool ExcludeFromUniqueness() => false;
+        public abstract PowerCost GetCost(TargetEffectBuilder builder, AttackProfileBuilder power);
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
-        public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
+        public abstract bool UsesDuration();
 
-        public abstract IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power);
-        public abstract IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage);
-        public virtual IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder) { yield return builder; }
+        public abstract IEnumerable<ITargetEffectModifier> GetUpgrades(TargetEffectBuilder builder, UpgradeStage stage, PowerProfileBuilder power);
 
-        public virtual PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => GetCost(power);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
-
-        public abstract PowerTextMutator GetTextMutator(PowerProfile power);
-        public abstract AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
     }
 
-    public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, EquatableImmutableList<IAttackModifier> Modifiers)
+    [Flags]
+    public enum Target
+    {
+        Enemy = 1,
+        You = 2,
+        Ally = 4,
+    }
+
+    public record TargetEffect(Target Target, EquatableImmutableList<ITargetEffectModifier> Modifiers);
+
+    public record AttackProfile(double WeaponDice, Duration Duration, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, EquatableImmutableList<TargetEffect> Effects, EquatableImmutableList<IAttackModifier> Modifiers)
     {
     }
 

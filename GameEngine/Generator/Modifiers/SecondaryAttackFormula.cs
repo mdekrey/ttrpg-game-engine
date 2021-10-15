@@ -23,7 +23,7 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override bool IsPlaceholder() => true;
             public override bool MustUpgrade() => true;
-            public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage)
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage)
             {
                 if (stage != UpgradeStage.AttackSetup)
                     yield break;
@@ -62,7 +62,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => AttackModifier.GetComplexity(powerInfo);
             public override PowerCost GetCost(PowerProfileBuilder power) => AttackModifier.GetCost(power.Attacks[0], power);
 
-            public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
 
             public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder power)
@@ -91,7 +91,7 @@ namespace GameEngine.Generator.Modifiers
                 new (Fixed: Amounts.Take(Amounts.Count - 1).Select((v, i) => v * (i == 0 || !RequiresPreviousHit ? 1 : 0.5)).Sum() - power.Attacks.Select(a => a.TotalCost(power).Fixed).Sum());
             public override bool IsPlaceholder() => true;
 
-            public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
 
             public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder power)
@@ -138,7 +138,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override bool IsPlaceholder() => true;
-            public override IEnumerable<IPowerModifier> GetPowerUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
+            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
             public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
@@ -150,7 +150,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => PowerCost.Empty;
             public override bool IsPlaceholder() => false;
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
 
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
@@ -171,7 +171,7 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
                 new PowerCost(Multiplier: 1 / FollowupAttackPower);
             public override bool IsPlaceholder() => false;
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => null;
         }
@@ -185,7 +185,7 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
                 PowerCost.Empty;
             public override bool IsPlaceholder() => false;
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
             public override double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice * 2;
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
@@ -203,7 +203,7 @@ namespace GameEngine.Generator.Modifiers
             public const string ModifierName = "UpToThreeTargets";
             public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(1.5);
             public override bool IsPlaceholder() => false;
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, info, index) => attack with

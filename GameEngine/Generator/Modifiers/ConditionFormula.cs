@@ -8,7 +8,7 @@ using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ConditionFormula() : AttackModifierFormula(ModifierName)
+    public record ConditionFormula() : TargetEffectFormula(ModifierName)
     {
         public const string ModifierName = "Condition";
 
@@ -42,7 +42,7 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
+        public override ITargetEffectModifier GetBaseModifier(TargetEffectBuilder builder)
         {
             return new ConditionModifier(ImmutableList<Condition>.Empty);
         }
@@ -52,15 +52,16 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Must remain "SaveEnds" if there's a Boost dependent upon it
             : 1;
 
-        public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : AttackModifier(ModifierName), EffectDurationFormula.IUsesDuration
+        public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : TargetEffectModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => 
-                new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(EffectDurationFormula.GetDuration(power))).Sum());
+            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => 
+                new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(builder.Duration)).Sum());
             public override bool IsPlaceholder() => Conditions.Count == 0;
+            public override bool UsesDuration() => true;
 
-            public override IEnumerable<IAttackModifier> GetAttackUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
+            public override IEnumerable<ITargetEffectModifier> GetUpgrades(TargetEffectBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<ITargetEffectModifier>() :
                 from set in new[]
                 {
                     from basicCondition in basicConditions.Keys
@@ -86,21 +87,21 @@ namespace GameEngine.Generator.Modifiers
                                     ? subsume[c]
                                     : Enumerable.Empty<string>()).ToHashSet();
 
-            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-                new(0, (attack, info, index) => attack with
-                {
-                    HitParts = attack.HitParts.Add("the target "
-                        + OxfordComma((from condition in Conditions
-                                                                  group condition.Effect().ToLower() by condition.Verb() into verbGroup
-                                                                  select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())
-                        + EffectDurationFormula.GetDuration(power) switch
-                        {
-                            Duration.EndOfUserNextTurn => " until the end of your next turn",
-                            Duration.SaveEnds => " (save ends)",
-                            Duration.EndOfEncounter => " until the end of the encounter",
-                            _ => throw new NotImplementedException(),
-                        }),
-                });
+            //public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
+            //    new(0, (attack, info, index) => attack with
+            //    {
+            //        HitParts = attack.HitParts.Add("the target "
+            //            + OxfordComma((from condition in Conditions
+            //                                                      group condition.Effect().ToLower() by condition.Verb() into verbGroup
+            //                                                      select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())
+            //            + EffectDurationFormula.GetDuration(power) switch
+            //            {
+            //                Duration.EndOfUserNextTurn => " until the end of your next turn",
+            //                Duration.SaveEnds => " (save ends)",
+            //                Duration.EndOfEncounter => " until the end of the encounter",
+            //                _ => throw new NotImplementedException(),
+            //            }),
+            //    });
 
             public bool DurationAffected() => Conditions.Any();
             public bool CanSaveEnd() => Conditions.Any();
