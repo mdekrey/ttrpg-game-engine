@@ -54,6 +54,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : TargetEffectModifier(ModifierName)
         {
+            public override Target ValidTargets() => Target.Enemy;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => 
                 new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(power.GetDuration())).Sum());

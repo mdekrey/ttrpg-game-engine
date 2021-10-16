@@ -107,8 +107,10 @@ namespace GameEngine.Generator
         AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
     }
 
-    public interface ITargetEffectModifier : IUpgradableModifierWithCost<TargetEffectBuilder, ITargetEffectModifier, PowerProfileBuilder>
+    public interface ITargetEffectModifier : IUpgradableModifier<TargetEffectBuilder, ITargetEffectModifier>
     {
+        PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context);
+        Target ValidTargets();
         bool UsesDuration();
         double ApplyEffectiveWeaponDice(double weaponDice);
         // AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
@@ -145,6 +147,7 @@ namespace GameEngine.Generator
 
     public abstract record TargetEffectModifier(string Name) : ITargetEffectModifier
     {
+        public abstract Target ValidTargets();
         public abstract PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power);
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public virtual bool IsPlaceholder() => false;
@@ -160,7 +163,7 @@ namespace GameEngine.Generator
     public enum Target
     {
         Enemy = 1,
-        You = 2,
+        Self = 2,
         Ally = 4,
     }
 

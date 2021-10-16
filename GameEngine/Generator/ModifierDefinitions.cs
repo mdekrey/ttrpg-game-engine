@@ -29,7 +29,7 @@ namespace GameEngine.Generator
             // Reroll attack
         );
         public static readonly ImmutableList<IModifierFormula<IPowerModifier, PowerProfileBuilder>> powerModifiers = Build<IModifierFormula<IPowerModifier, PowerProfileBuilder>>(
-            // new EffectDurationFormula(),
+            new EffectDurationFormula(),
             new MultiattackFormula(),
             new OpportunityActionFormula()
             // Stance

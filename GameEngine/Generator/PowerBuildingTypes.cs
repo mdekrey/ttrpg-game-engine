@@ -44,12 +44,6 @@ namespace GameEngine.Generator
     {
         IEnumerable<TModifier> GetUpgrades(TBuilder builder, UpgradeStage stage, PowerProfileBuilder power);
     }
-    public interface IUpgradableModifierWithCost<TBuilder, TModifier, TContext> : IUpgradableModifier<TBuilder, TModifier>
-        where TBuilder : ModifierBuilder<TBuilder, TModifier>
-        where TModifier : class, IUpgradableModifier<TBuilder, TModifier>
-    {
-        PowerCost GetCost(TBuilder builder, TContext context);
-    }
 
     public abstract record ModifierBuilder<TBuilder, TModifier>(ImmutableList<TModifier> Modifiers, PowerHighLevelInfo PowerInfo) : IModifierBuilder 
         where TBuilder : ModifierBuilder<TBuilder, TModifier>

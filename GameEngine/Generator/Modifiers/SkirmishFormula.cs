@@ -27,6 +27,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record EmptySkirmishModifier() : TargetEffectModifier(ModifierName)
         {
+            public override Target ValidTargets() => Target.Self;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => PowerCost.Empty;
             public override bool IsPlaceholder() => true;
@@ -101,6 +102,7 @@ namespace GameEngine.Generator.Modifiers
         }
         public record SkirmishMovementModifier(EquatableImmutableList<SkirmishMovement> Movement) : TargetEffectModifier(ModifierName)
         {
+            public override Target ValidTargets() => Target.Self;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override bool UsesDuration() => false;
 

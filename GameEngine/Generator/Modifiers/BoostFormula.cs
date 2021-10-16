@@ -36,7 +36,7 @@ namespace GameEngine.Generator.Modifiers
 
         public TargetEffectModifier GetBaseModifier()
         {
-            return new BoostModifier(ImmutableList<Boost>.Empty, ImmutableList<Boost>.Empty, AllyType.Single);
+            return new BoostModifier(ImmutableList<Boost>.Empty);
         }
 
         public static double DurationMultiplier(Duration duration) =>
@@ -142,30 +142,20 @@ namespace GameEngine.Generator.Modifiers
             public override string Category() => "Healing";
         }
 
-        public enum AllyType
+        public record BoostModifier(EquatableImmutableList<Boost> Boosts) : TargetEffectModifier(ModifierName)
         {
-            Single,
-            All
-        }
-
-        public record BoostModifier(EquatableImmutableList<Boost> SelfBoosts, EquatableImmutableList<Boost> AllyBoosts, AllyType AllyType) : TargetEffectModifier(ModifierName)
-        {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => SelfBoosts.Union(AllyBoosts).Select(boost => boost.Category()).Distinct().Count();
-            public override bool IsPlaceholder() => SelfBoosts.Count == 0 && AllyBoosts.Count == 0;
+            public override Target ValidTargets() => Target.Self | Target.Ally;
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => Boosts.Select(boost => boost.Category()).Distinct().Count();
+            public override bool IsPlaceholder() => Boosts.Count == 0;
             public override bool UsesDuration() => true;
 
-            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder attack) =>
+            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) =>
                 new PowerCost(
                     Fixed:
-                    SelfBoosts
+                    Boosts
                         .Select(m => m.Cost()
-                            * (m.DurationAffected() ? DurationMultiplier(attack.GetDuration()) : 1)
-                        )
-                        .Sum() +
-                    AllyBoosts
-                        .Select(m => m.Cost()
-                            * (m.DurationAffected() ? DurationMultiplier(attack.GetDuration()) : 1)
-                            * (AllyType == AllyType.All ? 2 : 1)
+                            * (m.DurationAffected() ? DurationMultiplier(power.GetDuration()) : 1)
+                            * (builder.IsMultiple() ? 2 : 1)
                         )
                         .Sum()
                 );
@@ -178,52 +168,12 @@ namespace GameEngine.Generator.Modifiers
                 from set in new[]
                 {
                     from basicBoost in GetBasicBoosts(powerInfo, duration)
-                    where !SelfBoosts.Select(b => b.Name).Contains(basicBoost.Name)
-                    where !AllyBoosts.Select(b => b.Name).Contains(basicBoost.Name)
-                    select this with { SelfBoosts = SelfBoosts.Items.Add(basicBoost) },
+                    where !Boosts.Select(b => b.Name).Contains(basicBoost.Name)
+                    select this with { Boosts = Boosts.Items.Add(basicBoost) },
 
-                    from basicBoost in GetBasicBoosts(powerInfo, duration)
-                    where AllyType != AllyType.All
-                    where !AllyBoosts.Select(b => b.Name).Contains(basicBoost.Name)
-                    let boost = basicBoost
-                    select this with
-                    {
-                        AllyBoosts = AllyBoosts.Items.Add(boost),
-                    },
-
-                    from basicBoost in GetBasicBoosts(powerInfo, duration)
-                    where AllyType == AllyType.All
-                    where !AllyBoosts.Select(b => b.Name).Contains(basicBoost.Name)
-                    let boost = SelfBoosts.FirstOrDefault(b => b.Name == basicBoost.Name) ?? basicBoost
-                    select this with
-                    {
-                        AllyBoosts = AllyBoosts.Items.Add(boost),
-                        SelfBoosts = SelfBoosts.Items.Remove(boost),
-                    },
-
-                    from boost in SelfBoosts
+                    from boost in Boosts
                     from upgrade in boost.GetUpgrades(powerInfo)
-                    select this with { SelfBoosts = SelfBoosts.Items.Remove(boost).Add(upgrade) },
-
-                    from boost in AllyBoosts
-                    from upgrade in boost.GetUpgrades(powerInfo)
-                    select this with { AllyBoosts = AllyBoosts.Items.Remove(boost).Add(upgrade) },
-
-                    from target in new[] { AllyType.All }
-                    where AllyType != target && AllyBoosts.Count > 0
-                    select this with
-                    {
-                        AllyType = target,
-                        SelfBoosts = SelfBoosts.Where(self => !AllyBoosts.Select(ally => ally.Name).Contains(self.Name)).ToImmutableList(),
-                        AllyBoosts = AllyBoosts
-                            .Select(
-                                ally => (from boost in new[] { ally, SelfBoosts.FirstOrDefault(self => self.Name == ally.Name) }
-                                         where boost != null
-                                         orderby boost.Cost() descending
-                                         select boost).FirstOrDefault()
-                            )
-                            .ToImmutableList(),
-                    },
+                    select this with { Boosts = Boosts.Items.Remove(boost).Add(upgrade) },
                 }
                 from mod in set
                 select mod;
@@ -277,7 +227,7 @@ namespace GameEngine.Generator.Modifiers
             //    }
             //}
 
-            public bool DurationAffected() => AllyBoosts.Concat(SelfBoosts).Any(b => b.DurationAffected());
+            public bool DurationAffected() => Boosts.Any(b => b.DurationAffected());
             public bool CanSaveEnd() => false;
         }
     }

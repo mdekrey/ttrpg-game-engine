@@ -72,4 +72,12 @@ namespace GameEngine.Generator.Modifiers
                 });
         }
     }
+
+    public static class BurstFormulaExtensions
+    {
+        public static bool IsMultiple(this TargetEffectBuilder builder)
+        {
+            return false; // TODO
+        }
+    }
 }

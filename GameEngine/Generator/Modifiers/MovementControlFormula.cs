@@ -25,6 +25,7 @@ namespace GameEngine.Generator.Modifiers
 
         public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : TargetEffectModifier(ModifierName)
         {
+            public override Target ValidTargets() => Target.Enemy;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => IsPlaceholder() ? 0 : 1;
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder attack) =>
                 new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
