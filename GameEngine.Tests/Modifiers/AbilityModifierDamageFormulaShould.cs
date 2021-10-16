@@ -37,14 +37,14 @@ namespace GameEngine.Tests.Modifiers
                 Ability: Rules.Ability.Strength,
                 DamageTypes: Build(DamageType.Normal),
                 TargetEffects: Build(
-                    new TargetEffectBuilder(Target.Enemy, Duration.EndOfUserNextTurn, Build<ITargetEffectModifier>(), info)
+                    new TargetEffectBuilder(Target.Enemy, Build<ITargetEffectModifier>(), info)
                 ),
                 Modifiers: Build<IAttackModifier>(
                     new AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Strength))
                 ),
                 PowerInfo: info
             );
-            var power = new PowerProfileBuilder(attack.Limits, attack.PowerInfo, Build(attack), Build<IPowerModifier>(), Build(new TargetEffectBuilder(Target.Enemy, Duration.EndOfUserNextTurn, ImmutableList<ITargetEffectModifier>.Empty, info)));
+            var power = new PowerProfileBuilder(attack.Limits, attack.PowerInfo, Build(attack), Build<IPowerModifier>(), Build(new TargetEffectBuilder(Target.Enemy, ImmutableList<ITargetEffectModifier>.Empty, info)));
 
             var upgrades = attack.Modifiers.First().GetUpgrades(attack, UpgradeStage.Finalize, power);
 

@@ -66,7 +66,7 @@ namespace GameEngine.Generator
     public record TargetEffectBuilder(Target Target, ImmutableList<ITargetEffectModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : ModifierBuilder<TargetEffectBuilder, ITargetEffectModifier>(Modifiers, PowerInfo)
     {
-        public PowerCost TotalCost(AttackProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+        public PowerCost TotalCost(PowerProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         internal TargetEffect Build() =>
             new TargetEffect(Target, Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
@@ -84,13 +84,13 @@ namespace GameEngine.Generator
 
     }
 
-    public record AttackProfileBuilder(double Multiplier, Duration Duration, AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
+    public record AttackProfileBuilder(double Multiplier, AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : ModifierBuilder<AttackProfileBuilder, IAttackModifier>(Modifiers, PowerInfo)
     {
         public PowerCost TotalCost(PowerProfileBuilder builder) => 
             Enumerable.Concat(
-                Modifiers.Select(m => m.GetCost(this, EmptyContext.Instance)),
-                TargetEffects.Select(e => e.TotalCost(this))
+                Modifiers.Select(m => m.GetCost(this)),
+                TargetEffects.Select(e => e.TotalCost(builder))
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         public double WeaponDice(PowerProfileBuilder builder) =>
@@ -107,7 +107,7 @@ namespace GameEngine.Generator
             return TotalCost(builder).Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity(builder.PowerInfo)).Sum() <= Limits.MaxComplexity;
         }
         internal AttackProfile Build(PowerProfileBuilder builder) =>
-            new AttackProfile(FinalWeaponDice(builder), Duration, Ability, DamageTypes, TargetEffects.Select(teb => teb.Build()).ToImmutableList(), Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
+            new AttackProfile(FinalWeaponDice(builder), Ability, DamageTypes, TargetEffects.Select(teb => teb.Build()).ToImmutableList(), Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
 
         public override IEnumerable<AttackProfileBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
 

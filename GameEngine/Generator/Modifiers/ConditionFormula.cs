@@ -56,7 +56,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => 
-                new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(builder.Duration)).Sum());
+                new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(power.GetDuration())).Sum());
             public override bool IsPlaceholder() => Conditions.Count == 0;
             public override bool UsesDuration() => true;
 

@@ -83,12 +83,7 @@ namespace GameEngine.Generator
         public static readonly PowerTextMutator Empty = new(0, (text, info) => text);
         public delegate PowerTextBlock PowerTextMutatorDelegate(PowerTextBlock textBlock, PowerProfile powerInfo);
     }
-
-    public record EmptyContext()
-    {
-        public static readonly EmptyContext Instance = new();
-    }
-    
+        
     public interface IPowerModifier : IUpgradableModifier<PowerProfileBuilder, IPowerModifier>
     {
         bool ExcludeFromUniqueness();
@@ -112,7 +107,7 @@ namespace GameEngine.Generator
         AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
     }
 
-    public interface ITargetEffectModifier : IUpgradableModifierWithCost<TargetEffectBuilder, ITargetEffectModifier, AttackProfileBuilder>
+    public interface ITargetEffectModifier : IUpgradableModifierWithCost<TargetEffectBuilder, ITargetEffectModifier, PowerProfileBuilder>
     {
         bool UsesDuration();
         double ApplyEffectiveWeaponDice(double weaponDice);
@@ -150,7 +145,7 @@ namespace GameEngine.Generator
 
     public abstract record TargetEffectModifier(string Name) : ITargetEffectModifier
     {
-        public abstract PowerCost GetCost(TargetEffectBuilder builder, AttackProfileBuilder power);
+        public abstract PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power);
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
@@ -171,7 +166,7 @@ namespace GameEngine.Generator
 
     public record TargetEffect(Target Target, EquatableImmutableList<ITargetEffectModifier> Modifiers);
 
-    public record AttackProfile(double WeaponDice, Duration Duration, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, EquatableImmutableList<TargetEffect> Effects, EquatableImmutableList<IAttackModifier> Modifiers)
+    public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, EquatableImmutableList<TargetEffect> Effects, EquatableImmutableList<IAttackModifier> Modifiers)
     {
     }
 

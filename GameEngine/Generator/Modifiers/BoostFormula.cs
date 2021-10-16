@@ -154,17 +154,17 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsPlaceholder() => SelfBoosts.Count == 0 && AllyBoosts.Count == 0;
             public override bool UsesDuration() => true;
 
-            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) =>
+            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder attack) =>
                 new PowerCost(
                     Fixed:
                     SelfBoosts
                         .Select(m => m.Cost()
-                            * (m.DurationAffected() ? DurationMultiplier(builder.Duration) : 1)
+                            * (m.DurationAffected() ? DurationMultiplier(attack.GetDuration()) : 1)
                         )
                         .Sum() +
                     AllyBoosts
                         .Select(m => m.Cost()
-                            * (m.DurationAffected() ? DurationMultiplier(builder.Duration) : 1)
+                            * (m.DurationAffected() ? DurationMultiplier(attack.GetDuration()) : 1)
                             * (AllyType == AllyType.All ? 2 : 1)
                         )
                         .Sum()
@@ -172,7 +172,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<ITargetEffectModifier> GetUpgrades(TargetEffectBuilder builder, UpgradeStage stage, PowerProfileBuilder power) =>
                 stage != UpgradeStage.Standard ? Enumerable.Empty<ITargetEffectModifier>() :
-                GetUpgrades(builder.PowerInfo, builder.Duration);
+                GetUpgrades(builder.PowerInfo, power.GetDuration());
 
             public IEnumerable<ITargetEffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo, Duration duration) =>
                 from set in new[]

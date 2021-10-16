@@ -5,11 +5,11 @@ using GameEngine.Rules;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record MovementControlFormula() : AttackModifierFormula(ModifierName)
+    public record MovementControlFormula() : TargetEffectFormula(ModifierName)
     {
         public const string ModifierName = "MovementControl";
 
-        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
+        public override ITargetEffectModifier GetBaseModifier(TargetEffectBuilder builder)
         {
             return new MovementModifier(ImmutableList<MovementControl>.Empty);
         }
@@ -23,15 +23,17 @@ namespace GameEngine.Generator.Modifiers
                 new SlideOpponent(OpponentMovementMode.Slide, 1),
             }.ToImmutableList();
 
-        public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : AttackModifier(ModifierName)
+        public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : TargetEffectModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => IsPlaceholder() ? 0 : 1;
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
+            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder attack) =>
                 new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
             public override bool IsPlaceholder() => Effects.Count == 0;
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
+            public override bool UsesDuration() => false;
+
+            public override IEnumerable<ITargetEffectModifier> GetUpgrades(TargetEffectBuilder builder, UpgradeStage stage, PowerProfileBuilder power) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<ITargetEffectModifier>() :
                 from set in new[]
                 {
                     from basicCondition in basicEffects
@@ -39,13 +41,13 @@ namespace GameEngine.Generator.Modifiers
                     select this with { Effects = Effects.Items.Add(basicCondition) },
 
                     from condition in Effects
-                    from upgrade in condition.GetUpgrades(attack.PowerInfo)
+                    from upgrade in condition.GetUpgrades(builder.PowerInfo)
                     select this with { Effects = Effects.Items.Remove(condition).Add(upgrade) },
                 }
                 from mod in set
                 select mod;
 
-            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => new(100, (attack, info, index) => Effects.Aggregate(attack, (current, effect) => effect.Apply(current, power)));
+            //public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => new(100, (attack, info, index) => Effects.Aggregate(attack, (current, effect) => effect.Apply(current, power)));
         }
 
         public abstract record MovementControl(string Name)

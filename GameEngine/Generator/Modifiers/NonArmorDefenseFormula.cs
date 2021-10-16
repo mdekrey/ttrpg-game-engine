@@ -25,7 +25,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override bool IsPlaceholder() => Defense == DefenseType.ArmorClass;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Defense == DefenseType.ArmorClass || power.PowerInfo.ToolProfile.Type == ToolType.Implement ? 0 : 0.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Defense == DefenseType.ArmorClass || builder.PowerInfo.ToolProfile.Type == ToolType.Implement ? 0 : 0.5);
 
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
             {

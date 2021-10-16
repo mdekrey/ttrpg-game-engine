@@ -60,7 +60,7 @@ namespace GameEngine.Generator.Modifiers
         public record DelegateModifier(IAttackModifier AttackModifier, Transform<AttackLimits>? limitTransform = null) : PowerModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => AttackModifier.GetComplexity(powerInfo);
-            public override PowerCost GetCost(PowerProfileBuilder power) => AttackModifier.GetCost(power.Attacks[0], power);
+            public override PowerCost GetCost(PowerProfileBuilder power) => AttackModifier.GetCost(power.Attacks[0]);
 
             public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder attack, UpgradeStage stage) =>
                 Enumerable.Empty<IPowerModifier>();
@@ -148,7 +148,7 @@ namespace GameEngine.Generator.Modifiers
 
             public const string ModifierName = "RequiredHitForNextAttack";
 
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => PowerCost.Empty;
+            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
             public override bool IsPlaceholder() => false;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
@@ -168,7 +168,7 @@ namespace GameEngine.Generator.Modifiers
 
             public const string ModifierName = "RequiresPreviousHit";
 
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
+            public override PowerCost GetCost(AttackProfileBuilder builder) =>
                 new PowerCost(Multiplier: 1 / FollowupAttackPower);
             public override bool IsPlaceholder() => false;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
@@ -182,7 +182,7 @@ namespace GameEngine.Generator.Modifiers
             // TODO - modifiers if both hit
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public const string ModifierName = "TwoHits";
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
+            public override PowerCost GetCost(AttackProfileBuilder builder) =>
                 PowerCost.Empty;
             public override bool IsPlaceholder() => false;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
@@ -201,7 +201,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
             public const string ModifierName = "UpToThreeTargets";
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(1.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(1.5);
             public override bool IsPlaceholder() => false;
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();

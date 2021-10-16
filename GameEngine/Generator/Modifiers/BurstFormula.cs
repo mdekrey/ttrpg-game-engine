@@ -28,7 +28,7 @@ namespace GameEngine.Generator.Modifiers
         public record MultipleAttackModifier() : AttackModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => PowerCost.Empty;
+            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
             public override bool MustUpgrade() => true;
             public override bool IsPlaceholder() => true;
 
@@ -49,7 +49,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Multiplier: ((Size - 1) / 2.0 + 2) / 2.0); // TODO - is this right?
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: ((Size - 1) / 2.0 + 2) / 2.0); // TODO - is this right?
 
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :

@@ -23,7 +23,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => IsPlaceholder() ? 0 : 1;
             public override bool IsPlaceholder() => Amount == GameDiceExpression.Empty;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Amount.ToWeaponDice());
+            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Amount.ToWeaponDice());
 
             public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
             {

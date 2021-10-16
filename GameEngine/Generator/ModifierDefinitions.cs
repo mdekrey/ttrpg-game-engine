@@ -15,7 +15,8 @@ namespace GameEngine.Generator
         public static readonly ImmutableList<IModifierFormula<ITargetEffectModifier, TargetEffectBuilder>> targetEffectModifiers = Build<IModifierFormula<ITargetEffectModifier, TargetEffectBuilder>>(
             new ConditionFormula(),
             new SkirmishFormula(),
-            new BoostFormula()
+            new BoostFormula(),
+            new MovementControlFormula()
             // Slowed/Unconscious (Progressing effect after a save)
             // Aftereffects
             // Disarm and catch
@@ -24,8 +25,7 @@ namespace GameEngine.Generator
             AbilityModifierDamage,
             NonArmorDefense,
             new BurstFormula(),
-            new ToHitBonusFormula(),
-            new MovementControlFormula()
+            new ToHitBonusFormula()
             // Reroll attack
         );
         public static readonly ImmutableList<IModifierFormula<IPowerModifier, PowerProfileBuilder>> powerModifiers = Build<IModifierFormula<IPowerModifier, PowerProfileBuilder>>(
