@@ -12,9 +12,16 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Non-Armor Defense";
 
-        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
+        public override IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {
-            return new NonArmorDefenseModifier(DefenseType.ArmorClass);
+            if (stage != UpgradeStage.Standard && attack.PowerInfo.ToolProfile.Type == ToolType.Weapon)
+                yield break;
+            yield return BuildModifier(DefenseType.Fortitude);
+            yield return BuildModifier(DefenseType.Reflex);
+            yield return BuildModifier(DefenseType.Will);
+
+            NonArmorDefenseModifier BuildModifier(DefenseType defense) =>
+                new(defense);
         }
 
         public record NonArmorDefenseModifier(DefenseType Defense) : AttackModifier(ModifierName)
@@ -27,18 +34,9 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Defense == DefenseType.ArmorClass || builder.PowerInfo.ToolProfile.Type == ToolType.Implement ? 0 : 0.5);
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
+            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
             {
-                if (Defense != DefenseType.ArmorClass)
-                    yield break;
-                if (stage != UpgradeStage.Standard && attack.PowerInfo.ToolProfile.Type == ToolType.Weapon)
-                    yield break;
-                yield return BuildModifier(DefenseType.Fortitude);
-                yield return BuildModifier(DefenseType.Reflex);
-                yield return BuildModifier(DefenseType.Will);
-
-                NonArmorDefenseModifier BuildModifier(DefenseType defense) =>
-                    new(defense);
+                yield break;
             }
 
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>

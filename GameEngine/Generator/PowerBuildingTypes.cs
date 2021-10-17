@@ -38,27 +38,19 @@ namespace GameEngine.Generator
 
         IEnumerable<IModifier> AllModifiers();
     }
-    public interface IUpgradableModifier<TBuilder, TModifier>: IModifier
-        where TBuilder : ModifierBuilder<TBuilder, TModifier>
-        where TModifier : class, IUpgradableModifier<TBuilder, TModifier>
-    {
-        IEnumerable<TModifier> GetUpgrades(TBuilder builder, UpgradeStage stage, PowerProfileBuilder power);
-    }
 
-    public abstract record ModifierBuilder<TBuilder, TModifier>(ImmutableList<TModifier> Modifiers, PowerHighLevelInfo PowerInfo) : IModifierBuilder 
-        where TBuilder : ModifierBuilder<TBuilder, TModifier>
-        where TModifier : class, IUpgradableModifier<TBuilder, TModifier>
+    public abstract record ModifierBuilder<TModifier>(ImmutableList<TModifier> Modifiers, PowerHighLevelInfo PowerInfo) : IModifierBuilder 
+        where TModifier : class, IModifier
     {
         public int Complexity => Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
 
-        public abstract IEnumerable<TBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power);
         IEnumerable<IModifier> IModifierBuilder.Modifiers => Modifiers.OfType<IModifier>();
 
         public abstract IEnumerable<IModifier> AllModifiers();
     }
 
     public record TargetEffectBuilder(Target Target, ImmutableList<ITargetEffectModifier> Modifiers, PowerHighLevelInfo PowerInfo)
-        : ModifierBuilder<TargetEffectBuilder, ITargetEffectModifier>(Modifiers, PowerInfo)
+        : ModifierBuilder<ITargetEffectModifier>(Modifiers, PowerInfo)
     {
         public PowerCost TotalCost(PowerProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
@@ -67,11 +59,17 @@ namespace GameEngine.Generator
 
         public override IEnumerable<IModifier> AllModifiers() => Modifiers;
 
-        public override IEnumerable<TargetEffectBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
+        public virtual IEnumerable<TargetEffectBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
             from set in new[] {
                 from modifier in this.Modifiers
-                from upgrade in modifier.GetUpgrades(this, stage, power)
-                select this.Apply(upgrade, modifier),
+                from upgrade in modifier.GetUpgrades(stage, this, power)
+                select this.Apply(upgrade, modifier)
+                ,
+                from formula in ModifierDefinitions.targetEffectModifiers
+                where formula.IsValid(this)
+                from mod in formula.GetBaseModifiers(stage, this, power)
+                where !Modifiers.Any(m => m.Name == mod.Name)
+                select this.Apply(mod)
             }
             from entry in set
             select entry;
@@ -79,7 +77,7 @@ namespace GameEngine.Generator
     }
 
     public record AttackProfileBuilder(double Multiplier, AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
-        : ModifierBuilder<AttackProfileBuilder, IAttackModifier>(Modifiers, PowerInfo)
+        : ModifierBuilder<IAttackModifier>(Modifiers, PowerInfo)
     {
         public PowerCost TotalCost(PowerProfileBuilder builder) => 
             Enumerable.Concat(
@@ -103,7 +101,7 @@ namespace GameEngine.Generator
         internal AttackProfile Build(PowerProfileBuilder builder) =>
             new AttackProfile(FinalWeaponDice(builder), Ability, DamageTypes, TargetEffects.Select(teb => teb.Build()).ToImmutableList(), Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
 
-        public override IEnumerable<AttackProfileBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
+        public virtual IEnumerable<AttackProfileBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
 
             from set in new[]
             {
@@ -111,11 +109,17 @@ namespace GameEngine.Generator
                 let attack = targetKvp.attack
                 let index = targetKvp.index
                 from upgrade in attack.GetUpgrades(stage, power)
-                select this with { TargetEffects = this.TargetEffects.SetItem(index, upgrade) },
-
+                select this with { TargetEffects = this.TargetEffects.SetItem(index, upgrade) }
+                ,
                 from modifier in this.Modifiers
-                from upgrade in modifier.GetUpgrades(this, stage, power)
-                select this.Apply(upgrade, modifier),
+                from upgrade in modifier.GetUpgrades(stage, this, power)
+                select this.Apply(upgrade, modifier)
+                ,
+                from formula in ModifierDefinitions.attackModifiers
+                where formula.IsValid(this)
+                from mod in formula.GetBaseModifiers(stage, this, power)
+                where !Modifiers.Any(m => m.Name == mod.Name)
+                select this.Apply(mod)
             }
             from entry in set
             select entry;
@@ -125,7 +129,7 @@ namespace GameEngine.Generator
     }
 
     public record PowerProfileBuilder(AttackLimits Limits, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffectBuilder> Effects)
-        : ModifierBuilder<PowerProfileBuilder, IPowerModifier>(Modifiers, PowerInfo)
+        : ModifierBuilder<IPowerModifier>(Modifiers, PowerInfo)
     {
         public PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
@@ -169,17 +173,14 @@ namespace GameEngine.Generator
             };
         }
 
-        public override IEnumerable<PowerProfileBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
-            GetUpgrades(stage);
-
-        internal IEnumerable<PowerProfileBuilder> GetUpgrades(UpgradeStage stage) =>
+        public virtual IEnumerable<PowerProfileBuilder> GetUpgrades(UpgradeStage stage) =>
             (
                 from set in new[]
                 {
-                    from targetKvp in Effects.Select((attack, index) => (attack, index))
-                    let attack = targetKvp.attack
+                    from targetKvp in Effects.Select((effect, index) => (effect, index))
+                    let effect = targetKvp.effect
                     let index = targetKvp.index
-                    from upgrade in attack.GetUpgrades(stage, this)
+                    from upgrade in effect.GetUpgrades(stage, this)
                     select this with { Effects = this.Effects.SetItem(index, upgrade) },
 
                     from attackKvp in Attacks.Select((attack, index) => (attack, index))
@@ -189,7 +190,7 @@ namespace GameEngine.Generator
                     select this with { Attacks = this.Attacks.SetItem(index, upgrade) },
 
                     from modifier in Modifiers
-                    from upgrade in modifier.GetUpgrades(this, stage)
+                    from upgrade in modifier.GetUpgrades(stage, this)
                     select this.Apply(upgrade, modifier),
                 }
                 from entry in set
@@ -219,8 +220,8 @@ namespace GameEngine.Generator
     public static class PowerModifierExtensions
     {
         public static TBuilder Apply<TModifier, TBuilder>(this TBuilder builder, TModifier target, TModifier? toRemove = null)
-            where TModifier : class, IUpgradableModifier<TBuilder, TModifier>
-            where TBuilder : ModifierBuilder<TBuilder, TModifier>
+            where TModifier : class, IModifier
+            where TBuilder : ModifierBuilder<TModifier>
         {
             return builder with
             {
@@ -229,18 +230,17 @@ namespace GameEngine.Generator
         }
 
         public static bool HasModifier<TModifier, TBuilder>(this IModifierFormula<TModifier, TBuilder> modifier, TBuilder attack, string? name = null)
-            where TModifier : class, IUpgradableModifier<TBuilder, TModifier>
-            where TBuilder : ModifierBuilder<TBuilder, TModifier> => attack.Modifiers.Count(m => m.Name == (name ?? modifier.Name)) > 0;
+            where TModifier : class, IModifier
+            where TBuilder : ModifierBuilder<TModifier> => attack.Modifiers.Count(m => m.Name == (name ?? modifier.Name)) > 0;
 
     }
 
     public interface IModifierFormula<TModifier, TBuilder>
-            where TModifier : class, IUpgradableModifier<TBuilder, TModifier>
-            where TBuilder : ModifierBuilder<TBuilder, TModifier>
+            where TModifier : class, IModifier
+            where TBuilder : ModifierBuilder<TModifier>
     {
         string Name { get; }
         bool IsValid(TBuilder builder);
-        TModifier GetBaseModifier(TBuilder builder);
     }
 
     public abstract record PowerModifierFormula(string Name) : IModifierFormula<IPowerModifier, PowerProfileBuilder>
@@ -252,13 +252,13 @@ namespace GameEngine.Generator
     public abstract record AttackModifierFormula(string Name) : IModifierFormula<IAttackModifier, AttackProfileBuilder>
     {
         public virtual bool IsValid(AttackProfileBuilder builder) => true;
-        public abstract IAttackModifier GetBaseModifier(AttackProfileBuilder attack);
+        public abstract IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power);
     }
 
     public abstract record TargetEffectFormula(string Name) : IModifierFormula<ITargetEffectModifier, TargetEffectBuilder>
     {
         public virtual bool IsValid(TargetEffectBuilder builder) => true;
-        public abstract ITargetEffectModifier GetBaseModifier(TargetEffectBuilder attack);
+        public abstract IEnumerable<ITargetEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power);
     }
 
     public record PowerHighLevelInfo(int Level, PowerFrequency Usage, ToolProfile ToolProfile, ClassProfile ClassProfile, PowerProfileConfig PowerProfileConfig);

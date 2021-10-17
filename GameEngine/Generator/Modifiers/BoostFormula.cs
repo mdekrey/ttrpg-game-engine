@@ -34,17 +34,13 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public TargetEffectModifier GetBaseModifier()
-        {
-            return new BoostModifier(ImmutableList<Boost>.Empty);
-        }
-
         public static double DurationMultiplier(Duration duration) =>
             duration == Duration.EndOfEncounter ? 4
             : duration == Duration.SaveEnds ? 2 // Should only get to "SaveEnds" if there's another SaveEnds effect
             : 1;
 
-        public override ITargetEffectModifier GetBaseModifier(TargetEffectBuilder builder) => GetBaseModifier();
+        public override IEnumerable<ITargetEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) => 
+            new BoostModifier(ImmutableList<Boost>.Empty).GetUpgrades(stage, target, power);
 
         public enum Limit
         {
@@ -160,7 +156,7 @@ namespace GameEngine.Generator.Modifiers
                         .Sum()
                 );
 
-            public override IEnumerable<ITargetEffectModifier> GetUpgrades(TargetEffectBuilder builder, UpgradeStage stage, PowerProfileBuilder power) =>
+            public override IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
                 stage != UpgradeStage.Standard ? Enumerable.Empty<ITargetEffectModifier>() :
                 GetUpgrades(builder.PowerInfo, power.GetDuration());
 

@@ -42,9 +42,9 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public override ITargetEffectModifier GetBaseModifier(TargetEffectBuilder builder)
+        public override IEnumerable<ITargetEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {
-            return new ConditionModifier(ImmutableList<Condition>.Empty);
+            return new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, target, power);
         }
 
         public static double DurationMultiplier(Duration duration) =>
@@ -61,7 +61,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsPlaceholder() => Conditions.Count == 0;
             public override bool UsesDuration() => true;
 
-            public override IEnumerable<ITargetEffectModifier> GetUpgrades(TargetEffectBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+            public override IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<ITargetEffectModifier>() :
                 from set in new[]
                 {
@@ -71,7 +71,7 @@ namespace GameEngine.Generator.Modifiers
                     select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
 
                     from condition in Conditions
-                    from upgrade in condition.GetUpgrades(attack.PowerInfo)
+                    from upgrade in condition.GetUpgrades(target.PowerInfo)
                     select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
                 }
                 from mod in set

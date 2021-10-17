@@ -46,7 +46,7 @@ namespace GameEngine.Tests.Modifiers
             );
             var power = new PowerProfileBuilder(attack.Limits, attack.PowerInfo, Build(attack), Build<IPowerModifier>(), Build(new TargetEffectBuilder(Target.Enemy, ImmutableList<ITargetEffectModifier>.Empty, info)));
 
-            var upgrades = attack.Modifiers.First().GetUpgrades(attack, UpgradeStage.Finalize, power);
+            var upgrades = attack.Modifiers.First().GetUpgrades(UpgradeStage.Finalize, attack, power);
 
             Assert.Collection(upgrades, upgrade => Assert.True(upgrade is AbilityModifierDamageFormula.AbilityDamageModifier { Abilities: var abilities } 
                                                     && abilities.Contains(Rules.Ability.Strength) 

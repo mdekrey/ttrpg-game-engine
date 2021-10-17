@@ -155,61 +155,7 @@ namespace GameEngine.Generator
             while (true)
             {
                 var oldBuilder = powerProfileBuilder;
-                var preChance = (from set in new[]
-                                 {
-                                     from mod in ModifierDefinitions.attackModifiers
-                                     from attackWithIndex in powerProfileBuilder.Attacks.Select((attack, index) => (attack, index))
-                                     let attack = attackWithIndex.attack
-                                     let index = attackWithIndex.index
-                                     where mod.IsValid(attack) && !attack.Modifiers.Any(m => m.Name == mod.Name)
-                                     let entry = mod.GetBaseModifier(attack)
-                                     from e in EnsureUpgraded(entry, attack, stage, powerProfileBuilder)
-                                     let appliedAttack = attack.Apply(e)
-                                     let applied = powerProfileBuilder with { Attacks = powerProfileBuilder.Attacks.SetItem(index, appliedAttack) }
-                                     where appliedAttack.IsValid(applied)
-                                     where applied.IsValid()
-                                     select applied
-                                     ,
-                                     from mod in ModifierDefinitions.targetEffectModifiers
-                                     from attackWithIndex in powerProfileBuilder.Attacks.Select((attack, index) => (attack, index))
-                                     let attack = attackWithIndex.attack
-                                     let attackIndex = attackWithIndex.index
-                                     from targetEffectWithIndex in attack.TargetEffects.Select((effect, index) => (effect, index))
-                                     let effect = targetEffectWithIndex.effect
-                                     let effectIndex = targetEffectWithIndex.index
-                                     where mod.IsValid(effect) && !effect.Modifiers.Any(m => m.Name == mod.Name)
-                                     let entry = mod.GetBaseModifier(effect)
-                                     from e in EnsureUpgraded(entry, effect, stage, powerProfileBuilder)
-                                     let appliedEffect = effect.Apply(e)
-                                     let appliedAttack = attack with { TargetEffects = attack.TargetEffects.SetItem(effectIndex, appliedEffect) }
-                                     let applied = powerProfileBuilder with { Attacks = powerProfileBuilder.Attacks.SetItem(attackIndex, appliedAttack) }
-                                     where appliedAttack.IsValid(applied)
-                                     where applied.IsValid()
-                                     select applied
-                                     ,
-                                     from mod in ModifierDefinitions.powerModifiers
-                                     where mod.IsValid(powerProfileBuilder) && !powerProfileBuilder.Modifiers.Any(m => m.Name == mod.Name)
-                                     let entry = mod.GetBaseModifier(powerProfileBuilder)
-                                     from e in EnsureUpgraded(entry, powerProfileBuilder, stage, powerProfileBuilder)
-                                     from applied in powerProfileBuilder.Apply(e).FinalizeUpgrade()
-                                     where applied.IsValid()
-                                     select applied
-                                     ,
-                                     from mod in ModifierDefinitions.targetEffectModifiers
-                                     from targetEffectWithIndex in powerProfileBuilder.Effects.Select((effect, index) => (effect, index))
-                                     let effect = targetEffectWithIndex.effect
-                                     let effectIndex = targetEffectWithIndex.index
-                                     where mod.IsValid(effect) && !effect.Modifiers.Any(m => m.Name == mod.Name)
-                                     let entry = mod.GetBaseModifier(effect)
-                                     from e in EnsureUpgraded(entry, effect, stage, powerProfileBuilder)
-                                     let appliedEffect = effect.Apply(e)
-                                     let applied = powerProfileBuilder with { Effects = powerProfileBuilder.Effects.SetItem(effectIndex, appliedEffect) }
-                                     where applied.IsValid()
-                                     select applied
-                                     ,
-                                     powerProfileBuilder.GetUpgrades(stage)
-                                 }
-                                 from entry in set
+                var preChance = (from entry in powerProfileBuilder.GetUpgrades(stage)
                                  let builtEntry = entry.Build()
                                  where !exclude.Contains(builtEntry)
                                  select entry).ToArray();
@@ -223,11 +169,6 @@ namespace GameEngine.Generator
             }
             return powerProfileBuilder;
         }
-
-        private static IEnumerable<TModifier> EnsureUpgraded<TBuilder, TModifier>(TModifier entry, TBuilder builder, UpgradeStage stage, PowerProfileBuilder powerProfileBuilder)
-            where TBuilder : ModifierBuilder<TBuilder, TModifier>
-            where TModifier : class, IUpgradableModifier<TBuilder, TModifier> =>
-                entry.MustUpgrade() ? entry.GetUpgrades(builder, stage, powerProfileBuilder) : new[] { entry };
 
         private PowerProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info)
         {

@@ -13,9 +13,9 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "To-Hit Bonus to Current Attack";
 
-        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
+        public override IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {
-            return new ToHitBonus(0);
+            return new ToHitBonus(0).GetUpgrades(stage, attack, power);
         }
 
         public record ToHitBonus(GameDiceExpression Amount) : AttackModifier(ModifierName)
@@ -25,7 +25,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Amount.ToWeaponDice());
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
+            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
             {
                 if (stage < UpgradeStage.Standard) yield break;
 

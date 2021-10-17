@@ -84,12 +84,12 @@ namespace GameEngine.Generator
         public delegate PowerTextBlock PowerTextMutatorDelegate(PowerTextBlock textBlock, PowerProfile powerInfo);
     }
         
-    public interface IPowerModifier : IUpgradableModifier<PowerProfileBuilder, IPowerModifier>
+    public interface IPowerModifier : IModifier
     {
         bool ExcludeFromUniqueness();
 
         PowerCost GetCost(PowerProfileBuilder builder);
-        IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
+        IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power);
         IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder);
         PowerTextMutator? GetTextMutator(PowerProfile power);
     }
@@ -100,20 +100,22 @@ namespace GameEngine.Generator
         public delegate AttackInfo AttackInfoMutatorDelegate(AttackInfo textBlock, PowerProfile powerInfo, int index);
     }
 
-    public interface IAttackModifier : IUpgradableModifier<AttackProfileBuilder, IAttackModifier>
+    public interface IAttackModifier : IModifier
     {
         PowerCost GetCost(AttackProfileBuilder builder);
         double ApplyEffectiveWeaponDice(double weaponDice);
         AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
+        IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power);
     }
 
-    public interface ITargetEffectModifier : IUpgradableModifier<TargetEffectBuilder, ITargetEffectModifier>
+    public interface ITargetEffectModifier : IModifier
     {
         PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context);
         Target ValidTargets();
         bool UsesDuration();
         double ApplyEffectiveWeaponDice(double weaponDice);
         // AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
+        IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power);
     }
 
     public abstract record PowerModifier(string Name) : IPowerModifier
@@ -124,13 +126,10 @@ namespace GameEngine.Generator
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
-        public abstract IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage);
+        public abstract IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power);
         public virtual IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder) { yield return builder; }
 
         public abstract PowerTextMutator? GetTextMutator(PowerProfile power);
-
-        IEnumerable<IPowerModifier> IUpgradableModifier<PowerProfileBuilder, IPowerModifier>.GetUpgrades(PowerProfileBuilder _, UpgradeStage stage, PowerProfileBuilder power) =>
-            GetUpgrades(power, stage);
     }
 
     public abstract record AttackModifier(string Name) : IAttackModifier
@@ -139,7 +138,7 @@ namespace GameEngine.Generator
         public abstract PowerCost GetCost(AttackProfileBuilder builder);
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
-        public abstract IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power);
+        public abstract IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
         public abstract AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
@@ -154,7 +153,7 @@ namespace GameEngine.Generator
         public virtual bool MustUpgrade() => IsPlaceholder();
         public abstract bool UsesDuration();
 
-        public abstract IEnumerable<ITargetEffectModifier> GetUpgrades(TargetEffectBuilder builder, UpgradeStage stage, PowerProfileBuilder power);
+        public abstract IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power);
 
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
     }

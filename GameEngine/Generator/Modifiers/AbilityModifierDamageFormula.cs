@@ -9,9 +9,9 @@ namespace GameEngine.Generator.Modifiers
     {
         const string ModifierName = "Ability Modifier Damage";
 
-        public override IAttackModifier GetBaseModifier(AttackProfileBuilder attack)
+        public override IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {
-            return new AbilityDamageModifier(ImmutableList<Ability>.Empty);
+            return new AbilityDamageModifier(ImmutableList<Ability>.Empty).GetUpgrades(stage, attack, power);
         }
 
         public record AbilityDamageModifier(EquatableImmutableList<Ability> Abilities) : AttackModifier(ModifierName)
@@ -21,7 +21,7 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Abilities.Items.Count * 0.5);
             public override bool IsPlaceholder() => Abilities.Count == 0;
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
                 new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
                     .Distinct()
                     .Take(stage switch

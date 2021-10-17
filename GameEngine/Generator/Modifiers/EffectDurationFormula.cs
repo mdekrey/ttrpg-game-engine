@@ -22,7 +22,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsPlaceholder() => true;
             public override bool MustUpgrade() => false;
 
-            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage) => Enumerable.Empty<IPowerModifier>();
+            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) => Enumerable.Empty<IPowerModifier>();
 
             public override PowerTextMutator? GetTextMutator(PowerProfile power) => null;
 
@@ -58,7 +58,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
 
-            public override IEnumerable<IPowerModifier> GetUpgrades(PowerProfileBuilder power, UpgradeStage stage)
+            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power)
             {
                 yield break;
             }
