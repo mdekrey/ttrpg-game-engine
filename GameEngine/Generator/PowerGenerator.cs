@@ -173,10 +173,11 @@ namespace GameEngine.Generator
         private PowerProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info)
         {
             var result = new PowerProfileBuilder(
-                new AttackLimits(basePower,
+                new PowerLimits(basePower,
                     Minimum: GetAttackMinimumPower(basePower, info.ClassProfile.Role, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     MaxComplexity: GetAttackMaxComplexity(info.Usage)
                 ),
+                WeaponDiceDistribution.Increasing, // TODO - randomize?
                 info,
                 Build(RootAttackBuilder(basePower, info, randomGenerator)),
                 ImmutableList<IPowerModifier>.Empty,
@@ -187,24 +188,19 @@ namespace GameEngine.Generator
 
         private static AttackProfileBuilder RootAttackBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfileBuilder(
-                1,
-                new AttackLimits(basePower + (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
-                    Minimum: GetAttackMinimumPower(basePower, info.ClassProfile.Role, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
-                    MaxComplexity: GetAttackMaxComplexity(info.Usage) + (info.ToolProfile.Type == ToolType.Implement ? 1 : 0)
-                ),
-                randomGenerator.RandomSelection(
+                Ability: randomGenerator.RandomSelection(
                     info.ToolProfile.Abilities
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                         .Select(v => new RandomChances<Ability>(v))
                 ),
-                Build(randomGenerator.RandomSelection(
+                DamageTypes: Build(randomGenerator.RandomSelection(
                     info.ToolProfile.PreferredDamageTypes
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                         .Select(v => new RandomChances<DamageType>(v))
                 )),
-                Build(new TargetEffectBuilder(Target.Enemy, ImmutableList<ITargetEffectModifier>.Empty, info)),
-                ImmutableList<IAttackModifier>.Empty,
-                info
+                TargetEffects: Build(new TargetEffectBuilder(Target.Enemy, ImmutableList<ITargetEffectModifier>.Empty, info)),
+                Modifiers: ImmutableList<IAttackModifier>.Empty,
+                PowerInfo: info
             );
 
         private static int GetAttackMaxComplexity(PowerFrequency usage) =>

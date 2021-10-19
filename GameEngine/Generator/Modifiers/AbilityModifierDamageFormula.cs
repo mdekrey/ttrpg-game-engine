@@ -31,24 +31,11 @@ namespace GameEngine.Generator.Modifiers
                         _ => 0
                     })
                     .Except(Abilities.Items)
-                    .Take(AllowAdditionalModifier(attack, power) ? 1 : 0)
+                    .Take(1)
                     .Select(ability => this with
                     {
                         Abilities = Abilities.Items.Add(ability)
                     });
-
-            private bool AllowAdditionalModifier(AttackProfileBuilder attack, PowerProfileBuilder power)
-            {
-                var dice = attack.TotalCost(power).Apply(attack.Limits.Initial);
-                if (Abilities.Count > 0)
-                {
-                    return attack.PowerInfo.ToolProfile.Type == ToolType.Weapon && dice > 1 && (dice % 1) >= 0.5;
-                }
-                else 
-                {
-                    return attack.PowerInfo.ToolProfile.Type != ToolType.Weapon || dice >= 1.5;
-                }
-            }
 
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, info, index) => attack with { DamageExpression = Abilities.Aggregate(attack.DamageExpression, (prev, next) => prev + next) });

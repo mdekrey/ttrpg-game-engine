@@ -27,7 +27,7 @@ namespace GameEngine.Generator
         }
     }
 
-    public record AttackLimits(double Initial, double Minimum, int MaxComplexity)
+    public record PowerLimits(double Initial, double Minimum, int MaxComplexity)
     {
     }
 
@@ -76,7 +76,7 @@ namespace GameEngine.Generator
 
     }
 
-    public record AttackProfileBuilder(double Multiplier, AttackLimits Limits, Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
+    public record AttackProfileBuilder(Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : ModifierBuilder<IAttackModifier>(Modifiers, PowerInfo)
     {
         public PowerCost TotalCost(PowerProfileBuilder builder) => 
@@ -85,21 +85,8 @@ namespace GameEngine.Generator
                 TargetEffects.Select(e => e.TotalCost(builder))
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
-        public double WeaponDice(PowerProfileBuilder builder) =>
-            TotalCost(builder).Apply(Limits.Initial);
-        public double FinalWeaponDice(PowerProfileBuilder builder) =>
-            (WeaponDice(builder), PowerInfo.ToolProfile.Type) switch
-            {
-                (double dice, ToolType.Weapon) => Math.Floor(dice),
-                (double dice, _) => dice
-            };
-        public double EffectiveWeaponDice(PowerProfileBuilder builder) => Modifiers.Aggregate(WeaponDice(builder), (weaponDice, mod) => mod.ApplyEffectiveWeaponDice(weaponDice));
-        public bool IsValid(PowerProfileBuilder builder)
-        {
-            return TotalCost(builder).Apply(Limits.Initial) >= Limits.Minimum && Modifiers.Select(m => m.GetComplexity(builder.PowerInfo)).Sum() <= Limits.MaxComplexity;
-        }
-        internal AttackProfile Build(PowerProfileBuilder builder) =>
-            new AttackProfile(FinalWeaponDice(builder), Ability, DamageTypes, TargetEffects.Select(teb => teb.Build()).ToImmutableList(), Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
+        internal AttackProfile Build(PowerProfileBuilder builder, double weaponDice) =>
+            new AttackProfile(weaponDice, Ability, DamageTypes, TargetEffects.Select(teb => teb.Build()).ToImmutableList(), Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
 
         public virtual IEnumerable<AttackProfileBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
 
@@ -128,7 +115,13 @@ namespace GameEngine.Generator
 
     }
 
-    public record PowerProfileBuilder(AttackLimits Limits, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffectBuilder> Effects)
+    public enum WeaponDiceDistribution
+    {
+        Increasing,
+        Decreasing,
+    }
+
+    public record PowerProfileBuilder(PowerLimits Limits, WeaponDiceDistribution WeaponDiceDistribution, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffectBuilder> Effects)
         : ModifierBuilder<IPowerModifier>(Modifiers, PowerInfo)
     {
         public PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
@@ -137,40 +130,51 @@ namespace GameEngine.Generator
             PowerInfo.Usage,
             PowerInfo.ToolProfile.Type,
             PowerInfo.ToolProfile.Range,
-            Attacks.Select(a => a.Build(this)).ToImmutableList(),
+            Attacks.Zip(GetWeaponDice(), (a, weaponDice) => a.Build(this, weaponDice)).ToImmutableList(),
             Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList()
         );
+
+        private IEnumerable<double> GetWeaponDice()
+        {
+            var cost = Attacks.Select(a => a.TotalCost(this)).ToImmutableList();
+            var fixedCost = cost.Sum(c => c.Fixed);
+            var min = cost.Sum(c => c.Multiplier);
+
+            var remaining = Limits.Initial - TotalCost.Fixed - fixedCost;
+            
+            var repeated = PowerInfo.ToolProfile.Type == ToolType.Weapon
+                ? Enumerable.Repeat(Math.Floor(remaining / min), Attacks.Count)
+                : Enumerable.Repeat(remaining / min, Attacks.Count);
+            var distribuatable = remaining - repeated.Sum();
+
+            // TODO - there's lots more options in here...
+            var result = WeaponDiceDistribution switch
+            {
+                WeaponDiceDistribution.Decreasing => repeated.Select((v, i) => i < distribuatable ? v + 1 : v),
+                WeaponDiceDistribution.Increasing => repeated.Select((v, i) => (Attacks.Count - i - 1) < distribuatable ? v + 1 : v),
+                _ => throw new InvalidOperationException(),
+            };
+            return result.Select((v, i) => v * cost[i].Multiplier);
+        }
 
         public bool IsValid()
         {
             if (Complexity + Attacks.Select(a => a.Complexity).Sum() > Limits.MaxComplexity)
                 return false;
 
-            if (Attacks.Any(a => a.WeaponDice(this) < a.Limits.Minimum))
+            var cost = Attacks.Select(a => a.TotalCost(this)).ToImmutableList();
+            var fixedCost = cost.Sum(c => c.Fixed);
+            var min = cost.Sum(c => c.Multiplier);
+            var remaining = TotalCost.Apply(Limits.Initial) - fixedCost;
+
+            if (remaining <= 0)
+                return false; // Have to have damage remaining
+            if (remaining / min < Limits.Minimum)
                 return false;
-
-            var remaining = TotalCost.Apply(Limits.Initial);
-            var expectedRatio = remaining / Attacks.Select(a => a.Limits.Initial).Sum();
-
-            if (Attacks.Select(a => a.EffectiveWeaponDice(this) * expectedRatio).Sum() < Limits.Minimum)
-                return false;
-
-            if (PowerInfo.ToolProfile.Type == ToolType.Weapon && Attacks.Any(a => a.WeaponDice(this) < 1))
+            if (PowerInfo.ToolProfile.Type == ToolType.Weapon && remaining < min)
                 return false; // Must have a full weapon die for any weapon
 
             return true;
-        }
-
-        public PowerProfileBuilder AdjustRemaining()
-        {
-            // TODO - put logic here to get closer to whole numbers?
-            var remaining = TotalCost.Apply(Limits.Initial);
-            var expectedRatio = remaining / Attacks.Select(a => a.Modifiers.Aggregate(a.Limits.Initial, (prev, next) => next.ApplyEffectiveWeaponDice(prev))).Sum();
-            var finalRemaining = Attacks.Select(a => a.TotalCost(this).Apply(a.Limits.Initial * expectedRatio) * a.Multiplier).Sum();
-            return this with
-            {
-                Attacks = Attacks.Select(a => a with { Limits = a.Limits with { Initial = a.Limits.Initial * expectedRatio } }).ToImmutableList()
-            };
         }
 
         public virtual IEnumerable<PowerProfileBuilder> GetUpgrades(UpgradeStage stage) =>
@@ -200,8 +204,7 @@ namespace GameEngine.Generator
             );
 
         public IEnumerable<PowerProfileBuilder> FinalizeUpgrade() =>
-            this.Modifiers.Aggregate(Enumerable.Repeat(this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)))
-                .Select(b => b.AdjustRemaining());
+            this.Modifiers.Aggregate(Enumerable.Repeat(this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)));
 
         public override IEnumerable<IModifier> AllModifiers() => 
             Modifiers
@@ -296,15 +299,15 @@ namespace GameEngine.Generator
         public static Transform<TOutput> Pipe<TInput, T1, T2, T3, T4, T5, T6, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, T6> t6, Func<T6, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, t4, t5, t6, transform);
         public static Transform<TOutput> Pipe<TInput, T1, T2, T3, T4, T5, T6, T7, TOutput>(Transform<TInput> input, Func<Transform<TInput>, T1> t1, Func<T1, T2> t2, Func<T2, T3> t3, Func<T3, T4> t4, Func<T4, T5> t5, Func<T5, T6> t6, Func<T6, T7> t7, Func<T7, Transform<TOutput>> transform) => Pipe(t1(input), t2, t3, t4, t5, t6, t7, transform);
 
-        public static IEnumerable<RandomChances<TBuilder>> ToChances<TBuilder>(this IEnumerable<TBuilder> possibilities, PowerProfileConfig config, bool skipProfile = false) where TBuilder : IModifierBuilder =>
+        public static IEnumerable<RandomChances<PowerProfileBuilder>> ToChances(this IEnumerable<PowerProfileBuilder> possibilities, PowerProfileConfig config, bool skipProfile = false) =>
             from possibility in possibilities
             let chances = config.GetChance(possibility, skipProfile)
             where chances > 0
-            select new RandomChances<TBuilder>(possibility, Chances: (int)chances);
+            select new RandomChances<PowerProfileBuilder>(possibility, Chances: (int)chances);
 
-        public static double GetChance(this PowerProfileConfig config, IModifierBuilder builder, bool skipProfile = false)
+        public static double GetChance(this PowerProfileConfig config, PowerProfileBuilder builder, bool skipProfile = false)
         {
-            var powerToken = FromBuilder(builder);
+            var powerToken = FromBuilder(builder.Build());
             return (from mod in builder.AllModifiers()
                     let token = FromBuilder(mod)
                     from weight in (from entry in config.ModifierChances

@@ -29,35 +29,21 @@ namespace GameEngine.Generator.Modifiers
                     yield break;
                 if (power.Attacks.Count > 1)
                     yield break;
-                var allocated = power.Attacks.Select(a => a.TotalCost(power).Fixed).Sum();
-                var available = power.Attacks.Select(a => a.WeaponDice(power)).DefaultIfEmpty(power.Limits.Initial).Sum();
 
-                yield return new DelegateModifier(new TwoHitsModifier(), limit => limit with { Minimum = Math.Max(1, limit.Minimum / 2), Initial = limit.Initial / 2, });
+                yield return new DelegateModifier(new TwoHitsModifier());
                 yield return new DelegateModifier(new UpToThreeTargetsModifier());
 
-                var options = (from set in new[]
-                              {
-                                  new[] { available / 2, available / 2 },
-                                  new[] { available / 2 - 1, available / 2 + 1 },
-                                  new[] { available / 3, available / 3, available / 3 },
-                                  new[] { available / 3 - 1, available / 3, available / 3 + 1 },
-                              }
-                              where !set.Any(v => (power.Limits.Initial == 2) ? v < 1 : v < 1.5)
-                              from reversed in new[] { set, set.Reverse().ToArray() }
-                              let withAllocated = reversed.Take(reversed.Length - 1).Concat(new[] { reversed.Last() + allocated })
-                              select new EquatableImmutableList<double>(withAllocated.ToImmutableList())).Distinct();
-                foreach (var option in options)
+                foreach (var count in new[] { 2, 3 })
                 {
-                    if (option.Skip(1).Any(o => o != option[0]))
-                        yield return new SplitAttackModifier(option.ToImmutableList(), false);
-                    yield return new SplitAttackModifier(option.ToImmutableList(), true);
+                    yield return new SplitAttackModifier(count, false);
+                    yield return new SplitAttackModifier(count, true);
                 }
             }
         
             public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
-        public record DelegateModifier(IAttackModifier AttackModifier, Transform<AttackLimits>? limitTransform = null) : PowerModifier(ModifierName)
+        public record DelegateModifier(IAttackModifier AttackModifier) : PowerModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => AttackModifier.GetComplexity(powerInfo);
             public override PowerCost GetCost(PowerProfileBuilder power) => AttackModifier.GetCost(power.Attacks[0]);
@@ -73,7 +59,6 @@ namespace GameEngine.Generator.Modifiers
                     Attacks = new[] {
                         attack with
                         {
-                            Limits = limitTransform?.Invoke(attack.Limits) ?? attack.Limits,
                             Modifiers = attack.Modifiers.Add(AttackModifier),
                         }
                     }.ToImmutableList(),
@@ -83,12 +68,12 @@ namespace GameEngine.Generator.Modifiers
             public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
-        public record SplitAttackModifier(ImmutableList<double> Amounts, bool RequiresPreviousHit) : PowerModifier(ModifierName)
+        public record SplitAttackModifier(int AmountsCount, bool RequiresPreviousHit) : PowerModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => RequiresPreviousHit ? 1 : 2;
 
             public override PowerCost GetCost(PowerProfileBuilder power) =>
-                new (Fixed: Amounts.Take(Amounts.Count - 1).Select((v, i) => v * (i == 0 || !RequiresPreviousHit ? 1 : 0.5)).Sum() - power.Attacks.Select(a => a.TotalCost(power).Fixed).Sum());
+                PowerCost.Empty;
             public override bool IsPlaceholder() => true;
 
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder attack) =>
@@ -99,31 +84,17 @@ namespace GameEngine.Generator.Modifiers
                 var attack = power.Attacks.Single();
                 yield return power with
                 {
-                    Attacks = Amounts.Select((cost, index) =>
+                    Attacks = Enumerable.Range(0, AmountsCount).Select((index) =>
                         attack with
                         {
                             Modifiers = index switch
                             {
                                 0 when RequiresPreviousHit => Build<IAttackModifier>(new MustHitForNextAttackModifier()),
-                                _ when index < Amounts.Count - 1 && RequiresPreviousHit => Build<IAttackModifier>(new SecondaryAttackModifier(), new MustHitForNextAttackModifier()),
+                                _ when index < AmountsCount - 1 && RequiresPreviousHit => Build<IAttackModifier>(new SecondaryAttackModifier(), new MustHitForNextAttackModifier()),
                                 _ when RequiresPreviousHit => attack.Modifiers.Add(new SecondaryAttackModifier()).ToImmutableList(),
 
-                                _ when index < Amounts.Count - 1 && !RequiresPreviousHit => ImmutableList<IAttackModifier>.Empty,
+                                _ when index < AmountsCount - 1 && !RequiresPreviousHit => ImmutableList<IAttackModifier>.Empty,
                                 _ => attack.Modifiers.ToImmutableList(),
-                            },
-                            Limits = attack.Limits with
-                            {
-                                Minimum = index switch
-                                {
-                                    > 0 when RequiresPreviousHit => Math.Max(1, Math.Ceiling(attack.Limits.Minimum / Amounts.Count)) * SecondaryAttackModifier.FollowupAttackPower,
-                                    _ => Math.Max(1, Math.Ceiling(attack.Limits.Minimum / Amounts.Count)),
-                                },
-                                Initial = index switch
-                                {
-                                    > 0 when RequiresPreviousHit => cost * SecondaryAttackModifier.FollowupAttackPower,
-                                    _ => cost,
-                                },
-                                MaxComplexity = index switch { 0 => 0, _ => attack.Limits.MaxComplexity - GetComplexity(attack.PowerInfo) },
                             }
                         }
                     ).ToImmutableList(),
@@ -183,7 +154,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public const string ModifierName = "TwoHits";
             public override PowerCost GetCost(AttackProfileBuilder builder) =>
-                PowerCost.Empty;
+                new PowerCost(Multiplier: 0.5);
             public override bool IsPlaceholder() => false;
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();

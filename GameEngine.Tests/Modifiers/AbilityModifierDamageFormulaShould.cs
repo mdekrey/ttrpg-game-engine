@@ -32,8 +32,6 @@ namespace GameEngine.Tests.Modifiers
                                 PowerProfileConfig: tool.PowerProfileConfigs[0]
                             );
             var attack = new AttackProfileBuilder(
-                Multiplier: 1,
-                Limits: new AttackLimits(Minimum: 1, Initial: 2.3, MaxComplexity: 0),
                 Ability: Rules.Ability.Strength,
                 DamageTypes: Build(DamageType.Normal),
                 TargetEffects: Build(
@@ -44,7 +42,14 @@ namespace GameEngine.Tests.Modifiers
                 ),
                 PowerInfo: info
             );
-            var power = new PowerProfileBuilder(attack.Limits, attack.PowerInfo, Build(attack), Build<IPowerModifier>(), Build(new TargetEffectBuilder(Target.Enemy, ImmutableList<ITargetEffectModifier>.Empty, info)));
+            var power = new PowerProfileBuilder(
+                new PowerLimits(Minimum: 1, Initial: 2.3, MaxComplexity: 0),
+                WeaponDiceDistribution.Increasing, // TODO - randomize?
+                attack.PowerInfo, 
+                Build(attack), 
+                Build<IPowerModifier>(), 
+                Build(new TargetEffectBuilder(Target.Enemy, ImmutableList<ITargetEffectModifier>.Empty, info))
+            );
 
             var upgrades = attack.Modifiers.First().GetUpgrades(UpgradeStage.Finalize, attack, power);
 
