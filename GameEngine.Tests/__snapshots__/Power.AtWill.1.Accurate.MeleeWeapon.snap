@@ -8,6 +8,7 @@
       Ability: Strength
       DamageTypes:
       - Normal
+      Effects: []
       Modifiers:
       - Abilities:
         - Strength

@@ -6,15 +6,16 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Normal
+  Effects:
+  - Target: Enemy
+    Modifiers:
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
   Modifiers:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Conditions:
-    - Name: Dazed
-    Name: Condition
 Modifiers:
-- Duration: EndOfUserNextTurn
-  Name: Duration
 - PowerSource: Martial
   Name: Power Source

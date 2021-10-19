@@ -63,22 +63,30 @@ namespace GameEngine.Generator
             from set in new[] {
                 from modifier in this.Modifiers
                 from upgrade in modifier.GetUpgrades(stage, this, power)
+                where (Target & upgrade.ValidTargets()) == Target
                 select this.Apply(upgrade, modifier)
                 ,
                 from formula in ModifierDefinitions.targetEffectModifiers
                 where formula.IsValid(this)
                 from mod in formula.GetBaseModifiers(stage, this, power)
+                where (Target & mod.ValidTargets()) == Target
                 where !Modifiers.Any(m => m.Name == mod.Name)
                 select this.Apply(mod)
             }
             from entry in set
             select entry;
-
     }
 
     public record AttackProfileBuilder(Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : ModifierBuilder<IAttackModifier>(Modifiers, PowerInfo)
     {
+        private static ImmutableList<Target> TargetOptions = new[] {
+            Target.Enemy,
+            Target.Ally,
+            Target.Self,
+            Target.Ally | Target.Self
+        }.ToImmutableList();
+
         public PowerCost TotalCost(PowerProfileBuilder builder) => 
             Enumerable.Concat(
                 Modifiers.Select(m => m.GetCost(this)),
@@ -86,16 +94,22 @@ namespace GameEngine.Generator
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         internal AttackProfile Build(PowerProfileBuilder builder, double weaponDice) =>
-            new AttackProfile(weaponDice, Ability, DamageTypes, TargetEffects.Select(teb => teb.Build()).ToImmutableList(), Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
+            new AttackProfile(
+                weaponDice, 
+                Ability, 
+                DamageTypes, 
+                TargetEffects.Where(teb => teb.Modifiers.Any()).Select(teb => teb.Build()).ToImmutableList(), 
+                Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList()
+            );
 
         public virtual IEnumerable<AttackProfileBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
 
             from set in new[]
             {
-                from targetKvp in TargetEffects.Select((attack, index) => (attack, index))
-                let attack = targetKvp.attack
+                from targetKvp in TargetEffects.Select((targetEffect, index) => (targetEffect, index))
+                let targetEffect = targetKvp.targetEffect
                 let index = targetKvp.index
-                from upgrade in attack.GetUpgrades(stage, power)
+                from upgrade in targetEffect.GetUpgrades(stage, power)
                 select this with { TargetEffects = this.TargetEffects.SetItem(index, upgrade) }
                 ,
                 from modifier in this.Modifiers
@@ -107,6 +121,10 @@ namespace GameEngine.Generator
                 from mod in formula.GetBaseModifiers(stage, this, power)
                 where !Modifiers.Any(m => m.Name == mod.Name)
                 select this.Apply(mod)
+                ,
+                from target in TargetOptions
+                where !TargetEffects.Any(te => (te.Target & target) != 0)
+                select this with { TargetEffects = this.TargetEffects.Add(new TargetEffectBuilder(target, ImmutableList<ITargetEffectModifier>.Empty, PowerInfo)) }
             }
             from entry in set
             select entry;
@@ -137,24 +155,25 @@ namespace GameEngine.Generator
         private IEnumerable<double> GetWeaponDice()
         {
             var cost = Attacks.Select(a => a.TotalCost(this)).ToImmutableList();
-            var fixedCost = cost.Sum(c => c.Fixed);
+            var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
             var min = cost.Sum(c => c.Multiplier);
 
             var remaining = Limits.Initial - TotalCost.Fixed - fixedCost;
-            
-            var repeated = PowerInfo.ToolProfile.Type == ToolType.Weapon
-                ? Enumerable.Repeat(Math.Floor(remaining / min), Attacks.Count)
-                : Enumerable.Repeat(remaining / min, Attacks.Count);
+            var baseAmount = remaining / min;
+            if (PowerInfo.ToolProfile.Type == ToolType.Weapon)
+                baseAmount = Math.Floor(baseAmount);
+
+            var repeated = cost.Select(c => baseAmount * c.Multiplier);
             var distribuatable = remaining - repeated.Sum();
 
             // TODO - there's lots more options in here...
             var result = WeaponDiceDistribution switch
             {
-                WeaponDiceDistribution.Decreasing => repeated.Select((v, i) => i < distribuatable ? v + 1 : v),
-                WeaponDiceDistribution.Increasing => repeated.Select((v, i) => (Attacks.Count - i - 1) < distribuatable ? v + 1 : v),
+                WeaponDiceDistribution.Decreasing => repeated.Select((v, i) => (i + 1) <= distribuatable ? v + 1 : v),
+                WeaponDiceDistribution.Increasing => repeated.Select((v, i) => (Attacks.Count - i) <= distribuatable ? v + 1 : v),
                 _ => throw new InvalidOperationException(),
             };
-            return result.Select((v, i) => v * cost[i].Multiplier);
+            return result.Select((v, i) => v / cost[i].Multiplier);
         }
 
         public bool IsValid()
@@ -163,7 +182,7 @@ namespace GameEngine.Generator
                 return false;
 
             var cost = Attacks.Select(a => a.TotalCost(this)).ToImmutableList();
-            var fixedCost = cost.Sum(c => c.Fixed);
+            var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
             var min = cost.Sum(c => c.Multiplier);
             var remaining = TotalCost.Apply(Limits.Initial) - fixedCost;
 
