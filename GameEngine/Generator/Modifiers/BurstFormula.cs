@@ -49,7 +49,11 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Multiplier: ((Size - 1) / 2.0 + 2) / 2.0); // TODO - is this right?
+            public override PowerCost GetCost(AttackProfileBuilder builder)
+            {
+                var multiplier = ((Size - 1) / 2.0 + 2) / 2.0;
+                return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier); // TODO - is this right?
+            }
 
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :

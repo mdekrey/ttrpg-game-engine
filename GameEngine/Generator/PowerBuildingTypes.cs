@@ -9,7 +9,7 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator
 {
-    public record PowerCost(double Fixed = 0, double Multiplier = 1)
+    public record PowerCost(double Fixed = 0, double Multiplier = 1, double SingleTargetMultiplier = 1)
     {
         public static PowerCost Empty = new PowerCost(Fixed: 0, Multiplier: 1);
 
@@ -17,7 +17,8 @@ namespace GameEngine.Generator
         {
             return new PowerCost(
                 Fixed: lhs.Fixed + rhs.Fixed,
-                Multiplier: lhs.Multiplier * rhs.Multiplier
+                Multiplier: lhs.Multiplier * rhs.Multiplier,
+                SingleTargetMultiplier: lhs.SingleTargetMultiplier * rhs.SingleTargetMultiplier
             );
         }
 
@@ -185,14 +186,14 @@ namespace GameEngine.Generator
 
             var cost = Attacks.Select(a => a.TotalCost(this)).ToImmutableList();
             var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
-            var min = cost.Sum(c => c.Multiplier);
+            var min = cost.Sum(c => c.SingleTargetMultiplier);
             var remaining = TotalCost.Apply(Limits.Initial) - fixedCost;
 
             if (remaining <= 0)
                 return false; // Have to have damage remaining
             if (remaining / min < Limits.Minimum)
                 return false;
-            if (PowerInfo.ToolProfile.Type == ToolType.Weapon && remaining < min)
+            if (PowerInfo.ToolProfile.Type == ToolType.Weapon && GetWeaponDice().Any(w => w < 1))
                 return false; // Must have a full weapon die for any weapon
 
             return true;

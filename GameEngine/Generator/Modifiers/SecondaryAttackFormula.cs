@@ -140,7 +140,7 @@ namespace GameEngine.Generator.Modifiers
             public const string ModifierName = "RequiresPreviousHit";
 
             public override PowerCost GetCost(AttackProfileBuilder builder) =>
-                new PowerCost(Multiplier: 1 / FollowupAttackPower);
+                new PowerCost(Multiplier: 1 / FollowupAttackPower, SingleTargetMultiplier: 1 / FollowupAttackPower);
             public override bool IsPlaceholder() => false;
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
@@ -154,7 +154,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public const string ModifierName = "TwoHits";
             public override PowerCost GetCost(AttackProfileBuilder builder) =>
-                new PowerCost(Multiplier: 2);
+                new PowerCost(Multiplier: 2, SingleTargetMultiplier: 1);
             public override bool IsPlaceholder() => false;
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
