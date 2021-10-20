@@ -261,7 +261,7 @@ namespace GameEngine.Generator
                 MissSentences: ImmutableList<string>.Empty
             );
             var effects = attack.Effects.AsEnumerable();
-            if (attack.Effects[0].Target.HasFlag(Target.Enemy))
+            if (attack.Effects.Any() && attack.Effects[0].Target.HasFlag(Target.Enemy))
             {
                 effects = effects.Skip(1);
                 TargetInfo targetInfo = attack.Effects[0].ToTargetInfo(power, attack);

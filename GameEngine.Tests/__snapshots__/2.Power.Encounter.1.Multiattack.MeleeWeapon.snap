@@ -22,8 +22,9 @@
       - Target: Self
         Modifiers:
         - Boosts:
-          - Amount: STR
-            Name: Temporary Hit Points
+          - Amount: DEX
+            Limit: NextAttack
+            Name: Attack
           Name: Boost
       Modifiers:
       - Name: RequiresPreviousHit
@@ -52,4 +53,4 @@
   - Label: Secondary Attack
     Text: STR vs. AC
   - Label: Secondary Hit
-    Text: 1[W] + STR damage.
+    Text: 1[W] + STR damage. You gain a DEX power bonus to attack rolls on the next attack before the end of your next turn.

@@ -8,8 +8,14 @@
       Ability: Strength
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          Name: Condition
       Modifiers:
-      - Name: RequiredHitForNextAttack
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
@@ -17,16 +23,11 @@
       Ability: Strength
       DamageTypes:
       - Normal
+      Effects: []
       Modifiers:
-      - Name: RequiresPreviousHit
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Size: 3
-        Type: Burst
-        Name: Multiple
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -43,10 +44,10 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. Make a secondary attack.
+    Text: 1[W] + STR damage and the target is blinded and dazed until the end of your next turn.
   - Label: Secondary Target
-    Text: Each enemy adjacent to the primary target
+    Text: One creature adjacent to the primary target
   - Label: Secondary Attack
-    Text: STR vs. Fortitude
+    Text: STR vs. AC
   - Label: Secondary Hit
     Text: 1[W] + STR damage.
