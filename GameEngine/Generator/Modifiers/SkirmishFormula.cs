@@ -43,8 +43,7 @@ namespace GameEngine.Generator.Modifiers
             public abstract double Cost();
             public abstract IEnumerable<SkirmishMovement> GetUpgrades(PowerHighLevelInfo powerInfo);
 
-            public abstract string GetEffectSentence(bool hasMultipleAttacks);
-            public abstract string GetAttackSentence();
+            public abstract string GetAttackPart(Target target);
         }
         public record Shift(ShiftTiming Timing, GameDiceExpression? Amount) : SkirmishMovement("Shift")
         {
@@ -59,18 +58,9 @@ namespace GameEngine.Generator.Modifiers
                 if (Amount.Abilities == CharacterAbilities.Empty && Amount.DieCodes.Modifier <= 2)
                     yield return this with { Amount = null };
             }
-            private string TimingClause(bool hasMultipleAttacks) => (Timing, hasMultipleAttacks) switch
-            {
-                (ShiftTiming.After, false) => "after the attack",
-                (ShiftTiming.Before, false) => "before the attack",
-                (ShiftTiming.Anytime, false) => "either before or after the attack",
-                (ShiftTiming.After, true) => "after the attacks",
-                (ShiftTiming.Before, true) => "before the attacks",
-                (ShiftTiming.Anytime, true) => "either before, after, or between the attacks",
-                _ => throw new NotImplementedException()
-            };
-            public override string GetEffectSentence(bool hasMultipleAttacks) => $"You may shift {Amount} squares {TimingClause(hasMultipleAttacks)}.";
-            public override string GetAttackSentence() => $"You may shift {Amount} squares.";
+            public override string GetAttackPart(Target target) => Amount != null
+                ? $"may shift {Amount} squares"
+                : $"may shift a number of squares equal to {(target == Target.Self ? "your" : "their")} speed";
         }
         public record MovementDoesNotProvoke() : SkirmishMovement("Non-Provoking Movement")
         {
@@ -80,8 +70,9 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             }
 
-            public override string GetEffectSentence(bool hasMultipleAttacks) => $"Any movement you take for the rest of the turn does not provoke opportunity attacks.";
-            public override string GetAttackSentence() => $"Any movement you take for the rest of the turn does not provoke opportunity attacks.";
+            public override string GetAttackPart(Target target) => target == Target.Self
+                ? $"do not provoke opportunity attacks from movement for the rest of the turn"
+                : $"does not provoke opportunity attacks from movement for the rest of the turn";
         }
         public record SkirmishMovementModifier(EquatableImmutableList<SkirmishMovement> Movement) : TargetEffectModifier(ModifierName)
         {
@@ -107,16 +98,12 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            //public override PowerTextMutator GetTextMutator(PowerProfile power) =>
-            //    new(500, (power, info) => power with
-            //    {
-            //        RulesText = power.RulesText.AddEffectSentences(from movement in Movement
-            //                                                       select movement.GetEffectSentence(info.Attacks.Count > 1)),
-            //    });
-
-            // TODO
             public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack) =>
-                new(500, (target) => target);
+                new(500, (target) => target with
+                {
+                    Parts = target.Parts.AddRange(from move in Movement
+                                                  select move.GetAttackPart(effect.Target))
+                });
         }
     }
 

@@ -23,16 +23,16 @@ namespace GameEngine.Generator.Modifiers
                 (Parent: "Unconscious", Children: new[] { "Immobilized", "Dazed", "Slowed", "Weakened", "Blinded" }),
             }.ToImmutableSortedDictionary(e => e.Parent, e => e.Children.ToImmutableList());
 
-        private static readonly ImmutableSortedDictionary<string, (double cost, string verb, string effect)> basicConditions =
+        private static readonly ImmutableSortedDictionary<string, (double cost, string otherVerb, string selfVerb, string effect)> basicConditions =
             new[]
             {
-                (Condition: "Slowed", Cost: 0.5, Verb: "is", Effect: "Slowed"),
-                (Condition: "Dazed", Cost: 0.5, Verb: "is", Effect: "Dazed"),
-                (Condition: "Immobilized", Cost: 1, Verb: "is", Effect: "Immobilized"),
-                (Condition: "Weakened", Cost: 1, Verb: "is", Effect: "Weakened"),
-                (Condition: "Grants Combat Advantage", Cost: 0.5, Verb: "grants", Effect: "Combat Advantage"),
-                (Condition: "Blinded", Cost: 1, Verb: "is", Effect: "Blinded"),
-            }.ToImmutableSortedDictionary(e => e.Condition, e => (e.Cost, e.Verb, e.Effect));
+                (Condition: "Slowed", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Slowed"),
+                (Condition: "Dazed", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Dazed"),
+                (Condition: "Immobilized", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Immobilized"),
+                (Condition: "Weakened", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Weakened"),
+                (Condition: "Grants Combat Advantage", Cost: 0.5, OtherVerb: "grants", SelfVerb: "grant", Effect: "Combat Advantage"),
+                (Condition: "Blinded", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Blinded"),
+            }.ToImmutableSortedDictionary(e => e.Condition, e => (e.Cost, e.OtherVerb, e.SelfVerb, e.Effect));
         // TODO - add defense penalties
         private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
         {
@@ -107,7 +107,7 @@ namespace GameEngine.Generator.Modifiers
 
                 var parts = new List<string>();
                 yield return @$"{OxfordComma((from condition in Conditions
-                                              group condition.Effect().ToLower() by condition.Verb() into verbGroup
+                                              group condition.Effect().ToLower() by condition.Verb(effect.Target) into verbGroup
                                               select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())} {duration}";
             }
 
@@ -120,7 +120,7 @@ namespace GameEngine.Generator.Modifiers
             public virtual double Cost() => basicConditions[Name].cost;
             public virtual IEnumerable<Condition> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 Enumerable.Empty<Condition>();
-            public virtual string Verb() => basicConditions[Name].verb;
+            public virtual string Verb(Target target) => target == Target.Self ? basicConditions[Name].selfVerb : basicConditions[Name].otherVerb;
             public virtual string Effect() => basicConditions[Name].effect;
         }
 
@@ -133,7 +133,7 @@ namespace GameEngine.Generator.Modifiers
                 if (Amount < 15)
                     yield return new OngoingDamage(Amount + 5);
             }
-            public override string Verb() => "takes";
+            public override string Verb(Target target) => target == Target.Self ? "take" : "takes";
             public override string Effect() => $"ongoing {Amount}";
         }
 
@@ -146,7 +146,7 @@ namespace GameEngine.Generator.Modifiers
                 if (Defense != null)
                     yield return new DefensePenalty((DefenseType?)null);
             }
-            public override string Verb() => "takes";
+            public override string Verb(Target target) => target == Target.Self ? "take" : "takes";
             public override string Effect() => $"a -2 penalty to {Defense?.ToText() switch { string s => "its " + s, _ => "all defenses" }}";
         }
     }

@@ -8,24 +8,70 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
       Modifiers:
       - Defense: Fortitude
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: +2
-          Defense: Reflex
-          Name: Defense
-        - Amount: WIS
-          Name: Regeneration
-        AllyType: Single
-        Name: Boost
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 1
+  PowerProfile:
+    Usage: AtWill
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: WIS
+            Name: Shift
+          Name: Skirmish Movement
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Limit: Target
+            Name: Attack
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
     - PowerSource: Arcane
       Name: Power Source
 - Level: 1
@@ -38,28 +84,7 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Name: Non-Provoking Movement
-        Name: Skirmish Movement
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 1
-  PowerProfile:
-    Usage: AtWill
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
+      Effects: []
       Modifiers:
       - Defense: Reflex
         Name: Non-Armor Defense
@@ -79,28 +104,19 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Size: 5
-        Type: Blast
-        Name: Multiple
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 1
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 1.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Before
+            Amount: WIS
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: WIS
+            Limit: Target
+            Name: Attack
+          Name: Boost
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
@@ -110,13 +126,6 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: WIS + 2
-          Limit: NextAttack
-          Name: Attack
-        AllyType: Single
-        Name: Boost
     Modifiers:
     - PowerSource: Arcane
       Name: Power Source
@@ -130,28 +139,78 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 1
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: WIS
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: +2
+            Defense: Will
+            Name: Defense
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 1
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: +2
-          Limit: Target
-          Name: Attack
-        AllyType: Single
-        Name: Boost
     Modifiers:
-    - SelfBoosts:
-      - Amount: WIS
-        Name: Temporary Hit Points
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
+    - Name: OpportunityAction
     - PowerSource: Arcane
       Name: Power Source
 - Level: 1
@@ -160,57 +219,73 @@
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 1.5
+    - WeaponDice: 0.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Limit: Target
+            Name: Attack
+          Name: Boost
       Modifiers:
-      - Defense: Fortitude
+      - Name: TwoHits
+      - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - Conditions:
-        - Name: Immobilized
-        Name: Condition
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 1
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Weakened
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: WIS
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: +2
+            Defense: ArmorClass
+            Name: Defense
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Name: Extra Saving Throw
+          - Amount: WIS
+            Name: Temporary Hit Points
+          Name: Boost
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
       - Size: 1
         Type: Blast
         Name: Multiple
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 1
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 1.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Timing: After
-          Amount: +2
-          Name: Shift
-        Name: Skirmish Movement
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: WIS
-        Name: Regeneration
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
 - Level: 1
@@ -223,44 +298,20 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Name: Non-Provoking Movement
-        Name: Skirmish Movement
-      - Effects:
-        - Mode: Pull
-          Amount: +1
-          Name: Slide Opponent
-        Name: MovementControl
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: +2
-        Limit: NextAttack
-        Name: Attack
-      - Amount: +2
-        Name: Temporary Hit Points
-      - Amount: WIS
-        Name: Regeneration
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 1
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
+      Effects:
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Name: Temporary Hit Points
+          - Name: Extra Saving Throw
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          - Amount: +2
+            Defense: ArmorClass
+            Name: Defense
+          Name: Boost
       Modifiers:
       - Defense: Reflex
         Name: Non-Armor Defense
@@ -270,19 +321,7 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-      - SelfBoosts: []
-        AllyBoosts:
-        - Name: Extra Saving Throw
-        AllyType: Single
-        Name: Boost
     Modifiers:
-    - SelfBoosts:
-      - Amount: +2
-        Defense: Will
-        Name: Defense
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
     - PowerSource: Arcane
       Name: Power Source
 - Level: 1
@@ -291,35 +330,66 @@
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 1.9499999999999997
+    - WeaponDice: 0.60000000000000009
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Dazed
+          Name: Condition
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Fortitude
+            Name: Defense
+          Name: Boost
       Modifiers:
-      - Defense: Will
+      - Name: RequiredHitForNextAttack
+      - Defense: Reflex
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-    - WeaponDice: 1.05
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 0.60000000000000009
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Slowed
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Before
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Name: Healing Surge
+          - Amount: +2
+            Name: Temporary Hit Points
+          Name: Boost
       Modifiers:
-      - Defense: Fortitude
+      - Name: RequiresPreviousHit
+      - Defense: Reflex
         Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
       - Size: 1
         Type: Blast
         Name: Multiple
     Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: WIS
-        Name: Regeneration
-      - Amount: +2
-        Name: Temporary Hit Points
-      AllyType: Single
-      Name: Boost
     - PowerSource: Arcane
       Name: Power Source
 - Level: 1
@@ -332,33 +402,29 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Immobilized
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Limit: Target
+            Name: Attack
+          Name: Boost
       Modifiers:
-      - Defense: Fortitude
+      - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: WIS
-          Limit: Target
-          Name: Attack
-        AllyType: Single
-        Name: Boost
       - Size: 1
         Type: Blast
         Name: Multiple
     Modifiers:
-    - SelfBoosts:
-      - Amount: WIS
-        Limit: Target
-        Name: Attack
-      AllyBoosts:
-      - Amount: +2
-        Defense: ArmorClass
-        Name: Defense
-      AllyType: Single
-      Name: Boost
     - PowerSource: Arcane
       Name: Power Source
 - Level: 3
@@ -371,27 +437,15 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects: []
       Modifiers:
-      - Defense: Will
+      - Name: UpToThreeTargets
+      - Defense: Reflex
         Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Timing: After
-          Amount: +2
-          Name: Shift
-        Name: Skirmish Movement
-      - SelfBoosts:
-        - Amount: +2
-          Defense: Fortitude
-          Name: Defense
-        AllyBoosts: []
-        AllyType: Single
-        Name: Boost
+      - Size: 1
+        Type: Blast
+        Name: Multiple
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
 - Level: 3
@@ -400,10 +454,459 @@
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 1
+    - WeaponDice: 1.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 3
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Dazed
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Will
+            Name: Defense
+          Name: Boost
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 3
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 5
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Name: Temporary Hit Points
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: NextAttack
+            Name: Attack
+          - Amount: WIS
+            Name: Temporary Hit Points
+          Name: Boost
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 5
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 2.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 5
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Push
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Before
+            Amount: WIS
+            Name: Shift
+          Name: Skirmish Movement
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 5
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Weakened
+          Name: Condition
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS + 2
+            Name: Temporary Hit Points
+          - Amount: +2
+            Limit: NextAttack
+            Name: Attack
+          Name: Boost
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Before
+            Amount: WIS
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          - Name: Extra Saving Throw
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 7
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 7
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: After
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: NextAttack
+            Name: Attack
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 7
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: ArmorClass
+            Name: Defense
+          Name: Boost
+      Modifiers:
+      - Name: TwoHits
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 7
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Slowed
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Before
+            Amount: +1
+            Name: Shift
+          - Timing: After
+            Amount: +1
+            Name: Shift
+          Name: Skirmish Movement
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 9
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 2.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Slowed
+          Name: Condition
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 2.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 9
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 1.25
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Reflex
+            Name: Defense
+          Name: Boost
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Name: Healing Surge
+          Name: Boost
       Modifiers:
       - Name: TwoHits
       - Defense: Reflex
@@ -417,16 +920,41 @@
     Modifiers:
     - PowerSource: Arcane
       Name: Power Source
-- Level: 3
+- Level: 9
   PowerProfile:
-    Usage: Encounter
+    Usage: Daily
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 0.5
+    - WeaponDice: 3.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Slide
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: After
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Name: Healing Surge
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Limit: Target
+            Name: Attack
+          Name: Boost
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
@@ -437,23 +965,71 @@
         Type: Blast
         Name: Multiple
     Modifiers:
-    - SelfBoosts:
-      - Amount: +2
-        Name: Temporary Hit Points
-      - Amount: WIS
-        Limit: NextAttack
-        Name: Attack
-      - Amount: +4
-        Defense: Fortitude
-        Name: Defense
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
-- Level: 3
+- Level: 9
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Slide
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+        - Conditions:
+          - Name: Immobilized
+          - Name: Dazed
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Before
+            Amount: WIS
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: +2
+            Limit: NextAttack
+            Name: Attack
+          - Amount: +2
+            Name: Temporary Hit Points
+          - Amount: +2
+            Defense: Fortitude
+            Name: Defense
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Name: Temporary Hit Points
+          - Amount: +2
+            Defense: Reflex
+            Name: Defense
+          Name: Boost
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Amount: +2
+        Name: To-Hit Bonus to Current Attack
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 11
   PowerProfile:
     Usage: Encounter
     Tool: Implement
@@ -463,73 +1039,94 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Reflex
+            Name: Defense
+          Name: Boost
       Modifiers:
-      - Defense: Fortitude
+      - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - Conditions:
-        - Name: Dazed
-        Name: Condition
+      - Size: 1
+        Type: Blast
+        Name: Multiple
     Modifiers:
-    - SelfBoosts:
-      - Amount: +2
-        Defense: Reflex
-        Name: Defense
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
-- Level: 5
+- Level: 11
   PowerProfile:
-    Usage: Daily
+    Usage: Encounter
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 1.5
+    - WeaponDice: 0.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Will
+            Name: Defense
+          Name: Boost
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
       Modifiers:
-      - Defense: Fortitude
+      - Defense: Reflex
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - Conditions:
-        - Name: Weakened
-        Name: Condition
-      - SelfBoosts:
-        - Amount: WIS
-          Limit: Target
-          Name: Attack
-        - Amount: +2
-          Defense: Reflex
-          Name: Defense
-        AllyBoosts:
-        - Amount: WIS
-          Name: Regeneration
-        AllyType: Single
-        Name: Boost
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Name: Healing Surge
+          Name: Boost
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
     Modifiers:
-    - SelfBoosts:
-      - Amount: WIS
-        Limit: NextAttack
-        Name: Attack
-      AllyBoosts:
-      - Amount: WIS
-        Name: Temporary Hit Points
-      AllyType: Single
-      Name: Boost
     - PowerSource: Arcane
       Name: Power Source
-- Level: 5
+- Level: 11
   PowerProfile:
-    Usage: Daily
+    Usage: Encounter
     Tool: Implement
     ToolRange: Range
     Attacks:
@@ -537,111 +1134,34 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Before
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Limit: NextAttack
+            Name: Attack
+          Name: Boost
       Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Effects:
-        - Mode: Push
-          Amount: +1
-          Name: Slide Opponent
-        Name: MovementControl
-      - Movement:
-        - Timing: After
-          Name: Shift
-        Name: Skirmish Movement
-    Modifiers:
-    - SelfBoosts:
-      - Amount: +2
-        Name: Attack
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 5
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 1.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Size: 1
-        Type: Blast
-        Name: Multiple
-      - SelfBoosts:
-        - Amount: WIS
-          Name: Temporary Hit Points
-        AllyBoosts:
-        - Amount: +2
-          Defense: Fortitude
-          Name: Defense
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - SelfBoosts:
-      - Name: Healing Surge
-      - Amount: WIS
-        Name: Attack
-      AllyBoosts:
-      - Amount: +2
-        Limit: NextAttack
-        Name: Attack
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 5
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2.1999999999999997
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiredHitForNextAttack
       - Defense: Will
         Name: Non-Armor Defense
-    - WeaponDice: 3.4500000000000002
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Fortitude
-        Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - SelfBoosts:
-        - Amount: WIS
-          Name: Regeneration
-        AllyBoosts:
-        - Amount: WIS
-          Name: Temporary Hit Points
-        AllyType: Single
-        Name: Boost
       - Size: 1
         Type: Blast
         Name: Multiple
     Modifiers:
     - PowerSource: Arcane
       Name: Power Source
-- Level: 7
+- Level: 11
   PowerProfile:
     Usage: Encounter
     Tool: Implement
@@ -651,127 +1171,34 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Size: 3
-        Type: Blast
-        Name: Multiple
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Name: Healing Surge
-      - Amount: +2
-        Name: Regeneration
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 7
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 1.2
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Will
-        Name: Non-Armor Defense
-    - WeaponDice: 1.7000000000000002
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - SelfBoosts:
-        - Amount: +2
-          Limit: Target
-          Name: Attack
-        AllyBoosts: []
-        AllyType: Single
-        Name: Boost
-      - Size: 1
-        Type: Blast
-        Name: Multiple
-    Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 7
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 1.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
+      Effects:
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Fortitude
+            Name: Defense
+          Name: Boost
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: NextAttack
+            Name: Attack
+          Name: Boost
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - Size: 1
-        Type: Blast
-        Name: Multiple
     Modifiers:
     - Name: OpportunityAction
     - PowerSource: Arcane
       Name: Power Source
-- Level: 7
+- Level: 13
   PowerProfile:
     Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 0.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Timing: Anytime
-          Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
-      - SelfBoosts:
-        - Name: Healing Surge
-        AllyBoosts:
-        - Amount: +2
-          Defense: Reflex
-          Name: Defense
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 9
-  PowerProfile:
-    Usage: Daily
     Tool: Implement
     ToolRange: Range
     Attacks:
@@ -779,175 +1206,32 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Dazed
+          Name: Condition
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: ArmorClass
+            Name: Defense
+          Name: Boost
       Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Effects:
-        - Mode: Slide
-          Amount: +1
-          Name: Slide Opponent
-        Name: MovementControl
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: +2
-          Defense: Will
-          Name: Defense
-        - Amount: +2
-          Limit: Target
-          Name: Attack
-        - Amount: WIS
-          Name: Regeneration
-        - Amount: WIS
-          Name: Temporary Hit Points
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: +2
-        Defense: Fortitude
-        Name: Defense
-      - Amount: +2
-        Limit: Target
-        Name: Attack
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 9
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2.7727272727272729
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-    - WeaponDice: 1.5909090909090917
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiresPreviousHit
       - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - SelfBoosts:
-        - Amount: +2
-          Defense: Will
-          Name: Defense
-        AllyBoosts:
-        - Amount: WIS
-          Limit: NextAttack
-          Name: Attack
-        - Amount: WIS
-          Name: Temporary Hit Points
-        - Amount: +2
-          Name: Regeneration
-        AllyType: Single
-        Name: Boost
       - Size: 1
         Type: Blast
         Name: Multiple
     Modifiers:
-    - SelfBoosts:
-      - Amount: WIS
-        Name: Regeneration
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
     - PowerSource: Arcane
       Name: Power Source
-- Level: 9
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 3.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Timing: After
-          Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
-      - Conditions:
-        - Name: Blinded
-        Name: Condition
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: +2
-        Defense: ArmorClass
-        Name: Defense
-      - Amount: +2
-        Limit: Target
-        Name: Attack
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 9
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 3.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Conditions:
-        - Name: Dazed
-        Name: Condition
-      - SelfBoosts:
-        - Amount: +2
-          Defense: ArmorClass
-          Name: Defense
-        AllyBoosts: []
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - SelfBoosts:
-      - Amount: WIS
-        Limit: Target
-        Name: Attack
-      AllyBoosts:
-      - Amount: +2
-        Defense: Will
-        Name: Defense
-      AllyType: All
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 11
+- Level: 13
   PowerProfile:
     Usage: Encounter
     Tool: Implement
@@ -957,49 +1241,92 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 13
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          Name: Boost
+        - Movement:
+          - Timing: After
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Fortitude
+            Name: Defense
+          Name: Boost
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - Movement:
-        - Timing: After
-          Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
-      - SelfBoosts:
-        - Name: Healing Surge
-        AllyBoosts:
-        - Amount: WIS
-          Limit: NextAttack
-          Name: Attack
-        AllyType: Single
-        Name: Boost
+      - Size: 1
+        Type: Blast
+        Name: Multiple
     Modifiers:
     - PowerSource: Arcane
       Name: Power Source
-- Level: 11
+- Level: 13
   PowerProfile:
     Usage: Encounter
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 1
+    - WeaponDice: 1.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Push
+            Amount: +1
+            Name: Slide Opponent
+          - Name: Prone
+          Name: MovementControl
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: NextAttack
+            Name: Attack
+          Name: Boost
       Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    - WeaponDice: 1.75
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Name: RequiredHitForNextAttack
       - Defense: Reflex
         Name: Non-Armor Defense
       - Abilities:
@@ -1008,162 +1335,75 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-    - WeaponDice: 1.75
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 15
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Name: Prone
+          Name: MovementControl
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Before
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +8
+            Defense: Reflex
+            Name: Defense
+          Name: Boost
       Modifiers:
-      - Name: RequiresPreviousHit
       - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - Size: 1
-        Type: Blast
-        Name: Multiple
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 11
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 1.6666666666666665
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: +2
-          Defense: Fortitude
-          Name: Defense
-        AllyType: Single
-        Name: Boost
       - Size: 3
         Type: Burst
         Name: Multiple
+      - Amount: +2
+        Name: To-Hit Bonus to Current Attack
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
-- Level: 11
+- Level: 15
   PowerProfile:
-    Usage: Encounter
+    Usage: Daily
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 2.5
+    - WeaponDice: 3.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects: []
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
       - Size: 1
         Type: Blast
         Name: Multiple
-    Modifiers:
-    - SelfBoosts:
-      - Amount: +2
-        Limit: NextAttack
-        Name: Attack
-      AllyBoosts:
-      - Amount: +2
-        Defense: Reflex
-        Name: Defense
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 13
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2.5
+    - WeaponDice: 3.5
       Ability: Wisdom
       DamageTypes:
       - Normal
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Conditions:
-        - Name: Slowed
-        Name: Condition
-    Modifiers:
-    - SelfBoosts:
-      - Amount: +2
-        Limit: NextAttack
-        Name: Attack
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 13
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Size: 1
-        Type: Blast
-        Name: Multiple
-    Modifiers:
-    - SelfBoosts:
-      - Amount: WIS
-        Name: Temporary Hit Points
-      AllyBoosts:
-      - Amount: WIS
-        Limit: Target
-        Name: Attack
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 13
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
+      Effects: []
       Modifiers:
       - Defense: Reflex
         Name: Non-Armor Defense
@@ -1174,48 +1414,6 @@
         Type: Blast
         Name: Multiple
     Modifiers:
-    - SelfBoosts:
-      - Amount: +2
-        Name: Regeneration
-      AllyBoosts:
-      - Amount: +2
-        Limit: Target
-        Name: Attack
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 13
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 1.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Name: Non-Provoking Movement
-        Name: Skirmish Movement
-      - SelfBoosts:
-        - Amount: +2
-          Name: Regeneration
-        AllyBoosts:
-        - Name: Extra Saving Throw
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
 - Level: 15
@@ -1224,10 +1422,89 @@
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 1.5
+    - WeaponDice: 2.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Weakened
+          - Name: Dazed
+          Name: Condition
+        - Effects:
+          - Mode: Slide
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Limit: NextAttack
+            Name: Attack
+          - Amount: +8
+            Defense: Will
+            Name: Defense
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 15
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 7
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 17
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 2.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Push
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: NextAttack
+            Name: Attack
+          Name: Boost
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
@@ -1237,140 +1514,40 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-      - SelfBoosts:
-        - Amount: WIS
-          Limit: Target
-          Name: Attack
-        AllyBoosts:
-        - Name: Healing Surge
-        - Amount: +2
-          Defense: Fortitude
-          Name: Defense
-        AllyType: Single
-        Name: Boost
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 17
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Will
+            Name: Defense
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
     Modifiers:
     - Name: OpportunityAction
     - PowerSource: Arcane
       Name: Power Source
-- Level: 15
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 3.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Timing: Anytime
-          Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
-      - SelfBoosts:
-        - Amount: +2
-          Name: Defense
-        AllyBoosts:
-        - Amount: WIS
-          Name: Temporary Hit Points
-        - Amount: +2
-          Limit: Target
-          Name: Attack
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: +2
-        Defense: Will
-        Name: Defense
-      - Amount: WIS
-        Limit: NextAttack
-        Name: Attack
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 15
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: WIS
-          Name: Temporary Hit Points
-        AllyType: Single
-        Name: Boost
-      - Conditions:
-        - Name: Weakened
-        - Name: Immobilized
-        Name: Condition
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: +4
-        Defense: Reflex
-        Name: Defense
-      AllyType: All
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 15
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 4.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Name: Non-Provoking Movement
-        Name: Skirmish Movement
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: WIS
-          Limit: Target
-          Name: Attack
-        AllyType: All
-        Name: Boost
-    Modifiers:
-    - SelfBoosts:
-      - Amount: WIS
-        Limit: Target
-        Name: Attack
-      AllyBoosts:
-      - Amount: +2
-        Name: Temporary Hit Points
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
 - Level: 17
   PowerProfile:
     Usage: Encounter
@@ -1381,79 +1558,7 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - SelfBoosts:
-        - Amount: WIS
-          Limit: NextAttack
-          Name: Attack
-        - Amount: +2
-          Name: Temporary Hit Points
-        AllyBoosts: []
-        AllyType: Single
-        Name: Boost
-      - Movement:
-        - Timing: After
-          Amount: +4
-          Name: Shift
-        Name: Skirmish Movement
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 17
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 1.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - SelfBoosts:
-        - Amount: +2
-          Limit: Target
-          Name: Attack
-        - Amount: WIS
-          Name: Regeneration
-        AllyBoosts:
-        - Amount: +2
-          Defense: ArmorClass
-          Name: Defense
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - SelfBoosts:
-      - Amount: +2
-        Limit: NextAttack
-        Name: Attack
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 17
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 1.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
+      Effects: []
       Modifiers:
       - Defense: Fortitude
         Name: Non-Armor Defense
@@ -1463,244 +1568,320 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-      - SelfBoosts:
-        - Amount: WIS
-          Limit: NextAttack
-          Name: Attack
-        AllyBoosts:
-        - Amount: +2
-          Defense: Will
-          Name: Defense
-        - Name: Extra Saving Throw
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 17
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 1
+    - WeaponDice: 1.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects: []
       Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Reflex
-        Name: Non-Armor Defense
-    - WeaponDice: 1.75
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Name: RequiredHitForNextAttack
       - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - Size: 1
-        Type: Blast
-        Name: Multiple
-    - WeaponDice: 1.75
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Size: 1
-        Type: Blast
-        Name: Multiple
     Modifiers:
     - PowerSource: Arcane
       Name: Power Source
-- Level: 19
+- Level: 17
   PowerProfile:
-    Usage: Daily
+    Usage: Encounter
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 8.5
+    - WeaponDice: 0.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Weakened
+          - Name: Dazed
+          Name: Condition
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: ArmorClass
+            Name: Defense
+          - Amount: +2
+            Name: Temporary Hit Points
+          Name: Boost
       Modifiers:
       - Defense: Reflex
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 19
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 4.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Size: 1
-        Type: Blast
-        Name: Multiple
-      - SelfBoosts:
-        - Amount: WIS + 2
-          Name: Attack
-        AllyBoosts:
-        - Amount: +2
-          Defense: Fortitude
-          Name: Defense
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - SelfBoosts:
-      - Amount: WIS
-        Limit: Target
-        Name: Attack
-      AllyBoosts:
-      - Amount: +2
-        Defense: Reflex
-        Name: Defense
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 19
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 5.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Timing: Anytime
-          Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
-      - SelfBoosts:
-        - Amount: WIS
-          Name: Regeneration
-        - Amount: +2
-          Limit: NextAttack
-          Name: Attack
-        AllyBoosts:
-        - Amount: +2
-          Defense: ArmorClass
-          Name: Defense
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: +2
-        Defense: Will
-        Name: Defense
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 19
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 4.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Conditions:
-        - Name: Dazed
-        Name: Condition
-      - Movement:
-        - Name: Non-Provoking Movement
-        Name: Skirmish Movement
-    Modifiers:
-    - SelfBoosts:
-      - Name: Extra Saving Throw
-      - Amount: +2
-        Defense: ArmorClass
-        Name: Defense
-      - Amount: WIS
-        Limit: Target
-        Name: Attack
-      AllyBoosts:
-      - Amount: +2
-        Name: Temporary Hit Points
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 20
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 3.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Name: Non-Provoking Movement
-        Name: Skirmish Movement
       - Amount: +2
         Name: To-Hit Bonus to Current Attack
     Modifiers:
-    - SelfBoosts:
-      - Amount: +4
-        Name: Defense
-      - Amount: WIS
-        Name: Regeneration
-      AllyBoosts:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 3.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 3.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Immobilized
+          Name: Condition
+        - Effects:
+          - Mode: Slide
+            Amount: +2
+            Name: Slide Opponent
+          Name: MovementControl
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: +4
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: WIS
+            Name: Temporary Hit Points
+          - Amount: WIS + 2
+            Limit: NextAttack
+            Name: Attack
+          - Amount: +2
+            Name: Defense
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: NextAttack
+            Name: Attack
+          - Amount: WIS
+            Name: Temporary Hit Points
+          - Amount: WIS + 2
+            Defense: ArmorClass
+            Name: Defense
+          Name: Boost
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 3.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Pull
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Before
+            Amount: WIS + 2
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: +2
+            Defense: Will
+            Name: Defense
+          - Amount: +2
+            Limit: NextAttack
+            Name: Attack
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Limit: NextAttack
+            Name: Attack
+          - Name: Healing Surge
+          Name: Boost
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
       - Amount: +2
-        Name: Temporary Hit Points
-      - Amount: +2
-        Limit: NextAttack
-        Name: Attack
-      AllyType: Single
-      Name: Boost
+        Name: To-Hit Bonus to Current Attack
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 2.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Weakened
+          - Name: Immobilized
+          Name: Condition
+        - Effects:
+          - Name: Prone
+          - Mode: Slide
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Name: Healing Surge
+          - Amount: WIS
+            Name: Attack
+          Name: Boost
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 20
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 1.75
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Push
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: ArmorClass
+            Name: Defense
+          - Amount: WIS
+            Name: Temporary Hit Points
+          - Amount: WIS
+            Limit: NextAttack
+            Name: Attack
+          Name: Boost
+      Modifiers:
+      - Name: TwoHits
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 20
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 8
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    Modifiers:
     - PowerSource: Arcane
       Name: Power Source
 - Level: 20
@@ -1713,8 +1894,31 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Pull
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: After
+            Amount: WIS
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: +2
+            Defense: Will
+            Name: Defense
+          - Amount: WIS + 2
+            Name: Temporary Hit Points
+          - Name: Extra Saving Throw
+          Name: Boost
       Modifiers:
-      - Defense: Reflex
+      - Defense: Fortitude
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
@@ -1722,62 +1926,7 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-      - SelfBoosts:
-        - Name: Healing Surge
-        AllyBoosts:
-        - Amount: WIS
-          Name: Temporary Hit Points
-        - Amount: WIS + 2
-          Defense: Fortitude
-          Name: Defense
-        AllyType: Single
-        Name: Boost
     Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: WIS
-        Limit: Target
-        Name: Attack
-      - Amount: +2
-        Defense: Reflex
-        Name: Defense
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 20
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 6.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: +2
-          Defense: ArmorClass
-          Name: Defense
-        AllyType: Single
-        Name: Boost
-      - Size: 1
-        Type: Blast
-        Name: Multiple
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: +2
-        Name: Attack
-      AllyType: Single
-      Name: Boost
     - PowerSource: Arcane
       Name: Power Source
 - Level: 20
@@ -1790,23 +1939,41 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Pull
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+        - Conditions:
+          - Name: Dazed
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: WIS
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Name: Temporary Hit Points
+          Name: Boost
       Modifiers:
-      - Defense: Reflex
+      - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: +2
-          Defense: Fortitude
-          Name: Defense
-        AllyType: Single
-        Name: Boost
-      - Conditions:
-        - Name: Blinded
-        - Name: Immobilized
-        Name: Condition
       - Size: 1
         Type: Blast
         Name: Multiple
@@ -1823,28 +1990,22 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    - WeaponDice: 2.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Name: Non-Provoking Movement
-        Name: Skirmish Movement
-      - SelfBoosts:
-        - Amount: WIS
-          Limit: Target
-          Name: Attack
-        AllyBoosts:
-        - Amount: +2
-          Defense: Will
-          Name: Defense
-        AllyType: All
-        Name: Boost
+      - Size: 1
+        Type: Blast
+        Name: Multiple
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
 - Level: 23
@@ -1853,66 +2014,74 @@
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 2.5
+    - WeaponDice: 1.5000000000000002
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects: []
       Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Conditions:
-        - Name: Blinded
-        Name: Condition
-      - SelfBoosts: []
-        AllyBoosts:
-        - Amount: +2
-          Name: Temporary Hit Points
-        - Amount: +2
-          Defense: Will
-          Name: Defense
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 23
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
+      - Name: RequiredHitForNextAttack
       - Defense: Fortitude
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - Movement:
-        - Timing: After
-          Amount: +2
-          Name: Shift
-        Name: Skirmish Movement
-      - SelfBoosts:
-        - Amount: +2
-          Name: Defense
-        AllyBoosts:
-        - Amount: +2
-          Limit: Target
-          Name: Attack
-        AllyType: Single
-        Name: Boost
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          Name: Boost
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Name: RequiredHitForNextAttack
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 23
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 4.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    Modifiers:
     - PowerSource: Arcane
       Name: Power Source
 - Level: 23
@@ -1925,8 +2094,25 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Name: Defense
+          - Amount: WIS
+            Limit: Target
+            Name: Attack
+          Name: Boost
       Modifiers:
-      - Defense: Reflex
+      - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
@@ -1934,23 +2120,7 @@
       - Size: 1
         Type: Blast
         Name: Multiple
-      - SelfBoosts:
-        - Amount: +2
-          Name: Regeneration
-        - Amount: WIS
-          Limit: Target
-          Name: Attack
-        - Amount: WIS
-          Name: Temporary Hit Points
-        AllyBoosts:
-        - Amount: +2
-          Defense: Fortitude
-          Name: Defense
-        AllyType: Single
-        Name: Boost
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
 - Level: 25
@@ -1959,58 +2129,401 @@
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 2.5389610389610389
+    - WeaponDice: 5.5
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Weakened
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: +2
+            Defense: Reflex
+            Name: Defense
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Limit: NextAttack
+            Name: Attack
+          - Amount: +2
+            Defense: Reflex
+            Name: Defense
+          Name: Boost
       Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-    - WeaponDice: 3.2597402597402594
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Name: RequiredHitForNextAttack
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Conditions:
-        - Name: Immobilized
-        Name: Condition
-      - Effects:
-        - Mode: Pull
-          Amount: +1
-          Name: Slide Opponent
-        Name: MovementControl
-    - WeaponDice: 3.1818181818181812
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiresPreviousHit
       - Defense: Fortitude
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
     Modifiers:
-    - SelfBoosts:
-      - Amount: +2
-        Name: Regeneration
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
     - PowerSource: Arcane
       Name: Power Source
 - Level: 25
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 4.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 4.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 25
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 4.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Push
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+        - Conditions:
+          - Name: Slowed
+          - Name: Dazed
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Before
+            Amount: +1
+            Name: Shift
+          - Timing: After
+            Amount: +1
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Name: Extra Saving Throw
+          - Name: Healing Surge
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 25
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 4.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Pull
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+        - Conditions:
+          - Name: Slowed
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: WIS
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: WIS
+            Name: Temporary Hit Points
+          - Name: Extra Saving Throw
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Name: Temporary Hit Points
+          - Name: Healing Surge
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 27
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 2.5000000000000004
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 2.5000000000000004
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 27
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 1.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          Name: Condition
+        - Effects:
+          - Mode: Slide
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: +2
+            Defense: Will
+            Name: Defense
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          Name: Boost
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 27
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 0.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Weakened
+          - Name: Slowed
+          Name: Condition
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: Target
+            Name: Attack
+          - Amount: WIS + 2
+            Name: Defense
+          Name: Boost
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 27
+  PowerProfile:
+    Usage: Encounter
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 2.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 29
+  PowerProfile:
+    Usage: Daily
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - WeaponDice: 3.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: WIS
+            Limit: Target
+            Name: Attack
+          - Amount: +2
+            Defense: Reflex
+            Name: Defense
+          Name: Boost
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Will
+            Name: Defense
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    - WeaponDice: 3.5
+      Ability: Wisdom
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Name: Healing Surge
+          Name: Boost
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Wisdom
+        Name: Ability Modifier Damage
+      - Size: 1
+        Type: Blast
+        Name: Multiple
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+- Level: 29
   PowerProfile:
     Usage: Daily
     Tool: Implement
@@ -2020,303 +2533,28 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Timing: After
-          Amount: +2
-          Name: Shift
-        Name: Skirmish Movement
-      - SelfBoosts:
-        - Name: Healing Surge
-        AllyBoosts: []
-        AllyType: Single
-        Name: Boost
-      - Conditions:
-        - Name: Dazed
-        Name: Condition
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 25
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 6.7000000000000002
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Size: 2
-        Type: Blast
-        Name: Multiple
-    Modifiers:
-    - SelfBoosts:
-      - Amount: +2
-        Name: Regeneration
-      AllyBoosts: []
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 25
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 5.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Conditions:
-        - Name: Blinded
-        Name: Condition
-      - SelfBoosts:
-        - Amount: +2
-          Name: Regeneration
-        - Amount: +2
-          Name: Temporary Hit Points
-        AllyBoosts:
-        - Amount: +2
-          Defense: Will
-          Name: Defense
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: WIS
-        Name: Temporary Hit Points
-      AllyType: All
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 27
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 3.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Size: 1
-        Type: Blast
-        Name: Multiple
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: +2
-        Defense: Fortitude
-        Name: Defense
-      - Amount: WIS
-        Limit: NextAttack
-        Name: Attack
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 27
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Limit: NextAttack
+            Name: Attack
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Reflex
+            Name: Defense
+          Name: Boost
       Modifiers:
       - Name: UpToThreeTargets
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Size: 1
-        Type: Blast
-        Name: Multiple
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: +2
-        Defense: Reflex
-        Name: Defense
-      AllyType: Single
-      Name: Boost
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 27
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 2.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Movement:
-        - Name: Non-Provoking Movement
-        Name: Skirmish Movement
-      - SelfBoosts:
-        - Amount: +2
-          Name: Attack
-        - Amount: +2
-          Name: Regeneration
-        AllyBoosts: []
-        AllyType: Single
-        Name: Boost
-    Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 27
-  PowerProfile:
-    Usage: Encounter
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
       - Defense: Reflex
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 29
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 6.5
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - SelfBoosts:
-        - Amount: +2
-          Defense: ArmorClass
-          Name: Defense
-        - Name: Extra Saving Throw
-        - Amount: WIS
-          Name: Regeneration
-        AllyBoosts:
-        - Amount: +2
-          Limit: Target
-          Name: Attack
-        AllyType: Single
-        Name: Boost
-      - Size: 1
-        Type: Blast
-        Name: Multiple
-    Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: +2
-        Defense: ArmorClass
-        Name: Defense
-      - Amount: WIS
-        Limit: Target
-        Name: Attack
-      AllyType: Single
-      Name: Boost
-    - PowerSource: Arcane
-      Name: Power Source
-- Level: 29
-  PowerProfile:
-    Usage: Daily
-    Tool: Implement
-    ToolRange: Range
-    Attacks:
-    - WeaponDice: 4.6509433962264151
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-    - WeaponDice: 4.5235849056603783
-      Ability: Wisdom
-      DamageTypes:
-      - Normal
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Wisdom
-        Name: Ability Modifier Damage
-      - Effects:
-        - Mode: Push
-          Amount: +1
-          Name: Slide Opponent
-        Name: MovementControl
-      - SelfBoosts:
-        - Name: Extra Saving Throw
-        - Amount: +2
-          Limit: Target
-          Name: Attack
-        AllyBoosts:
-        - Amount: +2
-          Defense: Will
-          Name: Defense
-        - Amount: WIS
-          Name: Regeneration
-        AllyType: Single
-        Name: Boost
       - Size: 1
         Type: Blast
         Name: Multiple
@@ -2333,36 +2571,48 @@
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Effects:
+          - Mode: Push
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+        - Conditions:
+          - Name: Blinded
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Timing: Anytime
+            Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
+        - Boosts:
+          - Amount: WIS
+            Limit: Target
+            Name: Attack
+          Name: Boost
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: +2
+            Defense: Will
+            Name: Defense
+          - Name: Extra Saving Throw
+          Name: Boost
       Modifiers:
-      - Defense: Fortitude
+      - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - Movement:
-        - Timing: Anytime
-          Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
-      - Effects:
-        - Mode: Pull
-          Amount: +1
-          Name: Slide Opponent
-        Name: MovementControl
-      - SelfBoosts:
-        - Amount: +2
-          Defense: Reflex
-          Name: Defense
-        - Amount: WIS
-          Name: Regeneration
-        - Name: Extra Saving Throw
-        AllyBoosts:
-        - Amount: WIS
-          Name: Temporary Hit Points
-        - Amount: WIS
-          Name: Attack
-        AllyType: Single
-        Name: Boost
+      - Amount: +2
+        Name: To-Hit Bonus to Current Attack
+      - Size: 1
+        Type: Blast
+        Name: Multiple
     Modifiers:
     - PowerSource: Arcane
       Name: Power Source
@@ -2372,38 +2622,17 @@
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - WeaponDice: 6.5
+    - WeaponDice: 10
       Ability: Wisdom
       DamageTypes:
       - Normal
+      Effects: []
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
       - Abilities:
         - Wisdom
         Name: Ability Modifier Damage
-      - SelfBoosts:
-        - Amount: +2
-          Defense: Reflex
-          Name: Defense
-        AllyBoosts:
-        - Amount: +2
-          Limit: Target
-          Name: Attack
-        - Amount: WIS
-          Name: Regeneration
-        AllyType: Single
-        Name: Boost
-      - Conditions:
-        - Name: Immobilized
-        - Name: Dazed
-        Name: Condition
     Modifiers:
-    - SelfBoosts: []
-      AllyBoosts:
-      - Amount: WIS
-        Name: Regeneration
-      AllyType: Single
-      Name: Boost
     - PowerSource: Arcane
       Name: Power Source

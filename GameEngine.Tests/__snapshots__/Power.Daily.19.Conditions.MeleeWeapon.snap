@@ -8,23 +8,28 @@
       Ability: Strength
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          - Name: Immobilized
+          - Name: Weakened
+          Name: Condition
+        - Effects:
+          - Name: Prone
+          - Mode: Pull
+            Amount: +4
+            Name: Slide Opponent
+          Name: MovementControl
       Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Size: 3
-        Type: Burst
-        Name: Multiple
-      - Conditions:
-        - Name: Blinded
-        - Name: Dazed
-        Name: Condition
       - Abilities:
         - Strength
-        - Dexterity
         Name: Ability Modifier Damage
+      - Defense: Fortitude
+        Name: Non-Armor Defense
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
 - Name: Unknown
@@ -34,10 +39,10 @@
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Close
-  AttackTypeDetails: burst 1
-  Target: Each enemy in range
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One creature
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR + DEX damage and the target is blinded and dazed (save ends.)
+    Text: 1[W] + STR damage and the target is blinded, dazed, immobilized, and weakened until the end of your next turn, is knocked prone, and is pulled +4 squares.

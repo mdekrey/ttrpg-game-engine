@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Rules;
@@ -48,21 +49,14 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            // TODO
-            //public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => new(100, (attack, info, index) => Effects.Aggregate(attack, (current, effect) => effect.Apply(current, power)));
-            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack) => new(100, (target) => target);
+            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack) => 
+                new(100, (target) => target with { Parts = target.Parts.AddRange(Effects.Select(e => e.HitPart(effect.Target))) });
         }
 
         public abstract record MovementControl(string Name)
         {
             public abstract int Order();
-            public abstract string HitPart();
-            public virtual AttackInfo Apply(AttackInfo attack, PowerProfile power) =>
-                attack with
-                {
-                    HitParts = attack.HitParts.Add(HitPart()),
-                };
-
+            public abstract string HitPart(Target target);
             public abstract double Cost();
             public virtual IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 Enumerable.Empty<MovementControl>();
@@ -72,7 +66,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => 1;
             public override int Order() => 1;
-            public override string HitPart() => "the target is knocked prone";
+            public override string HitPart(Target target) => target == Target.Self ? "are knocked prone" : "is knocked prone";
         }
 
         public enum OpponentMovementMode
@@ -85,24 +79,21 @@ namespace GameEngine.Generator.Modifiers
         public record SlideOpponent(OpponentMovementMode Mode, GameDiceExpression Amount) : MovementControl("Slide Opponent")
         {
             public override int Order() => 0;
-            public override string HitPart() => $"you {Mode.ToText().ToLower()} the target {Amount} squares";
+            public override string HitPart(Target target) => (target, Mode) switch
+            {
+                (Target.Self, OpponentMovementMode.Push) => $"are pushed {Amount} squares",
+                (_, OpponentMovementMode.Push) => $"is pushed {Amount} squares",
+                (Target.Self, OpponentMovementMode.Pull) => $"are pulled {Amount} squares",
+                (_, OpponentMovementMode.Pull) => $"is pulled {Amount} squares",
+                (Target.Self, OpponentMovementMode.Slide) => $"slide {Amount} squares",
+                (_, OpponentMovementMode.Slide) => $"is slid {Amount} squares by you",
+                _ => throw new NotImplementedException(),
+            };
             public override double Cost() => Amount.ToWeaponDice() * 2;
             public override IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities, limit: 4))
                     yield return this with { Amount = entry };
-            }
-
-            public override AttackInfo Apply(AttackInfo attack, PowerProfile power)
-            {
-                if (Mode != OpponentMovementMode.Pull || power.ToolRange != ToolRange.Melee)
-                    return base.Apply(attack, power);
-
-                // TODO
-                return attack; /* with
-                {
-                    SpecialSentences = attack.SpecialSentences.Add($"Before the attack, you may pull targets {Amount} squares to become valid targets of the attack.")
-                };*/
             }
         }
     }

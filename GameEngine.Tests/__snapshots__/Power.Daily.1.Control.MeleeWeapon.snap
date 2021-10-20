@@ -8,16 +8,23 @@
       Ability: Strength
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          - Name: Immobilized
+          Name: Condition
+        - Effects:
+          - Mode: Pull
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
       Modifiers:
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
-      - Effects:
-        - Name: Prone
-        - Mode: Pull
-          Amount: +4
-          Name: Slide Opponent
-        Name: MovementControl
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -34,6 +41,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and the target is knocked prone.
-  - Label: Special
-    Text: Before the attack, you may pull targets +4 squares to become valid targets of the attack.
+    Text: 1[W] + STR damage and the target is blinded, dazed, and immobilized until the end of your next turn and is pulled +1 squares.
