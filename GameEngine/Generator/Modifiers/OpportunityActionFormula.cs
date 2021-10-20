@@ -11,9 +11,9 @@ namespace GameEngine.Generator.Modifiers
         public const string ModifierName = "OpportunityAction";
 
         public override bool IsValid(PowerProfileBuilder builder) => builder.PowerInfo.Usage != PowerFrequency.AtWill;
-        public override IPowerModifier GetBaseModifier(PowerProfileBuilder power)
+        public override IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
         {
-            return new MaybeOpportunityActionModifier();
+            return new MaybeOpportunityActionModifier().GetUpgrades(stage, power);
         }
 
         public record MaybeOpportunityActionModifier() : PowerModifier(ModifierName)

@@ -14,8 +14,8 @@ namespace GameEngine.Generator.Modifiers
         public const string ModifierName = "Multiattack";
 
         public override bool IsValid(PowerProfileBuilder builder) => true;
-        public override IPowerModifier GetBaseModifier(PowerProfileBuilder attack) =>
-            new ShouldMultiattackModifier();
+        public override IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power) =>
+            new ShouldMultiattackModifier().GetUpgrades(stage, power);
 
         public record ShouldMultiattackModifier() : PowerModifier(ModifierName)
         {
@@ -154,7 +154,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public const string ModifierName = "TwoHits";
             public override PowerCost GetCost(AttackProfileBuilder builder) =>
-                new PowerCost(Multiplier: 0.5);
+                new PowerCost(Multiplier: 2);
             public override bool IsPlaceholder() => false;
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();

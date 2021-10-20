@@ -206,17 +206,23 @@ namespace GameEngine.Generator
                     let effect = targetKvp.effect
                     let index = targetKvp.index
                     from upgrade in effect.GetUpgrades(stage, this)
-                    select this with { Effects = this.Effects.SetItem(index, upgrade) },
-
+                    select this with { Effects = this.Effects.SetItem(index, upgrade) }
+                    ,
                     from attackKvp in Attacks.Select((attack, index) => (attack, index))
                     let attack = attackKvp.attack
                     let index = attackKvp.index
                     from upgrade in attack.GetUpgrades(stage, this)
-                    select this with { Attacks = this.Attacks.SetItem(index, upgrade) },
-
+                    select this with { Attacks = this.Attacks.SetItem(index, upgrade) }
+                    ,
                     from modifier in Modifiers
                     from upgrade in modifier.GetUpgrades(stage, this)
-                    select this.Apply(upgrade, modifier),
+                    select this.Apply(upgrade, modifier)
+                    ,
+                    from formula in ModifierDefinitions.powerModifiers
+                    where formula.IsValid(this)
+                    from mod in formula.GetBaseModifiers(stage, this)
+                    where !Modifiers.Any(m => m.Name == mod.Name)
+                    select this.Apply(mod)
                 }
                 from entry in set
                 from upgraded in entry.FinalizeUpgrade()
@@ -270,7 +276,7 @@ namespace GameEngine.Generator
     public abstract record PowerModifierFormula(string Name) : IModifierFormula<IPowerModifier, PowerProfileBuilder>
     {
         public abstract bool IsValid(PowerProfileBuilder builder);
-        public abstract IPowerModifier GetBaseModifier(PowerProfileBuilder attack);
+        public abstract IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder attack);
     }
 
     public abstract record AttackModifierFormula(string Name) : IModifierFormula<IAttackModifier, AttackProfileBuilder>

@@ -1,21 +1,34 @@
 ﻿using GameEngine.Rules;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace GameEngine.Generator
 {
     public static class PowerProfileExtensions
     {
-        public static IEnumerable<AttackProfileBuilder> PreApply(this AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) => attack
-            .PreApplyImplementNonArmorDefense(stage, power)
-            .SelectMany(ab => ab.PreApplyAbilityDamage(stage, power));
+        public static IEnumerable<PowerProfileBuilder> PreApply(this PowerProfileBuilder power, UpgradeStage stage)
+        {
+            var options = from builder in power.Attacks.Aggregate(
+                                    Enumerable.Repeat(ImmutableList<AttackProfileBuilder>.Empty, 1),
+                                    (prev, next) => prev.SelectMany(l => next.PreApplyImplementNonArmorDefense(UpgradeStage.InitializeAttacks, power).Select(o => l.Add(o)))
+                                )
+                                .Select(attacks => power with { Attacks = attacks })
+                          let withDamageMods = builder with
+                          {
+                              Attacks = builder.Attacks.Select(a => a.Apply<IAttackModifier, AttackProfileBuilder>(
+                                  new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(ImmutableList<Ability>.Empty.Add(a.Ability))
+                                )).ToImmutableList()
+                          }
+                          select withDamageMods.IsValid() ? withDamageMods : builder;
+
+            return options;
+        }
 
         // Implements get free non-armor defense due to lack of proficiency bonus
         private static IEnumerable<AttackProfileBuilder> PreApplyImplementNonArmorDefense(this AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
             attack.PowerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, stage, power) : new[] { attack };
-        private static IEnumerable<AttackProfileBuilder> PreApplyAbilityDamage(this AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
-            ModifierDefinitions.AbilityModifierDamage.Apply(attack, stage, power);
 
         private static IEnumerable<AttackProfileBuilder> Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
         {

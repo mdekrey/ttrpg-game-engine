@@ -8,8 +8,8 @@ namespace GameEngine.Generator.Modifiers
     public record EffectDurationFormula() : PowerModifierFormula(ModifierName)
     {
         public const string ModifierName = "Duration";
-        public override IPowerModifier GetBaseModifier(PowerProfileBuilder attack) =>
-            new EffectDurationPlaceholderModifier();
+        public override IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power) =>
+            Enumerable.Repeat(new EffectDurationPlaceholderModifier(), 1);
 
         public override bool IsValid(PowerProfileBuilder builder) => builder.AllModifiers().OfType<IUsesDuration>().Any();
 
