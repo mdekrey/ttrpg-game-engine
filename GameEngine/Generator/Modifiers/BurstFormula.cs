@@ -59,7 +59,7 @@ namespace GameEngine.Generator.Modifiers
                 };
 
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-                new(0, (attack, info, index) => attack with
+                new(0, (attack, index) => attack with
                 {
                     TargetType = AttackType.Target.EachEnemy,
                     AttackType = Type switch

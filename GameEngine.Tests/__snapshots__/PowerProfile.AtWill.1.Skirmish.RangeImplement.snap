@@ -2,21 +2,32 @@
 Tool: Implement
 ToolRange: Range
 Attacks:
-- WeaponDice: 1.5
+- WeaponDice: 0.5
   Ability: Strength
   DamageTypes:
   - Radiant
+  Effects:
+  - Target: Enemy
+    Modifiers:
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
+  - Target: Self
+    Modifiers:
+    - Movement:
+      - Timing: Anytime
+        Amount: STR
+        Name: Shift
+      Name: Skirmish Movement
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Movement:
-    - Timing: Anytime
-      Amount: STR
-      Name: Shift
-    Name: Skirmish Movement
+  - Size: 1
+    Type: Blast
+    Name: Multiple
 Modifiers:
 - PowerSource: Arcane
   Name: Power Source

@@ -125,7 +125,7 @@ namespace GameEngine.Generator.Modifiers
                 Enumerable.Empty<IAttackModifier>();
 
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-                new(int.MaxValue, (attack, info, index) => attack with
+                new(int.MaxValue, (attack, index) => attack with
                 {
                     HitSentences = attack.HitSentences.Add($"Make a {Ordinal(index + 1)} attack."),
                 });
@@ -160,7 +160,7 @@ namespace GameEngine.Generator.Modifiers
                 Enumerable.Empty<IAttackModifier>();
             public override double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice * 2;
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-                new(0, (attack, info, index) => attack with
+                new(0, (attack, index) => attack with
                 {
                     TargetType = AttackType.Target.OneOrTwoCreatures,
                     AttackNotes = ", two attacks"
@@ -177,7 +177,7 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-                new(0, (attack, info, index) => attack with
+                new(0, (attack, index) => attack with
                 {
                     TargetType = AttackType.Target.OneTwoOrThreeCreatures,
                     AttackNotes = ", one attack per target"

@@ -6,12 +6,7 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Radiant
-  Effects:
-  - Target: Enemy
-    Modifiers:
-    - Conditions:
-      - Name: Blinded
-      Name: Condition
+  Effects: []
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense
@@ -21,6 +16,17 @@ Attacks:
   - Size: 1
     Type: Blast
     Name: Multiple
+- WeaponDice: 0.5
+  Ability: Strength
+  DamageTypes:
+  - Radiant
+  Effects: []
+  Modifiers:
+  - Defense: Fortitude
+    Name: Non-Armor Defense
+  - Abilities:
+    - Strength
+    Name: Ability Modifier Damage
 Modifiers:
 - PowerSource: Arcane
   Name: Power Source

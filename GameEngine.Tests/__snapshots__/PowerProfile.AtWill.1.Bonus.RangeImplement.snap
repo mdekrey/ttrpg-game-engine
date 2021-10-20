@@ -6,21 +6,28 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Radiant
+  Effects:
+  - Target: Enemy
+    Modifiers:
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
+  - Target: Ally
+    Modifiers:
+    - Boosts:
+      - Amount: +2
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - SelfBoosts:
-    - Amount: +2
-      Limit: NextAttack
-      Name: Attack
-    - Amount: +2
-      Name: Temporary Hit Points
-    AllyBoosts: []
-    AllyType: Single
-    Name: Boost
+  - Size: 1
+    Type: Blast
+    Name: Multiple
 Modifiers:
 - PowerSource: Arcane
   Name: Power Source

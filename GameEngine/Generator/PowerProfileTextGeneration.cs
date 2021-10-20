@@ -114,6 +114,15 @@ namespace GameEngine.Generator
     }
     // TODO - personal
 
+    public record TargetInfo(
+        string Target,
+        ImmutableList<string> Parts
+    )
+    {
+        public string ToSentence() =>
+            Parts.Count == 0 ? "" : (Target + " " + OxfordComma(Parts.ToArray())).FinishSentence().TransposeParenthesis();
+    }
+
     public record AttackInfo(
         AttackType AttackType,
         AttackType.Target TargetType,
@@ -124,29 +133,39 @@ namespace GameEngine.Generator
         ImmutableList<DamageType> DamageTypes,
         ImmutableList<string> HitParts,
         ImmutableList<string> HitSentences,
-        ImmutableList<string> MissParts,
-        ImmutableList<string> SpecialSentences
+        ImmutableList<string> MissSentences
     )
     {
         public string Hit =>
             string.Join(" ",
                 new[] {
-                    OxfordComma(Enumerable.Concat(new[] {
-                        string.Join(" ", new string[]
-                        {
-                            DamageExpression.ToString(),
-                            OxfordComma(DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),
-                            "damage"
-                        }.Where(s => s is { Length: > 0 }))
-                    }, HitParts).ToArray()).FinishSentence().TransposeParenthesis()
-                }.Concat(HitSentences)
+                    EnemySentence()
+                }.Concat(HitSentences).Where(s => s is { Length: > 0 })
             );
 
+        private string EnemySentence()
+        {
+            var damagePart = string.Join(" ", new string[]
+            {
+                DamageExpression.ToString(),
+                OxfordComma(DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),
+                "damage"
+            }.Where(s => s is { Length: > 0 }));
+
+            return string.Join(" ", new[] {
+                damagePart,
+                HitParts.Any() ? "and the target" : "",
+                OxfordComma(HitParts.ToArray())
+            }.Where(s => s is { Length: > 0 })).FinishSentence().TransposeParenthesis();
+        }
+
         public string Miss =>
-            MissParts.Count == 0 ? "" : OxfordComma(MissParts.ToArray()).FinishSentence().TransposeParenthesis();
+            string.Join(" ", MissSentences);
 
         internal string ToAttackText() => $"{this.AttackExpression} vs. {this.Defense.ToText()}"
             + AttackNotes ?? "";
+
+        public ImmutableList<string> SpecialSentences => ImmutableList<string>.Empty; // TODO - remove this or use it
     }
 
 
@@ -187,27 +206,75 @@ namespace GameEngine.Generator
             };
         }
 
-        public static AttackInfo ToAttackInfo(this AttackProfile profile, PowerProfile power, int index)
+        public static TargetInfo ToTargetInfo(this TargetEffect effect, PowerProfile power, AttackProfile attack)
         {
-            var dice = PowerProfileExtensions.ToDamageEffect(power.Tool, profile.WeaponDice);
+            var result = new TargetInfo(
+                Target: effect.Target.GetTargetText(multiple: false),
+                Parts: ImmutableList<string>.Empty
+            );
+
+            result = (from mod in effect.Modifiers
+                      let mutator = mod.GetTargetInfoMutator(effect, power, attack)
+                      where mutator != null
+                      orderby mutator.Priority
+                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current));
+            return result;
+        }
+
+        public static string GetTargetText(this Target target, bool multiple)
+        {
+            return (target, multiple) switch
+            {
+                (Target.Enemy, false) => "One enemy",
+                (Target.Self, false) => "You",
+                (Target.Self | Target.Enemy, false) => "You or one enemy", // uh, what?
+                (Target.Ally, false) => "One of your allies",
+                (Target.Ally | Target.Enemy, false) => "One creature other than yourself",
+                (Target.Ally | Target.Self, false) => "You or one of your allies",
+                (Target.Ally | Target.Self | Target.Enemy, false) => "One creature",
+
+                (Target.Enemy, true) => "Each enemy",
+                (Target.Self, true) => "You",
+                (Target.Self | Target.Enemy, true) => "You and each enemy",
+                (Target.Ally, true) => "Each of your allies",
+                (Target.Ally | Target.Enemy, true) => "Each creature other than yourself",
+                (Target.Ally | Target.Self, true) => "You and each of your allies",
+                (Target.Ally | Target.Self | Target.Enemy, true) => "Each creature",
+
+                _ => throw new NotImplementedException()
+            };
+        }
+
+        public static AttackInfo ToAttackInfo(this AttackProfile attack, PowerProfile power, int index)
+        {
+            var dice = PowerProfileExtensions.ToDamageEffect(power.Tool, attack.WeaponDice);
             var result = new AttackInfo(
                 AttackType: AttackType.From(power.Tool, power.ToolRange),
                 TargetType: AttackType.Target.OneCreature,
-                AttackExpression: (GameDiceExpression)profile.Ability,
+                AttackExpression: (GameDiceExpression)attack.Ability,
                 AttackNotes: null,
                 Defense: DefenseType.ArmorClass,
                 DamageExpression: dice,
-                DamageTypes: profile.DamageTypes,
+                DamageTypes: attack.DamageTypes,
                 HitParts: ImmutableList<string>.Empty,
                 HitSentences: ImmutableList<string>.Empty,
-                MissParts: ImmutableList<string>.Empty,
-                SpecialSentences: ImmutableList<string>.Empty
+                MissSentences: ImmutableList<string>.Empty
             );
-            result = (from mod in profile.Modifiers
+            var effects = attack.Effects.AsEnumerable();
+            if (attack.Effects[0].Target.HasFlag(Target.Enemy))
+            {
+                effects = effects.Skip(1);
+                TargetInfo targetInfo = attack.Effects[0].ToTargetInfo(power, attack);
+                result = result with { HitParts = targetInfo.Parts };
+            }
+            result = result with { HitSentences = effects.Select(effect => effect.ToTargetInfo(power, attack).ToSentence()).ToImmutableList() };
+            // TODO - miss targets
+
+            result = (from mod in attack.Modifiers
                       let mutator = mod.GetAttackInfoMutator(power)
                       where mutator != null
                       orderby mutator.Priority
-                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, power, index));
+                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, index));
             return result;
         }
 

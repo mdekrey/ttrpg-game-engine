@@ -96,8 +96,8 @@ namespace GameEngine.Generator
 
     public record AttackInfoMutator(int Priority, AttackInfoMutator.AttackInfoMutatorDelegate Apply)
     {
-        public static readonly AttackInfoMutator Empty = new(0, (attack, info, index) => attack);
-        public delegate AttackInfo AttackInfoMutatorDelegate(AttackInfo textBlock, PowerProfile powerInfo, int index);
+        public static readonly AttackInfoMutator Empty = new(0, (attack, index) => attack);
+        public delegate AttackInfo AttackInfoMutatorDelegate(AttackInfo textBlock, int index);
     }
 
     public interface IAttackModifier : IModifier
@@ -108,14 +108,20 @@ namespace GameEngine.Generator
         IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power);
     }
 
+    public record TargetInfoMutator(int Priority, TargetInfoMutator.TargetInfoMutatorDelegate Apply)
+    {
+        public static readonly TargetInfoMutator Empty = new(0, (target) => target);
+        public delegate TargetInfo TargetInfoMutatorDelegate(TargetInfo textBlock);
+    }
+
     public interface ITargetEffectModifier : IModifier
     {
         PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context);
         Target ValidTargets();
         bool UsesDuration();
         double ApplyEffectiveWeaponDice(double weaponDice);
-        // AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
         IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power);
+        TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack);
     }
 
     public abstract record PowerModifier(string Name) : IPowerModifier
@@ -152,6 +158,7 @@ namespace GameEngine.Generator
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
         public abstract bool UsesDuration();
+        public abstract TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack);
 
         public abstract IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power);
 
@@ -177,6 +184,7 @@ namespace GameEngine.Generator
         ToolType Tool, ToolRange ToolRange,
         EquatableImmutableList<AttackProfile> Attacks,
         EquatableImmutableList<IPowerModifier> Modifiers
+        // TODO - effects
     )
     {
         internal bool Matches(PowerProfile power)

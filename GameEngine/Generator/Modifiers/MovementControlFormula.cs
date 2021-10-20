@@ -48,7 +48,9 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
+            // TODO
             //public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => new(100, (attack, info, index) => Effects.Aggregate(attack, (current, effect) => effect.Apply(current, power)));
+            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack) => new(100, (target) => target);
         }
 
         public abstract record MovementControl(string Name)
@@ -96,10 +98,11 @@ namespace GameEngine.Generator.Modifiers
                 if (Mode != OpponentMovementMode.Pull || power.ToolRange != ToolRange.Melee)
                     return base.Apply(attack, power);
 
-                return attack with
+                // TODO
+                return attack; /* with
                 {
                     SpecialSentences = attack.SpecialSentences.Add($"Before the attack, you may pull targets {Amount} squares to become valid targets of the attack.")
-                };
+                };*/
             }
         }
     }

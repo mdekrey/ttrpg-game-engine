@@ -8,13 +8,18 @@
       Ability: Strength
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          Name: Condition
       Modifiers:
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Size: 3
+      - Size: 1
         Type: Blast
         Name: Multiple
     Modifiers:
@@ -28,9 +33,9 @@
   - Weapon
   ActionType: Standard Action
   AttackType: Close
-  AttackTypeDetails: blast 3
+  AttackTypeDetails: blast 1
   Target: Each enemy in range
-  Attack: STR vs. Fortitude
+  Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage.
+    Text: 1[W] + STR damage and the target is blinded and dazed until the end of your next turn.

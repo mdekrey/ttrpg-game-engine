@@ -88,21 +88,28 @@ namespace GameEngine.Generator.Modifiers
                                     ? subsume[c]
                                     : Enumerable.Empty<string>()).ToHashSet();
 
-            //public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-            //    new(0, (attack, info, index) => attack with
-            //    {
-            //        HitParts = attack.HitParts.Add("the target "
-            //            + OxfordComma((from condition in Conditions
-            //                                                      group condition.Effect().ToLower() by condition.Verb() into verbGroup
-            //                                                      select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())
-            //            + EffectDurationFormula.GetDuration(power) switch
-            //            {
-            //                Duration.EndOfUserNextTurn => " until the end of your next turn",
-            //                Duration.SaveEnds => " (save ends)",
-            //                Duration.EndOfEncounter => " until the end of the encounter",
-            //                _ => throw new NotImplementedException(),
-            //            }),
-            //    });
+            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack) =>
+                new(0, (target) => target with
+                {
+                    Parts = target.Parts.AddRange(GetParts(effect, power)),
+                });
+
+
+            public IEnumerable<string> GetParts(TargetEffect effect, PowerProfile power)
+            {
+                var duration = power.GetDuration() switch
+                {
+                    Duration.EndOfUserNextTurn => "until the end of your next turn",
+                    Duration.SaveEnds => "(save ends)",
+                    Duration.EndOfEncounter => "until the end of the encounter",
+                    _ => throw new System.NotImplementedException(),
+                };
+
+                var parts = new List<string>();
+                yield return @$"{OxfordComma((from condition in Conditions
+                                              group condition.Effect().ToLower() by condition.Verb() into verbGroup
+                                              select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())} {duration}";
+            }
 
             public bool DurationAffected() => Conditions.Any();
             public bool CanSaveEnd() => Conditions.Any();

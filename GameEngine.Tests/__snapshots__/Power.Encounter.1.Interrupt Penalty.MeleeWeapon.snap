@@ -8,12 +8,16 @@
       Ability: Strength
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Dazed
+          Name: Condition
       Modifiers:
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
-      - Defense: Fortitude
-        Name: Non-Armor Defense
     Modifiers:
     - Name: OpportunityAction
     - PowerSource: Martial
@@ -29,7 +33,7 @@
   AttackTypeDetails: weapon
   Trigger: You or an ally is attacked by a creature
   Target: The attacking creature
-  Attack: STR vs. Fortitude
+  Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage.
+    Text: 1[W] + STR damage and the target is dazed until the end of your next turn.

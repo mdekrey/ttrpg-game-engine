@@ -6,17 +6,21 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Normal
+  Effects:
+  - Target: Ally
+    Modifiers:
+    - Boosts:
+      - Amount: +2
+        Limit: NextAttack
+        Name: Attack
+      Name: Boost
   Modifiers:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - SelfBoosts:
-    - Amount: +2
-      Limit: NextAttack
-      Name: Attack
-    AllyBoosts: []
-    AllyType: Single
-    Name: Boost
+  - Size: 1
+    Type: Blast
+    Name: Multiple
 Modifiers:
 - PowerSource: Martial
   Name: Power Source

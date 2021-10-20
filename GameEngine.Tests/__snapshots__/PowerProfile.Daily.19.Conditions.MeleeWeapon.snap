@@ -6,22 +6,27 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Normal
+  Effects:
+  - Target: Enemy
+    Modifiers:
+    - Conditions:
+      - Name: Blinded
+      - Name: Dazed
+      - Name: Immobilized
+      - Name: Weakened
+      Name: Condition
+    - Effects:
+      - Name: Prone
+      - Mode: Pull
+        Amount: +4
+        Name: Slide Opponent
+      Name: MovementControl
   Modifiers:
-  - Defense: Fortitude
-    Name: Non-Armor Defense
-  - Size: 3
-    Type: Burst
-    Name: Multiple
-  - Conditions:
-    - Name: Blinded
-    - Name: Dazed
-    Name: Condition
   - Abilities:
     - Strength
-    - Dexterity
     Name: Ability Modifier Damage
+  - Defense: Fortitude
+    Name: Non-Armor Defense
 Modifiers:
-- Duration: SaveEnds
-  Name: Duration
 - PowerSource: Martial
   Name: Power Source

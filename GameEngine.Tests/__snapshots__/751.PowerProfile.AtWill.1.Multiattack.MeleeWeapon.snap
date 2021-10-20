@@ -6,8 +6,19 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Normal
+  Effects: []
   Modifiers:
-  - Name: TwoHits
+  - Name: RequiredHitForNextAttack
+- WeaponDice: 1
+  Ability: Strength
+  DamageTypes:
+  - Normal
+  Effects: []
+  Modifiers:
+  - Name: RequiresPreviousHit
+  - Abilities:
+    - Strength
+    Name: Ability Modifier Damage
 Modifiers:
 - PowerSource: Martial
   Name: Power Source

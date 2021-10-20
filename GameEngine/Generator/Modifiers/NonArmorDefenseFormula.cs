@@ -40,7 +40,7 @@ namespace GameEngine.Generator.Modifiers
             }
 
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-                new(0, (attack, info, index) => attack with { Defense = Defense });
+                new(0, (attack, index) => attack with { Defense = Defense });
         }
     }
 

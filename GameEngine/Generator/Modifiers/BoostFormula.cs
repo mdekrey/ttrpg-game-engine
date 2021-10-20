@@ -53,7 +53,7 @@ namespace GameEngine.Generator.Modifiers
             public abstract double Cost();
             public abstract bool DurationAffected();
             public abstract IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo);
-            public abstract string BoostText();
+            public abstract string BoostText(Target target);
             public abstract string Category();
         }
         public record AttackBoost(GameDiceExpression Amount, Limit? Limit) : Boost("Attack")
@@ -68,7 +68,9 @@ namespace GameEngine.Generator.Modifiers
                 if (Limit != null)
                     yield return this with { Limit = null };
             }
-            public override string BoostText() => $"gain a {Amount} power bonus to attack rolls{LimitText}";
+            public override string BoostText(Target target) => target == Target.Self 
+                ? $"gain a {Amount} power bonus to attack rolls{LimitText}"
+                : $"gains a {Amount} power bonus to attack rolls{LimitText}";
 
             private string LimitText =>
                 Limit switch
@@ -93,7 +95,9 @@ namespace GameEngine.Generator.Modifiers
                 if (Defense != null)
                     yield return this with { Defense = null };
             }
-            public override string BoostText() => $"gain a {Amount} power bonus to {Defense?.ToText() ?? "all defenses"}";
+            public override string BoostText(Target target) => target == Target.Self
+                ? $"gain a {Amount} power bonus to {Defense?.ToText() ?? "all defenses"}"
+                : $"gains a {Amount} power bonus to {Defense?.ToText() ?? "all defenses"}";
             public override string Category() => "Defense";
         }
         public record TemporaryHitPoints(GameDiceExpression Amount) : Boost("Temporary Hit Points")
@@ -106,7 +110,9 @@ namespace GameEngine.Generator.Modifiers
                     yield return this with { Amount = entry };
             }
 
-            public override string BoostText() => $"gain {Amount} temporary hit points";
+            public override string BoostText(Target target) => target == Target.Self
+                ? $"gain {Amount} temporary hit points"
+                : $"gains {Amount} temporary hit points";
             public override string Category() => "Healing";
         }
         public record ExtraSavingThrow() : Boost("Extra Saving Throw")
@@ -114,7 +120,7 @@ namespace GameEngine.Generator.Modifiers
             public override double Cost() => 1;
             public override bool DurationAffected() => false;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
-            public override string BoostText() => $"may immediately make a saving throw";
+            public override string BoostText(Target target) => $"may immediately make a saving throw";
             public override string Category() => "Healing";
         }
         public record HealingSurge() : Boost("Healing Surge")
@@ -122,7 +128,7 @@ namespace GameEngine.Generator.Modifiers
             public override double Cost() => 1;
             public override bool DurationAffected() => false;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
-            public override string BoostText() => $"may immediately spend a healing surge";
+            public override string BoostText(Target target) => $"may immediately spend a healing surge";
             public override string Category() => "Healing";
         }
         public record Regeneration(GameDiceExpression Amount) : Boost("Regeneration")
@@ -134,7 +140,9 @@ namespace GameEngine.Generator.Modifiers
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
                     yield return this with { Amount = entry };
             }
-            public override string BoostText() => $"gain regeneration {Amount}";
+            public override string BoostText(Target target) => target == Target.Self
+                ? $"gain regeneration {Amount}"
+                : $"gains regeneration {Amount}";
             public override string Category() => "Healing";
         }
 
@@ -174,54 +182,33 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            //public override PowerTextMutator GetTextMutator(PowerProfile builder) =>
-            //    new(1000, (power, info) => power with
-            //    {
-            //        RulesText = power.RulesText.AddEffectSentences(GetSentences(builder)),
-            //    });
+            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack) =>
+                new(1000, (target) => target with
+                {
+                    Parts = target.Parts.AddRange(GetParts(effect, power)),
+                });
 
-            //public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-            //    new(1000, (attack, info, index) => attack with
-            //    {
-            //        HitSentences = attack.HitSentences.AddRange(GetSentences(power)),
-            //    });
+            public IEnumerable<string> GetParts(TargetEffect effect, PowerProfile power)
+            {
+                var duration = power.GetDuration() switch
+                {
+                    Duration.EndOfUserNextTurn => "until the end of your next turn",
+                    Duration.SaveEnds => "while the effect persists",
+                    Duration.EndOfEncounter => "until the end of the encounter",
+                    _ => throw new System.NotImplementedException(),
+                };
 
-            //public IEnumerable<string> GetSentences(PowerProfile power)
-            //{
-            //    var duration = builder.Duration switch
-            //    {
-            //        Duration.EndOfUserNextTurn => "Until the end of your next turn,",
-            //        Duration.SaveEnds => "While the effect persists,",
-            //        Duration.EndOfEncounter => "Until the end of the encounter,",
-            //        _ => throw new System.NotImplementedException(),
-            //    };
-            //    var allyTarget = AllyType switch
-            //    {
-            //        AllyType.All => "you and all allies within 5 squares",
-            //        AllyType.Single => "you or one ally of your choice within 5 squares",
-            //        _ => throw new System.NotImplementedException(),
-            //    };
-            //    var parts = new List<string>();
-            //    if (AllyBoosts.Where(b => b.DurationAffected()).Any())
-            //    {
-            //        parts.Add($"{allyTarget} {OxfordComma(AllyBoosts.Where(b => b.DurationAffected()).Select(b => b.BoostText()).ToArray())}");
-            //    }
-            //    if (SelfBoosts.Where(b => b.DurationAffected()).Any())
-            //    {
-            //        parts.Add($"you {OxfordComma(SelfBoosts.Where(b => b.DurationAffected()).Select(b => b.BoostText()).ToArray())}");
-            //    }
-            //    if (parts.Any())
-            //        yield return $"{duration} {OxfordComma(parts.ToArray())}".FinishSentence();
-
-            //    if (AllyBoosts.Where(b => !b.DurationAffected()).Any())
-            //    {
-            //        yield return $"{allyTarget.Capitalize()} {OxfordComma(AllyBoosts.Where(b => !b.DurationAffected()).Select(b => b.BoostText()).ToArray())}".FinishSentence();
-            //    }
-            //    if (SelfBoosts.Where(b => !b.DurationAffected()).Any())
-            //    {
-            //        yield return $"You {OxfordComma(SelfBoosts.Where(b => !b.DurationAffected()).Select(b => b.BoostText()).ToArray())}".FinishSentence();
-            //    }
-            //}
+                // TODO - verb tense for "you"
+                var parts = new List<string>();
+                if (Boosts.Where(b => b.DurationAffected()).Any())
+                {
+                    yield return $"{OxfordComma(Boosts.Where(b => b.DurationAffected()).Select(b => b.BoostText(effect.Target)).ToArray())} {duration}";
+                }
+                if (Boosts.Where(b => !b.DurationAffected()).Any())
+                {
+                    yield return $"{OxfordComma(Boosts.Where(b => !b.DurationAffected()).Select(b => b.BoostText(effect.Target)).ToArray())}";
+                }
+            }
 
             public bool DurationAffected() => Boosts.Any(b => b.DurationAffected());
             public bool CanSaveEnd() => false;

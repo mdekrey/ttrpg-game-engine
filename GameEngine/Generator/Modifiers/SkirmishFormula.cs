@@ -13,8 +13,21 @@ namespace GameEngine.Generator.Modifiers
 
         public override IEnumerable<ITargetEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {
-            return new EmptySkirmishModifier().GetUpgrades(stage, target, power);
+            if (stage < UpgradeStage.Standard) yield break;
 
+            // TODO - when should we use the secondary ability?
+            //var ability = attack.PowerInfo.ToolProfile.Abilities.Count == 1
+            //    ? attack.Ability
+            //    : attack.PowerInfo.ToolProfile.Abilities.Except(new[] { attack.Ability }).First();
+            var ability = power.PowerInfo.ToolProfile.Abilities[0];
+
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, (GameDiceExpression)ability)));
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, (GameDiceExpression)ability)));
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, (GameDiceExpression)ability)));
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, 2)));
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 2)));
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, 2)));
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 1), new Shift(ShiftTiming.After, 1)));
         }
 
         public enum ShiftTiming
@@ -23,36 +36,6 @@ namespace GameEngine.Generator.Modifiers
             Anytime,
             Before,
             After,
-        }
-
-        public record EmptySkirmishModifier() : TargetEffectModifier(ModifierName)
-        {
-            public override Target ValidTargets() => Target.Self;
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
-            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => PowerCost.Empty;
-            public override bool IsPlaceholder() => true;
-            public override bool UsesDuration() => false;
-
-            public override IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power)
-            {
-                if (stage < UpgradeStage.Standard) yield break;
-
-                // TODO - when should we use the secondary ability?
-                //var ability = attack.PowerInfo.ToolProfile.Abilities.Count == 1
-                //    ? attack.Ability
-                //    : attack.PowerInfo.ToolProfile.Abilities.Except(new[] { attack.Ability }).First();
-                var ability = power.PowerInfo.ToolProfile.Abilities[0];
-
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, (GameDiceExpression)ability)));
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, (GameDiceExpression)ability)));
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, (GameDiceExpression)ability)));
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, 2)));
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 2)));
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, 2)));
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 1), new Shift(ShiftTiming.After, 1)));
-            }
-      
-            //public override PowerTextMutator GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public abstract record SkirmishMovement(string Name)
@@ -131,6 +114,9 @@ namespace GameEngine.Generator.Modifiers
             //                                                       select movement.GetEffectSentence(info.Attacks.Count > 1)),
             //    });
 
+            // TODO
+            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack) =>
+                new(500, (target) => target);
         }
     }
 

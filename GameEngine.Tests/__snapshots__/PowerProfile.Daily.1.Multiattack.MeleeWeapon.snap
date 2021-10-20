@@ -6,20 +6,17 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Normal
+  Effects:
+  - Target: Enemy
+    Modifiers:
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
   Modifiers:
   - Name: TwoHits
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Defense: Fortitude
-    Name: Non-Armor Defense
 Modifiers:
-- SelfBoosts:
-  - Amount: +2
-    Limit: NextAttack
-    Name: Attack
-  AllyBoosts: []
-  AllyType: Single
-  Name: Boost
 - PowerSource: Martial
   Name: Power Source

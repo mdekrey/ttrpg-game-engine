@@ -6,6 +6,13 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Normal
+  Effects:
+  - Target: Enemy
+    Modifiers:
+    - Conditions:
+      - Name: Blinded
+      - Name: Dazed
+      Name: Condition
   Modifiers:
   - Abilities:
     - Strength
@@ -13,10 +20,6 @@ Attacks:
   - Size: 3
     Type: Burst
     Name: Multiple
-  - Defense: Fortitude
-    Name: Non-Armor Defense
-  - Amount: +4
-    Name: To-Hit Bonus to Current Attack
 Modifiers:
 - PowerSource: Martial
   Name: Power Source

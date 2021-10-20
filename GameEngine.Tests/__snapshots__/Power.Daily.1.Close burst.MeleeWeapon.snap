@@ -8,6 +8,13 @@
       Ability: Strength
       DamageTypes:
       - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          Name: Condition
       Modifiers:
       - Abilities:
         - Strength
@@ -15,10 +22,6 @@
       - Size: 3
         Type: Burst
         Name: Multiple
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -32,7 +35,7 @@
   AttackType: Close
   AttackTypeDetails: burst 1
   Target: Each enemy in range
-  Attack: STR + 4 vs. Fortitude
+  Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage.
+    Text: 1[W] + STR damage and the target is blinded and dazed until the end of your next turn.
