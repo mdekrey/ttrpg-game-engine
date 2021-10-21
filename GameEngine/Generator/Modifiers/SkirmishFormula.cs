@@ -21,21 +21,8 @@ namespace GameEngine.Generator.Modifiers
             //    : attack.PowerInfo.ToolProfile.Abilities.Except(new[] { attack.Ability }).First();
             var ability = power.PowerInfo.ToolProfile.Abilities[0];
 
-            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, (GameDiceExpression)ability)));
-            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, (GameDiceExpression)ability)));
-            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, (GameDiceExpression)ability)));
-            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Anytime, 2)));
-            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 2)));
-            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.After, 2)));
-            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(ShiftTiming.Before, 1), new Shift(ShiftTiming.After, 1)));
-        }
-
-        public enum ShiftTiming
-        {
-            // TODO - timing is weird here - it should move to the effect because something similar happens with pull/push
-            Anytime,
-            Before,
-            After,
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift((GameDiceExpression)ability)));
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(2)));
         }
 
         public abstract record SkirmishMovement(string Name)
@@ -45,7 +32,7 @@ namespace GameEngine.Generator.Modifiers
 
             public abstract string GetAttackPart(Target target);
         }
-        public record Shift(ShiftTiming Timing, GameDiceExpression? Amount) : SkirmishMovement("Shift")
+        public record Shift(GameDiceExpression? Amount) : SkirmishMovement("Shift")
         {
             // If Amount is null, it means "your speed"
             public override double Cost() => Amount == null ? 1 : Amount.ToWeaponDice();

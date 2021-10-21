@@ -21,8 +21,7 @@ Attacks:
     Modifiers:
     - Boosts:
       - Amount: DEX
-        Limit: NextAttack
-        Name: Attack
+        Name: Temporary Hit Points
       Name: Boost
   Modifiers:
   - Name: RequiresPreviousHit

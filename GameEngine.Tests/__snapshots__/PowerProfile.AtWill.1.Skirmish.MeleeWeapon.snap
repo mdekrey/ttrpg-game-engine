@@ -10,8 +10,7 @@ Attacks:
   - Target: Self
     Modifiers:
     - Movement:
-      - Timing: Anytime
-        Amount: STR
+      - Amount: STR
         Name: Shift
       Name: Skirmish Movement
   Modifiers:
