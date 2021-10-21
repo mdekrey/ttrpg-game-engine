@@ -22,6 +22,7 @@
     - Name: OpportunityAction
     - PowerSource: Martial
       Name: Power Source
+    Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Encounter

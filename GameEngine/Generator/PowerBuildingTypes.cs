@@ -81,7 +81,7 @@ namespace GameEngine.Generator
     public record AttackProfileBuilder(Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : ModifierBuilder<IAttackModifier>(Modifiers, PowerInfo)
     {
-        private static ImmutableList<Target> TargetOptions = new[] {
+        private static readonly ImmutableList<Target> TargetOptions = new[] {
             Target.Enemy,
             Target.Ally,
             Target.Self,
@@ -94,7 +94,7 @@ namespace GameEngine.Generator
                 TargetEffects.Select(e => e.TotalCost(builder))
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
-        internal AttackProfile Build(PowerProfileBuilder builder, double weaponDice) =>
+        internal AttackProfile Build(double weaponDice) =>
             new AttackProfile(
                 weaponDice, 
                 Ability, 
@@ -145,14 +145,29 @@ namespace GameEngine.Generator
     public record PowerProfileBuilder(PowerLimits Limits, WeaponDiceDistribution WeaponDiceDistribution, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffectBuilder> Effects)
         : ModifierBuilder<IPowerModifier>(Modifiers, PowerInfo)
     {
-        public PowerCost TotalCost => Modifiers.Select(m => m.GetCost(this)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+        private static readonly ImmutableList<Target> EffectTargetOptions = new[] {
+            Target.Ally,
+            Target.Self,
+            Target.Ally | Target.Self
+        }.ToImmutableList();
+
+        public PowerCost TotalCost => (
+            from set in new[] 
+            {
+                Modifiers.Select(m => m.GetCost(this)),
+                Effects.Select(e => e.TotalCost(this)),
+            }
+            from cost in set
+            select cost
+        ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         internal PowerProfile Build() => new PowerProfile(
             PowerInfo.Usage,
             PowerInfo.ToolProfile.Type,
             PowerInfo.ToolProfile.Range,
-            Attacks.Zip(GetWeaponDice(), (a, weaponDice) => a.Build(this, weaponDice)).ToImmutableList(),
-            Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList()
+            Attacks.Zip(GetWeaponDice(), (a, weaponDice) => a.Build(weaponDice)).ToImmutableList(),
+            Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList(),
+            Effects.Select(e => e.Build()).ToImmutableList()
         );
 
         private IEnumerable<double> GetWeaponDice()
@@ -224,6 +239,12 @@ namespace GameEngine.Generator
                     from mod in formula.GetBaseModifiers(stage, this)
                     where !Modifiers.Any(m => m.Name == mod.Name)
                     select this.Apply(mod)
+                    ,
+                    from target in EffectTargetOptions
+                    where !Effects.Any(te => (te.Target & target) != 0)
+                    let newBuilder = new TargetEffectBuilder(target, ImmutableList<ITargetEffectModifier>.Empty, PowerInfo)
+                    from newBuilderUpgrade in newBuilder.GetUpgrades(stage, this)
+                    select this with { Effects = this.Effects.Add(newBuilderUpgrade) }
                 }
                 from entry in set
                 from upgraded in entry.FinalizeUpgrade()

@@ -49,7 +49,7 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack) => 
+            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) => 
                 new(100, (target) => target with { Parts = target.Parts.AddRange(Effects.Select(e => e.HitPart(effect.Target))) });
         }
 

@@ -2,7 +2,7 @@
 Tool: Implement
 ToolRange: Range
 Attacks:
-- WeaponDice: 0.5
+- WeaponDice: 0.25
   Ability: Strength
   DamageTypes:
   - Radiant
@@ -17,3 +17,11 @@ Attacks:
 Modifiers:
 - PowerSource: Arcane
   Name: Power Source
+Effects:
+- Target: Ally
+  Modifiers:
+  - Boosts:
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    Name: Boost

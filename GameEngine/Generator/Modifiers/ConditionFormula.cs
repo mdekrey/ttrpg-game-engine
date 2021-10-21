@@ -88,7 +88,7 @@ namespace GameEngine.Generator.Modifiers
                                     ? subsume[c]
                                     : Enumerable.Empty<string>()).ToHashSet();
 
-            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack) =>
+            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) =>
                 new(0, (target) => target with
                 {
                     Parts = target.Parts.AddRange(GetParts(effect, power)),

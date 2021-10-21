@@ -199,6 +199,11 @@ namespace GameEngine.Generator
                       select mutator.Apply).Aggregate(result, (current, apply) => apply(current, profile.PowerProfile));
             result = attacks.Select((attack, index) => (attack, index)).Skip(1).Aggregate(result, (powerBlock, attackBlock) => powerBlock.AddAttack(attackBlock.attack, attackBlock.index + 1));
 
+            result = result with
+            {
+                RulesText = result.RulesText.AddEffectSentences(profile.PowerProfile.Effects.Select(effect => effect.ToTargetInfo(profile.PowerProfile).ToSentence()))
+            };
+
             return result with
             {
                 Keywords = result.Keywords.Items.OrderBy(k => k).ToImmutableList(),
@@ -206,7 +211,7 @@ namespace GameEngine.Generator
             };
         }
 
-        public static TargetInfo ToTargetInfo(this TargetEffect effect, PowerProfile power, AttackProfile attack)
+        public static TargetInfo ToTargetInfo(this TargetEffect effect, PowerProfile power)
         {
             var result = new TargetInfo(
                 Target: effect.Target.GetTargetText(multiple: false),
@@ -214,7 +219,7 @@ namespace GameEngine.Generator
             );
 
             result = (from mod in effect.Modifiers
-                      let mutator = mod.GetTargetInfoMutator(effect, power, attack)
+                      let mutator = mod.GetTargetInfoMutator(effect, power)
                       where mutator != null
                       orderby mutator.Priority
                       select mutator.Apply).Aggregate(result, (current, apply) => apply(current));
@@ -227,7 +232,7 @@ namespace GameEngine.Generator
             {
                 (Target.Enemy, false) => "One enemy",
                 (Target.Self, false) => "You",
-                (Target.Self | Target.Enemy, false) => "You or one enemy", // uh, what?
+                (Target.Self | Target.Enemy, false) => "You or one enemy", // This may be a good one for "If you take damage from this power, deal damage to all enemies instead." or something
                 (Target.Ally, false) => "One of your allies",
                 (Target.Ally | Target.Enemy, false) => "One creature other than yourself",
                 (Target.Ally | Target.Self, false) => "You or one of your allies",
@@ -264,10 +269,10 @@ namespace GameEngine.Generator
             if (attack.Effects.Any() && attack.Effects[0].Target.HasFlag(Target.Enemy))
             {
                 effects = effects.Skip(1);
-                TargetInfo targetInfo = attack.Effects[0].ToTargetInfo(power, attack);
+                TargetInfo targetInfo = attack.Effects[0].ToTargetInfo(power);
                 result = result with { HitParts = targetInfo.Parts };
             }
-            result = result with { HitSentences = effects.Select(effect => effect.ToTargetInfo(power, attack).ToSentence()).ToImmutableList() };
+            result = result with { HitSentences = effects.Select(effect => effect.ToTargetInfo(power).ToSentence()).ToImmutableList() };
             // TODO - miss targets
 
             result = (from mod in attack.Modifiers

@@ -32,6 +32,7 @@
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
+    Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 19
   PowerUsage: Daily

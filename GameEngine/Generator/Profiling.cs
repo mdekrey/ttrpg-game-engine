@@ -121,7 +121,7 @@ namespace GameEngine.Generator
         bool UsesDuration();
         double ApplyEffectiveWeaponDice(double weaponDice);
         IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power);
-        TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack);
+        TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
     }
 
     public abstract record PowerModifier(string Name) : IPowerModifier
@@ -158,7 +158,7 @@ namespace GameEngine.Generator
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
         public abstract bool UsesDuration();
-        public abstract TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power, AttackProfile attack);
+        public abstract TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
 
         public abstract IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power);
 
@@ -173,6 +173,15 @@ namespace GameEngine.Generator
         Ally = 4,
     }
 
+    public enum ShiftTiming
+    {
+        // TODO - this should be added to the TargetEffect
+        Anytime,
+        Before,
+        After,
+    }
+
+
     public record TargetEffect(Target Target, EquatableImmutableList<ITargetEffectModifier> Modifiers);
 
     public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, EquatableImmutableList<TargetEffect> Effects, EquatableImmutableList<IAttackModifier> Modifiers)
@@ -183,8 +192,8 @@ namespace GameEngine.Generator
         PowerFrequency Usage,
         ToolType Tool, ToolRange ToolRange,
         EquatableImmutableList<AttackProfile> Attacks,
-        EquatableImmutableList<IPowerModifier> Modifiers
-        // TODO - effects
+        EquatableImmutableList<IPowerModifier> Modifiers,
+        EquatableImmutableList<TargetEffect> Effects
     )
     {
         internal bool Matches(PowerProfile power)

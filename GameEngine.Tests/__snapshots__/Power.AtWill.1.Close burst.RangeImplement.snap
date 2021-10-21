@@ -21,6 +21,7 @@
     Modifiers:
     - PowerSource: Arcane
       Name: Power Source
+    Effects: []
 - Name: Unknown
   TypeInfo: Implement Attack 1
   PowerUsage: At-Will

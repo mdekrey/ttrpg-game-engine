@@ -22,6 +22,14 @@
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
+    Effects:
+    - Target: Ally
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Limit: NextAttack
+          Name: Attack
+        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Daily
@@ -36,3 +44,5 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage and the target is dazed until the end of your next turn.
+  - Label: Effect
+    Text: One of your allies gains a +2 power bonus to attack rolls on the next attack before the end of your next turn.

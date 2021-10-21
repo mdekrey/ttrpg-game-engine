@@ -18,13 +18,7 @@
       Ability: Strength
       DamageTypes:
       - Normal
-      Effects:
-      - Target: Self
-        Modifiers:
-        - Boosts:
-          - Amount: DEX
-            Name: Temporary Hit Points
-          Name: Boost
+      Effects: []
       Modifiers:
       - Name: RequiresPreviousHit
       - Abilities:
@@ -33,6 +27,14 @@
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
+    Effects:
+    - Target: Self
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Limit: Target
+          Name: Attack
+        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Encounter
@@ -52,4 +54,6 @@
   - Label: Secondary Attack
     Text: STR vs. AC
   - Label: Secondary Hit
-    Text: 1[W] + STR damage. You gain DEX temporary hit points.
+    Text: 1[W] + STR damage.
+  - Label: Effect
+    Text: You gain a +2 power bonus to attack rolls against the target until the end of your next turn.

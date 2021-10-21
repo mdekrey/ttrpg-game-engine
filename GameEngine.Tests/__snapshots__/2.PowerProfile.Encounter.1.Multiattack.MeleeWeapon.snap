@@ -16,13 +16,7 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Normal
-  Effects:
-  - Target: Self
-    Modifiers:
-    - Boosts:
-      - Amount: DEX
-        Name: Temporary Hit Points
-      Name: Boost
+  Effects: []
   Modifiers:
   - Name: RequiresPreviousHit
   - Abilities:
@@ -31,3 +25,11 @@ Attacks:
 Modifiers:
 - PowerSource: Martial
   Name: Power Source
+Effects:
+- Target: Self
+  Modifiers:
+  - Boosts:
+    - Amount: +2
+      Limit: Target
+      Name: Attack
+    Name: Boost
