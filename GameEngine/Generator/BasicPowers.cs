@@ -14,7 +14,7 @@ namespace GameEngine.Generator
                     WeaponDice: 1, 
                     Ability: Rules.Ability.Strength, 
                     DamageTypes: Build<DamageType>(DamageType.Normal), 
-                    Effects: Build(new TargetEffect(Target.Enemy, Build<ITargetEffectModifier>())),
+                    Effects: Build<TargetEffect>(),
                     Modifiers: Build<IAttackModifier>(
                         new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Strength))
                     )
@@ -32,7 +32,7 @@ namespace GameEngine.Generator
                     WeaponDice: 1,
                     Ability: Rules.Ability.Dexterity,
                     DamageTypes: Build<DamageType>(DamageType.Normal),
-                    Effects: Build(new TargetEffect(Target.Enemy, Build<ITargetEffectModifier>())),
+                    Effects: Build<TargetEffect>(),
                     Modifiers: Build<IAttackModifier>(
                         new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Dexterity))
                     )
