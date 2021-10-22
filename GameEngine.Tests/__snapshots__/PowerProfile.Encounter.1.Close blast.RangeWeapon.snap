@@ -6,18 +6,12 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Normal
-  Effects:
-  - Target: Enemy
-    Modifiers:
-    - Conditions:
-      - Name: Blinded
-      - Name: Dazed
-      Name: Condition
+  Effects: []
   Modifiers:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Size: 1
+  - Size: 5
     Type: Blast
     Name: Multiple
 Modifiers:

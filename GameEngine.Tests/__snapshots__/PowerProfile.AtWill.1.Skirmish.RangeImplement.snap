@@ -7,11 +7,6 @@ Attacks:
   DamageTypes:
   - Radiant
   Effects:
-  - Target: Enemy
-    Modifiers:
-    - Conditions:
-      - Name: Dazed
-      Name: Condition
   - Target: Self
     Modifiers:
     - Movement:
@@ -23,10 +18,8 @@ Attacks:
     Name: Non-Armor Defense
   - Abilities:
     - Strength
+    - Dexterity
     Name: Ability Modifier Damage
-  - Size: 1
-    Type: Blast
-    Name: Multiple
 Modifiers:
 - PowerSource: Arcane
   Name: Power Source

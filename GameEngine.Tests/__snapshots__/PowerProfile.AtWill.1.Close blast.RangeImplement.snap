@@ -6,19 +6,14 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Radiant
-  Effects:
-  - Target: Enemy
-    Modifiers:
-    - Conditions:
-      - Name: Blinded
-      Name: Condition
+  Effects: []
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Size: 1
+  - Size: 5
     Type: Blast
     Name: Multiple
 Modifiers:

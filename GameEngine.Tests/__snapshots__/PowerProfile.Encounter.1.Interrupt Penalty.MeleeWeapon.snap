@@ -6,15 +6,11 @@ Attacks:
   Ability: Strength
   DamageTypes:
   - Normal
-  Effects:
-  - Target: Enemy
-    Modifiers:
-    - Conditions:
-      - Name: Dazed
-      Name: Condition
+  Effects: []
   Modifiers:
   - Abilities:
     - Strength
+    - Dexterity
     Name: Ability Modifier Damage
 Modifiers:
 - Name: OpportunityAction

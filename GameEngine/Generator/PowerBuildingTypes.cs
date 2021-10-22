@@ -43,7 +43,7 @@ namespace GameEngine.Generator
     public abstract record ModifierBuilder<TModifier>(ImmutableList<TModifier> Modifiers, PowerHighLevelInfo PowerInfo) : IModifierBuilder 
         where TModifier : class, IModifier
     {
-        public int Complexity => Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
+        public abstract int Complexity { get; }
 
         IEnumerable<IModifier> IModifierBuilder.Modifiers => Modifiers.OfType<IModifier>();
 
@@ -53,6 +53,7 @@ namespace GameEngine.Generator
     public record TargetEffectBuilder(Target Target, ImmutableList<ITargetEffectModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : ModifierBuilder<ITargetEffectModifier>(Modifiers, PowerInfo)
     {
+        public override int Complexity => Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
         public PowerCost TotalCost(PowerProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         internal TargetEffect Build() =>
@@ -88,6 +89,7 @@ namespace GameEngine.Generator
             Target.Ally | Target.Self
         }.ToImmutableList();
 
+        public override int Complexity => TargetEffects.Sum(e => e.Complexity) + Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
         public PowerCost TotalCost(PowerProfileBuilder builder) => 
             Enumerable.Concat(
                 Modifiers.Select(m => m.GetCost(this)),
@@ -151,6 +153,7 @@ namespace GameEngine.Generator
             Target.Ally | Target.Self
         }.ToImmutableList();
 
+        public override int Complexity => Effects.Sum(e => e.Complexity) + Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
         public PowerCost TotalCost => (
             from set in new[] 
             {

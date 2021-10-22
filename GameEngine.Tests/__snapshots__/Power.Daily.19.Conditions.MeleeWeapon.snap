@@ -4,7 +4,7 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1
+    - WeaponDice: 4
       Ability: Strength
       DamageTypes:
       - Normal
@@ -17,18 +17,11 @@
           - Name: Immobilized
           - Name: Weakened
           Name: Condition
-        - Effects:
-          - Name: Prone
-          - Mode: Pull
-            Amount: +4
-            Name: Slide Opponent
-          Name: MovementControl
       Modifiers:
       - Abilities:
         - Strength
+        - Dexterity
         Name: Ability Modifier Damage
-      - Defense: Fortitude
-        Name: Non-Armor Defense
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -43,7 +36,7 @@
   AttackType: Melee
   AttackTypeDetails: weapon
   Target: One creature
-  Attack: STR vs. Fortitude
+  Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and the target is blinded, dazed, immobilized, and weakened until the end of your next turn, is knocked prone, and is pulled +4 squares.
+    Text: 4[W] + STR + DEX damage and the target is blinded, dazed, immobilized, and weakened until the end of your next turn.

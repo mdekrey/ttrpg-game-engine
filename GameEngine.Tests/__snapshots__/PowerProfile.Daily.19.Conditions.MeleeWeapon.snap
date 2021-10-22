@@ -2,7 +2,7 @@
 Tool: Weapon
 ToolRange: Melee
 Attacks:
-- WeaponDice: 1
+- WeaponDice: 4
   Ability: Strength
   DamageTypes:
   - Normal
@@ -15,18 +15,11 @@ Attacks:
       - Name: Immobilized
       - Name: Weakened
       Name: Condition
-    - Effects:
-      - Name: Prone
-      - Mode: Pull
-        Amount: +4
-        Name: Slide Opponent
-      Name: MovementControl
   Modifiers:
   - Abilities:
     - Strength
+    - Dexterity
     Name: Ability Modifier Damage
-  - Defense: Fortitude
-    Name: Non-Armor Defense
 Modifiers:
 - PowerSource: Martial
   Name: Power Source

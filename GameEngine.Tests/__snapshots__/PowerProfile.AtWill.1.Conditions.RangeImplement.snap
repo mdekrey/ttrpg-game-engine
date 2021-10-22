@@ -18,9 +18,6 @@ Attacks:
   - Abilities:
     - Strength
     Name: Ability Modifier Damage
-  - Size: 1
-    Type: Blast
-    Name: Multiple
 Modifiers:
 - PowerSource: Arcane
   Name: Power Source
