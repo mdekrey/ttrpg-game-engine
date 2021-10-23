@@ -1,4 +1,5 @@
-﻿using GameEngine.Rules;
+﻿using GameEngine.Generator.Text;
+using GameEngine.Rules;
 using JsonSubTypes;
 using Newtonsoft.Json;
 using System;

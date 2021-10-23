@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Xunit;
 using static GameEngine.Tests.YamlSerialization.Snapshots;
 using static GameEngine.Generator.ImmutableConstructorExtension;
+using GameEngine.Generator.Text;
 
 namespace GameEngine.Tests
 {

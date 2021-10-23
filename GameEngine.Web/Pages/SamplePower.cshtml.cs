@@ -1,4 +1,5 @@
 ﻿using GameEngine.Generator;
+using GameEngine.Generator.Text;
 using GameEngine.Rules;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
