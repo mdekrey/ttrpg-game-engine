@@ -49,7 +49,7 @@ namespace GameEngine.Generator
             var repeated = cost.Select(c => baseAmount * c.Multiplier);
             var distribuatable = remaining - repeated.Sum();
 
-            // TODO - there's lots more options in here...
+            // TODO - this keeps most almost equal, but what about one that does much more? Does this work with "first attack must hit" balances? This should be tested.
             var result = WeaponDiceDistribution switch
             {
                 WeaponDiceDistribution.Decreasing => repeated.Select((v, i) => (i + 1) <= distribuatable ? v + 1 : v),

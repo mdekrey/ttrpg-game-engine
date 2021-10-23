@@ -199,7 +199,6 @@ namespace GameEngine.Generator.Modifiers
                     _ => throw new System.NotImplementedException(),
                 };
 
-                // TODO - verb tense for "you"
                 var parts = new List<string>();
                 if (Boosts.Where(b => b.DurationAffected()).Any())
                 {
