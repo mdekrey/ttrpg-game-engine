@@ -205,7 +205,7 @@ namespace GameEngine.Tests
 
         public static readonly Dictionary<string, PowerProfileConfig> ModifierByTemplate = new Dictionary<string, PowerProfileConfig>
         {
-            { "", new(ImmutableList<ModifierChance>.Empty.Add(new("$", 1)), Build(new PowerChance("$", 1))) },
+            { "", new(ImmutableList<PowerProfileConfig.ModifierChance>.Empty.Add(new("$", 1)), Build(new PowerProfileConfig.PowerChance("$", 1))) },
             { AccuratePowerTemplateName, MakeModifierTemplate("@.Name=='Non-Armor Defense'", "@.Name=='To-Hit Bonus to Current Attack'") },
             { SkirmishPowerTemplateName, MakeModifierTemplate("@.Name=='Skirmish Movement'") },
             { MultiattackPowerTemplateName, MakeModifierTemplate("@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'") },
@@ -215,19 +215,19 @@ namespace GameEngine.Tests
             { CloseBlastPowerTemplateName, MakeModifierTemplate("@.Name=='Multiple' && @.Type=='Blast'") },
             { BonusPowerTemplateName, MakeModifierTemplate("@.Name=='Boost'") },
             { "SecondAttackOnly", new PowerProfileConfig(
-                    new ModifierChance[] {
+                    new PowerProfileConfig.ModifierChance[] {
                         new("$", 1),
                         new("$..[?(@.Name=='TwoHits')]", 0),
                         new("$..[?(@.Name=='UpToThreeTargets')]", 0),
                     }.ToImmutableList(),
-                    Build(new PowerChance("$", 1))
+                    Build(new PowerProfileConfig.PowerChance("$", 1))
                 ) },
             { "Control", new PowerProfileConfig(
-                    new ModifierChance[] {
+                    new PowerProfileConfig.ModifierChance[] {
                         new("$..[?(@.Name=='Ability Modifier Damage')]", 1),
                         new("$..[?(@.Name=='MovementControl')]", 1),
                     }.ToImmutableList(),
-                    Build(new PowerChance("$", 1))
+                    Build(new PowerProfileConfig.PowerChance("$", 1))
                 ) },
         };
 
@@ -235,9 +235,9 @@ namespace GameEngine.Tests
         {
             string[] disallow = new[] { "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'" }.Except(require).ToArray();
             return new PowerProfileConfig(
-                PowerChances: require.Select(modName => new PowerChance($"$..[?({modName})]", 1)).DefaultIfEmpty(new("$", 1))
-                        .Concat(disallow.Select(modName => new PowerChance($"$..[?({modName})]", 0))).ToImmutableList(),
-                ModifierChances: Build(new ModifierChance("$", 1))
+                PowerChances: require.Select(modName => new PowerProfileConfig.PowerChance($"$..[?({modName})]", 1)).DefaultIfEmpty(new("$", 1))
+                        .Concat(disallow.Select(modName => new PowerProfileConfig.PowerChance($"$..[?({modName})]", 0))).ToImmutableList(),
+                ModifierChances: Build(new PowerProfileConfig.ModifierChance("$", 1))
             );
         }
 
@@ -253,7 +253,7 @@ namespace GameEngine.Tests
             return (resultTool, classProfile with { Tools = Build(resultTool) }, powerProfileConfig);
         }
 
-        public static readonly PowerProfileConfig fullAccessProfileConfig = new(ImmutableList<ModifierChance>.Empty.Add(new("$", 1)), Build(new PowerChance("$", 1)));
+        public static readonly PowerProfileConfig fullAccessProfileConfig = new(ImmutableList<PowerProfileConfig.ModifierChance>.Empty.Add(new("$", 1)), Build(new PowerProfileConfig.PowerChance("$", 1)));
 
         private static readonly ImmutableDictionary<string, ClassProfile> classProfiles = new Dictionary<string, ClassProfile>
         {

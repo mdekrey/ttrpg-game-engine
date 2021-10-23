@@ -36,17 +36,17 @@ public static class ApiConversion
         };
 
     public static ImmutableList<Generator.PowerProfileConfig> FromApi(this Api.PowerProfileConfig apiModel) =>
-        apiModel.PowerChances.Select(powerChance => ImmutableList<Generator.PowerChance>.Empty.Add(FromApiToPower(powerChance))).Select(powerChance => 
+        apiModel.PowerChances.Select(powerChance => ImmutableList<Generator.PowerProfileConfig.PowerChance>.Empty.Add(FromApiToPower(powerChance))).Select(powerChance => 
         new Generator.PowerProfileConfig(
             ModifierChances: apiModel.ModifierChances.Select(a => FromApiToModifier(a)).ToImmutableList(),
             PowerChances: powerChance
         )).ToImmutableList();
 
-    public static Generator.ModifierChance FromApiToModifier(this Api.ModifierChance apiModel) =>
-        new Generator.ModifierChance(apiModel.Selector, apiModel.Weight);
+    public static Generator.PowerProfileConfig.ModifierChance FromApiToModifier(this Api.ModifierChance apiModel) =>
+        new Generator.PowerProfileConfig.ModifierChance(apiModel.Selector, apiModel.Weight);
 
-    public static Generator.PowerChance FromApiToPower(this Api.ModifierChance apiModel) =>
-        new Generator.PowerChance(apiModel.Selector, apiModel.Weight);
+    public static Generator.PowerProfileConfig.PowerChance FromApiToPower(this Api.ModifierChance apiModel) =>
+        new Generator.PowerProfileConfig.PowerChance(apiModel.Selector, apiModel.Weight);
 
     public static GameEngine.Rules.Ability FromApi(this Api.Ability apiModel) =>
         apiModel switch

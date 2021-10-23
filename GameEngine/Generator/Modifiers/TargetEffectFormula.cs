@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameEngine.Generator
+namespace GameEngine.Generator.Modifiers
 {
     public abstract record TargetEffectFormula(string Name) : IModifierFormula<ITargetEffectModifier, TargetEffectBuilder>
     {

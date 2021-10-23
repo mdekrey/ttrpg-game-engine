@@ -1,4 +1,5 @@
-﻿using GameEngine.Rules;
+﻿using GameEngine.Generator.Modifiers;
+using GameEngine.Rules;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

@@ -5,6 +5,7 @@ using GameEngine.Rules;
 using System.Linq;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 using static GameEngine.Generator.PowerBuildingExtensions;
+using GameEngine.Generator.Text;
 
 namespace GameEngine.Generator.Modifiers
 {

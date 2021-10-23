@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Generator.Text;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 using static GameEngine.Generator.ProseHelpers;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Generator.Text;
 using GameEngine.Rules;
 
 namespace GameEngine.Generator.Modifiers

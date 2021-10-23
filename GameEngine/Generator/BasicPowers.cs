@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using GameEngine.Generator.Modifiers;
+using System.Collections.Immutable;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator

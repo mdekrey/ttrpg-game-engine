@@ -1,4 +1,4 @@
-﻿namespace GameEngine.Generator
+﻿namespace GameEngine.Generator.Modifiers
 {
     public interface IModifierFormula<TModifier, TBuilder>
             where TModifier : class, IModifier

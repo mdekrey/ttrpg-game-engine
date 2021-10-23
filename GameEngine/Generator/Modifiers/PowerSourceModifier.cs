@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameEngine.Generator.Text;
+using System;
 using System.Collections.Generic;
 
 namespace GameEngine.Generator.Modifiers
