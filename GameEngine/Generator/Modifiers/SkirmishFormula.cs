@@ -67,6 +67,7 @@ namespace GameEngine.Generator.Modifiers
             public override Target ValidTargets() => Target.Self;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override bool UsesDuration() => false;
+            public override bool EnablesSaveEnd() => false;
 
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 

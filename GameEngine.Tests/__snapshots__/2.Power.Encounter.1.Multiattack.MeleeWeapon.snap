@@ -25,6 +25,8 @@
         - Strength
         Name: Ability Modifier Damage
     Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects:

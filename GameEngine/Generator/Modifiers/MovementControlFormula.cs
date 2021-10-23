@@ -34,6 +34,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsPlaceholder() => Effects.Count == 0;
 
             public override bool UsesDuration() => false;
+            public override bool EnablesSaveEnd() => false;
 
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<IEffectModifier>() :

@@ -4,7 +4,7 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 4
+    - WeaponDice: 1
       Ability: Strength
       DamageTypes:
       - Normal
@@ -20,9 +20,10 @@
       Modifiers:
       - Abilities:
         - Strength
-        - Dexterity
         Name: Ability Modifier Damage
     Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -39,4 +40,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 4[W] + STR + DEX damage and the target is blinded, dazed, immobilized, and weakened until the end of your next turn.
+    Text: 1[W] + STR damage and the target is blinded, dazed, immobilized, and weakened (save ends.)

@@ -60,7 +60,8 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => 
                 new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(power.GetDuration())).Sum());
             public override bool IsPlaceholder() => Conditions.Count == 0;
-            public override bool UsesDuration() => true;
+            public override bool UsesDuration() => Conditions.Any();
+            public override bool EnablesSaveEnd() => Conditions.Any();
 
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) ? Enumerable.Empty<IEffectModifier>() :
@@ -112,8 +113,6 @@ namespace GameEngine.Generator.Modifiers
                                               select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())} {duration}";
             }
 
-            public bool DurationAffected() => Conditions.Any();
-            public bool CanSaveEnd() => Conditions.Any();
         }
 
         public record Condition(string Name)

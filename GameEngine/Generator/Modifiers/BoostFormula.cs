@@ -52,7 +52,7 @@ namespace GameEngine.Generator.Modifiers
         public abstract record Boost(string Name)
         {
             public abstract double Cost();
-            public abstract bool DurationAffected();
+            public abstract bool UsesDuration();
             public abstract IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo);
             public abstract string BoostText(Target target);
             public abstract string Category();
@@ -61,7 +61,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => Amount.ToWeaponDice()
                 * (Limit == null ? 2 : 1);
-            public override bool DurationAffected() => Limit != BoostFormula.Limit.NextAttack;
+            public override bool UsesDuration() => Limit != BoostFormula.Limit.NextAttack;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
@@ -88,7 +88,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => Amount.ToWeaponDice()
                 * (Defense == null ? 2 : 1);
-            public override bool DurationAffected() => true;
+            public override bool UsesDuration() => true;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
@@ -104,7 +104,7 @@ namespace GameEngine.Generator.Modifiers
         public record TemporaryHitPoints(GameDiceExpression Amount) : Boost("Temporary Hit Points")
         {
             public override double Cost() => Amount.ToWeaponDice();
-            public override bool DurationAffected() => false;
+            public override bool UsesDuration() => false;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
@@ -119,7 +119,7 @@ namespace GameEngine.Generator.Modifiers
         public record ExtraSavingThrow() : Boost("Extra Saving Throw")
         {
             public override double Cost() => 1;
-            public override bool DurationAffected() => false;
+            public override bool UsesDuration() => false;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
             public override string BoostText(Target target) => $"may immediately make a saving throw";
             public override string Category() => "Healing";
@@ -127,7 +127,7 @@ namespace GameEngine.Generator.Modifiers
         public record HealingSurge() : Boost("Healing Surge")
         {
             public override double Cost() => 1;
-            public override bool DurationAffected() => false;
+            public override bool UsesDuration() => false;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
             public override string BoostText(Target target) => $"may immediately spend a healing surge";
             public override string Category() => "Healing";
@@ -135,7 +135,7 @@ namespace GameEngine.Generator.Modifiers
         public record Regeneration(GameDiceExpression Amount) : Boost("Regeneration")
         {
             public override double Cost() => Amount.ToWeaponDice(); // TODO - verify
-            public override bool DurationAffected() => true;
+            public override bool UsesDuration() => true;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
@@ -152,14 +152,15 @@ namespace GameEngine.Generator.Modifiers
             public override Target ValidTargets() => Target.Self | Target.Ally;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => Boosts.Select(boost => boost.Category()).Distinct().Count();
             public override bool IsPlaceholder() => Boosts.Count == 0;
-            public override bool UsesDuration() => true;
+            public override bool UsesDuration() => Boosts.Any(b => b.UsesDuration());
+            public override bool EnablesSaveEnd() => false;
 
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) =>
                 new PowerCost(
                     Fixed:
                     Boosts
                         .Select(m => m.Cost()
-                            * (m.DurationAffected() ? DurationMultiplier(power.GetDuration()) : 1)
+                            * (m.UsesDuration() ? DurationMultiplier(power.GetDuration()) : 1)
                             * (builder.IsMultiple() ? 2 : 1)
                         )
                         .Sum()
@@ -200,18 +201,16 @@ namespace GameEngine.Generator.Modifiers
                 };
 
                 var parts = new List<string>();
-                if (Boosts.Where(b => b.DurationAffected()).Any())
+                if (Boosts.Where(b => b.UsesDuration()).Any())
                 {
-                    yield return $"{OxfordComma(Boosts.Where(b => b.DurationAffected()).Select(b => b.BoostText(effect.Target)).ToArray())} {duration}";
+                    yield return $"{OxfordComma(Boosts.Where(b => b.UsesDuration()).Select(b => b.BoostText(effect.Target)).ToArray())} {duration}";
                 }
-                if (Boosts.Where(b => !b.DurationAffected()).Any())
+                if (Boosts.Where(b => !b.UsesDuration()).Any())
                 {
-                    yield return $"{OxfordComma(Boosts.Where(b => !b.DurationAffected()).Select(b => b.BoostText(effect.Target)).ToArray())}";
+                    yield return $"{OxfordComma(Boosts.Where(b => !b.UsesDuration()).Select(b => b.BoostText(effect.Target)).ToArray())}";
                 }
             }
 
-            public bool DurationAffected() => Boosts.Any(b => b.DurationAffected());
-            public bool CanSaveEnd() => false;
         }
     }
 }

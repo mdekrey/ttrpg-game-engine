@@ -65,6 +65,8 @@
         - Strength
         Name: Ability Modifier Damage
     Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -80,14 +82,29 @@
       - Normal
       Effects: []
       Modifiers:
-      - Name: RequiredHitForNextAttack
-    - WeaponDice: 1
+      - Name: TwoHits
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 1
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
       Ability: Strength
       DamageTypes:
       - Normal
-      Effects: []
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Amount: +2
+            Name: Shift
+          Name: Skirmish Movement
       Modifiers:
-      - Name: RequiresPreviousHit
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
@@ -101,18 +118,23 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1
+    - WeaponDice: 2
       Ability: Strength
       DamageTypes:
       - Normal
-      Effects: []
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Dazed
+          Name: Condition
       Modifiers:
       - Abilities:
         - Strength
-        - Dexterity
         Name: Ability Modifier Damage
     Modifiers:
-    - Name: OpportunityAction
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -131,8 +153,6 @@
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
-      - Defense: Reflex
-        Name: Non-Armor Defense
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -159,11 +179,11 @@
     Effects: []
 - Level: 1
   PowerProfile:
-    Usage: Encounter
+    Usage: Daily
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1
+    - WeaponDice: 2
       Ability: Strength
       DamageTypes:
       - Normal
@@ -171,14 +191,43 @@
       - Target: Enemy
         Modifiers:
         - Conditions:
-          - Name: Weakened
           - Name: Dazed
           Name: Condition
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Name: Healing Surge
+          Name: Boost
       Modifiers:
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
     Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 1
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 1
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Abilities:
+        - Strength
+        - Dexterity
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Name: OpportunityAction
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -192,56 +241,22 @@
       Ability: Strength
       DamageTypes:
       - Normal
-      Effects:
-      - Target: Self, Ally
-        Modifiers:
-        - Boosts:
-          - Amount: DEX + 2
-            Limit: Target
-            Name: Attack
-          Name: Boost
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-      - Amount: DEX + 2
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 1
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 1
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Enemy
-        Modifiers:
-        - Conditions:
-          - Name: Blinded
-          - Name: Weakened
-          Name: Condition
-      - Target: Self, Ally
-        Modifiers:
-        - Boosts:
-          - Amount: STR + 2
-            Defense: Will
-            Name: Defense
-          Name: Boost
+      Effects: []
       Modifiers:
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
     Modifiers:
+    - Name: OpportunityAction
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target: Self
+      Modifiers:
+      - Movement:
+        - Amount: STR
+          Name: Shift
+        Name: Skirmish Movement
 - Level: 1
   PowerProfile:
     Usage: Daily
@@ -274,9 +289,9 @@
         - Amount: DEX + 2
           Name: Attack
         Name: Boost
-- Level: 1
+- Level: 3
   PowerProfile:
-    Usage: Daily
+    Usage: Encounter
     Tool: Weapon
     ToolRange: Melee
     Attacks:
@@ -288,19 +303,13 @@
       Modifiers:
       - Abilities:
         - Strength
+        - Dexterity
         Name: Ability Modifier Damage
     Modifiers:
     - Name: OpportunityAction
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target: Ally
-      Modifiers:
-      - Boosts:
-        - Amount: STR
-          Name: Temporary Hit Points
-        - Name: Healing Surge
-        Name: Boost
+    Effects: []
 - Level: 3
   PowerProfile:
     Usage: Encounter
@@ -341,28 +350,8 @@
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 3
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 1
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Defense: Will
+      - Defense: Fortitude
         Name: Non-Armor Defense
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -389,6 +378,35 @@
         - Strength
         Name: Ability Modifier Damage
     Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 5
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 3
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    - WeaponDice: 3
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiresPreviousHit
+    Modifiers:
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -406,12 +424,14 @@
       - Target: Self
         Modifiers:
         - Boosts:
-          - Name: Healing Surge
+          - Amount: DEX
+            Name: Temporary Hit Points
+          - Name: Extra Saving Throw
           Name: Boost
       Modifiers:
-      - Name: UpToThreeTargets
       - Abilities:
         - Strength
+        - Dexterity
         Name: Ability Modifier Damage
     Modifiers:
     - PowerSource: Martial
@@ -419,11 +439,43 @@
     Effects:
     - Target: Self
       Modifiers:
-      - Boosts:
-        - Amount: STR
-          Limit: NextAttack
-          Name: Attack
-        Name: Boost
+      - Movement:
+        - Amount: +4
+          Name: Shift
+        Name: Skirmish Movement
+- Level: 5
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Slowed
+          Name: Condition
+      - Target: Self, Ally
+        Modifiers:
+        - Boosts:
+          - Name: Extra Saving Throw
+          - Amount: STR
+            Name: Regeneration
+          Name: Boost
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
 - Level: 5
   PowerProfile:
     Usage: Daily
@@ -443,66 +495,6 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 5
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 2
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target: Ally
-      Modifiers:
-      - Boosts:
-        - Amount: DEX + 2
-          Name: Defense
-        Name: Boost
-- Level: 5
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 4
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Self
-        Modifiers:
-        - Boosts:
-          - Amount: +2
-            Defense: Reflex
-            Name: Defense
-          Name: Boost
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target: Self
-      Modifiers:
-      - Movement:
-        - Amount: STR
-          Name: Shift
-        Name: Skirmish Movement
 - Level: 7
   PowerProfile:
     Usage: Encounter
@@ -516,30 +508,6 @@
       Effects: []
       Modifiers:
       - Name: UpToThreeTargets
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 7
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 2
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Enemy
-        Modifiers:
-        - Conditions:
-          - Name: Dazed
-          Name: Condition
-      Modifiers:
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
@@ -603,6 +571,64 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
+- Level: 7
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 1
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Abilities:
+        - Strength
+        - Dexterity
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target: Self
+      Modifiers:
+      - Movement:
+        - Name: Shift
+        Name: Skirmish Movement
+- Level: 9
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 3
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          - Name: Slowed
+          Name: Condition
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: DEX + 2
+            Defense: Fortitude
+            Name: Defense
+          Name: Boost
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
 - Level: 9
   PowerProfile:
     Usage: Daily
@@ -613,25 +639,24 @@
       Ability: Strength
       DamageTypes:
       - Normal
-      Effects: []
+      Effects:
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Name: Healing Surge
+          - Amount: STR
+            Name: Temporary Hit Points
+          Name: Boost
       Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
       - Abilities:
         - Strength
-        - Dexterity
         Name: Ability Modifier Damage
+      - Defense: Will
+        Name: Non-Armor Defense
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target: Self, Ally
-      Modifiers:
-      - Boosts:
-        - Amount: +4
-          Limit: NextAttack
-          Name: Attack
-        Name: Boost
+    Effects: []
 - Level: 9
   PowerProfile:
     Usage: Daily
@@ -662,44 +687,15 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target: Self
         Modifiers:
-        - Effects:
-          - Mode: Pull
-            Amount: +1
-            Name: Slide Opponent
-          Name: MovementControl
-      - Target: Ally
-        Modifiers:
+        - Movement:
+          - Amount: DEX + 2
+            Name: Shift
+          Name: Skirmish Movement
         - Boosts:
-          - Amount: +2
-            Name: Defense
-          Name: Boost
-      Modifiers:
-      - Name: UpToThreeTargets
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 9
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 3
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Ally
-        Modifiers:
-        - Boosts:
-          - Amount: +4
-            Name: Defense
+          - Amount: DEX
+            Name: Attack
           Name: Boost
       Modifiers:
       - Abilities:
@@ -709,13 +705,7 @@
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target: Self
-      Modifiers:
-      - Movement:
-        - Amount: STR
-          Name: Shift
-        Name: Skirmish Movement
+    Effects: []
 - Level: 11
   PowerProfile:
     Usage: Encounter
@@ -728,6 +718,8 @@
       - Normal
       Effects: []
       Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
       - Abilities:
         - Strength
         - Dexterity
@@ -735,20 +727,162 @@
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target: Self
-      Modifiers:
-      - Movement:
-        - Amount: +4
-          Name: Shift
-        Name: Skirmish Movement
+    Effects: []
 - Level: 11
   PowerProfile:
     Usage: Encounter
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1
+    - WeaponDice: 3
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 11
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          - Name: Slowed
+          Name: Condition
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 11
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiresPreviousHit
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 13
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Amount: STR
+            Name: Shift
+          Name: Skirmish Movement
+      Modifiers:
+      - Abilities:
+        - Strength
+        - Dexterity
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 13
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Immobilized
+          - Name: Dazed
+          Name: Condition
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 13
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Abilities:
+        - Strength
+        - Dexterity
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 13
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 3
       Ability: Strength
       DamageTypes:
       - Normal
@@ -757,39 +891,186 @@
         Modifiers:
         - Conditions:
           - Name: Dazed
-          - Name: Immobilized
-          - Name: Blinded
           Name: Condition
       Modifiers:
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
     Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 11
+- Level: 15
   PowerProfile:
-    Usage: Encounter
+    Usage: Daily
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1
+    - WeaponDice: 7
       Ability: Strength
       DamageTypes:
       - Normal
       Effects: []
       Modifiers:
-      - Name: TwoHits
       - Abilities:
         - Strength
-        - Dexterity
         Name: Ability Modifier Damage
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 11
+- Level: 15
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 5
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: UpToThreeTargets
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target: Self, Ally
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Defense: Fortitude
+          Name: Defense
+        Name: Boost
+- Level: 15
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 5
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Slowed
+          Name: Condition
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: DEX
+            Name: Regeneration
+          Name: Boost
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 15
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Amount: DEX
+        Name: To-Hit Bonus to Current Attack
+      - Abilities:
+        - Strength
+        - Dexterity
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Duration: EndOfEncounter
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target: Ally
+      Modifiers:
+      - Boosts:
+        - Amount: DEX
+          Name: Attack
+        Name: Boost
+- Level: 17
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          Name: Condition
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 17
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: DEX
+            Name: Temporary Hit Points
+          Name: Boost
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 17
   PowerProfile:
     Usage: Encounter
     Tool: Weapon
@@ -811,56 +1092,7 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 13
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 3
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Enemy
-        Modifiers:
-        - Conditions:
-          - Name: Dazed
-          Name: Condition
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 13
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 3
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Self
-        Modifiers:
-        - Movement:
-          - Amount: STR
-            Name: Shift
-          Name: Skirmish Movement
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 13
+- Level: 17
   PowerProfile:
     Usage: Encounter
     Tool: Weapon
@@ -870,10 +1102,13 @@
       Ability: Strength
       DamageTypes:
       - Normal
-      Effects: []
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Name: Shift
+          Name: Skirmish Movement
       Modifiers:
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
       - Abilities:
         - Strength
         - Dexterity
@@ -882,13 +1117,77 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 13
+- Level: 19
   PowerProfile:
-    Usage: Encounter
+    Usage: Daily
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 3
+    - WeaponDice: 8
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 6
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Abilities:
+        - Strength
+        - Dexterity
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target: Self
+      Modifiers:
+      - Movement:
+        - Amount: STR
+          Name: Shift
+        Name: Skirmish Movement
+- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 7
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: UpToThreeTargets
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 6
       Ability: Strength
       DamageTypes:
       - Normal
@@ -902,14 +1201,160 @@
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
-- Level: 15
+    Effects:
+    - Target: Self
+      Modifiers:
+      - Boosts:
+        - Amount: DEX
+          Name: Temporary Hit Points
+        - Name: Extra Saving Throw
+        Name: Boost
+- Level: 20
   PowerProfile:
     Usage: Daily
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 6
+    - WeaponDice: 4
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Dazed
+          Name: Condition
+      - Target: Self
+        Modifiers:
+        - Movement:
+          - Amount: DEX + 2
+            Name: Shift
+          Name: Skirmish Movement
+      Modifiers:
+      - Abilities:
+        - Strength
+        - Dexterity
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Duration: EndOfEncounter
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 20
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 5
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Weakened
+          Name: Condition
+        - Effects:
+          - Mode: Slide
+            Amount: +2
+            Name: Slide Opponent
+          Name: MovementControl
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 20
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 5
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Ally
+        Modifiers:
+        - Boosts:
+          - Amount: DEX
+            Name: Temporary Hit Points
+          - Name: Healing Surge
+          - Name: Extra Saving Throw
+          Name: Boost
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+      - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 20
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Dazed
+          Name: Condition
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Self
+        Modifiers:
+        - Boosts:
+          - Amount: DEX
+            Name: Temporary Hit Points
+          - Name: Extra Saving Throw
+          - Amount: STR
+            Name: Regeneration
+          Name: Boost
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Duration: EndOfEncounter
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 23
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 4
       Ability: Strength
       DamageTypes:
       - Normal
@@ -927,190 +1372,14 @@
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target: Self, Ally
-      Modifiers:
-      - Boosts:
-        - Amount: STR
-          Limit: Target
-          Name: Attack
-        Name: Boost
-- Level: 15
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 1
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Self, Ally
-        Modifiers:
-        - Boosts:
-          - Amount: STR
-            Name: Temporary Hit Points
-          - Name: Extra Saving Throw
-          Name: Boost
-      Modifiers:
-      - Name: TwoHits
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
     Effects: []
-- Level: 15
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 7
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 15
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 5
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Amount: DEX
-        Name: To-Hit Bonus to Current Attack
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target: Self
-      Modifiers:
-      - Movement:
-        - Amount: STR
-          Name: Shift
-        Name: Skirmish Movement
-- Level: 17
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 2
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 17
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 3
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target: Self
-      Modifiers:
-      - Movement:
-        - Amount: STR
-          Name: Shift
-        Name: Skirmish Movement
-- Level: 17
+- Level: 23
   PowerProfile:
     Usage: Encounter
     Tool: Weapon
     ToolRange: Melee
     Attacks:
     - WeaponDice: 1
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Enemy
-        Modifiers:
-        - Conditions:
-          - Name: Dazed
-          - Name: Weakened
-          - Name: Immobilized
-          Name: Condition
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 17
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 3
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-      - Amount: DEX
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 19
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 3
       Ability: Strength
       DamageTypes:
       - Normal
@@ -1119,52 +1388,80 @@
         Modifiers:
         - Conditions:
           - Name: Blinded
-          - Name: Slowed
-          - Name: Dazed
+          - Name: Immobilized
+          - Name: Weakened
           Name: Condition
       Modifiers:
       - Abilities:
         - Strength
+        - Dexterity
         Name: Ability Modifier Damage
     Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target: Self, Ally
-      Modifiers:
-      - Boosts:
-        - Name: Extra Saving Throw
-        - Amount: DEX + 2
-          Name: Temporary Hit Points
-        - Name: Healing Surge
-        Name: Boost
-- Level: 19
+    Effects: []
+- Level: 23
   PowerProfile:
-    Usage: Daily
+    Usage: Encounter
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 2.5
+    - WeaponDice: 4
       Ability: Strength
       DamageTypes:
       - Normal
       Effects: []
       Modifiers:
-      - Name: TwoHits
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target: Self, Ally
+    Effects: []
+- Level: 23
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 4
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
       Modifiers:
-      - Boosts:
-        - Amount: DEX + 2
-          Name: Defense
-        Name: Boost
-- Level: 19
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+      - Amount: DEX
+        Name: To-Hit Bonus to Current Attack
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 25
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 9
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 25
   PowerProfile:
     Usage: Daily
     Tool: Weapon
@@ -1181,6 +1478,7 @@
           - Amount: STR
             Name: Temporary Hit Points
           - Name: Extra Saving Throw
+          - Name: Healing Surge
           Name: Boost
       Modifiers:
       - Abilities:
@@ -1192,119 +1490,7 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 19
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 8
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 20
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 6
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Self, Ally
-        Modifiers:
-        - Boosts:
-          - Amount: STR
-            Name: Temporary Hit Points
-          - Name: Extra Saving Throw
-          Name: Boost
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 20
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 6
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Self
-        Modifiers:
-        - Boosts:
-          - Amount: DEX
-            Name: Attack
-          Name: Boost
-      Modifiers:
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target: Self
-      Modifiers:
-      - Movement:
-        - Amount: STR
-          Name: Shift
-        Name: Skirmish Movement
-- Level: 20
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 4
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Enemy
-        Modifiers:
-        - Conditions:
-          - Name: Blinded
-          - Name: Weakened
-          - Name: Dazed
-          Name: Condition
-      Modifiers:
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target: Self
-      Modifiers:
-      - Boosts:
-        - Amount: DEX
-          Name: Attack
-        Name: Boost
-- Level: 20
+- Level: 25
   PowerProfile:
     Usage: Daily
     Tool: Weapon
@@ -1314,108 +1500,16 @@
       Ability: Strength
       DamageTypes:
       - Normal
-      Effects: []
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-      - Amount: DEX
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target: Self, Ally
-      Modifiers:
-      - Boosts:
-        - Amount: +2
-          Defense: Fortitude
-          Name: Defense
-        Name: Boost
-- Level: 23
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 3
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Amount: DEX
-        Name: To-Hit Bonus to Current Attack
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 23
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 4
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 23
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 2
-      Ability: Strength
-      DamageTypes:
-      - Normal
       Effects:
-      - Target: Self
+      - Target: Ally
         Modifiers:
-        - Movement:
-          - Amount: +8
-            Name: Shift
-          Name: Skirmish Movement
+        - Boosts:
+          - Amount: +2
+            Defense: Will
+            Name: Defense
+          Name: Boost
       Modifiers:
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 23
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 4
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Enemy
-        Modifiers:
-        - Conditions:
-          - Name: Slowed
-          Name: Condition
-      Modifiers:
+      - Name: UpToThreeTargets
       - Abilities:
         - Strength
         Name: Ability Modifier Damage
@@ -1423,38 +1517,6 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 25
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 5
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Enemy
-        Modifiers:
-        - Conditions:
-          - Name: Weakened
-          - Name: Blinded
-          - Name: Immobilized
-          Name: Condition
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target: Ally
-      Modifiers:
-      - Boosts:
-        - Amount: DEX
-          Name: Attack
-        Name: Boost
 - Level: 25
   PowerProfile:
     Usage: Daily
@@ -1475,7 +1537,6 @@
       Modifiers:
       - Abilities:
         - Strength
-        - Dexterity
         Name: Ability Modifier Damage
     Modifiers:
     - PowerSource: Martial
@@ -1484,62 +1545,92 @@
     - Target: Self
       Modifiers:
       - Boosts:
-        - Amount: STR + 2
-          Name: Defense
+        - Name: Healing Surge
+        - Amount: STR
+          Name: Temporary Hit Points
+        - Name: Extra Saving Throw
         Name: Boost
-- Level: 25
+- Level: 27
   PowerProfile:
-    Usage: Daily
+    Usage: Encounter
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 3
+    - WeaponDice: 4
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 27
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Name: RequiredHitForNextAttack
+    - WeaponDice: 2
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 27
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 1
       Ability: Strength
       DamageTypes:
       - Normal
       Effects:
       - Target: Enemy
         Modifiers:
-        - Effects:
-          - Mode: Pull
-            Amount: +1
-            Name: Slide Opponent
-          - Name: Prone
-          Name: MovementControl
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          Name: Condition
       Modifiers:
       - Abilities:
         - Strength
+        - Dexterity
         Name: Ability Modifier Damage
     Modifiers:
-    - Name: OpportunityAction
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 25
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 8
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Self
-        Modifiers:
-        - Boosts:
-          - Amount: STR
-            Limit: NextAttack
-            Name: Attack
-          Name: Boost
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -1568,69 +1659,17 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 27
+- Level: 29
   PowerProfile:
-    Usage: Encounter
+    Usage: Daily
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1.5
+    - WeaponDice: 10
       Ability: Strength
       DamageTypes:
       - Normal
       Effects: []
-      Modifiers:
-      - Name: TwoHits
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 27
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 3
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Enemy
-        Modifiers:
-        - Conditions:
-          - Name: Dazed
-          - Name: Weakened
-          Name: Condition
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 27
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 4
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Self
-        Modifiers:
-        - Movement:
-          - Amount: STR
-            Name: Shift
-          Name: Skirmish Movement
       Modifiers:
       - Abilities:
         - Strength
@@ -1645,17 +1684,74 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 5
+    - WeaponDice: 8
       Ability: Strength
       DamageTypes:
       - Normal
       Effects:
-      - Target: Ally
+      - Target: Self, Ally
         Modifiers:
         - Boosts:
-          - Amount: +8
-            Name: Defense
+          - Amount: STR
+            Limit: Target
+            Name: Attack
           Name: Boost
+      Modifiers:
+      - Name: UpToThreeTargets
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 29
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 4
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects:
+      - Target: Enemy
+        Modifiers:
+        - Conditions:
+          - Name: Weakened
+          - Name: Dazed
+          Name: Condition
+      Modifiers:
+      - Abilities:
+        - Strength
+        Name: Ability Modifier Damage
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target: Self, Ally
+      Modifiers:
+      - Boosts:
+        - Name: Extra Saving Throw
+        - Amount: +4
+          Name: Temporary Hit Points
+        - Amount: STR
+          Name: Regeneration
+        Name: Boost
+- Level: 29
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - WeaponDice: 8
+      Ability: Strength
+      DamageTypes:
+      - Normal
+      Effects: []
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
@@ -1666,103 +1762,9 @@
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
-- Level: 29
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 6
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Self, Ally
-        Modifiers:
-        - Boosts:
-          - Amount: STR
-            Name: Attack
-          Name: Boost
-      Modifiers:
-      - Name: UpToThreeTargets
-      - Abilities:
-        - Strength
-        - Dexterity
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
     Effects:
     - Target: Self
       Modifiers:
       - Movement:
-        - Amount: STR
-          Name: Shift
-        Name: Skirmish Movement
-- Level: 29
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 6
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Enemy
-        Modifiers:
-        - Conditions:
-          - Name: Weakened
-          - Name: Blinded
-          - Name: Immobilized
-          Name: Condition
-      - Target: Ally
-        Modifiers:
-        - Boosts:
-          - Amount: STR + 2
-            Defense: Fortitude
-            Name: Defense
-          Name: Boost
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 29
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - WeaponDice: 6
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects:
-      - Target: Enemy
-        Modifiers:
-        - Effects:
-          - Mode: Slide
-            Amount: DEX + 2
-            Name: Slide Opponent
-          - Name: Prone
-          Name: MovementControl
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target: Self
-      Modifiers:
-      - Movement:
-        - Amount: STR + 2
-          Name: Shift
+        - Name: Shift
         Name: Skirmish Movement

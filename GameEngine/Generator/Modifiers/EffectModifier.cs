@@ -11,6 +11,7 @@ namespace GameEngine.Generator.Modifiers
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
         public abstract bool UsesDuration();
+        public abstract bool EnablesSaveEnd();
         public abstract TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
 
         public abstract IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power);

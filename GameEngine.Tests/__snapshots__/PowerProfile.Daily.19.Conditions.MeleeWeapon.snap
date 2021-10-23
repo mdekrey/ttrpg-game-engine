@@ -2,7 +2,7 @@
 Tool: Weapon
 ToolRange: Melee
 Attacks:
-- WeaponDice: 4
+- WeaponDice: 1
   Ability: Strength
   DamageTypes:
   - Normal
@@ -18,9 +18,10 @@ Attacks:
   Modifiers:
   - Abilities:
     - Strength
-    - Dexterity
     Name: Ability Modifier Damage
 Modifiers:
+- Duration: SaveEnds
+  Name: Duration
 - PowerSource: Martial
   Name: Power Source
 Effects: []

@@ -8,6 +8,7 @@ namespace GameEngine.Generator.Modifiers
         PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context);
         Target ValidTargets();
         bool UsesDuration();
+        bool EnablesSaveEnd();
         double ApplyEffectiveWeaponDice(double weaponDice);
         IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power);
         TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
