@@ -54,7 +54,7 @@ namespace GameEngine.Generator
                 ,
                 from target in TargetOptions
                 where !TargetEffects.Any(te => (te.Target & target) != 0)
-                let newBuilder = new TargetEffectBuilder(target, ImmutableList<ITargetEffectModifier>.Empty, PowerInfo)
+                let newBuilder = new TargetEffectBuilder(target, ImmutableList<IEffectModifier>.Empty, PowerInfo)
                 from newBuilderUpgrade in newBuilder.GetUpgrades(stage, power)
                 select this with { TargetEffects = this.TargetEffects.Add(newBuilderUpgrade) }
             }

@@ -5,8 +5,8 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record TargetEffectBuilder(Target Target, ImmutableList<ITargetEffectModifier> Modifiers, PowerHighLevelInfo PowerInfo)
-        : ModifierBuilder<ITargetEffectModifier>(Modifiers, PowerInfo)
+    public record TargetEffectBuilder(Target Target, ImmutableList<IEffectModifier> Modifiers, PowerHighLevelInfo PowerInfo)
+        : ModifierBuilder<IEffectModifier>(Modifiers, PowerInfo)
     {
         public override int Complexity => Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
         public PowerCost TotalCost(PowerProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
@@ -23,7 +23,7 @@ namespace GameEngine.Generator
                 where (Target & upgrade.ValidTargets()) == Target
                 select this.Apply(upgrade, modifier)
                 ,
-                from formula in ModifierDefinitions.targetEffectModifiers
+                from formula in ModifierDefinitions.effectModifiers
                 where formula.IsValid(this)
                 from mod in formula.GetBaseModifiers(stage, this, power)
                 where (Target & mod.ValidTargets()) == Target

@@ -40,7 +40,7 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Should only get to "SaveEnds" if there's another SaveEnds effect
             : 1;
 
-        public override IEnumerable<ITargetEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) => 
+        public override IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) => 
             new BoostModifier(ImmutableList<Boost>.Empty).GetUpgrades(stage, target, power);
 
         public enum Limit
@@ -147,7 +147,7 @@ namespace GameEngine.Generator.Modifiers
             public override string Category() => "Healing";
         }
 
-        public record BoostModifier(EquatableImmutableList<Boost> Boosts) : TargetEffectModifier(ModifierName)
+        public record BoostModifier(EquatableImmutableList<Boost> Boosts) : EffectModifier(ModifierName)
         {
             public override Target ValidTargets() => Target.Self | Target.Ally;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => Boosts.Select(boost => boost.Category()).Distinct().Count();
@@ -165,11 +165,11 @@ namespace GameEngine.Generator.Modifiers
                         .Sum()
                 );
 
-            public override IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
-                stage != UpgradeStage.Standard ? Enumerable.Empty<ITargetEffectModifier>() :
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
+                stage != UpgradeStage.Standard ? Enumerable.Empty<IEffectModifier>() :
                 GetUpgrades(builder.PowerInfo, power.GetDuration());
 
-            public IEnumerable<ITargetEffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo, Duration duration) =>
+            public IEnumerable<IEffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo, Duration duration) =>
                 from set in new[]
                 {
                     from basicBoost in GetBasicBoosts(powerInfo, duration)

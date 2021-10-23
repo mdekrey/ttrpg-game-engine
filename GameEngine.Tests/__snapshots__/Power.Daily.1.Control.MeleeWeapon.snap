@@ -11,14 +11,10 @@
       Effects:
       - Target: Enemy
         Modifiers:
-        - Conditions:
-          - Name: Blinded
-          - Name: Dazed
-          - Name: Immobilized
-          Name: Condition
         - Effects:
+          - Name: Prone
           - Mode: Pull
-            Amount: +1
+            Amount: +4
             Name: Slide Opponent
           Name: MovementControl
       Modifiers:
@@ -42,4 +38,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and the target is blinded, dazed, and immobilized until the end of your next turn and is pulled +1 squares.
+    Text: 1[W] + STR damage and the target is knocked prone and is pulled +4 squares.

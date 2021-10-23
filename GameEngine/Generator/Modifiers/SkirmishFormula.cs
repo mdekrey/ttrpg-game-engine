@@ -12,7 +12,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Skirmish Movement";
 
-        public override IEnumerable<ITargetEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
+        public override IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {
             if (stage < UpgradeStage.Standard) yield break;
 
@@ -62,7 +62,7 @@ namespace GameEngine.Generator.Modifiers
                 ? $"do not provoke opportunity attacks from movement for the rest of the turn"
                 : $"does not provoke opportunity attacks from movement for the rest of the turn";
         }
-        public record SkirmishMovementModifier(EquatableImmutableList<SkirmishMovement> Movement) : TargetEffectModifier(ModifierName)
+        public record SkirmishMovementModifier(EquatableImmutableList<SkirmishMovement> Movement) : EffectModifier(ModifierName)
         {
             public override Target ValidTargets() => Target.Self;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
@@ -70,11 +70,11 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 
-            public override IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) ? Enumerable.Empty<ITargetEffectModifier>() :
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IEffectModifier>() :
                 GetUpgrades(builder.PowerInfo);
 
-            public IEnumerable<TargetEffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo) =>
+            public IEnumerable<EffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 from set in new[]
                 {
                     // TODO - multiple types of movement?

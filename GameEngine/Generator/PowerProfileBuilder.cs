@@ -107,7 +107,7 @@ namespace GameEngine.Generator
                     ,
                     from target in EffectTargetOptions
                     where !Effects.Any(te => (te.Target & target) != 0)
-                    let newBuilder = new TargetEffectBuilder(target, ImmutableList<ITargetEffectModifier>.Empty, PowerInfo)
+                    let newBuilder = new TargetEffectBuilder(target, ImmutableList<IEffectModifier>.Empty, PowerInfo)
                     from newBuilderUpgrade in newBuilder.GetUpgrades(stage, this)
                     select this with { Effects = this.Effects.Add(newBuilderUpgrade) }
                 }
@@ -122,7 +122,7 @@ namespace GameEngine.Generator
 
         public override IEnumerable<IModifier> AllModifiers() => 
             Modifiers
-                .Concat<IModifier>(from attack in Attacks from mod in attack.Modifiers select mod)
+                .Concat<IModifier>(from attack in Attacks from mod in attack.AllModifiers() select mod)
                 .Concat<IModifier>(from targetEffect in Effects from mod in targetEffect.Modifiers select mod);
     }
 }

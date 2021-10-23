@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public abstract record TargetEffectModifier(string Name) : ITargetEffectModifier
+    public abstract record EffectModifier(string Name) : IEffectModifier
     {
         public abstract Target ValidTargets();
         public abstract PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power);
@@ -13,7 +13,7 @@ namespace GameEngine.Generator.Modifiers
         public abstract bool UsesDuration();
         public abstract TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
 
-        public abstract IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power);
+        public abstract IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power);
 
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
     }

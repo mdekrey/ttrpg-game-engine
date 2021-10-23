@@ -43,7 +43,7 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public override IEnumerable<ITargetEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
+        public override IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {
             return new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, target, power);
         }
@@ -53,7 +53,7 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Must remain "SaveEnds" if there's a Boost dependent upon it
             : 1;
 
-        public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : TargetEffectModifier(ModifierName)
+        public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : EffectModifier(ModifierName)
         {
             public override Target ValidTargets() => Target.Enemy;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
@@ -62,8 +62,8 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsPlaceholder() => Conditions.Count == 0;
             public override bool UsesDuration() => true;
 
-            public override IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) ? Enumerable.Empty<ITargetEffectModifier>() :
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IEffectModifier>() :
                 from set in new[]
                 {
                     from basicCondition in basicConditions.Keys

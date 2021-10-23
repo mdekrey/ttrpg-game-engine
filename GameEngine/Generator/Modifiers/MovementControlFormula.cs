@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "MovementControl";
 
-        public override IEnumerable<ITargetEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
+        public override IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {
             return new MovementModifier(ImmutableList<MovementControl>.Empty).GetUpgrades(stage, target, power);
         }
@@ -25,7 +25,7 @@ namespace GameEngine.Generator.Modifiers
                 new SlideOpponent(OpponentMovementMode.Slide, 1),
             }.ToImmutableList();
 
-        public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : TargetEffectModifier(ModifierName)
+        public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : EffectModifier(ModifierName)
         {
             public override Target ValidTargets() => Target.Enemy;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => IsPlaceholder() ? 0 : 1;
@@ -35,8 +35,8 @@ namespace GameEngine.Generator.Modifiers
 
             public override bool UsesDuration() => false;
 
-            public override IEnumerable<ITargetEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) ? Enumerable.Empty<ITargetEffectModifier>() :
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IEffectModifier>() :
                 from set in new[]
                 {
                     from basicCondition in basicEffects

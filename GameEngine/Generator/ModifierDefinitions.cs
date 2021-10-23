@@ -12,13 +12,13 @@ namespace GameEngine.Generator
 
         public static readonly AttackModifierFormula NonArmorDefense = new NonArmorDefenseFormula();
         public static readonly AttackModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula();
-        public static readonly ImmutableList<TargetEffectFormula> targetEffectModifiers = Build<TargetEffectFormula>(
+        public static readonly ImmutableList<TargetEffectFormula> effectModifiers = Build<TargetEffectFormula>(
             new ConditionFormula(),
             new SkirmishFormula(),
             new BoostFormula(),
             new MovementControlFormula()
-            // Slowed/Unconscious (Progressing effect after a save)
-            // Aftereffects
+            // Slowed/Unconscious (Progressing effect after a failed save)
+            // Aftereffects (Effects after a successful save)
             // Disarm and catch
         );
         public static readonly ImmutableList<AttackModifierFormula> attackModifiers = Build<AttackModifierFormula>(
