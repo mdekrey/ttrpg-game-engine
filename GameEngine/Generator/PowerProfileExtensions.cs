@@ -18,7 +18,7 @@ namespace GameEngine.Generator
                                 .Select(attacks => power with { Attacks = attacks })
                           let withDamageMods = builder with
                           {
-                              Attacks = builder.Attacks.Select(a => a.Apply<IAttackModifier, AttackProfileBuilder>(
+                              Attacks = builder.Attacks.Select(a => a.Apply(
                                   new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(ImmutableList<Ability>.Empty.Add(a.Ability))
                                 )).ToImmutableList()
                           }

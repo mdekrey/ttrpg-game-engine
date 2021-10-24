@@ -14,7 +14,6 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Multiattack";
 
-        public override bool IsValid(PowerProfileBuilder builder) => true;
         public override IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power) =>
             new ShouldMultiattackModifier().GetUpgrades(stage, power);
 

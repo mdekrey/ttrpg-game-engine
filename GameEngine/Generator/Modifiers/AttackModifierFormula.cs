@@ -2,9 +2,8 @@
 
 namespace GameEngine.Generator.Modifiers
 {
-    public abstract record AttackModifierFormula(string Name) : IModifierFormula<IAttackModifier, AttackProfileBuilder>
+    public abstract record AttackModifierFormula(string Name) : IModifierFormula<IAttackModifier>
     {
-        public virtual bool IsValid(AttackProfileBuilder builder) => true;
         public abstract IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power);
     }
 }

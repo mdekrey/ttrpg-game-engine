@@ -1,10 +1,8 @@
 ﻿namespace GameEngine.Generator.Modifiers
 {
-    public interface IModifierFormula<TModifier, TBuilder>
+    public interface IModifierFormula<TModifier>
             where TModifier : class, IModifier
-            where TBuilder : ModifierBuilder<TModifier>
     {
         string Name { get; }
-        bool IsValid(TBuilder builder);
     }
 }

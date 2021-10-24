@@ -29,8 +29,6 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (powerInfo.ToolProfile.Type == ToolType.Implement || IsPlaceholder()) ? 0 : 1;
 
-            public override bool MustUpgrade() => Defense == DefenseType.ArmorClass;
-
             public override bool IsPlaceholder() => Defense == DefenseType.ArmorClass;
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Defense == DefenseType.ArmorClass || builder.PowerInfo.ToolProfile.Type == ToolType.Implement ? 0 : 0.5);

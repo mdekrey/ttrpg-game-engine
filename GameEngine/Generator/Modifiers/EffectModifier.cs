@@ -15,7 +15,5 @@ namespace GameEngine.Generator.Modifiers
         public abstract TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
 
         public abstract IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power);
-
-        public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
     }
 }

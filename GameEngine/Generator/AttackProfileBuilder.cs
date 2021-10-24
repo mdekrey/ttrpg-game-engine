@@ -7,7 +7,6 @@ using System.Linq;
 namespace GameEngine.Generator
 {
     public record AttackProfileBuilder(Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
-        : ModifierBuilder<IAttackModifier>(Modifiers, PowerInfo)
     {
         private static readonly ImmutableList<Target> TargetOptions = new[] {
             Target.Enemy,
@@ -16,7 +15,15 @@ namespace GameEngine.Generator
             Target.Ally | Target.Self
         }.ToImmutableList();
 
-        public override int Complexity => TargetEffects.Sum(e => e.Complexity) + Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
+        public AttackProfileBuilder Apply(IAttackModifier target, IAttackModifier? toRemove = null)
+        {
+            return this with
+            {
+                Modifiers = toRemove == null ? this.Modifiers.Add(target) : this.Modifiers.Remove(toRemove).Add(target),
+            };
+        }
+
+        public int Complexity => TargetEffects.Sum(e => e.Complexity) + Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
         public PowerCost TotalCost(PowerProfileBuilder builder) => 
             Enumerable.Concat(
                 Modifiers.Select(m => m.GetCost(this)),
@@ -47,7 +54,6 @@ namespace GameEngine.Generator
                 select this.Apply(upgrade, modifier)
                 ,
                 from formula in ModifierDefinitions.attackModifiers
-                where formula.IsValid(this)
                 from mod in formula.GetBaseModifiers(stage, this, power)
                 where !Modifiers.Any(m => m.Name == mod.Name)
                 select this.Apply(mod)
@@ -61,7 +67,7 @@ namespace GameEngine.Generator
             from entry in set
             select entry;
 
-        public override IEnumerable<IModifier> AllModifiers() => Modifiers.Concat<IModifier>(from targetEffect in TargetEffects from mod in targetEffect.Modifiers select mod);
+        public IEnumerable<IModifier> AllModifiers() => Modifiers.Concat<IModifier>(from targetEffect in TargetEffects from mod in targetEffect.Modifiers select mod);
 
     }
 }

@@ -33,8 +33,6 @@ namespace GameEngine.Generator.Modifiers
                 yield return new EffectDurationModifier(Duration.EndOfEncounter);
         }
 
-        public override bool IsValid(PowerProfileBuilder builder) => builder.AllModifiers().OfType<IEffectModifier>().Any();
-
         public record EffectDurationModifier(Duration Duration) : PowerModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;

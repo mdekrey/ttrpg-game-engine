@@ -7,15 +7,23 @@ using System.Linq;
 namespace GameEngine.Generator
 {
     public record PowerProfileBuilder(PowerLimits Limits, WeaponDiceDistribution WeaponDiceDistribution, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffectBuilder> Effects)
-        : ModifierBuilder<IPowerModifier>(Modifiers, PowerInfo)
+        : IModifierBuilder
     {
+        public PowerProfileBuilder Apply(IPowerModifier target, IPowerModifier? toRemove = null)
+        {
+            return this with
+            {
+                Modifiers = toRemove == null ? this.Modifiers.Add(target) : this.Modifiers.Remove(toRemove).Add(target),
+            };
+        }
+
         private static readonly ImmutableList<Target> EffectTargetOptions = new[] {
             Target.Ally,
             Target.Self,
             Target.Ally | Target.Self
         }.ToImmutableList();
 
-        public override int Complexity => Effects.Sum(e => e.Complexity) + Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
+        public int Complexity => Effects.Sum(e => e.Complexity) + Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
         public PowerCost TotalCost => (
             from set in new[] 
             {
@@ -100,7 +108,6 @@ namespace GameEngine.Generator
                     select this.Apply(upgrade, modifier)
                     ,
                     from formula in ModifierDefinitions.powerModifiers
-                    where formula.IsValid(this)
                     from mod in formula.GetBaseModifiers(stage, this)
                     where !Modifiers.Any(m => m.Name == mod.Name)
                     select this.Apply(mod)
@@ -120,7 +127,7 @@ namespace GameEngine.Generator
         public IEnumerable<PowerProfileBuilder> FinalizeUpgrade() =>
             this.Modifiers.Aggregate(Enumerable.Repeat(this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)));
 
-        public override IEnumerable<IModifier> AllModifiers() => 
+        public IEnumerable<IModifier> AllModifiers() => 
             Modifiers
                 .Concat<IModifier>(from attack in Attacks from mod in attack.AllModifiers() select mod)
                 .Concat<IModifier>(from targetEffect in Effects from mod in targetEffect.Modifiers select mod);

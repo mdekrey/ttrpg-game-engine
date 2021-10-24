@@ -11,25 +11,13 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "OpportunityAction";
 
-        public override bool IsValid(PowerProfileBuilder builder) => builder.PowerInfo.Usage != PowerFrequency.AtWill;
         public override IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
         {
-            return new MaybeOpportunityActionModifier().GetUpgrades(stage, power);
-        }
-
-        public record MaybeOpportunityActionModifier() : PowerModifier(ModifierName)
-        {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
-            public override bool MustUpgrade() => true;
-            public override bool IsPlaceholder() => true;
-
-            public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
-
-            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
+            if (power.PowerInfo.Usage == PowerFrequency.AtWill)
+                return Enumerable.Empty<IPowerModifier>();
+            return
                 stage != UpgradeStage.Standard ? Enumerable.Empty<IPowerModifier>() :
                 new[] { new OpportunityActionModifier() };
-
-            public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record OpportunityActionModifier() : PowerModifier(ModifierName)
