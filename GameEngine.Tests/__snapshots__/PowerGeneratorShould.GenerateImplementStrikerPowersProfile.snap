@@ -51,7 +51,7 @@
       Effects:
       - Target:
           Target: Self
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Movement:
           - Amount: WIS
@@ -160,7 +160,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Blinded
@@ -224,7 +224,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -283,7 +283,7 @@
       Effects:
       - Target:
           Target: Self
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Movement:
           - Amount: WIS + 2
@@ -301,7 +301,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: WIS + 2
@@ -334,7 +334,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: WIS + 2
@@ -353,7 +353,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Immobilized
@@ -371,7 +371,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: WIS
@@ -390,7 +390,7 @@
       Effects:
       - Target:
           Target: Self
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Movement:
           - Amount: WIS + 2
@@ -419,7 +419,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Slowed
@@ -517,7 +517,7 @@
     Effects:
     - Target:
         Target: Self, Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -558,7 +558,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Blinded
@@ -566,7 +566,7 @@
           Name: Condition
       - Target:
           Target: Ally
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Boosts:
           - Amount: +2
@@ -595,7 +595,7 @@
       Effects:
       - Target:
           Target: Self
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Boosts:
           - Name: Healing Surge
@@ -613,7 +613,7 @@
       Effects:
       - Target:
           Target: Self, Ally
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Boosts:
           - Amount: WIS
@@ -653,7 +653,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -661,7 +661,7 @@
         Name: Skirmish Movement
     - Target:
         Target: Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: +8
@@ -703,7 +703,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Dazed
@@ -734,7 +734,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Immobilized
@@ -814,7 +814,7 @@
     Effects:
     - Target:
         Target: Self, Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -834,7 +834,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Immobilized
@@ -852,7 +852,7 @@
     Effects:
     - Target:
         Target: Self, Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: WIS
@@ -897,7 +897,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -979,7 +979,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -999,7 +999,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Slowed
@@ -1089,7 +1089,7 @@
     Effects:
     - Target:
         Target: Self, Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -1109,7 +1109,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Slowed
@@ -1150,7 +1150,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -1193,7 +1193,7 @@
       Effects:
       - Target:
           Target: Ally
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Boosts:
           - Amount: WIS
@@ -1212,7 +1212,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: WIS
@@ -1243,7 +1243,7 @@
       Effects:
       - Target:
           Target: Ally
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Boosts:
           - Amount: WIS + 2
@@ -1262,7 +1262,7 @@
     Effects:
     - Target:
         Target: Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: WIS + 2
@@ -1281,7 +1281,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Effects:
           - Mode: Slide
@@ -1327,7 +1327,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Movement:
         - Amount: +2
@@ -1335,7 +1335,7 @@
         Name: Skirmish Movement
     - Target:
         Target: Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: WIS
@@ -1355,7 +1355,7 @@
       Effects:
       - Target:
           Target: Self
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Boosts:
           - Amount: +4
@@ -1418,7 +1418,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -1437,7 +1437,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Blinded
@@ -1469,7 +1469,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Effects:
           - Name: Prone
@@ -1479,7 +1479,7 @@
           Name: MovementControl
       - Target:
           Target: Ally
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Boosts:
           - Amount: WIS
@@ -1533,7 +1533,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Effects:
           - Name: Prone
@@ -1577,7 +1577,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Movement:
         - Amount: +4
@@ -1585,7 +1585,7 @@
         Name: Skirmish Movement
     - Target:
         Target: Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Name: Healing Surge
@@ -1606,7 +1606,7 @@
       Effects:
       - Target:
           Target: Self
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Movement:
           - Amount: WIS
@@ -1624,7 +1624,7 @@
     Effects:
     - Target:
         Target: Self, Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: WIS
@@ -1664,7 +1664,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Immobilized
@@ -1673,7 +1673,7 @@
           Name: Condition
       - Target:
           Target: Self
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Movement:
           - Amount: WIS
@@ -1713,7 +1713,7 @@
       Effects:
       - Target:
           Target: Self, Ally
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Boosts:
           - Amount: +2
@@ -1791,7 +1791,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: WIS + 2
@@ -1820,7 +1820,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -1874,7 +1874,7 @@
     Effects:
     - Target:
         Target: Self, Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Name: Extra Saving Throw
@@ -1926,7 +1926,7 @@
     Effects:
     - Target:
         Target: Self
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -1949,7 +1949,7 @@
       Effects:
       - Target:
           Target: Ally
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Boosts:
           - Amount: WIS
@@ -1968,7 +1968,7 @@
     Effects:
     - Target:
         Target: Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Name: Healing Surge
@@ -2055,7 +2055,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Weakened
@@ -2087,7 +2087,7 @@
       Effects:
       - Target:
           Target: Enemy
-          Name: Target
+          Name: Basic Target
         Modifiers:
         - Conditions:
           - Name: Dazed
@@ -2106,7 +2106,7 @@
     Effects:
     - Target:
         Target: Self, Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -2140,7 +2140,7 @@
     Effects:
     - Target:
         Target: Ally
-        Name: Target
+        Name: Basic Target
       Modifiers:
       - Boosts:
         - Amount: WIS

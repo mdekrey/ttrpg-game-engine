@@ -30,7 +30,7 @@ Modifiers:
 Effects:
 - Target:
     Target: Self
-    Name: Target
+    Name: Basic Target
   Modifiers:
   - Boosts:
     - Amount: +2
