@@ -12,8 +12,6 @@ namespace GameEngine.Generator.Modifiers
     public record NonArmorDefenseFormula() : IAttackModifierFormula
     {
         public const string ModifierName = "Non-Armor Defense";
-        public string Name => ModifierName;
-
         public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {
             if (stage != UpgradeStage.Standard && attack.PowerInfo.ToolProfile.Type == ToolType.Weapon)

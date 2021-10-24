@@ -10,7 +10,6 @@ namespace GameEngine.Generator.Modifiers
     public record MovementControlFormula() : IEffectFormula
     {
         public const string ModifierName = "MovementControl";
-        public string Name => ModifierName;
 
         public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {

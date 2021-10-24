@@ -12,7 +12,6 @@ namespace GameEngine.Generator.Modifiers
     public record ConditionFormula() : IEffectFormula
     {
         public const string ModifierName = "Condition";
-        public string Name => ModifierName;
 
         public record ConditionOptionKey(Condition Condition, Duration Duration);
         public record ConditionOptionValue(PowerCost Cost, int Chances);

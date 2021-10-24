@@ -12,7 +12,6 @@ namespace GameEngine.Generator.Modifiers
     public record BurstFormula() : IAttackModifierFormula
     {
         public const string ModifierName = "Multiple";
-        public string Name => ModifierName;
 
         public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {

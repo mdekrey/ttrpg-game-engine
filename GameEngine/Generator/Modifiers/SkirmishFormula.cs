@@ -11,7 +11,6 @@ namespace GameEngine.Generator.Modifiers
     public record SkirmishFormula() : IEffectFormula
     {
         public const string ModifierName = "Skirmish Movement";
-        public string Name => ModifierName;
 
         public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {

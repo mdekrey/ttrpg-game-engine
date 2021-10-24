@@ -13,7 +13,6 @@ namespace GameEngine.Generator.Modifiers
     public record MultiattackFormula() : IPowerModifierFormula
     {
         public const string ModifierName = "Multiattack";
-        public string Name => ModifierName;
 
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power) =>
             new ShouldMultiattackModifier().GetUpgrades(stage, power);

@@ -2,7 +2,7 @@
 
 namespace GameEngine.Generator.Modifiers
 {
-    public interface IAttackModifierFormula : IModifierFormula<IAttackModifier>
+    public interface IAttackModifierFormula
     {
         IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power);
     }

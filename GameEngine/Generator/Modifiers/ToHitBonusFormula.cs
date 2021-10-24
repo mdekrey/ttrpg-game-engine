@@ -13,7 +13,6 @@ namespace GameEngine.Generator.Modifiers
     public record ToHitBonusFormula() : IAttackModifierFormula
     {
         public const string ModifierName = "To-Hit Bonus to Current Attack";
-        public string Name => ModifierName;
 
         public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {

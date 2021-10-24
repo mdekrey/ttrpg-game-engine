@@ -9,7 +9,6 @@ namespace GameEngine.Generator.Modifiers
     public record AbilityModifierDamageFormula() : IAttackModifierFormula
     {
         const string ModifierName = "Ability Modifier Damage";
-        public string Name => ModifierName;
 
         public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {

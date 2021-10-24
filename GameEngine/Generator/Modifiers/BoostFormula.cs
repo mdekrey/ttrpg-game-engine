@@ -12,7 +12,6 @@ namespace GameEngine.Generator.Modifiers
     public record BoostFormula() : IEffectFormula
     {
         public const string ModifierName = "Boost";
-        public string Name => ModifierName;
 
         private static IEnumerable<Boost> GetBasicBoosts(PowerHighLevelInfo powerInfo, Duration duration)
         {

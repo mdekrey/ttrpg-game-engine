@@ -10,7 +10,6 @@ namespace GameEngine.Generator.Modifiers
     public record OpportunityActionFormula() : IPowerModifierFormula
     {
         public const string ModifierName = "OpportunityAction";
-        public string Name => ModifierName;
 
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
         {
