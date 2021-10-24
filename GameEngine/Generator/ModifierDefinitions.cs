@@ -35,14 +35,7 @@ namespace GameEngine.Generator
             // Stance
             // Free basic attacks
             // Sustain
-        );
-        public static readonly ImmutableList<ITargetModifier> basicTargetModifiers = Build<ITargetModifier>(
-            new BasicTarget(Target.Enemy),
-            new BasicTarget(Target.Ally),
-            new BasicTarget(Target.Self),
-            new BasicTarget(Target.Ally | Target.Self)
-        );
-            
+        );            
         public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = Build<ITargetFormula>(
             // TODO
         );

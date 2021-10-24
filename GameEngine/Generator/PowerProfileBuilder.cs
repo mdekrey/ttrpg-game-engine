@@ -9,6 +9,12 @@ namespace GameEngine.Generator
     public record PowerProfileBuilder(PowerLimits Limits, WeaponDiceDistribution WeaponDiceDistribution, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffectBuilder> Effects)
         : IModifierBuilder
     {
+        public static readonly ImmutableList<Target> TargetOptions = new[] {
+            Target.Ally,
+            Target.Self,
+            Target.Ally | Target.Self,
+        }.ToImmutableList();
+
         public PowerProfileBuilder Apply(IPowerModifier target, IPowerModifier? toRemove = null)
         {
             return this with
@@ -112,11 +118,9 @@ namespace GameEngine.Generator
                     where !Modifiers.Any(m => m.Name == mod.Name)
                     select this.Apply(mod)
                     ,
-                    from target in ModifierDefinitions.basicTargetModifiers
-                    let t = target.GetTarget()
-                    where !t.HasFlag(Target.Enemy)  
-                    where !Effects.Any(te => (te.Target.GetTarget() & t) != 0)
-                    let newBuilder = new TargetEffectBuilder(target, ImmutableList<IEffectModifier>.Empty, PowerInfo)
+                    from target in TargetOptions
+                    where !Effects.Any(te => (te.Target.GetTarget() & target) != 0)
+                    let newBuilder = new TargetEffectBuilder(new BasicTarget(target), ImmutableList<IEffectModifier>.Empty, PowerInfo)
                     from newBuilderUpgrade in newBuilder.GetUpgrades(stage, this)
                     select this with { Effects = this.Effects.Add(newBuilderUpgrade) }
                 }
