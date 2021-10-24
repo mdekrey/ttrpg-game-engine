@@ -12,6 +12,7 @@
       - Target:
           Target: Self
           Name: Basic Target
+        EffectType: Beneficial
         Modifiers:
         - Movement:
           - Amount: STR

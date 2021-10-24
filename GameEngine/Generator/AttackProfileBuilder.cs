@@ -8,11 +8,11 @@ namespace GameEngine.Generator
 {
     public record AttackProfileBuilder(Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
     {
-        public static readonly ImmutableList<Target> TargetOptions = new[] {
-            Target.Enemy,
-            Target.Ally,
-            Target.Self,
-            Target.Ally | Target.Self,
+        public static readonly ImmutableList<(Target Target, EffectType EffectType)> TargetOptions = new[] {
+            (Target.Enemy, EffectType.Harmful),
+            (Target.Ally, EffectType.Beneficial),
+            (Target.Self, EffectType.Beneficial),
+            (Target.Ally | Target.Self, EffectType.Beneficial),
         }.ToImmutableList();
 
         public AttackProfileBuilder Apply(IAttackModifier target, IAttackModifier? toRemove = null)
@@ -58,9 +58,9 @@ namespace GameEngine.Generator
                 where !Modifiers.Any(m => m.Name == mod.Name)
                 select this.Apply(mod)
                 ,
-                from target in TargetOptions
-                where !TargetEffects.Any(te => (te.Target.GetTarget() & target) != 0)
-                let newBuilder = new TargetEffectBuilder(new BasicTarget(target), ImmutableList<IEffectModifier>.Empty, PowerInfo)
+                from entry in TargetOptions
+                where !TargetEffects.Any(te => te.EffectType == entry.EffectType && (te.Target.GetTarget() & entry.Target) != 0)
+                let newBuilder = new TargetEffectBuilder(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty, PowerInfo)
                 from newBuilderUpgrade in newBuilder.GetUpgrades(stage, power, attackIndex: attackIndex)
                 select this with { TargetEffects = this.TargetEffects.Add(newBuilderUpgrade) }
             }

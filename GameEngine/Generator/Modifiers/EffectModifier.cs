@@ -5,7 +5,6 @@ namespace GameEngine.Generator.Modifiers
 {
     public abstract record EffectModifier(string Name) : IEffectModifier
     {
-        public abstract Target ValidTargets();
         public abstract PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power);
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public virtual bool IsPlaceholder() => false;

@@ -55,7 +55,6 @@ namespace GameEngine.Generator.Modifiers
 
         public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : EffectModifier(ModifierName)
         {
-            public override Target ValidTargets() => Target.Enemy;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => 
                 new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(power.GetDuration())).Sum());
@@ -64,20 +63,21 @@ namespace GameEngine.Generator.Modifiers
             public override bool EnablesSaveEnd() => Conditions.Any();
 
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IEffectModifier>() :
-                from set in new[]
-                {
-                    from basicCondition in basicConditions.Keys
-                    where !Conditions.Select(b => b.Name).Contains(basicCondition)
-                    where !GetSubsumed(Conditions).Contains(basicCondition)
-                    select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
+                (stage < UpgradeStage.Standard) || target.EffectType != EffectType.Harmful
+                    ? Enumerable.Empty<IEffectModifier>()
+                    : from set in new[]
+                      {
+                          from basicCondition in basicConditions.Keys
+                          where !Conditions.Select(b => b.Name).Contains(basicCondition)
+                          where !GetSubsumed(Conditions).Contains(basicCondition)
+                          select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
 
-                    from condition in Conditions
-                    from upgrade in condition.GetUpgrades(target.PowerInfo)
-                    select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
-                }
-                from mod in set
-                select mod;
+                          from condition in Conditions
+                          from upgrade in condition.GetUpgrades(target.PowerInfo)
+                          select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
+                      }
+                      from mod in set
+                      select mod;
 
             private static ImmutableList<Condition> Filter(ImmutableList<Condition> conditions)
             {

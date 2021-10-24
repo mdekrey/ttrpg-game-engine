@@ -8,8 +8,9 @@ Attacks:
   - Normal
   Effects:
   - Target:
-      Target: Enemy
+      Target: Enemy, Self, Ally
       Name: Basic Target
+    EffectType: Harmful
     Modifiers:
     - Conditions:
       - Name: Blinded

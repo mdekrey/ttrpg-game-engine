@@ -6,7 +6,6 @@ namespace GameEngine.Generator.Modifiers
     public interface IEffectModifier : IModifier
     {
         PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context);
-        Target ValidTargets();
         bool UsesDuration();
         bool EnablesSaveEnd();
         IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power);

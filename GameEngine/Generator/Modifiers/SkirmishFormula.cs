@@ -15,6 +15,7 @@ namespace GameEngine.Generator.Modifiers
         public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {
             if (stage < UpgradeStage.Standard) yield break;
+            if (target.Target.GetTarget() != Target.Self) yield break;
 
             // TODO - when should we use the secondary ability?
             //var ability = attack.PowerInfo.ToolProfile.Abilities.Count == 1
@@ -64,7 +65,6 @@ namespace GameEngine.Generator.Modifiers
         }
         public record SkirmishMovementModifier(EquatableImmutableList<SkirmishMovement> Movement) : EffectModifier(ModifierName)
         {
-            public override Target ValidTargets() => Target.Self;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override bool UsesDuration() => false;
             public override bool EnablesSaveEnd() => false;
@@ -72,8 +72,9 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IEffectModifier>() :
-                GetUpgrades(builder.PowerInfo);
+                (stage < UpgradeStage.Standard) || builder.Target.GetTarget() != Target.Self
+                    ? Enumerable.Empty<IEffectModifier>()
+                    : GetUpgrades(builder.PowerInfo);
 
             public IEnumerable<EffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 from set in new[]

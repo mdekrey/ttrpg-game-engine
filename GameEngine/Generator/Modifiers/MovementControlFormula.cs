@@ -27,7 +27,6 @@ namespace GameEngine.Generator.Modifiers
 
         public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : EffectModifier(ModifierName)
         {
-            public override Target ValidTargets() => Target.Enemy;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => IsPlaceholder() ? 0 : 1;
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder attack) =>
                 new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
@@ -37,19 +36,20 @@ namespace GameEngine.Generator.Modifiers
             public override bool EnablesSaveEnd() => false;
 
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IEffectModifier>() :
-                from set in new[]
-                {
-                    from basicCondition in basicEffects
-                    where !Effects.Select(b => b.Name).Contains(basicCondition.Name)
-                    select this with { Effects = Effects.Items.Add(basicCondition) },
+                (stage < UpgradeStage.Standard) || (builder.Target.GetTarget().HasFlag(Target.Ally | Target.Enemy) && !builder.Target.GetTarget().HasFlag(Target.Self))
+                    ? Enumerable.Empty<IEffectModifier>() 
+                    : from set in new[]
+                      {
+                          from basicCondition in basicEffects
+                          where !Effects.Select(b => b.Name).Contains(basicCondition.Name)
+                          select this with { Effects = Effects.Items.Add(basicCondition) },
 
-                    from condition in Effects
-                    from upgrade in condition.GetUpgrades(builder.PowerInfo)
-                    select this with { Effects = Effects.Items.Remove(condition).Add(upgrade) },
-                }
-                from mod in set
-                select mod;
+                          from condition in Effects
+                          from upgrade in condition.GetUpgrades(builder.PowerInfo)
+                          select this with { Effects = Effects.Items.Remove(condition).Add(upgrade) },
+                      }
+                      from mod in set
+                      select mod;
 
             public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) => 
                 new(100, (target) => target with { Parts = target.Parts.AddRange(Effects.Select(e => e.HitPart(effect.Target.GetTarget()))) });

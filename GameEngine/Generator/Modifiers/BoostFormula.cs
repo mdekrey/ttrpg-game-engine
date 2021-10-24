@@ -149,7 +149,6 @@ namespace GameEngine.Generator.Modifiers
 
         public record BoostModifier(EquatableImmutableList<Boost> Boosts) : EffectModifier(ModifierName)
         {
-            public override Target ValidTargets() => Target.Self | Target.Ally;
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => Boosts.Select(boost => boost.Category()).Distinct().Count();
             public override bool IsPlaceholder() => Boosts.Count == 0;
             public override bool UsesDuration() => Boosts.Any(b => b.UsesDuration());
@@ -167,8 +166,9 @@ namespace GameEngine.Generator.Modifiers
                 );
 
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
-                stage != UpgradeStage.Standard ? Enumerable.Empty<IEffectModifier>() :
-                GetUpgrades(builder.PowerInfo, power.GetDuration());
+                stage != UpgradeStage.Standard || builder.EffectType != EffectType.Beneficial
+                    ? Enumerable.Empty<IEffectModifier>() 
+                    : GetUpgrades(builder.PowerInfo, power.GetDuration());
 
             public IEnumerable<IEffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo, Duration duration) =>
                 from set in new[]

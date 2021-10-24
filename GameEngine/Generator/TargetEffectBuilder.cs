@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record TargetEffectBuilder(ITargetModifier Target, ImmutableList<IEffectModifier> Modifiers, PowerHighLevelInfo PowerInfo)
+    public record TargetEffectBuilder(ITargetModifier Target, EffectType EffectType, ImmutableList<IEffectModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : IModifierBuilder
     {
         public TargetEffectBuilder Apply(ITargetModifier target)
@@ -25,7 +25,7 @@ namespace GameEngine.Generator
         public PowerCost TotalCost(PowerProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         internal TargetEffect Build() =>
-            new TargetEffect(Target, Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
+            new TargetEffect(Target, EffectType, Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
 
         public IEnumerable<IModifier> AllModifiers() => Modifiers.Add<IModifier>(Target);
 
@@ -38,12 +38,10 @@ namespace GameEngine.Generator
                        ,
                        from modifier in this.Modifiers
                        from upgrade in modifier.GetUpgrades(stage, this, power)
-                       where upgrade.ValidTargets().HasFlag(currentTarget)
                        select this.Apply(upgrade, modifier)
                        ,
                        from formula in ModifierDefinitions.effectModifiers
                        from mod in formula.GetBaseModifiers(stage, this, power)
-                       where mod.ValidTargets().HasFlag(currentTarget)
                        where !Modifiers.Any(m => m.Name == mod.Name)
                        select this.Apply(mod)
                    }

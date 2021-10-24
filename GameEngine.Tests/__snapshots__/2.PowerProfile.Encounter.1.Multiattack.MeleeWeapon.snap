@@ -23,17 +23,16 @@ Attacks:
     - Strength
     Name: Ability Modifier Damage
 Modifiers:
-- Duration: EndOfUserNextTurn
-  Name: Duration
 - PowerSource: Martial
   Name: Power Source
 Effects:
 - Target:
     Target: Self
     Name: Basic Target
+  EffectType: Beneficial
   Modifiers:
   - Boosts:
-    - Amount: +2
-      Limit: Target
+    - Amount: STR
+      Limit: NextAttack
       Name: Attack
     Name: Boost

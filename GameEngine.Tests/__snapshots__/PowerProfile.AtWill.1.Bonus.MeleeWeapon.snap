@@ -10,6 +10,7 @@ Attacks:
   - Target:
       Target: Ally
       Name: Basic Target
+    EffectType: Beneficial
     Modifiers:
     - Boosts:
       - Amount: +2
