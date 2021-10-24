@@ -6,11 +6,12 @@ using GameEngine.Rules;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record AbilityModifierDamageFormula() : AttackModifierFormula(ModifierName)
+    public record AbilityModifierDamageFormula() : IAttackModifierFormula
     {
         const string ModifierName = "Ability Modifier Damage";
+        public string Name => ModifierName;
 
-        public override IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
+        public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {
             return new AbilityDamageModifier(ImmutableList<Ability>.Empty).GetUpgrades(stage, attack, power);
         }

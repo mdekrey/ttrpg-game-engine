@@ -31,7 +31,7 @@ namespace GameEngine.Generator
         private static IEnumerable<AttackProfileBuilder> PreApplyImplementNonArmorDefense(this AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
             attack.PowerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, stage, power) : new[] { attack };
 
-        private static IEnumerable<AttackProfileBuilder> Apply(this AttackModifierFormula formula, AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
+        private static IEnumerable<AttackProfileBuilder> Apply(this IAttackModifierFormula formula, AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
         {
             return from mod in formula.GetBaseModifiers(stage, attack, power)
                    where !attack.Modifiers.Any(m => m.Name == mod.Name)

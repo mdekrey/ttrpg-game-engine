@@ -10,11 +10,12 @@ using GameEngine.Generator.Text;
 namespace GameEngine.Generator.Modifiers
 {
 
-    public record ToHitBonusFormula() : AttackModifierFormula(ModifierName)
+    public record ToHitBonusFormula() : IAttackModifierFormula
     {
         public const string ModifierName = "To-Hit Bonus to Current Attack";
+        public string Name => ModifierName;
 
-        public override IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
+        public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {
             return new ToHitBonus(0).GetUpgrades(stage, attack, power);
         }

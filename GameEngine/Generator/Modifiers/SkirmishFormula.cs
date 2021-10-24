@@ -8,11 +8,12 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record SkirmishFormula() : TargetEffectFormula(ModifierName)
+    public record SkirmishFormula() : ITargetEffectFormula
     {
         public const string ModifierName = "Skirmish Movement";
+        public string Name => ModifierName;
 
-        public override IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {
             if (stage < UpgradeStage.Standard) yield break;
 

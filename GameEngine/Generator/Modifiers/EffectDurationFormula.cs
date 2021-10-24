@@ -6,10 +6,11 @@ using System.Text;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record EffectDurationFormula() : PowerModifierFormula(ModifierName)
+    public record EffectDurationFormula() : IPowerModifierFormula
     {
         public const string ModifierName = "Duration";
-        public override IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
+        public string Name => ModifierName;
+        public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
         {
             if (!power.AllModifiers().OfType<IEffectModifier>().Any(d => d.UsesDuration()))
                 yield break;

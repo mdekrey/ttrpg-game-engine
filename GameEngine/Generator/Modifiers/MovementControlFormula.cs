@@ -7,11 +7,12 @@ using GameEngine.Rules;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record MovementControlFormula() : TargetEffectFormula(ModifierName)
+    public record MovementControlFormula() : ITargetEffectFormula
     {
         public const string ModifierName = "MovementControl";
+        public string Name => ModifierName;
 
-        public override IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {
             return new MovementModifier(ImmutableList<MovementControl>.Empty).GetUpgrades(stage, target, power);
         }

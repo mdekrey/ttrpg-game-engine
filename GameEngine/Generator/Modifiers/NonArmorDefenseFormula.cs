@@ -9,11 +9,12 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record NonArmorDefenseFormula() : AttackModifierFormula(ModifierName)
+    public record NonArmorDefenseFormula() : IAttackModifierFormula
     {
         public const string ModifierName = "Non-Armor Defense";
+        public string Name => ModifierName;
 
-        public override IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
+        public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {
             if (stage != UpgradeStage.Standard && attack.PowerInfo.ToolProfile.Type == ToolType.Weapon)
                 yield break;

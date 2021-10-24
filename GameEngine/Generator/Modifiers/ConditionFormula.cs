@@ -9,9 +9,10 @@ using GameEngine.Generator.Text;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ConditionFormula() : TargetEffectFormula(ModifierName)
+    public record ConditionFormula() : ITargetEffectFormula
     {
         public const string ModifierName = "Condition";
+        public string Name => ModifierName;
 
         public record ConditionOptionKey(Condition Condition, Duration Duration);
         public record ConditionOptionValue(PowerCost Cost, int Chances);
@@ -43,7 +44,7 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public override IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
         {
             return new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, target, power);
         }

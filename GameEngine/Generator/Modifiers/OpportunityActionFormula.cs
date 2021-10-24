@@ -7,11 +7,12 @@ using GameEngine.Rules;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record OpportunityActionFormula() : PowerModifierFormula(ModifierName)
+    public record OpportunityActionFormula() : IPowerModifierFormula
     {
         public const string ModifierName = "OpportunityAction";
+        public string Name => ModifierName;
 
-        public override IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
+        public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
         {
             if (power.PowerInfo.Usage == PowerFrequency.AtWill)
                 return Enumerable.Empty<IPowerModifier>();

@@ -10,11 +10,12 @@ using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record MultiattackFormula() : PowerModifierFormula(ModifierName)
+    public record MultiattackFormula() : IPowerModifierFormula
     {
         public const string ModifierName = "Multiattack";
+        public string Name => ModifierName;
 
-        public override IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power) =>
+        public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power) =>
             new ShouldMultiattackModifier().GetUpgrades(stage, power);
 
         public record ShouldMultiattackModifier() : PowerModifier(ModifierName)

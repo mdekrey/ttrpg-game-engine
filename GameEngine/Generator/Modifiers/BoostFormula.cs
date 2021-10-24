@@ -9,9 +9,10 @@ using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record BoostFormula() : TargetEffectFormula(ModifierName)
+    public record BoostFormula() : ITargetEffectFormula
     {
         public const string ModifierName = "Boost";
+        public string Name => ModifierName;
 
         private static IEnumerable<Boost> GetBasicBoosts(PowerHighLevelInfo powerInfo, Duration duration)
         {
@@ -40,7 +41,7 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Should only get to "SaveEnds" if there's another SaveEnds effect
             : 1;
 
-        public override IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) => 
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) => 
             new BoostModifier(ImmutableList<Boost>.Empty).GetUpgrades(stage, target, power);
 
         public enum Limit

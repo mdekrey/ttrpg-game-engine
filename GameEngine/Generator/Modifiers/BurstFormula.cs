@@ -9,11 +9,12 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record BurstFormula() : AttackModifierFormula(ModifierName)
+    public record BurstFormula() : IAttackModifierFormula
     {
         public const string ModifierName = "Multiple";
+        public string Name => ModifierName;
 
-        public override IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
+        public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {
             return new MultipleAttackModifier().GetUpgrades(stage, attack, power);
         }
