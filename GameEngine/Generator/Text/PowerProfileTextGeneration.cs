@@ -53,7 +53,7 @@ namespace GameEngine.Generator.Text
         public static TargetInfo ToTargetInfo(this TargetEffect effect, PowerProfile power)
         {
             var result = new TargetInfo(
-                Target: effect.Target.GetTargetText(multiple: false),
+                Target: effect.Target.GetTarget().GetTargetText(multiple: false), // TODO
                 Parts: ImmutableList<string>.Empty
             );
 
@@ -105,7 +105,7 @@ namespace GameEngine.Generator.Text
                 MissSentences: ImmutableList<string>.Empty
             );
             var effects = attack.Effects.AsEnumerable();
-            if (attack.Effects.Any() && attack.Effects[0].Target.HasFlag(Target.Enemy))
+            if (attack.Effects.Any() && attack.Effects[0].Target.GetTarget().HasFlag(Target.Enemy))
             {
                 effects = effects.Skip(1);
                 TargetInfo targetInfo = attack.Effects[0].ToTargetInfo(power);

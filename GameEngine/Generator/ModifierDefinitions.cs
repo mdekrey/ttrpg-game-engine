@@ -12,7 +12,7 @@ namespace GameEngine.Generator
 
         public static readonly IAttackModifierFormula NonArmorDefense = new NonArmorDefenseFormula();
         public static readonly IAttackModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula();
-        public static readonly ImmutableList<ITargetEffectFormula> effectModifiers = Build<ITargetEffectFormula>(
+        public static readonly ImmutableList<IEffectFormula> effectModifiers = Build<IEffectFormula>(
             new ConditionFormula(),
             new SkirmishFormula(),
             new BoostFormula(),
@@ -35,6 +35,16 @@ namespace GameEngine.Generator
             // Stance
             // Free basic attacks
             // Sustain
+        );
+        public static readonly ImmutableList<ITargetModifier> basicTargetModifiers = Build<ITargetModifier>(
+            new BasicTarget(Target.Enemy),
+            new BasicTarget(Target.Ally),
+            new BasicTarget(Target.Self),
+            new BasicTarget(Target.Ally | Target.Self)
+        );
+            
+        public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = Build<ITargetFormula>(
+            // TODO
         );
     }
 }

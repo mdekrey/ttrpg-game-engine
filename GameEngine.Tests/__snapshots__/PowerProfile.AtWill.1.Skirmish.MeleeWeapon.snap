@@ -7,7 +7,9 @@ Attacks:
   DamageTypes:
   - Normal
   Effects:
-  - Target: Self
+  - Target:
+      Target: Self
+      Name: Basic Target
     Modifiers:
     - Movement:
       - Amount: STR

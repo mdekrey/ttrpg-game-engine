@@ -35,7 +35,7 @@ namespace GameEngine.Tests.Modifiers
                 Ability: Rules.Ability.Strength,
                 DamageTypes: Build(DamageType.Normal),
                 TargetEffects: Build(
-                    new TargetEffectBuilder(Target.Enemy, Build<IEffectModifier>(), info)
+                    new TargetEffectBuilder(new BasicTarget(Target.Enemy), Build<IEffectModifier>(), info)
                 ),
                 Modifiers: Build<IAttackModifier>(
                     new AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Strength))
@@ -48,7 +48,7 @@ namespace GameEngine.Tests.Modifiers
                 attack.PowerInfo, 
                 Build(attack), 
                 Build<IPowerModifier>(), 
-                Build(new TargetEffectBuilder(Target.Enemy, ImmutableList<IEffectModifier>.Empty, info))
+                Build(new TargetEffectBuilder(new BasicTarget(Target.Enemy), ImmutableList<IEffectModifier>.Empty, info))
             );
 
             var upgrades = attack.Modifiers.First().GetUpgrades(UpgradeStage.Finalize, attack, power);

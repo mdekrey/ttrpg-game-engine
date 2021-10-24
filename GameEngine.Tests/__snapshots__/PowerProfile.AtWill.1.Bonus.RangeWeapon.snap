@@ -7,7 +7,9 @@ Attacks:
   DamageTypes:
   - Normal
   Effects:
-  - Target: Ally
+  - Target:
+      Target: Ally
+      Name: Basic Target
     Modifiers:
     - Boosts:
       - Amount: +2

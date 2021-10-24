@@ -8,7 +8,7 @@ using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record SkirmishFormula() : ITargetEffectFormula
+    public record SkirmishFormula() : IEffectFormula
     {
         public const string ModifierName = "Skirmish Movement";
         public string Name => ModifierName;
@@ -92,7 +92,7 @@ namespace GameEngine.Generator.Modifiers
                 new(500, (target) => target with
                 {
                     Parts = target.Parts.AddRange(from move in Movement
-                                                  select move.GetAttackPart(effect.Target))
+                                                  select move.GetAttackPart(effect.Target.GetTarget()))
                 });
         }
     }

@@ -9,7 +9,7 @@ using GameEngine.Generator.Text;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ConditionFormula() : ITargetEffectFormula
+    public record ConditionFormula() : IEffectFormula
     {
         public const string ModifierName = "Condition";
         public string Name => ModifierName;
@@ -110,7 +110,7 @@ namespace GameEngine.Generator.Modifiers
 
                 var parts = new List<string>();
                 yield return @$"{OxfordComma((from condition in Conditions
-                                              group condition.Effect().ToLower() by condition.Verb(effect.Target) into verbGroup
+                                              group condition.Effect().ToLower() by condition.Verb(effect.Target.GetTarget()) into verbGroup
                                               select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())} {duration}";
             }
 

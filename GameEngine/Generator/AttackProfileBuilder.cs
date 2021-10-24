@@ -8,13 +8,6 @@ namespace GameEngine.Generator
 {
     public record AttackProfileBuilder(Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
     {
-        private static readonly ImmutableList<Target> TargetOptions = new[] {
-            Target.Enemy,
-            Target.Ally,
-            Target.Self,
-            Target.Ally | Target.Self
-        }.ToImmutableList();
-
         public AttackProfileBuilder Apply(IAttackModifier target, IAttackModifier? toRemove = null)
         {
             return this with
@@ -58,8 +51,8 @@ namespace GameEngine.Generator
                 where !Modifiers.Any(m => m.Name == mod.Name)
                 select this.Apply(mod)
                 ,
-                from target in TargetOptions
-                where !TargetEffects.Any(te => (te.Target & target) != 0)
+                from target in ModifierDefinitions.basicTargetModifiers
+                where !TargetEffects.Any(te => (te.Target.GetTarget() & target.GetTarget()) != 0)
                 let newBuilder = new TargetEffectBuilder(target, ImmutableList<IEffectModifier>.Empty, PowerInfo)
                 from newBuilderUpgrade in newBuilder.GetUpgrades(stage, power)
                 select this with { TargetEffects = this.TargetEffects.Add(newBuilderUpgrade) }

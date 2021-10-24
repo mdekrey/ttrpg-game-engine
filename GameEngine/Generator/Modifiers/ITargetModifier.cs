@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public interface IEffectModifier : IModifier
+    public interface ITargetModifier : IModifier
     {
+        bool IModifier.IsPlaceholder() => false;
+
+        bool IsBasic();
+        Target GetTarget();
         PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context);
-        Target ValidTargets();
-        bool UsesDuration();
-        bool EnablesSaveEnd();
-        IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power);
+        IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int targetEffectIndex);
         TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
     }
 }

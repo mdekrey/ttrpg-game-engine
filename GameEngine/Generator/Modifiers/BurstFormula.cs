@@ -31,7 +31,6 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
             public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
-            public override bool MustUpgrade() => true;
             public override bool IsPlaceholder() => true;
 
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)

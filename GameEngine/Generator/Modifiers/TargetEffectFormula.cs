@@ -2,7 +2,7 @@
 
 namespace GameEngine.Generator.Modifiers
 {
-    public interface ITargetEffectFormula : IModifierFormula<IEffectModifier>
+    public interface IEffectFormula : IModifierFormula<IEffectModifier>
     {
         IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power);
     }

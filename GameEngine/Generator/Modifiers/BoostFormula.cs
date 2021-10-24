@@ -9,7 +9,7 @@ using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record BoostFormula() : ITargetEffectFormula
+    public record BoostFormula() : IEffectFormula
     {
         public const string ModifierName = "Boost";
         public string Name => ModifierName;
@@ -204,11 +204,11 @@ namespace GameEngine.Generator.Modifiers
                 var parts = new List<string>();
                 if (Boosts.Where(b => b.UsesDuration()).Any())
                 {
-                    yield return $"{OxfordComma(Boosts.Where(b => b.UsesDuration()).Select(b => b.BoostText(effect.Target)).ToArray())} {duration}";
+                    yield return $"{OxfordComma(Boosts.Where(b => b.UsesDuration()).Select(b => b.BoostText(effect.Target.GetTarget())).ToArray())} {duration}";
                 }
                 if (Boosts.Where(b => !b.UsesDuration()).Any())
                 {
-                    yield return $"{OxfordComma(Boosts.Where(b => !b.UsesDuration()).Select(b => b.BoostText(effect.Target)).ToArray())}";
+                    yield return $"{OxfordComma(Boosts.Where(b => !b.UsesDuration()).Select(b => b.BoostText(effect.Target.GetTarget())).ToArray())}";
                 }
             }
 

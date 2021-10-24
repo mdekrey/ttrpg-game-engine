@@ -49,7 +49,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Self
+      - Target:
+          Target: Self
+          Name: Target
         Modifiers:
         - Movement:
           - Amount: WIS
@@ -156,7 +158,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Blinded
@@ -218,7 +222,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -275,7 +281,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Self
+      - Target:
+          Target: Self
+          Name: Target
         Modifiers:
         - Movement:
           - Amount: WIS + 2
@@ -291,7 +299,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: WIS + 2
@@ -322,7 +332,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: WIS + 2
@@ -339,7 +351,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Immobilized
@@ -355,7 +369,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: WIS
@@ -372,7 +388,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Self
+      - Target:
+          Target: Self
+          Name: Target
         Modifiers:
         - Movement:
           - Amount: WIS + 2
@@ -399,7 +417,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Slowed
@@ -495,7 +515,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self, Ally
+    - Target:
+        Target: Self, Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -534,13 +556,17 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Blinded
           - Name: Dazed
           Name: Condition
-      - Target: Ally
+      - Target:
+          Target: Ally
+          Name: Target
         Modifiers:
         - Boosts:
           - Amount: +2
@@ -567,7 +593,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Self
+      - Target:
+          Target: Self
+          Name: Target
         Modifiers:
         - Boosts:
           - Name: Healing Surge
@@ -583,7 +611,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Self, Ally
+      - Target:
+          Target: Self, Ally
+          Name: Target
         Modifiers:
         - Boosts:
           - Amount: WIS
@@ -621,13 +651,17 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Movement:
         - Amount: WIS
           Name: Shift
         Name: Skirmish Movement
-    - Target: Ally
+    - Target:
+        Target: Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: +8
@@ -667,7 +701,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Dazed
@@ -696,7 +732,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Immobilized
@@ -774,7 +812,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self, Ally
+    - Target:
+        Target: Self, Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -792,7 +832,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Immobilized
@@ -808,7 +850,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self, Ally
+    - Target:
+        Target: Self, Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: WIS
@@ -851,7 +895,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -931,7 +977,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -949,7 +997,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Slowed
@@ -1037,7 +1087,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self, Ally
+    - Target:
+        Target: Self, Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -1055,7 +1107,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Slowed
@@ -1094,7 +1148,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -1135,7 +1191,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Ally
+      - Target:
+          Target: Ally
+          Name: Target
         Modifiers:
         - Boosts:
           - Amount: WIS
@@ -1152,7 +1210,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: WIS
@@ -1181,7 +1241,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Ally
+      - Target:
+          Target: Ally
+          Name: Target
         Modifiers:
         - Boosts:
           - Amount: WIS + 2
@@ -1198,7 +1260,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Ally
+    - Target:
+        Target: Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: WIS + 2
@@ -1215,7 +1279,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Effects:
           - Mode: Slide
@@ -1259,13 +1325,17 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Movement:
         - Amount: +2
           Name: Shift
         Name: Skirmish Movement
-    - Target: Ally
+    - Target:
+        Target: Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: WIS
@@ -1283,7 +1353,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Self
+      - Target:
+          Target: Self
+          Name: Target
         Modifiers:
         - Boosts:
           - Amount: +4
@@ -1344,7 +1416,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -1361,7 +1435,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Blinded
@@ -1391,7 +1467,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Effects:
           - Name: Prone
@@ -1399,7 +1477,9 @@
             Amount: +2
             Name: Slide Opponent
           Name: MovementControl
-      - Target: Ally
+      - Target:
+          Target: Ally
+          Name: Target
         Modifiers:
         - Boosts:
           - Amount: WIS
@@ -1451,7 +1531,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Effects:
           - Name: Prone
@@ -1493,13 +1575,17 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Movement:
         - Amount: +4
           Name: Shift
         Name: Skirmish Movement
-    - Target: Ally
+    - Target:
+        Target: Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Name: Healing Surge
@@ -1518,7 +1604,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Self
+      - Target:
+          Target: Self
+          Name: Target
         Modifiers:
         - Movement:
           - Amount: WIS
@@ -1534,7 +1622,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self, Ally
+    - Target:
+        Target: Self, Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: WIS
@@ -1572,14 +1662,18 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Immobilized
           - Name: Blinded
           - Name: Dazed
           Name: Condition
-      - Target: Self
+      - Target:
+          Target: Self
+          Name: Target
         Modifiers:
         - Movement:
           - Amount: WIS
@@ -1617,7 +1711,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Self, Ally
+      - Target:
+          Target: Self, Ally
+          Name: Target
         Modifiers:
         - Boosts:
           - Amount: +2
@@ -1693,7 +1789,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: WIS + 2
@@ -1720,7 +1818,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -1772,7 +1872,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self, Ally
+    - Target:
+        Target: Self, Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Name: Extra Saving Throw
@@ -1822,7 +1924,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self
+    - Target:
+        Target: Self
+        Name: Target
       Modifiers:
       - Movement:
         - Amount: WIS
@@ -1843,7 +1947,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Ally
+      - Target:
+          Target: Ally
+          Name: Target
         Modifiers:
         - Boosts:
           - Amount: WIS
@@ -1860,7 +1966,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Ally
+    - Target:
+        Target: Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Name: Healing Surge
@@ -1945,7 +2053,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Weakened
@@ -1975,7 +2085,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Target
         Modifiers:
         - Conditions:
           - Name: Dazed
@@ -1992,7 +2104,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Self, Ally
+    - Target:
+        Target: Self, Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: +2
@@ -2024,7 +2138,9 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target: Ally
+    - Target:
+        Target: Ally
+        Name: Target
       Modifiers:
       - Boosts:
         - Amount: WIS

@@ -9,7 +9,9 @@
       DamageTypes:
       - Normal
       Effects:
-      - Target: Enemy
+      - Target:
+          Target: Enemy
+          Name: Basic Target
         Modifiers:
         - Effects:
           - Name: Prone

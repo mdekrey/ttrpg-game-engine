@@ -112,8 +112,10 @@ namespace GameEngine.Generator
                     where !Modifiers.Any(m => m.Name == mod.Name)
                     select this.Apply(mod)
                     ,
-                    from target in EffectTargetOptions
-                    where !Effects.Any(te => (te.Target & target) != 0)
+                    from target in ModifierDefinitions.basicTargetModifiers
+                    let t = target.GetTarget()
+                    where !t.HasFlag(Target.Enemy)  
+                    where !Effects.Any(te => (te.Target.GetTarget() & t) != 0)
                     let newBuilder = new TargetEffectBuilder(target, ImmutableList<IEffectModifier>.Empty, PowerInfo)
                     from newBuilderUpgrade in newBuilder.GetUpgrades(stage, this)
                     select this with { Effects = this.Effects.Add(newBuilderUpgrade) }

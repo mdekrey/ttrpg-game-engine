@@ -28,7 +28,9 @@ Modifiers:
 - PowerSource: Martial
   Name: Power Source
 Effects:
-- Target: Self
+- Target:
+    Target: Self
+    Name: Target
   Modifiers:
   - Boosts:
     - Amount: +2

@@ -7,7 +7,9 @@ Attacks:
   DamageTypes:
   - Normal
   Effects:
-  - Target: Enemy
+  - Target:
+      Target: Enemy
+      Name: Basic Target
     Modifiers:
     - Conditions:
       - Name: Dazed

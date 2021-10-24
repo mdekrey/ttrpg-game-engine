@@ -7,7 +7,7 @@ using GameEngine.Rules;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record MovementControlFormula() : ITargetEffectFormula
+    public record MovementControlFormula() : IEffectFormula
     {
         public const string ModifierName = "MovementControl";
         public string Name => ModifierName;
@@ -53,7 +53,7 @@ namespace GameEngine.Generator.Modifiers
                 select mod;
 
             public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) => 
-                new(100, (target) => target with { Parts = target.Parts.AddRange(Effects.Select(e => e.HitPart(effect.Target))) });
+                new(100, (target) => target with { Parts = target.Parts.AddRange(Effects.Select(e => e.HitPart(effect.Target.GetTarget()))) });
         }
 
         public abstract record MovementControl(string Name)

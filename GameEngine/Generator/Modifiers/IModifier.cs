@@ -9,6 +9,5 @@ namespace GameEngine.Generator.Modifiers
         string Name { get; }
         int GetComplexity(PowerHighLevelInfo powerInfo);
         bool IsPlaceholder();
-        bool MustUpgrade();
     }
 }

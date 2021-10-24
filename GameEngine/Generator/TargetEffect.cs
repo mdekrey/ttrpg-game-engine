@@ -2,5 +2,5 @@
 
 namespace GameEngine.Generator
 {
-    public record TargetEffect(Target Target, EquatableImmutableList<IEffectModifier> Modifiers);
+    public record TargetEffect(ITargetModifier Target, EquatableImmutableList<IEffectModifier> Modifiers);
 }
