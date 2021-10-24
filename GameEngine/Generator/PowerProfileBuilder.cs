@@ -100,13 +100,13 @@ namespace GameEngine.Generator
                     from targetKvp in Effects.Select((effect, index) => (effect, index))
                     let effect = targetKvp.effect
                     let index = targetKvp.index
-                    from upgrade in effect.GetUpgrades(stage, this)
+                    from upgrade in effect.GetUpgrades(stage, this, attackIndex: null)
                     select this with { Effects = this.Effects.SetItem(index, upgrade) }
                     ,
                     from attackKvp in Attacks.Select((attack, index) => (attack, index))
                     let attack = attackKvp.attack
                     let index = attackKvp.index
-                    from upgrade in attack.GetUpgrades(stage, this)
+                    from upgrade in attack.GetUpgrades(stage, this, attackIndex: index)
                     select this with { Attacks = this.Attacks.SetItem(index, upgrade) }
                     ,
                     from modifier in Modifiers
@@ -121,7 +121,7 @@ namespace GameEngine.Generator
                     from target in TargetOptions
                     where !Effects.Any(te => (te.Target.GetTarget() & target) != 0)
                     let newBuilder = new TargetEffectBuilder(new BasicTarget(target), ImmutableList<IEffectModifier>.Empty, PowerInfo)
-                    from newBuilderUpgrade in newBuilder.GetUpgrades(stage, this)
+                    from newBuilderUpgrade in newBuilder.GetUpgrades(stage, this, attackIndex: null)
                     select this with { Effects = this.Effects.Add(newBuilderUpgrade) }
                 }
                 from entry in set

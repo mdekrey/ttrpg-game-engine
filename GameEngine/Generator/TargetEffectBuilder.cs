@@ -8,6 +8,11 @@ namespace GameEngine.Generator
     public record TargetEffectBuilder(ITargetModifier Target, ImmutableList<IEffectModifier> Modifiers, PowerHighLevelInfo PowerInfo)
         : IModifierBuilder
     {
+        public TargetEffectBuilder Apply(ITargetModifier target)
+        {
+            return this with { Target = target };
+        }
+
         public TargetEffectBuilder Apply(IEffectModifier target, IEffectModifier? toRemove = null)
         {
             return this with
@@ -24,10 +29,13 @@ namespace GameEngine.Generator
 
         public IEnumerable<IModifier> AllModifiers() => Modifiers.Add<IModifier>(Target);
 
-        public virtual IEnumerable<TargetEffectBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power)
+        public virtual IEnumerable<TargetEffectBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power, int? attackIndex)
         {
             var currentTarget = Target.GetTarget();
             return from set in new[] {
+                       from upgrade in Target.GetUpgrades(stage, this, power, attackIndex)
+                       select this.Apply(upgrade)
+                       ,
                        from modifier in this.Modifiers
                        from upgrade in modifier.GetUpgrades(stage, this, power)
                        where upgrade.ValidTargets().HasFlag(currentTarget)

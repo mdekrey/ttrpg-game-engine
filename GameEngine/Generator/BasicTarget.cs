@@ -20,11 +20,9 @@ namespace GameEngine.Generator
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int targetEffectIndex)
+        public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
         {
             yield break;
         }
-
-        public bool IsBasic() => true;
     }
 }

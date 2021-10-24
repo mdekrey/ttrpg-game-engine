@@ -39,14 +39,14 @@ namespace GameEngine.Generator
                 Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList()
             );
 
-        public virtual IEnumerable<AttackProfileBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
+        public virtual IEnumerable<AttackProfileBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power, int? attackIndex) =>
 
             from set in new[]
             {
                 from targetKvp in TargetEffects.Select((targetEffect, index) => (targetEffect, index))
                 let targetEffect = targetKvp.targetEffect
                 let index = targetKvp.index
-                from upgrade in targetEffect.GetUpgrades(stage, power)
+                from upgrade in targetEffect.GetUpgrades(stage, power, attackIndex: attackIndex)
                 select this with { TargetEffects = this.TargetEffects.SetItem(index, upgrade) }
                 ,
                 from modifier in this.Modifiers
@@ -61,7 +61,7 @@ namespace GameEngine.Generator
                 from target in TargetOptions
                 where !TargetEffects.Any(te => (te.Target.GetTarget() & target) != 0)
                 let newBuilder = new TargetEffectBuilder(new BasicTarget(target), ImmutableList<IEffectModifier>.Empty, PowerInfo)
-                from newBuilderUpgrade in newBuilder.GetUpgrades(stage, power)
+                from newBuilderUpgrade in newBuilder.GetUpgrades(stage, power, attackIndex: attackIndex)
                 select this with { TargetEffects = this.TargetEffects.Add(newBuilderUpgrade) }
             }
             from entry in set
