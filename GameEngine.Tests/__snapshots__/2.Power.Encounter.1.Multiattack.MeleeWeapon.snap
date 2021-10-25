@@ -54,7 +54,7 @@
   - Label: Hit
     Text: 1[W] + STR damage and is slowed until the end of your next turn. Make a secondary attack.
   - Label: Secondary Target
-    Text: One creature adjacent to the primary target
+    Text: One creature
   - Label: Secondary Attack
     Text: STR vs. AC
   - Label: Secondary Hit

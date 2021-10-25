@@ -6,7 +6,9 @@ Attacks:
   Effects:
   - Target:
       Target: Enemy, Self, Ally
-      Name: Basic Target
+      Size: 5
+      Type: Burst
+      Name: Multiple
     EffectType: Harmful
     Modifiers:
     - Damage: 1[W] + STR
@@ -16,13 +18,19 @@ Attacks:
     - Conditions:
       - Name: Blinded
       - Name: Dazed
-      - Name: Immobilized
-      - Name: Weakened
       Name: Condition
   Modifiers: []
 Modifiers:
-- Duration: SaveEnds
-  Name: Duration
 - PowerSource: Martial
   Name: Power Source
-Effects: []
+Effects:
+- Target:
+    Target: Ally
+    Name: Basic Target
+  EffectType: Beneficial
+  Modifiers:
+  - Boosts:
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    Name: Boost

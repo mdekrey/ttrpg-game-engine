@@ -51,7 +51,7 @@
   - Label: Hit
     Text: 1[W] + STR damage and is blinded and dazed until the end of your next turn.
   - Label: Secondary Target
-    Text: One creature adjacent to the primary target
+    Text: One creature
   - Label: Secondary Attack
     Text: STR vs. AC
   - Label: Secondary Hit

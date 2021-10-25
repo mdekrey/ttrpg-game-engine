@@ -2,18 +2,20 @@
 Tool: Weapon
 ToolRange: Range
 Attacks:
-- WeaponDice: 1
-  Ability: Strength
-  DamageTypes:
-  - Normal
-  Effects: []
-  Modifiers:
-  - Abilities:
-    - Strength
-    Name: Ability Modifier Damage
-  - Size: 5
-    Type: Blast
-    Name: Multiple
+- Ability: Strength
+  Effects:
+  - Target:
+      Target: Enemy, Self, Ally
+      Size: 3
+      Type: Blast
+      Name: Multiple
+    EffectType: Harmful
+    Modifiers:
+    - Damage: 1[W] + STR
+      DamageTypes:
+      - Normal
+      Name: Damage
+  Modifiers: []
 Modifiers:
 - PowerSource: Martial
   Name: Power Source

@@ -14,13 +14,13 @@ namespace GameEngine.Generator.Modifiers
         public IEnumerable<ITargetModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
         {
             if (stage < UpgradeStage.Standard) yield break;
-            // TODO
-            //if (power.PowerInfo.ToolProfile.Range != ToolRange.Range || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-            //    yield return new BurstModifier(target.Target.GetTarget(), 3, BurstType.Burst);
-            //if (power.PowerInfo.ToolProfile.Range != ToolRange.Melee || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-            //    yield return new BurstModifier(target.Target.GetTarget(), 1, BurstType.Blast);
-            //if (power.PowerInfo.ToolProfile.Range != ToolRange.Melee || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-            //    yield return new BurstModifier(target.Target.GetTarget(), 3, BurstType.Area);
+            if (attackIndex == null || attackIndex.Value < power.Attacks.Count - 1) yield break;
+            if (power.PowerInfo.ToolProfile.Range != ToolRange.Range || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new BurstModifier(target.Target.GetTarget(), 3, BurstType.Burst);
+            if (power.PowerInfo.ToolProfile.Range != ToolRange.Melee || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new BurstModifier(target.Target.GetTarget(), 1, BurstType.Blast);
+            if (power.PowerInfo.ToolProfile.Range != ToolRange.Melee || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new BurstModifier(target.Target.GetTarget(), 3, BurstType.Area);
         }
 
         // TODO - walls
@@ -50,18 +50,18 @@ namespace GameEngine.Generator.Modifiers
                     this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) }
                 };
 
-            public AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-                new(0, (attack, index) => attack with
-                {
-                    TargetType = AttackType.Target.EachEnemy,
-                    AttackType = Type switch
-                    {
-                        BurstType.Blast => new CloseBlast(Size),
-                        BurstType.Area => new AreaBurst(Size / 2, Size / 2 * 10),
-                        BurstType.Burst => new CloseBurst(Size / 2),
-                        _ => throw new NotImplementedException(),
-                    }
-                });
+            //public AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
+            //    new(0, (attack, index) => attack with
+            //    {
+            //        TargetType = AttackType.Target.EachEnemy,
+            //        AttackType = Type switch
+            //        {
+            //            BurstType.Blast => new CloseBlast(Size),
+            //            BurstType.Area => new AreaBurst(Size / 2, Size / 2 * 10),
+            //            BurstType.Burst => new CloseBurst(Size / 2),
+            //            _ => throw new NotImplementedException(),
+            //        }
+            //    });
 
             public Target GetTarget() => Target;
 

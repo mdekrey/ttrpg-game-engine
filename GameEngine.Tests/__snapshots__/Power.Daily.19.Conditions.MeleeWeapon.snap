@@ -8,7 +8,9 @@
       Effects:
       - Target:
           Target: Enemy, Self, Ally
-          Name: Basic Target
+          Size: 5
+          Type: Burst
+          Name: Multiple
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
@@ -18,16 +20,22 @@
         - Conditions:
           - Name: Blinded
           - Name: Dazed
-          - Name: Immobilized
-          - Name: Weakened
           Name: Condition
       Modifiers: []
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Limit: NextAttack
+          Name: Attack
+        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 19
   PowerUsage: Daily
@@ -41,4 +49,6 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and is blinded, dazed, immobilized, and weakened (save ends.)
+    Text: 1[W] + STR damage and is blinded and dazed until the end of your next turn.
+  - Label: Effect
+    Text: One of your allies gains a +2 power bonus to attack rolls on the next attack before the end of your next turn.

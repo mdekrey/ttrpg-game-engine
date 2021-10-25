@@ -6,7 +6,9 @@ Attacks:
   Effects:
   - Target:
       Target: Enemy, Self, Ally
-      Name: Basic Target
+      Size: 2
+      Type: Blast
+      Name: Multiple
     EffectType: Harmful
     Modifiers:
     - Damage: d4 + STR
@@ -15,11 +17,13 @@ Attacks:
       Name: Damage
   - Target:
       Target: Ally
-      Name: Basic Target
+      Size: 1
+      Type: Blast
+      Name: Multiple
     EffectType: Beneficial
     Modifiers:
     - Boosts:
-      - Amount: +4
+      - Amount: +2
         Limit: NextAttack
         Name: Attack
       Name: Boost

@@ -152,6 +152,7 @@ namespace GameEngine.Generator
             {
                 var oldBuilder = powerProfileBuilder;
                 var preChance = (from entry in powerProfileBuilder.GetUpgrades(stage)
+                                 where entry.IsValid()
                                  let builtEntry = entry.Build()
                                  where !exclude.Contains(builtEntry)
                                  select entry).ToArray();

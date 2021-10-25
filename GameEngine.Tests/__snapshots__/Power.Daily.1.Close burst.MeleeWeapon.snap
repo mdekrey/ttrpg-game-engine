@@ -4,27 +4,23 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1
-      Ability: Strength
-      DamageTypes:
-      - Normal
+    - Ability: Strength
       Effects:
       - Target:
           Target: Enemy, Self, Ally
-          Name: Basic Target
+          Size: 3
+          Type: Burst
+          Name: Multiple
         EffectType: Harmful
         Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes:
+          - Normal
+          Name: Damage
         - Conditions:
           - Name: Blinded
-          - Name: Dazed
           Name: Condition
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-      - Size: 3
-        Type: Burst
-        Name: Multiple
+      Modifiers: []
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -36,10 +32,10 @@
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Close
-  AttackTypeDetails: burst 1
-  Target: Each enemy in range
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and the target is blinded and dazed until the end of your next turn.
+    Text: 1[W] + STR damage and is blinded until the end of your next turn.

@@ -6,10 +6,12 @@ Attacks:
   Effects:
   - Target:
       Target: Enemy, Self, Ally
-      Name: Basic Target
+      Size: 2
+      Type: Blast
+      Name: Multiple
     EffectType: Harmful
     Modifiers:
-    - Damage: d4 + STR
+    - Damage: STR
       DamageTypes:
       - Radiant
       Name: Damage

@@ -93,7 +93,7 @@ namespace GameEngine.Generator.Text
         {
             var result = new AttackInfo(
                 AttackType: AttackType.From(power.Tool, power.ToolRange),
-                TargetType: AttackType.Target.OneCreature,
+                Target: "One creature",
                 AttackExpression: (GameDiceExpression)attack.Ability,
                 AttackNotes: null,
                 Defense: DefenseType.ArmorClass,
@@ -129,7 +129,7 @@ namespace GameEngine.Generator.Text
                 {
                     AttackType = attack.AttackType.TypeText(),
                     AttackTypeDetails = attack.AttackType.TypeDetailsText(),
-                    Target = attack.AttackType.TargetText(attack.TargetType),
+                    Target = attack.Target,
                     Attack = attack.ToAttackText(),
                     RulesText = power.RulesText.Items
                         .Add(new("Hit", attack.Hit))
@@ -142,7 +142,7 @@ namespace GameEngine.Generator.Text
                 return power with
                 {
                     RulesText = power.RulesText.Items
-                        .Add(new($"{Ordinal(index).Capitalize()} Target", attack.AttackType.AdditionalTargetText(attack.TargetType, index)))
+                        .Add(new($"{Ordinal(index).Capitalize()} Target", attack.Target))
                         .Add(new($"{Ordinal(index).Capitalize()} Attack", attack.ToAttackText()))
                         .Add(new($"{Ordinal(index).Capitalize()} Hit", attack.Hit))
                         .Add(new($"{Ordinal(index).Capitalize()} Miss", attack.Miss))

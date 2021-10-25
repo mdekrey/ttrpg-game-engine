@@ -162,7 +162,8 @@ namespace GameEngine.Generator.Modifiers
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, index) => attack with
                 {
-                    TargetType = AttackType.Target.OneOrTwoCreatures,
+                    Target = "One or two creatures", // TODO - this should be an ITargetModifier
+                    //TargetType = AttackType.Target.OneOrTwoCreatures,
                     AttackNotes = ", two attacks"
                 });
         }
@@ -179,7 +180,8 @@ namespace GameEngine.Generator.Modifiers
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, index) => attack with
                 {
-                    TargetType = AttackType.Target.OneTwoOrThreeCreatures,
+                    Target = "One, two, or three creatures", // TODO - this should be an ITargetModifier
+                    //TargetType = AttackType.Target.OneTwoOrThreeCreatures,
                     AttackNotes = ", one attack per target"
                 });
         }

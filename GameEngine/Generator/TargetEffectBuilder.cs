@@ -22,7 +22,7 @@ namespace GameEngine.Generator
         }
 
         public int Complexity => Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
-        public PowerCost TotalCost(PowerProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+        public PowerCost TotalCost(PowerProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b) + Target.GetCost(this, builder);
 
         internal TargetEffect Build() =>
             new TargetEffect(Target, EffectType, Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList());
@@ -34,6 +34,7 @@ namespace GameEngine.Generator
             var currentTarget = Target.GetTarget();
             return from set in new[] {
                        from upgrade in Target.GetUpgrades(stage, this, power, attackIndex)
+                       where this.Modifiers.Count > 0
                        select this.Apply(upgrade)
                        ,
                        from modifier in this.Modifiers

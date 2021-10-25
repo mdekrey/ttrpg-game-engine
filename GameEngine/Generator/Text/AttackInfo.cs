@@ -7,7 +7,7 @@ namespace GameEngine.Generator.Text
 {
     public record AttackInfo(
         AttackType AttackType,
-        AttackType.Target TargetType, // TODO - change target type/attack type as string from enum to strings
+        string Target,
         GameDiceExpression AttackExpression,
         string? AttackNotes,
         DefenseType Defense,

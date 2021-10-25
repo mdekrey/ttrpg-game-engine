@@ -23,8 +23,12 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
-            new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
+        public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power)
+        {
+            if (attack == null)
+                return Enumerable.Empty<IEffectModifier>();
+
+            return new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
                 .Distinct()
                 .Take(stage switch
                 {
@@ -38,6 +42,7 @@ namespace GameEngine.Generator.Modifiers
                 {
                     Damage = Damage + ability
                 });
+        }
 
         public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) =>
             new(0, (target) => target with { Parts = target.Parts.Add(string.Join(" ", new string[]

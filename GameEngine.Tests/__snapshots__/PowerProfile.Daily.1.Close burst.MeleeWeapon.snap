@@ -2,27 +2,23 @@
 Tool: Weapon
 ToolRange: Melee
 Attacks:
-- WeaponDice: 1
-  Ability: Strength
-  DamageTypes:
-  - Normal
+- Ability: Strength
   Effects:
   - Target:
       Target: Enemy, Self, Ally
-      Name: Basic Target
+      Size: 3
+      Type: Burst
+      Name: Multiple
     EffectType: Harmful
     Modifiers:
+    - Damage: 1[W] + STR
+      DamageTypes:
+      - Normal
+      Name: Damage
     - Conditions:
       - Name: Blinded
-      - Name: Dazed
       Name: Condition
-  Modifiers:
-  - Abilities:
-    - Strength
-    Name: Ability Modifier Damage
-  - Size: 3
-    Type: Burst
-    Name: Multiple
+  Modifiers: []
 Modifiers:
 - PowerSource: Martial
   Name: Power Source

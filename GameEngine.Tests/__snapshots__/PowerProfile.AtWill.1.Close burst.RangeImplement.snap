@@ -2,20 +2,22 @@
 Tool: Implement
 ToolRange: Range
 Attacks:
-- WeaponDice: 0.5
-  Ability: Strength
-  DamageTypes:
-  - Radiant
-  Effects: []
+- Ability: Strength
+  Effects:
+  - Target:
+      Target: Enemy, Self, Ally
+      Size: 5
+      Type: Burst
+      Name: Multiple
+    EffectType: Harmful
+    Modifiers:
+    - Damage: STR
+      DamageTypes:
+      - Radiant
+      Name: Damage
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Abilities:
-    - Strength
-    Name: Ability Modifier Damage
-  - Size: 5
-    Type: Burst
-    Name: Multiple
 Modifiers:
 - PowerSource: Arcane
   Name: Power Source
