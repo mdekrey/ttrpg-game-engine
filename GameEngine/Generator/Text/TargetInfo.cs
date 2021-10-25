@@ -6,10 +6,11 @@ namespace GameEngine.Generator.Text
 {
     public record TargetInfo(
         string Target,
+        AttackType AttackType,
         ImmutableList<string> Parts
     )
     {
-        public string ToSentence() =>
-            Parts.Count == 0 ? "" : (Target + " " + OxfordComma(Parts.ToArray())).FinishSentence().TransposeParenthesis();
+        public string ToSentence(string? targetOverride = null) =>
+            Parts.Count == 0 ? "" : ((targetOverride ?? Target) + " " + OxfordComma(Parts.ToArray())).FinishSentence().TransposeParenthesis();
     }
 }

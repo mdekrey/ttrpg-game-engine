@@ -51,18 +51,6 @@ namespace GameEngine.Generator.Text
             OneOrTwoCreatures,
             OneTwoOrThreeCreatures,
         }
-
-        internal static AttackType From(ToolType weapon, ToolRange range)
-        {
-            return (weapon, range) switch
-            {
-                (ToolType.Weapon, ToolRange.Melee) => new MeleeWeaponAttackType(),
-                (ToolType.Implement, ToolRange.Melee) => new MeleeTouchAttackType(),
-                (ToolType.Weapon, ToolRange.Range) => new RangedWeaponAttackType(),
-                (ToolType.Implement, ToolRange.Range) => new RangedAttackType(10),
-                _ => throw new NotSupportedException(),
-            };
-        }
     }
 
     public record MeleeWeaponAttackType() : AttackType()

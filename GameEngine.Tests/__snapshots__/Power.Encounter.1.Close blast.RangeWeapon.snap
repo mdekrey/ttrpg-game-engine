@@ -29,9 +29,9 @@
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Ranged
-  AttackTypeDetails: weapon
-  Target: One creature
+  AttackType: Close
+  AttackTypeDetails: blast 3
+  Target: Each creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit

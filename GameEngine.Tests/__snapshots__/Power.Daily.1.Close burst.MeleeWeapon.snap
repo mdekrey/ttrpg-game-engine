@@ -32,9 +32,9 @@
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Melee
-  AttackTypeDetails: weapon
-  Target: One creature
+  AttackType: Close
+  AttackTypeDetails: burst 1
+  Target: Each creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit

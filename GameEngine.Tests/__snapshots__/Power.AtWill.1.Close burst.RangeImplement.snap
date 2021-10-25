@@ -31,9 +31,9 @@
   - Arcane
   - Implement
   ActionType: Standard Action
-  AttackType: Ranged
-  AttackTypeDetails: 10
-  Target: One creature
+  AttackType: Close
+  AttackTypeDetails: burst 2
+  Target: Each creature
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit

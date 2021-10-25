@@ -54,6 +54,7 @@ namespace GameEngine.Generator.Text
         {
             var result = new TargetInfo(
                 Target: effect.Target.GetTargetText(power, attackIndex: attackIndex),
+                AttackType: effect.Target.GetAttackType(power, attackIndex: attackIndex),
                 Parts: ImmutableList<string>.Empty
             );
 
@@ -91,25 +92,20 @@ namespace GameEngine.Generator.Text
 
         public static AttackInfo ToAttackInfo(this AttackProfile attack, PowerProfile power, int index)
         {
+            var targetInfo = attack.Effects[0].ToTargetInfo(power, attackIndex: index);
+            var effects = attack.Effects.Skip(1);
+
             var result = new AttackInfo(
-                AttackType: AttackType.From(power.Tool, power.ToolRange),
-                Target: "One creature",
+                AttackType: targetInfo.AttackType,
+                Target: targetInfo.Target,
                 AttackExpression: (GameDiceExpression)attack.Ability,
                 AttackNotes: null,
                 Defense: DefenseType.ArmorClass,
-                HitParts: ImmutableList<string>.Empty,
-                HitSentences: ImmutableList<string>.Empty,
-                MissSentences: ImmutableList<string>.Empty
+                HitParts: targetInfo.Parts,
+                HitSentences: effects.Select(effect => effect.ToTargetInfo(power, attackIndex: index).ToSentence()).ToImmutableList(),
+                MissSentences: ImmutableList<string>.Empty // TODO - miss targets
             );
-            var effects = attack.Effects.AsEnumerable();
-            if (attack.Effects.Any() && attack.Effects[0].Target.GetTarget().HasFlag(Target.Enemy))
-            {
-                effects = effects.Skip(1);
-                TargetInfo targetInfo = attack.Effects[0].ToTargetInfo(power, attackIndex: index);
-                result = result with { HitParts = targetInfo.Parts };
-            }
-            result = result with { HitSentences = effects.Select(effect => effect.ToTargetInfo(power, attackIndex: index).ToSentence()).ToImmutableList() };
-            // TODO - miss targets
+            
 
             result = (from mod in attack.Modifiers
                       let mutator = mod.GetAttackInfoMutator(power)

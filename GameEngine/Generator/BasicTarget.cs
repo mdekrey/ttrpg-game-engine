@@ -9,7 +9,6 @@ namespace GameEngine.Generator
     public record BasicTarget(Target Target) : ITargetModifier
     {
         public string Name => "Basic Target";
-
         public int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
 
         public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context) => PowerCost.Empty;
@@ -31,7 +30,19 @@ namespace GameEngine.Generator
                 _ => throw new NotSupportedException(),
             };
         }
-    
+
+        public AttackType GetAttackType(PowerProfile power, int? attackIndex)
+        {
+            return (power.Tool, power.ToolRange) switch
+            {
+                (ToolType.Weapon, ToolRange.Melee) => new MeleeWeaponAttackType(),
+                (ToolType.Implement, ToolRange.Melee) => new MeleeTouchAttackType(),
+                (ToolType.Weapon, ToolRange.Range) => new RangedWeaponAttackType(),
+                (ToolType.Implement, ToolRange.Range) => new RangedAttackType(10),
+                _ => throw new NotSupportedException(),
+            };
+        }
+
         public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
         {
             return from formula in ModifierDefinitions.advancedTargetModifiers

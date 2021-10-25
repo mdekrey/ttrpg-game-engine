@@ -50,19 +50,6 @@ namespace GameEngine.Generator.Modifiers
                     this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) }
                 };
 
-            //public AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-            //    new(0, (attack, index) => attack with
-            //    {
-            //        TargetType = AttackType.Target.EachEnemy,
-            //        AttackType = Type switch
-            //        {
-            //            BurstType.Blast => new CloseBlast(Size),
-            //            BurstType.Area => new AreaBurst(Size / 2, Size / 2 * 10),
-            //            BurstType.Burst => new CloseBurst(Size / 2),
-            //            _ => throw new NotImplementedException(),
-            //        }
-            //    });
-
             public Target GetTarget() => Target;
 
             public string GetTargetText(PowerProfile power, int? attackIndex)
@@ -78,6 +65,17 @@ namespace GameEngine.Generator.Modifiers
                     Target.Ally | Target.Self | Target.Enemy => "Each creature",
 
                     _ => throw new NotSupportedException(),
+                };
+            }
+
+            public AttackType GetAttackType(PowerProfile power, int? attackIndex)
+            {
+                return Type switch
+                {
+                    BurstType.Blast => new CloseBlast(Size),
+                    BurstType.Area => new AreaBurst(Size / 2, Size / 2 * 10),
+                    BurstType.Burst => new CloseBurst(Size / 2),
+                    _ => throw new NotImplementedException(),
                 };
             }
         }
