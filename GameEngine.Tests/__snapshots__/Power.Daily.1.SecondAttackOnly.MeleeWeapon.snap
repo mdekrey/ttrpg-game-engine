@@ -4,33 +4,34 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1
-      Ability: Strength
-      DamageTypes:
-      - Normal
+    - Ability: Strength
       Effects:
       - Target:
           Target: Enemy, Self, Ally
           Name: Basic Target
         EffectType: Harmful
         Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes:
+          - Normal
+          Name: Damage
         - Conditions:
           - Name: Blinded
           - Name: Dazed
           Name: Condition
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
-    - WeaponDice: 1
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
+      Modifiers: []
+    - Ability: Strength
+      Effects:
+      - Target:
+          Target: Enemy, Self, Ally
+          Name: Basic Target
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes:
+          - Normal
+          Name: Damage
+      Modifiers: []
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -48,7 +49,7 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and the target is blinded and dazed until the end of your next turn.
+    Text: 1[W] + STR damage and is blinded and dazed until the end of your next turn.
   - Label: Secondary Target
     Text: One creature adjacent to the primary target
   - Label: Secondary Attack

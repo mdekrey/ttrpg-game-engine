@@ -29,7 +29,7 @@ namespace GameEngine.Generator
 
         public IEnumerable<IModifier> AllModifiers() => Modifiers.Add<IModifier>(Target);
 
-        public virtual IEnumerable<TargetEffectBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power, int? attackIndex)
+        public virtual IEnumerable<TargetEffectBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power, AttackProfileBuilder? attack, int? attackIndex)
         {
             var currentTarget = Target.GetTarget();
             return from set in new[] {
@@ -37,11 +37,11 @@ namespace GameEngine.Generator
                        select this.Apply(upgrade)
                        ,
                        from modifier in this.Modifiers
-                       from upgrade in modifier.GetUpgrades(stage, this, power)
+                       from upgrade in modifier.GetUpgrades(stage, this, attack, power)
                        select this.Apply(upgrade, modifier)
                        ,
                        from formula in ModifierDefinitions.effectModifiers
-                       from mod in formula.GetBaseModifiers(stage, this, power)
+                       from mod in formula.GetBaseModifiers(stage, this, attack, power)
                        where !Modifiers.Any(m => m.Name == mod.Name)
                        select this.Apply(mod)
                    }

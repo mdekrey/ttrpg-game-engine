@@ -2,25 +2,23 @@
 Tool: Implement
 ToolRange: Range
 Attacks:
-- WeaponDice: 0.5
-  Ability: Strength
-  DamageTypes:
-  - Radiant
+- Ability: Strength
   Effects:
   - Target:
       Target: Enemy, Self, Ally
       Name: Basic Target
     EffectType: Harmful
     Modifiers:
+    - Damage: d4 + STR
+      DamageTypes:
+      - Radiant
+      Name: Damage
     - Conditions:
       - Name: Blinded
       Name: Condition
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Abilities:
-    - Strength
-    Name: Ability Modifier Damage
 Modifiers:
 - Duration: EndOfUserNextTurn
   Name: Duration

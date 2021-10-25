@@ -10,7 +10,7 @@ namespace GameEngine.Dice
 {
 
     public record DieCodes(
-        ImmutableList<DieCode> Entries,
+        EquatableImmutableList<DieCode> Entries,
         int Modifier
     )
     {

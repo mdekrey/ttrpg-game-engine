@@ -9,13 +9,18 @@ using static GameEngine.Generator.PowerBuildingExtensions;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record BurstFormula() : IAttackModifierFormula
+    public record BurstFormula() : ITargetFormula
     {
-        public const string ModifierName = "Multiple";
-
-        public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
+        public IEnumerable<ITargetModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
         {
-            return new MultipleAttackModifier().GetUpgrades(stage, attack, power);
+            if (stage < UpgradeStage.Standard) yield break;
+            // TODO
+            //if (power.PowerInfo.ToolProfile.Range != ToolRange.Range || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+            //    yield return new BurstModifier(target.Target.GetTarget(), 3, BurstType.Burst);
+            //if (power.PowerInfo.ToolProfile.Range != ToolRange.Melee || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+            //    yield return new BurstModifier(target.Target.GetTarget(), 1, BurstType.Blast);
+            //if (power.PowerInfo.ToolProfile.Range != ToolRange.Melee || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+            //    yield return new BurstModifier(target.Target.GetTarget(), 3, BurstType.Area);
         }
 
         // TODO - walls
@@ -26,43 +31,26 @@ namespace GameEngine.Generator.Modifiers
             Area,
         }
 
-        public record MultipleAttackModifier() : AttackModifier(ModifierName)
+        public record BurstModifier(Target Target, int Size, BurstType Type) : ITargetModifier
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
-            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
-            public override bool IsPlaceholder() => true;
+            public string Name => "Multiple";
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
-            {
-                if (stage < UpgradeStage.Standard) yield break;
-                if (attack.PowerInfo.ToolProfile.Range != ToolRange.Range || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new BurstModifier(3, BurstType.Burst);
-                if (attack.PowerInfo.ToolProfile.Range != ToolRange.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new BurstModifier(1, BurstType.Blast);
-                if (attack.PowerInfo.ToolProfile.Range != ToolRange.Melee || attack.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                    yield return new BurstModifier(3, BurstType.Area);
-            }
-            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
-        }
+            public int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
 
-        public record BurstModifier(int Size, BurstType Type) : AttackModifier(ModifierName)
-        {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
-
-            public override PowerCost GetCost(AttackProfileBuilder builder)
+            public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context)
             {
                 var multiplier = ((Size - 1) / 2.0 + 2) / 2.0;
                 return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier); // TODO - is this right?
             }
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) ? Enumerable.Empty<IAttackModifier>() :
+            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex) =>
+                (stage < UpgradeStage.Standard) ? Enumerable.Empty<ITargetModifier>() :
                 new[]
                 {
                     this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) }
                 };
 
-            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
+            public AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
                 new(0, (attack, index) => attack with
                 {
                     TargetType = AttackType.Target.EachEnemy,
@@ -74,6 +62,24 @@ namespace GameEngine.Generator.Modifiers
                         _ => throw new NotImplementedException(),
                     }
                 });
+
+            public Target GetTarget() => Target;
+
+            public string GetTargetText(PowerProfile power, int? attackIndex)
+            {
+                return GetTarget() switch
+                {
+                    Target.Enemy => "Each enemy",
+                    Target.Self => "You",
+                    Target.Self | Target.Enemy => "You and each enemy",
+                    Target.Ally => "Each of your allies",
+                    Target.Ally | Target.Enemy => "Each creature other than yourself",
+                    Target.Ally | Target.Self => "You and each of your allies",
+                    Target.Ally | Target.Self | Target.Enemy => "Each creature",
+
+                    _ => throw new NotSupportedException(),
+                };
+            }
         }
     }
 

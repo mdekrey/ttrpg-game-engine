@@ -33,13 +33,20 @@ namespace GameEngine.Tests.Modifiers
                             );
             var attack = new AttackProfileBuilder(
                 Ability: Rules.Ability.Strength,
-                DamageTypes: Build(DamageType.Normal),
                 TargetEffects: Build(
-                    new TargetEffectBuilder(new BasicTarget(Target.Enemy | Target.Ally | Target.Self), EffectType.Harmful, Build<IEffectModifier>(), info)
+                    new TargetEffectBuilder(
+                        new BasicTarget(Target.Enemy | Target.Ally | Target.Self), 
+                        EffectType.Harmful, 
+                        Build<IEffectModifier>(
+                            new DamageModifier(
+                                Rules.GameDiceExpression.Empty + Rules.Ability.Strength,
+                                DamageTypes: Build(DamageType.Normal)
+                            )
+                        ), 
+                        info
+                    )
                 ),
-                Modifiers: Build<IAttackModifier>(
-                    new AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Strength))
-                ),
+                Modifiers: Build<IAttackModifier>(),
                 PowerInfo: info
             );
             var power = new PowerProfileBuilder(
@@ -51,11 +58,9 @@ namespace GameEngine.Tests.Modifiers
                 Build(new TargetEffectBuilder(new BasicTarget(Target.Enemy | Target.Ally | Target.Self), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty, info))
             );
 
-            var upgrades = attack.Modifiers.First().GetUpgrades(UpgradeStage.Finalize, attack, power);
+            var upgrades = attack.TargetEffects[0].Modifiers.First().GetUpgrades(UpgradeStage.Finalize, attack.TargetEffects[0], attack, power);
 
-            Assert.Collection(upgrades, upgrade => Assert.True(upgrade is AbilityModifierDamageFormula.AbilityDamageModifier { Abilities: var abilities } 
-                                                    && abilities.Contains(Rules.Ability.Strength) 
-                                                    && abilities.Contains(Rules.Ability.Dexterity)));
+            Assert.Collection(upgrades, upgrade => Assert.True(upgrade is DamageModifier { Damage: { Abilities: { Strength: 1, Dexterity: 1 } } }));
         }
     }
 }

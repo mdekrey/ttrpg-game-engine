@@ -11,9 +11,9 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "MovementControl";
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power)
         {
-            return new MovementModifier(ImmutableList<MovementControl>.Empty).GetUpgrades(stage, target, power);
+            return new MovementModifier(ImmutableList<MovementControl>.Empty).GetUpgrades(stage, target, attack, power);
         }
 
         private static readonly ImmutableList<MovementControl> basicEffects =
@@ -35,7 +35,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool UsesDuration() => false;
             public override bool EnablesSaveEnd() => false;
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) || (builder.Target.GetTarget().HasFlag(Target.Ally | Target.Enemy) && !builder.Target.GetTarget().HasFlag(Target.Self))
                     ? Enumerable.Empty<IEffectModifier>() 
                     : from set in new[]

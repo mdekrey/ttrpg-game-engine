@@ -10,6 +10,8 @@ namespace GameEngine.Generator.Modifiers
         Target GetTarget();
         PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context);
         IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex);
-        TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
+
+        // TODO - include range?
+        string GetTargetText(PowerProfile power, int? attackIndex);
     }
 }

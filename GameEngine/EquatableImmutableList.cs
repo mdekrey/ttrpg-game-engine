@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace GameEngine.Generator
+namespace GameEngine
 {
     public interface IEquatableImmutableList
     {

@@ -11,14 +11,21 @@ namespace GameEngine.Generator
             Tool: ToolType.Weapon, 
             ToolRange: ToolRange.Melee, 
             Attacks: Build(
-                new AttackProfile(
-                    WeaponDice: 1, 
+                new AttackProfile( 
                     Ability: Rules.Ability.Strength, 
-                    DamageTypes: Build<DamageType>(DamageType.Normal), 
-                    Effects: ImmutableList<TargetEffect>.Empty,
-                    Modifiers: Build<IAttackModifier>(
-                        new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Strength))
-                    )
+                    Effects: Build(
+                        new TargetEffect(
+                            new BasicTarget(Target.Ally | Target.Enemy | Target.Self), 
+                            EffectType.Harmful, 
+                            Build<IEffectModifier>(
+                                new DamageModifier(
+                                    Rules.GameDiceExpression.Empty with { WeaponDiceCount = 1 } + Rules.Ability.Strength,
+                                    DamageTypes: Build(DamageType.Normal)
+                                )
+                            )
+                        )
+                    ),
+                    Modifiers: ImmutableList<IAttackModifier>.Empty
                 )
             ), 
             Modifiers: ImmutableList<IPowerModifier>.Empty,
@@ -31,13 +38,20 @@ namespace GameEngine.Generator
             ToolRange: ToolRange.Range,
             Attacks: Build(
                 new AttackProfile(
-                    WeaponDice: 1,
                     Ability: Rules.Ability.Dexterity,
-                    DamageTypes: Build<DamageType>(DamageType.Normal),
-                    Effects: ImmutableList<TargetEffect>.Empty,
-                    Modifiers: Build<IAttackModifier>(
-                        new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(Build(Rules.Ability.Dexterity))
-                    )
+                    Effects: Build(
+                        new TargetEffect(
+                            new BasicTarget(Target.Ally | Target.Enemy | Target.Self),
+                            EffectType.Harmful,
+                            Build<IEffectModifier>(
+                                new DamageModifier(
+                                    Rules.GameDiceExpression.Empty with { WeaponDiceCount = 1 } + Rules.Ability.Dexterity,
+                                    DamageTypes: Build(DamageType.Normal)
+                                )
+                            )
+                        )
+                    ),
+                    Modifiers: ImmutableList<IAttackModifier>.Empty
                 )
             ),
             Modifiers: ImmutableList<IPowerModifier>.Empty,

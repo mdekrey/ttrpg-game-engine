@@ -4,26 +4,24 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1
-      Ability: Strength
-      DamageTypes:
-      - Normal
+    - Ability: Strength
       Effects:
       - Target:
           Target: Enemy, Self, Ally
           Name: Basic Target
         EffectType: Harmful
         Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes:
+          - Normal
+          Name: Damage
         - Effects:
           - Name: Prone
           - Mode: Pull
             Amount: +4
             Name: Slide Opponent
           Name: MovementControl
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
+      Modifiers: []
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -41,4 +39,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and the target is knocked prone and is pulled +4 squares.
+    Text: 1[W] + STR damage, is knocked prone, and is pulled +4 squares.

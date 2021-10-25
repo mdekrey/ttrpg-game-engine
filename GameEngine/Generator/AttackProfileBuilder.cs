@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record AttackProfileBuilder(Ability Ability, ImmutableList<DamageType> DamageTypes, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
+    public record AttackProfileBuilder(Ability Ability, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
     {
         public static readonly ImmutableList<(Target Target, EffectType EffectType)> TargetOptions = new[] {
             (Target.Enemy, EffectType.Harmful),
@@ -30,11 +30,9 @@ namespace GameEngine.Generator
                 TargetEffects.Select(e => e.TotalCost(builder))
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
-        internal AttackProfile Build(double weaponDice) =>
+        internal AttackProfile Build() =>
             new AttackProfile(
-                weaponDice, 
-                Ability, 
-                DamageTypes, 
+                Ability,
                 TargetEffects.Where(teb => teb.Modifiers.Any()).Select(teb => teb.Build()).ToImmutableList(), 
                 Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList()
             );
@@ -46,7 +44,7 @@ namespace GameEngine.Generator
                 from targetKvp in TargetEffects.Select((targetEffect, index) => (targetEffect, index))
                 let targetEffect = targetKvp.targetEffect
                 let index = targetKvp.index
-                from upgrade in targetEffect.GetUpgrades(stage, power, attackIndex: attackIndex)
+                from upgrade in targetEffect.GetUpgrades(stage, power, this, attackIndex: attackIndex)
                 select this with { TargetEffects = this.TargetEffects.SetItem(index, upgrade) }
                 ,
                 from modifier in this.Modifiers
@@ -61,7 +59,7 @@ namespace GameEngine.Generator
                 from entry in TargetOptions
                 where !TargetEffects.Any(te => te.EffectType == entry.EffectType && (te.Target.GetTarget() & entry.Target) != 0)
                 let newBuilder = new TargetEffectBuilder(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty, PowerInfo)
-                from newBuilderUpgrade in newBuilder.GetUpgrades(stage, power, attackIndex: attackIndex)
+                from newBuilderUpgrade in newBuilder.GetUpgrades(stage, power, this, attackIndex: attackIndex)
                 select this with { TargetEffects = this.TargetEffects.Add(newBuilderUpgrade) }
             }
             from entry in set

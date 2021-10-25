@@ -12,7 +12,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Skirmish Movement";
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power)
         {
             if (stage < UpgradeStage.Standard) yield break;
             if (target.Target.GetTarget() != Target.Self) yield break;
@@ -71,7 +71,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) || builder.Target.GetTarget() != Target.Self
                     ? Enumerable.Empty<IEffectModifier>()
                     : GetUpgrades(builder.PowerInfo);

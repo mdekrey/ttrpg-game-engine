@@ -3,7 +3,7 @@ using GameEngine.Rules;
 
 namespace GameEngine.Generator
 {
-    public record AttackProfile(double WeaponDice, Ability Ability, EquatableImmutableList<DamageType> DamageTypes, EquatableImmutableList<TargetEffect> Effects, EquatableImmutableList<IAttackModifier> Modifiers)
+    public record AttackProfile(Ability Ability, EquatableImmutableList<TargetEffect> Effects, EquatableImmutableList<IAttackModifier> Modifiers)
     {
     }
 }

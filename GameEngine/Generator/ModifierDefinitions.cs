@@ -11,7 +11,6 @@ namespace GameEngine.Generator
         public const string GeneralKeyword = "General";
 
         public static readonly IAttackModifierFormula NonArmorDefense = new NonArmorDefenseFormula();
-        public static readonly IAttackModifierFormula AbilityModifierDamage = new AbilityModifierDamageFormula();
         public static readonly ImmutableList<IEffectFormula> effectModifiers = Build<IEffectFormula>(
             new ConditionFormula(),
             new SkirmishFormula(),
@@ -22,9 +21,7 @@ namespace GameEngine.Generator
             // Disarm and catch
         );
         public static readonly ImmutableList<IAttackModifierFormula> attackModifiers = Build<IAttackModifierFormula>(
-            AbilityModifierDamage,
             NonArmorDefense,
-            new BurstFormula(),
             new ToHitBonusFormula()
             // Reroll attack
         );
@@ -36,8 +33,10 @@ namespace GameEngine.Generator
             // Free basic attacks
             // Sustain
         );            
-        public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = Build<ITargetFormula>(
+        public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = new ITargetFormula[]
+        {
+            new BurstFormula(),
             // TODO
-        );
+        }.ToImmutableList();
     }
 }

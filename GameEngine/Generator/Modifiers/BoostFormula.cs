@@ -40,8 +40,8 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Should only get to "SaveEnds" if there's another SaveEnds effect
             : 1;
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) => 
-            new BoostModifier(ImmutableList<Boost>.Empty).GetUpgrades(stage, target, power);
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power) => 
+            new BoostModifier(ImmutableList<Boost>.Empty).GetUpgrades(stage, target, attack, power);
 
         public enum Limit
         {
@@ -165,7 +165,7 @@ namespace GameEngine.Generator.Modifiers
                         .Sum()
                 );
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
                 stage != UpgradeStage.Standard || builder.EffectType != EffectType.Beneficial
                     ? Enumerable.Empty<IEffectModifier>() 
                     : GetUpgrades(builder.PowerInfo, power.GetDuration());

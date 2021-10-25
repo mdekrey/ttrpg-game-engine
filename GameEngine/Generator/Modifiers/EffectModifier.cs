@@ -12,6 +12,6 @@ namespace GameEngine.Generator.Modifiers
         public abstract bool EnablesSaveEnd();
         public abstract TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
 
-        public abstract IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, PowerProfileBuilder power);
+        public abstract IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, AttackProfileBuilder? attack, PowerProfileBuilder power);
     }
 }

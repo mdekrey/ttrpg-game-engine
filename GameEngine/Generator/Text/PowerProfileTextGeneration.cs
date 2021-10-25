@@ -40,7 +40,7 @@ namespace GameEngine.Generator.Text
 
             result = result with
             {
-                RulesText = result.RulesText.AddEffectSentences(profile.PowerProfile.Effects.Select(effect => effect.ToTargetInfo(profile.PowerProfile).ToSentence()))
+                RulesText = result.RulesText.AddEffectSentences(profile.PowerProfile.Effects.Select(effect => effect.ToTargetInfo(profile.PowerProfile, null).ToSentence()))
             };
 
             return result with
@@ -50,10 +50,10 @@ namespace GameEngine.Generator.Text
             };
         }
 
-        public static TargetInfo ToTargetInfo(this TargetEffect effect, PowerProfile power)
+        public static TargetInfo ToTargetInfo(this TargetEffect effect, PowerProfile power, int? attackIndex)
         {
             var result = new TargetInfo(
-                Target: effect.Target.GetTarget().GetTargetText(multiple: false), // TODO
+                Target: effect.Target.GetTargetText(power, attackIndex: attackIndex),
                 Parts: ImmutableList<string>.Empty
             );
 
@@ -65,41 +65,38 @@ namespace GameEngine.Generator.Text
             return result;
         }
 
-        public static string GetTargetText(this Target target, bool multiple)
-        {
-            return (target, multiple) switch
-            {
-                (Target.Enemy, false) => "One enemy",
-                (Target.Self, false) => "You",
-                (Target.Self | Target.Enemy, false) => "You or one enemy", // This may be a good one for "If you take damage from this power, deal damage to all enemies instead." or something
-                (Target.Ally, false) => "One of your allies",
-                (Target.Ally | Target.Enemy, false) => "One creature other than yourself",
-                (Target.Ally | Target.Self, false) => "You or one of your allies",
-                (Target.Ally | Target.Self | Target.Enemy, false) => "One creature",
+        //public static string GetTargetText(this Target target, bool multiple)
+        //{
+        //    return (target, multiple) switch
+        //    {
+        //        (Target.Enemy, false) => "One enemy",
+        //        (Target.Self, false) => "You",
+        //        (Target.Self | Target.Enemy, false) => "You or one enemy", // This may be a good one for "If you take damage from this power, deal damage to all enemies instead." or something
+        //        (Target.Ally, false) => "One of your allies",
+        //        (Target.Ally | Target.Enemy, false) => "One creature other than yourself",
+        //        (Target.Ally | Target.Self, false) => "You or one of your allies",
+        //        (Target.Ally | Target.Self | Target.Enemy, false) => "One creature",
 
-                (Target.Enemy, true) => "Each enemy",
-                (Target.Self, true) => "You",
-                (Target.Self | Target.Enemy, true) => "You and each enemy",
-                (Target.Ally, true) => "Each of your allies",
-                (Target.Ally | Target.Enemy, true) => "Each creature other than yourself",
-                (Target.Ally | Target.Self, true) => "You and each of your allies",
-                (Target.Ally | Target.Self | Target.Enemy, true) => "Each creature",
+        //        (Target.Enemy, true) => "Each enemy",
+        //        (Target.Self, true) => "You",
+        //        (Target.Self | Target.Enemy, true) => "You and each enemy",
+        //        (Target.Ally, true) => "Each of your allies",
+        //        (Target.Ally | Target.Enemy, true) => "Each creature other than yourself",
+        //        (Target.Ally | Target.Self, true) => "You and each of your allies",
+        //        (Target.Ally | Target.Self | Target.Enemy, true) => "Each creature",
 
-                _ => throw new NotImplementedException()
-            };
-        }
+        //        _ => throw new NotImplementedException()
+        //    };
+        //}
 
         public static AttackInfo ToAttackInfo(this AttackProfile attack, PowerProfile power, int index)
         {
-            var dice = PowerProfileExtensions.ToDamageEffect(power.Tool, attack.WeaponDice);
             var result = new AttackInfo(
                 AttackType: AttackType.From(power.Tool, power.ToolRange),
                 TargetType: AttackType.Target.OneCreature,
                 AttackExpression: (GameDiceExpression)attack.Ability,
                 AttackNotes: null,
                 Defense: DefenseType.ArmorClass,
-                DamageExpression: dice,
-                DamageTypes: attack.DamageTypes,
                 HitParts: ImmutableList<string>.Empty,
                 HitSentences: ImmutableList<string>.Empty,
                 MissSentences: ImmutableList<string>.Empty
@@ -108,10 +105,10 @@ namespace GameEngine.Generator.Text
             if (attack.Effects.Any() && attack.Effects[0].Target.GetTarget().HasFlag(Target.Enemy))
             {
                 effects = effects.Skip(1);
-                TargetInfo targetInfo = attack.Effects[0].ToTargetInfo(power);
+                TargetInfo targetInfo = attack.Effects[0].ToTargetInfo(power, attackIndex: index);
                 result = result with { HitParts = targetInfo.Parts };
             }
-            result = result with { HitSentences = effects.Select(effect => effect.ToTargetInfo(power).ToSentence()).ToImmutableList() };
+            result = result with { HitSentences = effects.Select(effect => effect.ToTargetInfo(power, attackIndex: index).ToSentence()).ToImmutableList() };
             // TODO - miss targets
 
             result = (from mod in attack.Modifiers

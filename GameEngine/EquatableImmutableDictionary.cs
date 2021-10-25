@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace GameEngine.Generator
+namespace GameEngine
 {
     public class EquatableImmutableDictionary<TKey, TValue> : Dictionary<TKey, TValue> where TKey : notnull
     {

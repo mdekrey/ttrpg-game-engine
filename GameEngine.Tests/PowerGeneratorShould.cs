@@ -224,7 +224,7 @@ namespace GameEngine.Tests
                 ) },
             { "Control", new PowerProfileConfig(
                     new PowerProfileConfig.ModifierChance[] {
-                        new("$..[?(@.Name=='Ability Modifier Damage')]", 1),
+                        new("$..[?(@.Name=='Damage')]", 1),
                         new("$..[?(@.Name=='MovementControl')]", 1),
                     }.ToImmutableList(),
                     Build(new PowerProfileConfig.PowerChance("$", 1))

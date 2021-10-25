@@ -7,12 +7,10 @@ namespace GameEngine.Generator.Text
 {
     public record AttackInfo(
         AttackType AttackType,
-        AttackType.Target TargetType,
+        AttackType.Target TargetType, // TODO - change target type/attack type as string from enum to strings
         GameDiceExpression AttackExpression,
         string? AttackNotes,
         DefenseType Defense,
-        GameDiceExpression DamageExpression,
-        ImmutableList<DamageType> DamageTypes,
         ImmutableList<string> HitParts,
         ImmutableList<string> HitSentences,
         ImmutableList<string> MissSentences
@@ -27,18 +25,7 @@ namespace GameEngine.Generator.Text
 
         private string EnemySentence()
         {
-            var damagePart = string.Join(" ", new string[]
-            {
-                DamageExpression.ToString(),
-                OxfordComma(DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),
-                "damage"
-            }.Where(s => s is { Length: > 0 }));
-
-            return string.Join(" ", new[] {
-                damagePart,
-                HitParts.Any() ? "and the target" : "",
-                OxfordComma(HitParts.ToArray())
-            }.Where(s => s is { Length: > 0 })).FinishSentence().TransposeParenthesis();
+            return OxfordComma(HitParts.Where(s => s is { Length: > 0 }).ToArray()).FinishSentence().TransposeParenthesis();
         }
 
         public string Miss =>

@@ -43,9 +43,9 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power)
         {
-            return new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, target, power);
+            return new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, target, attack, power);
         }
 
         public static double DurationMultiplier(Duration duration) =>
@@ -62,7 +62,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool UsesDuration() => Conditions.Any();
             public override bool EnablesSaveEnd() => Conditions.Any();
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) || target.EffectType != EffectType.Harmful
                     ? Enumerable.Empty<IEffectModifier>()
                     : from set in new[]

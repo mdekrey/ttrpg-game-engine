@@ -16,13 +16,8 @@ namespace GameEngine.Generator
                                     (prev, next) => prev.SelectMany(l => next.PreApplyImplementNonArmorDefense(UpgradeStage.InitializeAttacks, power).Select(o => l.Add(o)))
                                 )
                                 .Select(attacks => power with { Attacks = attacks })
-                          let withDamageMods = builder with
-                          {
-                              Attacks = builder.Attacks.Select(a => a.Apply(
-                                  new Modifiers.AbilityModifierDamageFormula.AbilityDamageModifier(ImmutableList<Ability>.Empty.Add(a.Ability))
-                                )).ToImmutableList()
-                          }
-                          select withDamageMods.IsValid() ? withDamageMods : builder;
+                          from e in builder.GetUpgrades(stage).Where(b => b.IsValid()).DefaultIfEmpty(builder)
+                          select e;
 
             return options;
         }

@@ -189,12 +189,24 @@ namespace GameEngine.Generator
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                         .Select(v => new RandomChances<Ability>(v))
                 ),
-                DamageTypes: Build(randomGenerator.RandomSelection(
-                    info.ToolProfile.PreferredDamageTypes
-                        .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
-                        .Select(v => new RandomChances<DamageType>(v))
-                )),
-                TargetEffects: Build(new TargetEffectBuilder(new BasicTarget(Target.Enemy | Target.Ally | Target.Self), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty, info)),
+                TargetEffects: Build(
+                    new TargetEffectBuilder(
+                        new BasicTarget(Target.Enemy | Target.Ally | Target.Self), 
+                            EffectType.Harmful, 
+                            new IEffectModifier[]
+                            {
+                                new DamageModifier(
+                                    GameDiceExpression.Empty,
+                                    DamageTypes: Build(randomGenerator.RandomSelection(
+                                        info.ToolProfile.PreferredDamageTypes
+                                            .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
+                                            .Select(v => new RandomChances<DamageType>(v))
+                                    ))
+                                )
+                            }.ToImmutableList(), 
+                            info
+                        )
+                    ),
                 Modifiers: ImmutableList<IAttackModifier>.Empty,
                 PowerInfo: info
             );

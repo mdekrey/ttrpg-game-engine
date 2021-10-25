@@ -4,23 +4,21 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1
-      Ability: Strength
-      DamageTypes:
-      - Normal
+    - Ability: Strength
       Effects:
       - Target:
           Target: Enemy, Self, Ally
           Name: Basic Target
         EffectType: Harmful
         Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes:
+          - Normal
+          Name: Damage
         - Conditions:
           - Name: Dazed
           Name: Condition
-      Modifiers:
-      - Abilities:
-        - Strength
-        Name: Ability Modifier Damage
+      Modifiers: []
     Modifiers:
     - Duration: EndOfUserNextTurn
       Name: Duration
@@ -40,4 +38,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and the target is dazed until the end of your next turn.
+    Text: 1[W] + STR damage and is dazed until the end of your next turn.

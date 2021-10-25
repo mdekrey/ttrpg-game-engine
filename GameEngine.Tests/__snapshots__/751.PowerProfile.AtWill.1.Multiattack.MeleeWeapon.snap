@@ -2,23 +2,32 @@
 Tool: Weapon
 ToolRange: Melee
 Attacks:
-- WeaponDice: 1
-  Ability: Strength
-  DamageTypes:
-  - Normal
-  Effects: []
+- Ability: Strength
+  Effects:
+  - Target:
+      Target: Enemy, Self, Ally
+      Name: Basic Target
+    EffectType: Harmful
+    Modifiers:
+    - Damage: 1[W]
+      DamageTypes:
+      - Normal
+      Name: Damage
   Modifiers:
   - Name: RequiredHitForNextAttack
-- WeaponDice: 1
-  Ability: Strength
-  DamageTypes:
-  - Normal
-  Effects: []
+- Ability: Strength
+  Effects:
+  - Target:
+      Target: Enemy, Self, Ally
+      Name: Basic Target
+    EffectType: Harmful
+    Modifiers:
+    - Damage: 1[W] + STR
+      DamageTypes:
+      - Normal
+      Name: Damage
   Modifiers:
   - Name: RequiresPreviousHit
-  - Abilities:
-    - Strength
-    Name: Ability Modifier Damage
 Modifiers:
 - PowerSource: Martial
   Name: Power Source

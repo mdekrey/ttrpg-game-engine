@@ -4,11 +4,17 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - WeaponDice: 1
-      Ability: Strength
-      DamageTypes:
-      - Normal
-      Effects: []
+    - Ability: Strength
+      Effects:
+      - Target:
+          Target: Enemy, Self, Ally
+          Name: Basic Target
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W]
+          DamageTypes:
+          - Normal
+          Name: Damage
       Modifiers:
       - Name: TwoHits
     Modifiers:
