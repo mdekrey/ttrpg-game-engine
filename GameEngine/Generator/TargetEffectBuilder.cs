@@ -21,7 +21,7 @@ namespace GameEngine.Generator
             };
         }
 
-        public int Complexity => Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
+        public int Complexity => Modifiers.Cast<IModifier>().GetComplexity(PowerInfo) + Target.GetComplexity(PowerInfo);
         public PowerCost TotalCost(PowerProfileBuilder builder) => Modifiers.Select(m => m.GetCost(this, builder)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b) + Target.GetCost(this, builder);
 
         internal TargetEffect Build() =>

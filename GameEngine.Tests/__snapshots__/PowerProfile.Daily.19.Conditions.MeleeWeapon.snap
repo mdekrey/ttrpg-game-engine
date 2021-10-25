@@ -23,14 +23,4 @@ Attacks:
 Modifiers:
 - PowerSource: Martial
   Name: Power Source
-Effects:
-- Target:
-    Target: Ally
-    Name: Basic Target
-  EffectType: Beneficial
-  Modifiers:
-  - Boosts:
-    - Amount: +2
-      Limit: NextAttack
-      Name: Attack
-    Name: Boost
+Effects: []

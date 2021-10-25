@@ -6,20 +6,16 @@ Attacks:
   Effects:
   - Target:
       Target: Enemy, Self, Ally
-      Size: 2
-      Type: Blast
-      Name: Multiple
+      Name: Basic Target
     EffectType: Harmful
     Modifiers:
-    - Damage: d4 + STR
+    - Damage: d4 + STR + DEX
       DamageTypes:
       - Radiant
       Name: Damage
   - Target:
       Target: Self
-      Size: 1
-      Type: Blast
-      Name: Multiple
+      Name: Basic Target
     EffectType: Beneficial
     Modifiers:
     - Movement:

@@ -6,9 +6,7 @@ Attacks:
   Effects:
   - Target:
       Target: Enemy, Self, Ally
-      Size: 1
-      Type: Blast
-      Name: Multiple
+      Name: Basic Target
     EffectType: Harmful
     Modifiers:
     - Damage: 1[W]
