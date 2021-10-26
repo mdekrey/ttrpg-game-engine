@@ -101,7 +101,12 @@ public class ReactFrontendService
             throw new ArgumentException($"'{nameof(entrypoint)}' cannot be null or empty.", nameof(entrypoint));
         }
 
-        var scripts = GetManifest()["entrypoints"]![entrypoint]?.ToObject<string[]>();
+        var manifest = GetManifest();
+#if DEBUG
+        if (manifest is null)
+            return; // Probably in the middle of a rebuild
+#endif
+        var scripts = manifest["entrypoints"]![entrypoint]?.ToObject<string[]>();
         if (scripts == null)
             throw new InvalidOperationException($"No such React Frontend entrypoint '{entrypoint}'");
         var reactScripts = GetReactScripts(htmlHelper);

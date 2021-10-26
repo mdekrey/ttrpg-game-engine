@@ -79,7 +79,6 @@ export function lens<TFieldValues extends FieldValues, TContext extends object, 
 		register,
 		unregister,
 		_subjects: null as any, // TODO
-		_updateProps: null as any, // TODO
 		_formState: null as any, // TODO
 		_defaultValues: get(form.control._defaultValues, name),
 	};
