@@ -1,6 +1,7 @@
 ﻿using GameEngine.Generator.Modifiers;
 using GameEngine.Rules;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GameEngine.Generator
@@ -13,6 +14,27 @@ namespace GameEngine.Generator
         EquatableImmutableList<TargetEffect> Effects
     )
     {
+        public IEnumerable<IModifier> AllModifiers() =>
+            from set in new IEnumerable<IModifier>[]
+            {
+                Modifiers
+                ,
+                from attack in Attacks
+                from mod in attack.Modifiers
+                select mod
+                ,
+                from attack in Attacks
+                from effect in attack.Effects
+                from mod in effect.Modifiers
+                select mod
+                ,
+                from effect in Effects
+                from mod in effect.Modifiers
+                select mod
+            }
+            from mod in set
+            select mod;
+
         internal bool Matches(PowerProfile power)
         {
             return Usage == power.Usage

@@ -40,6 +40,7 @@ export const modifierChanceSchema: yup.SchemaOf<ModifierChance> = yup.object({
 		}),
 });
 export const powerProfileConfigSchema: yup.SchemaOf<PowerProfileConfig> = yup.object({
+	name: yup.string().label('Name'),
 	modifierChances: yup.array(modifierChanceSchema).min(1).label('Modifier Chances'),
 	powerChances: yup.array(modifierChanceSchema).min(1).label('Power Chances'),
 });
@@ -51,7 +52,7 @@ export const toolSurveySchema: yup.SchemaOf<ToolProfile> = yup.object({
 		.array(damageTypeSchema)
 		.min(1, 'Must have at least one damage type')
 		.label('Preferred Damage Types'),
-	powerProfileConfig: powerProfileConfigSchema,
+	powerProfileConfigs: yup.array(powerProfileConfigSchema).min(1).label('Power Profile Configs'),
 });
 export const classSurveySchema: yup.SchemaOf<ClassProfile> = yup.object({
 	name: yup.string().required().label('Name'),

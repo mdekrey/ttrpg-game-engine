@@ -81,7 +81,7 @@ components:
         - toolRange
         - abilities
         - preferredDamageTypes
-        - powerProfileConfig
+        - powerProfileConfigs
       properties:
         toolType:
           $ref: '#/components/schemas/ToolType'
@@ -95,14 +95,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DamageType'
-        powerProfileConfig:
-          $ref: '#/components/schemas/PowerProfileConfig'
+        powerProfileConfigs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PowerProfileConfig'
     PowerProfileConfig:
       type: object
       required:
         - modifierChances
         - powerChances
       properties:
+        name:
+          type: string
         modifierChances:
           type: array
           items:
@@ -226,6 +230,57 @@ components:
           items:
             $ref: '#/components/schemas/PowerTextProfile'
 paths:
+  /generate-sample-power:
+    x-dotnet-mvc-server-controller: Power
+    post:
+      operationId: generateSamplePower
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - classProfile
+                - toolIndex
+                - powerProfileIndex
+                - level
+                - usage
+              properties:
+                classProfile:
+                  $ref: '#/components/schemas/ClassProfile'
+                toolIndex:
+                  type: integer
+                  minimum: 0
+                powerProfileIndex:
+                  type: integer
+                  minimum: 0
+                level:
+                  type: integer
+                usage:
+                  $ref: '#/components/schemas/PowerFrequency'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - power
+                  - powerJson
+                  - modifierJson
+                properties:
+                  power:
+                    $ref: '#/components/schemas/PowerTextBlock'
+                  powerJson:
+                    type: string
+                  modifierJson:
+                    type: array
+                    items:
+                      type: string
+        400:
+          $ref: '#/components/responses/ModelValidation'
   /generate-class:
     x-dotnet-mvc-server-controller: Class
     post:

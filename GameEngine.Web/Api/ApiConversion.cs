@@ -17,7 +17,7 @@ public static class ApiConversion
             Range: FromApi(apiModel.ToolRange),
             Abilities: apiModel.Abilities.Select(a => FromApi(a)).ToImmutableList(),
             PreferredDamageTypes: apiModel.PreferredDamageTypes.Select(a => FromApi(a)).ToImmutableList(),
-            PowerProfileConfigs: apiModel.PowerProfileConfig.FromApi()
+            PowerProfileConfigs: apiModel.PowerProfileConfigs.Select(a => a.FromApi()).ToImmutableList()
         );
 
     public static GameEngine.DamageType FromApi(this Api.DamageType apiModel) =>
@@ -35,12 +35,12 @@ public static class ApiConversion
             _ => throw new NotSupportedException(),
         };
 
-    public static ImmutableList<Generator.PowerProfileConfig> FromApi(this Api.PowerProfileConfig apiModel) =>
-        apiModel.PowerChances.Select(powerChance => ImmutableList<Generator.PowerProfileConfig.PowerChance>.Empty.Add(FromApiToPower(powerChance))).Select(powerChance => 
+    public static Generator.PowerProfileConfig FromApi(this Api.PowerProfileConfig apiModel) =>
         new Generator.PowerProfileConfig(
             ModifierChances: apiModel.ModifierChances.Select(a => FromApiToModifier(a)).ToImmutableList(),
-            PowerChances: powerChance
-        )).ToImmutableList();
+            PowerChances: apiModel.PowerChances.Select(p => FromApiToPower(p)).ToImmutableList(),
+            Name: apiModel.Name
+        );
 
     public static Generator.PowerProfileConfig.ModifierChance FromApiToModifier(this Api.ModifierChance apiModel) =>
         new Generator.PowerProfileConfig.ModifierChance(apiModel.Selector, apiModel.Weight);
@@ -126,6 +126,15 @@ public static class ApiConversion
             Rules.PowerFrequency.AtWill => Api.PowerFrequency.AtWill,
             Rules.PowerFrequency.Encounter => Api.PowerFrequency.Encounter,
             Rules.PowerFrequency.Daily => Api.PowerFrequency.Daily,
+            _ => throw new NotSupportedException(),
+        };
+
+    public static Rules.PowerFrequency FromApi(this Api.PowerFrequency model) =>
+        model switch
+        {
+            Api.PowerFrequency.AtWill => Rules.PowerFrequency.AtWill,
+            Api.PowerFrequency.Encounter => Rules.PowerFrequency.Encounter,
+            Api.PowerFrequency.Daily => Rules.PowerFrequency.Daily,
             _ => throw new NotSupportedException(),
         };
 

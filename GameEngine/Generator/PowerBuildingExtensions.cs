@@ -24,9 +24,8 @@ namespace GameEngine.Generator
 
         public static double GetChance(this PowerProfileConfig config, PowerProfileBuilder builder, bool skipProfile = false)
         {
-            var powerToken = FromBuilder(builder.Build());
-            return (from mod in builder.AllModifiers()
-                    let token = FromBuilder(mod)
+            var (powerToken, modTokens) = GetProfileTokens(builder.Build());
+            return (from token in modTokens
                     from weight in (from entry in config.ModifierChances
                                     where token.SelectTokens(entry.Selector).Any()
                                     select entry.Weight).DefaultIfEmpty(0)
@@ -41,12 +40,16 @@ namespace GameEngine.Generator
                     .Aggregate(1.0, (lhs, rhs) => lhs * rhs);
         }
 
-        private static Newtonsoft.Json.Linq.JToken FromBuilder(object mod)
+        public static (Newtonsoft.Json.Linq.JToken powerToken, IEnumerable<Newtonsoft.Json.Linq.JToken> modTokens) GetProfileTokens(this PowerProfile powerProfile)
         {
-            return Newtonsoft.Json.Linq.JToken.FromObject(new[] { mod }, new Newtonsoft.Json.JsonSerializer()
+            var serializer = new Newtonsoft.Json.JsonSerializer()
             {
                 Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() }
-            });
+            };
+            return (
+                powerToken: Newtonsoft.Json.Linq.JToken.FromObject(powerProfile),
+                modTokens: powerProfile.AllModifiers().Select(Newtonsoft.Json.Linq.JToken.FromObject)
+            );
         }
     }
 }

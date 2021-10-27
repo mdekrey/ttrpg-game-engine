@@ -205,16 +205,17 @@ namespace GameEngine.Tests
 
         public static readonly Dictionary<string, PowerProfileConfig> ModifierByTemplate = new Dictionary<string, PowerProfileConfig>
         {
-            { "", new(ImmutableList<PowerProfileConfig.ModifierChance>.Empty.Add(new("$", 1)), Build(new PowerProfileConfig.PowerChance("$", 1))) },
-            { AccuratePowerTemplateName, MakeModifierTemplate("@.Name=='Non-Armor Defense'", "@.Name=='To-Hit Bonus to Current Attack'") },
-            { SkirmishPowerTemplateName, MakeModifierTemplate("@.Name=='Skirmish Movement'") },
-            { MultiattackPowerTemplateName, MakeModifierTemplate("@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'") },
-            { CloseBurstPowerTemplateName, MakeModifierTemplate("@.Name=='Multiple' && @.Type=='Burst'") },
-            { ConditionsPowerTemplateName, MakeModifierTemplate("@.Name=='Condition'") },
-            { InterruptPenaltyPowerTemplateName, MakeModifierTemplate("@.Name=='OpportunityAction'") },
-            { CloseBlastPowerTemplateName, MakeModifierTemplate("@.Name=='Multiple' && @.Type=='Blast'") },
-            { BonusPowerTemplateName, MakeModifierTemplate("@.Name=='Boost'") },
+            { "", PowerProfileConfig.Empty },
+            { AccuratePowerTemplateName, MakeModifierTemplate(AccuratePowerTemplateName, "@.Name=='Non-Armor Defense'", "@.Name=='To-Hit Bonus to Current Attack'") },
+            { SkirmishPowerTemplateName, MakeModifierTemplate(SkirmishPowerTemplateName, "@.Name=='Skirmish Movement'") },
+            { MultiattackPowerTemplateName, MakeModifierTemplate(MultiattackPowerTemplateName, "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'") },
+            { CloseBurstPowerTemplateName, MakeModifierTemplate(CloseBurstPowerTemplateName, "@.Name=='Multiple' && @.Type=='Burst'") },
+            { ConditionsPowerTemplateName, MakeModifierTemplate(ConditionsPowerTemplateName, "@.Name=='Condition'") },
+            { InterruptPenaltyPowerTemplateName, MakeModifierTemplate(InterruptPenaltyPowerTemplateName, "@.Name=='OpportunityAction'") },
+            { CloseBlastPowerTemplateName, MakeModifierTemplate(CloseBlastPowerTemplateName, "@.Name=='Multiple' && @.Type=='Blast'") },
+            { BonusPowerTemplateName, MakeModifierTemplate(BonusPowerTemplateName, "@.Name=='Boost'") },
             { "SecondAttackOnly", new PowerProfileConfig(
+                    "SecondAttackOnly",
                     new PowerProfileConfig.ModifierChance[] {
                         new("$", 1),
                         new("$..[?(@.Name=='TwoHits')]", 0),
@@ -223,6 +224,7 @@ namespace GameEngine.Tests
                     Build(new PowerProfileConfig.PowerChance("$", 1))
                 ) },
             { "Control", new PowerProfileConfig(
+                    "Control",
                     new PowerProfileConfig.ModifierChance[] {
                         new("$..[?(@.Name=='Damage')]", 1),
                         new("$..[?(@.Name=='MovementControl')]", 1),
@@ -231,10 +233,11 @@ namespace GameEngine.Tests
                 ) },
         };
 
-        private static PowerProfileConfig MakeModifierTemplate(params string[] require)
+        private static PowerProfileConfig MakeModifierTemplate(string Name, params string[] require)
         {
             string[] disallow = new[] { "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'" }.Except(require).ToArray();
             return new PowerProfileConfig(
+                Name: Name,
                 PowerChances: require.Select(modName => new PowerProfileConfig.PowerChance($"$..[?({modName})]", 1)).DefaultIfEmpty(new("$", 1))
                         .Concat(disallow.Select(modName => new PowerProfileConfig.PowerChance($"$..[?({modName})]", 0))).ToImmutableList(),
                 ModifierChances: Build(new PowerProfileConfig.ModifierChance("$", 1))
@@ -252,8 +255,6 @@ namespace GameEngine.Tests
             };
             return (resultTool, classProfile with { Tools = Build(resultTool) }, powerProfileConfig);
         }
-
-        public static readonly PowerProfileConfig fullAccessProfileConfig = new(ImmutableList<PowerProfileConfig.ModifierChance>.Empty.Add(new("$", 1)), Build(new PowerProfileConfig.PowerChance("$", 1)));
 
         private static readonly ImmutableDictionary<string, ClassProfile> classProfiles = new Dictionary<string, ClassProfile>
         {

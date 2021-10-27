@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace GameEngine.Web.Api;
+
 public class ClassController : ClassControllerBase
 {
     private readonly AsyncClassGenerator asyncClassGenerator;
