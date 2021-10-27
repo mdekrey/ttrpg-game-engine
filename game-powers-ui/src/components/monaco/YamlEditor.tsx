@@ -67,7 +67,9 @@ export function YamlEditor<T>({ value, onChange, path }: { value: T; onChange?: 
 			editorRef.current = null;
 			return;
 		}
-		const yamlValue = toYaml(value);
+		const yamlValue = toYaml(value, {
+			lineWidth: -1,
+		});
 		if (!editorRef.current) {
 			editorRef.current = editor.create(divRef.current, {
 				automaticLayout: true,
