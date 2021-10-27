@@ -39,7 +39,6 @@ setDiagnosticsOptions({
 	enableSchemaRequest: true,
 	hover: true,
 	completion: true,
-	prefix: toFullUrl(''),
 	schemas: [
 		{
 			uri: toFullUrl('/schemas/api.json'),
