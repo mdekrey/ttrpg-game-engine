@@ -18,6 +18,12 @@ module.exports = {
 			include: path.resolve(__dirname, '../')
 		});
 
+		config.module.rules.push({
+			test: /\.ya?ml$/,
+			use: [{ loader: require.resolve('js-yaml-loader') }],
+			include: path.resolve(__dirname, '../')
+		});
+
 		return config;
 	}
 };

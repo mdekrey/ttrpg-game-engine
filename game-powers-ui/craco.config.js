@@ -16,6 +16,11 @@ module.exports = {
 				include: path.resolve(__dirname, '../')
 			});
 			webpackConfig.node.fs = 'empty';
+			oneOfRules.unshift({
+				test: /\.ya?ml$/,
+				use: [{ loader: require.resolve('js-yaml-loader') }],
+				include: path.resolve(__dirname, '../')
+			});
 			return webpackConfig;
 		}
 	}

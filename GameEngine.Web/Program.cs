@@ -45,7 +45,13 @@ app.Use(async (context, next) =>
 });
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    ContentTypeProvider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider()
+    {
+        Mappings = { { ".yaml", "application/x-yaml" } }
+    },
+});
 
 app.UseRouting();
 

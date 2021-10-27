@@ -34,6 +34,7 @@
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-prettier": "^3.4.0",
 		"js-yaml": "^4.1.0",
+		"js-yaml-loader": "^1.2.2",
 		"lodash": "^4.17.21",
 		"monaco-editor": "^0.29.1",
 		"monaco-yaml": "^3.2.1",
@@ -63,7 +64,7 @@
 		"storybook": "start-storybook -p 6006",
 		"build-storybook": "build-storybook",
 		"lint": "eslint src/ --ext .jsx,.js,.ts,.tsx",
-		"generate-openapi": "openapi-codegen-typescript ../schemas/api.yaml src/api/ -c"
+		"generate-openapi": "openapi-codegen-typescript ../schemas/api.yaml src/api/ -c && cp ../schemas/api.yaml src/api/"
 	},
 	"eslintConfig": {
 		"extends": [
