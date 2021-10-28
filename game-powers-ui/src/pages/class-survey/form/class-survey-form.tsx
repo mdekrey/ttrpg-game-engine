@@ -9,7 +9,7 @@ import { ClassProfile } from 'api/models/ClassProfile';
 import { ToolProfile } from 'api/models/ToolProfile';
 import { classSurveySchemaWithoutTools, roles } from 'core/schemas/api';
 import { YamlEditor } from 'components/monaco/YamlEditor';
-import { number } from 'yup/lib/locale';
+import { SamplePowers } from './SamplePowers';
 
 const defaultToolProfile: Readonly<ToolProfile> = {
 	toolType: 'Weapon',
@@ -89,6 +89,8 @@ export function ClassSurveyForm({
 		schema: classSurveySchemaWithoutTools,
 	});
 
+	const classProfile: ClassProfile = { ...form.watch(), tools };
+
 	return (
 		<form
 			className={className}
@@ -125,7 +127,13 @@ export function ClassSurveyForm({
 						}
 						optionKey={(cfg) => (cfg === null ? '-' : `${cfg.toolIndex}-${cfg.powerConfigIndex}`)}
 					/>
-					{selectedCfg && <div>TODO - sample powers</div>}
+					{selectedCfg && (
+						<SamplePowers
+							classProfile={classProfile}
+							toolIndex={selectedCfg.toolIndex}
+							powerProfileIndex={selectedCfg.powerConfigIndex}
+						/>
+					)}
 				</div>
 				<ButtonRow className="col-span-6">
 					<Button type="submit">Submit</Button>
