@@ -6,6 +6,7 @@ import { Card } from 'components/card/card';
 import { Select, SelectField, TextboxField } from 'components/forms';
 import { ButtonRow } from 'components/ButtonRow';
 import { ClassProfile } from 'api/models/ClassProfile';
+import { PowerFrequency } from 'api/models/PowerFrequency';
 import { ToolProfile } from 'api/models/ToolProfile';
 import { classSurveySchemaWithoutTools, roles } from 'core/schemas/api';
 import { YamlEditor } from 'components/monaco/YamlEditor';
@@ -69,6 +70,26 @@ const defaultToolProfile: Readonly<ToolProfile> = {
 	],
 };
 
+const powerLevelOptions: { level: number; usage: PowerFrequency }[] = [
+	{ level: 1, usage: 'At-Will' },
+	{ level: 1, usage: 'Encounter' },
+	{ level: 1, usage: 'Daily' },
+	{ level: 3, usage: 'Encounter' },
+	{ level: 5, usage: 'Daily' },
+	{ level: 7, usage: 'Encounter' },
+	{ level: 9, usage: 'Daily' },
+	{ level: 11, usage: 'Encounter' },
+	{ level: 13, usage: 'Encounter' },
+	{ level: 15, usage: 'Daily' },
+	{ level: 17, usage: 'Encounter' },
+	{ level: 19, usage: 'Daily' },
+	{ level: 20, usage: 'Daily' },
+	{ level: 23, usage: 'Encounter' },
+	{ level: 25, usage: 'Daily' },
+	{ level: 27, usage: 'Encounter' },
+	{ level: 29, usage: 'Daily' },
+];
+
 export function ClassSurveyForm({
 	className,
 	onSubmit,
@@ -80,6 +101,9 @@ export function ClassSurveyForm({
 }) {
 	const [tools, setTools] = useState([defaultToolProfile]);
 	const [selectedCfg, setSelectedCfg] = useState<null | { toolIndex: number; powerConfigIndex: number }>(null);
+	const [selectedLevel, setSelectedLevel] = useState<typeof powerLevelOptions[0]>(
+		powerLevelOptions.find((p) => p.level === 19)!
+	);
 	const { handleSubmit, ...form } = useGameForm<Omit<ClassProfile, 'tools'>>({
 		defaultValues: defaultValues || {
 			name: 'Custom Class',
@@ -107,7 +131,9 @@ export function ClassSurveyForm({
 				<div className="col-span-6 h-96">
 					<YamlEditor value={tools} onChange={setTools} path="tools.yaml" />
 				</div>
-				<div className="col-span-6">
+			</Card>
+			<Card className="grid grid-cols-6 gap-6 mt-6">
+				<div className="col-span-3">
 					<Select
 						value={selectedCfg}
 						onChange={setSelectedCfg}
@@ -127,14 +153,30 @@ export function ClassSurveyForm({
 						}
 						optionKey={(cfg) => (cfg === null ? '-' : `${cfg.toolIndex}-${cfg.powerConfigIndex}`)}
 					/>
-					{selectedCfg && (
+				</div>
+				<div className="col-span-3">
+					<Select
+						value={selectedLevel}
+						onChange={setSelectedLevel}
+						label="Power Level"
+						options={powerLevelOptions}
+						optionDisplay={(cfg) => `Lvl ${cfg.level} ${cfg.usage}`}
+						optionKey={(cfg) => `${cfg.level}-${cfg.usage}`}
+					/>
+				</div>
+				<div className="col-span-6">
+					{selectedCfg && selectedLevel && (
 						<SamplePowers
 							classProfile={classProfile}
 							toolIndex={selectedCfg.toolIndex}
 							powerProfileIndex={selectedCfg.powerConfigIndex}
+							level={selectedLevel.level}
+							usage={selectedLevel.usage}
 						/>
 					)}
 				</div>
+			</Card>
+			<Card className="grid grid-cols-6 gap-6 mt-6">
 				<ButtonRow className="col-span-6">
 					<Button type="submit">Submit</Button>
 				</ButtonRow>

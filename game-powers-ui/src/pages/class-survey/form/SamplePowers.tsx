@@ -8,6 +8,7 @@ import { filter } from 'rxjs/operators';
 import { StructuredResponses } from 'api/operations/generateSamplePower';
 import { PowerTextBlock } from 'components/power';
 import { PowerType } from 'components/power/Power';
+import { PowerFrequency } from 'api/models/PowerFrequency';
 
 function is200<T extends { statusCode: number | 'other' }>(
 	response: T
@@ -19,10 +20,14 @@ export function SamplePowers({
 	classProfile,
 	toolIndex,
 	powerProfileIndex,
+	level,
+	usage,
 }: {
 	classProfile: ClassProfile;
 	toolIndex: number;
 	powerProfileIndex: number;
+	level: number;
+	usage: PowerFrequency;
 }) {
 	const scrollEvent$ = useConstant(() => new Subject<typeof generateParams>());
 
@@ -33,10 +38,10 @@ export function SamplePowers({
 			classProfile,
 			toolIndex,
 			powerProfileIndex,
-			level: 19,
-			usage: 'Daily' as const,
+			level,
+			usage,
 		}),
-		[classProfile, toolIndex, powerProfileIndex]
+		[classProfile, toolIndex, powerProfileIndex, level, usage]
 	);
 	const [powers, setPowers] = useState<StructuredResponses[200]['application/json'][]>([]);
 
@@ -79,11 +84,11 @@ export function SamplePowers({
 
 	return (
 		<div
-			className="flex flex-row overflow-x-auto items-start mt-4"
+			className="flex flex-row overflow-x-auto items-start"
 			ref={divRef}
 			onScroll={() => scrollEvent$.next(generateParams)}>
 			{powers.map((power, i) => (
-				<button type="button" key={i} className="flex-shrink-0 w-96 mr-4 text-left">
+				<button type="button" key={i} className="flex-shrink-0 w-96 max-w-full mr-4 text-left">
 					<PowerTextBlock
 						{...power.power}
 						powerUsage={power.power.powerUsage as PowerType}
