@@ -1,15 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
-import { Button } from 'components/button/Button';
 import { SelectField } from 'components/forms';
-import { ButtonRow } from 'components/ButtonRow';
 import { ClassProfile } from 'api/models/ClassProfile';
 import { PowerFrequency } from 'api/models/PowerFrequency';
-import { YamlEditor } from 'components/monaco/YamlEditor';
-import { PowerTextBlock } from 'components/power';
-import { PowerType } from 'components/power/Power';
 import { Modal } from 'components/modal/modal';
 import { SamplePowerData, SamplePowers } from './SamplePowers';
+import { PowerProfileConfigBuilder } from './PowerProfileConfigBuilder';
 
 export const powerLevelOptions: { level: number; usage: PowerFrequency }[] = [
 	{ level: 1, usage: 'At-Will' },
@@ -92,29 +88,12 @@ export function SamplePowersSection({ classProfile }: { classProfile: ClassProfi
 				onClose={() => setSelectedPower(null)}
 				title="Power Profile Helper"
 				size="full">
-				<div className="mt-2 grid grid-cols-3 gap-2">
-					<div className="col-span-2">
-						{selectedCfg && (
-							<YamlEditor
-								value={classProfile.tools[selectedCfg!.toolIndex].powerProfileConfigs[selectedCfg!.powerConfigIndex]}
-								path="power-profile-config.yaml"
-							/>
-						)}
-					</div>
-					{selectedPower && (
-						<PowerTextBlock
-							{...selectedPower.power}
-							powerUsage={selectedPower.power.powerUsage as PowerType}
-							attackType={
-								(selectedPower.power.attackType || null) as 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null
-							}
-						/>
-					)}
-				</div>
-
-				<ButtonRow>
-					<Button onClick={() => setSelectedPower(null)}>Done</Button>
-				</ButtonRow>
+				<PowerProfileConfigBuilder
+					selectedPower={selectedPower}
+					powerProfileConfig={
+						selectedCfg && classProfile.tools[selectedCfg!.toolIndex].powerProfileConfigs[selectedCfg!.powerConfigIndex]
+					}
+				/>
 			</Modal>
 		</>
 	);

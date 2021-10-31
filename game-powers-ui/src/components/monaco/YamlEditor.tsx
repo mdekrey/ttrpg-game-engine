@@ -31,6 +31,8 @@ window.MonacoEnvironment = {
 function toFullUrl(path: string) {
 	const url = new URL(window.location.href);
 	url.pathname = path;
+	url.search = '';
+	url.hash = '';
 	return url.href;
 }
 
