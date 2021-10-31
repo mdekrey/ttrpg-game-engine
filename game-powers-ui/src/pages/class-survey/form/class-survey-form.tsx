@@ -1,16 +1,19 @@
 /* eslint-disable react/no-array-index-key */
-import { useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { useGameForm } from 'core/hooks/useGameForm';
 import { Button } from 'components/button/Button';
 import { Card } from 'components/card/card';
-import { Select, SelectField, TextboxField } from 'components/forms';
+import { SelectField, SelectFormField, TextboxField } from 'components/forms';
 import { ButtonRow } from 'components/ButtonRow';
 import { ClassProfile } from 'api/models/ClassProfile';
 import { PowerFrequency } from 'api/models/PowerFrequency';
 import { ToolProfile } from 'api/models/ToolProfile';
 import { classSurveySchemaWithoutTools, roles } from 'core/schemas/api';
 import { YamlEditor } from 'components/monaco/YamlEditor';
-import { SamplePowers } from './SamplePowers';
+import { Dialog, Transition } from '@headlessui/react';
+import { PowerTextBlock } from 'components/power';
+import { PowerType } from 'components/power/Power';
+import { SamplePowerData, SamplePowers } from './SamplePowers';
 
 const defaultToolProfile: Readonly<ToolProfile> = {
 	toolType: 'Weapon',
@@ -104,6 +107,7 @@ export function ClassSurveyForm({
 	const [selectedLevel, setSelectedLevel] = useState<typeof powerLevelOptions[0]>(
 		powerLevelOptions.find((p) => p.level === 19)!
 	);
+	const [selectedPower, setSelectedPower] = useState<null | SamplePowerData>(null);
 	const { handleSubmit, ...form } = useGameForm<Omit<ClassProfile, 'tools'>>({
 		defaultValues: defaultValues || {
 			name: 'Custom Class',
@@ -113,7 +117,12 @@ export function ClassSurveyForm({
 		schema: classSurveySchemaWithoutTools,
 	});
 
-	const classProfile: ClassProfile = { ...form.watch(), tools };
+	const role = form.watch('role');
+	const powerSource = form.watch('powerSource');
+	const classProfile: ClassProfile = useMemo(
+		() => ({ name: 'Unimportant', role, powerSource, tools }),
+		[role, powerSource, tools]
+	);
 
 	return (
 		<form
@@ -126,44 +135,54 @@ export function ClassSurveyForm({
 			}>
 			<Card className="grid grid-cols-6 gap-6">
 				<TextboxField label="Class Name" className="col-span-6 sm:col-span-3" form={form} name="name" />
-				<SelectField className="col-span-6 sm:col-span-3" label="Role" form={form} name="role" options={roles} />
+				<SelectFormField className="col-span-6 sm:col-span-3" label="Role" form={form} name="role">
+					{roles.map((r) => (
+						<option key={r} value={r}>
+							{r}
+						</option>
+					))}
+				</SelectFormField>
 				<TextboxField label="PowerSource" className="col-span-6 sm:col-span-3" form={form} name="powerSource" />
 				<div className="col-span-6 h-96">
 					<YamlEditor value={tools} onChange={setTools} path="tools.yaml" />
 				</div>
 			</Card>
 			<Card className="grid grid-cols-6 gap-6 mt-6">
-				<div className="col-span-3">
-					<Select
-						value={selectedCfg}
-						onChange={setSelectedCfg}
-						label="Preview Powers"
-						options={[
-							null,
-							...tools.flatMap((tool, toolIndex) =>
-								tool.powerProfileConfigs.map((_, powerConfigIndex) => ({ toolIndex, powerConfigIndex }))
-							),
-						]}
-						optionDisplay={(cfg) =>
-							cfg === null
-								? 'None'
-								: `${tools[cfg.toolIndex].toolRange} ${tools[cfg.toolIndex].toolType}: ${
-										tools[cfg.toolIndex].powerProfileConfigs[cfg.powerConfigIndex].name
-								  }`
-						}
-						optionKey={(cfg) => (cfg === null ? '-' : `${cfg.toolIndex}-${cfg.powerConfigIndex}`)}
-					/>
-				</div>
-				<div className="col-span-3">
-					<Select
-						value={selectedLevel}
-						onChange={setSelectedLevel}
-						label="Power Level"
-						options={powerLevelOptions}
-						optionDisplay={(cfg) => `Lvl ${cfg.level} ${cfg.usage}`}
-						optionKey={(cfg) => `${cfg.level}-${cfg.usage}`}
-					/>
-				</div>
+				<SelectField
+					className="col-span-3"
+					label="Preview Powers"
+					value={selectedCfg === null ? '-' : `${selectedCfg.toolIndex}-${selectedCfg.powerConfigIndex}`}
+					onChange={({ currentTarget: { value } }) => {
+						if (value) {
+							const [toolIndex, powerConfigIndex] = value.split('-').map(Number);
+							setSelectedCfg({ toolIndex, powerConfigIndex });
+						} else setSelectedCfg(null);
+					}}>
+					<option value="">None</option>
+					{tools.map((tool, toolIndex) => (
+						<optgroup label={`${tool.toolRange} ${tool.toolType}`} key={toolIndex}>
+							{tool.powerProfileConfigs.map((powerConfig, powerConfigIndex) => (
+								<option key={powerConfigIndex} value={`${toolIndex}-${powerConfigIndex}`}>
+									{powerConfig.name}
+								</option>
+							))}
+						</optgroup>
+					))}
+				</SelectField>
+				<SelectField
+					className="col-span-3"
+					label="Power Level"
+					value={`${selectedLevel.level}-${selectedLevel.usage}`}
+					onChange={({ currentTarget: { value } }) => {
+						const [level, usage] = value.split('-');
+						setSelectedLevel({ level: Number(level), usage: usage as PowerFrequency });
+					}}>
+					{powerLevelOptions.map((cfg) => (
+						<option key={`${cfg.level}-${cfg.usage}`} value={`${cfg.level}-${cfg.usage}`}>
+							{`Lvl ${cfg.level} ${cfg.usage}`}
+						</option>
+					))}
+				</SelectField>
 				<div className="col-span-6">
 					{selectedCfg && selectedLevel && (
 						<SamplePowers
@@ -172,6 +191,7 @@ export function ClassSurveyForm({
 							powerProfileIndex={selectedCfg.powerConfigIndex}
 							level={selectedLevel.level}
 							usage={selectedLevel.usage}
+							onSelectPower={(p) => setSelectedPower(p)}
 						/>
 					)}
 				</div>
@@ -181,6 +201,71 @@ export function ClassSurveyForm({
 					<Button type="submit">Submit</Button>
 				</ButtonRow>
 			</Card>
+
+			<Transition appear show={selectedPower != null} as={Fragment}>
+				<Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={() => setSelectedPower(null)}>
+					<div className="min-h-screen px-4 text-center">
+						<Transition.Child
+							as={Fragment}
+							enter="ease-out duration-300"
+							enterFrom="opacity-0"
+							enterTo="opacity-100"
+							leave="ease-in duration-200"
+							leaveFrom="opacity-100"
+							leaveTo="opacity-0">
+							<Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-70" />
+						</Transition.Child>
+
+						{/* This element is to trick the browser into centering the modal contents. */}
+						<span className="inline-block h-screen align-middle" aria-hidden="true">
+							&#8203;
+						</span>
+						<Transition.Child
+							as={Fragment}
+							enter="ease-out duration-300"
+							enterFrom="opacity-0 scale-95"
+							enterTo="opacity-100 scale-100"
+							leave="ease-in duration-200"
+							leaveFrom="opacity-100 scale-100"
+							leaveTo="opacity-0 scale-95">
+							<div className="inline-block w-full max-w-screen-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md">
+								<Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+									Power Profile Helper
+								</Dialog.Title>
+								<div className="mt-2 grid grid-cols-3 gap-2">
+									{selectedCfg && (
+										<div className="col-span-2">
+											<YamlEditor
+												value={tools[selectedCfg!.toolIndex].powerProfileConfigs[selectedCfg!.powerConfigIndex]}
+												path="power-profile-config.yaml"
+											/>
+										</div>
+									)}
+									{selectedPower && (
+										<PowerTextBlock
+											{...selectedPower.power}
+											powerUsage={selectedPower.power.powerUsage as PowerType}
+											attackType={
+												(selectedPower.power.attackType || null) as
+													| 'Personal'
+													| 'Ranged'
+													| 'Melee'
+													| 'Close'
+													| 'Area'
+													| null
+											}
+										/>
+									)}
+								</div>
+
+								<ButtonRow>
+									<Button onClick={() => setSelectedPower(null)}>Done</Button>
+								</ButtonRow>
+							</div>
+						</Transition.Child>
+					</div>
+				</Dialog>
+			</Transition>
 		</form>
 	);
 }

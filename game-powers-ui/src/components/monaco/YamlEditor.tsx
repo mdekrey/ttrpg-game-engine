@@ -50,6 +50,11 @@ setDiagnosticsOptions({
 			fileMatch: ['tools.yaml'],
 			schema: { $ref: `${toFullUrl('/schemas/api.json')}#/components/schemas/ClassProfile/properties/tools` },
 		},
+		{
+			uri: toFullUrl('/schemas/PowerProfileConfig.json'),
+			fileMatch: ['power-profile-config.yaml'],
+			schema: { $ref: `${toFullUrl('/schemas/api.json')}#/components/schemas/PowerProfileConfig` },
+		},
 	],
 });
 

@@ -5,10 +5,10 @@ import { useApi } from 'core/hooks/useApi';
 import { Subject } from 'rxjs';
 import useConstant from 'use-constant';
 import { filter } from 'rxjs/operators';
-import { StructuredResponses } from 'api/operations/generateSamplePower';
 import { PowerTextBlock } from 'components/power';
 import { PowerType } from 'components/power/Power';
 import { PowerFrequency } from 'api/models/PowerFrequency';
+import { PowerTextBlock as PowerTextBlockType } from 'api/models/PowerTextBlock';
 
 function is200<T extends { statusCode: number | 'other' }>(
 	response: T
@@ -16,18 +16,26 @@ function is200<T extends { statusCode: number | 'other' }>(
 	return response.statusCode === 200;
 }
 
+export type SamplePowerData = {
+	power: PowerTextBlockType;
+	powerJson: string;
+	modifierJson: string[];
+};
+
 export function SamplePowers({
 	classProfile,
 	toolIndex,
 	powerProfileIndex,
 	level,
 	usage,
+	onSelectPower,
 }: {
 	classProfile: ClassProfile;
 	toolIndex: number;
 	powerProfileIndex: number;
 	level: number;
 	usage: PowerFrequency;
+	onSelectPower?: (power: SamplePowerData) => void;
 }) {
 	const scrollEvent$ = useConstant(() => new Subject<typeof generateParams>());
 
@@ -43,7 +51,7 @@ export function SamplePowers({
 		}),
 		[classProfile, toolIndex, powerProfileIndex, level, usage]
 	);
-	const [powers, setPowers] = useState<StructuredResponses[200]['application/json'][]>([]);
+	const [powers, setPowers] = useState<SamplePowerData[]>([]);
 
 	const shouldExpand = useCallback(
 		() =>
@@ -88,7 +96,11 @@ export function SamplePowers({
 			ref={divRef}
 			onScroll={() => scrollEvent$.next(generateParams)}>
 			{powers.map((power, i) => (
-				<button type="button" key={i} className="flex-shrink-0 w-96 max-w-full mr-4 text-left">
+				<button
+					type="button"
+					key={i}
+					className="flex-shrink-0 w-96 max-w-full mr-4 text-left"
+					onClick={onSelectPower && (() => onSelectPower(power))}>
 					<PowerTextBlock
 						{...power.power}
 						powerUsage={power.power.powerUsage as PowerType}
