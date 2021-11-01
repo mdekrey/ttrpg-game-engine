@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
+import jp from 'jsonpath';
+import parseJsonAst, { Token } from 'json-to-ast';
 
 import { Button } from 'components/button/Button';
 import { ButtonRow } from 'components/ButtonRow';
@@ -8,6 +10,7 @@ import { YamlEditor } from 'components/monaco/YamlEditor';
 import { PowerTextBlock } from 'components/power';
 import { PowerType } from 'components/power/Power';
 import { PowerProfileConfig } from 'api/models/PowerProfileConfig';
+import { AstViewer } from 'components/json/ast';
 import { SamplePowerData } from './SamplePowers';
 
 export type PowerProfileConfigBuilderProps = {
@@ -29,6 +32,22 @@ export function PowerProfileConfigBuilder({
 	useEffect(() => {
 		if (powerProfileConfig) setUpdated(powerProfileConfig);
 	}, [powerProfileConfig]);
+
+	const { ast, paths } = useMemo((): {
+		ast: Token | null;
+		paths: jp.PathComponent[][];
+	} => {
+		if (!selectedPower) return { ast: null, paths: [] };
+		const jsonAst = parseJsonAst(selectedPower.powerJson);
+		const parsed = JSON.parse(selectedPower.powerJson);
+
+		const allPaths = jp.paths(parsed, updated.powerChances[0].selector);
+
+		return {
+			ast: jsonAst,
+			paths: allPaths,
+		};
+	}, [updated, selectedPower]);
 
 	return (
 		<div className="mt-2 grid grid-cols-3 gap-2">
@@ -58,7 +77,7 @@ export function PowerProfileConfigBuilder({
 						JSON
 					</button>
 				</div>
-				{selectedPower && (
+				{selectedPower && tab === 'power' && (
 					<PowerTextBlock
 						{...selectedPower.power}
 						powerUsage={selectedPower.power.powerUsage as PowerType}
@@ -66,6 +85,11 @@ export function PowerProfileConfigBuilder({
 							(selectedPower.power.attackType || null) as 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null
 						}
 					/>
+				)}
+				{selectedPower && tab === 'json' && ast && (
+					<>
+						<AstViewer data={ast} highlight={paths} />
+					</>
 				)}
 			</div>
 

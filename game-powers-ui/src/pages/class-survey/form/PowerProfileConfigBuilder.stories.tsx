@@ -4,7 +4,7 @@ import { PowerProfileConfigBuilder } from './PowerProfileConfigBuilder';
 
 const powerProfileConfig = {
 	name: 'Any Power',
-	powerChances: [{ selector: '$', weight: 1.0 }],
+	powerChances: [{ selector: `$..[?(@.Name=='Boost')]`, weight: 1.0 }],
 	modifierChances: [{ selector: '$', weight: 1.0 }],
 };
 
@@ -164,12 +164,12 @@ const powerBuilderSample = {
       ]
     }
   ]
-    `,
+}`,
 	modifierJson: [
 		`{
   "PowerSource": "Martial",
   "Name": "Power Source"
-    `,
+}`,
 		`{
   "Damage": {
     "DieCodes": {
@@ -190,7 +190,7 @@ const powerBuilderSample = {
     0
   ],
   "Name": "Damage"
-    `,
+}`,
 		`{
   "Damage": {
     "DieCodes": {
@@ -211,7 +211,7 @@ const powerBuilderSample = {
     0
   ],
   "Name": "Damage"
-    `,
+}`,
 		`{
   "Conditions": [
     {
@@ -222,7 +222,7 @@ const powerBuilderSample = {
     }
   ],
   "Name": "Condition"
-    `,
+}`,
 		`{
   "Boosts": [
     {
@@ -246,7 +246,7 @@ const powerBuilderSample = {
     }
   ],
   "Name": "Boost"
-    `,
+}`,
 	],
 };
 
