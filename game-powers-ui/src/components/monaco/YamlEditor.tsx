@@ -86,9 +86,8 @@ export function YamlEditor<T>({ value, onChange, path }: { value: T; onChange?: 
 		} else if (JSON.stringify(valueRef.current) !== JSON.stringify(value)) {
 			editorRef.current.setValue(yamlValue);
 		}
+		valueRef.current = value;
 	}, [value, path]);
-
-	valueRef.current = value;
 
 	useEffect(() => {
 		const currentEditor = editorRef.current;

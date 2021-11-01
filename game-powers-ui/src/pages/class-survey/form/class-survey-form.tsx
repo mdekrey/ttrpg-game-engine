@@ -61,7 +61,7 @@ export function ClassSurveyForm({
 				</div>
 			</Card>
 			<Card className="grid grid-cols-6 gap-6 mt-6">
-				<SamplePowersSection classProfile={classProfile} />
+				<SamplePowersSection classProfile={classProfile} onSaveTool={setTools} />
 			</Card>
 			<Card className="grid grid-cols-6 gap-6 mt-6">
 				<ButtonRow className="col-span-6">

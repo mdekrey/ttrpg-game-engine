@@ -4,6 +4,8 @@ import { SelectField } from 'components/forms';
 import { ClassProfile } from 'api/models/ClassProfile';
 import { PowerFrequency } from 'api/models/PowerFrequency';
 import { Modal } from 'components/modal/modal';
+import { ToolProfile } from 'api/models/ToolProfile';
+import produce from 'immer';
 import { SamplePowerData, SamplePowers } from './SamplePowers';
 import { PowerProfileConfigBuilder } from './PowerProfileConfigBuilder';
 
@@ -27,7 +29,13 @@ export const powerLevelOptions: { level: number; usage: PowerFrequency }[] = [
 	{ level: 29, usage: 'Daily' },
 ];
 
-export function SamplePowersSection({ classProfile }: { classProfile: ClassProfile }) {
+export function SamplePowersSection({
+	classProfile,
+	onSaveTool,
+}: {
+	classProfile: ClassProfile;
+	onSaveTool: React.Dispatch<React.SetStateAction<Readonly<ToolProfile>[]>>;
+}) {
 	const [selectedCfg, setSelectedCfg] = useState<null | { toolIndex: number; powerConfigIndex: number }>(null);
 	const [selectedLevel, setSelectedLevel] = useState<typeof powerLevelOptions[0]>(
 		powerLevelOptions.find((p) => p.level === 19)!
@@ -93,6 +101,16 @@ export function SamplePowersSection({ classProfile }: { classProfile: ClassProfi
 					powerProfileConfig={
 						selectedCfg && classProfile.tools[selectedCfg!.toolIndex].powerProfileConfigs[selectedCfg!.powerConfigIndex]
 					}
+					onCancel={() => setSelectedPower(null)}
+					onSave={(cfg) => {
+						onSaveTool((tools) =>
+							produce(tools, (draft) => {
+								// eslint-disable-next-line no-param-reassign
+								draft[selectedCfg!.toolIndex].powerProfileConfigs[selectedCfg!.powerConfigIndex] = cfg;
+							})
+						);
+						setSelectedPower(null);
+					}}
 				/>
 			</Modal>
 		</>

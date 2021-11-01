@@ -36,11 +36,6 @@ export const defaultToolProfile: Readonly<ToolProfile> = {
 			modifierChances: [{ selector: '$', weight: 1.0 }],
 		},
 		{
-			name: 'Multiattack (does this get triggered?)',
-			powerChances: [{ selector: "$..[?(@.Name=='Multiattack')]", weight: 1.0 }],
-			modifierChances: [{ selector: '$', weight: 1.0 }],
-		},
-		{
 			name: 'Apply conditions',
 			powerChances: [{ selector: "$..[?(@.Name=='Condition')]", weight: 1.0 }],
 			modifierChances: [{ selector: '$', weight: 1.0 }],

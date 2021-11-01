@@ -34,6 +34,7 @@
 		"eslint-config-airbnb-typescript": "^12.3.1",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-prettier": "^3.4.0",
+		"immer": "^9.0.6",
 		"js-yaml": "^4.1.0",
 		"js-yaml-loader": "^1.2.2",
 		"json-to-ast": "^2.1.0",
