@@ -41,11 +41,23 @@ export function PowerProfileConfigBuilder({
 		const jsonAst = parseJsonAst(selectedPower.powerJson);
 		const parsed = JSON.parse(selectedPower.powerJson);
 
-		const allPaths = jp.paths(parsed, updated.powerChances[0].selector);
+		const allModifiers = jp.paths(parsed, '$..Modifiers');
+		const allModifierPaths = allModifiers.flatMap((path) =>
+			path
+				.slice(1)
+				.reduce((prev: any, next) => prev[next], parsed)
+				.flatMap((target: any, i: number) =>
+					updated.modifierChances
+						.flatMap((modChance) => jp.paths(target, modChance.selector))
+						.map((modPath) => [...path, i, ...modPath.slice(1)])
+				)
+		);
+
+		const powerPaths = updated.powerChances.flatMap((powerChance) => jp.paths(parsed, powerChance.selector));
 
 		return {
 			ast: jsonAst,
-			paths: allPaths,
+			paths: [powerPaths, ...allModifierPaths],
 		};
 	}, [updated, selectedPower]);
 
