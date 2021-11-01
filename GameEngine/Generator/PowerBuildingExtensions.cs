@@ -48,7 +48,7 @@ namespace GameEngine.Generator
             };
             return (
                 powerToken: Newtonsoft.Json.Linq.JToken.FromObject(powerProfile),
-                modTokens: powerProfile.AllModifiers().Select(Newtonsoft.Json.Linq.JToken.FromObject)
+                modTokens: powerProfile.AllModifiers().Select(mod => Newtonsoft.Json.Linq.JToken.FromObject(new[] { mod }))
             );
         }
     }
