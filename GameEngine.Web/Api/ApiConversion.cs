@@ -37,15 +37,11 @@ public static class ApiConversion
 
     public static Generator.PowerProfileConfig FromApi(this Api.PowerProfileConfig apiModel) =>
         new Generator.PowerProfileConfig(
-            ModifierChances: apiModel.ModifierChances.Select(a => FromApiToModifier(a)).ToImmutableList(),
             PowerChances: apiModel.PowerChances.Select(p => FromApiToPower(p)).ToImmutableList(),
             Name: apiModel.Name
         );
 
-    public static Generator.PowerProfileConfig.ModifierChance FromApiToModifier(this Api.ModifierChance apiModel) =>
-        new Generator.PowerProfileConfig.ModifierChance(apiModel.Selector, apiModel.Weight);
-
-    public static Generator.PowerProfileConfig.PowerChance FromApiToPower(this Api.ModifierChance apiModel) =>
+    public static Generator.PowerProfileConfig.PowerChance FromApiToPower(this Api.PowerChance apiModel) =>
         new Generator.PowerProfileConfig.PowerChance(apiModel.Selector, apiModel.Weight);
 
     public static GameEngine.Rules.Ability FromApi(this Api.Ability apiModel) =>

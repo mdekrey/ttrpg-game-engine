@@ -28,6 +28,10 @@ namespace GameEngine.Generator
                 from mod in effect.Modifiers
                 select mod
                 ,
+                from attack in Attacks
+                from effect in attack.Effects
+                select effect.Target
+                ,
                 from effect in Effects
                 from mod in effect.Modifiers
                 select mod

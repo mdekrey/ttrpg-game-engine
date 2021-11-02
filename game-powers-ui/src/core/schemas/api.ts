@@ -3,7 +3,7 @@ import { Ability } from 'api/models/Ability';
 import { CharacterRole } from 'api/models/CharacterRole';
 import { ClassProfile } from 'api/models/ClassProfile';
 import { DamageType } from 'api/models/DamageType';
-import { ModifierChance } from 'api/models/ModifierChance';
+import { PowerChance } from 'api/models/PowerChance';
 import { PowerProfileConfig } from 'api/models/PowerProfileConfig';
 import { ToolProfile } from 'api/models/ToolProfile';
 import { ToolRange } from 'api/models/ToolRange';
@@ -27,7 +27,7 @@ export const damageTypes: DamageType[] = [
 
 export const abilitySchema = yup.mixed().oneOf(abilities).required().defined() as yup.SchemaOf<Ability>;
 export const damageTypeSchema = yup.string().oneOf(damageTypes).required().defined() as yup.SchemaOf<DamageType>;
-export const modifierChanceSchema: yup.SchemaOf<ModifierChance> = yup.object({
+export const modifierChanceSchema: yup.SchemaOf<PowerChance> = yup.object({
 	selector: yup.string().required().label('Selector'),
 	weight: yup
 		.number()
@@ -41,7 +41,6 @@ export const modifierChanceSchema: yup.SchemaOf<ModifierChance> = yup.object({
 });
 export const powerProfileConfigSchema: yup.SchemaOf<PowerProfileConfig> = yup.object({
 	name: yup.string().label('Name'),
-	modifierChances: yup.array(modifierChanceSchema).min(1).label('Modifier Chances'),
 	powerChances: yup.array(modifierChanceSchema).min(1).label('Power Chances'),
 });
 export const toolSurveySchema: yup.SchemaOf<ToolProfile> = yup.object({

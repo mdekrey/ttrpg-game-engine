@@ -19,7 +19,6 @@ function is200<T extends { statusCode: number | 'other' }>(
 export type SamplePowerData = {
 	power: PowerTextBlockType;
 	powerJson: string;
-	modifierJson: string[];
 };
 
 export function SamplePowers({

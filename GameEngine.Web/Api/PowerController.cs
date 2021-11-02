@@ -30,12 +30,11 @@ public class PowerController : PowerControllerBase
             PowerProfileConfig: powerProfileConfig));
 
         var classPowerProfile = new ClassPowerProfile(generateSamplePowerBody.Level, powerProfile);
-        var (powerToken, modTokens) = powerProfile.GetProfileTokens();
+        var powerToken = powerProfile.GetProfileToken();
 
         return Task.FromResult(TypeSafeGenerateSamplePowerResult.Ok(new GenerateSamplePowerResponse(
             Power: classPowerProfile.ToPowerTextBlock().ToApi(),
-            PowerJson: powerToken.ToString(),
-            ModifierJson: modTokens.Select(token => token.ToString())
+            PowerJson: powerToken.ToString()
         )));
     }
 }

@@ -102,20 +102,15 @@ components:
     PowerProfileConfig:
       type: object
       required:
-        - modifierChances
         - powerChances
       properties:
         name:
           type: string
-        modifierChances:
-          type: array
-          items:
-            $ref: '#/components/schemas/ModifierChance'
         powerChances:
           type: array
           items:
-            $ref: '#/components/schemas/ModifierChance'
-    ModifierChance:
+            $ref: '#/components/schemas/PowerChance'
+    PowerChance:
       type: object
       required:
         - selector
@@ -275,10 +270,6 @@ paths:
                     $ref: '#/components/schemas/PowerTextBlock'
                   powerJson:
                     type: string
-                  modifierJson:
-                    type: array
-                    items:
-                      type: string
         400:
           $ref: '#/components/responses/ModelValidation'
   /generate-class:

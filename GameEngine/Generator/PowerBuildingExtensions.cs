@@ -24,32 +24,26 @@ namespace GameEngine.Generator
 
         public static double GetChance(this PowerProfileConfig config, PowerProfileBuilder builder, bool skipProfile = false)
         {
-            var (powerToken, modTokens) = GetProfileTokens(builder.Build());
-            return (from token in modTokens
-                    from weight in (from entry in config.ModifierChances
-                                    where token.SelectTokens(entry.Selector).Any()
-                                    select entry.Weight).DefaultIfEmpty(0)
-                    select weight)
-                    .Concat(
-                        skipProfile
-                            ? Enumerable.Empty<double>()
-                            : (from entry in config.PowerChances
-                               where powerToken.SelectTokens(entry.Selector).Any()
-                               select entry.Weight).DefaultIfEmpty(0)
-                    )
+            var built = builder.Build();
+            var powerToken = GetProfileToken(built);
+            if (skipProfile)
+                return 1;
+            var weights = (from entry in config.PowerChances
+                           select (entry.Selector, powerToken.SelectTokens(entry.Selector).Any(), entry.Weight)).ToArray();
+            return (from entry in config.PowerChances
+                    where powerToken.SelectTokens(entry.Selector).Any()
+                    select entry.Weight)
+                    .DefaultIfEmpty(0)
                     .Aggregate(1.0, (lhs, rhs) => lhs * rhs);
         }
 
-        public static (Newtonsoft.Json.Linq.JToken powerToken, IEnumerable<Newtonsoft.Json.Linq.JToken> modTokens) GetProfileTokens(this PowerProfile powerProfile)
+        public static Newtonsoft.Json.Linq.JToken GetProfileToken(this PowerProfile powerProfile)
         {
             var serializer = new Newtonsoft.Json.JsonSerializer()
             {
                 Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() }
             };
-            return (
-                powerToken: Newtonsoft.Json.Linq.JToken.FromObject(powerProfile),
-                modTokens: powerProfile.AllModifiers().Select(mod => Newtonsoft.Json.Linq.JToken.FromObject(new[] { mod }))
-            );
+            return Newtonsoft.Json.Linq.JToken.FromObject(powerProfile, serializer);
         }
     }
 }

@@ -216,21 +216,13 @@ namespace GameEngine.Tests
             { BonusPowerTemplateName, MakeModifierTemplate(BonusPowerTemplateName, "@.Name=='Boost'") },
             { "SecondAttackOnly", new PowerProfileConfig(
                     "SecondAttackOnly",
-                    new PowerProfileConfig.ModifierChance[] {
+                    new PowerProfileConfig.PowerChance[] {
                         new("$", 1),
                         new("$..[?(@.Name=='TwoHits')]", 0),
                         new("$..[?(@.Name=='UpToThreeTargets')]", 0),
-                    }.ToImmutableList(),
-                    Build(new PowerProfileConfig.PowerChance("$", 1))
+                    }.ToImmutableList()
                 ) },
-            { "Control", new PowerProfileConfig(
-                    "Control",
-                    new PowerProfileConfig.ModifierChance[] {
-                        new("$..[?(@.Name=='Damage')]", 1),
-                        new("$..[?(@.Name=='MovementControl')]", 1),
-                    }.ToImmutableList(),
-                    Build(new PowerProfileConfig.PowerChance("$", 1))
-                ) },
+            { "Control", MakeModifierTemplate("Control", "@.Name=='MovementControl'") },
         };
 
         private static PowerProfileConfig MakeModifierTemplate(string Name, params string[] require)
@@ -239,8 +231,7 @@ namespace GameEngine.Tests
             return new PowerProfileConfig(
                 Name: Name,
                 PowerChances: require.Select(modName => new PowerProfileConfig.PowerChance($"$..[?({modName})]", 1)).DefaultIfEmpty(new("$", 1))
-                        .Concat(disallow.Select(modName => new PowerProfileConfig.PowerChance($"$..[?({modName})]", 0))).ToImmutableList(),
-                ModifierChances: Build(new PowerProfileConfig.ModifierChance("$", 1))
+                        .Concat(disallow.Select(modName => new PowerProfileConfig.PowerChance($"$..[?({modName})]", 0))).ToImmutableList()
             );
         }
 
