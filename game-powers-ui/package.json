@@ -68,7 +68,7 @@
 		"storybook": "start-storybook -p 6006",
 		"build-storybook": "build-storybook",
 		"lint": "eslint src/ --ext .jsx,.js,.ts,.tsx",
-		"generate-openapi": "openapi-codegen-typescript ../schemas/api.yaml src/api/ -c && cp ../schemas/api.yaml src/api/"
+		"generate-openapi": "openapi-codegen-typescript ../schemas/api.yaml src/api/ -c && shx cp ../schemas/api.yaml src/api/"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -97,5 +97,8 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
+	},
+	"devDependencies": {
+		"shx": "^0.3.3"
 	}
 }
