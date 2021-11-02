@@ -137,7 +137,7 @@ namespace GameEngine.Generator
 
             var options = powerProfileBuilder.PreApply(UpgradeStage.InitializeAttacks).ToArray();
             if (options.Length > 0)
-                powerProfileBuilder = options.ToChances(powerInfo.PowerProfileConfig, skipProfile: true).RandomSelection(randomGenerator);
+                powerProfileBuilder = options.Select(opt => new RandomChances<PowerProfileBuilder>(opt, 1)).RandomSelection(randomGenerator);
 
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.InitializeAttacks, exclude: toExclude);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Standard, exclude: toExclude);
