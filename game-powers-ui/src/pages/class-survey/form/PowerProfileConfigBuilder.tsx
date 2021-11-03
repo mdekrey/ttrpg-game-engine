@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import jp from 'jsonpath';
 import parseJsonAst, { Token } from 'json-to-ast';
@@ -52,6 +52,9 @@ export function PowerProfileConfigBuilder({
 	const [useOriginal, setUseOriginal] = useState(true);
 	const refreshOverride = useConstant(() => new Subject<void>());
 
+	const currentPowerProfileConfig = useRef(updated);
+	currentPowerProfileConfig.current = updated;
+
 	const override = useObservable(
 		(input$) =>
 			input$.pipe(
@@ -66,7 +69,7 @@ export function PowerProfileConfigBuilder({
 										{
 											classProfile: produce(classProfile, (cp) => {
 												// eslint-disable-next-line no-param-reassign
-												cp.tools[toolIndex].powerProfileConfigs[powerProfileIndex] = updated;
+												cp.tools[toolIndex].powerProfileConfigs[powerProfileIndex] = currentPowerProfileConfig.current;
 											}),
 											toolIndex,
 											powerProfileIndex,
