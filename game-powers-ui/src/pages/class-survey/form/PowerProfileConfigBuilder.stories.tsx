@@ -1,11 +1,55 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { PowerProfileConfigBuilder } from './PowerProfileConfigBuilder';
+import { SamplePowerRequestBody } from './SamplePowers';
 
-const powerProfileConfig = {
-	name: 'Any Power',
-	powerChances: [{ selector: `$..[?(@.Name=='Boost')]`, weight: 1.0 }],
-	modifierChances: [{ selector: '$', weight: 1.0 }],
+// const powerProfileConfig = {
+// 	name: 'Any Power',
+// 	powerChances: [{ selector: `$..[?(@.Name=='Boost')]`, weight: 1.0 }],
+// 	modifierChances: [{ selector: '$', weight: 1.0 }],
+// };
+
+const powerProfile: SamplePowerRequestBody = {
+	classProfile: {
+		name: 'Unimportant',
+		role: 'Controller',
+		powerSource: 'Martial',
+		tools: [
+			{
+				toolType: 'Weapon',
+				toolRange: 'Melee',
+				abilities: ['Strength'],
+				preferredDamageTypes: ['Normal'],
+				powerProfileConfigs: [
+					{ name: 'Any Power', powerChances: [{ selector: '$', weight: 1 }] },
+					{
+						name: 'Accurate',
+						powerChances: [
+							{
+								selector: "$..[?(@.Name=='Non-Armor Defense' || @.Name=='To-Hit Bonus to Current Attack')]",
+								weight: 1,
+							},
+						],
+					},
+					{
+						name: 'Follow-up Attack',
+						powerChances: [
+							{ selector: "$..[?(@.Name=='RequiredHitForNextAttack' || @.Name=='RequiresPreviousHit')]", weight: 1 },
+						],
+					},
+					{ name: 'Two Attacks', powerChances: [{ selector: "$..[?(@.Name=='TwoHits')]", weight: 1 }] },
+					{ name: 'Multiple Attacks', powerChances: [{ selector: "$..[?(@.Name=='UpToThreeTargets')]", weight: 1 }] },
+					{ name: 'Apply conditions', powerChances: [{ selector: "$..[?(@.Name=='Condition')]", weight: 1 }] },
+					{ name: 'Reactions', powerChances: [{ selector: "$..[?(@.Name=='OpportunityAction')]", weight: 1 }] },
+					{ name: 'Maneuver', powerChances: [{ selector: "$..[?(@.Name=='Skirmish Movement')]", weight: 1 }] },
+				],
+			},
+		],
+	},
+	toolIndex: 0,
+	powerProfileIndex: 1,
+	level: 19,
+	usage: 'Daily',
 };
 
 const powerBuilderSample = {
@@ -165,89 +209,6 @@ const powerBuilderSample = {
     }
   ]
 }`,
-	modifierJson: [
-		`{
-  "PowerSource": "Martial",
-  "Name": "Power Source"
-}`,
-		`{
-  "Damage": {
-    "DieCodes": {
-      "Entries": [],
-      "Modifier": 0
-    },
-    "WeaponDiceCount": 3,
-    "Abilities": {
-      "Strength": 1,
-      "Constitution": 0,
-      "Dexterity": 0,
-      "Intelligence": 0,
-      "Wisdom": 0,
-      "Charisma": 0
-    }
-  },
-  "DamageTypes": [
-    0
-  ],
-  "Name": "Damage"
-}`,
-		`{
-  "Damage": {
-    "DieCodes": {
-      "Entries": [],
-      "Modifier": 0
-    },
-    "WeaponDiceCount": 3,
-    "Abilities": {
-      "Strength": 1,
-      "Constitution": 0,
-      "Dexterity": 0,
-      "Intelligence": 0,
-      "Wisdom": 0,
-      "Charisma": 0
-    }
-  },
-  "DamageTypes": [
-    0
-  ],
-  "Name": "Damage"
-}`,
-		`{
-  "Conditions": [
-    {
-      "Name": "Dazed"
-    },
-    {
-      "Name": "Slowed"
-    }
-  ],
-  "Name": "Condition"
-}`,
-		`{
-  "Boosts": [
-    {
-      "Amount": {
-        "DieCodes": {
-          "Entries": [],
-          "Modifier": 2
-        },
-        "WeaponDiceCount": 0,
-        "Abilities": {
-          "Strength": 0,
-          "Constitution": 0,
-          "Dexterity": 0,
-          "Intelligence": 0,
-          "Wisdom": 0,
-          "Charisma": 0
-        }
-      },
-      "Defense": 3,
-      "Name": "Defense"
-    }
-  ],
-  "Name": "Boost"
-}`,
-	],
 };
 
 export default {
@@ -261,5 +222,5 @@ const Template: ComponentStory<typeof PowerProfileConfigBuilder> = (args) => <Po
 export const Primary = Template.bind({});
 Primary.args = {
 	selectedPower: powerBuilderSample,
-	powerProfileConfig,
+	...powerProfile,
 };

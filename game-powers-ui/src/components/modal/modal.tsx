@@ -10,7 +10,7 @@ const sizes = {
 type ModalProps = {
 	show: boolean;
 	size: keyof typeof sizes;
-	title: string;
+	title: React.ReactChild;
 	children?: React.ReactNode;
 	onClose: () => void;
 };

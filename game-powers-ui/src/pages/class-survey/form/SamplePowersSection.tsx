@@ -96,22 +96,26 @@ export function SamplePowersSection({
 				onClose={() => setSelectedPower(null)}
 				title="Power Profile Helper"
 				size="full">
-				<PowerProfileConfigBuilder
-					selectedPower={selectedPower}
-					powerProfileConfig={
-						selectedCfg && classProfile.tools[selectedCfg!.toolIndex].powerProfileConfigs[selectedCfg!.powerConfigIndex]
-					}
-					onCancel={() => setSelectedPower(null)}
-					onSave={(cfg) => {
-						onSaveTool((tools) =>
-							produce(tools, (draft) => {
-								// eslint-disable-next-line no-param-reassign
-								draft[selectedCfg!.toolIndex].powerProfileConfigs[selectedCfg!.powerConfigIndex] = cfg;
-							})
-						);
-						setSelectedPower(null);
-					}}
-				/>
+				{selectedCfg && (
+					<PowerProfileConfigBuilder
+						selectedPower={selectedPower}
+						classProfile={classProfile}
+						toolIndex={selectedCfg.toolIndex}
+						powerProfileIndex={selectedCfg.powerConfigIndex}
+						level={selectedLevel.level}
+						usage={selectedLevel.usage}
+						onCancel={() => setSelectedPower(null)}
+						onSave={(cfg) => {
+							onSaveTool((tools) =>
+								produce(tools, (draft) => {
+									// eslint-disable-next-line no-param-reassign
+									draft[selectedCfg!.toolIndex].powerProfileConfigs[selectedCfg!.powerConfigIndex] = cfg;
+								})
+							);
+							setSelectedPower(null);
+						}}
+					/>
+				)}
 			</Modal>
 		</>
 	);

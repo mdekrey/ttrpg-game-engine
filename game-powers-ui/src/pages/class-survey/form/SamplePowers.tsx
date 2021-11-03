@@ -1,25 +1,16 @@
 /* eslint-disable react/no-array-index-key */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ClassProfile } from 'api/models/ClassProfile';
 import { useApi } from 'core/hooks/useApi';
+import { is200 } from 'core/is200';
 import { Subject } from 'rxjs';
 import useConstant from 'use-constant';
 import { filter } from 'rxjs/operators';
 import { PowerTextBlock } from 'components/power';
 import { PowerType } from 'components/power/Power';
-import { PowerFrequency } from 'api/models/PowerFrequency';
-import { PowerTextBlock as PowerTextBlockType } from 'api/models/PowerTextBlock';
+import { StructuredResponses, RequestBodies } from 'api/operations/generateSamplePower';
 
-function is200<T extends { statusCode: number | 'other' }>(
-	response: T
-): response is T extends { statusCode: 200 } ? T : never {
-	return response.statusCode === 200;
-}
-
-export type SamplePowerData = {
-	power: PowerTextBlockType;
-	powerJson: string;
-};
+export type SamplePowerData = StructuredResponses[200]['application/json'];
+export type SamplePowerRequestBody = RequestBodies['application/json'];
 
 export function SamplePowers({
 	classProfile,
@@ -28,12 +19,7 @@ export function SamplePowers({
 	level,
 	usage,
 	onSelectPower,
-}: {
-	classProfile: ClassProfile;
-	toolIndex: number;
-	powerProfileIndex: number;
-	level: number;
-	usage: PowerFrequency;
+}: SamplePowerRequestBody & {
 	onSelectPower?: (power: SamplePowerData) => void;
 }) {
 	const scrollEvent$ = useConstant(() => new Subject<typeof generateParams>());

@@ -2,16 +2,23 @@ import { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import jp from 'jsonpath';
 import parseJsonAst, { Token } from 'json-to-ast';
+import { RefreshIcon } from '@heroicons/react/solid';
 
+import { useObservable } from 'core/hooks/useObservable';
+import { is200 } from 'core/is200';
 import { Button } from 'components/button/Button';
 import { ButtonRow } from 'components/ButtonRow';
-
 import { YamlEditor } from 'components/monaco/YamlEditor';
 import { PowerTextBlock } from 'components/power';
 import { PowerType } from 'components/power/Power';
 import { PowerProfileConfig } from 'api/models/PowerProfileConfig';
 import { AstViewer } from 'components/json/ast';
-import { SamplePowerData } from './SamplePowers';
+import { of, Subject } from 'rxjs';
+import { useApi } from 'core/hooks/useApi';
+import { map, filter, switchAll, startWith } from 'rxjs/operators';
+import produce from 'immer';
+import useConstant from 'use-constant';
+import { SamplePowerData, SamplePowerRequestBody } from './SamplePowers';
 
 const safePaths: typeof jp.paths = (obj, pathExpression, count) => {
 	try {
@@ -21,47 +28,107 @@ const safePaths: typeof jp.paths = (obj, pathExpression, count) => {
 	}
 };
 
-export type PowerProfileConfigBuilderProps = {
-	powerProfileConfig?: PowerProfileConfig | null;
+export type PowerProfileConfigBuilderProps = SamplePowerRequestBody & {
 	selectedPower?: SamplePowerData | null;
 	onCancel?: () => void;
 	onSave?: (powerProfileConfig: PowerProfileConfig) => void;
 };
 
 export function PowerProfileConfigBuilder({
-	powerProfileConfig,
+	classProfile,
+	toolIndex,
+	powerProfileIndex,
+	level,
+	usage,
 	selectedPower,
 	onCancel,
 	onSave,
 }: PowerProfileConfigBuilderProps) {
+	const powerProfileConfig = classProfile.tools[toolIndex].powerProfileConfigs[powerProfileIndex];
+
+	const api = useApi();
 	const [updated, setUpdated] = useState(powerProfileConfig!);
 	const [tab, setTab] = useState<'power' | 'tree' | 'json'>('power');
+	const [useOriginal, setUseOriginal] = useState(true);
+	const refreshOverride = useConstant(() => new Subject<void>());
+
+	const override = useObservable(
+		(input$) =>
+			input$.pipe(
+				map(([shouldUseOriginal]: readonly [boolean]) =>
+					shouldUseOriginal
+						? of(null)
+						: refreshOverride.pipe(
+								startWith(null),
+								map(() =>
+									api.generateSamplePower(
+										{},
+										{
+											classProfile: produce(classProfile, (cp) => {
+												// eslint-disable-next-line no-param-reassign
+												cp.tools[toolIndex].powerProfileConfigs[powerProfileIndex] = updated;
+											}),
+											toolIndex,
+											powerProfileIndex,
+											level,
+											usage,
+										},
+										'application/json'
+									)
+								),
+								switchAll(),
+								filter(is200),
+								map((response) => response.data)
+						  )
+				),
+				switchAll()
+			),
+		null as null | SamplePowerData,
+		[useOriginal] as const
+	);
 
 	useEffect(() => {
 		if (powerProfileConfig) setUpdated(powerProfileConfig);
 	}, [powerProfileConfig]);
 
+	const power = override || selectedPower;
+
 	const { ast, paths } = useMemo((): {
 		ast: Token | null;
 		paths: jp.PathComponent[][];
 	} => {
-		if (!selectedPower) return { ast: null, paths: [] };
-		const jsonAst = parseJsonAst(selectedPower.powerJson);
-		const parsed = JSON.parse(selectedPower.powerJson);
+		if (!power) return { ast: null, paths: [] };
+		const jsonAst = parseJsonAst(power.powerJson);
+		const parsed = JSON.parse(power.powerJson);
 		const powerPaths = updated.powerChances.flatMap((powerChance) => safePaths(parsed, powerChance.selector));
 
 		return {
 			ast: jsonAst,
 			paths: powerPaths,
 		};
-	}, [updated, selectedPower]);
+	}, [updated, power]);
 
 	return (
 		<div className="mt-2 grid grid-cols-3 gap-2">
 			<div className="col-span-2">
 				{updated && <YamlEditor value={updated} onChange={setUpdated} path="power-profile-config.yaml" />}
 			</div>
-			<div className="flex flex-col gap-1">
+			<div
+				className="flex flex-col gap-1"
+				style={{ maxHeight: '60vh' /* TODO - this isn't the right spot to set this */ }}>
+				<div className="flex justify-between">
+					<label>
+						<input type="checkbox" checked={useOriginal} onChange={(ev) => setUseOriginal(ev.currentTarget.checked)} />{' '}
+						Use Original
+					</label>
+					<Button
+						contents="icon"
+						look="primary"
+						className={classNames({ hidden: useOriginal })}
+						onClick={() => refreshOverride.next()}>
+						<RefreshIcon className="h-em w-em" />
+					</Button>
+				</div>
 				<div className="flex p-1 gap-1 bg-blue-900 mb-2 rounded-xl">
 					<button
 						type="button"
@@ -95,21 +162,19 @@ export function PowerProfileConfigBuilder({
 					</button>
 				</div>
 				<div className="flex-1 overflow-y-auto">
-					{selectedPower && tab === 'power' && (
+					{power && tab === 'power' && (
 						<PowerTextBlock
-							{...selectedPower.power}
-							powerUsage={selectedPower.power.powerUsage as PowerType}
-							attackType={
-								(selectedPower.power.attackType || null) as 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null
-							}
+							{...power.power}
+							powerUsage={power.power.powerUsage as PowerType}
+							attackType={(power.power.attackType || null) as 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null}
 						/>
 					)}
-					{selectedPower && tab === 'tree' && ast && (
+					{power && tab === 'tree' && ast && (
 						<>
 							<AstViewer data={ast} highlight={paths} />
 						</>
 					)}
-					{selectedPower && tab === 'json' && <pre>{selectedPower.powerJson}</pre>}
+					{power && tab === 'json' && <pre className="text-xs">{power.powerJson}</pre>}
 				</div>
 			</div>
 
