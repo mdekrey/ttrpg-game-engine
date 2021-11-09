@@ -36,6 +36,16 @@ function toFullUrl(path: string) {
 	return url.href;
 }
 
+function getModelWithContent(path: string | undefined, content: string) {
+	const uri = path === undefined ? undefined : Uri.parse(path);
+	const existing = uri ? editor.getModel(uri) : null;
+	if (existing) {
+		existing.setValue(content);
+		return existing;
+	}
+	return editor.createModel(content, 'yaml', path === undefined ? undefined : Uri.parse(path));
+}
+
 setDiagnosticsOptions({
 	validate: true,
 	enableSchemaRequest: true,
@@ -79,7 +89,7 @@ export function YamlEditor<T>({ value, onChange, path }: { value: T; onChange?: 
 		if (!editorRef.current) {
 			editorRef.current = editor.create(divRef.current, {
 				automaticLayout: true,
-				model: editor.createModel(yamlValue, 'yaml', path === undefined ? undefined : Uri.parse(path)),
+				model: getModelWithContent(path, yamlValue),
 				theme: 'vs-light',
 			});
 			setIsEditorReady(true);
