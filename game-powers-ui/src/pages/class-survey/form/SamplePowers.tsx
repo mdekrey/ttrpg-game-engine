@@ -49,7 +49,7 @@ export function SamplePowers({
 		async (params: typeof generateParams) => {
 			const response = await api.generateSamplePower({}, params, 'application/json').toPromise();
 			if (is200(response)) setPowers((p) => [...p, response.data]);
-			if (shouldExpand()) addPower(params);
+			if (shouldExpand() && is200(response)) addPower(params);
 		},
 		[api, shouldExpand]
 	);
@@ -71,7 +71,7 @@ export function SamplePowers({
 				// intentionally blank exception
 			}
 			running = false;
-		}); // TODO - call addPower
+		});
 		return () => subscription.unsubscribe();
 	}, [scrollEvent$, addPower, shouldExpand]);
 
