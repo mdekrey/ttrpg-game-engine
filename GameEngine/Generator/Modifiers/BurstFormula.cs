@@ -85,7 +85,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public static bool IsMultiple(this TargetEffectBuilder builder)
         {
-            return false; // TODO
+            return builder.Modifiers.OfType<BurstFormula>().Any();
         }
     }
 }

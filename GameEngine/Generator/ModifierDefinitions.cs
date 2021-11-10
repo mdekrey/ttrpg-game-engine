@@ -36,7 +36,6 @@ namespace GameEngine.Generator
         public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = new ITargetFormula[]
         {
             new BurstFormula(),
-            // TODO
         }.ToImmutableList();
     }
 }

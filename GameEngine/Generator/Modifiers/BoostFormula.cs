@@ -134,7 +134,7 @@ namespace GameEngine.Generator.Modifiers
         }
         public record Regeneration(GameDiceExpression Amount) : Boost("Regeneration")
         {
-            public override double Cost() => Amount.ToWeaponDice(); // TODO - verify
+            public override double Cost() => Amount.ToWeaponDice();
             public override bool UsesDuration() => true;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {

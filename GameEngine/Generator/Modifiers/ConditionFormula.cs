@@ -34,7 +34,6 @@ namespace GameEngine.Generator.Modifiers
                 (Condition: "Grants Combat Advantage", Cost: 0.5, OtherVerb: "grants", SelfVerb: "grant", Effect: "Combat Advantage"),
                 (Condition: "Blinded", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Blinded"),
             }.ToImmutableSortedDictionary(e => e.Condition, e => (e.Cost, e.OtherVerb, e.SelfVerb, e.Effect));
-        // TODO - add defense penalties
         private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
         {
             new DefensePenalty(DefenseType.ArmorClass),
@@ -71,6 +70,10 @@ namespace GameEngine.Generator.Modifiers
                           where !Conditions.Select(b => b.Name).Contains(basicCondition)
                           where !GetSubsumed(Conditions).Contains(basicCondition)
                           select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
+
+                          from defenseCondition in DefenseConditions
+                          where !Conditions.OfType<DefensePenalty>().Any() // only allow one defense penalty
+                          select this with { Conditions = Conditions.Items.Add(defenseCondition) },
 
                           from condition in Conditions
                           from upgrade in condition.GetUpgrades(target.PowerInfo)
