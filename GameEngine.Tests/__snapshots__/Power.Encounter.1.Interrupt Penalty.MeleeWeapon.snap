@@ -17,7 +17,8 @@
           Name: Damage
       Modifiers: []
     Modifiers:
-    - Name: OpportunityAction
+    - Trigger: YouOrAllyAttacked
+      Name: OpportunityAction
     - PowerSource: Martial
       Name: Power Source
     Effects: []

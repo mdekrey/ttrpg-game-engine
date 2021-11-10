@@ -15,12 +15,23 @@ namespace GameEngine.Generator.Modifiers
         {
             if (power.PowerInfo.Usage == PowerFrequency.AtWill)
                 return Enumerable.Empty<IPowerModifier>();
-            return
-                stage != UpgradeStage.Standard ? Enumerable.Empty<IPowerModifier>() :
-                new[] { new OpportunityActionModifier() };
+            if (stage != UpgradeStage.Standard)
+                return Enumerable.Empty<IPowerModifier>();
+            return new[]
+            { 
+                new OpportunityActionModifier(Trigger.YouOrAllyAttacked),
+                new OpportunityActionModifier(Trigger.ACreatureMovesAdjacent),
+            };
         }
 
-        public record OpportunityActionModifier() : PowerModifier(ModifierName)
+        public enum Trigger
+        {
+            YouOrAllyAttacked,
+            ACreatureMovesAdjacent,
+            // TODO - more triggers
+        }
+
+        public record OpportunityActionModifier(Trigger Trigger) : PowerModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
 
@@ -31,11 +42,26 @@ namespace GameEngine.Generator.Modifiers
                 Enumerable.Empty<IPowerModifier>();
 
             public override PowerTextMutator? GetTextMutator(PowerProfile power) =>
-                new(0, (textBlock, powerInfo) => textBlock with
+                new(0, (textBlock, powerInfo) =>
                 {
-                    ActionType = "Immediate Reaction",
-                    Trigger = "You or an ally is attacked by a creature", // TODO - other triggers?
-                    Target = "The attacking creature",
+                    var result = textBlock with
+                    {
+                        ActionType = "Immediate Reaction",
+                    };
+                    return Trigger switch
+                    {
+                        Trigger.YouOrAllyAttacked => result with
+                        {
+                            Trigger = "You or an ally is attacked by a creature",
+                            Target = "The attacking creature",
+                        },
+                        Trigger.ACreatureMovesAdjacent => result with
+                        {
+                            Trigger = "A creature moves adjacent to you",
+                            Target = "The moving creature",
+                        },
+                        _ => throw new NotImplementedException(),
+                    };
                 });
         }
     }
