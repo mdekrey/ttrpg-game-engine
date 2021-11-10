@@ -156,7 +156,7 @@ namespace GameEngine.Generator
                     from m in e.effect.Modifiers.Select((mod, index) => (mod, index))
                     let damage = m.mod as DamageModifier
                     where damage != null
-                    select new DamageLens(damage, a.attack.TotalCost(this).Multiplier * e.effect.TotalCost(this).Multiplier , (pb, newDamage) => pb with
+                    select new DamageLens(damage, a.attack.TotalCost(this).Multiplier, (pb, newDamage) => pb with
                     {
                         Attacks = pb.Attacks.SetItem(a.index, pb.Attacks[a.index] with
                         {

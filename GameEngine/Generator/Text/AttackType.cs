@@ -41,16 +41,6 @@ namespace GameEngine.Generator.Text
                 1 => "adjacent to",
                 _ => $"within {range} of"
             };
-
-        public enum Target
-        {
-            OneCreature,
-            EachEnemy,
-            YouOrOneAlly,
-            EachAlly,
-            OneOrTwoCreatures,
-            OneTwoOrThreeCreatures,
-        }
     }
 
     public record MeleeWeaponAttackType() : AttackType()

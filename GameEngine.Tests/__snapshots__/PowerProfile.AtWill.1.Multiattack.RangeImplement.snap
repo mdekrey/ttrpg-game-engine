@@ -5,8 +5,7 @@ Attacks:
 - Ability: Strength
   Effects:
   - Target:
-      Target: Enemy, Self, Ally
-      Name: Basic Target
+      Name: TwoHits
     EffectType: Harmful
     Modifiers:
     - Damage: d4 + STR
@@ -14,7 +13,6 @@ Attacks:
       - Radiant
       Name: Damage
   Modifiers:
-  - Name: TwoHits
   - Defense: Fortitude
     Name: Non-Armor Defense
 Modifiers:

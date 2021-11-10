@@ -5,16 +5,14 @@ Attacks:
 - Ability: Strength
   Effects:
   - Target:
-      Target: Enemy, Self, Ally
-      Name: Basic Target
+      Name: TwoHits
     EffectType: Harmful
     Modifiers:
     - Damage: 1[W] + STR
       DamageTypes:
       - Normal
       Name: Damage
-  Modifiers:
-  - Name: TwoHits
+  Modifiers: []
 Modifiers:
 - PowerSource: Martial
   Name: Power Source

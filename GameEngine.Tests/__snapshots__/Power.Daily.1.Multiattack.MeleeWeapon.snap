@@ -7,8 +7,7 @@
     - Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Name: Basic Target
+          Name: TwoHits
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
@@ -18,8 +17,7 @@
         - Conditions:
           - Name: Dazed
           Name: Condition
-      Modifiers:
-      - Name: TwoHits
+      Modifiers: []
     Modifiers:
     - PowerSource: Martial
       Name: Power Source

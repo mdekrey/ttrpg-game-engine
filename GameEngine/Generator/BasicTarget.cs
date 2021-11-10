@@ -49,5 +49,10 @@ namespace GameEngine.Generator
                    from mod in formula.GetBaseModifiers(stage, target, power, attackIndex)
                    select mod;
         }
+
+        public string? GetAttackNotes(PowerProfile power, int? attackIndex)
+        {
+            return null;
+        }
     }
 }

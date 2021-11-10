@@ -7,6 +7,7 @@ namespace GameEngine.Generator.Text
     public record TargetInfo(
         string Target,
         AttackType AttackType,
+        string? AttackNotes,
         ImmutableList<string> Parts
     )
     {

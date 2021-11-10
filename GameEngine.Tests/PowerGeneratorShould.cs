@@ -208,7 +208,7 @@ namespace GameEngine.Tests
             { "", PowerProfileConfig.Empty },
             { AccuratePowerTemplateName, MakeModifierTemplate(AccuratePowerTemplateName, "@.Name=='Non-Armor Defense'", "@.Name=='To-Hit Bonus to Current Attack'") },
             { SkirmishPowerTemplateName, MakeModifierTemplate(SkirmishPowerTemplateName, "@.Name=='Skirmish Movement'") },
-            { MultiattackPowerTemplateName, MakeModifierTemplate(MultiattackPowerTemplateName, "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'") },
+            { MultiattackPowerTemplateName, MakeModifierTemplate(MultiattackPowerTemplateName, "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@..Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'") },
             { CloseBurstPowerTemplateName, MakeModifierTemplate(CloseBurstPowerTemplateName, "@.Name=='Multiple' && @.Type=='Burst'") },
             { ConditionsPowerTemplateName, MakeModifierTemplate(ConditionsPowerTemplateName, "@.Name=='Condition'") },
             { InterruptPenaltyPowerTemplateName, MakeModifierTemplate(InterruptPenaltyPowerTemplateName, "@.Name=='OpportunityAction'") },
@@ -227,7 +227,7 @@ namespace GameEngine.Tests
 
         private static PowerProfileConfig MakeModifierTemplate(string Name, params string[] require)
         {
-            string[] disallow = new[] { "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@.Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'" }.Except(require).ToArray();
+            string[] disallow = new[] { "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@..Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'" }.Except(require).ToArray();
             return new PowerProfileConfig(
                 Name: Name,
                 PowerChances: require.Select(modName => new PowerProfileConfig.PowerChance($"$..[?({modName})]", 1)).DefaultIfEmpty(new("$", 1))

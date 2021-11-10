@@ -78,6 +78,11 @@ namespace GameEngine.Generator.Modifiers
                     _ => throw new NotImplementedException(),
                 };
             }
+
+            public string? GetAttackNotes(PowerProfile power, int? attackIndex)
+            {
+                return null;
+            }
         }
     }
 

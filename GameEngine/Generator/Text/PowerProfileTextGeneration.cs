@@ -55,6 +55,7 @@ namespace GameEngine.Generator.Text
             var result = new TargetInfo(
                 Target: effect.Target.GetTargetText(power, attackIndex: attackIndex),
                 AttackType: effect.Target.GetAttackType(power, attackIndex: attackIndex),
+                AttackNotes: effect.Target.GetAttackNotes(power, attackIndex: attackIndex),
                 Parts: ImmutableList<string>.Empty
             );
 
@@ -66,30 +67,6 @@ namespace GameEngine.Generator.Text
             return result;
         }
 
-        //public static string GetTargetText(this Target target, bool multiple)
-        //{
-        //    return (target, multiple) switch
-        //    {
-        //        (Target.Enemy, false) => "One enemy",
-        //        (Target.Self, false) => "You",
-        //        (Target.Self | Target.Enemy, false) => "You or one enemy", // This may be a good one for "If you take damage from this power, deal damage to all enemies instead." or something
-        //        (Target.Ally, false) => "One of your allies",
-        //        (Target.Ally | Target.Enemy, false) => "One creature other than yourself",
-        //        (Target.Ally | Target.Self, false) => "You or one of your allies",
-        //        (Target.Ally | Target.Self | Target.Enemy, false) => "One creature",
-
-        //        (Target.Enemy, true) => "Each enemy",
-        //        (Target.Self, true) => "You",
-        //        (Target.Self | Target.Enemy, true) => "You and each enemy",
-        //        (Target.Ally, true) => "Each of your allies",
-        //        (Target.Ally | Target.Enemy, true) => "Each creature other than yourself",
-        //        (Target.Ally | Target.Self, true) => "You and each of your allies",
-        //        (Target.Ally | Target.Self | Target.Enemy, true) => "Each creature",
-
-        //        _ => throw new NotImplementedException()
-        //    };
-        //}
-
         public static AttackInfo ToAttackInfo(this AttackProfile attack, PowerProfile power, int index)
         {
             var targetInfo = attack.Effects[0].ToTargetInfo(power, attackIndex: index);
@@ -99,7 +76,7 @@ namespace GameEngine.Generator.Text
                 AttackType: targetInfo.AttackType,
                 Target: targetInfo.Target,
                 AttackExpression: (GameDiceExpression)attack.Ability,
-                AttackNotes: null,
+                AttackNotes: targetInfo.AttackNotes,
                 Defense: DefenseType.ArmorClass,
                 HitParts: targetInfo.Parts,
                 HitSentences: effects.Select(effect => effect.ToTargetInfo(power, attackIndex: index).ToSentence()).ToImmutableList(),

@@ -32,7 +32,7 @@ namespace GameEngine.Generator.Text
             string.Join(" ", MissSentences);
 
         internal string ToAttackText() => $"{this.AttackExpression} vs. {this.Defense.ToText()}"
-            + AttackNotes ?? "";
+            + (AttackNotes is { Length: > 0 } ? $", {AttackNotes}" : "");
 
         public ImmutableList<string> SpecialSentences => ImmutableList<string>.Empty; // TODO - remove this or use it
     }

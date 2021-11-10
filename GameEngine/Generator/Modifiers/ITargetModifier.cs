@@ -13,5 +13,6 @@ namespace GameEngine.Generator.Modifiers
 
         string GetTargetText(PowerProfile power, int? attackIndex);
         AttackType GetAttackType(PowerProfile power, int? attackIndex);
+        string? GetAttackNotes(PowerProfile power, int? attackIndex);
     }
 }
