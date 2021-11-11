@@ -17,7 +17,6 @@ Attacks:
       Name: Damage
     - Conditions:
       - Name: Blinded
-      - Name: Dazed
       Name: Condition
   Modifiers: []
 Modifiers:

@@ -19,7 +19,6 @@
           Name: Damage
         - Conditions:
           - Name: Blinded
-          - Name: Dazed
           Name: Condition
       Modifiers: []
     Modifiers:
@@ -39,4 +38,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and is blinded and dazed until the end of your next turn.
+    Text: 1[W] + STR damage and is blinded until the end of your next turn.

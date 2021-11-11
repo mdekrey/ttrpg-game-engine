@@ -8,12 +8,12 @@
       Effects:
       - Target:
           Target: Enemy, Self, Ally
-          Size: 5
+          Size: 3
           Type: Burst
           Name: Multiple
         EffectType: Harmful
         Modifiers:
-        - Damage: STR
+        - Damage: d4 + STR
           DamageTypes:
           - Radiant
           Name: Damage
@@ -32,9 +32,9 @@
   - Implement
   ActionType: Standard Action
   AttackType: Close
-  AttackTypeDetails: burst 2
+  AttackTypeDetails: burst 1
   Target: Each creature
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: STR radiant damage.
+    Text: d4 + STR radiant damage.

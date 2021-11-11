@@ -39,7 +39,7 @@ namespace GameEngine.Generator.Modifiers
 
             public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context)
             {
-                var multiplier = ((Size - 1) / 2.0 + 2) / 2.0;
+                var multiplier = (Size - 1) / 2.0 + 1;
                 return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier); // TODO - is this right?
             }
 

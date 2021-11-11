@@ -243,7 +243,7 @@
         Modifiers:
         - Boosts:
           - Amount: +2
-            Defense: Reflex
+            Defense: Will
             Name: Defense
           Name: Boost
       Modifiers: []
@@ -448,16 +448,14 @@
     - Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Name: Basic Target
+          Name: TwoHits
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
           DamageTypes:
           - Normal
           Name: Damage
-      Modifiers:
-      - Name: TwoHits
+      Modifiers: []
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -471,8 +469,7 @@
     - Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Name: Basic Target
+          Name: TwoHits
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
@@ -480,17 +477,15 @@
           - Normal
           Name: Damage
       - Target:
-          Target: Ally
+          Target: Self
           Name: Basic Target
         EffectType: Beneficial
         Modifiers:
-        - Effects:
-          - Mode: Pull
-            Amount: +1
-            Name: Slide Opponent
-          Name: MovementControl
-      Modifiers:
-      - Name: TwoHits
+        - Movement:
+          - Amount: STR
+            Name: Shift
+          Name: Skirmish Movement
+      Modifiers: []
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -784,7 +779,7 @@
       Modifiers:
       - Effects:
         - Name: Prone
-        - Mode: Push
+        - Mode: Pull
           Amount: +2
           Name: Slide Opponent
         Name: MovementControl
@@ -1086,11 +1081,10 @@
     - Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Name: Basic Target
+          Name: TwoHits
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR + DEX
+        - Damage: 1[W] + STR
           DamageTypes:
           - Normal
           Name: Damage
@@ -1100,11 +1094,11 @@
         EffectType: Beneficial
         Modifiers:
         - Boosts:
-          - Amount: DEX
-            Name: Attack
+          - Name: Healing Surge
+          - Amount: STR + 2
+            Name: Temporary Hit Points
           Name: Boost
-      Modifiers:
-      - Name: TwoHits
+      Modifiers: []
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -1122,29 +1116,26 @@
           Name: Basic Target
         EffectType: Harmful
         Modifiers:
-        - Damage: 4[W] + STR + DEX
+        - Damage: 5[W] + STR + DEX
           DamageTypes:
           - Normal
           Name: Damage
       Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
+      - Amount: DEX
+        Name: To-Hit Bonus to Current Attack
     Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects:
     - Target:
-        Target: Self, Ally
+        Target: Self
         Name: Basic Target
       EffectType: Beneficial
       Modifiers:
-      - Boosts:
+      - Movement:
         - Amount: STR
-          Limit: Target
-          Name: Attack
-        Name: Boost
+          Name: Shift
+        Name: Skirmish Movement
 - Level: 15
   PowerProfile:
     Usage: Daily
@@ -1644,16 +1635,14 @@
     - Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Name: Basic Target
+          Name: TwoHits
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR + DEX
           DamageTypes:
           - Normal
           Name: Damage
-      Modifiers:
-      - Name: TwoHits
+      Modifiers: []
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -1992,16 +1981,14 @@
     - Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Name: Basic Target
+          Name: TwoHits
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
           DamageTypes:
           - Normal
           Name: Damage
-      Modifiers:
-      - Name: TwoHits
+      Modifiers: []
     Modifiers:
     - PowerSource: Martial
       Name: Power Source

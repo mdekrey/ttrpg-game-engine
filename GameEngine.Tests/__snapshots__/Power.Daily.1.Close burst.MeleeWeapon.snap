@@ -8,7 +8,7 @@
       Effects:
       - Target:
           Target: Enemy, Self, Ally
-          Size: 3
+          Size: 5
           Type: Burst
           Name: Multiple
         EffectType: Harmful
@@ -17,9 +17,6 @@
           DamageTypes:
           - Normal
           Name: Damage
-        - Conditions:
-          - Name: Blinded
-          Name: Condition
       Modifiers: []
     Modifiers:
     - PowerSource: Martial
@@ -33,9 +30,9 @@
   - Weapon
   ActionType: Standard Action
   AttackType: Close
-  AttackTypeDetails: burst 1
+  AttackTypeDetails: burst 2
   Target: Each creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and is blinded until the end of your next turn.
+    Text: 1[W] + STR damage.

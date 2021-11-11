@@ -6,7 +6,7 @@ Attacks:
   Effects:
   - Target:
       Target: Enemy, Self, Ally
-      Size: 3
+      Size: 5
       Type: Burst
       Name: Multiple
     EffectType: Harmful
@@ -15,9 +15,6 @@ Attacks:
       DamageTypes:
       - Normal
       Name: Damage
-    - Conditions:
-      - Name: Blinded
-      Name: Condition
   Modifiers: []
 Modifiers:
 - PowerSource: Martial

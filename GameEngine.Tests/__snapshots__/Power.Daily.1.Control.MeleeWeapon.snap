@@ -8,9 +8,7 @@
       Effects:
       - Target:
           Target: Enemy, Self, Ally
-          Size: 3
-          Type: Burst
-          Name: Multiple
+          Name: Basic Target
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
@@ -19,6 +17,9 @@
           Name: Damage
         - Effects:
           - Name: Prone
+          - Mode: Pull
+            Amount: +4
+            Name: Slide Opponent
           Name: MovementControl
       Modifiers: []
     Modifiers:
@@ -32,10 +33,10 @@
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Close
-  AttackTypeDetails: burst 1
-  Target: Each creature
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and is knocked prone.
+    Text: 1[W] + STR damage, is knocked prone, and is pulled +4 squares.
