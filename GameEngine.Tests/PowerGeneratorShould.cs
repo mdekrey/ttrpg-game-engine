@@ -219,9 +219,7 @@ namespace GameEngine.Tests
             { "SecondAttackOnly", new PowerProfileConfig(
                     "SecondAttackOnly",
                     new PowerProfileConfig.PowerChance[] {
-                        new("$", 1),
-                        new("$..[?(@.Name=='TwoHits')]", 0),
-                        new("$..[?(@.Name=='UpToThreeTargets')]", 0),
+                        new("$..Attacks[1]", 1),
                     }.ToImmutableList()
                 ) },
             { "Control", MakeModifierTemplate("Control", "@.Name=='MovementControl'") },

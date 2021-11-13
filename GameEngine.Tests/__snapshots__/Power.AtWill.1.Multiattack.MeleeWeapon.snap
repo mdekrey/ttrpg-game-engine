@@ -7,14 +7,29 @@
     - Ability: Strength
       Effects:
       - Target:
-          Name: TwoHits
+          Target: Enemy, Self, Ally
+          Name: Basic Target
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W]
           DamageTypes:
           - Normal
           Name: Damage
-      Modifiers: []
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+    - Ability: Strength
+      Effects:
+      - Target:
+          Target: Enemy, Self, Ally
+          Name: Basic Target
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes:
+          - Normal
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -28,8 +43,14 @@
   ActionType: Standard Action
   AttackType: Melee
   AttackTypeDetails: weapon
-  Target: One or two creatures
-  Attack: STR vs. AC, two attacks
+  Target: One creature
+  Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] damage.
+    Text: 1[W] damage. Make a secondary attack.
+  - Label: Secondary Target
+    Text: One creature
+  - Label: Secondary Attack
+    Text: STR vs. AC
+  - Label: Secondary Hit
+    Text: 1[W] + STR damage.

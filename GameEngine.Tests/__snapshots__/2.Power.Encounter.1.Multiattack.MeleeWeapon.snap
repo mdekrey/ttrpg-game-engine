@@ -15,9 +15,6 @@
           DamageTypes:
           - Normal
           Name: Damage
-        - Conditions:
-          - Name: Slowed
-          Name: Condition
       Modifiers:
       - Name: RequiredHitForNextAttack
     - Ability: Strength
@@ -34,11 +31,18 @@
       Modifiers:
       - Name: RequiresPreviousHit
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Name: Temporary Hit Points
+        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Encounter
@@ -52,10 +56,12 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and is slowed until the end of your next turn. Make a secondary attack.
+    Text: 1[W] + STR damage. Make a secondary attack.
   - Label: Secondary Target
     Text: One creature
   - Label: Secondary Attack
     Text: STR vs. AC
   - Label: Secondary Hit
     Text: 1[W] + STR damage.
+  - Label: Effect
+    Text: You gain +2 temporary hit points.

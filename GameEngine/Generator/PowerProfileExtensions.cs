@@ -9,17 +9,26 @@ namespace GameEngine.Generator
 {
     public static class PowerProfileExtensions
     {
-        public static IEnumerable<PowerProfileBuilder> PreApply(this PowerProfileBuilder power, UpgradeStage stage)
+        public static IEnumerable<PowerProfileBuilder> PreApply(this IEnumerable<PowerProfileBuilder> powers)
         {
-            var options = from builder in power.Attacks.Aggregate(
+            var options = from power in powers
+                          from builder in power.Attacks.Aggregate(
                                     Enumerable.Repeat(ImmutableList<AttackProfileBuilder>.Empty, 1),
                                     (prev, next) => prev.SelectMany(l => next.PreApplyImplementNonArmorDefense(UpgradeStage.InitializeAttacks, power).Select(o => l.Add(o)))
                                 )
                                 .Select(attacks => power with { Attacks = attacks })
-                          from e in builder.GetUpgrades(stage).Where(b => b.IsValid()).DefaultIfEmpty(builder)
-                          select e;
+                          let b = builder.FullyInitialize()
+                          where b.AllModifiers().Any(p => p.CanUseRemainingPower()) // Ensures ABIL mod or multiple hits
+                          select b;
 
             return options;
+        }
+
+        public static PowerProfileBuilder FullyInitialize(this PowerProfileBuilder builder)
+        {
+            while (builder.GetUpgrades(UpgradeStage.InitializeAttacks).Where(b => b.IsValid()).FirstOrDefault() is PowerProfileBuilder next)
+                builder = next;
+            return builder;
         }
 
         // Implements get free non-armor defense due to lack of proficiency bonus

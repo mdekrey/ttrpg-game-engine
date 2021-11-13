@@ -13,6 +13,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => new PowerCost(Damage.ToWeaponDice());
         public override bool IsPlaceholder() => false;
+        public override bool CanUseRemainingPower() => GetAbilities().Any();
 
         private IEnumerable<Ability> GetAbilities()
         {
@@ -45,7 +46,7 @@ namespace GameEngine.Generator.Modifiers
         }
 
         public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) =>
-            new(0, (target) => target with { Parts = target.Parts.Add(string.Join(" ", new string[]
+            new(-100, (target) => target with { Parts = target.Parts.Add(string.Join(" ", new string[]
             {
                 Damage.ToString(),
                 OxfordComma(DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),

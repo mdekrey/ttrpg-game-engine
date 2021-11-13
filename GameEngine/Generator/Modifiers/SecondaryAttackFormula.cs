@@ -23,9 +23,11 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
             public override bool IsPlaceholder() => true;
             public override bool MustUpgrade() => true;
+            public override bool CanUseRemainingPower() => true;
+
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power)
             {
-                if (stage != UpgradeStage.AttackSetup)
+                if (stage != UpgradeStage.Standard)
                     yield break;
                 if (power.Attacks.Count > 1)
                     yield break;
@@ -121,6 +123,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
             public override bool IsPlaceholder() => false;
+            public override bool CanUseRemainingPower() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
 
@@ -142,6 +145,7 @@ namespace GameEngine.Generator.Modifiers
             public override PowerCost GetCost(AttackProfileBuilder builder) =>
                 new PowerCost(Multiplier: 1 / FollowupAttackPower, SingleTargetMultiplier: 1 / FollowupAttackPower);
             public override bool IsPlaceholder() => false;
+            public override bool CanUseRemainingPower() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => null;
@@ -169,6 +173,7 @@ namespace GameEngine.Generator.Modifiers
 
             public string GetTargetText(PowerProfile power, int? attackIndex) => "One or two creatures";
             public string? GetAttackNotes(PowerProfile power, int? attackIndex) => "two attacks";
+            public bool CanUseRemainingPower() => true;
 
             public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
             {
@@ -199,6 +204,7 @@ namespace GameEngine.Generator.Modifiers
 
             public string GetTargetText(PowerProfile power, int? attackIndex) => "One, two, or three creatures";
             public string? GetAttackNotes(PowerProfile power, int? attackIndex) => "one attack per target";
+            public bool CanUseRemainingPower() => true;
 
             public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex) =>
                 Enumerable.Empty<ITargetModifier>();

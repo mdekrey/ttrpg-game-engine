@@ -6,20 +6,22 @@ Attacks:
   Effects:
   - Target:
       Target: Enemy, Self, Ally
-      Size: 5
+      Size: 3
       Type: Burst
       Name: Multiple
     EffectType: Harmful
     Modifiers:
-    - Damage: 1[W] + STR
-      DamageTypes:
-      - Normal
-      Name: Damage
     - Conditions:
       - Name: Blinded
       Name: Condition
+    - Damage: 1[W] + STR + DEX
+      DamageTypes:
+      - Normal
+      Name: Damage
   Modifiers: []
 Modifiers:
+- Duration: SaveEnds
+  Name: Duration
 - PowerSource: Martial
   Name: Power Source
 Effects: []

@@ -9,5 +9,8 @@ namespace GameEngine.Generator.Modifiers
         string Name { get; }
         int GetComplexity(PowerHighLevelInfo powerInfo);
         bool IsPlaceholder();
+
+        // If this modifier can soak all remaining power (that is, accounting for the ABIL damage modifier), this should return true
+        bool CanUseRemainingPower() => false;
     }
 }

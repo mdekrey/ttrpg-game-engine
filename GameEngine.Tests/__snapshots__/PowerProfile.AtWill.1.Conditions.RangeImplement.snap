@@ -9,13 +9,13 @@ Attacks:
       Name: Basic Target
     EffectType: Harmful
     Modifiers:
+    - Conditions:
+      - Name: Blinded
+      Name: Condition
     - Damage: d4 + STR
       DamageTypes:
       - Radiant
       Name: Damage
-    - Conditions:
-      - Name: Blinded
-      Name: Condition
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense

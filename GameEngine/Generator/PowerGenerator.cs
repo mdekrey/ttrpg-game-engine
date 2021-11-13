@@ -73,7 +73,7 @@ namespace GameEngine.Generator
                         foreach (var p in newPowers)
                         {
                             onAddPower(p);
-                        }    
+                        }
                         added += newPowers.Length;
                     }
                 }
@@ -133,26 +133,27 @@ namespace GameEngine.Generator
             var toExclude = (exclude ?? Enumerable.Empty<PowerProfile>()).Concat(BasicPowers.All).Select(p => p with { Usage = powerInfo.Usage });
             var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
             var powerProfileBuilder = RootBuilder(basePower, powerInfo);
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.AttackSetup, exclude: toExclude);
 
-            var options = powerProfileBuilder.PreApply(UpgradeStage.InitializeAttacks).ToArray();
-            if (options.Length > 0)
-                powerProfileBuilder = options.Select(opt => new RandomChances<PowerProfileBuilder>(opt, 1)).RandomSelection(randomGenerator);
-
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.InitializeAttacks, exclude: toExclude);
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Standard, exclude: toExclude);
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Standard, exclude: toExclude, preApplyOnce: true);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Finalize, exclude: toExclude);
 
             return (powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) }).Build();
         }
 
-        public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder, UpgradeStage stage, IEnumerable<PowerProfile> exclude)
+        public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
         {
             while (true)
             {
                 var oldBuilder = powerProfileBuilder;
-                var preChance = (from entry in powerProfileBuilder.GetUpgrades(stage)
-                                 where entry.IsValid()
+                var upgrades = powerProfileBuilder.GetUpgrades(stage).Where(entry => entry.IsValid());
+                if (preApplyOnce)
+                {
+                    var temp = upgrades.PreApply();
+                    if (temp.Any())
+                        upgrades = temp;
+                    preApplyOnce = false;
+                }
+                var preChance = (from entry in upgrades
                                  let builtEntry = entry.Build()
                                  where !exclude.Contains(builtEntry)
                                  select entry).ToArray();
@@ -192,8 +193,8 @@ namespace GameEngine.Generator
                 ),
                 TargetEffects: Build(
                     new TargetEffectBuilder(
-                        new BasicTarget(Target.Enemy | Target.Ally | Target.Self), 
-                            EffectType.Harmful, 
+                        new BasicTarget(Target.Enemy | Target.Ally | Target.Self),
+                            EffectType.Harmful,
                             new IEffectModifier[]
                             {
                                 new DamageModifier(
@@ -204,7 +205,7 @@ namespace GameEngine.Generator
                                             .Select(v => new RandomChances<DamageType>(v))
                                     ))
                                 )
-                            }.ToImmutableList(), 
+                            }.ToImmutableList(),
                             info
                         )
                     ),

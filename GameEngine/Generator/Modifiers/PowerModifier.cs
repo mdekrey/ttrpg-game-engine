@@ -11,6 +11,7 @@ namespace GameEngine.Generator.Modifiers
         public abstract PowerCost GetCost(PowerProfileBuilder builder);
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
+        public virtual bool CanUseRemainingPower() => false;
         public abstract IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power);
         public virtual IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder) { yield return builder; }
 

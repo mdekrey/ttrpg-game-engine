@@ -12,5 +12,6 @@ namespace GameEngine.Generator.Modifiers
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
         public abstract AttackInfoMutator? GetAttackInfoMutator(PowerProfile power);
+        public virtual bool CanUseRemainingPower() => false;
     }
 }

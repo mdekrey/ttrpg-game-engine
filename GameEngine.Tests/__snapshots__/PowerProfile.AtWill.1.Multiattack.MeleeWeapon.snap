@@ -5,14 +5,29 @@ Attacks:
 - Ability: Strength
   Effects:
   - Target:
-      Name: TwoHits
+      Target: Enemy, Self, Ally
+      Name: Basic Target
     EffectType: Harmful
     Modifiers:
     - Damage: 1[W]
       DamageTypes:
       - Normal
       Name: Damage
-  Modifiers: []
+  Modifiers:
+  - Name: RequiredHitForNextAttack
+- Ability: Strength
+  Effects:
+  - Target:
+      Target: Enemy, Self, Ally
+      Name: Basic Target
+    EffectType: Harmful
+    Modifiers:
+    - Damage: 1[W] + STR
+      DamageTypes:
+      - Normal
+      Name: Damage
+  Modifiers:
+  - Name: RequiresPreviousHit
 Modifiers:
 - PowerSource: Martial
   Name: Power Source

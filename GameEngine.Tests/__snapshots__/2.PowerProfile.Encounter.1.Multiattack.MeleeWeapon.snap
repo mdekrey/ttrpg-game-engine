@@ -13,9 +13,6 @@ Attacks:
       DamageTypes:
       - Normal
       Name: Damage
-    - Conditions:
-      - Name: Slowed
-      Name: Condition
   Modifiers:
   - Name: RequiredHitForNextAttack
 - Ability: Strength
@@ -32,8 +29,15 @@ Attacks:
   Modifiers:
   - Name: RequiresPreviousHit
 Modifiers:
-- Duration: EndOfUserNextTurn
-  Name: Duration
 - PowerSource: Martial
   Name: Power Source
-Effects: []
+Effects:
+- Target:
+    Target: Self
+    Name: Basic Target
+  EffectType: Beneficial
+  Modifiers:
+  - Boosts:
+    - Amount: +2
+      Name: Temporary Hit Points
+    Name: Boost

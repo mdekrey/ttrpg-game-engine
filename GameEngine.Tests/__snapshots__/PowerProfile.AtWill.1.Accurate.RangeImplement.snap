@@ -6,22 +6,8 @@ Attacks:
   Effects:
   - Target:
       Target: Enemy, Self, Ally
-      Name: Basic Target
-    EffectType: Harmful
-    Modifiers:
-    - Damage: d4 + STR
-      DamageTypes:
-      - Radiant
-      Name: Damage
-  Modifiers:
-  - Defense: Fortitude
-    Name: Non-Armor Defense
-- Ability: Strength
-  Effects:
-  - Target:
-      Target: Enemy, Self, Ally
-      Size: 1
-      Type: Blast
+      Size: 3
+      Type: Burst
       Name: Multiple
     EffectType: Harmful
     Modifiers:
