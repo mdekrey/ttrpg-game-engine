@@ -39,8 +39,8 @@ namespace GameEngine.Generator.Modifiers
 
             public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context)
             {
-                var multiplier = (Size - 1) / 2.0 + 1;
-                return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier); // TODO - is this right?
+                var multiplier = (Size - 1) / 2.0 + 1; // TODO - is this right?
+                return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier);
             }
 
             public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex) =>

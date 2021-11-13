@@ -111,6 +111,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, CloseBurstPowerTemplateName, null)]
         [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, CloseBlastPowerTemplateName, null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, ConditionsPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "UpToThree", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "SecondAttackOnly", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "Control", null)]
         [Theory]
@@ -214,6 +215,7 @@ namespace GameEngine.Tests
             { InterruptPenaltyPowerTemplateName, MakeModifierTemplate(InterruptPenaltyPowerTemplateName, "@.Name=='OpportunityAction'") },
             { CloseBlastPowerTemplateName, MakeModifierTemplate(CloseBlastPowerTemplateName, "@.Name=='Multiple' && @.Type=='Blast'") },
             { BonusPowerTemplateName, MakeModifierTemplate(BonusPowerTemplateName, "@.Name=='Boost'") },
+            { "UpToThree", MakeModifierTemplate("UpToThree", "@.Name=='UpToThreeTargets'") },
             { "SecondAttackOnly", new PowerProfileConfig(
                     "SecondAttackOnly",
                     new PowerProfileConfig.PowerChance[] {

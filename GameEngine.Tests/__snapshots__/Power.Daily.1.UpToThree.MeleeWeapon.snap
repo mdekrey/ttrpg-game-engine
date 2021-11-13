@@ -1,0 +1,39 @@
+﻿- Level: 1
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Ability: Strength
+      Effects:
+      - Target:
+          Name: UpToThreeTargets
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes:
+          - Normal
+          Name: Damage
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          Name: Condition
+      Modifiers: []
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One, two, or three creatures
+  Attack: STR vs. AC, one attack per target
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage and is blinded and dazed until the end of your next turn.

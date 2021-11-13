@@ -31,7 +31,7 @@ namespace GameEngine.Generator.Modifiers
                     yield break;
 
                 yield return new TargetDelegateModifier(new TwoHitsModifier());
-                yield return new AttackDelegateModifier(new UpToThreeTargetsModifier());
+                yield return new TargetDelegateModifier(new UpToThreeTargetsModifier());
 
                 foreach (var count in new[] { 2, 3 })
                 {
@@ -40,31 +40,6 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
         
-            public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
-        }
-
-        public record AttackDelegateModifier(IAttackModifier AttackModifier) : PowerModifier(ModifierName)
-        {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => AttackModifier.GetComplexity(powerInfo);
-            public override PowerCost GetCost(PowerProfileBuilder power) => AttackModifier.GetCost(power.Attacks[0]);
-
-            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder attack) =>
-                Enumerable.Empty<IPowerModifier>();
-
-            public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder power)
-            {
-                var attack = power.Attacks.Single();
-                yield return power with
-                {
-                    Attacks = new[] {
-                        attack with
-                        {
-                            Modifiers = attack.Modifiers.Add(AttackModifier),
-                        }
-                    }.ToImmutableList(),
-                    Modifiers = power.Modifiers.Remove(this).Add(new MultiattackAppliedModifier()),
-                };
-            }
             public override PowerTextMutator? GetTextMutator(PowerProfile power) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
@@ -173,28 +148,6 @@ namespace GameEngine.Generator.Modifiers
         }
 
         // Two Identical attacks
-        //public record OldTwoHitsModifier() : AttackModifier(ModifierName)
-        //{
-        //    // TODO - modifiers if both hit
-        //    public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
-        //    public const string ModifierName = "TwoHits";
-        //    public override PowerCost GetCost(AttackProfileBuilder builder) =>
-        //        new PowerCost(Multiplier: 2, SingleTargetMultiplier: 1); // Because both attacks can hit the same target, SingleTargetMultiplier needs to be 1
-        //    public override bool IsPlaceholder() => false;
-        //    public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
-        //        Enumerable.Empty<IAttackModifier>();
-        //    public override double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice * 2;
-        //    public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-        //        new(0, (attack, index) => attack with
-        //        {
-        //            Target = "One or two creatures", // TODO - this should be an ITargetModifier
-        //            //TargetType = AttackType.Target.OneOrTwoCreatures,
-        //            AttackNotes = ", two attacks"
-        //        });
-        //}
-
-
-        // Two Identical attacks
         public record TwoHitsModifier() : ITargetModifier
         {
             public string Name => "TwoHits";
@@ -226,21 +179,29 @@ namespace GameEngine.Generator.Modifiers
         }
 
         // Identical attacks against up to 3 targets.
-        public record UpToThreeTargetsModifier() : AttackModifier(ModifierName)
+        public record UpToThreeTargetsModifier() : ITargetModifier
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
-            public const string ModifierName = "UpToThreeTargets";
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(1.5);
-            public override bool IsPlaceholder() => false;
-            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
-                Enumerable.Empty<IAttackModifier>();
-            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
-                new(0, (attack, index) => attack with
+            public string Name => "UpToThreeTargets";
+            public int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
+            public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context) => new PowerCost(1.5);
+
+            public AttackType GetAttackType(PowerProfile power, int? attackIndex) =>
+                (power.Tool, power.ToolRange) switch
                 {
-                    Target = "One, two, or three creatures", // TODO - this should be an ITargetModifier
-                    //TargetType = AttackType.Target.OneTwoOrThreeCreatures,
-                    AttackNotes = "one attack per target"
-                });
+                    (ToolType.Weapon, ToolRange.Melee) => new MeleeWeaponAttackType(),
+                    (ToolType.Implement, ToolRange.Melee) => new MeleeTouchAttackType(),
+                    (ToolType.Weapon, ToolRange.Range) => new RangedWeaponAttackType(),
+                    (ToolType.Implement, ToolRange.Range) => new RangedAttackType(10),
+                    _ => throw new NotSupportedException(),
+                };
+
+            public Target GetTarget() => Target.Ally | Target.Enemy;
+
+            public string GetTargetText(PowerProfile power, int? attackIndex) => "One, two, or three creatures";
+            public string? GetAttackNotes(PowerProfile power, int? attackIndex) => "one attack per target";
+
+            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex) =>
+                Enumerable.Empty<ITargetModifier>();
         }
     }
 }
