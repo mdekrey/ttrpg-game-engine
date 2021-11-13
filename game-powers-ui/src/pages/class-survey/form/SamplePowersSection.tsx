@@ -47,10 +47,10 @@ export function SamplePowersSection({
 			<SelectField
 				className="col-span-3"
 				label="Preview Powers"
-				value={selectedCfg === null ? '-' : `${selectedCfg.toolIndex}-${selectedCfg.powerConfigIndex}`}
+				value={selectedCfg === null ? ';' : `${selectedCfg.toolIndex};${selectedCfg.powerConfigIndex}`}
 				onChange={({ currentTarget: { value } }) => {
 					if (value) {
-						const [toolIndex, powerConfigIndex] = value.split('-').map(Number);
+						const [toolIndex, powerConfigIndex] = value.split(';', 2).map(Number);
 						setSelectedCfg({ toolIndex, powerConfigIndex });
 					} else setSelectedCfg(null);
 				}}>
@@ -58,7 +58,7 @@ export function SamplePowersSection({
 				{classProfile.tools.map((tool, toolIndex) => (
 					<optgroup label={`${tool.toolRange} ${tool.toolType}`} key={toolIndex}>
 						{tool.powerProfileConfigs.map((powerConfig, powerConfigIndex) => (
-							<option key={powerConfigIndex} value={`${toolIndex}-${powerConfigIndex}`}>
+							<option key={powerConfigIndex} value={`${toolIndex};${powerConfigIndex}`}>
 								{powerConfig.name}
 							</option>
 						))}
@@ -68,13 +68,13 @@ export function SamplePowersSection({
 			<SelectField
 				className="col-span-3"
 				label="Power Level"
-				value={`${selectedLevel.level}-${selectedLevel.usage}`}
+				value={`${selectedLevel.level};${selectedLevel.usage}`}
 				onChange={({ currentTarget: { value } }) => {
-					const [level, usage] = value.split('-');
+					const [level, usage] = value.split(';', 2);
 					setSelectedLevel({ level: Number(level), usage: usage as PowerFrequency });
 				}}>
 				{powerLevelOptions.map((cfg) => (
-					<option key={`${cfg.level}-${cfg.usage}`} value={`${cfg.level}-${cfg.usage}`}>
+					<option key={`${cfg.level};${cfg.usage}`} value={`${cfg.level};${cfg.usage}`}>
 						{`Lvl ${cfg.level} ${cfg.usage}`}
 					</option>
 				))}
