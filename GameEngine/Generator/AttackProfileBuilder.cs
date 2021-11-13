@@ -65,7 +65,7 @@ namespace GameEngine.Generator
             from entry in set
             select entry;
 
-        public IEnumerable<IModifier> AllModifiers() => Modifiers.Concat<IModifier>(from targetEffect in TargetEffects from mod in targetEffect.Modifiers select mod);
+        public IEnumerable<IModifier> AllModifiers() => Modifiers.Concat<IModifier>(from targetEffect in TargetEffects from mod in targetEffect.AllModifiers() select mod);
 
     }
 }

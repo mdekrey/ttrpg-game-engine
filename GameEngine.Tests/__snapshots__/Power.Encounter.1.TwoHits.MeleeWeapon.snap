@@ -1,6 +1,6 @@
 ﻿- Level: 1
   PowerProfile:
-    Usage: AtWill
+    Usage: Encounter
     Tool: Weapon
     ToolRange: Melee
     Attacks:
@@ -10,7 +10,7 @@
           Name: TwoHits
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W]
+        - Damage: 1[W] + STR
           DamageTypes:
           - Normal
           Name: Damage
@@ -21,7 +21,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
-  PowerUsage: At-Will
+  PowerUsage: Encounter
   Keywords:
   - Martial
   - Weapon
@@ -32,4 +32,4 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] damage.
+    Text: 1[W] + STR damage.

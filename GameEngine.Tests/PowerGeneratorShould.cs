@@ -72,7 +72,7 @@ namespace GameEngine.Tests
         {
             var (target, powerInfo) = GetTargetProfile((min, max) => max - 1, configName, level, powerFrequency, powerTemplate);
 
-            var powerProfile = target.GenerateProfile(powerInfo);
+            var powerProfile = target.GenerateProfile(powerInfo)!;
 
             Snapshot.Match(Serializer.Serialize(powerProfile), ToSnapshotName("PowerProfile", powerFrequency, level, powerTemplate, configName));
         }
@@ -86,7 +86,7 @@ namespace GameEngine.Tests
         {
             var (target, powerInfo) = GetTargetProfile(new Random(seed).Next, configName, level, powerFrequency, powerTemplate);
 
-            var powerProfile = target.GenerateProfile(powerInfo);
+            var powerProfile = target.GenerateProfile(powerInfo)!;
 
             Snapshot.Match(Serializer.Serialize(powerProfile), ToSnapshotName(seed, "PowerProfile", powerFrequency, level, powerTemplate, configName));
         }
@@ -111,6 +111,9 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, CloseBurstPowerTemplateName, null)]
         [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, CloseBlastPowerTemplateName, null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, ConditionsPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, "TwoHits", null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, "TwoHits", null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "UpToThree", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "SecondAttackOnly", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "Control", null)]
@@ -122,7 +125,7 @@ namespace GameEngine.Tests
             var (toolProfile, classProfile, powerProfileConfig) = GetToolProfile(configName, powerTemplate);
 
             var powerHighLevelInfo = new PowerHighLevelInfo(level, powerFrequency, toolProfile, classProfile, powerProfileConfig);
-            var powerProfile = new ClassPowerProfile(level, target.GenerateProfile(powerHighLevelInfo));
+            var powerProfile = new ClassPowerProfile(level, target.GenerateProfile(powerHighLevelInfo)!);
 
             PowerTextBlock power = powerProfile.ToPowerTextBlock();
 
@@ -182,7 +185,7 @@ namespace GameEngine.Tests
 
             var (toolProfile, classProfile, powerProfileConfig) = GetToolProfile(configName, powerTemplate);
 
-            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, classProfile, powerProfileConfig));
+            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, classProfile, powerProfileConfig))!;
 
             var serializer = new Newtonsoft.Json.JsonSerializer();
             foreach (var converter in ProfileSerialization.GetJsonConverters())
@@ -215,6 +218,12 @@ namespace GameEngine.Tests
             { InterruptPenaltyPowerTemplateName, MakeModifierTemplate(InterruptPenaltyPowerTemplateName, "@.Name=='OpportunityAction'") },
             { CloseBlastPowerTemplateName, MakeModifierTemplate(CloseBlastPowerTemplateName, "@.Name=='Multiple' && @.Type=='Blast'") },
             { BonusPowerTemplateName, MakeModifierTemplate(BonusPowerTemplateName, "@.Name=='Boost'") },
+            { "TwoHits", new PowerProfileConfig(
+                    "TwoHits",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@.Name=='TwoHits')]", 1),
+                    }.ToImmutableList()
+                ) },
             { "UpToThree", MakeModifierTemplate("UpToThree", "@.Name=='UpToThreeTargets'") },
             { "SecondAttackOnly", new PowerProfileConfig(
                     "SecondAttackOnly",

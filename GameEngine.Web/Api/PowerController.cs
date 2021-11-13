@@ -29,6 +29,9 @@ public class PowerController : PowerControllerBase
             ToolProfile: toolProfile,
             PowerProfileConfig: powerProfileConfig));
 
+        if (powerProfile == null)
+            return Task.FromResult(TypeSafeGenerateSamplePowerResult.BadRequest(new() { { "NoPowers", new[] { "Could not generate any powers" } } }));
+
         var classPowerProfile = new ClassPowerProfile(generateSamplePowerBody.Level, powerProfile);
         var powerToken = powerProfile.GetProfileToken();
 

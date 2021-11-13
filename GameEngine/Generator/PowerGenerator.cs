@@ -128,14 +128,18 @@ namespace GameEngine.Generator
             }
         }
 
-        public PowerProfile GenerateProfile(PowerHighLevelInfo powerInfo, IEnumerable<PowerProfile>? exclude = null)
+        public PowerProfile? GenerateProfile(PowerHighLevelInfo powerInfo, IEnumerable<PowerProfile>? exclude = null)
         {
             var toExclude = (exclude ?? Enumerable.Empty<PowerProfile>()).Concat(BasicPowers.All).Select(p => p with { Usage = powerInfo.Usage });
             var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
-            var powerProfileBuilder = RootBuilder(basePower, powerInfo);
+            var root = RootBuilder(basePower, powerInfo);
+            var powerProfileBuilder = root;
 
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Standard, exclude: toExclude, preApplyOnce: true);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Finalize, exclude: toExclude);
+
+            if (powerProfileBuilder == root)
+                return null;
 
             return (powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) }).Build();
         }
@@ -146,9 +150,10 @@ namespace GameEngine.Generator
             {
                 var oldBuilder = powerProfileBuilder;
                 var upgrades = powerProfileBuilder.GetUpgrades(stage).Where(entry => entry.IsValid());
+                var debugUpgrades = upgrades.ToChances(powerProfileBuilder.PowerInfo.PowerProfileConfig).ToArray();
                 if (preApplyOnce)
                 {
-                    var temp = upgrades.PreApply();
+                    var temp = debugUpgrades.Select(d => d.Result).PreApply();
                     if (temp.Any())
                         upgrades = temp;
                     preApplyOnce = false;
