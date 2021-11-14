@@ -114,6 +114,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "TwoHits", null)]
+        [InlineData("RangeImplement", 1, PowerFrequency.Daily, "Wall", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "UpToThree", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "SecondAttackOnly", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "Control", null)]
@@ -232,6 +233,12 @@ namespace GameEngine.Tests
                     }.ToImmutableList()
                 ) },
             { "Control", MakeModifierTemplate("Control", "@.Name=='MovementControl'") },
+            { "Wall", new PowerProfileConfig(
+                    "Wall",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@.Name=='Multiple' && @.Type=='Wall')]", 1),
+                    }.ToImmutableList()
+                ) },
         };
 
         private static PowerProfileConfig MakeModifierTemplate(string Name, params string[] require)

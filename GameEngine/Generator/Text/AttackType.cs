@@ -86,6 +86,11 @@ namespace GameEngine.Generator.Text
         public override string TypeDetailsText() => $"burst {Size} within {Range}";
         //public override string AdditionalTargetText(Target targetType, int index) => BlastAdditionalTargetText(Range, targetType, index);
     }
+    public record AreaWall(int Size, int Range) : AttackType()
+    {
+        public override string TypeText() => $"Area";
+        public override string TypeDetailsText() => $"wall {Size} within {Range}";
+    }
     public record Personal() : AttackType()
     {
         public override string TypeText() => "Personal";

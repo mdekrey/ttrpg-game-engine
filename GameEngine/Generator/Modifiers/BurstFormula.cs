@@ -21,14 +21,16 @@ namespace GameEngine.Generator.Modifiers
                 yield return new BurstModifier(target.Target.GetTarget(), 1, BurstType.Blast);
             if (power.PowerInfo.ToolProfile.Range != ToolRange.Melee || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
                 yield return new BurstModifier(target.Target.GetTarget(), 3, BurstType.Area);
+            if (power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new BurstModifier(target.Target.GetTarget(), 4, BurstType.Wall);
         }
 
-        // TODO - walls
         public enum BurstType
         {
             Burst,
             Blast,
             Area,
+            Wall,
         }
 
         public record BurstModifier(Target Target, int Size, BurstType Type) : ITargetModifier
@@ -39,13 +41,15 @@ namespace GameEngine.Generator.Modifiers
 
             public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context)
             {
-                var multiplier = (Size - 1) / 2.0 + 1; // TODO - is this right?
+                // TODO - this is not right, as wizards at lvl 17 get burst 2 with only 3d10 -> 3d8 loss
+                var multiplier = (Size - 1) / 2.0 + 1;
                 return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier);
             }
 
             public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
             {
                 if (stage < UpgradeStage.Standard) yield break;
+                // TODO - size is not correct, as lvl 23 encounters for wizards get burst 4 (9)
                 if (power.PowerInfo.Usage == PowerFrequency.AtWill && Size >= 3) yield break;
                 if (power.PowerInfo.Usage == PowerFrequency.Encounter && Size >= 5) yield break;
 
@@ -75,8 +79,9 @@ namespace GameEngine.Generator.Modifiers
                 return Type switch
                 {
                     BurstType.Blast => new CloseBlast(Size),
-                    BurstType.Area => new AreaBurst(Size / 2, Size / 2 * 10),
+                    BurstType.Area => new AreaBurst(Size / 2, Size * 5),
                     BurstType.Burst => new CloseBurst(Size / 2),
+                    BurstType.Wall => new AreaBurst(Size * 2, Size * 5),
                     _ => throw new NotImplementedException(),
                 };
             }
