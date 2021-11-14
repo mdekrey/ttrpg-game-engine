@@ -29,7 +29,8 @@ namespace GameEngine.Generator
         public static readonly ImmutableList<IPowerModifierFormula> powerModifiers = Build<IPowerModifierFormula>(
             new EffectDurationFormula(),
             new MultiattackFormula(),
-            new OpportunityActionFormula()
+            new OpportunityActionFormula(),
+            new BasicAttackFormula()
             // TODO: Is basic attack for Implements
             // TODO: Stance
             // TODO: Free basic attacks to ally

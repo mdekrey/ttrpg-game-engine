@@ -9,7 +9,7 @@ Attacks:
       Name: Basic Target
     EffectType: Harmful
     Modifiers:
-    - Damage: d4 + STR + DEX
+    - Damage: d10 + STR
       DamageTypes:
       - Radiant
       Name: Damage

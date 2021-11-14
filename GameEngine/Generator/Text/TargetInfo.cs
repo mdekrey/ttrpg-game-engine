@@ -14,8 +14,6 @@ namespace GameEngine.Generator.Text
     {
         public string ToSentence()
         {
-            if (Target == "You")
-                System.Diagnostics.Debugger.Break();
             var join = Parts is not { Count: > 0 } ? ""
                 : DamageExpression is { Length: > 0 } ? ", and the target "
                 : (Target + " ");

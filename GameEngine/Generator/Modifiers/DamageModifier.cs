@@ -34,7 +34,7 @@ namespace GameEngine.Generator.Modifiers
                 .Take(stage switch
                 {
                     UpgradeStage.InitializeAttacks => 1,
-                    UpgradeStage.Finalize => attack.PowerInfo.ToolProfile.Abilities.Count,
+                    UpgradeStage.Finalize when attack.PowerInfo.ToolProfile.Type == ToolType.Weapon => attack.PowerInfo.ToolProfile.Abilities.Count,
                     _ => 0
                 })
                 .Except(GetAbilities())

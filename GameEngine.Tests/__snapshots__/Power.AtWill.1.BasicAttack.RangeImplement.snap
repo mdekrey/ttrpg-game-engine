@@ -1,0 +1,41 @@
+﻿- Level: 1
+  PowerProfile:
+    Usage: AtWill
+    Tool: Implement
+    ToolRange: Range
+    Attacks:
+    - Ability: Strength
+      Effects:
+      - Target:
+          Target: Enemy, Self, Ally
+          Name: Basic Target
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d10 + STR
+          DamageTypes:
+          - Radiant
+          Name: Damage
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - Name: Is Basic Attack
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Implement Attack 1
+  PowerUsage: At-Will
+  Keywords:
+  - Arcane
+  - Implement
+  ActionType: Standard Action
+  AttackType: Ranged
+  AttackTypeDetails: 10
+  Target: One creature
+  Attack: STR vs. Fortitude
+  RulesText:
+  - Label: Hit
+    Text: d10 + STR radiant damage.
+  - Label: Special
+    Text: This power counts as a ranged basic attack. When a power allows you to make a ranged basic attack, you can use this power.

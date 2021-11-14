@@ -114,6 +114,8 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "TwoHits", null)]
+        [InlineData("MeleeImplement", 1, PowerFrequency.AtWill, "BasicAttack", null)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, "BasicAttack", null)]
         [InlineData("RangeImplement", 1, PowerFrequency.Daily, "Wall", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "UpToThree", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "SecondAttackOnly", null)]
@@ -225,6 +227,12 @@ namespace GameEngine.Tests
                         new("$..[?(@.Name=='TwoHits')]", 1),
                     }.ToImmutableList()
                 ) },
+            { "BasicAttack", new PowerProfileConfig(
+                    "BasicAttack",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@.Name=='Is Basic Attack')]", 1),
+                    }.ToImmutableList()
+                ) },
             { "UpToThree", MakeModifierTemplate("UpToThree", "@.Name=='UpToThreeTargets'") },
             { "SecondAttackOnly", new PowerProfileConfig(
                     "SecondAttackOnly",
@@ -274,6 +282,7 @@ namespace GameEngine.Tests
             { "MeleeWeapon", new ToolProfile(ToolType.Weapon, ToolRange.Melee, Build(Ability.Strength, Ability.Dexterity), Build(DamageType.Normal), Build<PowerProfileConfig>()) },
             { "RangeWeapon", new ToolProfile(ToolType.Weapon, ToolRange.Range, Build(Ability.Strength, Ability.Dexterity), Build(DamageType.Normal), Build<PowerProfileConfig>()) },
             { "RangeWeaponWithFire", new ToolProfile(ToolType.Weapon, ToolRange.Range, Build(Ability.Strength, Ability.Dexterity), Build(DamageType.Normal, DamageType.Fire), Build<PowerProfileConfig>()) },
+            { "MeleeImplement", new ToolProfile(ToolType.Implement, ToolRange.Melee, Build(Ability.Wisdom, Ability.Dexterity), Build(DamageType.Normal), Build<PowerProfileConfig>()) },
             { "RangeImplement", new ToolProfile(ToolType.Implement, ToolRange.Range, Build(Ability.Strength, Ability.Dexterity), Build(DamageType.Radiant), Build<PowerProfileConfig>()) },
             { "WisdomRangeNormalImplement", new ToolProfile(ToolType.Implement, ToolRange.Range, Build(Ability.Wisdom), Build(DamageType.Normal), Build<PowerProfileConfig>()) },
         }.ToImmutableDictionary();
@@ -283,6 +292,7 @@ namespace GameEngine.Tests
             { "MeleeWeapon", classProfiles["MartialStriker"] with { Tools = Build(toolProfiles["MeleeWeapon"]) } },
             { "RangeWeapon", classProfiles["MartialStriker"] with { Tools = Build(toolProfiles["RangeWeapon"]) } },
             { "RangeWeaponWithFire", classProfiles["MartialStriker"] with { Tools = Build(toolProfiles["RangeWeaponWithFire"]) } },
+            { "MeleeImplement", classProfiles["MartialStriker"] with { Tools = Build(toolProfiles["MeleeImplement"]) } },
             { "RangeImplement", classProfiles["ArcaneStriker"] with { Tools = Build(toolProfiles["RangeImplement"]) } },
             { "WisdomRangeNormalImplement", classProfiles["ArcaneStriker"] with { Tools = Build(toolProfiles["WisdomRangeNormalImplement"]) } },
         }.ToImmutableDictionary();
