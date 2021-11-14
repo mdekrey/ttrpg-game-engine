@@ -31,7 +31,6 @@ namespace GameEngine.Generator
             new MultiattackFormula(),
             new OpportunityActionFormula(),
             new BasicAttackFormula()
-            // TODO: Is basic attack for Implements
             // TODO: Stance
             // TODO: Free basic attacks to ally
             // TODO: Sustain
