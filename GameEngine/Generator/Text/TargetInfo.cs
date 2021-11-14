@@ -8,10 +8,21 @@ namespace GameEngine.Generator.Text
         string Target,
         AttackType AttackType,
         string? AttackNotes,
+        string? DamageExpression,
         ImmutableList<string> Parts
     )
     {
-        public string ToSentence(string? targetOverride = null) =>
-            Parts.Count == 0 ? "" : ((targetOverride ?? Target) + " " + OxfordComma(Parts.ToArray())).FinishSentence().TransposeParenthesis();
+        public string ToSentence()
+        {
+            if (Target == "You")
+                System.Diagnostics.Debugger.Break();
+            var join = Parts is not { Count: > 0 } ? ""
+                : DamageExpression is { Length: > 0 } ? ", and the target "
+                : (Target + " ");
+
+            return (
+                DamageExpression + join + OxfordComma(Parts.ToArray())
+            ).FinishSentence().TransposeParenthesis();
+        }
     }
 }

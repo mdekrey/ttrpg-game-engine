@@ -38,4 +38,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and is dazed until the end of your next turn.
+    Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.

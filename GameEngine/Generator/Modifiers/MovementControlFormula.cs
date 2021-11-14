@@ -36,7 +36,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool EnablesSaveEnd() => false;
 
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) || (builder.Target.GetTarget().HasFlag(Target.Ally | Target.Enemy) && !builder.Target.GetTarget().HasFlag(Target.Self))
+                (stage < UpgradeStage.Standard) || (builder.Target.GetTarget().HasFlag(Target.Enemy) && !builder.Target.GetTarget().HasFlag(Target.Self))
                     ? Enumerable.Empty<IEffectModifier>() 
                     : from set in new[]
                       {

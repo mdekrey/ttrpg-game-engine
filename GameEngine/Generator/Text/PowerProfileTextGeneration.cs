@@ -56,6 +56,7 @@ namespace GameEngine.Generator.Text
                 Target: effect.Target.GetTargetText(power, attackIndex: attackIndex),
                 AttackType: effect.Target.GetAttackType(power, attackIndex: attackIndex),
                 AttackNotes: effect.Target.GetAttackNotes(power, attackIndex: attackIndex),
+                DamageExpression: null,
                 Parts: ImmutableList<string>.Empty
             );
 
@@ -78,8 +79,8 @@ namespace GameEngine.Generator.Text
                 AttackExpression: (GameDiceExpression)attack.Ability,
                 AttackNotes: targetInfo.AttackNotes,
                 Defense: DefenseType.ArmorClass,
-                HitParts: targetInfo.Parts,
-                HitSentences: effects.Select(effect => effect.ToTargetInfo(power, attackIndex: index).ToSentence()).ToImmutableList(),
+                HitSentences: effects.Select(effect => effect.ToTargetInfo(power, attackIndex: index).ToSentence()).ToImmutableList()
+                    .Insert(0, targetInfo.ToSentence()),
                 MissSentences: ImmutableList<string>.Empty // TODO - miss targets
             );
             

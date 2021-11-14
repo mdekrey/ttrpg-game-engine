@@ -16,22 +16,23 @@ namespace GameEngine.Generator
             new SkirmishFormula(),
             new BoostFormula(),
             new MovementControlFormula()
-            // Slowed/Unconscious (Progressing effect after a failed save)
-            // Aftereffects (Effects after a successful save)
-            // Disarm and catch
+            // TODO: Slowed->Unconscious (Progressing effect after a failed save)
+            // TODO: Aftereffects (Effects after a successful save)
+            // TODO: Disarm and catch
         );
         public static readonly ImmutableList<IAttackModifierFormula> attackModifiers = Build<IAttackModifierFormula>(
             NonArmorDefense,
             new ToHitBonusFormula()
-            // Reroll attack
+            // TODO: Reroll attack
         );
         public static readonly ImmutableList<IPowerModifierFormula> powerModifiers = Build<IPowerModifierFormula>(
             new EffectDurationFormula(),
             new MultiattackFormula(),
             new OpportunityActionFormula()
-            // Stance
-            // Free basic attacks
-            // Sustain
+            // TODO: Is basic attack for Implements
+            // TODO: Stance
+            // TODO: Free basic attacks to ally
+            // TODO: Sustain
         );            
         public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = new ITargetFormula[]
         {

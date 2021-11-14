@@ -39,4 +39,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, is knocked prone, and is pulled +4 squares.
+    Text: 1[W] + STR damage, and the target is knocked prone and is pulled +4 squares.

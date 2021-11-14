@@ -49,7 +49,7 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage and is blinded and dazed until the end of your next turn.
+    Text: 1[W] + STR damage, and the target is blinded and dazed until the end of your next turn.
   - Label: Secondary Target
     Text: One creature
   - Label: Secondary Attack

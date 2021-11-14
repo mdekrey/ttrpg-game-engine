@@ -46,12 +46,12 @@ namespace GameEngine.Generator.Modifiers
         }
 
         public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) =>
-            new(-100, (target) => target with { Parts = target.Parts.Add(string.Join(" ", new string[]
+            new(-100, (target) => target with { DamageExpression = string.Join(" ", new string[]
             {
                 Damage.ToString(),
                 OxfordComma(DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),
                 "damage"
-            }.Where(s => s is { Length: > 0 }))) });
+            }.Where(s => s is { Length: > 0 })) });
 
         public override bool UsesDuration() => false;
         public override bool EnablesSaveEnd() => false;
