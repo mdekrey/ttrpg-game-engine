@@ -24,6 +24,7 @@ namespace GameEngine.Generator
             NonArmorDefense,
             new ToHitBonusFormula()
             // TODO: Reroll attack
+            // TODO: Ignore cover/concealment
         );
         public static readonly ImmutableList<IPowerModifierFormula> powerModifiers = Build<IPowerModifierFormula>(
             new EffectDurationFormula(),
@@ -33,7 +34,7 @@ namespace GameEngine.Generator
             // TODO: Stance
             // TODO: Free basic attacks to ally
             // TODO: Sustain
-        );            
+        );
         public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = new ITargetFormula[]
         {
             new BurstFormula(),
