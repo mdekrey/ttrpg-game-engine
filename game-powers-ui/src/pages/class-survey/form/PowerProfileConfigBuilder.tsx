@@ -18,6 +18,7 @@ import { useApi } from 'core/hooks/useApi';
 import { map, filter, switchAll, startWith } from 'rxjs/operators';
 import produce from 'immer';
 import useConstant from 'use-constant';
+import { powerProfileConfigSchema } from 'core/schemas/api';
 import { SamplePowerData, SamplePowerRequestBody } from './SamplePowers';
 
 const safePaths: typeof jp.paths = (obj, pathExpression, count) => {
@@ -94,6 +95,10 @@ export function PowerProfileConfigBuilder({
 		if (powerProfileConfig) setUpdated(powerProfileConfig);
 	}, [powerProfileConfig]);
 
+	function setUpdatedIfValid(value: PowerProfileConfig) {
+		if (powerProfileConfigSchema.isValidSync(value)) setUpdated(value);
+	}
+
 	const power = override || selectedPower;
 
 	const { ast, paths } = useMemo((): {
@@ -114,7 +119,7 @@ export function PowerProfileConfigBuilder({
 	return (
 		<div className="mt-2 grid grid-cols-3 gap-2">
 			<div className="col-span-2">
-				{updated && <YamlEditor value={updated} onChange={setUpdated} path="power-profile-config.yaml" />}
+				{updated && <YamlEditor value={updated} onChange={setUpdatedIfValid} path="power-profile-config.yaml" />}
 			</div>
 			<div
 				className="flex flex-col gap-1"
