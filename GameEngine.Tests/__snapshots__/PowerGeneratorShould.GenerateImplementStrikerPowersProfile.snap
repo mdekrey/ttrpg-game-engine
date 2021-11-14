@@ -1893,12 +1893,12 @@
       Effects:
       - Target:
           Target: Enemy, Self, Ally
-          Size: 9
+          Size: 5
           Type: Blast
           Name: Multiple
         EffectType: Harmful
         Modifiers:
-        - Damage: d4 + WIS
+        - Damage: d10 + WIS
           DamageTypes:
           - Normal
           Name: Damage

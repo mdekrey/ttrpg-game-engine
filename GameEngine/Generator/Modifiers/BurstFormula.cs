@@ -43,12 +43,14 @@ namespace GameEngine.Generator.Modifiers
                 return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier);
             }
 
-            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex) =>
-                (stage < UpgradeStage.Standard) ? Enumerable.Empty<ITargetModifier>() :
-                new[]
-                {
-                    this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) }
-                };
+            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
+            {
+                if (stage < UpgradeStage.Standard) yield break;
+                if (power.PowerInfo.Usage == PowerFrequency.AtWill && Size >= 3) yield break;
+                if (power.PowerInfo.Usage == PowerFrequency.Encounter && Size >= 5) yield break;
+
+                yield return this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) };
+            }
 
             public Target GetTarget() => Target;
 
