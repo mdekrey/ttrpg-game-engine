@@ -15,7 +15,8 @@ namespace GameEngine.Generator
             new ConditionFormula(),
             new SkirmishFormula(),
             new BoostFormula(),
-            new MovementControlFormula()
+            new MovementControlFormula(),
+            new MakeBasicAttackFormula()
             // TODO: Slowed->Unconscious (Progressing effect after a failed save)
             // TODO: Aftereffects (Effects after a successful save)
             // TODO: Disarm and catch
@@ -32,7 +33,6 @@ namespace GameEngine.Generator
             new OpportunityActionFormula(),
             new BasicAttackFormula()
             // TODO: Stance
-            // TODO: Free basic attacks to ally
             // TODO: Sustain
         );
         public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = new ITargetFormula[]

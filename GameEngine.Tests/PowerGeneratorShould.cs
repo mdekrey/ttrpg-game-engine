@@ -111,6 +111,8 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, CloseBurstPowerTemplateName, null)]
         [InlineData("RangeWeapon", 1, PowerFrequency.Encounter, CloseBlastPowerTemplateName, null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, ConditionsPowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, "ExtraBasicAttack", null)]
+        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, "ExtraBasicAttack", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "TwoHits", null)]
@@ -231,6 +233,12 @@ namespace GameEngine.Tests
                     "BasicAttack",
                     new PowerProfileConfig.PowerChance[] {
                         new("$..[?(@.Name=='Is Basic Attack')]", 1),
+                    }.ToImmutableList()
+                ) },
+            { "ExtraBasicAttack", new PowerProfileConfig(
+                    "ExtraBasicAttack",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@.Name=='Make Basic Attack')]", 1),
                     }.ToImmutableList()
                 ) },
             { "UpToThree", MakeModifierTemplate("UpToThree", "@.Name=='UpToThreeTargets'") },
