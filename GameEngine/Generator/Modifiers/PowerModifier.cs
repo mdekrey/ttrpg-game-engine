@@ -6,6 +6,8 @@ namespace GameEngine.Generator.Modifiers
     public abstract record PowerModifier(string Name) : IPowerModifier
     {
         public virtual bool ExcludeFromUniqueness() => false;
+        public virtual bool ChangesActionType() => false;
+
 
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
         public abstract PowerCost GetCost(PowerProfileBuilder builder);

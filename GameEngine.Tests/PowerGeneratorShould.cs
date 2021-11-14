@@ -116,6 +116,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "TwoHits", null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, "MinorAction", null)]
         [InlineData("MeleeImplement", 1, PowerFrequency.AtWill, "BasicAttack", null)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, "BasicAttack", null)]
         [InlineData("RangeImplement", 1, PowerFrequency.Daily, "Wall", null)]
@@ -227,6 +228,12 @@ namespace GameEngine.Tests
                     "TwoHits",
                     new PowerProfileConfig.PowerChance[] {
                         new("$..[?(@.Name=='TwoHits')]", 1),
+                    }.ToImmutableList()
+                ) },
+            { "MinorAction", new PowerProfileConfig(
+                    "MinorAction",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@.Name=='Minor Action')]", 1),
                     }.ToImmutableList()
                 ) },
             { "BasicAttack", new PowerProfileConfig(

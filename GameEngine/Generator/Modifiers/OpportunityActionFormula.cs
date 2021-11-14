@@ -14,14 +14,14 @@ namespace GameEngine.Generator.Modifiers
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
         {
             if (power.PowerInfo.Usage == PowerFrequency.AtWill)
-                return Enumerable.Empty<IPowerModifier>();
+                yield break;
             if (stage != UpgradeStage.Standard)
-                return Enumerable.Empty<IPowerModifier>();
-            return new[]
-            { 
-                new OpportunityActionModifier(Trigger.YouOrAllyAttacked),
-                new OpportunityActionModifier(Trigger.ACreatureMovesAdjacent),
-            };
+                yield break;
+            if (power.Modifiers.Any(m => m.ChangesActionType()))
+                yield break;
+
+            yield return new OpportunityActionModifier(Trigger.YouOrAllyAttacked);
+            yield return new OpportunityActionModifier(Trigger.ACreatureMovesAdjacent);
         }
 
         public enum Trigger
@@ -34,12 +34,14 @@ namespace GameEngine.Generator.Modifiers
         public record OpportunityActionModifier(Trigger Trigger) : PowerModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
+            public override bool ChangesActionType() => true;
 
             public override PowerCost GetCost(PowerProfileBuilder builder) => new PowerCost(PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage) - PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage - 1));
 
-            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power) =>
-                stage != UpgradeStage.Standard ? Enumerable.Empty<IPowerModifier>() :
-                Enumerable.Empty<IPowerModifier>();
+            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power)
+            {
+                yield break;
+            }
 
             public override PowerTextMutator? GetTextMutator(PowerProfile power) =>
                 new(0, (textBlock, powerInfo) =>

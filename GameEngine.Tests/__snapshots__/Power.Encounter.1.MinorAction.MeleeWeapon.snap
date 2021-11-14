@@ -1,0 +1,37 @@
+﻿- Level: 1
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Ability: Strength
+      Effects:
+      - Target:
+          Target: Enemy, Self, Ally
+          Name: Basic Target
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes:
+          - Normal
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Name: Minor Action
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  PowerUsage: Encounter
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Minor Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One creature
+  Attack: STR vs. AC
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage.

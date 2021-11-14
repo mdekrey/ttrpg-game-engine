@@ -30,6 +30,7 @@ namespace GameEngine.Generator
         public static readonly ImmutableList<IPowerModifierFormula> powerModifiers = Build<IPowerModifierFormula>(
             new EffectDurationFormula(),
             new MultiattackFormula(),
+            new MinorActionFormula(),
             new OpportunityActionFormula(),
             new BasicAttackFormula()
             // TODO: Stance
