@@ -23,7 +23,6 @@ namespace GameEngine.Generator
             };
         }
 
-        public int Complexity => AllModifiers().Sum(e => e.GetComplexity(PowerInfo));
         public PowerCost TotalCost(PowerProfileBuilder builder) => 
             Enumerable.Concat(
                 Modifiers.Select(m => m.GetCost(this)),
@@ -38,7 +37,6 @@ namespace GameEngine.Generator
             );
 
         public virtual IEnumerable<AttackProfileBuilder> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power, int? attackIndex) =>
-
             from set in new[]
             {
                 from targetKvp in TargetEffects.Select((targetEffect, index) => (targetEffect, index))
