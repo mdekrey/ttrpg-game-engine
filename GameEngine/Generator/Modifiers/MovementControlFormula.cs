@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "MovementControl";
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power)
         {
             return new MovementModifier(ImmutableList<MovementControl>.Empty).GetUpgrades(stage, target, attack, power);
         }
@@ -28,14 +28,16 @@ namespace GameEngine.Generator.Modifiers
         public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : EffectModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => IsPlaceholder() ? 0 : 1;
-            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder attack) =>
+            public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder attack) =>
                 new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
             public override bool IsPlaceholder() => Effects.Count == 0;
 
             public override bool UsesDuration() => false;
-            public override bool EnablesSaveEnd() => false;
+            public override bool IsInstantaneous() => true;
+            public override bool IsBeneficial() => true;
+            public override bool IsHarmful() => true;
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) || (builder.Target.GetTarget().HasFlag(Target.Enemy) && !builder.Target.GetTarget().HasFlag(Target.Self))
                     ? Enumerable.Empty<IEffectModifier>() 
                     : from set in new[]
@@ -45,7 +47,7 @@ namespace GameEngine.Generator.Modifiers
                           select this with { Effects = Effects.Items.Add(basicCondition) },
 
                           from condition in Effects
-                          from upgrade in condition.GetUpgrades(builder.PowerInfo)
+                          from upgrade in condition.GetUpgrades(power.PowerInfo)
                           select this with { Effects = Effects.Items.Remove(condition).Add(upgrade) },
                       }
                       from mod in set

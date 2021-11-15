@@ -184,7 +184,7 @@ namespace GameEngine.Generator
                 info,
                 Build(RootAttackBuilder(basePower, info, randomGenerator)),
                 ImmutableList<IPowerModifier>.Empty,
-                ImmutableList<TargetEffectBuilder>.Empty
+                ImmutableList<TargetEffect>.Empty
             );
             return result; // no modifiers yet, no need to finalize
         }
@@ -197,7 +197,7 @@ namespace GameEngine.Generator
                         .Select(v => new RandomChances<Ability>(v))
                 ),
                 TargetEffects: Build(
-                    new TargetEffectBuilder(
+                    new TargetEffect(
                         new BasicTarget(Target.Enemy | Target.Ally | Target.Self),
                             EffectType.Harmful,
                             new IEffectModifier[]
@@ -210,8 +210,7 @@ namespace GameEngine.Generator
                                             .Select(v => new RandomChances<DamageType>(v))
                                     ))
                                 )
-                            }.ToImmutableList(),
-                            info
+                            }.ToImmutableList()
                         )
                     ),
                 Modifiers: ImmutableList<IAttackModifier>.Empty,

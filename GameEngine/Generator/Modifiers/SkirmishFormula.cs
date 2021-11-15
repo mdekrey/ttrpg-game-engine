@@ -12,7 +12,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Skirmish Movement";
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power)
         {
             if (stage < UpgradeStage.Standard) yield break;
             if (target.Target.GetTarget() != Target.Self) yield break;
@@ -59,6 +59,7 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             }
 
+            // TODO - should this use duration?
             public override string GetAttackPart(Target target) => target == Target.Self
                 ? $"do not provoke opportunity attacks from movement for the rest of the turn"
                 : $"does not provoke opportunity attacks from movement for the rest of the turn";
@@ -67,14 +68,16 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public override bool UsesDuration() => false;
-            public override bool EnablesSaveEnd() => false;
+            public override bool IsInstantaneous() => true;
+            public override bool IsBeneficial() => true;
+            public override bool IsHarmful() => false;
 
-            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
+            public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) => new PowerCost(Fixed: Movement.Select(m => m.Cost()).Sum());
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) || builder.Target.GetTarget() != Target.Self
                     ? Enumerable.Empty<IEffectModifier>()
-                    : GetUpgrades(builder.PowerInfo);
+                    : GetUpgrades(power.PowerInfo);
 
             public IEnumerable<EffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 from set in new[]

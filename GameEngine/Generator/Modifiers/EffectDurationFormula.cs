@@ -11,23 +11,14 @@ namespace GameEngine.Generator.Modifiers
         public const string ModifierName = "Duration";
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
         {
-            if (!power.AllModifiers().OfType<IEffectModifier>().Any(d => d.UsesDuration()))
+            if (!power.AllModifiers(true).OfType<IEffectModifier>().Any(d => d.UsesDuration()))
                 yield break;
             if (power.PowerInfo.Usage < Rules.PowerFrequency.Daily)
                 yield return new EffectDurationModifier(Duration.EndOfUserNextTurn);
             if (power.PowerInfo.Usage >= Rules.PowerFrequency.Encounter)
             {
-                if (power.AllModifiers().OfType<IEffectModifier>().Any(d => d.EnablesSaveEnd()))
+                if (power.AllModifiers(true).OfType<IEffectModifier>().Any(d => d.UsesDuration() && d.IsHarmful()))
                     yield return new EffectDurationModifier(Duration.SaveEnds);
-                else
-                {
-                    // Pick something with a save ends and try to upgrade to that
-                    //var withSaveEnds = new EffectDurationModifier(Duration.SaveEnds);
-                    //foreach (var entry in withSaveEnds.GetUpgrades(UpgradeStage.Standard).Where(upgraded => upgraded.AllModifiers().OfType<IUsesDuration>().Any(d => d.EnablesSaveEnd())))
-                    //{
-                    //    yield return entry;
-                    //}
-                }
             }
             if (power.PowerInfo.Usage == Rules.PowerFrequency.Daily)
                 yield return new EffectDurationModifier(Duration.EndOfEncounter);

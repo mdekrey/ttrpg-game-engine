@@ -40,7 +40,7 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Should only get to "SaveEnds" if there's another SaveEnds effect
             : 1;
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power) => 
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power) => 
             new BoostModifier(ImmutableList<Boost>.Empty).GetUpgrades(stage, target, attack, power);
 
         public enum Limit
@@ -53,6 +53,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public abstract double Cost();
             public abstract bool UsesDuration();
+            public abstract bool IsInstantaneous();
             public abstract IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo);
             public abstract string BoostText(Target target);
             public abstract string Category();
@@ -62,6 +63,7 @@ namespace GameEngine.Generator.Modifiers
             public override double Cost() => Amount.ToWeaponDice()
                 * (Limit == null ? 2 : 1);
             public override bool UsesDuration() => Limit != BoostFormula.Limit.NextAttack;
+            public override bool IsInstantaneous() => false;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
@@ -89,6 +91,7 @@ namespace GameEngine.Generator.Modifiers
             public override double Cost() => Amount.ToWeaponDice()
                 * (Defense == null ? 2 : 1);
             public override bool UsesDuration() => true;
+            public override bool IsInstantaneous() => false;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
@@ -105,6 +108,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => Amount.ToWeaponDice();
             public override bool UsesDuration() => false;
+            public override bool IsInstantaneous() => true;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
@@ -120,6 +124,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => 1;
             public override bool UsesDuration() => false;
+            public override bool IsInstantaneous() => true;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
             public override string BoostText(Target target) => $"may immediately make a saving throw";
             public override string Category() => "Healing";
@@ -128,6 +133,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => 1;
             public override bool UsesDuration() => false;
+            public override bool IsInstantaneous() => true;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
             public override string BoostText(Target target) => $"may immediately spend a healing surge";
             public override string Category() => "Healing";
@@ -136,6 +142,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => Amount.ToWeaponDice();
             public override bool UsesDuration() => true;
+            public override bool IsInstantaneous() => false;
             public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
             {
                 foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
@@ -152,9 +159,11 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => Boosts.Select(boost => boost.Category()).Distinct().Count();
             public override bool IsPlaceholder() => Boosts.Count == 0;
             public override bool UsesDuration() => Boosts.Any(b => b.UsesDuration());
-            public override bool EnablesSaveEnd() => false;
+            public override bool IsInstantaneous() => Boosts.Any(b => b.IsInstantaneous());
+            public override bool IsBeneficial() => true;
+            public override bool IsHarmful() => false;
 
-            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) =>
+            public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) =>
                 new PowerCost(
                     Fixed:
                     Boosts
@@ -165,10 +174,10 @@ namespace GameEngine.Generator.Modifiers
                         .Sum()
                 );
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
                 stage != UpgradeStage.Standard || builder.EffectType != EffectType.Beneficial
                     ? Enumerable.Empty<IEffectModifier>() 
-                    : GetUpgrades(builder.PowerInfo, power.GetDuration());
+                    : GetUpgrades(power.PowerInfo, power.GetDuration());
 
             public IEnumerable<IEffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo, Duration duration) =>
                 from set in new[]

@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public override int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
 
-        public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => new PowerCost(Damage.ToWeaponDice());
+        public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) => new PowerCost(Damage.ToWeaponDice());
         public override bool IsPlaceholder() => false;
         public override bool CanUseRemainingPower() => GetAbilities().Any();
 
@@ -24,7 +24,7 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power)
+        public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power)
         {
             if (attack == null)
                 return Enumerable.Empty<IEffectModifier>();
@@ -54,6 +54,8 @@ namespace GameEngine.Generator.Modifiers
             }.Where(s => s is { Length: > 0 })) });
 
         public override bool UsesDuration() => false;
-        public override bool EnablesSaveEnd() => false;
+        public override bool IsInstantaneous() => false;
+        public override bool IsBeneficial() => false;
+        public override bool IsHarmful() => true;
     }
 }

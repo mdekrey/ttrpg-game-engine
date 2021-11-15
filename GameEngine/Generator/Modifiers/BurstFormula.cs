@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
 {
     public record BurstFormula() : ITargetFormula
     {
-        public IEnumerable<ITargetModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
+        public IEnumerable<ITargetModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, PowerProfileBuilder power, int? attackIndex)
         {
             if (stage < UpgradeStage.Standard) yield break;
             if (attackIndex == null || attackIndex.Value < power.Attacks.Count - 1) yield break;
@@ -39,14 +39,14 @@ namespace GameEngine.Generator.Modifiers
 
             public int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
 
-            public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context)
+            public PowerCost GetCost(TargetEffect builder, PowerProfileBuilder context)
             {
                 // TODO - this is not right, as wizards at lvl 17 get burst 2 with only 3d10 -> 3d8 loss
                 var multiplier = (Size - 1) / 2.0 + 1;
                 return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier);
             }
 
-            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
+            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, PowerProfileBuilder power, int? attackIndex)
             {
                 if (stage < UpgradeStage.Standard) yield break;
                 // TODO - size is not correct, as lvl 23 encounters for wizards get burst 4 (9)
@@ -96,7 +96,7 @@ namespace GameEngine.Generator.Modifiers
 
     public static class BurstFormulaExtensions
     {
-        public static bool IsMultiple(this TargetEffectBuilder builder)
+        public static bool IsMultiple(this TargetEffect builder)
         {
             return builder.Modifiers.OfType<BurstFormula>().Any();
         }

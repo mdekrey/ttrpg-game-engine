@@ -156,7 +156,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public string Name => "TwoHits";
             public int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
-            public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context) =>
+            public PowerCost GetCost(TargetEffect builder, PowerProfileBuilder context) =>
                 new PowerCost(Multiplier: 2, SingleTargetMultiplier: 1) + (EffectModifier?.GetCost(builder, context) ?? PowerCost.Empty); // Because both attacks can hit the same target, SingleTargetMultiplier needs to be 1
 
             public AttackType GetAttackType(PowerProfile power, int? attackIndex) =>
@@ -199,7 +199,7 @@ namespace GameEngine.Generator.Modifiers
                 });
             }
 
-            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
+            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, PowerProfileBuilder power, int? attackIndex)
             {
                 if (EffectModifier == null)
                 {
@@ -227,7 +227,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public string Name => "UpToThreeTargets";
             public int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
-            public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context) => new PowerCost(1.5);
+            public PowerCost GetCost(TargetEffect builder, PowerProfileBuilder context) => new PowerCost(1.5);
 
             public AttackType GetAttackType(PowerProfile power, int? attackIndex) =>
                 (power.Tool, power.ToolRange) switch
@@ -246,7 +246,7 @@ namespace GameEngine.Generator.Modifiers
             public bool CanUseRemainingPower() => true;
             public TargetInfoMutator? GetTargetInfoMutator(TargetEffect targetEffect, PowerProfile power) => null;
 
-            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex) =>
+            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, PowerProfileBuilder power, int? attackIndex) =>
                 Enumerable.Empty<ITargetModifier>();
         }
     }

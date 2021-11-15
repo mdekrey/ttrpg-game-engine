@@ -6,7 +6,5 @@ namespace GameEngine.Generator
     public interface IModifierBuilder
     {
         int Complexity { get; }
-
-        IEnumerable<IModifier> AllModifiers();
     }
 }

@@ -6,8 +6,7 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record PowerProfileBuilder(PowerLimits Limits, WeaponDiceDistribution WeaponDiceDistribution, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffectBuilder> Effects)
-        : IModifierBuilder
+    public record PowerProfileBuilder(PowerLimits Limits, WeaponDiceDistribution WeaponDiceDistribution, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffect> Effects)
     {
         public static readonly ImmutableList<(Target Target, EffectType EffectType)> TargetOptions = new[] {
             (Target.Ally, EffectType.Beneficial),
@@ -23,7 +22,6 @@ namespace GameEngine.Generator
             };
         }
 
-        public int Complexity => Effects.Sum(e => e.Complexity) + Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
         public PowerCost TotalCost => (
             from set in new[] 
             {
@@ -43,7 +41,7 @@ namespace GameEngine.Generator
                 builder.PowerInfo.ToolProfile.Range,
                 builder.Attacks.Select(a => a.Build()).ToImmutableList(),
                 builder.Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList(),
-                builder.Effects.Select(e => e.Build()).ToImmutableList()
+                builder.Effects.Select(e => e.WithoutPlaceholders()).ToImmutableList()
             );
         }
 
@@ -84,7 +82,7 @@ namespace GameEngine.Generator
 
         public bool IsValid()
         {
-            if (Complexity + Attacks.Select(a => a.Complexity).Sum() > Limits.MaxComplexity)
+            if (AllModifiers(false).Cast<IModifier>().GetComplexity(PowerInfo) > Limits.MaxComplexity)
                 return false;
 
             var cost = Attacks.Select(a => a.TotalCost(this)).ToImmutableList();
@@ -96,7 +94,7 @@ namespace GameEngine.Generator
                 return false; // Have to have damage remaining
             if (remaining / min < Limits.Minimum)
                 return false;
-            if (PowerInfo.ToolProfile.Type == ToolType.Weapon && ApplyWeaponDice().AllModifiers().OfType<DamageModifier>().Any(d => d.Damage.WeaponDiceCount < 1))
+            if (PowerInfo.ToolProfile.Type == ToolType.Weapon && ApplyWeaponDice().AllModifiers(true).OfType<DamageModifier>().Any(d => d.Damage.WeaponDiceCount < 1))
                 return false; // Must have a full weapon die for any weapon
 
             return true;
@@ -129,7 +127,7 @@ namespace GameEngine.Generator
                     ,
                     from entry in TargetOptions
                     where !Effects.Any(te => (te.Target.GetTarget() & entry.Target) != 0)
-                    let newBuilder = new TargetEffectBuilder(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty, PowerInfo)
+                    let newBuilder = new TargetEffect(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty)
                     from newBuilderUpgrade in newBuilder.GetUpgrades(stage, this, attack: null, attackIndex: null)
                     select this with { Effects = this.Effects.Add(newBuilderUpgrade) }
                 }
@@ -142,7 +140,7 @@ namespace GameEngine.Generator
         public IEnumerable<PowerProfileBuilder> FinalizeUpgrade() =>
             this.Modifiers.Aggregate(Enumerable.Repeat(this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)));
 
-        public IEnumerable<IModifier> AllModifiers()
+        public IEnumerable<IModifier> AllModifiers(bool includeNested)
         {
             var stack = new Stack<IModifier>(Modifiers
                 .Concat<IModifier>(from attack in Attacks from mod in attack.AllModifiers() select mod)
@@ -151,8 +149,9 @@ namespace GameEngine.Generator
             while (stack.TryPop(out var current))
             {
                 yield return current;
-                foreach (var entry in current.GetNestedModifiers())
-                    stack.Push(entry);
+                if (includeNested)
+                    foreach (var entry in current.GetNestedModifiers())
+                        stack.Push(entry);
             }
         }
 
@@ -171,7 +170,7 @@ namespace GameEngine.Generator
                         {
                             TargetEffects = pb.Attacks[a.index].TargetEffects.SetItem(e.index, pb.Attacks[a.index].TargetEffects[e.index] with
                             {
-                                Modifiers = pb.Attacks[a.index].TargetEffects[e.index].Modifiers.SetItem(m.index, newDamage),
+                                Modifiers = pb.Attacks[a.index].TargetEffects[e.index].Modifiers.Items.SetItem(m.index, newDamage),
                             }),
                         }),
                     }));

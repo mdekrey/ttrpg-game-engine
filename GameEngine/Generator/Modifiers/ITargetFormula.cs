@@ -4,6 +4,6 @@ namespace GameEngine.Generator.Modifiers
 {
     public interface ITargetFormula
     {
-        IEnumerable<ITargetModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex);
+        IEnumerable<ITargetModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, PowerProfileBuilder power, int? attackIndex);
     }
 }

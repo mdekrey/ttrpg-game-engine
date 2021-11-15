@@ -42,7 +42,7 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power)
         {
             return new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, target, attack, power);
         }
@@ -55,13 +55,15 @@ namespace GameEngine.Generator.Modifiers
         public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : EffectModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
-            public override PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder power) => 
+            public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) => 
                 new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(power.GetDuration())).Sum());
             public override bool IsPlaceholder() => Conditions.Count == 0;
             public override bool UsesDuration() => Conditions.Any();
-            public override bool EnablesSaveEnd() => Conditions.Any();
+            public override bool IsInstantaneous() => false;
+            public override bool IsBeneficial() => false;
+            public override bool IsHarmful() => true;
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) || target.EffectType != EffectType.Harmful
                     ? Enumerable.Empty<IEffectModifier>()
                     : from set in new[]
@@ -76,7 +78,7 @@ namespace GameEngine.Generator.Modifiers
                           select this with { Conditions = Conditions.Items.Add(defenseCondition) },
 
                           from condition in Conditions
-                          from upgrade in condition.GetUpgrades(target.PowerInfo)
+                          from upgrade in condition.GetUpgrades(power.PowerInfo)
                           select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
                       }
                       from mod in set

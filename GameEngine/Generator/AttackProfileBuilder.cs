@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record AttackProfileBuilder(Ability Ability, ImmutableList<TargetEffectBuilder> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
+    public record AttackProfileBuilder(Ability Ability, ImmutableList<TargetEffect> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
     {
         public static readonly ImmutableList<(Target Target, EffectType EffectType)> TargetOptions = new[] {
             (Target.Enemy, EffectType.Harmful),
@@ -23,7 +23,7 @@ namespace GameEngine.Generator
             };
         }
 
-        public int Complexity => TargetEffects.Sum(e => e.Complexity) + Modifiers.Cast<IModifier>().GetComplexity(PowerInfo);
+        public int Complexity => AllModifiers().Sum(e => e.GetComplexity(PowerInfo));
         public PowerCost TotalCost(PowerProfileBuilder builder) => 
             Enumerable.Concat(
                 Modifiers.Select(m => m.GetCost(this)),
@@ -33,7 +33,7 @@ namespace GameEngine.Generator
         internal AttackProfile Build() =>
             new AttackProfile(
                 Ability,
-                TargetEffects.Where(teb => teb.Modifiers.Any()).Select(teb => teb.Build()).ToImmutableList(), 
+                TargetEffects.Select(teb => teb.WithoutPlaceholders()).Where(teb => teb.Modifiers.Any()).ToImmutableList(), 
                 Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList()
             );
 
@@ -58,7 +58,7 @@ namespace GameEngine.Generator
                 ,
                 from entry in TargetOptions
                 where !TargetEffects.Any(te => te.EffectType == entry.EffectType && (te.Target.GetTarget() & entry.Target) != 0)
-                let newBuilder = new TargetEffectBuilder(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty, PowerInfo)
+                let newBuilder = new TargetEffect(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty)
                 from newBuilderUpgrade in newBuilder.GetUpgrades(stage, power, this, attackIndex: attackIndex)
                 select this with { TargetEffects = this.TargetEffects.Add(newBuilderUpgrade) }
             }

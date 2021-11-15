@@ -5,10 +5,12 @@ namespace GameEngine.Generator.Modifiers
 {
     public interface IEffectModifier : IModifier
     {
-        PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context);
+        PowerCost GetCost(TargetEffect builder, PowerProfileBuilder context);
         bool UsesDuration();
-        bool EnablesSaveEnd();
-        IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, AttackProfileBuilder? attack, PowerProfileBuilder power);
+        bool IsInstantaneous();
+        bool IsBeneficial();
+        bool IsHarmful();
+        IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power);
         TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
     }
 }

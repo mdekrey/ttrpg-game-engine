@@ -34,7 +34,7 @@ namespace GameEngine.Tests.Modifiers
             var attack = new AttackProfileBuilder(
                 Ability: Rules.Ability.Strength,
                 TargetEffects: Build(
-                    new TargetEffectBuilder(
+                    new TargetEffect(
                         new BasicTarget(Target.Enemy | Target.Ally | Target.Self), 
                         EffectType.Harmful, 
                         Build<IEffectModifier>(
@@ -42,8 +42,7 @@ namespace GameEngine.Tests.Modifiers
                                 Rules.GameDiceExpression.Empty + Rules.Ability.Strength,
                                 DamageTypes: Build(DamageType.Normal)
                             )
-                        ), 
-                        info
+                        )
                     )
                 ),
                 Modifiers: Build<IAttackModifier>(),
@@ -55,7 +54,7 @@ namespace GameEngine.Tests.Modifiers
                 attack.PowerInfo, 
                 Build(attack), 
                 Build<IPowerModifier>(), 
-                Build(new TargetEffectBuilder(new BasicTarget(Target.Enemy | Target.Ally | Target.Self), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty, info))
+                Build(new TargetEffect(new BasicTarget(Target.Enemy | Target.Ally | Target.Self), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty))
             );
 
             var upgrades = attack.TargetEffects[0].Modifiers.First().GetUpgrades(UpgradeStage.Finalize, attack.TargetEffects[0], attack, power);

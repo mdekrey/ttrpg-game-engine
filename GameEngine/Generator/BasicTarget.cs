@@ -11,7 +11,7 @@ namespace GameEngine.Generator
         public string Name => "Basic Target";
         public int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
 
-        public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context) => PowerCost.Empty;
+        public PowerCost GetCost(TargetEffect builder, PowerProfileBuilder context) => PowerCost.Empty;
 
         public Target GetTarget() => Target;
         public TargetInfoMutator? GetTargetInfoMutator(TargetEffect targetEffect, PowerProfile power) => null;
@@ -44,7 +44,7 @@ namespace GameEngine.Generator
             };
         }
 
-        public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
+        public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, PowerProfileBuilder power, int? attackIndex)
         {
             return from formula in ModifierDefinitions.advancedTargetModifiers
                    from mod in formula.GetBaseModifiers(stage, target, power, attackIndex)

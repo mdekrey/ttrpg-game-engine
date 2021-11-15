@@ -8,8 +8,8 @@ namespace GameEngine.Generator.Modifiers
         bool IModifier.IsPlaceholder() => false;
 
         Target GetTarget();
-        PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context);
-        IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex);
+        PowerCost GetCost(TargetEffect builder, PowerProfileBuilder context);
+        IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, PowerProfileBuilder power, int? attackIndex);
 
         string GetTargetText(PowerProfile power, int? attackIndex);
         AttackType GetAttackType(PowerProfile power, int? attackIndex);
