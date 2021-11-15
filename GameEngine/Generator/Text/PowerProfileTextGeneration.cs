@@ -40,7 +40,7 @@ namespace GameEngine.Generator.Text
 
             result = result with
             {
-                RulesText = result.RulesText.AddEffectSentences(profile.PowerProfile.Effects.Select(effect => effect.ToTargetInfo(profile.PowerProfile, null).ToSentence()))
+                RulesText = result.RulesText.AddEffectSentences(profile.PowerProfile.Effects.Select(effect => effect.ToTargetInfo(profile.PowerProfile, null).PartsToSentence()))
             };
 
             return result with
@@ -57,11 +57,14 @@ namespace GameEngine.Generator.Text
                 AttackType: effect.Target.GetAttackType(power, attackIndex: attackIndex),
                 AttackNotes: effect.Target.GetAttackNotes(power, attackIndex: attackIndex),
                 DamageExpression: null,
-                Parts: ImmutableList<string>.Empty
+                Parts: ImmutableList<string>.Empty,
+                AdditionalSentences: ImmutableList<string>.Empty
             );
+            var targetMutator = effect.Target.GetTargetInfoMutator(effect, power);
 
-            result = (from mod in effect.Modifiers
-                      let mutator = mod.GetTargetInfoMutator(effect, power)
+            result = (from mutator in (from mod in effect.Modifiers
+                                       let mutator = mod.GetTargetInfoMutator(effect, power)
+                                       select mutator).Add(targetMutator)
                       where mutator != null
                       orderby mutator.Priority
                       select mutator.Apply).Aggregate(result, (current, apply) => apply(current));
@@ -70,8 +73,8 @@ namespace GameEngine.Generator.Text
 
         public static AttackInfo ToAttackInfo(this AttackProfile attack, PowerProfile power, int index)
         {
-            var targetInfo = attack.Effects[0].ToTargetInfo(power, attackIndex: index);
-            var effects = attack.Effects.Skip(1);
+            var targetInfos = attack.Effects.Select(effect => effect.ToTargetInfo(power, attackIndex: index)).ToArray();
+            var targetInfo = targetInfos[0];
 
             var result = new AttackInfo(
                 AttackType: targetInfo.AttackType,
@@ -79,8 +82,9 @@ namespace GameEngine.Generator.Text
                 AttackExpression: (GameDiceExpression)attack.Ability,
                 AttackNotes: targetInfo.AttackNotes,
                 Defense: DefenseType.ArmorClass,
-                HitSentences: effects.Select(effect => effect.ToTargetInfo(power, attackIndex: index).ToSentence()).ToImmutableList()
-                    .Insert(0, targetInfo.ToSentence()),
+                HitSentences: targetInfos.Skip(1).Select(effect => effect.PartsToSentence()).ToImmutableList()
+                    .Insert(0, targetInfo.PartsToSentence())
+                    .AddRange(targetInfos.SelectMany(t => t.AdditionalSentences)),
                 MissSentences: ImmutableList<string>.Empty // TODO - miss targets
             );
             

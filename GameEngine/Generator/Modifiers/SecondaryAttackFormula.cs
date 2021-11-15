@@ -152,12 +152,12 @@ namespace GameEngine.Generator.Modifiers
         }
 
         // Two Identical attacks
-        public record TwoHitsModifier() : ITargetModifier
+        public record TwoHitsModifier(IEffectModifier? EffectModifier = null) : ITargetModifier
         {
             public string Name => "TwoHits";
             public int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
             public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context) =>
-                new PowerCost(Multiplier: 2, SingleTargetMultiplier: 1); // Because both attacks can hit the same target, SingleTargetMultiplier needs to be 1
+                new PowerCost(Multiplier: 2, SingleTargetMultiplier: 1) + (EffectModifier?.GetCost(builder, context) ?? PowerCost.Empty); // Because both attacks can hit the same target, SingleTargetMultiplier needs to be 1
 
             public AttackType GetAttackType(PowerProfile power, int? attackIndex) =>
                 (power.Tool, power.ToolRange) switch
@@ -174,11 +174,43 @@ namespace GameEngine.Generator.Modifiers
             public string GetTargetText(PowerProfile power, int? attackIndex) => "One or two creatures";
             public string? GetAttackNotes(PowerProfile power, int? attackIndex) => "two attacks";
             public bool CanUseRemainingPower() => true;
+            public TargetInfoMutator? GetTargetInfoMutator(TargetEffect targetEffect, PowerProfile power)
+            {
+                if (EffectModifier == null)
+                    return null;
+                var origMutator = EffectModifier.GetTargetInfoMutator(targetEffect, power);
+                if (origMutator == null)
+                    return null;
+
+                return new TargetInfoMutator(100, (targetInfo) =>
+                {
+                    var tempTarget = origMutator.Apply(new TargetInfo(
+                        Target: targetInfo.Target,
+                        AttackType: targetInfo.AttackType,
+                        AttackNotes: targetInfo.AttackNotes,
+                        DamageExpression: targetInfo.DamageExpression,
+                        Parts: targetInfo.Parts,
+                        AdditionalSentences: targetInfo.AdditionalSentences
+                    ));
+                    return targetInfo with
+                    {
+                        AdditionalSentences = targetInfo.AdditionalSentences.Add($"If both of your attacks hit the same target, the target is also {OxfordComma(tempTarget.Parts.ToArray())}".FinishSentence())
+                    };
+                });
+            }
 
             public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex)
             {
-                // TODO - modifiers if both hit
-                return Enumerable.Empty<ITargetModifier>();
+                if (EffectModifier == null)
+                {
+                    return from formula in ModifierDefinitions.effectModifiers
+                           from mod in formula.GetBaseModifiers(stage, target, null, power)
+                           where !target.Modifiers.Any(m => m.Name == mod.Name)
+                           select this with { EffectModifier = mod };
+                }
+
+                return from upgrade in EffectModifier.GetUpgrades(stage, target, null, power)
+                       select this with { EffectModifier = upgrade };
             }
 
         }
@@ -205,6 +237,7 @@ namespace GameEngine.Generator.Modifiers
             public string GetTargetText(PowerProfile power, int? attackIndex) => "One, two, or three creatures";
             public string? GetAttackNotes(PowerProfile power, int? attackIndex) => "one attack per target";
             public bool CanUseRemainingPower() => true;
+            public TargetInfoMutator? GetTargetInfoMutator(TargetEffect targetEffect, PowerProfile power) => null;
 
             public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffectBuilder target, PowerProfileBuilder power, int? attackIndex) =>
                 Enumerable.Empty<ITargetModifier>();

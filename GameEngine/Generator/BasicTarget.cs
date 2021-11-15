@@ -14,6 +14,7 @@ namespace GameEngine.Generator
         public PowerCost GetCost(TargetEffectBuilder builder, PowerProfileBuilder context) => PowerCost.Empty;
 
         public Target GetTarget() => Target;
+        public TargetInfoMutator? GetTargetInfoMutator(TargetEffect targetEffect, PowerProfile power) => null;
 
         public string GetTargetText(PowerProfile power, int? attackIndex)
         {

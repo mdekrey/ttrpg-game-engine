@@ -9,10 +9,11 @@ namespace GameEngine.Generator.Text
         AttackType AttackType,
         string? AttackNotes,
         string? DamageExpression,
-        ImmutableList<string> Parts
+        ImmutableList<string> Parts,
+        ImmutableList<string> AdditionalSentences
     )
     {
-        public string ToSentence()
+        public string PartsToSentence()
         {
             var join = Parts is not { Count: > 0 } ? ""
                 : DamageExpression is { Length: > 0 } ? ", and the target "

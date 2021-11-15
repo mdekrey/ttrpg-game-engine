@@ -85,6 +85,7 @@ namespace GameEngine.Generator.Modifiers
                     _ => throw new NotImplementedException(),
                 };
             }
+            public TargetInfoMutator? GetTargetInfoMutator(TargetEffect targetEffect, PowerProfile power) => null;
 
             public string? GetAttackNotes(PowerProfile power, int? attackIndex)
             {
