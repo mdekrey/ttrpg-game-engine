@@ -33,8 +33,14 @@ namespace GameEngine.Generator
             new MinorActionFormula(),
             new OpportunityActionFormula(),
             new BasicAttackFormula()
-            // TODO: Stance
-            // TODO: Sustain
+            // TODO: Stance, includes:
+            //   - beast form
+            //   - rage
+            //   - fighter/monk stance
+            // TODO: Sustain, includes:
+            //   - conjuration
+            //   - zone
+            //   - ongoing attacks, such as continued lightning, continued psychic attack, combo melee attacks, etc...
         );
         public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = new ITargetFormula[]
         {
