@@ -142,10 +142,19 @@ namespace GameEngine.Generator
         public IEnumerable<PowerProfileBuilder> FinalizeUpgrade() =>
             this.Modifiers.Aggregate(Enumerable.Repeat(this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)));
 
-        public IEnumerable<IModifier> AllModifiers() => 
-            Modifiers
+        public IEnumerable<IModifier> AllModifiers()
+        {
+            var stack = new Stack<IModifier>(Modifiers
                 .Concat<IModifier>(from attack in Attacks from mod in attack.AllModifiers() select mod)
-                .Concat<IModifier>(from targetEffect in Effects from mod in targetEffect.Modifiers select mod);
+                .Concat<IModifier>(from targetEffect in Effects from mod in targetEffect.Modifiers select mod)
+            );
+            while (stack.TryPop(out var current))
+            {
+                yield return current;
+                foreach (var entry in current.GetNestedModifiers())
+                    stack.Push(entry);
+            }
+        }
 
         record DamageLens(DamageModifier Damage, double Effectiveness, Func<PowerProfileBuilder, DamageModifier, PowerProfileBuilder> setter);
 

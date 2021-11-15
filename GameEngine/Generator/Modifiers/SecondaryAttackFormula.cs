@@ -213,6 +213,13 @@ namespace GameEngine.Generator.Modifiers
                        select this with { EffectModifier = upgrade };
             }
 
+            public IEnumerable<IModifier> GetNestedModifiers()
+            {
+                if (EffectModifier == null)
+                    yield break;
+                yield return EffectModifier;
+            }
+
         }
 
         // Identical attacks against up to 3 targets.

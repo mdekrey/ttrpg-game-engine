@@ -1,5 +1,7 @@
 ﻿using JsonSubTypes;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -12,5 +14,7 @@ namespace GameEngine.Generator.Modifiers
 
         // If this modifier can soak all remaining power (that is, accounting for the ABIL damage modifier), this should return true
         bool CanUseRemainingPower() => false;
+
+        IEnumerable<IModifier> GetNestedModifiers() => Enumerable.Empty<IModifier>();
     }
 }

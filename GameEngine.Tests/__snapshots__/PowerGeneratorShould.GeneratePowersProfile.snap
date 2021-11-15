@@ -1023,6 +1023,8 @@
           Name: Damage
       Modifiers: []
     Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -1246,6 +1248,8 @@
           Name: Damage
       Modifiers: []
     Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
