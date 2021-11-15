@@ -14,7 +14,7 @@ namespace GameEngine.Generator.Modifiers
         public const string ModifierName = "Non-Armor Defense";
         public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
         {
-            if (stage != UpgradeStage.Standard && attack.PowerInfo.ToolProfile.Type == ToolType.Weapon)
+            if (stage != UpgradeStage.Standard && power.PowerInfo.ToolProfile.Type == ToolType.Weapon)
                 yield break;
             yield return BuildModifier(DefenseType.Fortitude);
             yield return BuildModifier(DefenseType.Reflex);
@@ -30,7 +30,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override bool IsPlaceholder() => Defense == DefenseType.ArmorClass;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Defense == DefenseType.ArmorClass || builder.PowerInfo.ToolProfile.Type == ToolType.Implement ? 0 : 0.5);
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Defense == DefenseType.ArmorClass || power.PowerInfo.ToolProfile.Type == ToolType.Implement ? 0 : 0.5);
 
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
             {

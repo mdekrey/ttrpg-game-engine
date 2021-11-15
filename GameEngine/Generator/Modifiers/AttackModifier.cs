@@ -6,7 +6,7 @@ namespace GameEngine.Generator.Modifiers
     public abstract record AttackModifier(string Name) : IAttackModifier
     {
         public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
-        public abstract PowerCost GetCost(AttackProfileBuilder builder);
+        public abstract PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power);
         public virtual bool IsPlaceholder() => false;
         public abstract IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;

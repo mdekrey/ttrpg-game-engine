@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record AttackProfileBuilder(Ability Ability, ImmutableList<TargetEffect> TargetEffects, ImmutableList<IAttackModifier> Modifiers, PowerHighLevelInfo PowerInfo)
+    public record AttackProfileBuilder(Ability Ability, ImmutableList<TargetEffect> TargetEffects, ImmutableList<IAttackModifier> Modifiers)
     {
         public static readonly ImmutableList<(Target Target, EffectType EffectType)> TargetOptions = new[] {
             (Target.Enemy, EffectType.Harmful),
@@ -25,7 +25,7 @@ namespace GameEngine.Generator
 
         public PowerCost TotalCost(PowerProfileBuilder builder) => 
             Enumerable.Concat(
-                Modifiers.Select(m => m.GetCost(this)),
+                Modifiers.Select(m => m.GetCost(this, builder)),
                 TargetEffects.Select(e => e.TotalCost(builder))
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 

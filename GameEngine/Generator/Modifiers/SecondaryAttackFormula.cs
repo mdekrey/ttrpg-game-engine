@@ -121,7 +121,7 @@ namespace GameEngine.Generator.Modifiers
 
             public const string ModifierName = "RequiredHitForNextAttack";
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => PowerCost.Empty;
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => PowerCost.Empty;
             public override bool IsPlaceholder() => false;
             public override bool CanUseRemainingPower() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
@@ -142,7 +142,7 @@ namespace GameEngine.Generator.Modifiers
 
             public const string ModifierName = "RequiresPreviousHit";
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) =>
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
                 new PowerCost(Multiplier: 1 / FollowupAttackPower, SingleTargetMultiplier: 1 / FollowupAttackPower);
             public override bool IsPlaceholder() => false;
             public override bool CanUseRemainingPower() => true;

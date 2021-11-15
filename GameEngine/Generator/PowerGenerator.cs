@@ -213,8 +213,7 @@ namespace GameEngine.Generator
                             }.ToImmutableList()
                         )
                     ),
-                Modifiers: ImmutableList<IAttackModifier>.Empty,
-                PowerInfo: info
+                Modifiers: ImmutableList<IAttackModifier>.Empty
             );
 
         private static int GetAttackMaxComplexity(PowerFrequency usage) =>

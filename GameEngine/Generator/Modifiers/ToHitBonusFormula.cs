@@ -24,7 +24,7 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => IsPlaceholder() ? 0 : 1;
             public override bool IsPlaceholder() => Amount == GameDiceExpression.Empty;
 
-            public override PowerCost GetCost(AttackProfileBuilder builder) => new PowerCost(Amount.ToWeaponDice());
+            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => new PowerCost(Amount.ToWeaponDice());
 
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power)
             {
@@ -36,7 +36,7 @@ namespace GameEngine.Generator.Modifiers
                         yield return this with { Amount = Amount.StepUpModifier() };
                     if (Amount.DieCodes.Modifier <= 2)
                     {
-                        foreach (var ability in attack.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
+                        foreach (var ability in power.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
                             yield return this with { Amount = Amount + ability };
                     }
                 }

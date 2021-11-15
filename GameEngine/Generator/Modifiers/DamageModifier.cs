@@ -29,12 +29,12 @@ namespace GameEngine.Generator.Modifiers
             if (attack == null)
                 return Enumerable.Empty<IEffectModifier>();
 
-            return new[] { attack.Ability }.Concat(attack.PowerInfo.ToolProfile.Abilities)
+            return new[] { attack.Ability }.Concat(power.PowerInfo.ToolProfile.Abilities)
                 .Distinct()
                 .Take(stage switch
                 {
                     UpgradeStage.InitializeAttacks => 1,
-                    UpgradeStage.Finalize when attack.PowerInfo.ToolProfile.Type == ToolType.Weapon => attack.PowerInfo.ToolProfile.Abilities.Count,
+                    UpgradeStage.Finalize when power.PowerInfo.ToolProfile.Type == ToolType.Weapon => power.PowerInfo.ToolProfile.Abilities.Count,
                     _ => 0
                 })
                 .Except(GetAbilities())
