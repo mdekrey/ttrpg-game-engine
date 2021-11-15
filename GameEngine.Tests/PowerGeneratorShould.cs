@@ -122,6 +122,7 @@ namespace GameEngine.Tests
         [InlineData("RangeImplement", 1, PowerFrequency.Daily, "Wall", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "UpToThree", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "SecondAttackOnly", null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "SlideOpponent", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "Control", null)]
         [Theory]
         public void GeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
@@ -262,6 +263,12 @@ namespace GameEngine.Tests
                         new("$..[?(@.Name=='Multiple' && @.Type=='Wall')]", 1),
                     }.ToImmutableList()
                 ) },
+            { "SlideOpponent", new PowerProfileConfig(
+                    "SlideOpponent",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@.Name=='MovementControl')]..[?(@.Name=='Slide Opponent' && @.Mode=='Slide')]", 1),
+                    }.ToImmutableList()
+                ) }
         };
 
         private static PowerProfileConfig MakeModifierTemplate(string Name, params string[] require)

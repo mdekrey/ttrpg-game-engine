@@ -51,14 +51,22 @@ namespace GameEngine.Generator.Modifiers
                       from mod in set
                       select mod;
 
-            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) => 
-                new(100, (target) => target with { Parts = target.Parts.AddRange(Effects.Select(e => e.HitPart(effect.Target.GetTarget()))) });
+            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power)
+            {
+                var t = effect.Target.GetTarget();
+                return new(100, (target) => target with
+                {
+                    Parts = target.Parts.AddRange(Effects.Select(e => e.HitPart(t)).Where(e => e is { Length: > 0 })!),
+                    AdditionalSentences = target.AdditionalSentences.AddRange(Effects.Select(e => e.HitSentence(t)).Where(e => e is { Length: > 0 })!),
+                });
+            }
         }
 
         public abstract record MovementControl(string Name)
         {
             public abstract int Order();
-            public abstract string HitPart(Target target);
+            public abstract string? HitPart(Target target);
+            public abstract string? HitSentence(Target target);
             public abstract double Cost();
             public virtual IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 Enumerable.Empty<MovementControl>();
@@ -68,7 +76,8 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => 1;
             public override int Order() => 1;
-            public override string HitPart(Target target) => target == Target.Self ? "are knocked prone" : "is knocked prone";
+            public override string? HitPart(Target target) => target == Target.Self ? "are knocked prone" : "is knocked prone";
+            public override string? HitSentence(Target target) => null;
         }
 
         public enum OpponentMovementMode
@@ -81,14 +90,22 @@ namespace GameEngine.Generator.Modifiers
         public record SlideOpponent(OpponentMovementMode Mode, GameDiceExpression Amount) : MovementControl("Slide Opponent")
         {
             public override int Order() => 0;
-            public override string HitPart(Target target) => (target, Mode) switch
+            public override string? HitPart(Target target) => (target, Mode) switch
             {
                 (Target.Self, OpponentMovementMode.Push) => $"are pushed {Amount} squares",
                 (_, OpponentMovementMode.Push) => $"is pushed {Amount} squares",
                 (Target.Self, OpponentMovementMode.Pull) => $"are pulled {Amount} squares",
                 (_, OpponentMovementMode.Pull) => $"is pulled {Amount} squares",
                 (Target.Self, OpponentMovementMode.Slide) => $"slide {Amount} squares",
-                (_, OpponentMovementMode.Slide) => $"is slid {Amount} squares by you",
+                (_, OpponentMovementMode.Slide) => null,
+                _ => throw new NotImplementedException(),
+            };
+            public override string? HitSentence(Target target) => (target, Mode) switch
+            {
+                (_, OpponentMovementMode.Push) => null,
+                (_, OpponentMovementMode.Pull) => null,
+                (Target.Self, OpponentMovementMode.Slide) => null,
+                (_, OpponentMovementMode.Slide) => $"You slide the target {Amount} squares.", // TODO - is "the target" correct?
                 _ => throw new NotImplementedException(),
             };
             public override double Cost() => Amount.ToWeaponDice() * 2;
