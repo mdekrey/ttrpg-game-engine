@@ -33,6 +33,7 @@ namespace GameEngine.Generator.Modifiers
                 (Condition: "Weakened", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Weakened"),
                 (Condition: "Grants Combat Advantage", Cost: 0.5, OtherVerb: "grants", SelfVerb: "grant", Effect: "Combat Advantage"),
                 (Condition: "Blinded", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Blinded"),
+                (Condition: "Unconscious", Cost: 2, OtherVerb: "becomes", SelfVerb: "become", Effect: "Unconscious"),
             }.ToImmutableSortedDictionary(e => e.Condition, e => (e.Cost, e.OtherVerb, e.SelfVerb, e.Effect));
         private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
         {
