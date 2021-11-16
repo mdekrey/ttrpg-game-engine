@@ -6,7 +6,7 @@ namespace GameEngine.Generator.Modifiers
 {
     public record MakeBasicAttackFormula() : IEffectFormula
     {
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power)
         {
             if (stage != UpgradeStage.Standard)
                 yield break;
@@ -27,7 +27,7 @@ namespace GameEngine.Generator.Modifiers
             // Even though a basic attack is 1.5, 4e uses 1 to encourage giving your rolls to other players
             public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) => new (Fixed: 1 + Damage.ToWeaponDice());
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfileBuilder? attack, PowerProfileBuilder power)
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfile? attack, PowerProfileBuilder power)
             {
                 if (Damage == GameDiceExpression.Empty)
                     foreach (var ability in power.PowerInfo.ToolProfile.Abilities)

@@ -42,7 +42,7 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power)
         {
             return new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, target, attack, power);
         }
@@ -63,7 +63,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsBeneficial() => false;
             public override bool IsHarmful() => true;
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) || target.EffectType != EffectType.Harmful
                     ? Enumerable.Empty<IEffectModifier>()
                     : from set in new[]

@@ -189,14 +189,14 @@ namespace GameEngine.Generator
             return result; // no modifiers yet, no need to finalize
         }
 
-        private static AttackProfileBuilder RootAttackBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
-            new AttackProfileBuilder(
+        private static AttackProfile RootAttackBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
+            new AttackProfile(
                 Ability: randomGenerator.RandomSelection(
                     info.ToolProfile.Abilities
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                         .Select(v => new RandomChances<Ability>(v))
                 ),
-                TargetEffects: Build(
+                Effects: Build(
                     new TargetEffect(
                         new BasicTarget(Target.Enemy | Target.Ally | Target.Self),
                             EffectType.Harmful,

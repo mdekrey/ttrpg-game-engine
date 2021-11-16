@@ -31,9 +31,9 @@ namespace GameEngine.Tests.Modifiers
                                 ClassProfile: new ClassProfile(Rules.ClassRole.Striker, PowerSource.Martial, Build(tool)),
                                 PowerProfileConfig: tool.PowerProfileConfigs[0]
                             );
-            var attack = new AttackProfileBuilder(
+            var attack = new AttackProfile(
                 Ability: Rules.Ability.Strength,
-                TargetEffects: Build(
+                Effects: Build(
                     new TargetEffect(
                         new BasicTarget(Target.Enemy | Target.Ally | Target.Self), 
                         EffectType.Harmful, 
@@ -56,7 +56,7 @@ namespace GameEngine.Tests.Modifiers
                 Build(new TargetEffect(new BasicTarget(Target.Enemy | Target.Ally | Target.Self), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty))
             );
 
-            var upgrades = attack.TargetEffects[0].Modifiers.First().GetUpgrades(UpgradeStage.Finalize, attack.TargetEffects[0], attack, power);
+            var upgrades = attack.Effects[0].Modifiers.First().GetUpgrades(UpgradeStage.Finalize, attack.Effects[0], attack, power);
 
             Assert.Collection(upgrades, upgrade => Assert.True(upgrade is DamageModifier { Damage: { Abilities: { Strength: 1, Dexterity: 1 } } }));
         }

@@ -13,7 +13,7 @@ namespace GameEngine.Generator
         {
             var options = from power in powers
                           from builder in power.Attacks.Aggregate(
-                                    Enumerable.Repeat(ImmutableList<AttackProfileBuilder>.Empty, 1),
+                                    Enumerable.Repeat(ImmutableList<AttackProfile>.Empty, 1),
                                     (prev, next) => prev.SelectMany(l => next.PreApplyImplementNonArmorDefense(UpgradeStage.InitializeAttacks, power).Select(o => l.Add(o)))
                                 )
                                 .Select(attacks => power with { Attacks = attacks })
@@ -32,10 +32,10 @@ namespace GameEngine.Generator
         }
 
         // Implements get free non-armor defense due to lack of proficiency bonus
-        private static IEnumerable<AttackProfileBuilder> PreApplyImplementNonArmorDefense(this AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power) =>
+        private static IEnumerable<AttackProfile> PreApplyImplementNonArmorDefense(this AttackProfile attack, UpgradeStage stage, PowerProfileBuilder power) =>
             power.PowerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, stage, power) : new[] { attack };
 
-        private static IEnumerable<AttackProfileBuilder> Apply(this IAttackModifierFormula formula, AttackProfileBuilder attack, UpgradeStage stage, PowerProfileBuilder power)
+        private static IEnumerable<AttackProfile> Apply(this IAttackModifierFormula formula, AttackProfile attack, UpgradeStage stage, PowerProfileBuilder power)
         {
             return from mod in formula.GetBaseModifiers(stage, attack, power)
                    where !attack.Modifiers.Any(m => m.Name == mod.Name)

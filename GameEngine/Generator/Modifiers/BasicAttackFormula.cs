@@ -15,7 +15,7 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             if (power.PowerInfo.ToolProfile.Type != ToolType.Implement)
                 yield break;
-            if (power.Attacks.Count == 0 || power.Attacks[0].TargetEffects.Count == 0 || power.Attacks[0].TargetEffects[0].EffectType != EffectType.Harmful)
+            if (power.Attacks.Count == 0 || power.Attacks[0].Effects.Count == 0 || power.Attacks[0].Effects[0].EffectType != EffectType.Harmful)
                 yield break;
             yield return new IsBasicAttackModifier();
         }

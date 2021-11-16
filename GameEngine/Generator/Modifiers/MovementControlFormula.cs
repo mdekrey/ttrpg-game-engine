@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "MovementControl";
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power)
         {
             return new MovementModifier(ImmutableList<MovementControl>.Empty).GetUpgrades(stage, target, attack, power);
         }
@@ -37,7 +37,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsBeneficial() => true;
             public override bool IsHarmful() => true;
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfileBuilder? attack, PowerProfileBuilder power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfile? attack, PowerProfileBuilder power) =>
                 (stage < UpgradeStage.Standard) || (builder.Target.GetTarget().HasFlag(Target.Enemy) && !builder.Target.GetTarget().HasFlag(Target.Self))
                     ? Enumerable.Empty<IEffectModifier>() 
                     : from set in new[]

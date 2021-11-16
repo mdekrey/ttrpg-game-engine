@@ -15,6 +15,6 @@ namespace GameEngine.Generator.Modifiers
         public virtual bool CanUseRemainingPower() => false;
         public abstract TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
 
-        public abstract IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfileBuilder? attack, PowerProfileBuilder power);
+        public abstract IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfile? attack, PowerProfileBuilder power);
     }
 }

@@ -24,7 +24,7 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power)
+        public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power)
         {
             if (attack == null)
                 return Enumerable.Empty<IEffectModifier>();

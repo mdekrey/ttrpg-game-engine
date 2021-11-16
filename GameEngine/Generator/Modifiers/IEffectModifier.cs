@@ -10,7 +10,7 @@ namespace GameEngine.Generator.Modifiers
         bool IsInstantaneous();
         bool IsBeneficial();
         bool IsHarmful();
-        IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfileBuilder? attack, PowerProfileBuilder power);
+        IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power);
         TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power);
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record PowerProfileBuilder(PowerLimits Limits, WeaponDiceDistribution WeaponDiceDistribution, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfileBuilder> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffect> Effects)
+    public record PowerProfileBuilder(PowerLimits Limits, WeaponDiceDistribution WeaponDiceDistribution, PowerHighLevelInfo PowerInfo, ImmutableList<AttackProfile> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffect> Effects)
     {
         public static readonly ImmutableList<(Target Target, EffectType EffectType)> TargetOptions = new[] {
             (Target.Ally, EffectType.Beneficial),
@@ -160,7 +160,7 @@ namespace GameEngine.Generator
         private IEnumerable<DamageLens> GetDamageLenses()
         {
             return (from a in Attacks.Select((attack, index) => (attack, index))
-                    from e in a.attack.TargetEffects.Select((effect, index) => (effect, index))
+                    from e in a.attack.Effects.Select((effect, index) => (effect, index))
                     from m in e.effect.Modifiers.Select((mod, index) => (mod, index))
                     let damage = m.mod as DamageModifier
                     where damage != null
@@ -168,9 +168,9 @@ namespace GameEngine.Generator
                     {
                         Attacks = pb.Attacks.SetItem(a.index, pb.Attacks[a.index] with
                         {
-                            TargetEffects = pb.Attacks[a.index].TargetEffects.SetItem(e.index, pb.Attacks[a.index].TargetEffects[e.index] with
+                            Effects = pb.Attacks[a.index].Effects.Items.SetItem(e.index, pb.Attacks[a.index].Effects[e.index] with
                             {
-                                Modifiers = pb.Attacks[a.index].TargetEffects[e.index].Modifiers.Items.SetItem(m.index, newDamage),
+                                Modifiers = pb.Attacks[a.index].Effects[e.index].Modifiers.Items.SetItem(m.index, newDamage),
                             }),
                         }),
                     }));

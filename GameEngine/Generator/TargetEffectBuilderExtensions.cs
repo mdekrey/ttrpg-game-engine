@@ -28,7 +28,7 @@ namespace GameEngine.Generator
 
         public static IEnumerable<IModifier> AllModifiers(this TargetEffect targetEffect) => targetEffect.Modifiers.Add<IModifier>(targetEffect.Target);
 
-        public static IEnumerable<TargetEffect> GetUpgrades(this TargetEffect targetEffect, UpgradeStage stage, PowerProfileBuilder power, AttackProfileBuilder? attack, int? attackIndex)
+        public static IEnumerable<TargetEffect> GetUpgrades(this TargetEffect targetEffect, UpgradeStage stage, PowerProfileBuilder power, AttackProfile? attack, int? attackIndex)
         {
             var currentTarget = targetEffect.Target.GetTarget();
             return from set in new[] {

@@ -48,7 +48,7 @@ namespace GameEngine.Generator.Modifiers
         public record TargetDelegateModifier(ITargetModifier TargetModifier) : PowerModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => TargetModifier.GetComplexity(powerInfo);
-            public override PowerCost GetCost(PowerProfileBuilder power) => TargetModifier.GetCost(power.Attacks[0].TargetEffects[0], power);
+            public override PowerCost GetCost(PowerProfileBuilder power) => TargetModifier.GetCost(power.Attacks[0].Effects[0], power);
 
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder attack) =>
                 Enumerable.Empty<IPowerModifier>();
@@ -61,7 +61,7 @@ namespace GameEngine.Generator.Modifiers
                     Attacks = new[] {
                         attack with
                         {
-                            TargetEffects = attack.TargetEffects.SetItem(0, attack.TargetEffects[0] with { Target = TargetModifier }),
+                            Effects = attack.Effects.Items.SetItem(0, attack.Effects[0] with { Target = TargetModifier }),
                         }
                     }.ToImmutableList(),
                     Modifiers = power.Modifiers.Remove(this).Add(new MultiattackAppliedModifier()),
@@ -121,10 +121,10 @@ namespace GameEngine.Generator.Modifiers
 
             public const string ModifierName = "RequiredHitForNextAttack";
 
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) => PowerCost.Empty;
+            public override PowerCost GetCost(AttackProfile builder, PowerProfileBuilder power) => PowerCost.Empty;
             public override bool IsPlaceholder() => false;
             public override bool CanUseRemainingPower() => true;
-            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfile attack, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
 
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
@@ -142,11 +142,11 @@ namespace GameEngine.Generator.Modifiers
 
             public const string ModifierName = "RequiresPreviousHit";
 
-            public override PowerCost GetCost(AttackProfileBuilder builder, PowerProfileBuilder power) =>
+            public override PowerCost GetCost(AttackProfile builder, PowerProfileBuilder power) =>
                 new PowerCost(Multiplier: 1 / FollowupAttackPower, SingleTargetMultiplier: 1 / FollowupAttackPower);
             public override bool IsPlaceholder() => false;
             public override bool CanUseRemainingPower() => true;
-            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfileBuilder attack, PowerProfileBuilder power) =>
+            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfile attack, PowerProfileBuilder power) =>
                 Enumerable.Empty<IAttackModifier>();
             public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) => null;
         }
