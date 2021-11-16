@@ -81,7 +81,7 @@ namespace GameEngine.Generator.Modifiers
                     BurstType.Blast => new CloseBlast(Size),
                     BurstType.Area => new AreaBurst(Size / 2, Size * 5),
                     BurstType.Burst => new CloseBurst(Size / 2),
-                    BurstType.Wall => new AreaBurst(Size * 2, Size * 5),
+                    BurstType.Wall => new AreaWall(Size * 2, Size * 5),
                     _ => throw new NotImplementedException(),
                 };
             }

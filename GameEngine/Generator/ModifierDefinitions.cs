@@ -28,6 +28,7 @@ namespace GameEngine.Generator
             // TODO: Ignore cover/concealment
         );
         public static readonly ImmutableList<IPowerModifierFormula> powerModifiers = Build<IPowerModifierFormula>(
+            new ConditionFormula(),
             new EffectDurationFormula(),
             new MultiattackFormula(),
             new MinorActionFormula(),

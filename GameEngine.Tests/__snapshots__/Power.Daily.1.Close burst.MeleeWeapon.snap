@@ -8,7 +8,7 @@
       Effects:
       - Target:
           Target: Enemy, Self, Ally
-          Size: 5
+          Size: 3
           Type: Burst
           Name: Multiple
         EffectType: Harmful
@@ -19,9 +19,19 @@
           Name: Damage
       Modifiers: []
     Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Target: Enemy
+        Name: Basic Target
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Dazed
+        Name: Condition
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Daily
@@ -30,9 +40,11 @@
   - Weapon
   ActionType: Standard Action
   AttackType: Close
-  AttackTypeDetails: burst 2
+  AttackTypeDetails: burst 1
   Target: Each creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage.
+  - Label: Effect
+    Text: One enemy is dazed (save ends.)

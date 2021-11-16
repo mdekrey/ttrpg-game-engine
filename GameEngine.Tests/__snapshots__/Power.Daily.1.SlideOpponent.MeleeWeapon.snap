@@ -7,20 +7,26 @@
     - Ability: Strength
       Effects:
       - Target:
-          Name: TwoHits
+          Target: Enemy, Self, Ally
+          Name: Basic Target
         EffectType: Harmful
         Modifiers:
-        - Effects:
-          - Mode: Slide
-            Amount: +1
-            Name: Slide Opponent
-          Name: MovementControl
         - Damage: 1[W] + STR
           DamageTypes:
           - Normal
           Name: Damage
+        - Conditions:
+          - Name: Blinded
+          Name: Condition
+        - Effects:
+          - Mode: Slide
+            Amount: +2
+            Name: Slide Opponent
+          Name: MovementControl
       Modifiers: []
     Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -33,8 +39,8 @@
   ActionType: Standard Action
   AttackType: Melee
   AttackTypeDetails: weapon
-  Target: One or two creatures
-  Attack: STR vs. AC, two attacks
+  Target: One creature
+  Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. You slide the target +1 squares.
+    Text: 1[W] + STR damage, and the target is blinded (save ends.) You slide the target +2 squares.

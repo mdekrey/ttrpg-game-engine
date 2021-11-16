@@ -11,18 +11,20 @@
           Name: Basic Target
         EffectType: Harmful
         Modifiers:
+        - Effects:
+          - Name: Prone
+          Name: MovementControl
         - Damage: 1[W] + STR
           DamageTypes:
           - Normal
           Name: Damage
-        - Effects:
-          - Name: Prone
-          - Mode: Pull
-            Amount: +4
-            Name: Slide Opponent
-          Name: MovementControl
+        - Conditions:
+          - Name: Blinded
+          Name: Condition
       Modifiers: []
     Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -39,4 +41,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is knocked prone and is pulled +4 squares.
+    Text: 1[W] + STR damage, and the target is blinded (save ends) and is knocked prone.

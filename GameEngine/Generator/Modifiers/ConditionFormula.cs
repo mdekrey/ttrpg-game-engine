@@ -9,7 +9,7 @@ using GameEngine.Generator.Text;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record ConditionFormula() : IEffectFormula
+    public record ConditionFormula() : IEffectFormula, IPowerModifierFormula
     {
         public const string ModifierName = "Condition";
 
@@ -21,7 +21,7 @@ namespace GameEngine.Generator.Modifiers
             {
                 (Parent: "Immobilized", Children: new[] { "Slowed" }),
                 (Parent: "Dazed", Children: new[] { "Grants Combat Advantage" }),
-                (Parent: "Unconscious", Children: new[] { "Immobilized", "Dazed", "Slowed", "Weakened", "Blinded" }),
+                (Parent: "Unconscious", Children: new[] { "Immobilized", "Dazed", "Slowed", "Weakened", "Blinded", "Grants Combat Advantage" }),
             }.ToImmutableSortedDictionary(e => e.Parent, e => e.Children.ToImmutableList());
 
         private static readonly ImmutableSortedDictionary<string, (double cost, string otherVerb, string selfVerb, string effect)> basicConditions =
@@ -48,15 +48,97 @@ namespace GameEngine.Generator.Modifiers
             return new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, target, attack, power);
         }
 
+        public static IEnumerable<Condition> GetBaseConditions()
+        {
+            return from set in new[]
+                   {
+                       from basicCondition in basicConditions.Keys
+                       select new Condition(basicCondition),
+                       DefenseConditions,
+                   }
+                   from mod in set
+                   select mod;
+        }
+
         public static double DurationMultiplier(Duration duration) =>
             duration == Duration.EndOfEncounter ? 4
             : duration == Duration.SaveEnds ? 2 // Must remain "SaveEnds" if there's a Boost dependent upon it
             : 1;
 
+        public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
+        {
+            foreach (var entry in from condition in GetBaseConditions()
+                                  from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
+                                  select new EffectAndDurationModifier(duration, new ConditionModifier(ImmutableList<Condition>.Empty.Add(condition))))
+            {
+                yield return entry;
+            }
+        }
+
+        public record EffectAndDurationModifier(Duration Duration, IEffectModifier EffectModifier) : PowerModifier(ModifierName)
+        {
+            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
+            public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
+
+            public override PowerTextMutator? GetTextMutator(PowerProfile power)
+            {
+                throw new NotSupportedException("Should be removed before here");
+            }
+
+            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power)
+            {
+                yield break;
+            }
+
+            public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder)
+            {
+                var next = builder with { Modifiers = builder.Modifiers.Remove(this).Add(new EffectDurationFormula.EffectDurationModifier(Duration)) };
+
+                foreach (var attack in next.Attacks.Select((a, i) => (a, i)))
+                {
+                    var hasEffect = false;
+                    foreach (var effect in attack.a.Effects.Select((e, i) => (e, i)).Where(e => e.e.EffectType == EffectType.Harmful))
+                    {
+                        hasEffect = true;
+                        yield return ApplyAttackEffect(effect.e with
+                        {
+                            Modifiers = effect.e.Modifiers.Items.Add(EffectModifier)
+                        }, attack.i, effect.i);
+                    }
+                    if (!hasEffect)
+                        yield return AddAttackEffect(new TargetEffect(new BasicTarget(Target.Enemy), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier)), attack.i);
+                }
+
+                {
+                    var hasEffect = false;
+                    foreach (var effect in next.Effects.Select((e, i) => (e, i)).Where(e => e.e.EffectType == EffectType.Harmful))
+                    {
+                        hasEffect = true;
+                        yield return ApplyEffect(effect.e with
+                        {
+                            Modifiers = effect.e.Modifiers.Items.Add(EffectModifier)
+                        }, effect.i);
+                    }
+                    if (!hasEffect)
+                        yield return AddEffect(new TargetEffect(new BasicTarget(Target.Enemy), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier)));
+                }
+
+                PowerProfileBuilder ApplyAttackEffect(TargetEffect effect, int attackIndex, int effectIndex) => 
+                    next with { Attacks = next.Attacks.SetItem(attackIndex, next.Attacks[attackIndex] with { Effects = next.Attacks[attackIndex].Effects.Items.SetItem(effectIndex, effect) }) };
+                PowerProfileBuilder AddAttackEffect(TargetEffect effect, int attackIndex) =>
+                    next with { Attacks = next.Attacks.SetItem(attackIndex, next.Attacks[attackIndex] with { Effects = next.Attacks[attackIndex].Effects.Items.Add(effect) }) };
+
+                PowerProfileBuilder ApplyEffect(TargetEffect effect, int effectIndex) =>
+                    next with { Effects = next.Effects.SetItem(effectIndex, effect) };
+                PowerProfileBuilder AddEffect(TargetEffect effect) =>
+                    next with { Effects = next.Effects.Add(effect) };
+            }
+        }
+
         public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : EffectModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
-            public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) => 
+            public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) =>
                 new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(power.GetDuration())).Sum());
             public override bool IsPlaceholder() => Conditions.Count == 0;
             public override bool UsesDuration() => Conditions.Any();

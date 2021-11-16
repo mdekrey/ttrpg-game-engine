@@ -8,7 +8,7 @@
       Effects:
       - Target:
           Target: Enemy, Self, Ally
-          Size: 8
+          Size: 4
           Type: Wall
           Name: Multiple
         EffectType: Harmful
@@ -21,9 +21,19 @@
       - Defense: Fortitude
         Name: Non-Armor Defense
     Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Target: Enemy
+        Name: Basic Target
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Blinded
+        Name: Condition
 - Name: Unknown
   TypeInfo: Implement Attack 1
   PowerUsage: Daily
@@ -32,9 +42,11 @@
   - Implement
   ActionType: Standard Action
   AttackType: Area
-  AttackTypeDetails: burst 16 within 40
+  AttackTypeDetails: wall 8 within 20
   Target: Each creature
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
     Text: d4 + STR radiant damage.
+  - Label: Effect
+    Text: One enemy is blinded (save ends.)
