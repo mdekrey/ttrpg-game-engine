@@ -11,6 +11,10 @@ namespace GameEngine.Generator.Modifiers
 {
     public record ConditionFormula() : IEffectFormula, IPowerModifierFormula
     {
+        private static readonly Lens<PowerProfileBuilder, ImmutableList<AttackProfile>> attacksLens = Lens<PowerProfileBuilder>.To(p => p.Attacks, (p, a) => p with { Attacks = a });
+        private static readonly Lens<PowerProfileBuilder, ImmutableList<TargetEffect>> effectsLens = Lens<PowerProfileBuilder>.To(p => p.Effects, (p, e) => p with { Effects = e });
+        private static readonly Lens<AttackProfile, ImmutableList<TargetEffect>> attackToEffectLens = Lens<AttackProfile>.To(p => p.Effects.Items, (p, e) => p with { Effects = e });
+
         public const string ModifierName = "Condition";
 
         public record ConditionOptionKey(Condition Condition, Duration Duration);
@@ -95,45 +99,22 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder)
             {
                 var next = builder with { Modifiers = builder.Modifiers.Remove(this).Add(new EffectDurationFormula.EffectDurationModifier(Duration)) };
+                var newEffect = new TargetEffect(new BasicTarget(Target.Enemy), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier));
 
-                foreach (var attack in next.Attacks.Select((a, i) => (a, i)))
-                {
-                    var hasEffect = false;
-                    foreach (var effect in attack.a.Effects.Select((e, i) => (e, i)).Where(e => e.e.EffectType == EffectType.Harmful))
-                    {
-                        hasEffect = true;
-                        yield return ApplyAttackEffect(effect.e with
-                        {
-                            Modifiers = effect.e.Modifiers.Items.Add(EffectModifier)
-                        }, attack.i, effect.i);
-                    }
-                    if (!hasEffect)
-                        yield return AddAttackEffect(new TargetEffect(new BasicTarget(Target.Enemy), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier)), attack.i);
-                }
+                return from lens in (
+                            from attackIndex in Enumerable.Range(0, next.Attacks.Count)
+                            select attacksLens.To(attackIndex).To(attackToEffectLens)
+                       ).Add(effectsLens)
+                       from entry in (
+                            from effectIndex in Enumerable.Range(0, next.Get(lens).Count)
+                            let effectLens = lens.To(effectIndex)
+                            where next.Get(effectLens).EffectType == EffectType.Harmful
+                            select next.Update(effectLens, AddEffectModifier)
+                       ).DefaultIfEmpty(next.Update(lens, effects => effects.Add(newEffect)))
+                       select entry;
 
-                {
-                    var hasEffect = false;
-                    foreach (var effect in next.Effects.Select((e, i) => (e, i)).Where(e => e.e.EffectType == EffectType.Harmful))
-                    {
-                        hasEffect = true;
-                        yield return ApplyEffect(effect.e with
-                        {
-                            Modifiers = effect.e.Modifiers.Items.Add(EffectModifier)
-                        }, effect.i);
-                    }
-                    if (!hasEffect)
-                        yield return AddEffect(new TargetEffect(new BasicTarget(Target.Enemy), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier)));
-                }
-
-                PowerProfileBuilder ApplyAttackEffect(TargetEffect effect, int attackIndex, int effectIndex) =>
-                    next with { Attacks = next.Attacks.SetItem(attackIndex, next.Attacks[attackIndex] with { Effects = next.Attacks[attackIndex].Effects.Items.SetItem(effectIndex, effect) }) };
-                PowerProfileBuilder AddAttackEffect(TargetEffect effect, int attackIndex) =>
-                    next with { Attacks = next.Attacks.SetItem(attackIndex, next.Attacks[attackIndex] with { Effects = next.Attacks[attackIndex].Effects.Items.Add(effect) }) };
-
-                PowerProfileBuilder ApplyEffect(TargetEffect effect, int effectIndex) =>
-                    next with { Effects = next.Effects.SetItem(effectIndex, effect) };
-                PowerProfileBuilder AddEffect(TargetEffect effect) =>
-                    next with { Effects = next.Effects.Add(effect) };
+                TargetEffect AddEffectModifier(TargetEffect e) =>
+                    e with { Modifiers = e.Modifiers.Items.Add(EffectModifier) };
             }
         }
 
