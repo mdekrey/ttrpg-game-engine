@@ -2,7 +2,7 @@
 using System.Collections.Immutable;
 using GameEngine.Rules;
 using System.Linq;
-using static GameEngine.Generator.ImmutableConstructorExtension;
+using static System.Collections.Immutable.ImmutableList<string>;
 using System;
 using static GameEngine.Generator.ProseHelpers;
 using GameEngine.Generator.Text;
@@ -20,42 +20,110 @@ namespace GameEngine.Generator.Modifiers
         public record ConditionOptionKey(Condition Condition, Duration Duration);
         public record ConditionOptionValue(PowerCost Cost, int Chances);
 
-        private static readonly ImmutableSortedDictionary<string, ImmutableList<string>> subsume =
-            new[]
+        public record ConditionDefinition(string Name, double Cost, string OtherVerb, string SelfVerb, string Effect, bool AllowDirectApplication, ImmutableList<string> Subsumes)
+        {
+            public ConditionDefinition(string Name, double Cost, string OtherVerb, string SelfVerb, string Effect, bool AllowDirectApplication)
+                : this(Name: Name, Cost: Cost, OtherVerb: OtherVerb, SelfVerb: SelfVerb, Effect: Effect, AllowDirectApplication: AllowDirectApplication, Subsumes: Empty)
             {
-                (Parent: "Blinded", Children: new[] { "Grants Combat Advantage" }),
-                (Parent: "Dazed", Children: new[] { "Grants Combat Advantage" }),
-                (Parent: "Dominated", Children: new[] { "Dazed", "Grants Combat Advantage" }),
-                (Parent: "Dying", Children: new[] { "Unconscious", "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                (Parent: "Helpless", Children: new[] { "Grants Combat Advantage" }),
-                (Parent: "Immobilized", Children: new[] { "Slowed" }),
-                (Parent: "Petrified", Children: new[] { "Immobilized", "Slowed" }),
-                (Parent: "Restrained", Children: new[] { "Immobilized", "Slowed" }),
-                (Parent: "Stunned", Children: new[] { "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                (Parent: "Surprised", Children: new[] { "Dazed", "Grants Combat Advantage" }),
-                (Parent: "Unconscious", Children: new[] { "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-            }.ToImmutableSortedDictionary(e => e.Parent, e => e.Children.ToImmutableList());
+            }
+        }
 
-        private static readonly ImmutableSortedDictionary<string, (double cost, string otherVerb, string selfVerb, string effect)> basicConditions =
-            new[]
+        private static readonly ImmutableSortedDictionary<string, ConditionDefinition> basicConditions =
+            new ConditionDefinition[]
             {
-                (Condition: "Blinded", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Blinded"),
-                (Condition: "Dazed", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Dazed"),
-                (Condition: "Deafened", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Deafened"),
-                (Condition: "Dominated", Cost: 2, OtherVerb: "is", SelfVerb: "are", Effect: "Dominated"), // TODO - check cost
-                //(Condition: "Dying", Cost: , OtherVerb: "is", SelfVerb: "are", Effect: "Dying"),
-                (Condition: "Grants Combat Advantage", Cost: 0.5, OtherVerb: "grants", SelfVerb: "grant", Effect: "Combat Advantage"),
-                (Condition: "Helpless", Cost: 1.5, OtherVerb: "is", SelfVerb: "are", Effect: "Helpless"), // TODO - check cost
-                (Condition: "Immobilized", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Immobilized"),
-                (Condition: "Marked", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Marked"), // TODO - check cost
-                (Condition: "Petrified", Cost: 2, OtherVerb: "is", SelfVerb: "are", Effect: "Petrified"), // TODO - ccheck cost
-                (Condition: "Restrained", Cost: 2, OtherVerb: "is", SelfVerb: "are", Effect: "Restrained"), // TODO - check cost
-                (Condition: "Slowed", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Slowed"),
-                (Condition: "Stunned", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Stunned"), // TODO - check cost
-                (Condition: "Surprised", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Surprised"), // TODO - check cost
-                (Condition: "Unconscious", Cost: 2, OtherVerb: "becomes", SelfVerb: "become", Effect: "Unconscious"),
-                (Condition: "Weakened", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Weakened"),
-            }.ToImmutableSortedDictionary(e => e.Condition, e => (e.Cost, e.OtherVerb, e.SelfVerb, e.Effect));
+                new (Name: "Blinded", 
+                    Subsumes: Empty.Add("Grants Combat Advantage"),
+                    AllowDirectApplication: true,
+                    Cost: 1, 
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Blinded"
+                ),
+                new (Name: "Dazed", 
+                    Subsumes: Empty.Add("Grants Combat Advantage"),
+                    AllowDirectApplication: true,
+                    Cost: 0.5, 
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Dazed"
+                ),
+                new (Name: "Deafened", 
+                    AllowDirectApplication: true,
+                    Cost: 0.5, 
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Deafened"
+                ),
+                new (Name: "Dominated", 
+                    Subsumes: Empty.AddRange(new[] { "Dazed", "Grants Combat Advantage" }),
+                    AllowDirectApplication: true, // TODO - make false
+                    Cost: 2, // TODO - check cost
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Dominated"
+                ),
+                new (Name: "Dying", 
+                    Subsumes: Empty.AddRange(new[] { "Unconscious", "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
+                    AllowDirectApplication: false,
+                    Cost: 4, 
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Dying"
+                ),
+                new (Name: "Grants Combat Advantage", 
+                    AllowDirectApplication: true,
+                    Cost: 0.5, 
+                    OtherVerb: "grants", SelfVerb: "grant", Effect: "Combat Advantage"
+                ),
+                new (Name: "Helpless", 
+                    Subsumes: Empty.AddRange(new[] { "Grants Combat Advantage" }),
+                    AllowDirectApplication: true, // TODO - make false
+                    Cost: 1.5, // TODO - check cost
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Helpless"
+                ),
+                new (Name: "Immobilized", 
+                    Subsumes: Empty.AddRange(new[] { "Slowed" }),
+                    AllowDirectApplication: true, // TODO - make false
+                    Cost: 1, 
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Immobilized"
+                ),
+                new (Name: "Marked", 
+                    AllowDirectApplication: true,
+                    Cost: 0.5, // TODO - check cost
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Marked"
+                ),
+                new (Name: "Petrified", 
+                    Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed" }),
+                    AllowDirectApplication: true, // TODO - make false
+                    Cost: 2, // TODO - check cost
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Petrified"
+                ),
+                new (Name: "Restrained", 
+                    Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed" }),
+                    AllowDirectApplication: true,
+                    Cost: 2, // TODO - check cost
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Restrained"
+                ),
+                new (Name: "Slowed", 
+                    AllowDirectApplication: true,
+                    Cost: 0.5, 
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Slowed"
+                ),
+                new (Name: "Stunned", 
+                    Subsumes: Empty.AddRange(new[] { "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
+                    AllowDirectApplication: true,
+                    Cost: 1, // TODO - check cost
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Stunned"
+                ),
+                new (Name: "Surprised", 
+                    Subsumes: Empty.AddRange(new[] { "Dazed", "Grants Combat Advantage" }),
+                    AllowDirectApplication: true,
+                    Cost: 1, // TODO - check cost
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Surprised"
+                ),
+                new (Name: "Unconscious", 
+                    Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
+                    AllowDirectApplication: true, // TODO - make false
+                    Cost: 2, 
+                    OtherVerb: "becomes", SelfVerb: "become", Effect: "Unconscious"
+                ),
+                new (Name: "Weakened", 
+                    AllowDirectApplication: true,
+                    Cost: 1, 
+                    OtherVerb: "is", SelfVerb: "are", Effect: "Weakened"
+                ),
+            }.ToImmutableSortedDictionary(e => e.Name, e => e);
+
         private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
         {
             new DefensePenalty(DefenseType.ArmorClass),
@@ -74,6 +142,7 @@ namespace GameEngine.Generator.Modifiers
             return from set in new[]
                    {
                        from basicCondition in basicConditions.Keys
+                       where basicConditions[basicCondition].AllowDirectApplication
                        select new Condition(basicCondition),
                        DefenseConditions,
                    }
@@ -152,6 +221,7 @@ namespace GameEngine.Generator.Modifiers
                     : from set in new[]
                       {
                           from basicCondition in basicConditions.Keys
+                          where basicConditions[basicCondition].AllowDirectApplication
                           where !Conditions.Select(b => b.Name).Contains(basicCondition)
                           where !GetSubsumed(Conditions).Contains(basicCondition)
                           select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
@@ -174,8 +244,8 @@ namespace GameEngine.Generator.Modifiers
             }
 
             private static HashSet<string> GetSubsumed(ImmutableList<Condition> conditions) =>
-                conditions.Select(c => c.Name).SelectMany(c => subsume.ContainsKey(c)
-                                    ? subsume[c]
+                conditions.Select(c => c.Name).SelectMany(c => basicConditions.ContainsKey(c) && basicConditions[c].Subsumes.Any()
+                                    ? basicConditions[c].Subsumes
                                     : Enumerable.Empty<string>()).ToHashSet();
 
             public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) =>
@@ -205,11 +275,11 @@ namespace GameEngine.Generator.Modifiers
 
         public record Condition(string Name)
         {
-            public virtual double Cost() => basicConditions[Name].cost;
+            public virtual double Cost() => basicConditions[Name].Cost;
             public virtual IEnumerable<Condition> GetUpgrades(PowerHighLevelInfo powerInfo) =>
                 Enumerable.Empty<Condition>();
-            public virtual string Verb(Target target) => target == Target.Self ? basicConditions[Name].selfVerb : basicConditions[Name].otherVerb;
-            public virtual string Effect() => basicConditions[Name].effect;
+            public virtual string Verb(Target target) => target == Target.Self ? basicConditions[Name].SelfVerb : basicConditions[Name].OtherVerb;
+            public virtual string Effect() => basicConditions[Name].Effect;
         }
 
         public record OngoingDamage(int Amount) : Condition("Ongoing")
