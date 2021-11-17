@@ -31,79 +31,79 @@ namespace GameEngine.Generator.Modifiers
         private static readonly ImmutableSortedDictionary<string, ConditionDefinition> basicConditions =
             new ConditionDefinition[]
             {
-                new (Name: "Blinded", 
+                new (Name: "Blinded",
                     Subsumes: Empty.Add("Grants Combat Advantage"),
-                    AllowDirectApplication: true, Cost: 1, 
+                    AllowDirectApplication: true, Cost: 1,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Blinded"
                 ),
-                new (Name: "Dazed", 
+                new (Name: "Dazed",
                     Subsumes: Empty.Add("Grants Combat Advantage"),
-                    AllowDirectApplication: true, Cost: 0.5, 
+                    AllowDirectApplication: true, Cost: 0.5,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Dazed"
                 ),
-                new (Name: "Deafened", 
-                    AllowDirectApplication: true, Cost: 0.5, 
+                new (Name: "Deafened",
+                    AllowDirectApplication: true, Cost: 0.5,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Deafened"
                 ),
-                new (Name: "Dominated", 
+                new (Name: "Dominated",
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Grants Combat Advantage" }),
                     AllowDirectApplication: false, Cost: 2, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Dominated"
                 ),
-                new (Name: "Dying", 
+                new (Name: "Dying",
                     Subsumes: Empty.AddRange(new[] { "Unconscious", "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                    AllowDirectApplication: false, Cost: 4, 
+                    AllowDirectApplication: false, Cost: 4,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Dying"
                 ),
-                new (Name: "Grants Combat Advantage", 
-                    AllowDirectApplication: true, Cost: 0.5, 
+                new (Name: "Grants Combat Advantage",
+                    AllowDirectApplication: true, Cost: 0.5,
                     OtherVerb: "grants", SelfVerb: "grant", Effect: "Combat Advantage"
                 ),
-                new (Name: "Helpless", 
+                new (Name: "Helpless",
                     Subsumes: Empty.AddRange(new[] { "Grants Combat Advantage" }),
                     AllowDirectApplication: false, Cost: 1.5, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Helpless"
                 ),
-                new (Name: "Immobilized", 
+                new (Name: "Immobilized",
                     Subsumes: Empty.AddRange(new[] { "Slowed" }),
-                    AllowDirectApplication: false, Cost: 1, 
+                    AllowDirectApplication: false, Cost: 1,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Immobilized"
                 ),
-                new (Name: "Marked", 
+                new (Name: "Marked",
                     AllowDirectApplication: true, Cost: 0.5, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Marked"
                 ),
-                new (Name: "Petrified", 
+                new (Name: "Petrified",
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed" }),
                     AllowDirectApplication: false, Cost: 2, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Petrified"
                 ),
-                new (Name: "Restrained", 
+                new (Name: "Restrained",
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed" }),
                     AllowDirectApplication: true, Cost: 2, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Restrained"
                 ),
-                new (Name: "Slowed", 
-                    AllowDirectApplication: true, Cost: 0.5, 
+                new (Name: "Slowed",
+                    AllowDirectApplication: true, Cost: 0.5,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Slowed"
                 ),
-                new (Name: "Stunned", 
+                new (Name: "Stunned",
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
                     AllowDirectApplication: true, Cost: 1, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Stunned"
                 ),
-                new (Name: "Surprised", 
+                new (Name: "Surprised",
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Grants Combat Advantage" }),
                     AllowDirectApplication: true, Cost: 1, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Surprised"
                 ),
-                new (Name: "Unconscious", 
+                new (Name: "Unconscious",
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                    AllowDirectApplication: false, Cost: 2, 
+                    AllowDirectApplication: false, Cost: 2,
                     OtherVerb: "becomes", SelfVerb: "become", Effect: "Unconscious"
                 ),
-                new (Name: "Weakened", 
-                    AllowDirectApplication: true, Cost: 1, 
+                new (Name: "Weakened",
+                    AllowDirectApplication: true, Cost: 1,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Weakened"
                 ),
             }.ToImmutableSortedDictionary(e => e.Name, e => e);
@@ -188,7 +188,9 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record ConditionModifier(EquatableImmutableList<Condition> Conditions) : EffectModifier(ModifierName)
+        public record AfterEffect(Condition Condition, bool AfterFailedSave);
+
+        public record ConditionModifier(EquatableImmutableList<Condition> Conditions, AfterEffect? AfterEffect = null) : EffectModifier(ModifierName)
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
             public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) =>
@@ -199,38 +201,33 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsBeneficial() => false;
             public override bool IsHarmful() => true;
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) || target.EffectType != EffectType.Harmful
-                    ? Enumerable.Empty<IEffectModifier>()
-                    : from set in new[]
-                      {
-                          from basicCondition in basicConditions.Keys
-                          where basicConditions[basicCondition].AllowDirectApplication
-                          where !Conditions.Select(b => b.Name).Contains(basicCondition)
-                          where !GetSubsumed(Conditions).Contains(basicCondition)
-                          select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
-
-                          from defenseCondition in DefenseConditions
-                          where !Conditions.OfType<DefensePenalty>().Any() // only allow one defense penalty
-                          select this with { Conditions = Conditions.Items.Add(defenseCondition) },
-
-                          from condition in Conditions
-                          from upgrade in condition.GetUpgrades(power.PowerInfo)
-                          select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
-                      }
-                      from mod in set
-                      select mod;
-
-            private static ImmutableList<Condition> Filter(ImmutableList<Condition> conditions)
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power)
             {
-                var subsumed = GetSubsumed(conditions);
-                return conditions.Where(c => !subsumed.Contains(c.Name)).ToImmutableList();
-            }
+                if (stage < UpgradeStage.Standard)
+                    return Enumerable.Empty<IEffectModifier>();
+                if (target.EffectType != EffectType.Harmful)
+                    return Enumerable.Empty<IEffectModifier>();
+                if (AfterEffect != null)
+                    return Enumerable.Empty<IEffectModifier>();
+                return from set in new[]
+                {
+                    from basicCondition in basicConditions.Keys
+                    where basicConditions[basicCondition].AllowDirectApplication
+                    where !Conditions.Select(b => b.Name).Contains(basicCondition)
+                    where !GetSubsumed(Conditions).Contains(basicCondition)
+                    select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
 
-            private static HashSet<string> GetSubsumed(ImmutableList<Condition> conditions) =>
-                conditions.Select(c => c.Name).SelectMany(c => basicConditions.ContainsKey(c) && basicConditions[c].Subsumes.Any()
-                                    ? basicConditions[c].Subsumes
-                                    : Enumerable.Empty<string>()).ToHashSet();
+                    from defenseCondition in DefenseConditions
+                    where !Conditions.OfType<DefensePenalty>().Any() // only allow one defense penalty
+                    select this with { Conditions = Conditions.Items.Add(defenseCondition) },
+
+                    from condition in Conditions
+                    from upgrade in condition.GetUpgrades(power.PowerInfo)
+                    select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
+                }
+                from mod in set
+                select mod;
+            }
 
             public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) =>
                 new(0, (target) => target with
@@ -256,6 +253,17 @@ namespace GameEngine.Generator.Modifiers
             }
 
         }
+
+        private static ImmutableList<Condition> Filter(ImmutableList<Condition> conditions)
+        {
+            var subsumed = GetSubsumed(conditions);
+            return conditions.Where(c => !subsumed.Contains(c.Name)).ToImmutableList();
+        }
+
+        private static HashSet<string> GetSubsumed(ImmutableList<Condition> conditions) =>
+            conditions.Select(c => c.Name).SelectMany(c => basicConditions.ContainsKey(c) && basicConditions[c].Subsumes.Any()
+                                ? basicConditions[c].Subsumes
+                                : Enumerable.Empty<string>()).ToHashSet();
 
         public record Condition(string Name)
         {
