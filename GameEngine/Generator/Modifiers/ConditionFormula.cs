@@ -67,6 +67,8 @@ namespace GameEngine.Generator.Modifiers
 
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
         {
+            if (power.HasDuration())
+                yield break;
             foreach (var entry in from condition in GetBaseConditions()
                                   from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
                                   select new EffectAndDurationModifier(duration, new ConditionModifier(ImmutableList<Condition>.Empty.Add(condition))))
@@ -123,7 +125,7 @@ namespace GameEngine.Generator.Modifiers
                         yield return AddEffect(new TargetEffect(new BasicTarget(Target.Enemy), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier)));
                 }
 
-                PowerProfileBuilder ApplyAttackEffect(TargetEffect effect, int attackIndex, int effectIndex) => 
+                PowerProfileBuilder ApplyAttackEffect(TargetEffect effect, int attackIndex, int effectIndex) =>
                     next with { Attacks = next.Attacks.SetItem(attackIndex, next.Attacks[attackIndex] with { Effects = next.Attacks[attackIndex].Effects.Items.SetItem(effectIndex, effect) }) };
                 PowerProfileBuilder AddAttackEffect(TargetEffect effect, int attackIndex) =>
                     next with { Attacks = next.Attacks.SetItem(attackIndex, next.Attacks[attackIndex] with { Effects = next.Attacks[attackIndex].Effects.Items.Add(effect) }) };

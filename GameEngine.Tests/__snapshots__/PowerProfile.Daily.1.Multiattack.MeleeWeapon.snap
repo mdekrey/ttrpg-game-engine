@@ -5,10 +5,6 @@ Attacks:
 - Ability: Strength
   Effects:
   - Target:
-      EffectModifier:
-        Conditions:
-        - Name: Dazed
-        Name: Condition
       Name: TwoHits
     EffectType: Harmful
     Modifiers:
@@ -18,16 +14,16 @@ Attacks:
       Name: Damage
   Modifiers: []
 Modifiers:
+- Duration: SaveEnds
+  Name: Duration
 - PowerSource: Martial
   Name: Power Source
 Effects:
 - Target:
-    Target: Ally
+    Target: Enemy
     Name: Basic Target
-  EffectType: Beneficial
+  EffectType: Harmful
   Modifiers:
-  - Boosts:
-    - Amount: +2
-      Limit: NextAttack
-      Name: Attack
-    Name: Boost
+  - Conditions:
+    - Name: Dazed
+    Name: Condition

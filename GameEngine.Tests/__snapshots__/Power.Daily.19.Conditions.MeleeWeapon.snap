@@ -8,18 +8,20 @@
       Effects:
       - Target:
           Target: Enemy, Self, Ally
-          Size: 3
-          Type: Burst
-          Name: Multiple
+          Name: Basic Target
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Name: Blinded
-          Name: Condition
-        - Damage: 1[W] + STR + DEX
+        - Damage: 1[W] + STR
           DamageTypes:
           - Normal
           Name: Damage
+        - Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          Name: Condition
+        - Conditions:
+          - Name: Unconscious
+          Name: Condition
       Modifiers: []
     Modifiers:
     - Duration: SaveEnds
@@ -34,10 +36,10 @@
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Close
-  AttackTypeDetails: burst 1
-  Target: Each creature
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR + DEX damage, and the target is blinded (save ends.)
+    Text: 1[W] + STR damage, and the target is blinded and dazed (save ends) and becomes unconscious (save ends.)

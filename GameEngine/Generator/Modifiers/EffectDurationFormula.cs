@@ -42,6 +42,9 @@ namespace GameEngine.Generator.Modifiers
 
     public static class EffectDurationFormulaExtensions
     {
+        public static bool HasDuration(this PowerProfileBuilder powerProfileBuilder) =>
+            powerProfileBuilder.Modifiers.OfType<EffectDurationFormula.EffectDurationModifier>().SingleOrDefault() is not null;
+
         public static Duration GetDuration(this PowerProfileBuilder powerProfileBuilder) =>
             powerProfileBuilder.Modifiers.OfType<EffectDurationFormula.EffectDurationModifier>().SingleOrDefault()?.Duration ?? Duration.EndOfUserNextTurn;
 

@@ -15,11 +15,14 @@
           - Normal
           Name: Damage
         - Conditions:
-          - Name: Blinded
           - Name: Dazed
           Name: Condition
-      Modifiers: []
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
     Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -33,7 +36,7 @@
   AttackType: Melee
   AttackTypeDetails: weapon
   Target: One, two, or three creatures
-  Attack: STR vs. AC, one attack per target
+  Attack: STR vs. Fortitude, one attack per target
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is blinded and dazed until the end of your next turn.
+    Text: 1[W] + STR damage, and the target is dazed (save ends.)
