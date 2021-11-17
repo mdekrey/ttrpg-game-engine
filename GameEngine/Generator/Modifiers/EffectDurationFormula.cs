@@ -33,6 +33,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power)
             {
+                // Can't upgrade effect duration; the ConditionFormula depends upon this staying steady
                 yield break;
             }
 

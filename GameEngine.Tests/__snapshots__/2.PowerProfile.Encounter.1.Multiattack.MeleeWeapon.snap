@@ -29,6 +29,8 @@ Attacks:
   Modifiers:
   - Name: RequiresPreviousHit
 Modifiers:
+- Duration: EndOfUserNextTurn
+  Name: Duration
 - PowerSource: Martial
   Name: Power Source
 Effects:
@@ -39,5 +41,6 @@ Effects:
   Modifiers:
   - Boosts:
     - Amount: +2
-      Name: Temporary Hit Points
+      Limit: Target
+      Name: Attack
     Name: Boost

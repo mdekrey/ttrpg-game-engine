@@ -23,21 +23,38 @@ namespace GameEngine.Generator.Modifiers
         private static readonly ImmutableSortedDictionary<string, ImmutableList<string>> subsume =
             new[]
             {
-                (Parent: "Immobilized", Children: new[] { "Slowed" }),
+                (Parent: "Blinded", Children: new[] { "Grants Combat Advantage" }),
                 (Parent: "Dazed", Children: new[] { "Grants Combat Advantage" }),
-                (Parent: "Unconscious", Children: new[] { "Immobilized", "Dazed", "Slowed", "Weakened", "Blinded", "Grants Combat Advantage" }),
+                (Parent: "Dominated", Children: new[] { "Dazed", "Grants Combat Advantage" }),
+                (Parent: "Dying", Children: new[] { "Unconscious", "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
+                (Parent: "Helpless", Children: new[] { "Grants Combat Advantage" }),
+                (Parent: "Immobilized", Children: new[] { "Slowed" }),
+                (Parent: "Petrified", Children: new[] { "Immobilized", "Slowed" }),
+                (Parent: "Restrained", Children: new[] { "Immobilized", "Slowed" }),
+                (Parent: "Stunned", Children: new[] { "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
+                (Parent: "Surprised", Children: new[] { "Dazed", "Grants Combat Advantage" }),
+                (Parent: "Unconscious", Children: new[] { "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
             }.ToImmutableSortedDictionary(e => e.Parent, e => e.Children.ToImmutableList());
 
         private static readonly ImmutableSortedDictionary<string, (double cost, string otherVerb, string selfVerb, string effect)> basicConditions =
             new[]
             {
-                (Condition: "Slowed", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Slowed"),
-                (Condition: "Dazed", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Dazed"),
-                (Condition: "Immobilized", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Immobilized"),
-                (Condition: "Weakened", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Weakened"),
-                (Condition: "Grants Combat Advantage", Cost: 0.5, OtherVerb: "grants", SelfVerb: "grant", Effect: "Combat Advantage"),
                 (Condition: "Blinded", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Blinded"),
+                (Condition: "Dazed", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Dazed"),
+                (Condition: "Deafened", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Deafened"),
+                (Condition: "Dominated", Cost: 2, OtherVerb: "is", SelfVerb: "are", Effect: "Dominated"), // TODO - check cost
+                //(Condition: "Dying", Cost: , OtherVerb: "is", SelfVerb: "are", Effect: "Dying"),
+                (Condition: "Grants Combat Advantage", Cost: 0.5, OtherVerb: "grants", SelfVerb: "grant", Effect: "Combat Advantage"),
+                (Condition: "Helpless", Cost: 1.5, OtherVerb: "is", SelfVerb: "are", Effect: "Helpless"), // TODO - check cost
+                (Condition: "Immobilized", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Immobilized"),
+                (Condition: "Marked", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Marked"), // TODO - check cost
+                (Condition: "Petrified", Cost: 2, OtherVerb: "is", SelfVerb: "are", Effect: "Petrified"), // TODO - ccheck cost
+                (Condition: "Restrained", Cost: 2, OtherVerb: "is", SelfVerb: "are", Effect: "Restrained"), // TODO - check cost
+                (Condition: "Slowed", Cost: 0.5, OtherVerb: "is", SelfVerb: "are", Effect: "Slowed"),
+                (Condition: "Stunned", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Stunned"), // TODO - check cost
+                (Condition: "Surprised", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Surprised"), // TODO - check cost
                 (Condition: "Unconscious", Cost: 2, OtherVerb: "becomes", SelfVerb: "become", Effect: "Unconscious"),
+                (Condition: "Weakened", Cost: 1, OtherVerb: "is", SelfVerb: "are", Effect: "Weakened"),
             }.ToImmutableSortedDictionary(e => e.Condition, e => (e.Cost, e.OtherVerb, e.SelfVerb, e.Effect));
         private static readonly ImmutableList<Condition> DefenseConditions = new Condition[]
         {

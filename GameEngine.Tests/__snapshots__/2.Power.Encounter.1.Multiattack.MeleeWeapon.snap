@@ -31,6 +31,8 @@
       Modifiers:
       - Name: RequiresPreviousHit
     Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects:
@@ -41,7 +43,8 @@
       Modifiers:
       - Boosts:
         - Amount: +2
-          Name: Temporary Hit Points
+          Limit: Target
+          Name: Attack
         Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
@@ -64,4 +67,4 @@
   - Label: Secondary Hit
     Text: 1[W] + STR damage.
   - Label: Effect
-    Text: You gain +2 temporary hit points.
+    Text: You gain a +2 power bonus to attack rolls against the target until the end of your next turn.
