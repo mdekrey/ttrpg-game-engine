@@ -13,7 +13,7 @@
           Name: Multiple
         EffectType: Harmful
         Modifiers:
-        - Damage: d4 + STR
+        - Damage: d6 + STR
           DamageTypes:
           - Radiant
           Name: Damage
@@ -33,6 +33,10 @@
       Modifiers:
       - Conditions:
         - Name: Blinded
+        AfterEffect:
+          Condition:
+            Name: Grants Combat Advantage
+          AfterFailedSave: true
         Name: Condition
 - Name: Unknown
   TypeInfo: Implement Attack 1
@@ -47,6 +51,6 @@
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d4 + STR radiant damage.
+    Text: d6 + STR radiant damage.
   - Label: Effect
     Text: One enemy is blinded (save ends.)

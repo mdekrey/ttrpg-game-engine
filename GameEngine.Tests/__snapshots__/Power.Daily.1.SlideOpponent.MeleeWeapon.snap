@@ -11,18 +11,22 @@
           Name: Basic Target
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
-          Name: Damage
-        - Conditions:
-          - Name: Blinded
-          Name: Condition
         - Effects:
           - Mode: Slide
             Amount: +2
             Name: Slide Opponent
           Name: MovementControl
+        - Conditions:
+          - Name: Blinded
+          AfterEffect:
+            Condition:
+              Name: Grants Combat Advantage
+            AfterFailedSave: true
+          Name: Condition
+        - Damage: 1[W] + STR + DEX
+          DamageTypes:
+          - Normal
+          Name: Damage
       Modifiers: []
     Modifiers:
     - Duration: SaveEnds
@@ -43,4 +47,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is blinded (save ends.) You slide the target +2 squares.
+    Text: 1[W] + STR + DEX damage, and the target is blinded (save ends.) You slide the target +2 squares.

@@ -11,7 +11,7 @@
           Name: Basic Target
         EffectType: Harmful
         Modifiers:
-        - Damage: d10 + STR
+        - Damage: d4 + STR
           DamageTypes:
           - Radiant
           Name: Damage
@@ -36,6 +36,6 @@
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d10 + STR radiant damage.
+    Text: d4 + STR radiant damage.
   - Label: Special
     Text: This power counts as a ranged basic attack. When a power allows you to make a ranged basic attack, you can use this power.

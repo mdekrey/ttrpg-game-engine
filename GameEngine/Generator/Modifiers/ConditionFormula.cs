@@ -194,7 +194,17 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
             public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) =>
-                new PowerCost(Fixed: Conditions.Select(c => c.Cost() * DurationMultiplier(power.GetDuration())).Sum());
+                new PowerCost(Fixed: 
+                    AfterEffect switch
+                    {
+                        null => Conditions.Select(c => c.Cost() * DurationMultiplier(power.GetDuration())).Sum(),
+                        { Condition: var afterEffect, AfterFailedSave: false } => 
+                            Conditions.Select(c => c.Cost() * DurationMultiplier(Duration.SaveEnds)).Sum()
+                            + afterEffect.Cost() * DurationMultiplier(Duration.SaveEnds),
+                        { Condition: var afterEffect, AfterFailedSave: true } =>
+                            Conditions.Select(c => c.Cost() * DurationMultiplier(Duration.EndOfUserNextTurn)).Sum()
+                            + afterEffect.Cost() * DurationMultiplier(Duration.SaveEnds) / 2
+                    });
             public override bool IsPlaceholder() => Conditions.Count == 0;
             public override bool UsesDuration() => Conditions.Any();
             public override bool IsInstantaneous() => false;
@@ -216,6 +226,18 @@ namespace GameEngine.Generator.Modifiers
                     where !Conditions.Select(b => b.Name).Contains(basicCondition)
                     where !GetSubsumed(Conditions).Contains(basicCondition)
                     select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
+
+                    from basicCondition in basicConditions.Keys
+                    where !Conditions.Select(b => b.Name).Contains(basicCondition)
+                    let newCondition = new Condition(basicCondition)
+                    where Filter(Conditions.Items.Add(newCondition)).Count == 1 // the new condition subsumes all other conditions
+                    select this with { AfterEffect = new (newCondition, true) },
+
+                    from basicCondition in basicConditions.Keys
+                    where !Conditions.Select(b => b.Name).Contains(basicCondition)
+                    where GetSubsumed(Conditions).Contains(basicCondition)
+                    let newCondition = new Condition(basicCondition) // the new condition is a lesser version of one of the others already applied
+                    select this with { AfterEffect = new (newCondition, false) },
 
                     from defenseCondition in DefenseConditions
                     where !Conditions.OfType<DefensePenalty>().Any() // only allow one defense penalty

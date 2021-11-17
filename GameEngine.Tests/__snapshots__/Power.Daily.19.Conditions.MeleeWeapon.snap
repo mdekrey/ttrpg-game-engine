@@ -23,6 +23,10 @@
           - Name: Blinded
           - Name: Dazed
           - Name: Deafened
+          AfterEffect:
+            Condition:
+              Name: Unconscious
+            AfterFailedSave: true
           Name: Condition
       Modifiers: []
     Modifiers:

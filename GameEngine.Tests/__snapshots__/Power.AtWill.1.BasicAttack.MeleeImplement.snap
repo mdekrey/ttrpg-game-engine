@@ -11,7 +11,7 @@
           Name: Basic Target
         EffectType: Harmful
         Modifiers:
-        - Damage: d10 + WIS
+        - Damage: d4 + WIS
           DamageTypes:
           - Normal
           Name: Damage
@@ -36,6 +36,6 @@
   Attack: WIS vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d10 + WIS damage.
+    Text: d4 + WIS damage.
   - Label: Special
     Text: This power counts as a melee basic attack. When a power allows you to make a melee basic attack, you can use this power.

@@ -19,7 +19,7 @@ Attacks:
     EffectType: Beneficial
     Modifiers:
     - Boosts:
-      - Amount: +4
+      - Amount: +2
         Limit: NextAttack
         Name: Attack
       Name: Boost

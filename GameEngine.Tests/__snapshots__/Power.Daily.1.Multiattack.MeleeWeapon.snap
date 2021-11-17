@@ -28,6 +28,10 @@
       Modifiers:
       - Conditions:
         - Name: Dazed
+        AfterEffect:
+          Condition:
+            Name: Grants Combat Advantage
+          AfterFailedSave: true
         Name: Condition
 - Name: Unknown
   TypeInfo: Weapon Attack 1

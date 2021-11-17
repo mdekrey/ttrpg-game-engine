@@ -15,6 +15,10 @@
           - Name: Blinded
           - Name: Deafened
           - Name: Stunned
+          AfterEffect:
+            Condition:
+              Name: Unconscious
+            AfterFailedSave: true
           Name: Condition
         - Damage: 1[W] + STR + DEX
           DamageTypes:

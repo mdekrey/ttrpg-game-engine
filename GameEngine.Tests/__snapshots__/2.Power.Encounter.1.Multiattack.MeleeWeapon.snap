@@ -31,8 +31,6 @@
       Modifiers:
       - Name: RequiresPreviousHit
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects:
@@ -41,11 +39,10 @@
         Name: Basic Target
       EffectType: Beneficial
       Modifiers:
-      - Boosts:
+      - Movement:
         - Amount: +2
-          Limit: Target
-          Name: Attack
-        Name: Boost
+          Name: Shift
+        Name: Skirmish Movement
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Encounter
@@ -67,4 +64,4 @@
   - Label: Secondary Hit
     Text: 1[W] + STR damage.
   - Label: Effect
-    Text: You gain a +2 power bonus to attack rolls against the target until the end of your next turn.
+    Text: You may shift +2 squares.

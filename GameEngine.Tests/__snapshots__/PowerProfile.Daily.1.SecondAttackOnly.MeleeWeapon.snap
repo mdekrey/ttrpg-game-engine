@@ -15,6 +15,10 @@ Attacks:
       Name: Damage
     - Conditions:
       - Name: Dazed
+      AfterEffect:
+        Condition:
+          Name: Grants Combat Advantage
+        AfterFailedSave: true
       Name: Condition
     - Effects:
       - Mode: Pull

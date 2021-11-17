@@ -11,7 +11,7 @@
           Name: Basic Target
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR + DEX
+        - Damage: 1[W] + STR
           DamageTypes:
           - Normal
           Name: Damage
@@ -36,4 +36,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR + DEX damage.
+    Text: 1[W] + STR damage.
