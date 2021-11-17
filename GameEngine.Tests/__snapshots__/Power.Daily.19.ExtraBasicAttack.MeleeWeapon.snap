@@ -12,9 +12,9 @@
         EffectType: Harmful
         Modifiers:
         - Conditions:
-          - Name: Unconscious
-          - Defense: ArmorClass
-            Name: Defense Penalty
+          - Name: Blinded
+          - Name: Deafened
+          - Name: Stunned
           Name: Condition
         - Damage: 1[W] + STR + DEX
           DamageTypes:
@@ -47,4 +47,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR + DEX damage, and the target becomes unconscious and takes a -2 penalty to its ac (save ends.) One of your allies may immediately make a basic attack as a free action and add STR to the damage.
+    Text: 1[W] + STR + DEX damage, and the target is blinded, deafened, and stunned (save ends.) One of your allies may immediately make a basic attack as a free action and add STR to the damage.

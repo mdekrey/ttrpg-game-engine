@@ -18,7 +18,9 @@ Attacks:
       - Name: Dazed
       Name: Condition
     - Conditions:
-      - Name: Unconscious
+      - Name: Blinded
+      - Name: Dazed
+      - Name: Deafened
       Name: Condition
   Modifiers: []
 Modifiers:

@@ -33,93 +33,77 @@ namespace GameEngine.Generator.Modifiers
             {
                 new (Name: "Blinded", 
                     Subsumes: Empty.Add("Grants Combat Advantage"),
-                    AllowDirectApplication: true,
-                    Cost: 1, 
+                    AllowDirectApplication: true, Cost: 1, 
                     OtherVerb: "is", SelfVerb: "are", Effect: "Blinded"
                 ),
                 new (Name: "Dazed", 
                     Subsumes: Empty.Add("Grants Combat Advantage"),
-                    AllowDirectApplication: true,
-                    Cost: 0.5, 
+                    AllowDirectApplication: true, Cost: 0.5, 
                     OtherVerb: "is", SelfVerb: "are", Effect: "Dazed"
                 ),
                 new (Name: "Deafened", 
-                    AllowDirectApplication: true,
-                    Cost: 0.5, 
+                    AllowDirectApplication: true, Cost: 0.5, 
                     OtherVerb: "is", SelfVerb: "are", Effect: "Deafened"
                 ),
                 new (Name: "Dominated", 
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Grants Combat Advantage" }),
-                    AllowDirectApplication: true, // TODO - make false
-                    Cost: 2, // TODO - check cost
+                    AllowDirectApplication: false, Cost: 2, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Dominated"
                 ),
                 new (Name: "Dying", 
                     Subsumes: Empty.AddRange(new[] { "Unconscious", "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                    AllowDirectApplication: false,
-                    Cost: 4, 
+                    AllowDirectApplication: false, Cost: 4, 
                     OtherVerb: "is", SelfVerb: "are", Effect: "Dying"
                 ),
                 new (Name: "Grants Combat Advantage", 
-                    AllowDirectApplication: true,
-                    Cost: 0.5, 
+                    AllowDirectApplication: true, Cost: 0.5, 
                     OtherVerb: "grants", SelfVerb: "grant", Effect: "Combat Advantage"
                 ),
                 new (Name: "Helpless", 
                     Subsumes: Empty.AddRange(new[] { "Grants Combat Advantage" }),
-                    AllowDirectApplication: true, // TODO - make false
-                    Cost: 1.5, // TODO - check cost
+                    AllowDirectApplication: false, Cost: 1.5, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Helpless"
                 ),
                 new (Name: "Immobilized", 
                     Subsumes: Empty.AddRange(new[] { "Slowed" }),
-                    AllowDirectApplication: true, // TODO - make false
-                    Cost: 1, 
+                    AllowDirectApplication: false, Cost: 1, 
                     OtherVerb: "is", SelfVerb: "are", Effect: "Immobilized"
                 ),
                 new (Name: "Marked", 
-                    AllowDirectApplication: true,
-                    Cost: 0.5, // TODO - check cost
+                    AllowDirectApplication: true, Cost: 0.5, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Marked"
                 ),
                 new (Name: "Petrified", 
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed" }),
-                    AllowDirectApplication: true, // TODO - make false
-                    Cost: 2, // TODO - check cost
+                    AllowDirectApplication: false, Cost: 2, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Petrified"
                 ),
                 new (Name: "Restrained", 
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed" }),
-                    AllowDirectApplication: true,
-                    Cost: 2, // TODO - check cost
+                    AllowDirectApplication: true, Cost: 2, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Restrained"
                 ),
                 new (Name: "Slowed", 
-                    AllowDirectApplication: true,
-                    Cost: 0.5, 
+                    AllowDirectApplication: true, Cost: 0.5, 
                     OtherVerb: "is", SelfVerb: "are", Effect: "Slowed"
                 ),
                 new (Name: "Stunned", 
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                    AllowDirectApplication: true,
-                    Cost: 1, // TODO - check cost
+                    AllowDirectApplication: true, Cost: 1, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Stunned"
                 ),
                 new (Name: "Surprised", 
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Grants Combat Advantage" }),
-                    AllowDirectApplication: true,
-                    Cost: 1, // TODO - check cost
+                    AllowDirectApplication: true, Cost: 1, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Surprised"
                 ),
                 new (Name: "Unconscious", 
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                    AllowDirectApplication: true, // TODO - make false
-                    Cost: 2, 
+                    AllowDirectApplication: false, Cost: 2, 
                     OtherVerb: "becomes", SelfVerb: "become", Effect: "Unconscious"
                 ),
                 new (Name: "Weakened", 
-                    AllowDirectApplication: true,
-                    Cost: 1, 
+                    AllowDirectApplication: true, Cost: 1, 
                     OtherVerb: "is", SelfVerb: "are", Effect: "Weakened"
                 ),
             }.ToImmutableSortedDictionary(e => e.Name, e => e);

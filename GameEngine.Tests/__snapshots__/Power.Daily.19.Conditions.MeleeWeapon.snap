@@ -20,7 +20,9 @@
           - Name: Dazed
           Name: Condition
         - Conditions:
-          - Name: Unconscious
+          - Name: Blinded
+          - Name: Dazed
+          - Name: Deafened
           Name: Condition
       Modifiers: []
     Modifiers:
@@ -42,4 +44,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is blinded and dazed (save ends) and becomes unconscious (save ends.)
+    Text: 1[W] + STR damage, and the target is blinded and dazed (save ends) and is blinded, dazed, and deafened (save ends.)
