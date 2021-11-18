@@ -21,7 +21,7 @@ namespace GameEngine.Generator.Text
 
             return (
                 DamageExpression + join + OxfordComma(Parts.ToArray())
-            ).FinishSentence().TransposeParenthesis();
+            ).FinishSentence();
         }
     }
 }

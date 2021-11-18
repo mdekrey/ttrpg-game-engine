@@ -41,4 +41,4 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is slowed (save ends.) If the target fails its first saving throw against this power, the target becomes unconscious (save ends.)
+    Text: 1[W] + STR damage, and the target is slowed (save ends). If the target fails its first saving throw against this power, the target becomes unconscious (save ends).

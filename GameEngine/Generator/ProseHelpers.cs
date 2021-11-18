@@ -23,16 +23,8 @@ namespace GameEngine.Generator
 
         public static string FinishSentence(this string text)
         {
-            if (!text.EndsWith(".") && !text.EndsWith(".)"))
-                return (text + ".").TransposeParenthesis();
-            return text;
-        }
-
-        public static string TransposeParenthesis(this string text)
-        {
-            // English is weird, man.
-            if (text.EndsWith(").") || text.EndsWith("),"))
-                return text[0..^2] + text[^1] + ")";
+            if (!text.EndsWith("."))
+                return (text + ".");
             return text;
         }
 

@@ -291,7 +291,7 @@ namespace GameEngine.Generator.Modifiers
                 switch (AfterEffect)
                 {
                     case { AfterFailedSave: true, Condition: var condition }:
-                        yield return $"If the target fails its first saving throw against this power, the target {condition.Verb(effect.Target.GetTarget())} {condition.Effect().ToLower()} (save ends.)";
+                        yield return $"If the target fails its first saving throw against this power, the target {condition.Verb(effect.Target.GetTarget())} {condition.Effect().ToLower()} (save ends).";
                         break;
                 }
             }
