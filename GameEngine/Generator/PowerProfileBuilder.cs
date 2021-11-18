@@ -36,12 +36,12 @@ namespace GameEngine.Generator
         {
             var builder = ApplyWeaponDice();
             return new PowerProfile(
-                builder.PowerInfo.Usage,
-                builder.PowerInfo.ToolProfile.Type,
-                builder.PowerInfo.ToolProfile.Range,
-                builder.Attacks.Select(a => a.Build()).ToImmutableList(),
-                builder.Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList(),
-                builder.Effects.Select(e => e.WithoutPlaceholders()).ToImmutableList()
+                Usage: builder.PowerInfo.Usage,
+                Tool: builder.PowerInfo.ToolProfile.Type,
+                ToolRange: builder.PowerInfo.ToolProfile.Range,
+                Attacks: builder.Attacks.Select(a => a.Build()).ToImmutableList(),
+                Modifiers: builder.Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList(),
+                Effects: builder.Effects.Select(e => e.WithoutPlaceholders()).Where(e => e.Modifiers.Any()).ToImmutableList()
             );
         }
 

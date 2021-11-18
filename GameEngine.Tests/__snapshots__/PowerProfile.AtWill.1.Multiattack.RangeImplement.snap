@@ -8,7 +8,7 @@ Attacks:
       Name: TwoHits
     EffectType: Harmful
     Modifiers:
-    - Damage: d4 + STR
+    - Damage: STR
       DamageTypes:
       - Radiant
       Name: Damage
@@ -16,6 +16,8 @@ Attacks:
   - Defense: Fortitude
     Name: Non-Armor Defense
 Modifiers:
+- Duration: SaveEnds
+  Name: Duration
 - PowerSource: Arcane
   Name: Power Source
 Effects: []

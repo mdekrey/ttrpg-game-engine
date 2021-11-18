@@ -29,15 +29,18 @@ Attacks:
   Modifiers:
   - Name: RequiresPreviousHit
 Modifiers:
+- Duration: EndOfUserNextTurn
+  Name: Duration
 - PowerSource: Martial
   Name: Power Source
 Effects:
 - Target:
-    Target: Self
+    Target: Ally
     Name: Basic Target
   EffectType: Beneficial
   Modifiers:
-  - Movement:
+  - Boosts:
     - Amount: +2
-      Name: Shift
-    Name: Skirmish Movement
+      Defense: Will
+      Name: Defense
+    Name: Boost

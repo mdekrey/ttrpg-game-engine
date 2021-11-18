@@ -16,17 +16,9 @@
           - Normal
           Name: Damage
         - Conditions:
+          - Name: Blinded
           - Name: Dazed
-          AfterEffect:
-            Condition:
-              Name: Grants Combat Advantage
-            AfterFailedSave: true
           Name: Condition
-        - Effects:
-          - Mode: Pull
-            Amount: +1
-            Name: Slide Opponent
-          Name: MovementControl
       Modifiers: []
     - Ability: Strength
       Effects:
@@ -41,8 +33,6 @@
           Name: Damage
       Modifiers: []
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -59,7 +49,7 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is dazed (save ends) and is pulled +1 squares.
+    Text: 1[W] + STR damage, and the target is blinded and dazed until the end of your next turn.
   - Label: Secondary Target
     Text: One creature
   - Label: Secondary Attack

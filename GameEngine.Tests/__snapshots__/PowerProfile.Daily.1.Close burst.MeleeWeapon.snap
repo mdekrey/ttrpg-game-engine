@@ -6,7 +6,7 @@ Attacks:
   Effects:
   - Target:
       Target: Enemy, Self, Ally
-      Size: 3
+      Size: 5
       Type: Burst
       Name: Multiple
     EffectType: Harmful
@@ -17,20 +17,6 @@ Attacks:
       Name: Damage
   Modifiers: []
 Modifiers:
-- Duration: SaveEnds
-  Name: Duration
 - PowerSource: Martial
   Name: Power Source
-Effects:
-- Target:
-    Target: Enemy
-    Name: Basic Target
-  EffectType: Harmful
-  Modifiers:
-  - Conditions:
-    - Name: Dazed
-    AfterEffect:
-      Condition:
-        Name: Grants Combat Advantage
-      AfterFailedSave: true
-    Name: Condition
+Effects: []

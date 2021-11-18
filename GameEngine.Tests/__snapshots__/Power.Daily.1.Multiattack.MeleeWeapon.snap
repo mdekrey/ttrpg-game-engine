@@ -7,6 +7,10 @@
     - Ability: Strength
       Effects:
       - Target:
+          EffectModifier:
+            Conditions:
+            - Name: Dazed
+            Name: Condition
           Name: TwoHits
         EffectType: Harmful
         Modifiers:
@@ -16,23 +20,19 @@
           Name: Damage
       Modifiers: []
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects:
     - Target:
-        Target: Enemy
+        Target: Ally
         Name: Basic Target
-      EffectType: Harmful
+      EffectType: Beneficial
       Modifiers:
-      - Conditions:
-        - Name: Dazed
-        AfterEffect:
-          Condition:
-            Name: Grants Combat Advantage
-          AfterFailedSave: true
-        Name: Condition
+      - Boosts:
+        - Amount: +2
+          Limit: NextAttack
+          Name: Attack
+        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: Daily
@@ -46,6 +46,6 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage.
+    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is dazed until the end of your next turn.
   - Label: Effect
-    Text: One enemy is dazed (save ends.)
+    Text: One of your allies gains a +2 power bonus to attack rolls on the next attack before the end of your next turn.

@@ -238,7 +238,8 @@ namespace GameEngine.Generator.Modifiers
                     from basicCondition in basicConditions.Keys
                     where !Conditions.Select(b => b.Name).Contains(basicCondition)
                     let newCondition = new Condition(basicCondition)
-                    where Filter(Conditions.Items.Add(newCondition)).Count == 1 // the new condition subsumes all other conditions
+                    let filtered = Filter(Conditions.Items.Add(newCondition))
+                    where filtered.Count == 1 && filtered[0].Name == basicCondition // the new condition subsumes all other conditions
                     select this with { AfterEffect = new (newCondition, true) },
 
                     from basicCondition in basicConditions.Keys
@@ -250,6 +251,8 @@ namespace GameEngine.Generator.Modifiers
                     from defenseCondition in DefenseConditions
                     where !Conditions.OfType<DefensePenalty>().Any() // only allow one defense penalty
                     select this with { Conditions = Conditions.Items.Add(defenseCondition) },
+
+                    // TODO - add OngoingDamage
 
                     from condition in Conditions
                     from upgrade in condition.GetUpgrades(power.PowerInfo)
@@ -263,6 +266,7 @@ namespace GameEngine.Generator.Modifiers
                 new(0, (target) => target with
                 {
                     Parts = target.Parts.AddRange(GetParts(effect, power)),
+                    AdditionalSentences = target.AdditionalSentences.AddRange(GetAdditionalSentences(effect, power))
                 });
 
 
@@ -276,10 +280,20 @@ namespace GameEngine.Generator.Modifiers
                     _ => throw new System.NotImplementedException(),
                 };
 
-                var parts = new List<string>();
                 yield return @$"{OxfordComma((from condition in Conditions
                                               group condition.Effect().ToLower() by condition.Verb(effect.Target.GetTarget()) into verbGroup
                                               select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())} {duration}";
+            }
+
+
+            public IEnumerable<string> GetAdditionalSentences(TargetEffect effect, PowerProfile power)
+            {
+                switch (AfterEffect)
+                {
+                    case { AfterFailedSave: true, Condition: var condition }:
+                        yield return $"If the target fails its first saving throw against this power, the target {condition.Verb(effect.Target.GetTarget())} {condition.Effect().ToLower()} (save ends.)";
+                        break;
+                }
             }
 
         }

@@ -14,17 +14,9 @@ Attacks:
       - Normal
       Name: Damage
     - Conditions:
+      - Name: Blinded
       - Name: Dazed
-      AfterEffect:
-        Condition:
-          Name: Grants Combat Advantage
-        AfterFailedSave: true
       Name: Condition
-    - Effects:
-      - Mode: Pull
-        Amount: +1
-        Name: Slide Opponent
-      Name: MovementControl
   Modifiers: []
 - Ability: Strength
   Effects:
@@ -39,8 +31,6 @@ Attacks:
       Name: Damage
   Modifiers: []
 Modifiers:
-- Duration: SaveEnds
-  Name: Duration
 - PowerSource: Martial
   Name: Power Source
 Effects: []
