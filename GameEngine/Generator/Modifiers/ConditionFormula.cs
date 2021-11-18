@@ -20,10 +20,10 @@ namespace GameEngine.Generator.Modifiers
         public record ConditionOptionKey(Condition Condition, Duration Duration);
         public record ConditionOptionValue(PowerCost Cost, int Chances);
 
-        public record ConditionDefinition(string Name, double Cost, string OtherVerb, string SelfVerb, string Effect, bool AllowDirectApplication, ImmutableList<string> Subsumes)
+        public record ConditionDefinition(string Name, double Cost, string OtherVerb, string SelfVerb, string Effect, bool AllowDirectApplication, bool AllowAfterEfect, ImmutableList<string> Subsumes)
         {
-            public ConditionDefinition(string Name, double Cost, string OtherVerb, string SelfVerb, string Effect, bool AllowDirectApplication)
-                : this(Name: Name, Cost: Cost, OtherVerb: OtherVerb, SelfVerb: SelfVerb, Effect: Effect, AllowDirectApplication: AllowDirectApplication, Subsumes: Empty)
+            public ConditionDefinition(string Name, double Cost, string OtherVerb, string SelfVerb, string Effect, bool AllowDirectApplication, bool AllowAfterEfect)
+                : this(Name: Name, Cost: Cost, OtherVerb: OtherVerb, SelfVerb: SelfVerb, Effect: Effect, AllowDirectApplication: AllowDirectApplication, AllowAfterEfect, Subsumes: Empty)
             {
             }
         }
@@ -33,77 +33,77 @@ namespace GameEngine.Generator.Modifiers
             {
                 new (Name: "Blinded",
                     Subsumes: Empty.Add("Grants Combat Advantage"),
-                    AllowDirectApplication: true, Cost: 1,
+                    AllowDirectApplication: true, AllowAfterEfect: true, Cost: 1,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Blinded"
                 ),
                 new (Name: "Dazed",
                     Subsumes: Empty.Add("Grants Combat Advantage"),
-                    AllowDirectApplication: true, Cost: 0.5,
+                    AllowDirectApplication: true, AllowAfterEfect: true, Cost: 0.5,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Dazed"
                 ),
                 new (Name: "Deafened",
-                    AllowDirectApplication: true, Cost: 0.5,
+                    AllowDirectApplication: true, AllowAfterEfect: true, Cost: 0.5,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Deafened"
                 ),
                 new (Name: "Dominated",
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Grants Combat Advantage" }),
-                    AllowDirectApplication: false, Cost: 2, // TODO - check cost
+                    AllowDirectApplication: false, AllowAfterEfect: true, Cost: 2, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Dominated"
                 ),
                 new (Name: "Dying",
                     Subsumes: Empty.AddRange(new[] { "Unconscious", "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                    AllowDirectApplication: false, Cost: 4,
+                    AllowDirectApplication: false, AllowAfterEfect: false, Cost: 4,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Dying"
                 ),
                 new (Name: "Grants Combat Advantage",
-                    AllowDirectApplication: true, Cost: 0.5,
+                    AllowDirectApplication: true, AllowAfterEfect: false, Cost: 0.5,
                     OtherVerb: "grants", SelfVerb: "grant", Effect: "Combat Advantage"
                 ),
                 new (Name: "Helpless",
                     Subsumes: Empty.AddRange(new[] { "Grants Combat Advantage" }),
-                    AllowDirectApplication: false, Cost: 1.5, // TODO - check cost
+                    AllowDirectApplication: false, AllowAfterEfect: false, Cost: 1.5, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Helpless"
                 ),
                 new (Name: "Immobilized",
                     Subsumes: Empty.AddRange(new[] { "Slowed" }),
-                    AllowDirectApplication: false, Cost: 1,
+                    AllowDirectApplication: false, AllowAfterEfect: true, Cost: 1,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Immobilized"
                 ),
                 new (Name: "Marked",
-                    AllowDirectApplication: true, Cost: 0.5, // TODO - check cost
+                    AllowDirectApplication: true, AllowAfterEfect: false, Cost: 0.5, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Marked"
                 ),
                 new (Name: "Petrified",
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed" }),
-                    AllowDirectApplication: false, Cost: 2, // TODO - check cost
+                    AllowDirectApplication: false, AllowAfterEfect: true, Cost: 2, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Petrified"
                 ),
                 new (Name: "Restrained",
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed" }),
-                    AllowDirectApplication: true, Cost: 2, // TODO - check cost
+                    AllowDirectApplication: true, AllowAfterEfect: false, Cost: 2, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Restrained"
                 ),
                 new (Name: "Slowed",
-                    AllowDirectApplication: true, Cost: 0.5,
+                    AllowDirectApplication: true, AllowAfterEfect: true, Cost: 0.5,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Slowed"
                 ),
                 new (Name: "Stunned",
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                    AllowDirectApplication: true, Cost: 1, // TODO - check cost
+                    AllowDirectApplication: true, AllowAfterEfect: true, Cost: 1, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Stunned"
                 ),
                 new (Name: "Surprised",
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Grants Combat Advantage" }),
-                    AllowDirectApplication: true, Cost: 1, // TODO - check cost
+                    AllowDirectApplication: true, AllowAfterEfect: false, Cost: 1, // TODO - check cost
                     OtherVerb: "is", SelfVerb: "are", Effect: "Surprised"
                 ),
                 new (Name: "Unconscious",
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed", "Weakened", "Blinded", "Deafened", "Stunned", "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                    AllowDirectApplication: false, Cost: 2,
+                    AllowDirectApplication: false, AllowAfterEfect: true, Cost: 2,
                     OtherVerb: "becomes", SelfVerb: "become", Effect: "Unconscious"
                 ),
                 new (Name: "Weakened",
-                    AllowDirectApplication: true, Cost: 1,
+                    AllowDirectApplication: true, AllowAfterEfect: true, Cost: 1,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Weakened"
                 ),
             }.ToImmutableSortedDictionary(e => e.Name, e => e);
@@ -143,9 +143,10 @@ namespace GameEngine.Generator.Modifiers
         {
             if (power.HasDuration())
                 yield break;
-            foreach (var entry in from condition in GetBaseConditions()
-                                  from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
-                                  select new EffectAndDurationModifier(duration, new ConditionModifier(ImmutableList<Condition>.Empty.Add(condition))))
+            foreach (var entry in from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
+                                  let p = power.Apply(new EffectDurationFormula.EffectDurationModifier(duration))
+                                  from condition in new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, p.Attacks[0].Effects[0], p.Attacks[0], p)
+                                  select new EffectAndDurationModifier(duration, condition))
             {
                 yield return entry;
             }
@@ -194,11 +195,11 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
             public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) =>
-                new PowerCost(Fixed: 
+                new PowerCost(Fixed:
                     AfterEffect switch
                     {
                         null => Conditions.Select(c => c.Cost() * DurationMultiplier(power.GetDuration())).Sum(),
-                        { Condition: var afterEffect, AfterFailedSave: false } => 
+                        { Condition: var afterEffect, AfterFailedSave: false } =>
                             Conditions.Select(c => c.Cost() * DurationMultiplier(Duration.SaveEnds)).Sum()
                             + afterEffect.Cost() * DurationMultiplier(Duration.SaveEnds),
                         { Condition: var afterEffect, AfterFailedSave: true } =>
@@ -221,6 +222,13 @@ namespace GameEngine.Generator.Modifiers
                     return Enumerable.Empty<IEffectModifier>();
                 return from set in new[]
                 {
+                    from basicCondition in basicConditions.Keys
+                    where Conditions.Count == 0 && power.GetDuration() == Duration.SaveEnds
+                    where basicConditions[basicCondition].Subsumes.Count > 0
+                    from simple in basicConditions[basicCondition].Subsumes
+                    where basicConditions[simple].AllowDirectApplication
+                    select new ConditionModifier(ImmutableList<Condition>.Empty.Add(new Condition(simple)), new AfterEffect(new Condition(basicCondition), true)),
+
                     from basicCondition in basicConditions.Keys
                     where basicConditions[basicCondition].AllowDirectApplication
                     where !Conditions.Select(b => b.Name).Contains(basicCondition)
@@ -247,8 +255,8 @@ namespace GameEngine.Generator.Modifiers
                     from upgrade in condition.GetUpgrades(power.PowerInfo)
                     select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
                 }
-                from mod in set
-                select mod;
+                       from mod in set
+                       select mod;
             }
 
             public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) =>

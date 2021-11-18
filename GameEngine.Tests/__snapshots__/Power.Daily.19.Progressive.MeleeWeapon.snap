@@ -1,0 +1,44 @@
+﻿- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Ability: Strength
+      Effects:
+      - Target:
+          Name: TwoHits
+        EffectType: Harmful
+        Modifiers:
+        - Conditions:
+          - Name: Slowed
+          AfterEffect:
+            Condition:
+              Name: Unconscious
+            AfterFailedSave: true
+          Name: Condition
+        - Damage: 1[W] + STR
+          DamageTypes:
+          - Normal
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 19
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One or two creatures
+  Attack: STR vs. AC, two attacks
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage, and the target is slowed (save ends.) If the target fails its first saving throw against this power, the target becomes unconscious (save ends.)

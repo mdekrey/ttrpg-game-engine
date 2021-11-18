@@ -150,10 +150,10 @@ namespace GameEngine.Generator
             {
                 var oldBuilder = powerProfileBuilder;
                 var upgrades = powerProfileBuilder.GetUpgrades(stage).Where(entry => entry.IsValid());
-                var debugUpgrades = upgrades.ToChances(powerProfileBuilder.PowerInfo.PowerProfileConfig).ToArray();
                 if (preApplyOnce)
                 {
-                    var temp = debugUpgrades.Select(d => d.Result).PreApply();
+                    var preApplyUpgrades = upgrades.ToChances(powerProfileBuilder.PowerInfo.PowerProfileConfig).ToArray();
+                    var temp = preApplyUpgrades.Select(d => d.Result).PreApply();
                     if (temp.Any())
                         upgrades = temp;
                     preApplyOnce = false;
