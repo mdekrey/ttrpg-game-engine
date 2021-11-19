@@ -1,0 +1,44 @@
+﻿- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Ability: Strength
+      Effects:
+      - Target:
+          Name: UpToThreeTargets
+        EffectType: Harmful
+        Modifiers:
+        - Conditions:
+          - Name: Stunned
+          AfterEffect:
+            Condition:
+              Name: Dazed
+            AfterFailedSave: false
+          Name: Condition
+        - Damage: 3[W] + STR + DEX
+          DamageTypes:
+          - Normal
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 19
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One, two, or three creatures
+  Attack: STR vs. AC, one attack per target
+  RulesText:
+  - Label: Hit
+    Text: 3[W] + STR + DEX damage, and the target is stunned (save ends). When the target succeeds against its saving throw against this power, the target is dazed (save ends).

@@ -230,6 +230,13 @@ namespace GameEngine.Generator.Modifiers
                     select new ConditionModifier(ImmutableList<Condition>.Empty.Add(new Condition(simple)), new AfterEffect(new Condition(basicCondition), true)),
 
                     from basicCondition in basicConditions.Keys
+                    where Conditions.Count == 0 && power.GetDuration() == Duration.SaveEnds
+                    where basicConditions[basicCondition].Subsumes.Count > 0
+                    from simple in basicConditions[basicCondition].Subsumes
+                    where basicConditions[simple].AllowDirectApplication
+                    select new ConditionModifier(ImmutableList<Condition>.Empty.Add(new Condition(basicCondition)), new AfterEffect(new Condition(simple), false)),
+
+                    from basicCondition in basicConditions.Keys
                     where basicConditions[basicCondition].AllowDirectApplication
                     where !Conditions.Select(b => b.Name).Contains(basicCondition)
                     where !GetSubsumed(Conditions).Contains(basicCondition)
@@ -292,6 +299,10 @@ namespace GameEngine.Generator.Modifiers
                 {
                     case { AfterFailedSave: true, Condition: var condition }:
                         yield return $"If the target fails its first saving throw against this power, the target {condition.Verb(effect.Target.GetTarget())} {condition.Effect().ToLower()} (save ends).";
+                        break;
+                    case { AfterFailedSave: false, Condition: var condition }:
+                        // 4e used an "Aftereffect" entry, but this makes equal sense
+                        yield return $"When the target succeeds against its saving throw against this power, the target {condition.Verb(effect.Target.GetTarget())} {condition.Effect().ToLower()} (save ends).";
                         break;
                 }
             }
