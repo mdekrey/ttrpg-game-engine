@@ -255,6 +255,10 @@ namespace GameEngine.Generator.Modifiers
                     let newCondition = new Condition(basicCondition) // the new condition is a lesser version of one of the others already applied
                     select this with { AfterEffect = new (newCondition, false) },
 
+                    from amount in Enumerable.Repeat(5, 1)
+                    where !Conditions.OfType<OngoingDamage>().Any()
+                    select this with { Conditions = Conditions.Items.Add(new OngoingDamage(amount)) },
+
                     from defenseCondition in DefenseConditions
                     where !Conditions.OfType<DefensePenalty>().Any() // only allow one defense penalty
                     select this with { Conditions = Conditions.Items.Add(defenseCondition) },

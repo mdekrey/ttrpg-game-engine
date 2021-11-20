@@ -1,0 +1,40 @@
+﻿- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Ability: Strength
+      Effects:
+      - Target:
+          Name: TwoHits
+        EffectType: Harmful
+        Modifiers:
+        - Conditions:
+          - Amount: 5
+            Name: Ongoing
+          Name: Condition
+        - Damage: 1[W] + STR + DEX
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 19
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One or two creatures
+  Attack: STR vs. AC, two attacks
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR + DEX damage, and the target takes ongoing 5 (save ends).

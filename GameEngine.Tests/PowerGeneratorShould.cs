@@ -115,6 +115,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, "ExtraBasicAttack", null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, "Progressive", null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, "Regressive", null)]
+        [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, "Ongoing", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "TwoHits", null)]
@@ -263,6 +264,13 @@ namespace GameEngine.Tests
                     new PowerProfileConfig.PowerChance[] {
                         new("$..Modifiers[?(@.Name!='Condition' && @.Name!='Duration' && @.Name!='Damage')]", 0),
                         new("$.Attacks..[?(@.Name=='Condition' && @.Conditions[0].Name == 'Stunned')].[?(@..AfterFailedSave==false)]..[?(@.Name=='Dazed')]", 1),
+                    }.ToImmutableList()
+                ) },
+            { "Ongoing", new PowerProfileConfig(
+                    "Ongoing",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..Modifiers[?(@.Name!='Condition' && @.Name!='Duration' && @.Name!='Damage')]", 0),
+                        new("$.Attacks..[?(@.Name=='Condition' && @.Conditions[0].Name == 'Ongoing')]", 1),
                     }.ToImmutableList()
                 ) },
             { "UpToThree", MakeModifierTemplate("UpToThree", "@.Name=='UpToThreeTargets'") },
