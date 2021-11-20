@@ -19,7 +19,7 @@ const powerProfile: SamplePowerRequestBody = {
 				toolType: 'Weapon',
 				toolRange: 'Melee',
 				abilities: ['Strength'],
-				preferredDamageTypes: ['Normal'],
+				preferredDamageTypes: [[]],
 				powerProfileConfigs: [
 					{ name: 'Any Power', powerChances: [{ selector: '$', weight: 1 }] },
 					{

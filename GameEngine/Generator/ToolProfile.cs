@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record ToolProfile(ToolType Type, ToolRange Range, ImmutableList<Ability> Abilities, ImmutableList<DamageType> PreferredDamageTypes, ImmutableList<PowerProfileConfig> PowerProfileConfigs)
+    public record ToolProfile(ToolType Type, ToolRange Range, ImmutableList<Ability> Abilities, ImmutableList<ImmutableList<DamageType>> PreferredDamageTypes, ImmutableList<PowerProfileConfig> PowerProfileConfigs)
     {
         internal bool IsValid()
         {

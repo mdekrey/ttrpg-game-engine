@@ -18,8 +18,7 @@
             AfterFailedSave: false
           Name: Condition
         - Damage: 3[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:

@@ -4,6 +4,7 @@ using GameEngine.Rules;
 using GameEngine.RulesEngine;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -36,7 +37,7 @@ namespace GameEngine.Tests
             {
                 Effect = new AttackRoll
                 {
-                    Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), Build(DamageType.Normal)))),
+                    Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), ImmutableList<DamageType>.Empty))),
                 }
             };
 
@@ -55,7 +56,7 @@ namespace GameEngine.Tests
                 TargetCount = 2,
                 Effect = new AttackRoll
                 {
-                    Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), Build(DamageType.Normal)))),
+                    Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), ImmutableList<DamageType>.Empty))),
                 }
             };
 

@@ -47,7 +47,6 @@ components:
     DamageType:
       type: string
       enum:
-        - Normal
         - Fire
         - Cold
         - Necrotic
@@ -94,7 +93,9 @@ components:
         preferredDamageTypes:
           type: array
           items:
-            $ref: '#/components/schemas/DamageType'
+            type: array
+            items:
+              $ref: '#/components/schemas/DamageType'
         powerProfileConfigs:
           type: array
           items:

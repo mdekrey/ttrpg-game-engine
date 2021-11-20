@@ -16,14 +16,13 @@ public static class ApiConversion
             Type: FromApi(apiModel.ToolType),
             Range: FromApi(apiModel.ToolRange),
             Abilities: apiModel.Abilities.Select(a => FromApi(a)).ToImmutableList(),
-            PreferredDamageTypes: apiModel.PreferredDamageTypes.Select(a => FromApi(a)).ToImmutableList(),
+            PreferredDamageTypes: apiModel.PreferredDamageTypes.Select(a => a.Select(FromApi).ToImmutableList()).ToImmutableList(),
             PowerProfileConfigs: apiModel.PowerProfileConfigs.Select(a => a.FromApi()).ToImmutableList()
         );
 
     public static GameEngine.DamageType FromApi(this Api.DamageType apiModel) =>
         apiModel switch
         {
-            Api.DamageType.Normal => GameEngine.DamageType.Normal,
             Api.DamageType.Fire => GameEngine.DamageType.Fire,
             Api.DamageType.Cold => GameEngine.DamageType.Cold,
             Api.DamageType.Necrotic => GameEngine.DamageType.Necrotic,

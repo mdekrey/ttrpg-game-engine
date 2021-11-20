@@ -44,7 +44,7 @@ namespace GameEngine.Tests
                 {
                     Effect = new AttackRoll
                     {
-                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("2[W] + STR"), Build(DamageType.Normal)))),
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("2[W] + STR"), ImmutableList<DamageType>.Empty))),
                     }
                 });
             var pcStandardDamagePerRound = 
@@ -52,7 +52,7 @@ namespace GameEngine.Tests
                 {
                     Effect = new AttackRoll
                     {
-                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), Build(DamageType.Normal)))),
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), ImmutableList<DamageType>.Empty))),
                     }
                 });
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
@@ -76,7 +76,7 @@ namespace GameEngine.Tests
                 {
                     Effect = new AttackRoll
                     {
-                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("2[W] + d6 + STR"), Build(DamageType.Normal)))),
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("2[W] + d6 + STR"), ImmutableList<DamageType>.Empty))),
                     }
                 });
             var pcStandardDamagePerRound =
@@ -86,12 +86,12 @@ namespace GameEngine.Tests
                         new AttackRoll
                         {
                             Bonus = 1,
-                            Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + d6"), Build(DamageType.Normal)))),
+                            Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + d6"), ImmutableList<DamageType>.Empty))),
                         },
                         new AttackRoll
                         {
                             Bonus = 1,
-                            Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] - 1"), Build(DamageType.Normal)))),
+                            Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] - 1"), ImmutableList<DamageType>.Empty))),
                         }
                     ))
                 });
@@ -116,7 +116,7 @@ namespace GameEngine.Tests
                 {
                     Effect = new AttackRoll
                     {
-                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("2[W] + d6 + STR"), Build(DamageType.Normal)))),
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("2[W] + d6 + STR"), ImmutableList<DamageType>.Empty))),
                     }
                 });
             var pcStandardDamagePerRound =
@@ -125,7 +125,7 @@ namespace GameEngine.Tests
                     Effect = new AttackRoll
                     {
                         Bonus = 3,
-                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + d6 + STR"), Build(DamageType.Normal)))),
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + d6 + STR"), ImmutableList<DamageType>.Empty))),
                     }
                 });
             var damage = GenerateDamagePerAction(new[] { (1, pcBonusDamagePerRound) }, pcStandardDamagePerRound);
@@ -150,7 +150,7 @@ namespace GameEngine.Tests
                     TargetCount = 2,
                     Effect = new AttackRoll
                     {
-                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), Build(DamageType.Normal)))),
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), ImmutableList<DamageType>.Empty))),
                     }
                 });
             var pcStandardDamagePerRound = 
@@ -158,7 +158,7 @@ namespace GameEngine.Tests
                 {
                     Effect = new AttackRoll
                     {
-                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), Build(DamageType.Normal)))),
+                        Hit = new DamageEffect(Build(new DamageEffectEntry(GameDiceExpression.Parse("[W] + STR"), ImmutableList<DamageType>.Empty))),
                     }
                 });
             var damage = GenerateDamagePerAction(new[] { (4, pcBonusDamagePerRound) }, pcStandardDamagePerRound);

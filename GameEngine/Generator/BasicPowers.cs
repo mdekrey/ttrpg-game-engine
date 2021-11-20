@@ -20,7 +20,7 @@ namespace GameEngine.Generator
                             Build<IEffectModifier>(
                                 new DamageModifier(
                                     Rules.GameDiceExpression.Empty with { WeaponDiceCount = 1 } + Rules.Ability.Strength,
-                                    DamageTypes: Build(DamageType.Normal)
+                                    DamageTypes: ImmutableList<DamageType>.Empty
                                 )
                             )
                         )
@@ -46,7 +46,7 @@ namespace GameEngine.Generator
                             Build<IEffectModifier>(
                                 new DamageModifier(
                                     Rules.GameDiceExpression.Empty with { WeaponDiceCount = 1 } + Rules.Ability.Dexterity,
-                                    DamageTypes: Build(DamageType.Normal)
+                                    DamageTypes: ImmutableList<DamageType>.Empty
                                 )
                             )
                         )

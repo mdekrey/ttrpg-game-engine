@@ -9,8 +9,7 @@ Attacks:
     EffectType: Harmful
     Modifiers:
     - Damage: 1[W]
-      DamageTypes:
-      - Normal
+      DamageTypes: []
       Name: Damage
   Modifiers: []
 Modifiers:

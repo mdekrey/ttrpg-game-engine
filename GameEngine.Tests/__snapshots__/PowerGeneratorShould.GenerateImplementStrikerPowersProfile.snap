@@ -12,8 +12,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: +2
@@ -40,8 +39,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -75,8 +73,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d10 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -101,8 +98,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiredHitForNextAttack
@@ -118,8 +114,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiresPreviousHit
@@ -143,8 +138,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -178,8 +172,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -204,8 +197,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: +2
@@ -236,8 +228,7 @@
             Name: Defense Penalty
           Name: Condition
         - Damage: d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -264,8 +255,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Conditions:
           - Name: Slowed
@@ -299,8 +289,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -325,8 +314,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -361,8 +349,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Ally
@@ -398,8 +385,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -424,8 +410,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -452,8 +437,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: +2
@@ -478,8 +462,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d10 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -513,8 +496,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: +2
@@ -551,8 +533,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiredHitForNextAttack
@@ -566,8 +547,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -594,8 +574,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiresPreviousHit
@@ -623,8 +602,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -663,8 +641,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Effects:
           - Name: Prone
@@ -697,8 +674,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -723,8 +699,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d10 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -751,8 +726,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d10 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -782,8 +756,7 @@
           - Name: Dazed
           Name: Condition
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -808,8 +781,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -840,8 +812,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Ally
@@ -886,8 +857,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -928,8 +898,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 7d6 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self, Ally
@@ -962,8 +931,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d6 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -988,8 +956,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -1016,8 +983,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -1050,8 +1016,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -1085,8 +1050,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -1119,8 +1083,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -1164,8 +1127,7 @@
             AfterFailedSave: false
           Name: Condition
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -1192,8 +1154,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -1218,8 +1179,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 12d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -1261,8 +1221,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Effects:
           - Mode: Pull
@@ -1281,8 +1240,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self, Ally
@@ -1323,8 +1281,7 @@
             AfterFailedSave: true
           Name: Condition
         - Damage: 5d10 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -1360,8 +1317,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 4d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -1395,8 +1351,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2d10 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -1430,8 +1385,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -1460,8 +1414,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -1486,8 +1439,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -1521,8 +1473,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 7d6 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -1566,8 +1517,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 7d6 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: +2
@@ -1606,8 +1556,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 12d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -1641,8 +1590,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Conditions:
           - Name: Weakened
@@ -1666,8 +1614,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiresPreviousHit
@@ -1682,8 +1629,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiresPreviousHit
@@ -1709,8 +1655,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 12d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -1750,8 +1695,7 @@
           - Name: Blinded
           Name: Condition
         - Damage: 12d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -1786,8 +1730,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 7d6 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: +2
@@ -1823,8 +1766,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self, Ally
@@ -1859,8 +1801,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 4d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -1891,8 +1832,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -1917,8 +1857,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -1945,8 +1884,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d10 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -1971,8 +1909,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Ally
@@ -2016,8 +1953,7 @@
             AfterFailedSave: true
           Name: Condition
         - Damage: 7d6 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -2053,8 +1989,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 4d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: +2
@@ -2090,8 +2025,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 4d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -2126,8 +2060,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -2161,8 +2094,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d8 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -2194,8 +2126,7 @@
             AfterFailedSave: false
           Name: Condition
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -2220,8 +2151,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: +2
@@ -2255,8 +2185,7 @@
             AfterFailedSave: false
           Name: Condition
         - Damage: 5d10 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -2291,8 +2220,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 12d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self, Ally
@@ -2318,8 +2246,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 12d4 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiresPreviousHit
@@ -2343,8 +2270,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 7d6 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -2390,8 +2316,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 5d10 + WIS
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Conditions:
           - Defense: Will

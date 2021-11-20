@@ -14,7 +14,6 @@ export const toolTypes: ToolType[] = ['Weapon', 'Implement'];
 export const toolRanges: ToolRange[] = ['Melee', 'Range'];
 export const abilities: Ability[] = ['Strength', 'Constitution', 'Dexterity', 'Intelligence', 'Wisdom', 'Charisma'];
 export const damageTypes: DamageType[] = [
-	'Normal',
 	'Fire',
 	'Cold',
 	'Necrotic',
@@ -48,7 +47,7 @@ export const toolSurveySchema: yup.SchemaOf<ToolProfile> = yup.object({
 	toolRange: yup.mixed<ToolRange>().oneOf(toolRanges).required().label('Tool Range'),
 	abilities: yup.array(abilitySchema).min(1).label('Abilities'),
 	preferredDamageTypes: yup
-		.array(damageTypeSchema)
+		.array(yup.array(damageTypeSchema))
 		.min(1, 'Must have at least one damage type')
 		.label('Preferred Damage Types'),
 	powerProfileConfigs: yup.array(powerProfileConfigSchema).min(1).label('Power Profile Configs'),

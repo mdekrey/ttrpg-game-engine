@@ -20,7 +20,7 @@ namespace GameEngine.Tests.Modifiers
                         ToolType.Weapon,
                         ToolRange.Melee,
                         Build(Rules.Ability.Strength, Rules.Ability.Dexterity),
-                        Build(DamageType.Normal),
+                        Build(ImmutableList<DamageType>.Empty),
                         Build(PowerProfileConfig.Empty)
                     );
 
@@ -40,7 +40,7 @@ namespace GameEngine.Tests.Modifiers
                         Build<IEffectModifier>(
                             new DamageModifier(
                                 Rules.GameDiceExpression.Empty + Rules.Ability.Strength,
-                                DamageTypes: Build(DamageType.Normal)
+                                DamageTypes: ImmutableList<DamageType>.Empty
                             )
                         )
                     )

@@ -17,8 +17,7 @@
           - Name: Blinded
           Name: Condition
         - Damage: 1[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:

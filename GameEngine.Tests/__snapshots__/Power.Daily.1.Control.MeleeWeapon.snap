@@ -12,8 +12,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Effects:
           - Name: Prone

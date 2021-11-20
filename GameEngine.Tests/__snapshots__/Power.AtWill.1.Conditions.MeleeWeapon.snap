@@ -15,8 +15,7 @@
           - Name: Dazed
           Name: Condition
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:

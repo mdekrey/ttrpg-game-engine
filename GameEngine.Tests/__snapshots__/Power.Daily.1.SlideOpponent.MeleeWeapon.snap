@@ -16,8 +16,7 @@
             Name: Slide Opponent
           Name: MovementControl
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:

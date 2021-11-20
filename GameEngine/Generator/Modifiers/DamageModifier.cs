@@ -49,7 +49,7 @@ namespace GameEngine.Generator.Modifiers
             new(-100, (target) => target with { DamageExpression = string.Join(" ", new string[]
             {
                 Damage.ToString(),
-                OxfordComma(DamageTypes.Where(d => d != DamageType.Normal).Select(d => d.ToText().ToLower()).ToArray()),
+                OxfordComma(DamageTypes.Select(d => d.ToText().ToLower()).ToArray()),
                 "damage"
             }.Where(s => s is { Length: > 0 })) });
 

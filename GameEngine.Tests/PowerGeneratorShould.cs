@@ -317,12 +317,12 @@ namespace GameEngine.Tests
 
         private static readonly ImmutableDictionary<string, ToolProfile> toolProfiles = new Dictionary<string, ToolProfile>
         {
-            { "MeleeWeapon", new ToolProfile(ToolType.Weapon, ToolRange.Melee, Build(Ability.Strength, Ability.Dexterity), Build(DamageType.Normal), Build<PowerProfileConfig>()) },
-            { "RangeWeapon", new ToolProfile(ToolType.Weapon, ToolRange.Range, Build(Ability.Strength, Ability.Dexterity), Build(DamageType.Normal), Build<PowerProfileConfig>()) },
-            { "RangeWeaponWithFire", new ToolProfile(ToolType.Weapon, ToolRange.Range, Build(Ability.Strength, Ability.Dexterity), Build(DamageType.Normal, DamageType.Fire), Build<PowerProfileConfig>()) },
-            { "MeleeImplement", new ToolProfile(ToolType.Implement, ToolRange.Melee, Build(Ability.Wisdom, Ability.Dexterity), Build(DamageType.Normal), Build<PowerProfileConfig>()) },
-            { "RangeImplement", new ToolProfile(ToolType.Implement, ToolRange.Range, Build(Ability.Strength, Ability.Dexterity), Build(DamageType.Radiant), Build<PowerProfileConfig>()) },
-            { "WisdomRangeNormalImplement", new ToolProfile(ToolType.Implement, ToolRange.Range, Build(Ability.Wisdom), Build(DamageType.Normal), Build<PowerProfileConfig>()) },
+            { "MeleeWeapon", new ToolProfile(ToolType.Weapon, ToolRange.Melee, Build(Ability.Strength, Ability.Dexterity), Build(ImmutableList<DamageType>.Empty), Build<PowerProfileConfig>()) },
+            { "RangeWeapon", new ToolProfile(ToolType.Weapon, ToolRange.Range, Build(Ability.Strength, Ability.Dexterity), Build(ImmutableList<DamageType>.Empty), Build<PowerProfileConfig>()) },
+            { "RangeWeaponWithFire", new ToolProfile(ToolType.Weapon, ToolRange.Range, Build(Ability.Strength, Ability.Dexterity), Build(ImmutableList<DamageType>.Empty, ImmutableList<DamageType>.Empty.Add(DamageType.Fire)), Build<PowerProfileConfig>()) },
+            { "MeleeImplement", new ToolProfile(ToolType.Implement, ToolRange.Melee, Build(Ability.Wisdom, Ability.Dexterity), Build(ImmutableList<DamageType>.Empty), Build<PowerProfileConfig>()) },
+            { "RangeImplement", new ToolProfile(ToolType.Implement, ToolRange.Range, Build(Ability.Strength, Ability.Dexterity), Build(ImmutableList<DamageType>.Empty.Add(DamageType.Radiant)), Build<PowerProfileConfig>()) },
+            { "WisdomRangeNormalImplement", new ToolProfile(ToolType.Implement, ToolRange.Range, Build(Ability.Wisdom), Build(ImmutableList<DamageType>.Empty), Build<PowerProfileConfig>()) },
         }.ToImmutableDictionary();
 
         private static readonly ImmutableDictionary<string, ClassProfile> profiles = new Dictionary<string, ClassProfile>

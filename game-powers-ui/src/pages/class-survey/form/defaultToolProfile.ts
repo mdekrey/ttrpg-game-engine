@@ -4,7 +4,7 @@ export const defaultToolProfile: Readonly<ToolProfile> = {
 	toolType: 'Weapon',
 	toolRange: 'Melee',
 	abilities: ['Strength'],
-	preferredDamageTypes: ['Normal'],
+	preferredDamageTypes: [[]],
 	powerProfileConfigs: [
 		{
 			name: 'Any Power',

@@ -12,8 +12,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: +2
@@ -36,8 +35,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -71,8 +69,7 @@
             Name: Defense Penalty
           Name: Condition
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -95,8 +92,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W]
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiredHitForNextAttack
@@ -108,8 +104,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiresPreviousHit
@@ -131,8 +126,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -157,8 +151,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -181,8 +174,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiredHitForNextAttack
@@ -194,8 +186,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W]
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiresPreviousHit
@@ -208,8 +199,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W]
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiresPreviousHit
@@ -234,8 +224,7 @@
           - Name: Marked
           Name: Condition
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -258,8 +247,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -293,8 +281,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -327,8 +314,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -361,8 +347,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -402,8 +387,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: DEX
@@ -425,8 +409,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -447,8 +430,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -478,8 +460,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -514,8 +495,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -540,8 +520,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -575,8 +554,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: DEX
@@ -609,8 +587,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -645,8 +622,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -683,8 +659,7 @@
             AfterFailedSave: true
           Name: Condition
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -707,8 +682,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W]
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -731,8 +705,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Fortitude
@@ -757,8 +730,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 4[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -790,8 +762,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W]
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -813,8 +784,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Conditions:
           - Name: Blinded
@@ -838,8 +808,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 4[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -881,8 +850,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Conditions:
           - Name: Slowed
@@ -909,8 +877,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -942,8 +909,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
@@ -971,8 +937,7 @@
           - Name: Slowed
           Name: Condition
         - Damage: 3[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -995,8 +960,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: DEX + 2
@@ -1018,8 +982,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1042,8 +1005,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1075,8 +1037,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1106,8 +1067,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 5[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Effects:
           - Mode: Push
@@ -1142,8 +1102,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1187,8 +1146,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 4[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: DEX
@@ -1222,8 +1180,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 4[W]
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1246,8 +1203,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1270,8 +1226,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: +2
@@ -1294,8 +1249,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1337,8 +1291,7 @@
             AfterFailedSave: true
           Name: Condition
         - Damage: 1[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1361,8 +1314,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 5[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -1394,8 +1346,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 7[W]
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1420,8 +1371,7 @@
             Name: Defense Penalty
           Name: Condition
         - Damage: 5[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Effects:
           - Name: Prone
@@ -1450,8 +1400,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 4[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Ally
@@ -1493,8 +1442,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Effects:
           - Mode: Pull
@@ -1523,8 +1471,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 5[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Ally
@@ -1563,8 +1510,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Conditions:
           - Name: Stunned
@@ -1603,8 +1549,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 7[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Conditions:
           - Name: Deafened
@@ -1637,8 +1582,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
@@ -1668,8 +1612,7 @@
           - Name: Stunned
           Name: Condition
         - Damage: 1[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1692,8 +1635,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Ally
@@ -1715,8 +1657,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Name: RequiresPreviousHit
@@ -1740,8 +1681,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1773,8 +1713,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 4[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1814,8 +1753,7 @@
             AfterFailedSave: true
           Name: Condition
         - Damage: 5[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Ally
@@ -1848,8 +1786,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 8[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -1881,8 +1818,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1917,8 +1853,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
         - Conditions:
           - Name: Defense Penalty
@@ -1945,8 +1880,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -1978,8 +1912,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: DEX + 2
@@ -2003,8 +1936,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 2[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
@@ -2025,8 +1957,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 5[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self, Ally
@@ -2060,8 +1991,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 6[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Self
@@ -2101,8 +2031,7 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 5[W] + STR
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       - Target:
           Target: Ally
@@ -2152,8 +2081,7 @@
             AfterFailedSave: true
           Name: Condition
         - Damage: 6[W] + STR + DEX
-          DamageTypes:
-          - Normal
+          DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
