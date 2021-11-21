@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
 
@@ -7,27 +8,27 @@ namespace GameEngine.Generator.Modifiers
 {
     public record BasicAttackFormula() : IPowerModifierFormula
     {
-        public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
+        public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
-            if (power.PowerInfo.Usage != PowerFrequency.AtWill)
+            if (powerContext.Usage != PowerFrequency.AtWill)
                 yield break; 
             if (stage != UpgradeStage.Standard)
                 yield break;
-            if (power.PowerInfo.ToolProfile.Type != ToolType.Implement)
+            if (powerContext.ToolType != ToolType.Implement)
                 yield break;
-            if (power.Attacks.Count == 0 || power.Attacks[0].Effects.Count == 0 || power.Attacks[0].Effects[0].EffectType != EffectType.Harmful)
+            if (powerContext.Attacks.Count == 0 || powerContext.Attacks[0].Effects.Count == 0 || powerContext.Attacks[0].Effects[0].EffectType != EffectType.Harmful)
                 yield break;
             yield return new IsBasicAttackModifier();
         }
 
         public record IsBasicAttackModifier() : PowerModifier("Is Basic Attack")
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
+            public override int GetComplexity(PowerContext powerContext) => 1;
 
-            public override PowerCost GetCost(PowerProfileBuilder builder) =>
+            public override PowerCost GetCost(PowerContext powerContext) =>
                 new PowerCost(Fixed: 0.5);
 
-            public override PowerTextMutator? GetTextMutator(PowerProfile power) =>
+            public override PowerTextMutator? GetTextMutator(PowerContext powerContext) =>
                 new(10000, (textBlock, powerInfo) =>
                 {
                     var meleeOrRanged = powerInfo.ToolRange switch
@@ -44,7 +45,7 @@ namespace GameEngine.Generator.Modifiers
                     };
                 });
 
-            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power)
+            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext)
             {
                 yield break;
             }

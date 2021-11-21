@@ -17,8 +17,6 @@ namespace GameEngine.Generator
             new BoostFormula(),
             new MovementControlFormula(),
             new MakeBasicAttackFormula()
-            // TODO: Slowed->Unconscious (Progressing effect after a failed save)
-            // TODO: Aftereffects (Effects after a successful save)
             // TODO: Disarm and catch
         );
         public static readonly ImmutableList<IAttackModifierFormula> attackModifiers = Build<IAttackModifierFormula>(

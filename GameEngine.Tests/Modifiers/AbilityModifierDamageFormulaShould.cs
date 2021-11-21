@@ -1,4 +1,5 @@
 ﻿using GameEngine.Generator;
+using GameEngine.Generator.Context;
 using GameEngine.Generator.Modifiers;
 using System;
 using System.Collections.Generic;
@@ -32,10 +33,11 @@ namespace GameEngine.Tests.Modifiers
                                 PowerProfileConfig: tool.PowerProfileConfigs[0]
                             );
             var attack = new AttackProfile(
+                Target: new BasicTarget(Target.Enemy | Target.Ally | Target.Self), 
                 Ability: Rules.Ability.Strength,
                 Effects: Build(
                     new TargetEffect(
-                        new BasicTarget(Target.Enemy | Target.Ally | Target.Self), 
+                        new SameAsOtherTarget(),
                         EffectType.Harmful, 
                         Build<IEffectModifier>(
                             new DamageModifier(
@@ -56,7 +58,8 @@ namespace GameEngine.Tests.Modifiers
                 Build(new TargetEffect(new BasicTarget(Target.Enemy | Target.Ally | Target.Self), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty))
             );
 
-            var upgrades = attack.Effects[0].Modifiers.First().GetUpgrades(UpgradeStage.Finalize, attack.Effects[0], attack, power);
+            var effectContext = new PowerContext(power).BuildAttackContext(0).BuildEffectContext(0);
+            var upgrades = attack.Effects[0].Modifiers.First().GetUpgrades(UpgradeStage.Finalize, effectContext);
 
             Assert.Collection(upgrades, upgrade => Assert.True(upgrade is DamageModifier { Damage: { Abilities: { Strength: 1, Dexterity: 1 } } }));
         }

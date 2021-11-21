@@ -4,11 +4,13 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - Ability: Strength
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Name: Basic Target
+          Name: See Other
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
@@ -16,11 +18,13 @@
           Name: Damage
       Modifiers:
       - Name: RequiredHitForNextAttack
-    - Ability: Strength
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Name: Basic Target
+          Name: See Other
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
@@ -35,13 +39,13 @@
       Name: Power Source
     Effects:
     - Target:
-        Target: Ally
+        Target: Self
         Name: Basic Target
       EffectType: Beneficial
       Modifiers:
       - Boosts:
         - Amount: +2
-          Defense: Will
+          Defense: Reflex
           Name: Defense
         Name: Boost
 - Name: Unknown
@@ -65,4 +69,4 @@
   - Label: Secondary Hit
     Text: 1[W] + STR damage.
   - Label: Effect
-    Text: One of your allies gains a +2 power bonus to Will until the end of your next turn.
+    Text: You gain a +2 power bonus to Reflex until the end of your next turn.

@@ -2,10 +2,12 @@
 Tool: Implement
 ToolRange: Range
 Attacks:
-- Ability: Strength
+- Target:
+    Name: TwoHits
+  Ability: Strength
   Effects:
   - Target:
-      Name: TwoHits
+      Name: See Other
     EffectType: Harmful
     Modifiers:
     - Damage: STR

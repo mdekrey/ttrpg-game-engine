@@ -1,4 +1,5 @@
-﻿using GameEngine.Generator.Modifiers;
+﻿using GameEngine.Generator.Context;
+using GameEngine.Generator.Modifiers;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -22,15 +23,22 @@ namespace GameEngine.Generator
             };
         }
 
-        public PowerCost TotalCost => (
-            from set in new[] 
+        public PowerCost TotalCost
+        {
+            get
             {
-                Modifiers.Select(m => m.GetCost(this)),
-                Effects.Select(e => e.TotalCost(this)),
+                var context = new PowerContext(this);
+                return (
+                    from set in new[]
+                    {
+                        Modifiers.Select(m => { return m.GetCost(context); }),
+                        context.GetEffectContexts().Select(e => e.TotalCost()),
+                    }
+                    from cost in set
+                    select cost
+                ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
             }
-            from cost in set
-            select cost
-        ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+        }
 
         internal PowerProfile Build()
         {
@@ -47,7 +55,8 @@ namespace GameEngine.Generator
 
         private PowerProfileBuilder ApplyWeaponDice()
         {
-            var cost = Attacks.Select(a => a.TotalCost(this)).ToImmutableList();
+            var context = new PowerContext(this);
+            var cost = context.GetAttackContexts().Select(a => a.TotalCost()).ToImmutableList();
             var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
 
             var damages = GetDamageLenses().ToImmutableList();
@@ -82,10 +91,11 @@ namespace GameEngine.Generator
 
         public bool IsValid()
         {
-            if (AllModifiers(false).Cast<IModifier>().GetComplexity(PowerInfo) > Limits.MaxComplexity)
+            var powerContext = new PowerContext(this);
+            if (AllModifiers(false).Cast<IModifier>().GetComplexity(powerContext) > Limits.MaxComplexity)
                 return false;
 
-            var cost = Attacks.Select(a => a.TotalCost(this)).ToImmutableList();
+            var cost = powerContext.GetAttackContexts().Select(a => a.TotalCost()).ToImmutableList();
             var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
             var min = cost.Sum(c => c.SingleTargetMultiplier);
             var remaining = TotalCost.Apply(Limits.Initial) - fixedCost;
@@ -100,35 +110,35 @@ namespace GameEngine.Generator
             return true;
         }
 
-        public virtual IEnumerable<PowerProfileBuilder> GetUpgrades(UpgradeStage stage) =>
-            (
+        public virtual IEnumerable<PowerProfileBuilder> GetUpgrades(UpgradeStage stage)
+        {
+            var powerContext = new PowerContext(this);
+
+            return (
                 from set in new[]
                 {
-                    from targetKvp in Effects.Select((effect, index) => (effect, index))
-                    let effect = targetKvp.effect
-                    let index = targetKvp.index
-                    from upgrade in effect.GetUpgrades(stage, this, attack: null, attackIndex: null)
-                    select this with { Effects = this.Effects.SetItem(index, upgrade) }
+                    from effectContext in powerContext.GetEffectContexts()
+                    from upgrade in effectContext.GetUpgrades(stage)
+                    select this.Replace(effectContext.Lens, upgrade)
                     ,
-                    from attackKvp in Attacks.Select((attack, index) => (attack, index))
-                    let attack = attackKvp.attack
-                    let index = attackKvp.index
-                    from upgrade in attack.GetUpgrades(stage, this, attackIndex: index)
-                    select this with { Attacks = this.Attacks.SetItem(index, upgrade) }
+                    from attackContext in powerContext.GetAttackContexts()
+                    from upgrade in attackContext.GetUpgrades(stage)
+                    select this.Replace(attackContext.Lens, upgrade)
                     ,
                     from modifier in Modifiers
-                    from upgrade in modifier.GetUpgrades(stage, this)
+                    from upgrade in modifier.GetUpgrades(stage, powerContext)
                     select this.Apply(upgrade, modifier)
                     ,
                     from formula in ModifierDefinitions.powerModifiers
-                    from mod in formula.GetBaseModifiers(stage, this)
+                    from mod in formula.GetBaseModifiers(stage, powerContext)
                     where !Modifiers.Any(m => m.Name == mod.Name)
                     select this.Apply(mod)
                     ,
                     from entry in TargetOptions
-                    where !Effects.Any(te => (te.Target.GetTarget() & entry.Target) != 0)
+                    where !powerContext.GetEffectContexts().Any(te => (te.Target & entry.Target) != 0)
                     let newBuilder = new TargetEffect(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty)
-                    from newBuilderUpgrade in newBuilder.GetUpgrades(stage, this, attack: null, attackIndex: null)
+                    let effectContext = new EffectContext(powerContext, newBuilder, this.Effects.Count)
+                    from newBuilderUpgrade in effectContext.GetUpgrades(stage)
                     select this with { Effects = this.Effects.Add(newBuilderUpgrade) }
                 }
                 from entry in set
@@ -136,6 +146,7 @@ namespace GameEngine.Generator
                 where upgraded.IsValid()
                 select upgraded
             );
+        }
 
         public IEnumerable<PowerProfileBuilder> FinalizeUpgrade() =>
             this.Modifiers.Aggregate(Enumerable.Repeat(this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)));
@@ -159,21 +170,17 @@ namespace GameEngine.Generator
 
         private IEnumerable<DamageLens> GetDamageLenses()
         {
-            return (from a in Attacks.Select((attack, index) => (attack, index))
-                    from e in a.attack.Effects.Select((effect, index) => (effect, index))
-                    from m in e.effect.Modifiers.Select((mod, index) => (mod, index))
+            var powerContext = new PowerContext(this);
+            return (from attackContext in powerContext.GetAttackContexts()
+                    from effectContext in attackContext.GetEffectContexts()
+                    from m in effectContext.Modifiers.Select((mod, index) => (mod, index))
                     let damage = m.mod as DamageModifier
                     where damage != null
-                    select new DamageLens(damage, a.attack.TotalCost(this).Multiplier, (pb, newDamage) => pb with
-                    {
-                        Attacks = pb.Attacks.SetItem(a.index, pb.Attacks[a.index] with
-                        {
-                            Effects = pb.Attacks[a.index].Effects.Items.SetItem(e.index, pb.Attacks[a.index].Effects[e.index] with
-                            {
-                                Modifiers = pb.Attacks[a.index].Effects[e.index].Modifiers.Items.SetItem(m.index, newDamage),
-                            }),
-                        }),
-                    }));
+                    select new DamageLens(damage, attackContext.TotalCost().Multiplier, (pb, newDamage) => pb.Update(effectContext.Lens, e =>
+                        e with {
+                            Modifiers = e.Modifiers.Items.SetItem(m.index, newDamage),
+                        }
+                    )));
 
         }
     }

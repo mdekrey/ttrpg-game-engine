@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
@@ -11,18 +12,32 @@ namespace GameEngine.Generator.Modifiers
 {
     public record BurstFormula() : ITargetFormula
     {
-        public IEnumerable<ITargetModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, PowerProfileBuilder power, int? attackIndex)
+        public IEnumerable<IEffectTargetModifier> GetBaseModifiers(UpgradeStage stage, EffectContext effectContext)
         {
             if (stage < UpgradeStage.Standard) yield break;
-            if (attackIndex == null || attackIndex.Value < power.Attacks.Count - 1) yield break;
-            if (power.PowerInfo.ToolProfile.Range != ToolRange.Range || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                yield return new BurstModifier(target.Target.GetTarget(), 3, BurstType.Burst);
-            if (power.PowerInfo.ToolProfile.Range != ToolRange.Melee || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                yield return new BurstModifier(target.Target.GetTarget(), 1, BurstType.Blast);
-            if (power.PowerInfo.ToolProfile.Range != ToolRange.Melee || power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                yield return new BurstModifier(target.Target.GetTarget(), 3, BurstType.Area);
-            if (power.PowerInfo.ToolProfile.Type != ToolType.Weapon)
-                yield return new BurstModifier(target.Target.GetTarget(), 4, BurstType.Wall);
+            if (effectContext.RootContext.Fold(p => true, a => a.AttackIndex < a.PowerContext.Attacks.Count - 1)) yield break;
+            var target = effectContext.Target;
+            if (effectContext.PowerInfo.ToolProfile.Range != ToolRange.Range || effectContext.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new BurstModifier(target, 3, BurstType.Burst);
+            if (effectContext.PowerInfo.ToolProfile.Range != ToolRange.Melee || effectContext.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new BurstModifier(target, 1, BurstType.Blast);
+            if (effectContext.PowerInfo.ToolProfile.Range != ToolRange.Melee || effectContext.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new BurstModifier(target, 3, BurstType.Area);
+            if (effectContext.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+                yield return new BurstModifier(target, 4, BurstType.Wall);
+        }
+        public IEnumerable<IAttackTargetModifier> GetBaseModifiers(UpgradeStage stage, AttackContext attackContext)
+        {
+            if (stage < UpgradeStage.Standard) yield break;
+            var target = attackContext.Target;
+            if (attackContext.ToolRange != ToolRange.Range || attackContext.ToolType != ToolType.Weapon)
+                yield return new BurstModifier(target, 3, BurstType.Burst);
+            if (attackContext.ToolRange != ToolRange.Melee || attackContext.ToolType != ToolType.Weapon)
+                yield return new BurstModifier(target, 1, BurstType.Blast);
+            if (attackContext.ToolRange != ToolRange.Melee || attackContext.ToolType != ToolType.Weapon)
+                yield return new BurstModifier(target, 3, BurstType.Area);
+            if (attackContext.ToolType != ToolType.Weapon)
+                yield return new BurstModifier(target, 4, BurstType.Wall);
         }
 
         public enum BurstType
@@ -33,48 +48,58 @@ namespace GameEngine.Generator.Modifiers
             Wall,
         }
 
-        public record BurstModifier(Target Target, int Size, BurstType Type) : ITargetModifier
+        public record BurstModifier(Target Target, int Size, BurstType Type) : IAttackTargetModifier, IEffectTargetModifier
         {
             public string Name => "Multiple";
 
-            public int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
+            public int GetComplexity(PowerContext powerContext) => 1;
 
-            public PowerCost GetCost(TargetEffect builder, PowerProfileBuilder context)
+            PowerCost IAttackTargetModifier.GetCost(AttackContext attackContext) => GetCost();
+            PowerCost IEffectTargetModifier.GetCost(EffectContext effectContext) => GetCost();
+            public PowerCost GetCost()
             {
                 // TODO - this is not right, as wizards at lvl 17 get burst 2 with only 3d10 -> 3d8 loss
                 var multiplier = (Size - 1) / 2.0 + 1;
                 return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier);
             }
 
-            public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, PowerProfileBuilder power, int? attackIndex)
+            public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, PowerHighLevelInfo powerInfo)
             {
                 if (stage < UpgradeStage.Standard) yield break;
                 // TODO - size is not correct, as lvl 23 encounters for wizards get burst 4 (9)
-                if (power.PowerInfo.Usage == PowerFrequency.AtWill && Size >= 3) yield break;
-                if (power.PowerInfo.Usage == PowerFrequency.Encounter && Size >= 5) yield break;
+                if (powerInfo.Usage == PowerFrequency.AtWill && Size >= 3) yield break;
+                if (powerInfo.Usage == PowerFrequency.Encounter && Size >= 5) yield break;
 
                 yield return this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) };
             }
+            IEnumerable<IEffectTargetModifier> IEffectTargetModifier.GetUpgrades(UpgradeStage stage, EffectContext effectContext) => GetUpgrades(stage, effectContext.PowerInfo).OfType<IEffectTargetModifier>();
+            IEnumerable<IAttackTargetModifier> IAttackTargetModifier.GetUpgrades(UpgradeStage stage, AttackContext attackContext) => GetUpgrades(stage, attackContext.PowerInfo).OfType<IAttackTargetModifier>();
 
-            public Target GetTarget() => Target;
 
-            public string GetTargetText(PowerProfile power, int? attackIndex)
+            Target IEffectTargetModifier.GetTarget(EffectContext effectContext) => Target;
+            Target IAttackTargetModifier.GetTarget(AttackContext attackContext) => Target;
+
+            string IEffectTargetModifier.GetTargetText(EffectContext effectContext) => GetTargetText();
+            string IAttackTargetModifier.GetTargetText(AttackContext attackContext) => GetTargetText();
+            public string GetTargetText()
             {
-                return GetTarget() switch
+                return Target switch
                 {
-                    Target.Enemy => "Each enemy",
-                    Target.Self => "You",
-                    Target.Self | Target.Enemy => "You and each enemy",
-                    Target.Ally => "Each of your allies",
-                    Target.Ally | Target.Enemy => "Each creature other than yourself",
-                    Target.Ally | Target.Self => "You and each of your allies",
-                    Target.Ally | Target.Self | Target.Enemy => "Each creature",
+                    Target.Enemy => "each enemy",
+                    Target.Self => "you",
+                    Target.Self | Target.Enemy => "you and each enemy",
+                    Target.Ally => "each of your allies",
+                    Target.Ally | Target.Enemy => "each creature other than yourself",
+                    Target.Ally | Target.Self => "you and each of your allies",
+                    Target.Ally | Target.Self | Target.Enemy => "each creature",
 
                     _ => throw new NotSupportedException(),
                 };
             }
 
-            public AttackType GetAttackType(PowerProfile power, int? attackIndex)
+            AttackType IEffectTargetModifier.GetAttackType(EffectContext effectContext) => GetAttackType();
+            AttackType IAttackTargetModifier.GetAttackType(AttackContext attackContext) => GetAttackType();
+            public AttackType GetAttackType()
             {
                 return Type switch
                 {
@@ -85,12 +110,11 @@ namespace GameEngine.Generator.Modifiers
                     _ => throw new NotImplementedException(),
                 };
             }
-            public TargetInfoMutator? GetTargetInfoMutator(TargetEffect targetEffect, PowerProfile power) => null;
+            TargetInfoMutator? IEffectTargetModifier.GetTargetInfoMutator(EffectContext effectContext) => null;
+            TargetInfoMutator? IAttackTargetModifier.GetTargetInfoMutator(AttackContext attackContext) => null;
 
-            public string? GetAttackNotes(PowerProfile power, int? attackIndex)
-            {
-                return null;
-            }
+            string? IEffectTargetModifier.GetAttackNotes(EffectContext effectContext) => null;
+            string? IAttackTargetModifier.GetAttackNotes(AttackContext attackContext) => null;
         }
     }
 

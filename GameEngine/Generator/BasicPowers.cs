@@ -12,10 +12,11 @@ namespace GameEngine.Generator
             ToolRange: ToolRange.Melee, 
             Attacks: Build(
                 new AttackProfile( 
+                    Target: new BasicTarget(Target.Ally | Target.Enemy | Target.Self),
                     Ability: Rules.Ability.Strength, 
                     Effects: Build(
                         new TargetEffect(
-                            new BasicTarget(Target.Ally | Target.Enemy | Target.Self), 
+                            new SameAsOtherTarget(),
                             EffectType.Harmful, 
                             Build<IEffectModifier>(
                                 new DamageModifier(
@@ -38,10 +39,11 @@ namespace GameEngine.Generator
             ToolRange: ToolRange.Range,
             Attacks: Build(
                 new AttackProfile(
+                    Target: new BasicTarget(Target.Ally | Target.Enemy | Target.Self),
                     Ability: Rules.Ability.Dexterity,
                     Effects: Build(
                         new TargetEffect(
-                            new BasicTarget(Target.Ally | Target.Enemy | Target.Self),
+                            new SameAsOtherTarget(),
                             EffectType.Harmful,
                             Build<IEffectModifier>(
                                 new DamageModifier(

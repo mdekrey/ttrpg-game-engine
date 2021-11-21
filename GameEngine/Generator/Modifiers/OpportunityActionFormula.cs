@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
 
@@ -11,13 +12,13 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "OpportunityAction";
 
-        public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
+        public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
-            if (power.PowerInfo.Usage == PowerFrequency.AtWill)
+            if (powerContext.Usage == PowerFrequency.AtWill)
                 yield break;
             if (stage != UpgradeStage.Standard)
                 yield break;
-            if (power.Modifiers.Any(m => m.ChangesActionType()))
+            if (powerContext.Modifiers.Any(m => m.ChangesActionType()))
                 yield break;
 
             yield return new OpportunityActionModifier(Trigger.YouOrAllyAttacked);
@@ -33,17 +34,19 @@ namespace GameEngine.Generator.Modifiers
 
         public record OpportunityActionModifier(Trigger Trigger) : PowerModifier(ModifierName)
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
+            public override int GetComplexity(PowerContext powerContext) => 1;
             public override bool ChangesActionType() => true;
 
-            public override PowerCost GetCost(PowerProfileBuilder builder) => new PowerCost(PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage) - PowerGenerator.GetBasePower(builder.PowerInfo.Level, builder.PowerInfo.Usage - 1));
+            public override PowerCost GetCost(PowerContext powerContext) => new PowerCost(
+                PowerGenerator.GetBasePower(powerContext.Level, powerContext.Usage) - PowerGenerator.GetBasePower(powerContext.Level, powerContext.Usage - 1)
+            );
 
-            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power)
+            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext)
             {
                 yield break;
             }
 
-            public override PowerTextMutator? GetTextMutator(PowerProfile power) =>
+            public override PowerTextMutator? GetTextMutator(PowerContext powerContext) =>
                 new(0, (textBlock, powerInfo) =>
                 {
                     var result = textBlock with

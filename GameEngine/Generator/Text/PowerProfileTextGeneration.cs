@@ -1,4 +1,5 @@
-﻿using GameEngine.Rules;
+﻿using GameEngine.Generator.Context;
+using GameEngine.Rules;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -29,10 +30,11 @@ namespace GameEngine.Generator.Text
                 RulesText: ImmutableList<RulesText>.Empty
             );
 
-            var attacks = profile.PowerProfile.Attacks.Select((attack, index) => attack.ToAttackInfo(profile.PowerProfile, index + 1)).ToArray();
+            var context = new PowerContext(profile.PowerProfile);
+            var attacks = context.GetAttackContexts().Select((attackContext) => attackContext.ToAttackInfo()).ToArray();
             result = result.AddAttack(attacks[0], 1);
             result = (from mod in profile.PowerProfile.Modifiers
-                      let mutator = mod.GetTextMutator(profile.PowerProfile)
+                      let mutator = mod.GetTextMutator(context)
                       where mutator != null
                       orderby mutator.Priority
                       select mutator.Apply).Aggregate(result, (current, apply) => apply(current, profile.PowerProfile));
@@ -40,7 +42,7 @@ namespace GameEngine.Generator.Text
 
             result = result with
             {
-                RulesText = result.RulesText.AddEffectSentences(profile.PowerProfile.Effects.Select(effect => effect.ToTargetInfo(profile.PowerProfile, null).PartsToSentence()))
+                RulesText = result.RulesText.AddEffectSentences(context.GetEffectContexts().Select(effectContext => effectContext.ToTargetInfo().PartsToSentence()))
             };
 
             return result with
@@ -50,20 +52,20 @@ namespace GameEngine.Generator.Text
             };
         }
 
-        public static TargetInfo ToTargetInfo(this TargetEffect effect, PowerProfile power, int? attackIndex)
+        public static TargetInfo ToTargetInfo(this EffectContext effectContext)
         {
             var result = new TargetInfo(
-                Target: effect.Target.GetTargetText(power, attackIndex: attackIndex),
-                AttackType: effect.Target.GetAttackType(power, attackIndex: attackIndex),
-                AttackNotes: effect.Target.GetAttackNotes(power, attackIndex: attackIndex),
+                Target: effectContext.GetTargetText(), // effect.Target.GetTargetText(effectContext),
+                AttackType: effectContext.GetAttackType(),
+                AttackNotes: effectContext.GetAttackNotes(),
                 DamageExpression: null,
                 Parts: ImmutableList<string>.Empty,
                 AdditionalSentences: ImmutableList<string>.Empty
             );
-            var targetMutator = effect.Target.GetTargetInfoMutator(effect, power);
+            var targetMutator = effectContext.GetTargetInfoMutator();
 
-            result = (from mutator in (from mod in effect.Modifiers
-                                       let mutator = mod.GetTargetInfoMutator(effect, power)
+            result = (from mutator in (from mod in effectContext.Modifiers
+                                       let mutator = mod.GetTargetInfoMutator(effectContext)
                                        select mutator).Add(targetMutator)
                       where mutator != null
                       orderby mutator.Priority
@@ -71,29 +73,28 @@ namespace GameEngine.Generator.Text
             return result;
         }
 
-        public static AttackInfo ToAttackInfo(this AttackProfile attack, PowerProfile power, int index)
+        public static AttackInfo ToAttackInfo(this AttackContext attackContext)
         {
-            var targetInfos = attack.Effects.Select(effect => effect.ToTargetInfo(power, attackIndex: index)).ToArray();
-            var targetInfo = targetInfos[0];
+            var targetInfos = attackContext.GetEffectContexts().Select(effectContext => effectContext.ToTargetInfo()).ToArray();
+            
 
             var result = new AttackInfo(
-                AttackType: targetInfo.AttackType,
-                Target: targetInfo.Target,
-                AttackExpression: (GameDiceExpression)attack.Ability,
-                AttackNotes: targetInfo.AttackNotes,
+                AttackType: attackContext.GetAttackType(),
+                Target: attackContext.GetTargetText(),
+                AttackExpression: (GameDiceExpression)attackContext.Ability,
+                AttackNotes: attackContext.GetAttackNotes(),
                 Defense: DefenseType.ArmorClass,
-                HitSentences: targetInfos.Skip(1).Select(effect => effect.PartsToSentence()).ToImmutableList()
-                    .Insert(0, targetInfo.PartsToSentence())
+                HitSentences: targetInfos.Select(effect => effect.PartsToSentence()).ToImmutableList()
                     .AddRange(targetInfos.SelectMany(t => t.AdditionalSentences)),
                 MissSentences: ImmutableList<string>.Empty // TODO - miss targets
             );
             
 
-            result = (from mod in attack.Modifiers
-                      let mutator = mod.GetAttackInfoMutator(power)
+            result = (from mod in attackContext.Modifiers
+                      let mutator = mod.GetAttackInfoMutator(attackContext)
                       where mutator != null
                       orderby mutator.Priority
-                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, index));
+                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, attackContext.AttackIndex));
             return result;
         }
 
@@ -107,7 +108,7 @@ namespace GameEngine.Generator.Text
                 {
                     AttackType = attack.AttackType.TypeText(),
                     AttackTypeDetails = attack.AttackType.TypeDetailsText(),
-                    Target = attack.Target,
+                    Target = attack.Target.Capitalize(),
                     Attack = attack.ToAttackText(),
                     RulesText = power.RulesText.Items
                         .Add(new("Hit", attack.Hit))

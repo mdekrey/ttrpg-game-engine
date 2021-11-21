@@ -4,21 +4,28 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - Ability: Strength
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Burst
+        Name: Multiple
+      Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Size: 3
-          Type: Burst
-          Name: Multiple
+          Name: See Other
         EffectType: Harmful
         Modifiers:
         - Conditions:
           - Name: Blinded
           Name: Condition
-        - Damage: 1[W] + STR + DEX
+        - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
+        - Effects:
+          - Mode: Pull
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
       Modifiers: []
     Modifiers:
     - Duration: SaveEnds
@@ -39,4 +46,4 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR + DEX damage, and the target is blinded (save ends).
+    Text: 1[W] + STR damage, and the target is blinded (save ends) and is pulled +1 squares.

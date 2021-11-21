@@ -4,14 +4,15 @@
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - Ability: Strength
+    - Target:
+        Name: TwoHits
+      Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Name: Basic Target
+          Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: d4 + STR
+        - Damage: STR
           DamageTypes:
           - Radiant
           Name: Damage
@@ -32,10 +33,10 @@
   ActionType: Standard Action
   AttackType: Ranged
   AttackTypeDetails: 10
-  Target: One creature
-  Attack: STR vs. Fortitude
+  Target: One or two creatures
+  Attack: STR vs. Fortitude, two attacks
   RulesText:
   - Label: Hit
-    Text: d4 + STR radiant damage.
+    Text: STR radiant damage.
   - Label: Special
     Text: This power counts as a ranged basic attack. When a power allows you to make a ranged basic attack, you can use this power.

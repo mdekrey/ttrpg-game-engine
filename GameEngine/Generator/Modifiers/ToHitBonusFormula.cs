@@ -6,6 +6,7 @@ using System.Linq;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 using static GameEngine.Generator.PowerBuildingExtensions;
 using GameEngine.Generator.Text;
+using GameEngine.Generator.Context;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -14,19 +15,19 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "To-Hit Bonus to Current Attack";
 
-        public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfile attack, PowerProfileBuilder power)
+        public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackContext attackContext)
         {
-            return new ToHitBonus(0).GetUpgrades(stage, attack, power);
+            return new ToHitBonus(0).GetUpgrades(stage, attackContext);
         }
 
         public record ToHitBonus(GameDiceExpression Amount) : AttackModifier(ModifierName)
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => IsPlaceholder() ? 0 : 1;
+            public override int GetComplexity(PowerContext powerContext) => IsPlaceholder() ? 0 : 1;
             public override bool IsPlaceholder() => Amount == GameDiceExpression.Empty;
 
-            public override PowerCost GetCost(AttackProfile builder, PowerProfileBuilder power) => new PowerCost(Amount.ToWeaponDice());
+            public override PowerCost GetCost(AttackContext attackContext) => new PowerCost(Amount.ToWeaponDice());
 
-            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackProfile attack, PowerProfileBuilder power)
+            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext)
             {
                 if (stage < UpgradeStage.Standard) yield break;
 
@@ -36,7 +37,7 @@ namespace GameEngine.Generator.Modifiers
                         yield return this with { Amount = Amount.StepUpModifier() };
                     if (Amount.DieCodes.Modifier <= 2)
                     {
-                        foreach (var ability in power.PowerInfo.ToolProfile.Abilities.Where(a => a != attack.Ability))
+                        foreach (var ability in attackContext.PowerInfo.ToolProfile.Abilities.Where(a => a != attackContext.Ability))
                             yield return this with { Amount = Amount + ability };
                     }
                 }
@@ -44,7 +45,7 @@ namespace GameEngine.Generator.Modifiers
                     yield return this with { Amount = 0 };
             }
 
-            public override AttackInfoMutator? GetAttackInfoMutator(PowerProfile power) =>
+            public override AttackInfoMutator? GetAttackInfoMutator(AttackContext attackContext) =>
                 new(0, (attack, index) => attack with { AttackExpression = attack.AttackExpression + Amount });
         }
     }

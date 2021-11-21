@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
 
@@ -11,9 +12,9 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "MovementControl";
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, EffectContext effectContext)
         {
-            return new MovementModifier(ImmutableList<MovementControl>.Empty).GetUpgrades(stage, target, attack, power);
+            return new MovementModifier(ImmutableList<MovementControl>.Empty).GetUpgrades(stage, effectContext);
         }
 
         private static readonly ImmutableList<MovementControl> basicEffects =
@@ -27,8 +28,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : EffectModifier(ModifierName)
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => IsPlaceholder() ? 0 : 1;
-            public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder attack) =>
+            public override int GetComplexity(PowerContext powerContext) => IsPlaceholder() ? 0 : 1;
+            public override PowerCost GetCost(EffectContext effectContext) =>
                 new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
             public override bool IsPlaceholder() => Effects.Count == 0;
 
@@ -37,8 +38,8 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsBeneficial() => true;
             public override bool IsHarmful() => true;
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfile? attack, PowerProfileBuilder power) =>
-                (stage < UpgradeStage.Standard) || (builder.Target.GetTarget().HasFlag(Target.Enemy) && !builder.Target.GetTarget().HasFlag(Target.Self))
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext) =>
+                (stage < UpgradeStage.Standard) || (effectContext.Target.HasFlag(Target.Enemy) && !effectContext.Target.HasFlag(Target.Self))
                     ? Enumerable.Empty<IEffectModifier>() 
                     : from set in new[]
                       {
@@ -47,15 +48,15 @@ namespace GameEngine.Generator.Modifiers
                           select this with { Effects = Effects.Items.Add(basicCondition) },
 
                           from condition in Effects
-                          from upgrade in condition.GetUpgrades(power.PowerInfo)
+                          from upgrade in condition.GetUpgrades(effectContext.PowerInfo)
                           select this with { Effects = Effects.Items.Remove(condition).Add(upgrade) },
                       }
                       from mod in set
                       select mod;
 
-            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power)
+            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext)
             {
-                var t = effect.Target.GetTarget();
+                var t = effectContext.Target;
                 return new(100, (target) => target with
                 {
                     Parts = target.Parts.AddRange(Effects.Select(e => e.HitPart(t)).Where(e => e is { Length: > 0 })!),

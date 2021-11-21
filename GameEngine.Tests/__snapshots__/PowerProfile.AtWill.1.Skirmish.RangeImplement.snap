@@ -2,30 +2,34 @@
 Tool: Implement
 ToolRange: Range
 Attacks:
-- Ability: Strength
+- Target:
+    Target: Enemy, Self, Ally
+    Size: 2
+    Type: Blast
+    Name: Multiple
+  Ability: Strength
   Effects:
   - Target:
-      Target: Enemy, Self, Ally
-      Name: Basic Target
+      Name: See Other
     EffectType: Harmful
     Modifiers:
     - Damage: d4 + STR
       DamageTypes:
       - Radiant
       Name: Damage
-  - Target:
-      Target: Self
-      Name: Basic Target
-    EffectType: Beneficial
-    Modifiers:
-    - Movement:
-      - Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
   Modifiers:
   - Defense: Fortitude
     Name: Non-Armor Defense
 Modifiers:
 - PowerSource: Arcane
   Name: Power Source
-Effects: []
+Effects:
+- Target:
+    Target: Self
+    Name: Basic Target
+  EffectType: Beneficial
+  Modifiers:
+  - Movement:
+    - Amount: STR
+      Name: Shift
+    Name: Skirmish Movement

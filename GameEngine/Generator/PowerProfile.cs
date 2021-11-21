@@ -14,30 +14,20 @@ namespace GameEngine.Generator
         EquatableImmutableList<TargetEffect> Effects
     )
     {
-        public IEnumerable<IModifier> AllModifiers() =>
-            from set in new IEnumerable<IModifier>[]
+        public IEnumerable<IModifier> AllModifiers(bool includeNested)
+        {
+            var stack = new Stack<IModifier>(Modifiers
+                .Concat<IModifier>(from attack in Attacks from mod in attack.AllModifiers() select mod)
+                .Concat<IModifier>(from targetEffect in Effects from mod in targetEffect.Modifiers select mod)
+            );
+            while (stack.TryPop(out var current))
             {
-                Modifiers
-                ,
-                from attack in Attacks
-                from mod in attack.Modifiers
-                select mod
-                ,
-                from attack in Attacks
-                from effect in attack.Effects
-                from mod in effect.Modifiers
-                select mod
-                ,
-                from attack in Attacks
-                from effect in attack.Effects
-                select effect.Target
-                ,
-                from effect in Effects
-                from mod in effect.Modifiers
-                select mod
+                yield return current;
+                if (includeNested)
+                    foreach (var entry in current.GetNestedModifiers())
+                        stack.Push(entry);
             }
-            from mod in set
-            select mod;
+        }
 
         internal bool Matches(PowerProfile power)
         {

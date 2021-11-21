@@ -1,4 +1,5 @@
 ﻿using GameEngine.Generator.Modifiers;
+using GameEngine.Generator.Context;
 using GameEngine.Rules;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -16,6 +17,14 @@ namespace GameEngine.Generator
             (Target.Ally | Target.Self, EffectType.Beneficial),
         }.ToImmutableList();
 
+        public static AttackProfile Apply(this AttackProfile builder, IAttackTargetModifier target)
+        {
+            return builder with
+            {
+                Target = target,
+            };
+        }
+
         public static AttackProfile Apply(this AttackProfile builder, IAttackModifier target, IAttackModifier? toRemove = null)
         {
             return builder with
@@ -24,42 +33,51 @@ namespace GameEngine.Generator
             };
         }
 
-        public static PowerCost TotalCost(this AttackProfile builder, PowerProfileBuilder power) =>
-            Enumerable.Concat(
-                builder.Modifiers.Select(m => m.GetCost(builder, power)),
-                builder.Effects.Select(e => e.TotalCost(power))
+        public static PowerCost TotalCost(this AttackContext attackContext) =>
+            (
+                from set in new[]
+                {
+                    attackContext.Attack.Modifiers.Select(m => m.GetCost(attackContext)),
+                    attackContext.GetEffectContexts().Select(e => e.TotalCost()),
+                    Enumerable.Repeat(attackContext.Attack.Target.GetCost(attackContext), 1),
+                }
+                from entry in set
+                select entry
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
         internal static AttackProfile Build(this AttackProfile builder) =>
             new AttackProfile(
+                builder.Target,
                 builder.Ability,
                 builder.Effects.Select(teb => teb.WithoutPlaceholders()).Where(teb => teb.Modifiers.Any()).ToImmutableList(),
                 builder.Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList()
             );
 
-        public static IEnumerable<AttackProfile> GetUpgrades(this AttackProfile builder, UpgradeStage stage, PowerProfileBuilder power, int? attackIndex) =>
+        public static IEnumerable<AttackProfile> GetUpgrades(this AttackContext attackContext, UpgradeStage stage) =>
             from set in new[]
             {
-                from targetKvp in builder.Effects.Select((targetEffect, index) => (targetEffect, index))
-                let targetEffect = targetKvp.targetEffect
-                let index = targetKvp.index
-                from upgrade in targetEffect.GetUpgrades(stage, power, builder, attackIndex: attackIndex)
-                select builder with { Effects = builder.Effects.Items.SetItem(index, upgrade) }
+                from upgrade in attackContext.Attack.Target.GetUpgrades(stage, attackContext)
+                select attackContext.Attack.Apply(upgrade)
                 ,
-                from modifier in builder.Modifiers
-                from upgrade in modifier.GetUpgrades(stage, builder, power)
-                select builder.Apply(upgrade, modifier)
+                from effectContext in attackContext.GetEffectContexts()
+                from upgrade in effectContext.GetUpgrades(stage)
+                select attackContext.Attack with { Effects = attackContext.Effects.SetItem(effectContext.EffectIndex, upgrade) }
+                ,
+                from modifier in attackContext.Modifiers
+                from upgrade in modifier.GetUpgrades(stage, attackContext)
+                select attackContext.Attack.Apply(upgrade, modifier)
                 ,
                 from formula in ModifierDefinitions.attackModifiers
-                from mod in formula.GetBaseModifiers(stage, builder, power)
-                where !builder.Modifiers.Any(m => m.Name == mod.Name)
-                select builder.Apply(mod)
+                from mod in formula.GetBaseModifiers(stage, attackContext)
+                where !attackContext.Modifiers.Any(m => m.Name == mod.Name)
+                select attackContext.Attack.Apply(mod)
                 ,
                 from entry in TargetOptions
-                where !builder.Effects.Any(te => te.EffectType == entry.EffectType && (te.Target.GetTarget() & entry.Target) != 0)
+                where !attackContext.GetEffectContexts().Any(effectContext => (effectContext.Target & entry.Target) != 0)
                 let newTargetEffect = new TargetEffect(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty)
-                from newTargetEffectUpgrade in newTargetEffect.GetUpgrades(stage, power, builder, attackIndex: attackIndex)
-                select builder with { Effects = builder.Effects.Items.Add(newTargetEffectUpgrade) }
+                let newContext = new EffectContext(attackContext, newTargetEffect, attackContext.Effects.Count)
+                from newTargetEffectUpgrade in newContext.GetUpgrades(stage)
+                select attackContext.Attack with { Effects = attackContext.Effects.Add(newContext.Effect) }
             }
             from entry in set
             select entry;

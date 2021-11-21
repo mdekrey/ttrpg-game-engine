@@ -4,10 +4,12 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - Ability: Strength
+    - Target:
+        Name: UpToThreeTargets
+      Ability: Strength
       Effects:
       - Target:
-          Name: UpToThreeTargets
+          Name: See Other
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR

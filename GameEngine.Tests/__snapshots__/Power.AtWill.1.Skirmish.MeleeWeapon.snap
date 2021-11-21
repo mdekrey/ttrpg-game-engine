@@ -4,30 +4,32 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - Ability: Strength
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Name: Basic Target
+          Name: See Other
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
-      - Target:
-          Target: Self
-          Name: Basic Target
-        EffectType: Beneficial
-        Modifiers:
-        - Movement:
-          - Amount: STR
-            Name: Shift
-          Name: Skirmish Movement
       Modifiers: []
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Movement:
+        - Amount: STR
+          Name: Shift
+        Name: Skirmish Movement
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   PowerUsage: At-Will
@@ -41,4 +43,6 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. You may shift STR squares.
+    Text: 1[W] + STR damage.
+  - Label: Effect
+    Text: You may shift STR squares.

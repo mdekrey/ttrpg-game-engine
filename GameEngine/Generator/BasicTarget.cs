@@ -1,4 +1,5 @@
 ﻿using GameEngine.Generator.Modifiers;
+using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using System;
 using System.Collections.Generic;
@@ -6,17 +7,33 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record BasicTarget(Target Target) : ITargetModifier
+    public record BasicTarget(Target Target) : IEffectTargetModifier, IAttackTargetModifier
     {
         public string Name => "Basic Target";
-        public int GetComplexity(PowerHighLevelInfo powerInfo) => 0;
+        public int GetComplexity(PowerContext powerContext) => 0;
 
-        public PowerCost GetCost(TargetEffect builder, PowerProfileBuilder context) => PowerCost.Empty;
+        public PowerCost GetCost() => PowerCost.Empty;
 
         public Target GetTarget() => Target;
-        public TargetInfoMutator? GetTargetInfoMutator(TargetEffect targetEffect, PowerProfile power) => null;
+        public TargetInfoMutator? GetTargetInfoMutator() => null;
+        public string? GetAttackNotes() => null;
 
-        public string GetTargetText(PowerProfile power, int? attackIndex)
+        public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext)
+        {
+            return from formula in ModifierDefinitions.advancedTargetModifiers
+                   from mod in formula.GetBaseModifiers(stage, effectContext)
+                   select mod;
+        }
+
+        public IEnumerable<IAttackTargetModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext)
+        {
+            return from formula in ModifierDefinitions.advancedTargetModifiers
+                   from mod in formula.GetBaseModifiers(stage, attackContext)
+                   select mod;
+        }
+
+
+        public string GetTargetText()
         {
             return Target switch
             {
@@ -32,7 +49,7 @@ namespace GameEngine.Generator
             };
         }
 
-        public AttackType GetAttackType(PowerProfile power, int? attackIndex)
+        public AttackType GetAttackType(PowerProfile power)
         {
             return (power.Tool, power.ToolRange) switch
             {
@@ -44,16 +61,28 @@ namespace GameEngine.Generator
             };
         }
 
-        public IEnumerable<ITargetModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, PowerProfileBuilder power, int? attackIndex)
-        {
-            return from formula in ModifierDefinitions.advancedTargetModifiers
-                   from mod in formula.GetBaseModifiers(stage, target, power, attackIndex)
-                   select mod;
-        }
+        Target IEffectTargetModifier.GetTarget(EffectContext effectContext) => GetTarget();
 
-        public string? GetAttackNotes(PowerProfile power, int? attackIndex)
-        {
-            return null;
-        }
+        PowerCost IEffectTargetModifier.GetCost(EffectContext effectContext) => GetCost();
+
+        TargetInfoMutator? IEffectTargetModifier.GetTargetInfoMutator(EffectContext effectContext) => GetTargetInfoMutator();
+
+        Target IAttackTargetModifier.GetTarget(AttackContext attackContext) => GetTarget();
+
+        PowerCost IAttackTargetModifier.GetCost(AttackContext attackContext) => GetCost();
+
+        string IAttackTargetModifier.GetTargetText(AttackContext attackContext) => GetTargetText();
+
+        AttackType IAttackTargetModifier.GetAttackType(AttackContext attackContext) => GetAttackType(attackContext.PowerProfile);
+
+        string? IAttackTargetModifier.GetAttackNotes(AttackContext attackContext) => GetAttackNotes();
+
+        TargetInfoMutator? IAttackTargetModifier.GetTargetInfoMutator(AttackContext attackContext) => GetTargetInfoMutator();
+
+        string IEffectTargetModifier.GetTargetText(EffectContext effectContext) => GetTargetText();
+
+        AttackType IEffectTargetModifier.GetAttackType(EffectContext effectContext) => GetAttackType(effectContext.PowerProfile);
+
+        string? IEffectTargetModifier.GetAttackNotes(EffectContext effectContext) => GetAttackNotes();
     }
 }

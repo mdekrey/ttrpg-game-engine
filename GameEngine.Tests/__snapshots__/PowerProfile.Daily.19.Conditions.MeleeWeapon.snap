@@ -2,21 +2,28 @@
 Tool: Weapon
 ToolRange: Melee
 Attacks:
-- Ability: Strength
+- Target:
+    Target: Enemy, Self, Ally
+    Size: 3
+    Type: Burst
+    Name: Multiple
+  Ability: Strength
   Effects:
   - Target:
-      Target: Enemy, Self, Ally
-      Size: 3
-      Type: Burst
-      Name: Multiple
+      Name: See Other
     EffectType: Harmful
     Modifiers:
     - Conditions:
       - Name: Blinded
       Name: Condition
-    - Damage: 1[W] + STR + DEX
+    - Damage: 1[W] + STR
       DamageTypes: []
       Name: Damage
+    - Effects:
+      - Mode: Pull
+        Amount: +1
+        Name: Slide Opponent
+      Name: MovementControl
   Modifiers: []
 Modifiers:
 - Duration: SaveEnds

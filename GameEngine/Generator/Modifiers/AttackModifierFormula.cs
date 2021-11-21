@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using GameEngine.Generator.Context;
+using System.Collections.Generic;
 
 namespace GameEngine.Generator.Modifiers
 {
     public interface IAttackModifierFormula
     {
-        IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackProfile attack, PowerProfileBuilder power);
+        IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackContext attackContext);
     }
 }

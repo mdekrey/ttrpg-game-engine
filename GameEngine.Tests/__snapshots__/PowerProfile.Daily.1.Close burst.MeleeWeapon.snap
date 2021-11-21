@@ -2,13 +2,15 @@
 Tool: Weapon
 ToolRange: Melee
 Attacks:
-- Ability: Strength
+- Target:
+    Target: Enemy, Self, Ally
+    Size: 5
+    Type: Burst
+    Name: Multiple
+  Ability: Strength
   Effects:
   - Target:
-      Target: Enemy, Self, Ally
-      Size: 5
-      Type: Burst
-      Name: Multiple
+      Name: See Other
     EffectType: Harmful
     Modifiers:
     - Damage: 1[W] + STR

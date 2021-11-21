@@ -6,6 +6,7 @@ using static System.Collections.Immutable.ImmutableList<string>;
 using System;
 using static GameEngine.Generator.ProseHelpers;
 using GameEngine.Generator.Text;
+using GameEngine.Generator.Context;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -116,9 +117,9 @@ namespace GameEngine.Generator.Modifiers
             new DefensePenalty(DefenseType.Will),
         }.ToImmutableList();
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power)
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, EffectContext effectContext)
         {
-            return new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, target, attack, power);
+            return new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, effectContext);
         }
 
         public static IEnumerable<Condition> GetBaseConditions()
@@ -139,13 +140,14 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Must remain "SaveEnds" if there's a Boost dependent upon it
             : 1;
 
-        public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerProfileBuilder power)
+        public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
-            if (power.HasDuration())
+            if (powerContext.HasDuration())
                 yield break;
             foreach (var entry in from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
-                                  let p = power.Apply(new EffectDurationFormula.EffectDurationModifier(duration))
-                                  from condition in new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, p.Attacks[0].Effects[0], p.Attacks[0], p)
+                                  let p = powerContext.PowerProfileBuilder.Apply(new EffectDurationFormula.EffectDurationModifier(duration))
+                                  let ctx = powerContext with { Power = p }
+                                  from condition in new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, ctx)
                                   select new EffectAndDurationModifier(duration, condition))
             {
                 yield return entry;
@@ -154,15 +156,15 @@ namespace GameEngine.Generator.Modifiers
 
         public record EffectAndDurationModifier(Duration Duration, IEffectModifier EffectModifier) : PowerModifier(ModifierName)
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => 1;
-            public override PowerCost GetCost(PowerProfileBuilder builder) => PowerCost.Empty;
+            public override int GetComplexity(PowerContext powerContext) => 1;
+            public override PowerCost GetCost(PowerContext powerContext) => PowerCost.Empty;
 
-            public override PowerTextMutator? GetTextMutator(PowerProfile power)
+            public override PowerTextMutator? GetTextMutator(PowerContext powerContext)
             {
                 throw new NotSupportedException("Should be removed before here");
             }
 
-            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power)
+            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext)
             {
                 yield break;
             }
@@ -170,7 +172,7 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder)
             {
                 var next = builder with { Modifiers = builder.Modifiers.Remove(this).Add(new EffectDurationFormula.EffectDurationModifier(Duration)) };
-                var newEffect = new TargetEffect(new BasicTarget(Target.Enemy), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier));
+                var newEffect = new TargetEffect(new SameAsOtherTarget(), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier));
 
                 return from lens in (
                             from attackIndex in Enumerable.Range(0, next.Attacks.Count)
@@ -193,12 +195,12 @@ namespace GameEngine.Generator.Modifiers
 
         public record ConditionModifier(EquatableImmutableList<Condition> Conditions, AfterEffect? AfterEffect = null) : EffectModifier(ModifierName)
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => (Conditions.Count + 2) / 3;
-            public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) =>
+            public override int GetComplexity(PowerContext powerContext) => (Conditions.Count + 2) / 3;
+            public override PowerCost GetCost(EffectContext effectContext) =>
                 new PowerCost(Fixed:
                     AfterEffect switch
                     {
-                        null => Conditions.Select(c => c.Cost() * DurationMultiplier(power.GetDuration())).Sum(),
+                        null => Conditions.Select(c => c.Cost() * DurationMultiplier(effectContext.PowerContext.GetDuration())).Sum(),
                         { Condition: var afterEffect, AfterFailedSave: false } =>
                             Conditions.Select(c => c.Cost() * DurationMultiplier(Duration.SaveEnds)).Sum()
                             + afterEffect.Cost() * DurationMultiplier(Duration.SaveEnds),
@@ -212,25 +214,24 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsBeneficial() => false;
             public override bool IsHarmful() => true;
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power)
+            public IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext)
             {
+
                 if (stage < UpgradeStage.Standard)
-                    return Enumerable.Empty<IEffectModifier>();
-                if (target.EffectType != EffectType.Harmful)
                     return Enumerable.Empty<IEffectModifier>();
                 if (AfterEffect != null)
                     return Enumerable.Empty<IEffectModifier>();
                 return from set in new[]
                 {
                     from basicCondition in basicConditions.Keys
-                    where Conditions.Count == 0 && power.GetDuration() == Duration.SaveEnds
+                    where Conditions.Count == 0 && powerContext.GetDuration() == Duration.SaveEnds
                     where basicConditions[basicCondition].Subsumes.Count > 0
                     from simple in basicConditions[basicCondition].Subsumes
                     where basicConditions[simple].AllowDirectApplication
                     select new ConditionModifier(ImmutableList<Condition>.Empty.Add(new Condition(simple)), new AfterEffect(new Condition(basicCondition), true)),
 
                     from basicCondition in basicConditions.Keys
-                    where Conditions.Count == 0 && power.GetDuration() == Duration.SaveEnds
+                    where Conditions.Count == 0 && powerContext.GetDuration() == Duration.SaveEnds
                     where basicConditions[basicCondition].Subsumes.Count > 0
                     from simple in basicConditions[basicCondition].Subsumes
                     where basicConditions[simple].AllowDirectApplication
@@ -266,24 +267,31 @@ namespace GameEngine.Generator.Modifiers
                     // TODO - add OngoingDamage
 
                     from condition in Conditions
-                    from upgrade in condition.GetUpgrades(power.PowerInfo)
+                    from upgrade in condition.GetUpgrades()
                     select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
                 }
                        from mod in set
                        select mod;
             }
 
-            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) =>
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext)
+            {
+                if (effectContext.EffectType != EffectType.Harmful)
+                    return Enumerable.Empty<IEffectModifier>();
+                return GetUpgrades(stage, effectContext.PowerContext);
+            }
+
+            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) =>
                 new(0, (target) => target with
                 {
-                    Parts = target.Parts.AddRange(GetParts(effect, power)),
-                    AdditionalSentences = target.AdditionalSentences.AddRange(GetAdditionalSentences(effect, power))
+                    Parts = target.Parts.AddRange(GetParts(effectContext)),
+                    AdditionalSentences = target.AdditionalSentences.AddRange(GetAdditionalSentences(effectContext))
                 });
 
 
-            public IEnumerable<string> GetParts(TargetEffect effect, PowerProfile power)
+            public IEnumerable<string> GetParts(EffectContext effectContext)
             {
-                var duration = power.GetDuration() switch
+                var duration = effectContext.PowerContext.GetDuration() switch
                 {
                     Duration.EndOfUserNextTurn => "until the end of your next turn",
                     Duration.SaveEnds => "(save ends)",
@@ -292,21 +300,21 @@ namespace GameEngine.Generator.Modifiers
                 };
 
                 yield return @$"{OxfordComma((from condition in Conditions
-                                              group condition.Effect().ToLower() by condition.Verb(effect.Target.GetTarget()) into verbGroup
+                                              group condition.Effect().ToLower() by condition.Verb(effectContext.Target) into verbGroup
                                               select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())} {duration}";
             }
 
 
-            public IEnumerable<string> GetAdditionalSentences(TargetEffect effect, PowerProfile power)
+            public IEnumerable<string> GetAdditionalSentences(EffectContext effectContext)
             {
                 switch (AfterEffect)
                 {
                     case { AfterFailedSave: true, Condition: var condition }:
-                        yield return $"If the target fails its first saving throw against this power, the target {condition.Verb(effect.Target.GetTarget())} {condition.Effect().ToLower()} (save ends).";
+                        yield return $"If the target fails its first saving throw against this power, the target {condition.Verb(effectContext.Target)} {condition.Effect().ToLower()} (save ends).";
                         break;
                     case { AfterFailedSave: false, Condition: var condition }:
                         // 4e used an "Aftereffect" entry, but this makes equal sense
-                        yield return $"When the target succeeds against its saving throw against this power, the target {condition.Verb(effect.Target.GetTarget())} {condition.Effect().ToLower()} (save ends).";
+                        yield return $"When the target succeeds against its saving throw against this power, the target {condition.Verb(effectContext.Target)} {condition.Effect().ToLower()} (save ends).";
                         break;
                 }
             }
@@ -327,7 +335,7 @@ namespace GameEngine.Generator.Modifiers
         public record Condition(string Name)
         {
             public virtual double Cost() => basicConditions[Name].Cost;
-            public virtual IEnumerable<Condition> GetUpgrades(PowerHighLevelInfo powerInfo) =>
+            public virtual IEnumerable<Condition> GetUpgrades() =>
                 Enumerable.Empty<Condition>();
             public virtual string Verb(Target target) => target == Target.Self ? basicConditions[Name].SelfVerb : basicConditions[Name].OtherVerb;
             public virtual string Effect() => basicConditions[Name].Effect;
@@ -337,7 +345,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => Amount / 5;
 
-            public override IEnumerable<Condition> GetUpgrades(PowerHighLevelInfo powerInfo)
+            public override IEnumerable<Condition> GetUpgrades()
             {
                 if (Amount < 15)
                     yield return new OngoingDamage(Amount + 5);
@@ -350,7 +358,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => Defense == null ? 1 : 0.5;
 
-            public override IEnumerable<Condition> GetUpgrades(PowerHighLevelInfo powerInfo)
+            public override IEnumerable<Condition> GetUpgrades()
             {
                 if (Defense != null)
                     yield return new DefensePenalty((DefenseType?)null);

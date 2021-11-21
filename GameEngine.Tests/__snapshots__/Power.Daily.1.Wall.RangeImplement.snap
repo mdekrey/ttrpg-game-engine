@@ -4,13 +4,15 @@
     Tool: Implement
     ToolRange: Range
     Attacks:
-    - Ability: Strength
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 8
+        Type: Wall
+        Name: Multiple
+      Ability: Strength
       Effects:
       - Target:
-          Target: Enemy, Self, Ally
-          Size: 8
-          Type: Wall
-          Name: Multiple
+          Name: See Other
         EffectType: Harmful
         Modifiers:
         - Damage: d4 + STR

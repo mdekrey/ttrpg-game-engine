@@ -2,14 +2,16 @@
 Tool: Weapon
 ToolRange: Melee
 Attacks:
-- Ability: Strength
+- Target:
+    EffectModifier:
+      Conditions:
+      - Name: Dazed
+      Name: Condition
+    Name: TwoHits
+  Ability: Strength
   Effects:
   - Target:
-      EffectModifier:
-        Conditions:
-        - Name: Dazed
-        Name: Condition
-      Name: TwoHits
+      Name: See Other
     EffectType: Harmful
     Modifiers:
     - Damage: 1[W] + STR

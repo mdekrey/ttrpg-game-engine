@@ -2,27 +2,29 @@
 Tool: Weapon
 ToolRange: Melee
 Attacks:
-- Ability: Strength
+- Target:
+    Target: Enemy, Self, Ally
+    Name: Basic Target
+  Ability: Strength
   Effects:
   - Target:
-      Target: Enemy, Self, Ally
-      Name: Basic Target
+      Name: See Other
     EffectType: Harmful
     Modifiers:
     - Damage: 1[W] + STR
       DamageTypes: []
       Name: Damage
-  - Target:
-      Target: Self
-      Name: Basic Target
-    EffectType: Beneficial
-    Modifiers:
-    - Movement:
-      - Amount: STR
-        Name: Shift
-      Name: Skirmish Movement
   Modifiers: []
 Modifiers:
 - PowerSource: Martial
   Name: Power Source
-Effects: []
+Effects:
+- Target:
+    Target: Self
+    Name: Basic Target
+  EffectType: Beneficial
+  Modifiers:
+  - Movement:
+    - Amount: STR
+      Name: Shift
+    Name: Skirmish Movement

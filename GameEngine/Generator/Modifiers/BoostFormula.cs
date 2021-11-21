@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
@@ -40,8 +41,8 @@ namespace GameEngine.Generator.Modifiers
             : duration == Duration.SaveEnds ? 2 // Should only get to "SaveEnds" if there's another SaveEnds effect
             : 1;
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, TargetEffect target, AttackProfile? attack, PowerProfileBuilder power) => 
-            new BoostModifier(ImmutableList<Boost>.Empty).GetUpgrades(stage, target, attack, power);
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, EffectContext effectContext) => 
+            new BoostModifier(ImmutableList<Boost>.Empty).GetUpgrades(stage, effectContext);
 
         public enum Limit
         {
@@ -156,28 +157,28 @@ namespace GameEngine.Generator.Modifiers
 
         public record BoostModifier(EquatableImmutableList<Boost> Boosts) : EffectModifier(ModifierName)
         {
-            public override int GetComplexity(PowerHighLevelInfo powerInfo) => Boosts.Select(boost => boost.Category()).Distinct().Count();
+            public override int GetComplexity(PowerContext powerContext) => Boosts.Select(boost => boost.Category()).Distinct().Count();
             public override bool IsPlaceholder() => Boosts.Count == 0;
             public override bool UsesDuration() => Boosts.Any(b => b.UsesDuration());
             public override bool IsInstantaneous() => Boosts.Any(b => b.IsInstantaneous());
             public override bool IsBeneficial() => true;
             public override bool IsHarmful() => false;
 
-            public override PowerCost GetCost(TargetEffect builder, PowerProfileBuilder power) =>
+            public override PowerCost GetCost(EffectContext effectContext) =>
                 new PowerCost(
                     Fixed:
                     Boosts
                         .Select(m => m.Cost()
-                            * (m.UsesDuration() ? DurationMultiplier(power.GetDuration()) : 1)
-                            * (builder.IsMultiple() ? 2 : 1)
+                            * (m.UsesDuration() ? DurationMultiplier(effectContext.PowerContext.GetDuration()) : 1)
+                            * (effectContext.Effect.IsMultiple() ? 2 : 1)
                         )
                         .Sum()
                 );
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, TargetEffect builder, AttackProfile? attack, PowerProfileBuilder power) =>
-                stage != UpgradeStage.Standard || builder.EffectType != EffectType.Beneficial
+            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext) =>
+                stage != UpgradeStage.Standard || effectContext.Effect.EffectType != EffectType.Beneficial
                     ? Enumerable.Empty<IEffectModifier>() 
-                    : GetUpgrades(power.PowerInfo, power.GetDuration());
+                    : GetUpgrades(effectContext.PowerInfo, effectContext.PowerContext.GetDuration());
 
             public IEnumerable<IEffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo, Duration duration) =>
                 from set in new[]
@@ -193,15 +194,15 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            public override TargetInfoMutator? GetTargetInfoMutator(TargetEffect effect, PowerProfile power) =>
+            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) =>
                 new(1000, (target) => target with
                 {
-                    Parts = target.Parts.AddRange(GetParts(effect, power)),
+                    Parts = target.Parts.AddRange(GetParts(effectContext)),
                 });
 
-            public IEnumerable<string> GetParts(TargetEffect effect, PowerProfile power)
+            public IEnumerable<string> GetParts(EffectContext effectContext)
             {
-                var duration = power.GetDuration() switch
+                var duration = effectContext.PowerContext.GetDuration() switch
                 {
                     Duration.EndOfUserNextTurn => "until the end of your next turn",
                     Duration.SaveEnds => "while the effect persists",
@@ -212,11 +213,11 @@ namespace GameEngine.Generator.Modifiers
                 var parts = new List<string>();
                 if (Boosts.Where(b => b.UsesDuration()).Any())
                 {
-                    yield return $"{OxfordComma(Boosts.Where(b => b.UsesDuration()).Select(b => b.BoostText(effect.Target.GetTarget())).ToArray())} {duration}";
+                    yield return $"{OxfordComma(Boosts.Where(b => b.UsesDuration()).Select(b => b.BoostText(effectContext.Target)).ToArray())} {duration}";
                 }
                 if (Boosts.Where(b => !b.UsesDuration()).Any())
                 {
-                    yield return $"{OxfordComma(Boosts.Where(b => !b.UsesDuration()).Select(b => b.BoostText(effect.Target.GetTarget())).ToArray())}";
+                    yield return $"{OxfordComma(Boosts.Where(b => !b.UsesDuration()).Select(b => b.BoostText(effectContext.Target)).ToArray())}";
                 }
             }
 

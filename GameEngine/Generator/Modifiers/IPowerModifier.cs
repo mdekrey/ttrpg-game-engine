@@ -1,4 +1,5 @@
-﻿using GameEngine.Generator.Text;
+﻿using GameEngine.Generator.Context;
+using GameEngine.Generator.Text;
 using System.Collections.Generic;
 
 namespace GameEngine.Generator.Modifiers
@@ -8,9 +9,9 @@ namespace GameEngine.Generator.Modifiers
         bool ExcludeFromUniqueness();
         bool ChangesActionType();
 
-        PowerCost GetCost(PowerProfileBuilder builder);
-        IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power);
+        PowerCost GetCost(PowerContext powerContext);
+        IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext);
         IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder);
-        PowerTextMutator? GetTextMutator(PowerProfile power);
+        PowerTextMutator? GetTextMutator(PowerContext powerContext);
     }
 }

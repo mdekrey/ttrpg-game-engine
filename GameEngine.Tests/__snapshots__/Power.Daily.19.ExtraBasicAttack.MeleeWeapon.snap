@@ -4,29 +4,33 @@
     Tool: Weapon
     ToolRange: Melee
     Attacks:
-    - Ability: Strength
+    - Target:
+        Name: TwoHits
+      Ability: Strength
       Effects:
       - Target:
-          Name: TwoHits
+          Name: See Other
         EffectType: Harmful
         Modifiers:
         - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
-      - Target:
-          Target: Ally
-          Name: Basic Target
-        EffectType: Beneficial
-        Modifiers:
-        - Damage: STR
-          Name: Make Basic Attack
       Modifiers: []
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Damage: STR
+        Name: Make Basic Attack
+      - Boosts:
+        - Amount: +8
+          Name: Attack
+        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 19
   PowerUsage: Daily
@@ -40,4 +44,6 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. One of your allies may immediately make a basic attack as a free action and add STR to the damage.
+    Text: 1[W] + STR damage.
+  - Label: Effect
+    Text: One of your allies gains a +8 power bonus to attack rolls until the end of your next turn and may immediately make a basic attack as a free action and add STR to the damage.

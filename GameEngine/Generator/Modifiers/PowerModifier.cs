@@ -1,4 +1,5 @@
-﻿using GameEngine.Generator.Text;
+﻿using GameEngine.Generator.Context;
+using GameEngine.Generator.Text;
 using System.Collections.Generic;
 
 namespace GameEngine.Generator.Modifiers
@@ -9,14 +10,14 @@ namespace GameEngine.Generator.Modifiers
         public virtual bool ChangesActionType() => false;
 
 
-        public abstract int GetComplexity(PowerHighLevelInfo powerInfo);
-        public abstract PowerCost GetCost(PowerProfileBuilder builder);
+        public abstract int GetComplexity(PowerContext powerContext);
+        public abstract PowerCost GetCost(PowerContext powerContext);
         public virtual bool IsPlaceholder() => false;
         public virtual bool MustUpgrade() => IsPlaceholder();
         public virtual bool CanUseRemainingPower() => false;
-        public abstract IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerProfileBuilder power);
+        public abstract IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext);
         public virtual IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder) { yield return builder; }
 
-        public abstract PowerTextMutator? GetTextMutator(PowerProfile power);
+        public abstract PowerTextMutator? GetTextMutator(PowerContext powerContext);
     }
 }

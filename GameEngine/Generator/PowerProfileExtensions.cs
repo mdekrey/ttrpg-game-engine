@@ -1,4 +1,5 @@
-﻿using GameEngine.Generator.Modifiers;
+﻿using GameEngine.Generator.Context;
+using GameEngine.Generator.Modifiers;
 using GameEngine.Rules;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,10 @@ namespace GameEngine.Generator
         public static IEnumerable<PowerProfileBuilder> PreApply(this IEnumerable<PowerProfileBuilder> powers)
         {
             var options = from power in powers
-                          from builder in power.Attacks.Aggregate(
+                          let context = new PowerContext(power)
+                          from builder in context.GetAttackContexts().Aggregate(
                                     Enumerable.Repeat(ImmutableList<AttackProfile>.Empty, 1),
-                                    (prev, next) => prev.SelectMany(l => next.PreApplyImplementNonArmorDefense(UpgradeStage.InitializeAttacks, power).Select(o => l.Add(o)))
+                                    (prev, next) => prev.SelectMany(l => next.PreApplyImplementNonArmorDefense(UpgradeStage.InitializeAttacks).Select(o => l.Add(o)))
                                 )
                                 .Select(attacks => power with { Attacks = attacks })
                           let b = builder.FullyInitialize()
@@ -32,14 +34,14 @@ namespace GameEngine.Generator
         }
 
         // Implements get free non-armor defense due to lack of proficiency bonus
-        private static IEnumerable<AttackProfile> PreApplyImplementNonArmorDefense(this AttackProfile attack, UpgradeStage stage, PowerProfileBuilder power) =>
-            power.PowerInfo.ToolProfile.Type is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, stage, power) : new[] { attack };
+        private static IEnumerable<AttackProfile> PreApplyImplementNonArmorDefense(this AttackContext attack, UpgradeStage stage) =>
+            attack.ToolType is ToolType.Implement ? ModifierDefinitions.NonArmorDefense.Apply(attack, stage) : new[] { attack.Attack };
 
-        private static IEnumerable<AttackProfile> Apply(this IAttackModifierFormula formula, AttackProfile attack, UpgradeStage stage, PowerProfileBuilder power)
+        private static IEnumerable<AttackProfile> Apply(this IAttackModifierFormula formula, AttackContext attackContext, UpgradeStage stage)
         {
-            return from mod in formula.GetBaseModifiers(stage, attack, power)
-                   where !attack.Modifiers.Any(m => m.Name == mod.Name)
-                   select attack.Apply(mod);
+            return from mod in formula.GetBaseModifiers(stage, attackContext)
+                   where !attackContext.Modifiers.Any(m => m.Name == mod.Name)
+                   select attackContext.Attack.Apply(mod);
         }
 
         public static string ToKeyword(this ToolType tool) =>

@@ -152,6 +152,8 @@ namespace GameEngine.Generator
                 var upgrades = powerProfileBuilder.GetUpgrades(stage).Where(entry => entry.IsValid());
                 if (preApplyOnce)
                 {
+                    var burst = upgrades.Where(e => e.AllModifiers(true).Any(m => m is BurstFormula.BurstModifier)).ToArray();
+
                     var preApplyUpgrades = upgrades.ToChances(powerProfileBuilder.PowerInfo.PowerProfileConfig).ToArray();
                     var temp = preApplyUpgrades.Select(d => d.Result).PreApply();
                     if (temp.Any())
@@ -191,6 +193,7 @@ namespace GameEngine.Generator
 
         private static AttackProfile RootAttackBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfile(
+                new BasicTarget(Target.Enemy | Target.Ally | Target.Self),
                 Ability: randomGenerator.RandomSelection(
                     info.ToolProfile.Abilities
                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
@@ -198,21 +201,21 @@ namespace GameEngine.Generator
                 ),
                 Effects: Build(
                     new TargetEffect(
-                        new BasicTarget(Target.Enemy | Target.Ally | Target.Self),
-                            EffectType.Harmful,
-                            new IEffectModifier[]
-                            {
-                                new DamageModifier(
-                                    GameDiceExpression.Empty,
-                                    DamageTypes: randomGenerator.RandomSelection(
-                                        info.ToolProfile.PreferredDamageTypes
-                                            .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
-                                            .Select(v => new RandomChances<ImmutableList<DamageType>>(v))
-                                    )
+                        new SameAsOtherTarget(),
+                        EffectType.Harmful,
+                        new IEffectModifier[]
+                        {
+                            new DamageModifier(
+                                GameDiceExpression.Empty,
+                                DamageTypes: randomGenerator.RandomSelection(
+                                    info.ToolProfile.PreferredDamageTypes
+                                        .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
+                                        .Select(v => new RandomChances<ImmutableList<DamageType>>(v))
                                 )
-                            }.ToImmutableList()
-                        )
-                    ),
+                            )
+                        }.ToImmutableList()
+                    )
+                ),
                 Modifiers: ImmutableList<IAttackModifier>.Empty
             );
 

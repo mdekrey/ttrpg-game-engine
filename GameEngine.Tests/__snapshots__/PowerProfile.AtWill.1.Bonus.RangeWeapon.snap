@@ -2,28 +2,32 @@
 Tool: Weapon
 ToolRange: Range
 Attacks:
-- Ability: Strength
+- Target:
+    Target: Enemy, Self, Ally
+    Size: 1
+    Type: Blast
+    Name: Multiple
+  Ability: Strength
   Effects:
   - Target:
-      Target: Enemy, Self, Ally
-      Name: Basic Target
+      Name: See Other
     EffectType: Harmful
     Modifiers:
     - Damage: 1[W] + STR
       DamageTypes: []
       Name: Damage
-  - Target:
-      Target: Ally
-      Name: Basic Target
-    EffectType: Beneficial
-    Modifiers:
-    - Boosts:
-      - Amount: +2
-        Limit: NextAttack
-        Name: Attack
-      Name: Boost
   Modifiers: []
 Modifiers:
 - PowerSource: Martial
   Name: Power Source
-Effects: []
+Effects:
+- Target:
+    Target: Ally
+    Name: Basic Target
+  EffectType: Beneficial
+  Modifiers:
+  - Boosts:
+    - Amount: +2
+      Limit: NextAttack
+      Name: Attack
+    Name: Boost
