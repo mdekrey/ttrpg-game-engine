@@ -48,7 +48,7 @@ namespace GameEngine.Generator.Modifiers
                           select this with { Effects = Effects.Items.Add(basicCondition) },
 
                           from condition in Effects
-                          from upgrade in condition.GetUpgrades(effectContext.PowerInfo)
+                          from upgrade in condition.GetUpgrades(effectContext.Abilities)
                           select this with { Effects = Effects.Items.Remove(condition).Add(upgrade) },
                       }
                       from mod in set
@@ -71,7 +71,7 @@ namespace GameEngine.Generator.Modifiers
             public abstract string? HitPart(Target target);
             public abstract string? HitSentence(Target target);
             public abstract double Cost();
-            public virtual IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo) =>
+            public virtual IEnumerable<MovementControl> GetUpgrades(IEnumerable<Ability> abilities) =>
                 Enumerable.Empty<MovementControl>();
         }
 
@@ -112,9 +112,9 @@ namespace GameEngine.Generator.Modifiers
                 _ => throw new NotImplementedException(),
             };
             public override double Cost() => Amount.ToWeaponDice() * 2;
-            public override IEnumerable<MovementControl> GetUpgrades(PowerHighLevelInfo powerInfo)
+            public override IEnumerable<MovementControl> GetUpgrades(IEnumerable<Ability> abilities)
             {
-                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities, limit: 4))
+                foreach (var entry in Amount.GetStandardIncreases(abilities, limit: 4))
                     yield return this with { Amount = entry };
             }
         }

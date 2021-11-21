@@ -18,7 +18,6 @@ namespace GameEngine.Generator.Context
 
         public PowerProfileBuilder PowerProfileBuilder => Power.Fold(left => left, right => throw new InvalidOperationException());
         public PowerProfile PowerProfile => Power.Fold(left => throw new InvalidOperationException(), right => right);
-        public PowerHighLevelInfo PowerInfo => Power.Fold(left => left.PowerInfo, right => throw new InvalidOperationException());
         public ImmutableList<AttackProfile> Attacks => Power.Fold(p => p.Attacks, p => p.Attacks.Items);
         public ImmutableList<TargetEffect> Effects => Power.Fold(p => p.Effects, p => p.Effects.Items);
         public ImmutableList<IPowerModifier> Modifiers => Power.Fold(left => left.Modifiers, right => right.Modifiers.Items);
@@ -26,8 +25,11 @@ namespace GameEngine.Generator.Context
         public ToolRange ToolRange => Power.Fold(left => left.PowerInfo.ToolProfile.Range, right => right.ToolRange);
         public PowerFrequency Usage => Power.Fold(left => left.PowerInfo.Usage, right => right.Usage);
         public int Level => Power.Fold(left => left.PowerInfo.Level, right => 0); // TODO - shouldn't have 0 level
+        public Ability Ability => Power.Fold(left => left.PowerInfo.ToolProfile.Abilities[0], right => right.Attacks[0].Ability); // TODO - is this the right ability?
+        public ImmutableList<Ability> Abilities => Power.Fold(left => left.PowerInfo.ToolProfile.Abilities, right => right.Attacks.Select(a => a.Ability).ToImmutableList()); // TODO - some modifiers could have abilities
 
         public Lens<PowerProfileBuilder, PowerProfileBuilder> Lens => Lens<PowerProfileBuilder>.To(p => p, (p, a) => a);
+
 
         public IEnumerable<IModifier> AllModifiers(bool includeNested) => Power.Fold(left => left.AllModifiers(includeNested), right => right.AllModifiers(includeNested));
     }
@@ -44,13 +46,13 @@ namespace GameEngine.Generator.Context
         public PowerProfileBuilder PowerProfileBuilder => RootContext.PowerProfileBuilder;
         public PowerProfile PowerProfile => RootContext.PowerProfile;
         public PowerContext PowerContext => RootContext;
-        public PowerHighLevelInfo PowerInfo => RootContext.PowerInfo;
         public ImmutableList<IAttackModifier> Modifiers => Attack.Modifiers;
         public Target Target => Attack.Target.GetTarget(this);
         public Ability Ability => Attack.Ability;
-
         public ToolType ToolType => RootContext.ToolType;
         public ToolRange ToolRange => RootContext.ToolRange;
+        public PowerFrequency Usage => PowerContext.Usage;
+        public IEnumerable<Ability> Abilities => PowerContext.Abilities;
 
         public string GetTargetText() => Attack.Target.GetTargetText(this);
         public Text.AttackType GetAttackType() => Attack.Target.GetAttackType(this);
@@ -69,12 +71,15 @@ namespace GameEngine.Generator.Context
         public PowerProfile PowerProfile => RootContext.Fold(p => p.PowerProfile, p => p.PowerProfile);
         public PowerContext PowerContext => RootContext.Fold(p => p, p => p.PowerContext);
 
-        public PowerHighLevelInfo PowerInfo => RootContext.Fold(p => p.PowerInfo, p => p.PowerInfo);
-
         public AttackContext AttackContext => RootContext.Fold(p => throw new InvalidOperationException(), p => p);
         public EffectType EffectType => Effect.EffectType;
         public Target Target => Effect.Target.GetTarget(this);
         public ImmutableList<IEffectModifier> Modifiers => Effect.Modifiers;
+        public ToolType ToolType => PowerContext.ToolType;
+        public ToolRange ToolRange => PowerContext.ToolRange;
+        public PowerFrequency Usage => PowerContext.Usage;
+        public ImmutableList<Ability> Abilities => PowerContext.Abilities;
+
 
         public Lens<PowerProfileBuilder, TargetEffect> Lens =>
             RootContext.Fold(
@@ -84,7 +89,8 @@ namespace GameEngine.Generator.Context
 
         public Lens<AttackProfile, TargetEffect> AttackLens => Lens<AttackProfile>.To(a => a.Effects[EffectIndex], (a, e) => a with { Effects = a.Effects.Items.SetItem(EffectIndex, e) });
 
-        public Ability Ability => RootContext.Fold(left => left.PowerInfo.ToolProfile.Abilities[0], right => right.Attack.Ability);
+        public Ability Ability => RootContext.Fold(left => left.Ability, right => right.Ability);
+
 
         public string GetTargetText() => Effect.Target.GetTargetText(this);
         public Text.AttackType GetAttackType() => Effect.Target.GetAttackType(this);

@@ -43,7 +43,7 @@ namespace GameEngine.Generator.Modifiers
             {
                 if (Amount == null) yield break;
 
-                foreach (var entry in Amount.GetStandardIncreases(effectContext.PowerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(effectContext.Abilities))
                     yield return this with { Amount = entry };
                 if (Amount.Abilities == CharacterAbilities.Empty && Amount.DieCodes.Modifier <= 2)
                     yield return this with { Amount = null };

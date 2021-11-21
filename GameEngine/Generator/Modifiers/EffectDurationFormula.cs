@@ -14,14 +14,14 @@ namespace GameEngine.Generator.Modifiers
         {
             if (!powerContext.AllModifiers(true).OfType<IEffectModifier>().Any(d => d.UsesDuration()))
                 yield break;
-            if (powerContext.PowerInfo.Usage < Rules.PowerFrequency.Daily)
+            if (powerContext.Usage < Rules.PowerFrequency.Daily)
                 yield return new EffectDurationModifier(Duration.EndOfUserNextTurn);
-            if (powerContext.PowerInfo.Usage >= Rules.PowerFrequency.Encounter)
+            if (powerContext.Usage >= Rules.PowerFrequency.Encounter)
             {
                 if (powerContext.AllModifiers(true).OfType<IEffectModifier>().Any(d => d.UsesDuration() && d.IsHarmful()))
                     yield return new EffectDurationModifier(Duration.SaveEnds);
             }
-            if (powerContext.PowerInfo.Usage == Rules.PowerFrequency.Daily)
+            if (powerContext.Usage == Rules.PowerFrequency.Daily)
                 yield return new EffectDurationModifier(Duration.EndOfEncounter);
         }
 

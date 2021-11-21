@@ -37,7 +37,7 @@ namespace GameEngine.Generator.Modifiers
                         yield return this with { Amount = Amount.StepUpModifier() };
                     if (Amount.DieCodes.Modifier <= 2)
                     {
-                        foreach (var ability in attackContext.PowerInfo.ToolProfile.Abilities.Where(a => a != attackContext.Ability))
+                        foreach (var ability in attackContext.Abilities.Where(a => a != attackContext.Ability))
                             yield return this with { Amount = Amount + ability };
                     }
                 }

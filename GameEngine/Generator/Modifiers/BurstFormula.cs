@@ -17,13 +17,13 @@ namespace GameEngine.Generator.Modifiers
             if (stage < UpgradeStage.Standard) yield break;
             if (effectContext.RootContext.Fold(p => true, a => a.AttackIndex < a.PowerContext.Attacks.Count - 1)) yield break;
             var target = effectContext.Target;
-            if (effectContext.PowerInfo.ToolProfile.Range != ToolRange.Range || effectContext.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+            if (effectContext.ToolRange != ToolRange.Range || effectContext.ToolType != ToolType.Weapon)
                 yield return new BurstModifier(target, 3, BurstType.Burst);
-            if (effectContext.PowerInfo.ToolProfile.Range != ToolRange.Melee || effectContext.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+            if (effectContext.ToolRange != ToolRange.Melee || effectContext.ToolType != ToolType.Weapon)
                 yield return new BurstModifier(target, 1, BurstType.Blast);
-            if (effectContext.PowerInfo.ToolProfile.Range != ToolRange.Melee || effectContext.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+            if (effectContext.ToolRange != ToolRange.Melee || effectContext.ToolType != ToolType.Weapon)
                 yield return new BurstModifier(target, 3, BurstType.Area);
-            if (effectContext.PowerInfo.ToolProfile.Type != ToolType.Weapon)
+            if (effectContext.ToolType != ToolType.Weapon)
                 yield return new BurstModifier(target, 4, BurstType.Wall);
         }
         public IEnumerable<IAttackTargetModifier> GetBaseModifiers(UpgradeStage stage, AttackContext attackContext)
@@ -63,17 +63,17 @@ namespace GameEngine.Generator.Modifiers
                 return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier);
             }
 
-            public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, PowerHighLevelInfo powerInfo)
+            public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, PowerFrequency usage)
             {
                 if (stage < UpgradeStage.Standard) yield break;
                 // TODO - size is not correct, as lvl 23 encounters for wizards get burst 4 (9)
-                if (powerInfo.Usage == PowerFrequency.AtWill && Size >= 3) yield break;
-                if (powerInfo.Usage == PowerFrequency.Encounter && Size >= 5) yield break;
+                if (usage == PowerFrequency.AtWill && Size >= 3) yield break;
+                if (usage == PowerFrequency.Encounter && Size >= 5) yield break;
 
                 yield return this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) };
             }
-            IEnumerable<IEffectTargetModifier> IEffectTargetModifier.GetUpgrades(UpgradeStage stage, EffectContext effectContext) => GetUpgrades(stage, effectContext.PowerInfo).OfType<IEffectTargetModifier>();
-            IEnumerable<IAttackTargetModifier> IAttackTargetModifier.GetUpgrades(UpgradeStage stage, AttackContext attackContext) => GetUpgrades(stage, attackContext.PowerInfo).OfType<IAttackTargetModifier>();
+            IEnumerable<IEffectTargetModifier> IEffectTargetModifier.GetUpgrades(UpgradeStage stage, EffectContext effectContext) => GetUpgrades(stage, effectContext.Usage).OfType<IEffectTargetModifier>();
+            IEnumerable<IAttackTargetModifier> IAttackTargetModifier.GetUpgrades(UpgradeStage stage, AttackContext attackContext) => GetUpgrades(stage, attackContext.Usage).OfType<IAttackTargetModifier>();
 
 
             Target IEffectTargetModifier.GetTarget(EffectContext effectContext) => Target;

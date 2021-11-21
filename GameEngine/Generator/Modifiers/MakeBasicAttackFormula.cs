@@ -31,7 +31,7 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext)
             {
                 if (Damage == GameDiceExpression.Empty)
-                    foreach (var ability in effectContext.PowerInfo.ToolProfile.Abilities)
+                    foreach (var ability in effectContext.Abilities)
                         yield return this with { Damage = Damage + ability };
             }
 

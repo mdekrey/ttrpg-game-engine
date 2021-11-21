@@ -14,9 +14,9 @@ namespace GameEngine.Generator.Modifiers
     {
         public const string ModifierName = "Boost";
 
-        private static IEnumerable<Boost> GetBasicBoosts(PowerHighLevelInfo powerInfo, Duration duration)
+        private static IEnumerable<Boost> GetBasicBoosts(IEnumerable<Ability> abilities, Duration duration)
         {
-            var amounts = new GameDiceExpression[] { 2 }.Concat(powerInfo.ToolProfile.Abilities.Select(a => (GameDiceExpression)a));
+            var amounts = new GameDiceExpression[] { 2 }.Concat(abilities.Select(a => (GameDiceExpression)a));
             var defenses = new[] { DefenseType.ArmorClass, DefenseType.Fortitude, DefenseType.Reflex, DefenseType.Will };
 
             foreach (var amount in amounts)
@@ -55,7 +55,7 @@ namespace GameEngine.Generator.Modifiers
             public abstract double Cost();
             public abstract bool UsesDuration();
             public abstract bool IsInstantaneous();
-            public abstract IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo);
+            public abstract IEnumerable<Boost> GetUpgrades(IEnumerable<Ability> abilities);
             public abstract string BoostText(Target target);
             public abstract string Category();
         }
@@ -65,9 +65,9 @@ namespace GameEngine.Generator.Modifiers
                 * (Limit == null ? 2 : 1);
             public override bool UsesDuration() => Limit != BoostFormula.Limit.NextAttack;
             public override bool IsInstantaneous() => false;
-            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
+            public override IEnumerable<Boost> GetUpgrades(IEnumerable<Ability> abilities)
             {
-                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(abilities))
                     yield return this with { Amount = entry };
                 if (Limit != null)
                     yield return this with { Limit = null };
@@ -93,9 +93,9 @@ namespace GameEngine.Generator.Modifiers
                 * (Defense == null ? 2 : 1);
             public override bool UsesDuration() => true;
             public override bool IsInstantaneous() => false;
-            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
+            public override IEnumerable<Boost> GetUpgrades(IEnumerable<Ability> abilities)
             {
-                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(abilities))
                     yield return this with { Amount = entry };
                 if (Defense != null)
                     yield return this with { Defense = null };
@@ -110,9 +110,9 @@ namespace GameEngine.Generator.Modifiers
             public override double Cost() => Amount.ToWeaponDice();
             public override bool UsesDuration() => false;
             public override bool IsInstantaneous() => true;
-            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
+            public override IEnumerable<Boost> GetUpgrades(IEnumerable<Ability> abilities)
             {
-                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(abilities))
                     yield return this with { Amount = entry };
             }
 
@@ -126,7 +126,7 @@ namespace GameEngine.Generator.Modifiers
             public override double Cost() => 1;
             public override bool UsesDuration() => false;
             public override bool IsInstantaneous() => true;
-            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
+            public override IEnumerable<Boost> GetUpgrades(IEnumerable<Ability> abilities) => Enumerable.Empty<Boost>();
             public override string BoostText(Target target) => $"may immediately make a saving throw";
             public override string Category() => "Healing";
         }
@@ -135,7 +135,7 @@ namespace GameEngine.Generator.Modifiers
             public override double Cost() => 1;
             public override bool UsesDuration() => false;
             public override bool IsInstantaneous() => true;
-            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo) => Enumerable.Empty<Boost>();
+            public override IEnumerable<Boost> GetUpgrades(IEnumerable<Ability> abilities) => Enumerable.Empty<Boost>();
             public override string BoostText(Target target) => $"may immediately spend a healing surge";
             public override string Category() => "Healing";
         }
@@ -144,9 +144,9 @@ namespace GameEngine.Generator.Modifiers
             public override double Cost() => Amount.ToWeaponDice();
             public override bool UsesDuration() => true;
             public override bool IsInstantaneous() => false;
-            public override IEnumerable<Boost> GetUpgrades(PowerHighLevelInfo powerInfo)
+            public override IEnumerable<Boost> GetUpgrades(IEnumerable<Ability> abilities)
             {
-                foreach (var entry in Amount.GetStandardIncreases(powerInfo.ToolProfile.Abilities))
+                foreach (var entry in Amount.GetStandardIncreases(abilities))
                     yield return this with { Amount = entry };
             }
             public override string BoostText(Target target) => target == Target.Self
@@ -178,17 +178,17 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext) =>
                 stage != UpgradeStage.Standard || effectContext.Effect.EffectType != EffectType.Beneficial
                     ? Enumerable.Empty<IEffectModifier>() 
-                    : GetUpgrades(effectContext.PowerInfo, effectContext.PowerContext.GetDuration());
+                    : GetUpgrades(effectContext.Abilities, effectContext.PowerContext.GetDuration());
 
-            public IEnumerable<IEffectModifier> GetUpgrades(PowerHighLevelInfo powerInfo, Duration duration) =>
+            public IEnumerable<IEffectModifier> GetUpgrades(IEnumerable<Ability> abilities, Duration duration) =>
                 from set in new[]
                 {
-                    from basicBoost in GetBasicBoosts(powerInfo, duration)
+                    from basicBoost in GetBasicBoosts(abilities, duration)
                     where !Boosts.Select(b => b.Name).Contains(basicBoost.Name)
                     select this with { Boosts = Boosts.Items.Add(basicBoost) },
 
                     from boost in Boosts
-                    from upgrade in boost.GetUpgrades(powerInfo)
+                    from upgrade in boost.GetUpgrades(abilities)
                     select this with { Boosts = Boosts.Items.Remove(boost).Add(upgrade) },
                 }
                 from mod in set

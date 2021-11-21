@@ -30,12 +30,12 @@ namespace GameEngine.Generator.Modifiers
             if (effectContext.RootContext is not Either<PowerContext, AttackContext>.Right { Value: { Attack: { Ability: var ability } } })
                 return Enumerable.Empty<IEffectModifier>();
 
-            return new[] { ability }.Concat(effectContext.PowerInfo.ToolProfile.Abilities)
+            return new[] { ability }.Concat(effectContext.Abilities)
                 .Distinct()
                 .Take(stage switch
                 {
                     UpgradeStage.InitializeAttacks => 1,
-                    UpgradeStage.Finalize when effectContext.PowerInfo.ToolProfile.Type == ToolType.Weapon => effectContext.PowerInfo.ToolProfile.Abilities.Count,
+                    UpgradeStage.Finalize when effectContext.ToolType == ToolType.Weapon => effectContext.Abilities.Count,
                     _ => 0
                 })
                 .Except(GetAbilities())
