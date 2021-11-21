@@ -2,7 +2,6 @@
 using System.Collections.Immutable;
 using System.Linq;
 using GameEngine.Generator.Modifiers;
-using static GameEngine.Generator.ImmutableConstructorExtension;
 
 namespace GameEngine.Generator
 {
@@ -11,27 +10,28 @@ namespace GameEngine.Generator
         public const string GeneralKeyword = "General";
 
         public static readonly IAttackModifierFormula NonArmorDefense = new NonArmorDefenseFormula();
-        public static readonly ImmutableList<IEffectFormula> effectModifiers = Build<IEffectFormula>(
+        public static readonly ImmutableList<IEffectFormula> effectModifiers = new IEffectFormula[]
+        {
             new ConditionFormula(),
             new SkirmishFormula(),
             new BoostFormula(),
             new MovementControlFormula(),
-            new MakeBasicAttackFormula()
+            new MakeBasicAttackFormula(),
             // TODO: Disarm and catch
-        );
-        public static readonly ImmutableList<IAttackModifierFormula> attackModifiers = Build<IAttackModifierFormula>(
+        }.ToImmutableList();
+        public static readonly ImmutableList<IAttackModifierFormula> attackModifiers = new IAttackModifierFormula[] {
             NonArmorDefense,
-            new ToHitBonusFormula()
+            new ToHitBonusFormula(),
             // TODO: Reroll attack
             // TODO: Ignore cover/concealment
-        );
-        public static readonly ImmutableList<IPowerModifierFormula> powerModifiers = Build<IPowerModifierFormula>(
+        }.ToImmutableList();
+        public static readonly ImmutableList<IPowerModifierFormula> powerModifiers = new IPowerModifierFormula[] {
             new ConditionFormula(),
             new EffectDurationFormula(),
             new MultiattackFormula(),
             new MinorActionFormula(),
             new OpportunityActionFormula(),
-            new BasicAttackFormula()
+            new BasicAttackFormula(),
             // TODO: Stance, includes:
             //   - beast form
             //   - rage
@@ -40,7 +40,7 @@ namespace GameEngine.Generator
             //   - conjuration
             //   - zone
             //   - ongoing attacks, such as continued lightning, continued psychic attack, combo melee attacks, etc...
-        );
+        }.ToImmutableList();
         public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = new ITargetFormula[]
         {
             new BurstFormula(),
