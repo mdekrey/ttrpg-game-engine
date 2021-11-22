@@ -31,7 +31,7 @@ namespace GameEngine.Generator.Text
             );
 
             var context = new PowerContext(profile.PowerProfile);
-            var attacks = context.GetAttackContexts().Select((attackContext) => attackContext.ToAttackInfo()).ToArray();
+            var attacks = context.GetAttackContexts().Select((attackContext) => attackContext.AttackContext.ToAttackInfo()).ToArray();
             result = result.AddAttack(attacks[0], 1);
             result = (from mod in profile.PowerProfile.Modifiers
                       let mutator = mod.GetTextMutator(context)

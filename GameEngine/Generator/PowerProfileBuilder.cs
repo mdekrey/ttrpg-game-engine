@@ -56,7 +56,7 @@ namespace GameEngine.Generator
         private PowerProfileBuilder ApplyWeaponDice()
         {
             var context = new PowerContext(this);
-            var cost = context.GetAttackContexts().Select(a => a.TotalCost()).ToImmutableList();
+            var cost = context.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
             var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
 
             var damages = GetDamageLenses().ToImmutableList();
@@ -95,7 +95,7 @@ namespace GameEngine.Generator
             if (AllModifiers(false).Cast<IModifier>().GetComplexity(powerContext) > Limits.MaxComplexity)
                 return false;
 
-            var cost = powerContext.GetAttackContexts().Select(a => a.TotalCost()).ToImmutableList();
+            var cost = powerContext.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
             var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
             var min = cost.Sum(c => c.SingleTargetMultiplier);
             var remaining = TotalCost.Apply(Limits.Initial) - fixedCost;
@@ -122,7 +122,7 @@ namespace GameEngine.Generator
                     select this.Replace(effectContext.Lens, upgrade)
                     ,
                     from attackContext in powerContext.GetAttackContexts()
-                    from upgrade in attackContext.GetUpgrades(stage)
+                    from upgrade in attackContext.AttackContext.GetUpgrades(stage)
                     select this.Replace(attackContext.Lens, upgrade)
                     ,
                     from modifier in Modifiers
@@ -172,12 +172,12 @@ namespace GameEngine.Generator
         {
             var powerContext = new PowerContext(this);
             return (from attackContext in powerContext.GetAttackContexts()
-                    from effectContext in attackContext.GetEffectContexts()
+                    from effectContext in attackContext.AttackContext.GetEffectContexts()
                     let lens = attackContext.Lens.To(effectContext.Lens)
                     from m in effectContext.EffectContext.Modifiers.Select((mod, index) => (mod, index))
                     let damage = m.mod as DamageModifier
                     where damage != null
-                    select new DamageLens(damage, attackContext.TotalCost().Multiplier, (pb, newDamage) => pb.Update(lens, e =>
+                    select new DamageLens(damage, attackContext.AttackContext.TotalCost().Multiplier, (pb, newDamage) => pb.Update(lens, e =>
                         e with {
                             Modifiers = e.Modifiers.Items.SetItem(m.index, newDamage),
                         }

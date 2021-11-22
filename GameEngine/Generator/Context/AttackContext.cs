@@ -9,9 +9,6 @@ namespace GameEngine.Generator.Context
 {
     public record AttackContext(PowerContext RootContext, AttackProfile Attack, int AttackIndex)
     {
-        public AttackContext(PowerContext RootContext, int AttackIndex) 
-            : this(RootContext, RootContext.Power.Fold(p => p.Attacks, p => p.Attacks.Items)[AttackIndex], AttackIndex) { }
-
         public EffectAttackLensedContext BuildEffectContext(int effectIndex) => new (this, effectIndex);
         public IEnumerable<EffectAttackLensedContext> GetEffectContexts() => Attack.Effects.Select((targetEffect, index) => BuildEffectContext(index));
 
@@ -31,8 +28,6 @@ namespace GameEngine.Generator.Context
         public Text.AttackType GetAttackType() => Attack.Target.GetAttackType(this);
         public string? GetAttackNotes() => Attack.Target.GetAttackNotes(this);
         public TargetInfoMutator? GetTargetInfoMutator() => Attack.Target.GetTargetInfoMutator(this);
-
-        public Lens<PowerProfileBuilder, AttackProfile> Lens => Lens<PowerProfileBuilder>.To(p => p.Attacks[AttackIndex], (p, a) => p with { Attacks = p.Attacks.SetItem(AttackIndex, a) });
     }
 
 

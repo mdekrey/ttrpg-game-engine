@@ -28,7 +28,7 @@ namespace GameEngine.Generator
         private AttackContext GetAttackContext(EffectContext effectContext)
         {
             if (OtherAttackIndex is int otherAttackIndex)
-                return effectContext.PowerContext.GetAttackContexts()[otherAttackIndex];
+                return effectContext.PowerContext.GetAttackContexts()[otherAttackIndex].AttackContext;
             return effectContext.RootContext.Fold(
                 left => throw new System.InvalidOperationException(),
                 attackContext => attackContext

@@ -14,7 +14,7 @@ namespace GameEngine.Generator
         {
             var options = from power in powers
                           let context = new PowerContext(power)
-                          from builder in context.GetAttackContexts().Aggregate(
+                          from builder in context.GetAttackContexts().Select(a => a.AttackContext).Aggregate(
                                     Enumerable.Repeat(ImmutableList<AttackProfile>.Empty, 1),
                                     (prev, next) => prev.SelectMany(l => next.PreApplyImplementNonArmorDefense(UpgradeStage.InitializeAttacks).Select(o => l.Add(o)))
                                 )

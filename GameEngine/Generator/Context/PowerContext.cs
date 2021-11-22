@@ -10,8 +10,8 @@ namespace GameEngine.Generator.Context
 {
     public record PowerContext(Either<PowerProfileBuilder, PowerProfile> Power)
     {
-        public AttackContext BuildAttackContext(int attackIndex) => new AttackContext(this, attackIndex);
-        public ImmutableList<AttackContext> GetAttackContexts() => Attacks.Select((targetEffect, index) => BuildAttackContext(index)).ToImmutableList();
+        public AttackPowerLensedContext BuildAttackContext(int attackIndex) => new (this, attackIndex);
+        public ImmutableList<AttackPowerLensedContext> GetAttackContexts() => Attacks.Select((targetEffect, index) => BuildAttackContext(index)).ToImmutableList();
         public EffectPowerLensedContext BuildEffectContext(int effectIndex) => new (this, effectIndex);
         public IEnumerable<EffectPowerLensedContext> GetEffectContexts() => Effects.Select((targetEffect, index) => BuildEffectContext(index));
 
@@ -27,17 +27,23 @@ namespace GameEngine.Generator.Context
         public Ability Ability => Power.Fold(left => left.PowerInfo.ToolProfile.Abilities[0], right => right.Attacks[0].Ability); // TODO - is this the right ability?
         public ImmutableList<Ability> Abilities => Power.Fold(left => left.PowerInfo.ToolProfile.Abilities, right => right.Attacks.Select(a => a.Ability).ToImmutableList()); // TODO - some modifiers could have abilities
 
-        public Lens<PowerProfileBuilder, PowerProfileBuilder> Lens => Lens<PowerProfileBuilder>.To(p => p, (p, a) => a);
-
-
         public IEnumerable<IModifier> AllModifiers(bool includeNested) => Power.Fold(left => left.AllModifiers(includeNested), right => right.AllModifiers(includeNested));
+    }
+
+    public record AttackPowerLensedContext(AttackContext AttackContext, Lens<PowerProfileBuilder, AttackProfile> Lens)
+    {
+        public AttackPowerLensedContext(PowerContext powerContext, int attackIndex)
+            : this(new AttackContext(powerContext, powerContext.Attacks[attackIndex], attackIndex),
+                  Lens: Lens<PowerProfileBuilder>.To(p => p.Attacks[attackIndex], (p, a) => p with { Attacks = p.Attacks.SetItem(attackIndex, a) }))
+        {
+        }
     }
 
     public record EffectPowerLensedContext(EffectContext EffectContext, Lens<PowerProfileBuilder, TargetEffect> Lens)
     {
         public EffectPowerLensedContext(PowerContext powerContext, int effectIndex)
             : this(new EffectContext(powerContext, powerContext.Effects[effectIndex]),
-                  Lens: powerContext.Lens.To(Lens<PowerProfileBuilder>.To(p => p.Effects[effectIndex], (p, e) => p with { Effects = p.Effects.SetItem(effectIndex, e) })))
+                  Lens: Lens<PowerProfileBuilder>.To(p => p.Effects[effectIndex], (p, e) => p with { Effects = p.Effects.SetItem(effectIndex, e) }))
         {
         }
     }

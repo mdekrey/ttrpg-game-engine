@@ -58,7 +58,7 @@ namespace GameEngine.Tests.Modifiers
                 Build(new TargetEffect(new BasicTarget(Target.Enemy | Target.Ally | Target.Self), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty))
             );
 
-            var effectContext = new PowerContext(power).BuildAttackContext(0).BuildEffectContext(0).EffectContext;
+            var effectContext = new PowerContext(power).BuildAttackContext(0).AttackContext.BuildEffectContext(0).EffectContext;
             var upgrades = attack.Effects[0].Modifiers.First().GetUpgrades(UpgradeStage.Finalize, effectContext);
 
             Assert.Collection(upgrades, upgrade => Assert.True(upgrade is DamageModifier { Damage: { Abilities: { Strength: 1, Dexterity: 1 } } }));

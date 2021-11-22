@@ -35,7 +35,7 @@ namespace GameEngine.Generator.Modifiers
         public record TargetDelegateModifier(IAttackTargetModifier TargetModifier) : PowerModifier(ModifierName)
         {
             public override int GetComplexity(PowerContext powerContext) => TargetModifier.GetComplexity(powerContext);
-            public override PowerCost GetCost(PowerContext powerContext) => TargetModifier.GetCost(powerContext.BuildAttackContext(0));
+            public override PowerCost GetCost(PowerContext powerContext) => TargetModifier.GetCost(powerContext.BuildAttackContext(0).AttackContext);
 
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext) =>
                 Enumerable.Empty<IPowerModifier>();
