@@ -42,7 +42,7 @@ namespace GameEngine.Generator.Text
 
             result = result with
             {
-                RulesText = result.RulesText.AddEffectSentences(context.GetEffectContexts().Select(effectContext => effectContext.ToTargetInfo().PartsToSentence().Capitalize()))
+                RulesText = result.RulesText.AddEffectSentences(context.GetEffectContexts().Select(effectContext => effectContext.EffectContext.ToTargetInfo().PartsToSentence().Capitalize()))
             };
 
             return result with
@@ -68,7 +68,7 @@ namespace GameEngine.Generator.Text
 
         public static AttackInfo ToAttackInfo(this AttackContext attackContext)
         {
-            var targetInfos = attackContext.GetEffectContexts().Select(effectContext => effectContext.ToTargetInfo()).ToArray();
+            var targetInfos = attackContext.GetEffectContexts().Select(effectContext => effectContext.EffectContext.ToTargetInfo()).ToArray();
             
 
             var result = new AttackInfo(

@@ -32,7 +32,7 @@ namespace GameEngine.Generator
                     from set in new[]
                     {
                         Modifiers.Select(m => { return m.GetCost(context); }),
-                        context.GetEffectContexts().Select(e => e.TotalCost()),
+                        context.GetEffectContexts().Select(e => e.EffectContext.TotalCost()),
                     }
                     from cost in set
                     select cost
@@ -118,7 +118,7 @@ namespace GameEngine.Generator
                 from set in new[]
                 {
                     from effectContext in powerContext.GetEffectContexts()
-                    from upgrade in effectContext.GetUpgrades(stage)
+                    from upgrade in effectContext.EffectContext.GetUpgrades(stage)
                     select this.Replace(effectContext.Lens, upgrade)
                     ,
                     from attackContext in powerContext.GetAttackContexts()
@@ -135,9 +135,9 @@ namespace GameEngine.Generator
                     select this.Apply(mod)
                     ,
                     from entry in TargetOptions
-                    where !powerContext.GetEffectContexts().Any(te => (te.Target & entry.Target) != 0)
+                    where !powerContext.GetEffectContexts().Any(te => (te.EffectContext.Target & entry.Target) != 0)
                     let newBuilder = new TargetEffect(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty)
-                    let effectContext = new EffectContext(powerContext, newBuilder, this.Effects.Count)
+                    let effectContext = new EffectContext(powerContext, newBuilder)
                     from newBuilderUpgrade in effectContext.GetUpgrades(stage)
                     select this with { Effects = this.Effects.Add(newBuilderUpgrade) }
                 }
@@ -173,10 +173,11 @@ namespace GameEngine.Generator
             var powerContext = new PowerContext(this);
             return (from attackContext in powerContext.GetAttackContexts()
                     from effectContext in attackContext.GetEffectContexts()
-                    from m in effectContext.Modifiers.Select((mod, index) => (mod, index))
+                    let lens = attackContext.Lens.To(effectContext.Lens)
+                    from m in effectContext.EffectContext.Modifiers.Select((mod, index) => (mod, index))
                     let damage = m.mod as DamageModifier
                     where damage != null
-                    select new DamageLens(damage, attackContext.TotalCost().Multiplier, (pb, newDamage) => pb.Update(effectContext.Lens, e =>
+                    select new DamageLens(damage, attackContext.TotalCost().Multiplier, (pb, newDamage) => pb.Update(lens, e =>
                         e with {
                             Modifiers = e.Modifiers.Items.SetItem(m.index, newDamage),
                         }

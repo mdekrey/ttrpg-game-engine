@@ -12,8 +12,8 @@ namespace GameEngine.Generator.Context
     {
         public AttackContext BuildAttackContext(int attackIndex) => new AttackContext(this, attackIndex);
         public ImmutableList<AttackContext> GetAttackContexts() => Attacks.Select((targetEffect, index) => BuildAttackContext(index)).ToImmutableList();
-        public EffectContext BuildEffectContext(int effectIndex) => new EffectContext(this, effectIndex);
-        public IEnumerable<EffectContext> GetEffectContexts() => Effects.Select((targetEffect, index) => BuildEffectContext(index));
+        public EffectPowerLensedContext BuildEffectContext(int effectIndex) => new (this, effectIndex);
+        public IEnumerable<EffectPowerLensedContext> GetEffectContexts() => Effects.Select((targetEffect, index) => BuildEffectContext(index));
 
         public PowerProfileBuilder PowerProfileBuilder => Power.Fold(left => left, right => throw new InvalidOperationException());
         public PowerProfile PowerProfile => Power.Fold(left => throw new InvalidOperationException(), right => right);
@@ -31,5 +31,14 @@ namespace GameEngine.Generator.Context
 
 
         public IEnumerable<IModifier> AllModifiers(bool includeNested) => Power.Fold(left => left.AllModifiers(includeNested), right => right.AllModifiers(includeNested));
+    }
+
+    public record EffectPowerLensedContext(EffectContext EffectContext, Lens<PowerProfileBuilder, TargetEffect> Lens)
+    {
+        public EffectPowerLensedContext(PowerContext powerContext, int effectIndex)
+            : this(new EffectContext(powerContext, powerContext.Effects[effectIndex]),
+                  Lens: powerContext.Lens.To(Lens<PowerProfileBuilder>.To(p => p.Effects[effectIndex], (p, e) => p with { Effects = p.Effects.SetItem(effectIndex, e) })))
+        {
+        }
     }
 }

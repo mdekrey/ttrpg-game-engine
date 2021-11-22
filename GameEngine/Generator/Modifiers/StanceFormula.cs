@@ -17,8 +17,8 @@ namespace GameEngine.Generator.Modifiers
         private static readonly TargetEffect EmptySelfTargetEffect = new TargetEffect(new BasicTarget(Target.Self), EffectType.Beneficial, ImmutableList<IEffectModifier>.Empty);
 
         private static EffectContext GetStanceEffect(PowerContext powerContext) =>
-            (powerContext.GetEffectContexts().FirstOrDefault(e => e.Target == Target.Self && e.EffectType == EffectType.Beneficial)
-                ?? new EffectContext(powerContext, EmptySelfTargetEffect, powerContext.Effects.Count))
+            (powerContext.GetEffectContexts().Select(e => e.EffectContext).FirstOrDefault(e => e.Target == Target.Self && e.EffectType == EffectType.Beneficial)
+                ?? new EffectContext(powerContext, EmptySelfTargetEffect))
             with
             {
                 Duration = Duration.StanceEnds,

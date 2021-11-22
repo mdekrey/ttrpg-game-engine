@@ -38,7 +38,7 @@ namespace GameEngine.Generator
                 from set in new[]
                 {
                     attackContext.Attack.Modifiers.Select(m => m.GetCost(attackContext)),
-                    attackContext.GetEffectContexts().Select(e => e.TotalCost()),
+                    attackContext.GetEffectContexts().Select(e => e.EffectContext.TotalCost()),
                     Enumerable.Repeat(attackContext.Attack.Target.GetCost(attackContext), 1),
                 }
                 from entry in set
@@ -60,8 +60,8 @@ namespace GameEngine.Generator
                 select attackContext.Attack.Apply(upgrade)
                 ,
                 from effectContext in attackContext.GetEffectContexts()
-                from upgrade in effectContext.GetUpgrades(stage)
-                select attackContext.Attack with { Effects = attackContext.Effects.SetItem(effectContext.EffectIndex, upgrade) }
+                from upgrade in effectContext.EffectContext.GetUpgrades(stage)
+                select attackContext.Attack.Replace(effectContext.Lens, upgrade)
                 ,
                 from modifier in attackContext.Modifiers
                 from upgrade in modifier.GetUpgrades(stage, attackContext)
@@ -73,9 +73,9 @@ namespace GameEngine.Generator
                 select attackContext.Attack.Apply(mod)
                 ,
                 from entry in TargetOptions
-                where !attackContext.GetEffectContexts().Any(effectContext => (effectContext.Target & entry.Target) != 0)
+                where !attackContext.GetEffectContexts().Any(effectContext => (effectContext.EffectContext.Target & entry.Target) != 0)
                 let newTargetEffect = new TargetEffect(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty)
-                let newContext = new EffectContext(attackContext, newTargetEffect, attackContext.Effects.Count)
+                let newContext = new EffectContext(attackContext, newTargetEffect)
                 from newTargetEffectUpgrade in newContext.GetUpgrades(stage)
                 select attackContext.Attack with { Effects = attackContext.Effects.Add(newContext.Effect) }
             }
