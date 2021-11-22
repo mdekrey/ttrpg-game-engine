@@ -174,7 +174,7 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder)
             {
                 var next = builder with { Modifiers = builder.Modifiers.Remove(this).Add(new EffectDurationFormula.EffectDurationModifier(Duration)) };
-                var newEffect = new TargetEffect(new SameAsOtherTarget(), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier));
+                var newEffect = new TargetEffect(new SameAsOtherTarget(0), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier));
 
                 return from lens in (
                             from attackIndex in Enumerable.Range(0, next.Attacks.Count)

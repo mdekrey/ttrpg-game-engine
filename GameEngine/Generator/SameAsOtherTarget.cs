@@ -29,7 +29,10 @@ namespace GameEngine.Generator
         {
             if (OtherAttackIndex is int otherAttackIndex)
                 return effectContext.PowerContext.GetAttackContexts()[otherAttackIndex];
-            return effectContext.RootContext.Fold(left => left.GetAttackContexts()[0], attackContext => attackContext);
+            return effectContext.RootContext.Fold(
+                left => throw new System.InvalidOperationException(),
+                attackContext => attackContext
+            );
         }
 
         public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext)
@@ -39,7 +42,7 @@ namespace GameEngine.Generator
 
         public string? GetAttackNotes(EffectContext effectContext) => null;
 
-        public TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) => (OtherAttackIndex is int otherAttackIndex ? effectContext.PowerContext.GetAttackContexts()[otherAttackIndex] : effectContext.AttackContext).GetTargetInfoMutator();
+        public TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) => GetAttackContext(effectContext).GetTargetInfoMutator();
 
         public string GetTargetText(EffectContext effectContext) => "the target";
 

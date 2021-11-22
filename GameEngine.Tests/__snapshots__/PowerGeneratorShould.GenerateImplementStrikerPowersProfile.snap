@@ -217,6 +217,7 @@
       Name: Power Source
     Effects:
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
@@ -465,6 +466,7 @@
         - Name: Prone
         Name: MovementControl
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
@@ -770,6 +772,7 @@
       Name: Power Source
     Effects:
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
@@ -1160,6 +1163,7 @@
       Name: Power Source
     Effects:
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
@@ -1226,6 +1230,7 @@
       Name: Power Source
     Effects:
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
@@ -1302,6 +1307,7 @@
       Name: Power Source
     Effects:
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
@@ -2140,6 +2146,7 @@
       Name: Power Source
     Effects:
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
@@ -2371,6 +2378,7 @@
       Name: Power Source
     Effects:
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
@@ -2523,6 +2531,7 @@
       Name: Power Source
     Effects:
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
@@ -2705,6 +2714,7 @@
       Name: Power Source
     Effects:
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
@@ -2764,6 +2774,7 @@
       Name: Power Source
     Effects:
     - Target:
+        OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
