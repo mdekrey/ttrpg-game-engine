@@ -33,14 +33,14 @@ namespace GameEngine.Generator.Modifiers
 
             foreach (var entry in from formula in ModifierDefinitions.effectModifiers
                                   from mod in formula.GetBaseModifiers(stage, target)
-                                  where mod.UsesDuration()
+                                  where mod.UsesDuration() && !mod.IsInstantaneous()
                                   select mod)
                 yield return new SelfBoostStanceModifier(entry);
         }
 
         public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier("Self-Boost Stance")
         {
-            public override int GetComplexity(PowerContext powerContext) => 1;
+            public override int GetComplexity(PowerContext powerContext) => 1 + EffectModifier.GetComplexity(powerContext);
 
             public override PowerCost GetCost(PowerContext powerContext) => EffectModifier.GetCost(GetStanceEffect(powerContext));
 
@@ -51,7 +51,6 @@ namespace GameEngine.Generator.Modifiers
                 if (origMutator == null)
                     return null;
 
-                // TODO
                 return new (5000, (text) =>
                 {
                     var tempTarget = origMutator.Apply(effectContext.GetDefaultTargetInfo());
@@ -66,7 +65,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext)
             {
-                foreach (var entry in EffectModifier.GetUpgrades(stage, GetStanceEffect(powerContext)))
+                foreach (var entry in EffectModifier.GetUpgrades(stage, GetStanceEffect(powerContext)).Where(mod => !mod.IsInstantaneous()))
                 {
                     yield return this with { EffectModifier = entry };
                 }

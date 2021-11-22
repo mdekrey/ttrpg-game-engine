@@ -28,8 +28,6 @@
         - Amount: +2
           Limit: Target
           Name: Attack
-        - Amount: +2
-          Name: Temporary Hit Points
         Name: Boost
       Name: Self-Boost Stance
     - PowerSource: Martial
@@ -51,4 +49,4 @@
   - Label: Hit
     Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is blinded, dazed, and deafened until the end of your next turn.
   - Label: Effect
-    Text: You gain a +2 power bonus to attack rolls against the target until the stance ends and gain +2 temporary hit points.
+    Text: You gain a +2 power bonus to attack rolls against the target until the stance ends.
