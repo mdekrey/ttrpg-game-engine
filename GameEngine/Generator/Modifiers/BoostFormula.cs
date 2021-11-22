@@ -174,7 +174,7 @@ namespace GameEngine.Generator.Modifiers
                     Fixed:
                     Boosts
                         .Select(m => m.Cost()
-                            * (m.UsesDuration() ? DurationMultiplier(effectContext.PowerContext.GetDuration()) : 1)
+                            * (m.UsesDuration() ? DurationMultiplier(effectContext.GetDuration()) : 1)
                             * (effectContext.Effect.IsMultiple() ? 2 : 1)
                         )
                         .Sum()
@@ -183,7 +183,7 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext) =>
                 stage != UpgradeStage.Standard || effectContext.Effect.EffectType != EffectType.Beneficial
                     ? Enumerable.Empty<IEffectModifier>()
-                    : GetUpgrades(effectContext.Abilities, effectContext.PowerContext.GetDuration());
+                    : GetUpgrades(effectContext.Abilities, effectContext.GetDuration());
 
             public IEnumerable<IEffectModifier> GetUpgrades(IEnumerable<Ability> abilities, Duration duration) =>
                 from set in new[]
@@ -207,7 +207,7 @@ namespace GameEngine.Generator.Modifiers
 
             public IEnumerable<string> GetParts(EffectContext effectContext)
             {
-                var duration = effectContext.PowerContext.GetDuration() switch
+                var duration = effectContext.GetDuration() switch
                 {
                     Duration.EndOfUserNextTurn => "until the end of your next turn",
                     Duration.SaveEnds => "while the effect persists",

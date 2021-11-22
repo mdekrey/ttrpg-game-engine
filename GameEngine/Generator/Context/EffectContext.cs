@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace GameEngine.Generator.Context
 {
-    public record EffectContext(Either<PowerContext, AttackContext> RootContext, TargetEffect Effect, int EffectIndex)
+    public record EffectContext(Either<PowerContext, AttackContext> RootContext, TargetEffect Effect, int EffectIndex, Duration? Duration = null)
     {
         public EffectContext(Either<PowerContext, AttackContext> RootContext, int EffectIndex)
             : this(RootContext, RootContext.Fold(p => p.Effects, p => p.Effects)[EffectIndex], EffectIndex) { }
@@ -50,5 +50,7 @@ namespace GameEngine.Generator.Context
                 Parts: ImmutableList<string>.Empty,
                 AdditionalSentences: ImmutableList<string>.Empty
             );
+
+        public Duration GetDuration() => Duration ?? PowerContext.GetDuration();
     }
 }

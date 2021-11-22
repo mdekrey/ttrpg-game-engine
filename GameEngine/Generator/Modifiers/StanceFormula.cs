@@ -17,11 +17,18 @@ namespace GameEngine.Generator.Modifiers
         private static readonly TargetEffect EmptySelfTargetEffect = new TargetEffect(new BasicTarget(Target.Self), EffectType.Beneficial, ImmutableList<IEffectModifier>.Empty);
 
         private static EffectContext GetStanceEffect(PowerContext powerContext) =>
-            powerContext.GetEffectContexts().FirstOrDefault(e => e.Target == Target.Self && e.EffectType == EffectType.Beneficial)
-                ?? new EffectContext(powerContext, EmptySelfTargetEffect, powerContext.Effects.Count);
+            (powerContext.GetEffectContexts().FirstOrDefault(e => e.Target == Target.Self && e.EffectType == EffectType.Beneficial)
+                ?? new EffectContext(powerContext, EmptySelfTargetEffect, powerContext.Effects.Count))
+            with
+            {
+                Duration = Duration.StanceEnds,
+            };
 
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
+            if (powerContext.Usage == Rules.PowerFrequency.AtWill)
+                yield break;
+
             var target = GetStanceEffect(powerContext);
 
             foreach (var entry in from formula in ModifierDefinitions.effectModifiers
@@ -35,7 +42,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 
-            public override PowerCost GetCost(PowerContext powerContext) => EffectModifier.GetCost(GetStanceEffect(powerContext)) * 2;
+            public override PowerCost GetCost(PowerContext powerContext) => EffectModifier.GetCost(GetStanceEffect(powerContext));
 
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext)
             {
@@ -51,7 +58,8 @@ namespace GameEngine.Generator.Modifiers
 
                     return text with
                     {
-                        RulesText = text.RulesText.Items.Add(new Rules.RulesText(Label: "Effect", Text: $"Until the stance ends, {tempTarget.PartsToSentence()}"))
+                        Keywords = text.Keywords.Items.Add("Stance"),
+                        RulesText = text.RulesText.Items.Add(new Rules.RulesText(Label: "Effect", Text: tempTarget.PartsToSentence().Capitalize()))
                     };
                 });
             }

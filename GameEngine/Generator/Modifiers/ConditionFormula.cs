@@ -149,9 +149,7 @@ namespace GameEngine.Generator.Modifiers
             if (powerContext.HasDuration())
                 yield break;
             foreach (var entry in from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
-                                  let p = powerContext.PowerProfileBuilder.Apply(new EffectDurationFormula.EffectDurationModifier(duration))
-                                  let ctx = powerContext with { Power = p }
-                                  from condition in new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, ctx)
+                                  from condition in new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, duration)
                                   select new EffectAndDurationModifier(duration, condition))
             {
                 yield return entry;
@@ -204,7 +202,7 @@ namespace GameEngine.Generator.Modifiers
                 new PowerCost(Fixed:
                     AfterEffect switch
                     {
-                        null => Conditions.Select(c => c.Cost() * DurationMultiplier(effectContext.PowerContext.GetDuration())).Sum(),
+                        null => Conditions.Select(c => c.Cost() * DurationMultiplier(effectContext.GetDuration())).Sum(),
                         { Condition: var afterEffect, AfterFailedSave: false } =>
                             Conditions.Select(c => c.Cost() * DurationMultiplier(Duration.SaveEnds)).Sum()
                             + afterEffect.Cost() * DurationMultiplier(Duration.SaveEnds),
@@ -218,7 +216,7 @@ namespace GameEngine.Generator.Modifiers
             public override bool IsBeneficial() => false;
             public override bool IsHarmful() => true;
 
-            public IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext)
+            public IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, Duration duration)
             {
 
                 if (stage < UpgradeStage.Standard)
@@ -228,14 +226,14 @@ namespace GameEngine.Generator.Modifiers
                 return from set in new[]
                 {
                     from basicCondition in basicConditions.Keys
-                    where Conditions.Count == 0 && powerContext.GetDuration() == Duration.SaveEnds
+                    where Conditions.Count == 0 && duration == Duration.SaveEnds
                     where basicConditions[basicCondition].Subsumes.Count > 0
                     from simple in basicConditions[basicCondition].Subsumes
                     where basicConditions[simple].AllowDirectApplication
                     select new ConditionModifier(ImmutableList<Condition>.Empty.Add(new Condition(simple)), new AfterEffect(new Condition(basicCondition), true)),
 
                     from basicCondition in basicConditions.Keys
-                    where Conditions.Count == 0 && powerContext.GetDuration() == Duration.SaveEnds
+                    where Conditions.Count == 0 && duration == Duration.SaveEnds
                     where basicConditions[basicCondition].Subsumes.Count > 0
                     from simple in basicConditions[basicCondition].Subsumes
                     where basicConditions[simple].AllowDirectApplication
@@ -282,7 +280,7 @@ namespace GameEngine.Generator.Modifiers
             {
                 if (effectContext.EffectType != EffectType.Harmful)
                     return Enumerable.Empty<IEffectModifier>();
-                return GetUpgrades(stage, effectContext.PowerContext);
+                return GetUpgrades(stage, effectContext.GetDuration());
             }
 
             public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) =>
@@ -295,7 +293,7 @@ namespace GameEngine.Generator.Modifiers
 
             public IEnumerable<string> GetParts(EffectContext effectContext)
             {
-                var duration = effectContext.PowerContext.GetDuration() switch
+                var duration = effectContext.GetDuration() switch
                 {
                     Duration.EndOfUserNextTurn => "until the end of your next turn",
                     Duration.SaveEnds => "(save ends)",

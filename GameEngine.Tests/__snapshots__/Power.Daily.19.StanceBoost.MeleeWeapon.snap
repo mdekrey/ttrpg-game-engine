@@ -1,0 +1,54 @@
+﻿- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        EffectModifier:
+          Conditions:
+          - Name: Blinded
+          - Name: Dazed
+          - Name: Deafened
+          Name: Condition
+        Name: TwoHits
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - EffectModifier:
+        Boosts:
+        - Amount: +2
+          Limit: Target
+          Name: Attack
+        - Amount: +2
+          Name: Temporary Hit Points
+        Name: Boost
+      Name: Self-Boost Stance
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 19
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Stance
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One or two creatures
+  Attack: STR vs. AC, two attacks
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is blinded, dazed, and deafened until the end of your next turn.
+  - Label: Effect
+    Text: You gain a +2 power bonus to attack rolls against the target until the stance ends and gain +2 temporary hit points.
