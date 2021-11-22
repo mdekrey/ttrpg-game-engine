@@ -130,15 +130,13 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
+        - Damage: 1[W] + STR + DEX
           DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: DEX
         Name: To-Hit Bonus to Current Attack
     Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -157,115 +155,22 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Name: See Other
-      EffectType: Harmful
-      Modifiers:
-      - Conditions:
-        - Defense: Fortitude
-          Name: Defense Penalty
-        Name: Condition
-- Level: 1
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 2[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Movement:
-        - Amount: +2
-          Name: Shift
-        Name: Skirmish Movement
-- Level: 1
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Trigger: YouOrAllyAttacked
-      Name: OpportunityAction
-    - Duration: EndOfEncounter
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 1
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 2[W] + STR
-          DamageTypes: []
-          Name: Damage
         - Conditions:
-          - Defense: Fortitude
-            Name: Defense Penalty
+          - Name: Marked
           Name: Condition
+        - Damage: 2[W] + STR
+          DamageTypes: []
+          Name: Damage
       Modifiers: []
     Modifiers:
-    - Trigger: YouOrAllyAttacked
-      Name: OpportunityAction
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
 - Level: 1
   PowerProfile:
-    Usage: Daily
+    Usage: Encounter
     Tool: Weapon
     ToolRange: Melee
     Attacks:
@@ -281,48 +186,8 @@
         - Damage: 2[W] + STR
           DamageTypes: []
           Name: Damage
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Name: See Other
-      EffectType: Harmful
-      Modifiers:
-      - Conditions:
-        - Name: Marked
-        AfterEffect:
-          Condition:
-            Name: Stunned
-          AfterFailedSave: true
-        Name: Condition
-- Level: 1
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes: []
-          Name: Damage
       Modifiers: []
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects:
@@ -332,20 +197,12 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: DEX + 2
+        - Amount: STR
           Name: Shift
         Name: Skirmish Movement
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Name: Extra Saving Throw
-        Name: Boost
 - Level: 1
   PowerProfile:
-    Usage: Daily
+    Usage: Encounter
     Tool: Weapon
     ToolRange: Melee
     Attacks:
@@ -358,28 +215,19 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 2[W] + STR
+        - Damage: 2[W]
           DamageTypes: []
           Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
+      Modifiers: []
     Modifiers:
+    - Trigger: ACreatureMovesAdjacent
+      Name: OpportunityAction
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: +2
-          Name: Defense
-        Name: Boost
-- Level: 3
+    Effects: []
+- Level: 1
   PowerProfile:
-    Usage: Encounter
+    Usage: Daily
     Tool: Weapon
     ToolRange: Melee
     Attacks:
@@ -412,7 +260,204 @@
       Modifiers:
       - Name: RequiresPreviousHit
     Modifiers:
+    - Name: Minor Action
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: DEX
+          Limit: Target
+          Name: Attack
+        Name: Boost
+- Level: 1
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Conditions:
+          - Name: Grants Combat Advantage
+          AfterEffect:
+            Condition:
+              Name: Blinded
+            AfterFailedSave: true
+          Name: Condition
+        - Damage: 1[W] + STR + DEX
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
     - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Effects:
+        - Mode: Push
+          Amount: +2
+          Name: Slide Opponent
+        Name: MovementControl
+- Level: 1
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: DEX
+          Limit: Target
+          Name: Attack
+        Name: Boost
+- Level: 1
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3[W]
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Trigger: ACreatureMovesAdjacent
+      Name: OpportunityAction
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 3
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR + DEX
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Trigger: ACreatureMovesAdjacent
+      Name: OpportunityAction
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 3
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR + DEX
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Movement:
+        - Amount: STR + 2
+          Name: Shift
+        Name: Skirmish Movement
+- Level: 3
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Conditions:
+          - Defense: ArmorClass
+            Name: Defense Penalty
+          Name: Condition
+        - Damage: 2[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Duration: EndOfUserNextTurn
       Name: Duration
     - PowerSource: Martial
       Name: Power Source
@@ -432,13 +477,77 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
+        - Damage: 1[W] + STR + DEX
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 5
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 2[W] + STR
           DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
+    - Trigger: ACreatureMovesAdjacent
+      Name: OpportunityAction
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: DEX
+          Limit: NextAttack
+          Name: Attack
+        Name: Boost
+- Level: 5
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3[W] + STR
+          DamageTypes: []
+          Name: Damage
+        - Conditions:
+          - Name: Deafened
+          - Defense: ArmorClass
+            Name: Defense Penalty
+          - Name: Marked
+          Name: Condition
+      Modifiers: []
+    Modifiers:
     - PowerSource: Martial
       Name: Power Source
     Effects:
@@ -448,10 +557,165 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: STR + 2
+        - Amount: STR
           Name: Shift
         Name: Skirmish Movement
-- Level: 3
+- Level: 5
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 4[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Amount: +2
+        Name: To-Hit Bonus to Current Attack
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: DEX
+          Name: Temporary Hit Points
+        Name: Boost
+- Level: 5
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+        - Conditions:
+          - Name: Slowed
+          AfterEffect:
+            Condition:
+              Name: Petrified
+            AfterFailedSave: true
+          Name: Condition
+      Modifiers: []
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Grants Combat Advantage
+        AfterEffect:
+          Condition:
+            Name: Blinded
+          AfterFailedSave: true
+        Name: Condition
+- Level: 7
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W]
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Name: RequiredHitForNextAttack
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W]
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 7
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 2[W]
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Trigger: YouOrAllyAttacked
+      Name: OpportunityAction
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 7
   PowerProfile:
     Usage: Encounter
     Tool: Weapon
@@ -483,7 +747,7 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 3
+- Level: 7
   PowerProfile:
     Usage: Encounter
     Tool: Weapon
@@ -498,124 +762,35 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 2[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Amount: +2
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 5
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
         - Conditions:
-          - Name: Weakened
+          - Name: Grants Combat Advantage
+          AfterEffect:
+            Condition:
+              Name: Stunned
+            AfterFailedSave: true
           Name: Condition
-        - Damage: 3[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 5
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
         - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
-      Modifiers:
-      - Amount: +2
-        Name: To-Hit Bonus to Current Attack
+      Modifiers: []
     Modifiers:
     - Duration: SaveEnds
       Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target:
-        Name: See Other
-      EffectType: Harmful
-      Modifiers:
-      - Conditions:
-        - Name: Stunned
-        AfterEffect:
-          Condition:
-            Name: Dazed
-          AfterFailedSave: false
-        Name: Condition
-- Level: 5
+    Effects: []
+- Level: 9
   PowerProfile:
     Usage: Daily
     Tool: Weapon
     ToolRange: Melee
     Attacks:
     - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 4[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Movement:
-        - Amount: +2
-          Name: Shift
-        Name: Skirmish Movement
-- Level: 5
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Name: UpToThreeTargets
+        EffectModifier:
+          Conditions:
+          - Name: Deafened
+          Name: Condition
+        Name: TwoHits
       Ability: Strength
       Effects:
       - Target:
@@ -625,9 +800,6 @@
         - Damage: 2[W] + STR
           DamageTypes: []
           Name: Damage
-        - Conditions:
-          - Name: Stunned
-          Name: Condition
       Modifiers: []
     Modifiers:
     - PowerSource: Martial
@@ -639,114 +811,10 @@
       EffectType: Beneficial
       Modifiers:
       - Boosts:
-        - Amount: +2
-          Defense: ArmorClass
-          Name: Defense
+        - Amount: STR
+          Limit: NextAttack
+          Name: Attack
         Name: Boost
-- Level: 7
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Name: TwoHits
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 7
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 7
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Trigger: YouOrAllyAttacked
-      Name: OpportunityAction
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 7
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Conditions:
-          - Name: Slowed
-          Name: Condition
-        - Damage: 2[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
 - Level: 9
   PowerProfile:
     Usage: Daily
@@ -776,18 +844,18 @@
         Name: See Other
       EffectType: Harmful
       Modifiers:
-      - Conditions:
-        - Name: Slowed
-        AfterEffect:
-          Condition:
-            Name: Immobilized
-          AfterFailedSave: true
-        Name: Condition
       - Effects:
-        - Mode: Push
+        - Mode: Slide
           Amount: +1
           Name: Slide Opponent
         Name: MovementControl
+      - Conditions:
+        - Name: Deafened
+        AfterEffect:
+          Condition:
+            Name: Unconscious
+          AfterFailedSave: true
+        Name: Condition
 - Level: 9
   PowerProfile:
     Usage: Daily
@@ -844,56 +912,25 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Name: Blinded
-          Name: Condition
-        - Damage: 3[W] + STR + DEX
+        - Damage: 3[W] + STR
           DamageTypes: []
           Name: Damage
+        - Conditions:
+          - Name: Slowed
+          AfterEffect:
+            Condition:
+              Name: Petrified
+            AfterFailedSave: true
+          Name: Condition
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
     Modifiers:
-    - Duration: SaveEnds
+    - Duration: EndOfEncounter
       Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 9
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 2[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Trigger: ACreatureMovesAdjacent
-      Name: OpportunityAction
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: STR
-          Limit: Target
-          Name: Attack
-        Name: Boost
 - Level: 11
   PowerProfile:
     Usage: Encounter
@@ -909,12 +946,88 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 2[W] + STR
+        - Damage: 2[W] + STR + DEX
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Movement:
+        - Name: Shift
+        Name: Skirmish Movement
+- Level: 11
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 2[W] + STR + DEX
           DamageTypes: []
           Name: Damage
       Modifiers:
       - Amount: DEX
         Name: To-Hit Bonus to Current Attack
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 11
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+        - Conditions:
+          - Name: Slowed
+          AfterEffect:
+            Condition:
+              Name: Immobilized
+            AfterFailedSave: true
+          Name: Condition
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
     Modifiers:
     - Duration: SaveEnds
       Name: Duration
@@ -922,6 +1035,57 @@
       Name: Power Source
     Effects: []
 - Level: 11
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+        - Conditions:
+          - Name: Restrained
+          - Name: Dazed
+          Name: Condition
+      Modifiers: []
+    Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 13
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Name: TwoHits
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 13
   PowerProfile:
     Usage: Encounter
     Tool: Weapon
@@ -949,87 +1113,6 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 11
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Name: TwoHits
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 11
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Movement:
-        - Amount: +2
-          Name: Shift
-        Name: Skirmish Movement
-- Level: 13
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Trigger: YouOrAllyAttacked
-      Name: OpportunityAction
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
 - Level: 13
   PowerProfile:
     Usage: Encounter
@@ -1049,11 +1132,22 @@
           DamageTypes: []
           Name: Damage
       Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
+      - Name: RequiredHitForNextAttack
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 2[W]
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
     Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -1073,42 +1167,15 @@
         EffectType: Harmful
         Modifiers:
         - Conditions:
-          - Defense: Will
+          - Defense: Reflex
             Name: Defense Penalty
           Name: Condition
-        - Damage: 2[W] + STR + DEX
+        - Damage: 3[W] + STR
           DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 13
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 2[W] + STR + DEX
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: EndOfEncounter
+    - Duration: EndOfUserNextTurn
       Name: Duration
     - PowerSource: Martial
       Name: Power Source
@@ -1120,41 +1187,33 @@
     ToolRange: Melee
     Attacks:
     - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
+        Name: UpToThreeTargets
       Ability: Strength
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 5[W] + STR
+        - Damage: 4[W] + STR
           DamageTypes: []
           Name: Damage
+      - Target:
+          Target: Self
+          Name: Basic Target
+        EffectType: Beneficial
+        Modifiers:
+        - Boosts:
+          - Amount: STR
+            Name: Temporary Hit Points
+          - Amount: DEX + 2
+            Defense: Reflex
+            Name: Defense
+          Name: Boost
       Modifiers: []
     Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Movement:
-        - Amount: STR
-          Name: Shift
-        Name: Skirmish Movement
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Name: Extra Saving Throw
-        Name: Boost
+    Effects: []
 - Level: 15
   PowerProfile:
     Usage: Daily
@@ -1195,23 +1254,30 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 4[W] + STR
+        - Conditions:
+          - Defense: ArmorClass
+            Name: Defense Penalty
+          Name: Condition
+        - Damage: 5[W] + STR
           DamageTypes: []
           Name: Damage
-        - Effects:
-          - Mode: Slide
-            Amount: +2
-            Name: Slide Opponent
-          Name: MovementControl
-      Modifiers:
-      - Amount: DEX
-        Name: To-Hit Bonus to Current Attack
+      Modifiers: []
     Modifiers:
     - Duration: SaveEnds
       Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Target: Self, Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Defense: ArmorClass
+          Name: Defense
+        Name: Boost
 - Level: 15
   PowerProfile:
     Usage: Daily
@@ -1227,14 +1293,43 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Name: Dazed
-          AfterEffect:
-            Condition:
-              Name: Unconscious
-            AfterFailedSave: true
-          Name: Condition
-        - Damage: 1[W] + STR + DEX
+        - Damage: 4[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Amount: DEX
+        Name: To-Hit Bonus to Current Attack
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: STR
+          Name: Temporary Hit Points
+        - Name: Extra Saving Throw
+        - Name: Healing Surge
+        Name: Boost
+- Level: 17
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 2[W] + STR + DEX
           DamageTypes: []
           Name: Damage
       Modifiers: []
@@ -1249,11 +1344,8 @@
       EffectType: Harmful
       Modifiers:
       - Conditions:
-        - Name: Stunned
-        AfterEffect:
-          Condition:
-            Name: Dazed
-          AfterFailedSave: false
+        - Defense: Reflex
+          Name: Defense Penalty
         Name: Condition
 - Level: 17
   PowerProfile:
@@ -1270,26 +1362,10 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Defense: Will
-            Name: Defense Penalty
-          Name: Condition
-        - Damage: 3[W] + STR
+        - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
       Modifiers: []
-    Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 17
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
     - Target:
         Target: Enemy, Self, Ally
         Name: Basic Target
@@ -1299,13 +1375,11 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 2[W] + STR
+        - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects:
@@ -1315,7 +1389,8 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Name: Shift
+        - Amount: DEX + 2
+          Name: Shift
         Name: Skirmish Movement
 - Level: 17
   PowerProfile:
@@ -1332,25 +1407,12 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 2[W] + STR
+        - Damage: 2[W] + STR + DEX
           DamageTypes: []
           Name: Damage
       Modifiers:
-      - Name: RequiredHitForNextAttack
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 2[W]
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
+      - Defense: Reflex
+        Name: Non-Armor Defense
     Modifiers:
     - PowerSource: Martial
       Name: Power Source
@@ -1371,65 +1433,6 @@
         EffectType: Harmful
         Modifiers:
         - Damage: 3[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 19
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Conditions:
-          - Defense: ArmorClass
-            Name: Defense Penalty
-          Name: Condition
-        - Damage: 5[W] + STR
-          DamageTypes: []
-          Name: Damage
-        - Effects:
-          - Mode: Slide
-            Amount: +2
-            Name: Slide Opponent
-          Name: MovementControl
-      Modifiers: []
-    Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 19
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 5[W] + STR
           DamageTypes: []
           Name: Damage
       Modifiers: []
@@ -1446,16 +1449,6 @@
         - Amount: STR
           Name: Shift
         Name: Skirmish Movement
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: +2
-          Limit: NextAttack
-          Name: Attack
-        Name: Boost
 - Level: 19
   PowerProfile:
     Usage: Daily
@@ -1464,83 +1457,24 @@
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
-        Name: Basic Target
+        Size: 3
+        Type: Burst
+        Name: Multiple
       Ability: Strength
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Defense: Reflex
-            Name: Defense Penalty
-          - Name: Stunned
-          Name: Condition
-        - Damage: 2[W] + STR + DEX
+        - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 19
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
+      Modifiers: []
     - Target:
         Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 5[W]
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 5[W]
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-    Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 20
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        EffectModifier:
-          Conditions: []
-          AfterEffect:
-            Condition:
-              Name: Slowed
-            AfterFailedSave: true
-          Name: Condition
-        Name: TwoHits
+        Size: 3
+        Type: Burst
+        Name: Multiple
       Ability: Strength
       Effects:
       - Target:
@@ -1552,8 +1486,198 @@
           Name: Damage
       Modifiers: []
     Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Movement:
+        - Amount: +4
+          Name: Shift
+        Name: Skirmish Movement
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Effects:
+        - Mode: Slide
+          Amount: +2
+          Name: Slide Opponent
+        Name: MovementControl
+- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 5[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
     - Duration: SaveEnds
       Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Slowed
+        AfterEffect:
+          Condition:
+            Name: Petrified
+          AfterFailedSave: true
+        Name: Condition
+- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 2[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Surprised
+        AfterEffect:
+          Condition:
+            Name: Grants Combat Advantage
+          AfterFailedSave: false
+        Name: Condition
+      - Effects:
+        - Name: Prone
+        - Mode: Push
+          Amount: DEX + 2
+          Name: Slide Opponent
+        Name: MovementControl
+- Level: 19
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Name: UpToThreeTargets
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 5[W] + STR
+          DamageTypes: []
+          Name: Damage
+        - Conditions:
+          - Defense: Fortitude
+            Name: Defense Penalty
+          Name: Condition
+      Modifiers: []
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: STR + 2
+          Defense: ArmorClass
+          Name: Defense
+        Name: Boost
+- Level: 20
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+        - Conditions:
+          - Amount: 10
+            Name: Ongoing
+          - Name: Defense Penalty
+          Name: Condition
+      Modifiers:
+      - Amount: DEX + 2
+        Name: To-Hit Bonus to Current Attack
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 20
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Trigger: ACreatureMovesAdjacent
+      Name: OpportunityAction
     - PowerSource: Martial
       Name: Power Source
     Effects:
@@ -1563,9 +1687,6 @@
       EffectType: Beneficial
       Modifiers:
       - Boosts:
-        - Amount: +2
-          Limit: Target
-          Name: Attack
         - Amount: DEX
           Name: Temporary Hit Points
         Name: Boost
@@ -1584,21 +1705,27 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 7[W] + STR
+        - Damage: 5[W] + STR
           DamageTypes: []
           Name: Damage
-        - Effects:
-          - Mode: Pull
-            Amount: +1
-            Name: Slide Opponent
-          Name: MovementControl
-      Modifiers:
-      - Amount: DEX
-        Name: To-Hit Bonus to Current Attack
+        - Conditions:
+          - Name: Stunned
+          Name: Condition
+      Modifiers: []
     Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Defense: Fortitude
+          Name: Defense Penalty
+        Name: Condition
 - Level: 20
   PowerProfile:
     Usage: Daily
@@ -1614,12 +1741,16 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 7[W] + STR
+        - Conditions:
+          - Defense: Will
+            Name: Defense Penalty
+          Name: Condition
+        - Damage: 5[W] + STR + DEX
           DamageTypes: []
           Name: Damage
       Modifiers: []
     Modifiers:
-    - Duration: SaveEnds
+    - Duration: EndOfEncounter
       Name: Duration
     - PowerSource: Martial
       Name: Power Source
@@ -1633,39 +1764,6 @@
         - Amount: STR
           Name: Shift
         Name: Skirmish Movement
-- Level: 20
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 6[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Name: See Other
-      EffectType: Harmful
-      Modifiers:
-      - Conditions:
-        - Amount: 5
-          Name: Ongoing
-        Name: Condition
 - Level: 23
   PowerProfile:
     Usage: Encounter
@@ -1681,14 +1779,45 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 3[W] + STR
+        - Damage: 3[W] + STR + DEX
           DamageTypes: []
           Name: Damage
+      Modifiers: []
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Movement:
+        - Amount: STR
+          Name: Shift
+        Name: Skirmish Movement
+- Level: 23
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
         - Conditions:
-          - Defense: Reflex
+          - Defense: ArmorClass
             Name: Defense Penalty
-          - Name: Weakened
           Name: Condition
+        - Damage: 4[W] + STR
+          DamageTypes: []
+          Name: Damage
       Modifiers: []
     Modifiers:
     - Duration: EndOfUserNextTurn
@@ -1714,8 +1843,20 @@
         - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
-      Modifiers:
-      - Name: RequiredHitForNextAttack
+      Modifiers: []
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
     - Target:
         Target: Enemy, Self, Ally
         Name: Basic Target
@@ -1729,8 +1870,18 @@
           DamageTypes: []
           Name: Damage
       Modifiers:
-      - Name: RequiresPreviousHit
-      - Name: RequiredHitForNextAttack
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 23
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
     - Target:
         Target: Enemy, Self, Ally
         Name: Basic Target
@@ -1740,11 +1891,80 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
+        - Damage: 2[W] + STR + DEX
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Trigger: YouOrAllyAttacked
+      Name: OpportunityAction
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 25
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Burst
+        Name: Multiple
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3[W] + STR
           DamageTypes: []
           Name: Damage
       Modifiers:
-      - Name: RequiresPreviousHit
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self, Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Effects:
+        - Mode: Slide
+          Amount: +1
+          Name: Slide Opponent
+        - Name: Prone
+        Name: MovementControl
+- Level: 25
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Conditions:
+          - Name: Grants Combat Advantage
+          AfterEffect:
+            Condition:
+              Name: Stunned
+            AfterFailedSave: true
+          Name: Condition
+        - Damage: 6[W] + STR + DEX
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
     Modifiers:
     - Duration: SaveEnds
       Name: Duration
@@ -1756,12 +1976,179 @@
         Name: Basic Target
       EffectType: Beneficial
       Modifiers:
+      - Movement:
+        - Amount: STR
+          Name: Shift
+        Name: Skirmish Movement
+- Level: 25
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3[W] + STR
+          DamageTypes: []
+          Name: Damage
+        - Conditions:
+          - Name: Dazed
+          AfterEffect:
+            Condition:
+              Name: Surprised
+            AfterFailedSave: true
+          Name: Condition
+      Modifiers: []
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Grants Combat Advantage
+        AfterEffect:
+          Condition:
+            Name: Dying
+          AfterFailedSave: true
+        Name: Condition
+- Level: 25
+  PowerProfile:
+    Usage: Daily
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Name: TwoHits
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 2[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Duration: EndOfEncounter
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self, Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
       - Effects:
         - Mode: Slide
-          Amount: +1
+          Amount: +2
           Name: Slide Opponent
         Name: MovementControl
-- Level: 23
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Defense: Will
+          Name: Defense Penalty
+        Name: Condition
+- Level: 27
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects:
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Grants Combat Advantage
+        AfterEffect:
+          Condition:
+            Name: Blinded
+          AfterFailedSave: true
+        Name: Condition
+- Level: 27
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Name: UpToThreeTargets
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 27
+  PowerProfile:
+    Usage: Encounter
+    Tool: Weapon
+    ToolRange: Melee
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Name: Basic Target
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3[W] + STR + DEX
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Level: 27
   PowerProfile:
     Usage: Encounter
     Tool: Weapon
@@ -1781,210 +2168,14 @@
           Name: Damage
       Modifiers: []
     Modifiers:
-    - Trigger: YouOrAllyAttacked
-      Name: OpportunityAction
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 23
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR + DEX
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Amount: DEX
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 25
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3[W] + STR
-          DamageTypes: []
-          Name: Damage
-        - Effects:
-          - Mode: Push
-            Amount: +2
-            Name: Slide Opponent
-          Name: MovementControl
-        - Conditions:
-          - Defense: Fortitude
-            Name: Defense Penalty
-          - Name: Blinded
-          - Name: Stunned
-          Name: Condition
-      Modifiers: []
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 25
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 6[W] + STR + DEX
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: DEX
-          Name: Temporary Hit Points
-        - Amount: STR
-          Name: Regeneration
-        Name: Boost
-- Level: 25
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Name: RequiredHitForNextAttack
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-    Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self, Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: +2
-          Limit: NextAttack
-          Name: Attack
-        Name: Boost
-      - Effects:
-        - Mode: Slide
-          Amount: +1
-          Name: Slide Opponent
-        Name: MovementControl
-- Level: 25
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 5[W]
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
     - Trigger: ACreatureMovesAdjacent
       Name: OpportunityAction
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 27
+- Level: 29
   PowerProfile:
-    Usage: Encounter
+    Usage: Daily
     Tool: Weapon
     ToolRange: Melee
     Attacks:
@@ -1997,101 +2188,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Defense: Reflex
-            Name: Defense Penalty
-          Name: Condition
-        - Damage: 3[W] + STR + DEX
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects: []
-- Level: 27
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR + DEX
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Name: RequiredHitForNextAttack
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 1[W] + STR
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-    Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: STR
-          Limit: NextAttack
-          Name: Attack
-        Name: Boost
-- Level: 27
-  PowerProfile:
-    Usage: Encounter
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3[W] + STR
+        - Damage: 5[W] + STR + DEX
           DamageTypes: []
           Name: Damage
       Modifiers: []
@@ -2110,9 +2207,21 @@
         - Amount: STR + 2
           Name: Shift
         Name: Skirmish Movement
-- Level: 27
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Slowed
+        - Name: Dazed
+        AfterEffect:
+          Condition:
+            Name: Grants Combat Advantage
+          AfterFailedSave: false
+        Name: Condition
+- Level: 29
   PowerProfile:
-    Usage: Encounter
+    Usage: Daily
     Tool: Weapon
     ToolRange: Melee
     Attacks:
@@ -2125,15 +2234,14 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 2[W] + STR + DEX
+        - Damage: 9[W] + STR
           DamageTypes: []
           Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
+        - Conditions:
+          - Name: Stunned
+          Name: Condition
+      Modifiers: []
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -2156,61 +2264,25 @@
           DamageTypes: []
           Name: Damage
       Modifiers:
-      - Amount: DEX + 2
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
+      - Name: RequiredHitForNextAttack
     - Target:
-        Target: Ally
+        Target: Enemy, Self, Ally
         Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Effects:
-        - Mode: Pull
-          Amount: +1
-          Name: Slide Opponent
-        - Name: Prone
-        Name: MovementControl
-- Level: 29
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Name: UpToThreeTargets
       Ability: Strength
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 6[W] + STR
+        - Damage: 6[W]
           DamageTypes: []
           Name: Damage
-        - Conditions:
-          - Name: Stunned
-          Name: Condition
-      Modifiers: []
+      Modifiers:
+      - Name: RequiresPreviousHit
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: DEX
-          Name: Temporary Hit Points
-        Name: Boost
+    Effects: []
 - Level: 29
   PowerProfile:
     Usage: Daily
@@ -2226,71 +2298,22 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Name: Dazed
-          AfterEffect:
-            Condition:
-              Name: Stunned
-            AfterFailedSave: true
-          Name: Condition
-        - Damage: 6[W] + STR + DEX
-          DamageTypes: []
-          Name: Damage
-      Modifiers: []
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: DEX + 2
-          Limit: Target
-          Name: Attack
-        Name: Boost
-- Level: 29
-  PowerProfile:
-    Usage: Daily
-    Tool: Weapon
-    ToolRange: Melee
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Name: Basic Target
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 6[W] + STR
-          DamageTypes: []
-          Name: Damage
         - Conditions:
           - Name: Grants Combat Advantage
           AfterEffect:
             Condition:
-              Name: Blinded
+              Name: Dazed
             AfterFailedSave: true
           Name: Condition
-      Modifiers: []
+        - Damage: 8[W] + STR + DEX
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
     Modifiers:
     - Duration: SaveEnds
       Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Movement:
-        - Amount: STR
-          Name: Shift
-        Name: Skirmish Movement
+    Effects: []

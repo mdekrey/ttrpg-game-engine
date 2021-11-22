@@ -40,5 +40,15 @@ namespace GameEngine.Generator.Context
         public string? GetAttackNotes() => Effect.Target.GetAttackNotes(this);
 
         internal Text.TargetInfoMutator? GetTargetInfoMutator() => Effect.Target.GetTargetInfoMutator(this);
+
+        public Text.TargetInfo GetDefaultTargetInfo() =>
+            new Text.TargetInfo(
+                Target: GetTargetText(),
+                AttackType: GetAttackType(),
+                AttackNotes: GetAttackNotes(),
+                DamageExpression: null,
+                Parts: ImmutableList<string>.Empty,
+                AdditionalSentences: ImmutableList<string>.Empty
+            );
     }
 }

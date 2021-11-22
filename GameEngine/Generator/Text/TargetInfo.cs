@@ -16,7 +16,7 @@ namespace GameEngine.Generator.Text
         public string PartsToSentence()
         {
             var join = Parts is not { Count: > 0 } ? ""
-                : DamageExpression is { Length: > 0 } ? ", and the target "
+                : DamageExpression is { Length: > 0 } ? $", and {Target} "
                 : (Target + " ");
 
             return (

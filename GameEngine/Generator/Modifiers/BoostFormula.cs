@@ -37,15 +37,20 @@ namespace GameEngine.Generator.Modifiers
         }
 
         public static double DurationMultiplier(Duration duration) =>
-            duration == Duration.EndOfEncounter ? 4
-            : duration == Duration.SaveEnds ? 2 // Should only get to "SaveEnds" if there's another SaveEnds effect
-            : 1;
+            duration switch
+            {
+                Duration.EndOfEncounter => 4,
+                Duration.StanceEnds => 2,
+                Duration.SaveEnds => 2, // Should only get to "SaveEnds" if there's another SaveEnds effect
+                _ => 1
+            };
 
-        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, EffectContext effectContext) => 
+        public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, EffectContext effectContext) =>
             new BoostModifier(ImmutableList<Boost>.Empty).GetUpgrades(stage, effectContext);
 
         public enum Limit
         {
+            // TODO - this limit should probably be a restriction instead
             NextAttack,
             Target,
         }
@@ -72,7 +77,7 @@ namespace GameEngine.Generator.Modifiers
                 if (Limit != null)
                     yield return this with { Limit = null };
             }
-            public override string BoostText(Target target) => target == Target.Self 
+            public override string BoostText(Target target) => target == Target.Self
                 ? $"gain a {Amount} power bonus to attack rolls{LimitText}"
                 : $"gains a {Amount} power bonus to attack rolls{LimitText}";
 
@@ -177,7 +182,7 @@ namespace GameEngine.Generator.Modifiers
 
             public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext) =>
                 stage != UpgradeStage.Standard || effectContext.Effect.EffectType != EffectType.Beneficial
-                    ? Enumerable.Empty<IEffectModifier>() 
+                    ? Enumerable.Empty<IEffectModifier>()
                     : GetUpgrades(effectContext.Abilities, effectContext.PowerContext.GetDuration());
 
             public IEnumerable<IEffectModifier> GetUpgrades(IEnumerable<Ability> abilities, Duration duration) =>
@@ -207,6 +212,7 @@ namespace GameEngine.Generator.Modifiers
                     Duration.EndOfUserNextTurn => "until the end of your next turn",
                     Duration.SaveEnds => "while the effect persists",
                     Duration.EndOfEncounter => "until the end of the encounter",
+                    Duration.StanceEnds => "until the stance ends",
                     _ => throw new System.NotImplementedException(),
                 };
 

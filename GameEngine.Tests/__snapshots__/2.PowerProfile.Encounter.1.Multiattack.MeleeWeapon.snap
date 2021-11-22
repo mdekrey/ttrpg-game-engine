@@ -31,18 +31,15 @@ Attacks:
   Modifiers:
   - Name: RequiresPreviousHit
 Modifiers:
-- Duration: EndOfUserNextTurn
-  Name: Duration
 - PowerSource: Martial
   Name: Power Source
 Effects:
 - Target:
-    Target: Self
+    Target: Self, Ally
     Name: Basic Target
   EffectType: Beneficial
   Modifiers:
   - Boosts:
     - Amount: +2
-      Defense: Reflex
-      Name: Defense
+      Name: Temporary Hit Points
     Name: Boost

@@ -5,13 +5,6 @@
     ToolRange: Melee
     Attacks:
     - Target:
-        EffectModifier:
-          Conditions: []
-          AfterEffect:
-            Condition:
-              Name: Dazed
-            AfterFailedSave: true
-          Name: Condition
         Name: TwoHits
       Ability: Strength
       Effects:
@@ -23,7 +16,7 @@
           - Amount: 5
             Name: Ongoing
           Name: Condition
-        - Damage: 1[W] + STR
+        - Damage: 1[W] + STR + DEX
           DamageTypes: []
           Name: Damage
       Modifiers: []
@@ -46,4 +39,4 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target takes ongoing 5 (save ends). If both of your attacks hit the same target, the target is also takes ongoing 5 (save ends) and  (save ends).
+    Text: 1[W] + STR + DEX damage, and the target takes ongoing 5 (save ends).

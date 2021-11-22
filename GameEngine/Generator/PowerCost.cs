@@ -13,6 +13,11 @@
             );
         }
 
+        public static PowerCost operator *(PowerCost lhs, double rhs)
+        {
+            return lhs with { Fixed = lhs.Fixed + rhs };
+        }
+
         public double Apply(double original)
         {
             return (original / Multiplier) - Fixed;

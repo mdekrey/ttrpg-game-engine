@@ -18,8 +18,7 @@ Attacks:
   - Defense: Fortitude
     Name: Non-Armor Defense
 Modifiers:
-- Duration: SaveEnds
-  Name: Duration
+- Name: Is Basic Attack
 - PowerSource: Arcane
   Name: Power Source
 Effects: []

@@ -22,7 +22,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override PowerTextMutator? GetTextMutator(PowerContext powerContext)
         {
-            return new(0, (pt, pi) => pt with { Keywords = pt.Keywords.Items.Add(PowerSource) });
+            return new(0, (pt) => pt with { Keywords = pt.Keywords.Items.Add(PowerSource) });
         }
     }
 

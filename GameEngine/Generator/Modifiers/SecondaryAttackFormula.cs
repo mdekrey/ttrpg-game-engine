@@ -174,14 +174,7 @@ namespace GameEngine.Generator.Modifiers
 
                 return new TargetInfoMutator(100, (targetInfo) =>
                 {
-                    var tempTarget = origMutator.Apply(new TargetInfo(
-                        Target: targetInfo.Target,
-                        AttackType: targetInfo.AttackType,
-                        AttackNotes: targetInfo.AttackNotes,
-                        DamageExpression: targetInfo.DamageExpression,
-                        Parts: targetInfo.Parts,
-                        AdditionalSentences: targetInfo.AdditionalSentences
-                    ));
+                    var tempTarget = origMutator.Apply(targetInfo);
                     return targetInfo with
                     {
                         AdditionalSentences = targetInfo.AdditionalSentences.Add($"If both of your attacks hit the same target, the target is also {OxfordComma(tempTarget.Parts.ToArray())}".FinishSentence())

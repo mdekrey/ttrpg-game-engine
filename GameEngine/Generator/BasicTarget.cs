@@ -37,13 +37,13 @@ namespace GameEngine.Generator
         {
             return Target switch
             {
-                Target.Enemy => "One enemy",
-                Target.Self => "You",
-                Target.Self | Target.Enemy => "You or one enemy", // This may be a good one for "If you take damage from this power, deal damage to all enemies instead." or something
-                Target.Ally => "One of your allies",
-                Target.Ally | Target.Enemy => "One creature other than yourself",
-                Target.Ally | Target.Self => "You or one of your allies",
-                Target.Ally | Target.Self | Target.Enemy => "One creature",
+                Target.Enemy => "one enemy",
+                Target.Self => "you",
+                Target.Self | Target.Enemy => "you or one enemy", // This may be a good one for "If you take damage from this power, deal damage to all enemies instead." or something
+                Target.Ally => "one of your allies",
+                Target.Ally | Target.Enemy => "one creature other than yourself",
+                Target.Ally | Target.Self => "you or one of your allies",
+                Target.Ally | Target.Self | Target.Enemy => "one creature",
 
                 _ => throw new NotSupportedException(),
             };

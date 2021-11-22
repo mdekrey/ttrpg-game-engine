@@ -5,5 +5,6 @@
         EndOfUserNextTurn,
         SaveEnds,
         EndOfEncounter,
+        StanceEnds,
     }
 }

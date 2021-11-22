@@ -47,7 +47,7 @@ namespace GameEngine.Generator.Modifiers
             }
 
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext) =>
-                new(0, (textBlock, powerInfo) =>
+                new(0, (textBlock) =>
                 {
                     var result = textBlock with
                     {

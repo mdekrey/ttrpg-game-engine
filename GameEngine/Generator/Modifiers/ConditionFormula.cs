@@ -136,9 +136,13 @@ namespace GameEngine.Generator.Modifiers
         }
 
         public static double DurationMultiplier(Duration duration) =>
-            duration == Duration.EndOfEncounter ? 4
-            : duration == Duration.SaveEnds ? 2 // Must remain "SaveEnds" if there's a Boost dependent upon it
-            : 1;
+            duration switch
+            {
+                Duration.EndOfEncounter => 4,
+                Duration.StanceEnds => 2,
+                Duration.SaveEnds => 2, // Must remain "SaveEnds" if there's a Boost dependent upon it
+                _ => 1
+            };
 
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
@@ -244,14 +248,14 @@ namespace GameEngine.Generator.Modifiers
                     select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
 
                     from basicCondition in basicConditions.Keys
-                    where !Conditions.Select(b => b.Name).Contains(basicCondition)
+                    where !Conditions.Select(b => b.Name).Contains(basicCondition) && Conditions.Count > 0
                     let newCondition = new Condition(basicCondition)
                     let filtered = Filter(Conditions.Items.Add(newCondition))
                     where filtered.Count == 1 && filtered[0].Name == basicCondition // the new condition subsumes all other conditions
                     select this with { AfterEffect = new (newCondition, true) },
 
                     from basicCondition in basicConditions.Keys
-                    where !Conditions.Select(b => b.Name).Contains(basicCondition)
+                    where !Conditions.Select(b => b.Name).Contains(basicCondition) && Conditions.Count > 0
                     where GetSubsumed(Conditions).Contains(basicCondition)
                     let newCondition = new Condition(basicCondition) // the new condition is a lesser version of one of the others already applied
                     select this with { AfterEffect = new (newCondition, false) },
@@ -296,6 +300,7 @@ namespace GameEngine.Generator.Modifiers
                     Duration.EndOfUserNextTurn => "until the end of your next turn",
                     Duration.SaveEnds => "(save ends)",
                     Duration.EndOfEncounter => "until the end of the encounter",
+                    Duration.StanceEnds => "until the stance ends",
                     _ => throw new System.NotImplementedException(),
                 };
 

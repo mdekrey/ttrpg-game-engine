@@ -32,10 +32,7 @@ namespace GameEngine.Generator
             new MinorActionFormula(),
             new OpportunityActionFormula(),
             new BasicAttackFormula(),
-            // TODO: Stance, includes:
-            //   - beast form
-            //   - rage
-            //   - fighter/monk stance
+            new StanceFormula(),
             // TODO: Sustain, includes:
             //   - conjuration
             //   - zone

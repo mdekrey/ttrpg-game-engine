@@ -27,10 +27,7 @@ namespace GameEngine.Generator.Modifiers
 
         public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext)
         {
-            if (effectContext.RootContext is not Either<PowerContext, AttackContext>.Right { Value: { Attack: { Ability: var ability } } })
-                return Enumerable.Empty<IEffectModifier>();
-
-            return new[] { ability }.Concat(effectContext.Abilities)
+            return new[] { effectContext.Ability }.Concat(effectContext.Abilities)
                 .Distinct()
                 .Take(stage switch
                 {

@@ -11,7 +11,7 @@ Attacks:
       Name: See Other
     EffectType: Harmful
     Modifiers:
-    - Damage: 1[W] + STR
+    - Damage: 1[W] + STR + DEX
       DamageTypes: []
       Name: Damage
   Modifiers: []

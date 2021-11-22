@@ -29,9 +29,9 @@ namespace GameEngine.Generator.Modifiers
                 new PowerCost(Fixed: 0.5);
 
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext) =>
-                new(10000, (textBlock, powerInfo) =>
+                new(10000, (textBlock) =>
                 {
-                    var meleeOrRanged = powerInfo.ToolRange switch
+                    var meleeOrRanged = powerContext.ToolRange switch
                     {
                         ToolRange.Melee => "melee",
                         ToolRange.Range => "ranged",

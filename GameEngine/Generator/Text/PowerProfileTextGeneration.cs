@@ -37,12 +37,12 @@ namespace GameEngine.Generator.Text
                       let mutator = mod.GetTextMutator(context)
                       where mutator != null
                       orderby mutator.Priority
-                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current, profile.PowerProfile));
+                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current));
             result = attacks.Select((attack, index) => (attack, index)).Skip(1).Aggregate(result, (powerBlock, attackBlock) => powerBlock.AddAttack(attackBlock.attack, attackBlock.index + 1));
 
             result = result with
             {
-                RulesText = result.RulesText.AddEffectSentences(context.GetEffectContexts().Select(effectContext => effectContext.ToTargetInfo().PartsToSentence()))
+                RulesText = result.RulesText.AddEffectSentences(context.GetEffectContexts().Select(effectContext => effectContext.ToTargetInfo().PartsToSentence().Capitalize()))
             };
 
             return result with
@@ -54,14 +54,7 @@ namespace GameEngine.Generator.Text
 
         public static TargetInfo ToTargetInfo(this EffectContext effectContext)
         {
-            var result = new TargetInfo(
-                Target: effectContext.GetTargetText(), // effect.Target.GetTargetText(effectContext),
-                AttackType: effectContext.GetAttackType(),
-                AttackNotes: effectContext.GetAttackNotes(),
-                DamageExpression: null,
-                Parts: ImmutableList<string>.Empty,
-                AdditionalSentences: ImmutableList<string>.Empty
-            );
+            var result = effectContext.GetDefaultTargetInfo();
             var targetMutator = effectContext.GetTargetInfoMutator();
 
             result = (from mutator in (from mod in effectContext.Modifiers
@@ -121,7 +114,7 @@ namespace GameEngine.Generator.Text
                 return power with
                 {
                     RulesText = power.RulesText.Items
-                        .Add(new($"{Ordinal(index).Capitalize()} Target", attack.Target))
+                        .Add(new($"{Ordinal(index).Capitalize()} Target", attack.Target.Capitalize()))
                         .Add(new($"{Ordinal(index).Capitalize()} Attack", attack.ToAttackText()))
                         .Add(new($"{Ordinal(index).Capitalize()} Hit", attack.Hit))
                         .Add(new($"{Ordinal(index).Capitalize()} Miss", attack.Miss))
