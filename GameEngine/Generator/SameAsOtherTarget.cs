@@ -29,10 +29,7 @@ namespace GameEngine.Generator
         {
             if (OtherAttackIndex is int otherAttackIndex)
                 return effectContext.PowerContext.GetAttackContexts()[otherAttackIndex].AttackContext;
-            return effectContext.RootContext.Fold(
-                left => throw new System.InvalidOperationException(),
-                attackContext => attackContext
-            );
+            return effectContext.AttackContext;
         }
 
         public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext)

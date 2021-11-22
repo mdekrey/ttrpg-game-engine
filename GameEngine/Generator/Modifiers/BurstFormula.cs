@@ -15,7 +15,7 @@ namespace GameEngine.Generator.Modifiers
         public IEnumerable<IEffectTargetModifier> GetBaseModifiers(UpgradeStage stage, EffectContext effectContext)
         {
             if (stage < UpgradeStage.Standard) yield break;
-            if (effectContext.RootContext.Fold(p => true, a => a.AttackIndex < a.PowerContext.Attacks.Count - 1)) yield break;
+            if (effectContext.IsNotLastAttack) yield break;
             var target = effectContext.Target;
             if (effectContext.ToolRange != ToolRange.Range || effectContext.ToolType != ToolType.Weapon)
                 yield return new BurstModifier(target, 3, BurstType.Burst);

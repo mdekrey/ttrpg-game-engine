@@ -22,6 +22,7 @@ namespace GameEngine.Generator.Context
 
         public Ability Ability => RootContext.Fold(left => left.Ability, right => right.Ability);
 
+        public bool IsNotLastAttack => RootContext.Fold(p => true, a => a.AttackIndex < a.PowerContext.Attacks.Count - 1);
 
         public string GetTargetText() => Effect.Target.GetTargetText(this);
         public Text.AttackType GetAttackType() => Effect.Target.GetAttackType(this);
