@@ -7,13 +7,13 @@ namespace GameEngine.Generator
 
     public static class PowerBuildingExtensions
     {
-        public static IEnumerable<RandomChances<PowerProfileBuilder>> ToChances(this IEnumerable<PowerProfileBuilder> possibilities, PowerProfileConfig config, PowerHighLevelInfo powerInfo, PowerLimits limits) =>
+        public static IEnumerable<RandomChances<PowerProfile>> ToChances(this IEnumerable<PowerProfile> possibilities, PowerProfileConfig config, PowerHighLevelInfo powerInfo, PowerLimits limits) =>
             from possibility in possibilities
             let chances = config.GetChance(possibility, powerInfo, limits)
             where chances > 0
-            select new RandomChances<PowerProfileBuilder>(possibility, Chances: (int)chances);
+            select new RandomChances<PowerProfile>(possibility, Chances: (int)chances);
 
-        public static double GetChance(this PowerProfileConfig config, PowerProfileBuilder builder, PowerHighLevelInfo powerInfo, PowerLimits limits)
+        public static double GetChance(this PowerProfileConfig config, PowerProfile builder, PowerHighLevelInfo powerInfo, PowerLimits limits)
         {
             var built = builder.Build(powerInfo, limits);
             var powerToken = GetProfileToken(built);

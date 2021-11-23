@@ -11,7 +11,7 @@ namespace GameEngine.Generator.Modifiers
 
         PowerCost GetCost(PowerContext powerContext);
         IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext);
-        IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder);
+        IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile builder);
         PowerTextMutator? GetTextMutator(PowerContext powerContext);
     }
 }

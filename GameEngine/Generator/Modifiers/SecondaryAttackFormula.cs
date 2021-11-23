@@ -40,7 +40,7 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext) =>
                 Enumerable.Empty<IPowerModifier>();
 
-            public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder power)
+            public override IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile power)
             {
                 var attack = power.Attacks.Single();
                 yield return power with
@@ -52,7 +52,7 @@ namespace GameEngine.Generator.Modifiers
                             Effects = attack.Effects.Items.SetItem(0, attack.Effects[0] with { Target = new SameAsOtherTarget() }),
                         }
                     }.ToImmutableList(),
-                    Modifiers = power.Modifiers.Remove(this).Add(new MultiattackAppliedModifier()),
+                    Modifiers = power.Modifiers.Items.Remove(this).Add(new MultiattackAppliedModifier()),
                 };
             }
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext) => throw new NotSupportedException("Should be upgraded or removed before this point");
@@ -69,7 +69,7 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext) =>
                 Enumerable.Empty<IPowerModifier>();
 
-            public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder power)
+            public override IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile power)
             {
                 var attack = power.Attacks.Single();
                 yield return power with
@@ -88,7 +88,7 @@ namespace GameEngine.Generator.Modifiers
                             }
                         }
                     ).ToImmutableList(),
-                    Modifiers = power.Modifiers.Remove(this).Add(new MultiattackAppliedModifier()),
+                    Modifiers = power.Modifiers.Items.Remove(this).Add(new MultiattackAppliedModifier()),
                 };
             }
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext) => throw new NotSupportedException("Should be upgraded or removed before this point");

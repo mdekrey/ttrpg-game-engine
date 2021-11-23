@@ -50,7 +50,7 @@ namespace GameEngine.Tests.Modifiers
                 Modifiers: Build<IAttackModifier>()
             );
             //new PowerLimits(Minimum: 1, Initial: 2.3, MaxComplexity: 0),
-            var power = new PowerProfileBuilder(
+            var power = new PowerProfile(
                 Build(attack), 
                 Build<IPowerModifier>(), 
                 Build(new TargetEffect(new BasicTarget(Target.Enemy | Target.Ally | Target.Self), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty))

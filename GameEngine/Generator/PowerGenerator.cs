@@ -146,10 +146,10 @@ namespace GameEngine.Generator
             if (powerProfileBuilder == root)
                 return null;
 
-            return (powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) }).Build(powerInfo, limits);
+            return (powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) }).Build(powerInfo, limits);
         }
 
-        public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder, PowerHighLevelInfo powerInfo, PowerLimits limits, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
+        public PowerProfile ApplyUpgrades(PowerProfile powerProfileBuilder, PowerHighLevelInfo powerInfo, PowerLimits limits, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
         {
             while (true)
             {
@@ -180,9 +180,9 @@ namespace GameEngine.Generator
             return powerProfileBuilder;
         }
 
-        private PowerProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info)
+        private PowerProfile RootBuilder(double basePower, PowerHighLevelInfo info)
         {
-            var result = new PowerProfileBuilder(
+            var result = new PowerProfile(
                 Build(RootAttackBuilder(basePower, info, randomGenerator)),
                 ImmutableList<IPowerModifier>.Empty,
                 ImmutableList<TargetEffect>.Empty

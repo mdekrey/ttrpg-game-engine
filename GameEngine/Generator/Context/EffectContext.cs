@@ -7,8 +7,8 @@ namespace GameEngine.Generator.Context
 {
     public record EffectContext(Either<PowerContext, AttackContext> RootContext, TargetEffect Effect, Duration? Duration = null)
     {
-        public PowerProfileBuilder PowerProfileBuilder => RootContext.Fold(p => p.PowerProfileBuilder, p => p.PowerProfileBuilder);
-        public PowerProfile PowerProfile => RootContext.Fold(p => p.PowerProfile, p => p.PowerProfile);
+        public PowerProfile PowerProfileBuilder => RootContext.Fold((Func<PowerContext, PowerProfile>)(p => (PowerProfile)p.PowerProfile), p => p.PowerProfileBuilder);
+        public PowerProfile PowerProfile => RootContext.Fold((Func<PowerContext, PowerProfile>)(p => (PowerProfile)p.PowerProfile), p => p.PowerProfile);
         public PowerContext PowerContext => RootContext.Fold(p => p, p => p.PowerContext);
 
         public AttackContext AttackContext => RootContext.Fold(p => throw new InvalidOperationException(), p => p);

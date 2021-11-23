@@ -12,8 +12,8 @@ namespace GameEngine.Generator.Modifiers
 {
     public record ConditionFormula() : IEffectFormula, IPowerModifierFormula
     {
-        private static readonly Lens<PowerProfileBuilder, ImmutableList<AttackProfile>> attacksLens = Lens<PowerProfileBuilder>.To(p => p.Attacks, (p, a) => p with { Attacks = a });
-        private static readonly Lens<PowerProfileBuilder, ImmutableList<TargetEffect>> effectsLens = Lens<PowerProfileBuilder>.To(p => p.Effects, (p, e) => p with { Effects = e });
+        private static readonly Lens<PowerProfile, ImmutableList<AttackProfile>> attacksLens = Lens<PowerProfile>.To(p => p.Attacks.Items, (p, a) => p with { Attacks = a });
+        private static readonly Lens<PowerProfile, ImmutableList<TargetEffect>> effectsLens = Lens<PowerProfile>.To(p => p.Effects.Items, (p, e) => p with { Effects = e });
         private static readonly Lens<AttackProfile, ImmutableList<TargetEffect>> attackToEffectLens = Lens<AttackProfile>.To(p => p.Effects.Items, (p, e) => p with { Effects = e });
 
         public const string ModifierName = "Condition";
@@ -171,9 +171,9 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             }
 
-            public override IEnumerable<PowerProfileBuilder> TrySimplifySelf(PowerProfileBuilder builder)
+            public override IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile builder)
             {
-                var next = builder with { Modifiers = builder.Modifiers.Remove(this).Add(new EffectDurationFormula.EffectDurationModifier(Duration)) };
+                var next = builder with { Modifiers = builder.Modifiers.Items.Remove(this).Add(new EffectDurationFormula.EffectDurationModifier(Duration)) };
                 var newEffect = new TargetEffect(new SameAsOtherTarget(0), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty.Add(EffectModifier));
 
                 return from lens in (

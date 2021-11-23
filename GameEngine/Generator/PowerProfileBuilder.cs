@@ -7,10 +7,6 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record PowerProfileBuilder(ImmutableList<AttackProfile> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffect> Effects)
-    {
-    }
-
     public static class PowerProfileBuilderExtensions
     {
 
@@ -20,15 +16,15 @@ namespace GameEngine.Generator
             (Target.Ally | Target.Self, EffectType.Beneficial),
         }.ToImmutableList();
 
-        public static PowerProfileBuilder Apply(this PowerProfileBuilder _this, IPowerModifier target, IPowerModifier? toRemove = null)
+        public static PowerProfile Apply(this PowerProfile _this, IPowerModifier target, IPowerModifier? toRemove = null)
         {
             return _this with
             {
-                Modifiers = toRemove == null ? _this.Modifiers.Add(target) : _this.Modifiers.Remove(toRemove).Add(target),
+                Modifiers = toRemove == null ? _this.Modifiers.Items.Add(target) : _this.Modifiers.Items.Remove(toRemove).Add(target),
             };
         }
 
-        public static PowerCost TotalCost(this PowerProfileBuilder _this, IPowerInfo PowerInfo)
+        public static PowerCost TotalCost(this PowerProfile _this, IPowerInfo PowerInfo)
         {
             var context = new PowerContext(_this, PowerInfo);
             return (
@@ -43,7 +39,7 @@ namespace GameEngine.Generator
             
         }
 
-        internal static PowerProfile Build(this PowerProfileBuilder _this, IPowerInfo PowerInfo, PowerLimits Limits)
+        internal static PowerProfile Build(this PowerProfile _this, IPowerInfo PowerInfo, PowerLimits Limits)
         {
             var builder = _this.ApplyWeaponDice(PowerInfo, Limits);
             return new PowerProfile(
@@ -53,7 +49,7 @@ namespace GameEngine.Generator
             );
         }
 
-        private static PowerProfileBuilder ApplyWeaponDice(this PowerProfileBuilder _this, IPowerInfo PowerInfo, PowerLimits Limits)
+        private static PowerProfile ApplyWeaponDice(this PowerProfile _this, IPowerInfo PowerInfo, PowerLimits Limits)
         {
             var context = new PowerContext(_this, PowerInfo);
             var cost = context.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
@@ -89,7 +85,7 @@ namespace GameEngine.Generator
                 .Aggregate(_this, (pb, lens) => lens.setter(pb, lens.Damage));
         }
 
-        public static bool IsValid(this PowerProfileBuilder _this, IPowerInfo PowerInfo, PowerLimits Limits)
+        public static bool IsValid(this PowerProfile _this, IPowerInfo PowerInfo, PowerLimits Limits)
         {
             var powerContext = new PowerContext(_this, PowerInfo);
             if (_this.AllModifiers(false).Cast<IModifier>().GetComplexity(powerContext) > Limits.MaxComplexity)
@@ -110,7 +106,7 @@ namespace GameEngine.Generator
             return true;
         }
 
-        public static IEnumerable<PowerProfileBuilder> GetUpgrades(this PowerProfileBuilder _this, IPowerInfo PowerInfo, PowerLimits Limits, UpgradeStage stage)
+        public static IEnumerable<PowerProfile> GetUpgrades(this PowerProfile _this, IPowerInfo PowerInfo, PowerLimits Limits, UpgradeStage stage)
         {
             var powerContext = new PowerContext(_this, PowerInfo);
 
@@ -139,7 +135,7 @@ namespace GameEngine.Generator
                     let newBuilder = new TargetEffect(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty)
                     let effectContext = new EffectContext(powerContext, newBuilder)
                     from newBuilderUpgrade in effectContext.GetUpgrades(stage)
-                    select _this with { Effects = _this.Effects.Add(newBuilderUpgrade) }
+                    select _this with { Effects = _this.Effects.Items.Add(newBuilderUpgrade) }
                 }
                 from entry in set
                 from upgraded in entry.FinalizeUpgrade()
@@ -148,10 +144,10 @@ namespace GameEngine.Generator
             );
         }
 
-        public static IEnumerable<PowerProfileBuilder> FinalizeUpgrade(this PowerProfileBuilder _this) =>
+        public static IEnumerable<PowerProfile> FinalizeUpgrade(this PowerProfile _this) =>
             _this.Modifiers.Aggregate(Enumerable.Repeat(_this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)));
 
-        public static IEnumerable<IModifier> AllModifiers(this PowerProfileBuilder _this, bool includeNested)
+        public static IEnumerable<IModifier> AllModifiers(this PowerProfile _this, bool includeNested)
         {
             var stack = new Stack<IModifier>(_this.Modifiers
                 .Concat<IModifier>(from attack in _this.Attacks from mod in attack.AllModifiers() select mod)
@@ -166,9 +162,9 @@ namespace GameEngine.Generator
             }
         }
 
-        record DamageLens(DamageModifier Damage, double Effectiveness, Func<PowerProfileBuilder, DamageModifier, PowerProfileBuilder> setter);
+        record DamageLens(DamageModifier Damage, double Effectiveness, Func<PowerProfile, DamageModifier, PowerProfile> setter);
 
-        private static IEnumerable<DamageLens> GetDamageLenses(this PowerProfileBuilder _this, IPowerInfo PowerInfo)
+        private static IEnumerable<DamageLens> GetDamageLenses(this PowerProfile _this, IPowerInfo PowerInfo)
         {
             var powerContext = new PowerContext(_this, PowerInfo);
             return (from attackContext in powerContext.GetAttackContexts()
