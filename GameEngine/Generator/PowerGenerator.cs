@@ -135,36 +135,36 @@ namespace GameEngine.Generator
             var root = RootBuilder(basePower, powerInfo);
             var powerProfileBuilder = root;
 
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Standard, exclude: toExclude, preApplyOnce: true);
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, UpgradeStage.Finalize, exclude: toExclude);
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, powerInfo, UpgradeStage.Standard, exclude: toExclude, preApplyOnce: true);
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, powerInfo, UpgradeStage.Finalize, exclude: toExclude);
 
             if (powerProfileBuilder == root)
                 return null;
 
-            return (powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) }).Build();
+            return (powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) }).Build(powerInfo);
         }
 
-        public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
+        public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder, PowerHighLevelInfo powerInfo, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
         {
             while (true)
             {
                 var oldBuilder = powerProfileBuilder;
-                var upgrades = powerProfileBuilder.GetUpgrades(stage).Where(entry => entry.IsValid());
+                var upgrades = powerProfileBuilder.GetUpgrades(powerInfo, stage).Where(entry => entry.IsValid(powerInfo));
                 if (preApplyOnce)
                 {
                     var burst = upgrades.Where(e => e.AllModifiers(true).Any(m => m is BurstFormula.BurstModifier)).ToArray();
 
-                    var preApplyUpgrades = upgrades.ToChances(powerProfileBuilder.PowerInfo.PowerProfileConfig).ToArray();
-                    var temp = preApplyUpgrades.Select(d => d.Result).PreApply();
+                    var preApplyUpgrades = upgrades.ToChances(powerInfo.PowerProfileConfig, powerInfo).ToArray();
+                    var temp = preApplyUpgrades.Select(d => d.Result).PreApply(powerInfo);
                     if (temp.Any())
                         upgrades = temp;
                     preApplyOnce = false;
                 }
                 var preChance = (from entry in upgrades
-                                 let builtEntry = entry.Build()
+                                 let builtEntry = entry.Build(powerInfo)
                                  where !exclude.Contains(builtEntry)
                                  select entry).ToArray();
-                var validModifiers = preChance.ToChances(powerProfileBuilder.PowerInfo.PowerProfileConfig).ToArray();
+                var validModifiers = preChance.ToChances(powerInfo.PowerProfileConfig, powerInfo).ToArray();
                 if (validModifiers.Length == 0)
                     break;
                 powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);
@@ -182,8 +182,6 @@ namespace GameEngine.Generator
                     Minimum: GetAttackMinimumPower(basePower, info.ClassProfile.Role, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
                     MaxComplexity: GetAttackMaxComplexity(info.Usage)
                 ),
-                WeaponDiceDistribution.Increasing, // TODO - randomize?
-                info,
                 Build(RootAttackBuilder(basePower, info, randomGenerator)),
                 ImmutableList<IPowerModifier>.Empty,
                 ImmutableList<TargetEffect>.Empty

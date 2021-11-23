@@ -51,8 +51,6 @@ namespace GameEngine.Tests.Modifiers
             );
             var power = new PowerProfileBuilder(
                 new PowerLimits(Minimum: 1, Initial: 2.3, MaxComplexity: 0),
-                WeaponDiceDistribution.Increasing, // TODO - randomize?
-                info, 
                 Build(attack), 
                 Build<IPowerModifier>(), 
                 Build(new TargetEffect(new BasicTarget(Target.Enemy | Target.Ally | Target.Self), EffectType.Harmful, ImmutableList<IEffectModifier>.Empty))
