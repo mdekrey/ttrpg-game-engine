@@ -17,6 +17,8 @@ namespace GameEngine.Generator.Modifiers
 
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
+            if (powerContext.Modifiers.OfType<MultiattackAppliedModifier>().Any())
+                yield break;
             if (stage != UpgradeStage.Standard)
                 yield break;
             if (powerContext.Attacks.Count > 1)
@@ -32,14 +34,8 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record TargetDelegateModifier(IAttackTargetModifier TargetModifier) : PowerModifier(ModifierName)
+        public record TargetDelegateModifier(IAttackTargetModifier TargetModifier) : RewritePowerModifier()
         {
-            public override int GetComplexity(PowerContext powerContext) => TargetModifier.GetComplexity(powerContext);
-            public override PowerCost GetCost(PowerContext powerContext) => TargetModifier.GetCost(powerContext.BuildAttackContext(0).AttackContext);
-
-            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext) =>
-                Enumerable.Empty<IPowerModifier>();
-
             public override IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile power)
             {
                 var attack = power.Attacks.Single();
@@ -55,20 +51,10 @@ namespace GameEngine.Generator.Modifiers
                     Modifiers = power.Modifiers.Items.Remove(this).Add(new MultiattackAppliedModifier()),
                 };
             }
-            public override PowerTextMutator? GetTextMutator(PowerContext powerContext) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
-        public record SplitAttackModifier(int AmountsCount, bool RequiresPreviousHit) : PowerModifier(ModifierName)
+        public record SplitAttackModifier(int AmountsCount, bool RequiresPreviousHit) : RewritePowerModifier()
         {
-            public override int GetComplexity(PowerContext powerContext) => RequiresPreviousHit ? 1 : 2;
-
-            public override PowerCost GetCost(PowerContext powerContext) =>
-                PowerCost.Empty;
-            public override bool IsPlaceholder() => true;
-
-            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext) =>
-                Enumerable.Empty<IPowerModifier>();
-
             public override IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile power)
             {
                 var attack = power.Attacks.Single();
@@ -91,7 +77,6 @@ namespace GameEngine.Generator.Modifiers
                     Modifiers = power.Modifiers.Items.Remove(this).Add(new MultiattackAppliedModifier()),
                 };
             }
-            public override PowerTextMutator? GetTextMutator(PowerContext powerContext) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
         public record MultiattackAppliedModifier() : PowerModifier(ModifierName)

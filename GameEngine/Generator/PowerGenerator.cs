@@ -152,13 +152,23 @@ namespace GameEngine.Generator
 
         public PowerProfile ApplyUpgrades(PowerProfile powerProfileBuilder, IBuildContext buildContext, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
         {
+#if DEBUG
+            int count = 0;
+#endif
             while (true)
             {
+#if DEBUG
+                if (count > 50)
+                    System.Diagnostics.Debugger.Break();
+                count += 1;
+#endif
                 var oldBuilder = powerProfileBuilder;
                 var upgrades = powerProfileBuilder.GetUpgrades(buildContext.PowerInfo, stage).Where(buildContext.IsValid);
                 if (preApplyOnce)
                 {
+#if DEBUG
                     var burst = upgrades.Where(e => e.AllModifiers(true).Any(m => m is BurstFormula.BurstModifier)).ToArray();
+#endif
 
                     var preApplyUpgrades = upgrades.ToChances(buildContext).ToArray();
                     var temp = preApplyUpgrades.Select(d => d.Result).PreApply(buildContext);

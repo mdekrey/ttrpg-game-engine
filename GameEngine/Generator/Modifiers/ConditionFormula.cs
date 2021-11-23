@@ -156,21 +156,8 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record EffectAndDurationModifier(Duration Duration, IEffectModifier EffectModifier) : PowerModifier(ModifierName)
+        public record EffectAndDurationModifier(Duration Duration, IEffectModifier EffectModifier) : RewritePowerModifier()
         {
-            public override int GetComplexity(PowerContext powerContext) => 1;
-            public override PowerCost GetCost(PowerContext powerContext) => PowerCost.Empty;
-
-            public override PowerTextMutator? GetTextMutator(PowerContext powerContext)
-            {
-                throw new NotSupportedException("Should be removed before here");
-            }
-
-            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext)
-            {
-                yield break;
-            }
-
             public override IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile builder)
             {
                 var next = builder with { Modifiers = builder.Modifiers.Items.Remove(this).Add(new EffectDurationFormula.EffectDurationModifier(Duration)) };
