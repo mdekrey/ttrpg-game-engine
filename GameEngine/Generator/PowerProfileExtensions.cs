@@ -10,25 +10,25 @@ namespace GameEngine.Generator
 {
     public static class PowerProfileExtensions
     {
-        public static IEnumerable<PowerProfile> PreApply(this IEnumerable<PowerProfile> powers, IPowerInfo powerInfo, PowerLimits limits)
+        public static IEnumerable<PowerProfile> PreApply(this IEnumerable<PowerProfile> powers, IBuildContext buildContext)
         {
             var options = from power in powers
-                          let context = new PowerContext(power, powerInfo)
+                          let context = new PowerContext(power, buildContext.PowerInfo)
                           from builder in context.GetAttackContexts().Select(a => a.AttackContext).Aggregate(
                                     Enumerable.Repeat(ImmutableList<AttackProfile>.Empty, 1),
                                     (prev, next) => prev.SelectMany(l => next.PreApplyImplementNonArmorDefense(UpgradeStage.InitializeAttacks).Select(o => l.Add(o)))
                                 )
                                 .Select(attacks => power with { Attacks = attacks })
-                          let b = builder.FullyInitialize(powerInfo, limits)
+                          let b = builder.FullyInitialize(buildContext)
                           where b.AllModifiers(true).Any(p => p.CanUseRemainingPower()) // Ensures ABIL mod or multiple hits
                           select b;
 
             return options;
         }
 
-        public static PowerProfile FullyInitialize(this PowerProfile builder, IPowerInfo powerInfo, PowerLimits limits)
+        public static PowerProfile FullyInitialize(this PowerProfile builder, IBuildContext buildContext)
         {
-            while (builder.GetUpgrades(powerInfo, limits, UpgradeStage.InitializeAttacks).Where(b => b.IsValid(powerInfo, limits)).FirstOrDefault() is PowerProfile next)
+            while (builder.GetUpgrades(buildContext, UpgradeStage.InitializeAttacks).Where(buildContext.IsValid).FirstOrDefault() is PowerProfile next)
                 builder = next;
             return builder;
         }

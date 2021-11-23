@@ -139,37 +139,38 @@ namespace GameEngine.Generator
                 );
             var root = RootBuilder(basePower, powerInfo);
             var powerProfileBuilder = root;
+            var buildContext = new LimitBuildContext(powerInfo, limits);
 
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, powerInfo, limits, UpgradeStage.Standard, exclude: toExclude, preApplyOnce: true);
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, powerInfo, limits, UpgradeStage.Finalize, exclude: toExclude);
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, buildContext, UpgradeStage.Standard, exclude: toExclude, preApplyOnce: true);
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, buildContext, UpgradeStage.Finalize, exclude: toExclude);
 
             if (powerProfileBuilder == root)
                 return null;
 
-            return (powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) }).Build(powerInfo, limits);
+            return buildContext.Build(powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) });
         }
 
-        public PowerProfile ApplyUpgrades(PowerProfile powerProfileBuilder, PowerHighLevelInfo powerInfo, PowerLimits limits, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
+        public PowerProfile ApplyUpgrades(PowerProfile powerProfileBuilder, IBuildContext buildContext, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
         {
             while (true)
             {
                 var oldBuilder = powerProfileBuilder;
-                var upgrades = powerProfileBuilder.GetUpgrades(powerInfo, limits, stage).Where(entry => entry.IsValid(powerInfo, limits));
+                var upgrades = powerProfileBuilder.GetUpgrades(buildContext, stage).Where(buildContext.IsValid);
                 if (preApplyOnce)
                 {
                     var burst = upgrades.Where(e => e.AllModifiers(true).Any(m => m is BurstFormula.BurstModifier)).ToArray();
 
-                    var preApplyUpgrades = upgrades.ToChances(powerInfo.PowerProfileConfig, powerInfo, limits).ToArray();
-                    var temp = preApplyUpgrades.Select(d => d.Result).PreApply(powerInfo, limits);
+                    var preApplyUpgrades = upgrades.ToChances(buildContext).ToArray();
+                    var temp = preApplyUpgrades.Select(d => d.Result).PreApply(buildContext);
                     if (temp.Any())
                         upgrades = temp;
                     preApplyOnce = false;
                 }
                 var preChance = (from entry in upgrades
-                                 let builtEntry = entry.Build(powerInfo, limits)
+                                 let builtEntry = buildContext.Build(entry)
                                  where !exclude.Contains(builtEntry)
                                  select entry).ToArray();
-                var validModifiers = preChance.ToChances(powerInfo.PowerProfileConfig, powerInfo, limits).ToArray();
+                var validModifiers = preChance.ToChances(buildContext).ToArray();
                 if (validModifiers.Length == 0)
                     break;
                 powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);

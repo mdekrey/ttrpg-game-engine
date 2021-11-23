@@ -39,76 +39,9 @@ namespace GameEngine.Generator
             
         }
 
-        internal static PowerProfile Build(this PowerProfile _this, IPowerInfo PowerInfo, PowerLimits Limits)
+        public static IEnumerable<PowerProfile> GetUpgrades(this PowerProfile _this, IBuildContext buildContext, UpgradeStage stage)
         {
-            var builder = _this.ApplyWeaponDice(PowerInfo, Limits);
-            return new PowerProfile(
-                Attacks: builder.Attacks.Select(a => a.Build()).ToImmutableList(),
-                Modifiers: builder.Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList(),
-                Effects: builder.Effects.Select(e => e.WithoutPlaceholders()).Where(e => e.Modifiers.Any()).ToImmutableList()
-            );
-        }
-
-        private static PowerProfile ApplyWeaponDice(this PowerProfile _this, IPowerInfo PowerInfo, PowerLimits Limits)
-        {
-            var context = new PowerContext(_this, PowerInfo);
-            var cost = context.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
-            var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
-
-            var damages = _this.GetDamageLenses(PowerInfo).ToImmutableList();
-
-            var min = damages.Sum(c => c.Effectiveness);
-
-            var remaining = Limits.Initial - _this.TotalCost(PowerInfo).Fixed - fixedCost;
-            var baseAmount = remaining / min;
-            if (PowerInfo.ToolType == ToolType.Weapon)
-                baseAmount = Math.Floor(baseAmount);
-
-            var repeated = damages.Select(c => baseAmount * c.Effectiveness);
-            var distribuatable = remaining - repeated.Sum();
-
-            // TODO - this keeps most almost equal, but what about one that does much more? Does this work with "first attack must hit" balances? This should be tested.
-            var result = WeaponDiceDistribution.Increasing switch
-            {
-                WeaponDiceDistribution.Decreasing => repeated.Select((v, i) => (i + 1) <= distribuatable ? v + 1 : v),
-                WeaponDiceDistribution.Increasing => repeated.Select((v, i) => (_this.Attacks.Count - i) <= distribuatable ? v + 1 : v),
-                _ => throw new InvalidOperationException(),
-            };
-
-            return Enumerable.Zip(result, damages, (weaponDice, lens) => lens with
-            {
-                Damage = lens.Damage with
-                {
-                    Damage = lens.Damage.Damage + PowerProfileExtensions.ToDamageEffect(PowerInfo.ToolType, weaponDice / lens.Effectiveness)
-                }
-            })
-                .Aggregate(_this, (pb, lens) => lens.setter(pb, lens.Damage));
-        }
-
-        public static bool IsValid(this PowerProfile _this, IPowerInfo PowerInfo, PowerLimits Limits)
-        {
-            var powerContext = new PowerContext(_this, PowerInfo);
-            if (_this.AllModifiers(false).Cast<IModifier>().GetComplexity(powerContext) > Limits.MaxComplexity)
-                return false;
-
-            var cost = powerContext.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
-            var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
-            var min = cost.Sum(c => c.SingleTargetMultiplier);
-            var remaining = _this.TotalCost(PowerInfo).Apply(Limits.Initial) - fixedCost;
-
-            if (remaining <= 0)
-                return false; // Have to have damage remaining
-            if (remaining / min < Limits.Minimum)
-                return false;
-            if (PowerInfo.ToolType == ToolType.Weapon && _this.ApplyWeaponDice(PowerInfo, Limits).AllModifiers(true).OfType<DamageModifier>().Any(d => d.Damage.WeaponDiceCount < 1))
-                return false; // Must have a full weapon die for any weapon
-
-            return true;
-        }
-
-        public static IEnumerable<PowerProfile> GetUpgrades(this PowerProfile _this, IPowerInfo PowerInfo, PowerLimits Limits, UpgradeStage stage)
-        {
-            var powerContext = new PowerContext(_this, PowerInfo);
+            var powerContext = new PowerContext(_this, buildContext.PowerInfo);
 
             return (
                 from set in new[]
@@ -139,7 +72,7 @@ namespace GameEngine.Generator
                 }
                 from entry in set
                 from upgraded in entry.FinalizeUpgrade()
-                where upgraded.IsValid(PowerInfo, Limits)
+                where buildContext.IsValid(upgraded)
                 select upgraded
             );
         }
@@ -147,39 +80,5 @@ namespace GameEngine.Generator
         public static IEnumerable<PowerProfile> FinalizeUpgrade(this PowerProfile _this) =>
             _this.Modifiers.Aggregate(Enumerable.Repeat(_this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)));
 
-        public static IEnumerable<IModifier> AllModifiers(this PowerProfile _this, bool includeNested)
-        {
-            var stack = new Stack<IModifier>(_this.Modifiers
-                .Concat<IModifier>(from attack in _this.Attacks from mod in attack.AllModifiers() select mod)
-                .Concat<IModifier>(from targetEffect in _this.Effects from mod in targetEffect.Modifiers select mod)
-            );
-            while (stack.TryPop(out var current))
-            {
-                yield return current;
-                if (includeNested)
-                    foreach (var entry in current.GetNestedModifiers())
-                        stack.Push(entry);
-            }
-        }
-
-        record DamageLens(DamageModifier Damage, double Effectiveness, Func<PowerProfile, DamageModifier, PowerProfile> setter);
-
-        private static IEnumerable<DamageLens> GetDamageLenses(this PowerProfile _this, IPowerInfo PowerInfo)
-        {
-            var powerContext = new PowerContext(_this, PowerInfo);
-            return (from attackContext in powerContext.GetAttackContexts()
-                    from effectContext in attackContext.AttackContext.GetEffectContexts()
-                    let lens = attackContext.Lens.To(effectContext.Lens)
-                    from m in effectContext.EffectContext.Modifiers.Select((mod, index) => (mod, index))
-                    let damage = m.mod as DamageModifier
-                    where damage != null
-                    select new DamageLens(damage, attackContext.AttackContext.TotalCost().Multiplier, (pb, newDamage) => pb.Update(lens, e =>
-                        e with
-                        {
-                            Modifiers = e.Modifiers.Items.SetItem(m.index, newDamage),
-                        }
-                    )));
-
-        }
     }
 }
