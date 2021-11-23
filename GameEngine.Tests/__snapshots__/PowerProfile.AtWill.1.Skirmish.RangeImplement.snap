@@ -1,7 +1,4 @@
-﻿Usage: AtWill
-Tool: Implement
-ToolRange: Range
-Attacks:
+﻿Attacks:
 - Target:
     Target: Enemy, Self, Ally
     Size: 2

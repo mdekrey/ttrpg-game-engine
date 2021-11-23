@@ -15,10 +15,10 @@ namespace GameEngine.Generator.Text
         {
             var result = new PowerTextBlock(
                 Name: "Unknown",
-                TypeInfo: $"{profile.PowerProfile.Tool.ToText()} Attack {profile.Level}",
+                TypeInfo: $"{profile.PowerInfo.ToolType.ToText()} Attack {profile.PowerInfo.Level}",
                 FlavorText: null,
-                PowerUsage: profile.PowerProfile.Usage.ToText(),
-                Keywords: ImmutableList<string>.Empty.Add(profile.PowerProfile.Tool.ToKeyword()),
+                PowerUsage: profile.PowerInfo.Usage.ToText(),
+                Keywords: ImmutableList<string>.Empty.Add(profile.PowerInfo.ToolType.ToKeyword()),
                 ActionType: "Standard Action",
                 AttackType: null,
                 AttackTypeDetails: null,
@@ -30,7 +30,7 @@ namespace GameEngine.Generator.Text
                 RulesText: ImmutableList<RulesText>.Empty
             );
 
-            var context = new PowerContext(profile.PowerProfile);
+            var context = new PowerContext(profile.PowerProfile, profile.PowerInfo);
             var attacks = context.GetAttackContexts().Select((attackContext) => attackContext.AttackContext.ToAttackInfo()).ToArray();
             result = result.AddAttack(attacks[0], 1);
             result = (from mod in profile.PowerProfile.Modifiers

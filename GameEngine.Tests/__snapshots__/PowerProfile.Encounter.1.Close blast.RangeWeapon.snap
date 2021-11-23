@@ -1,7 +1,4 @@
-﻿Usage: Encounter
-Tool: Weapon
-ToolRange: Range
-Attacks:
+﻿Attacks:
 - Target:
     Target: Enemy, Self, Ally
     Size: 3

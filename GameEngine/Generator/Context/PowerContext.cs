@@ -8,7 +8,7 @@ using System.Text;
 
 namespace GameEngine.Generator.Context
 {
-    public record PowerContext(Either<PowerProfileBuilder, PowerProfile> Power)
+    public record PowerContext(Either<PowerProfileBuilder, PowerProfile> Power, IPowerInfo PowerInfo)
     {
         public AttackPowerLensedContext BuildAttackContext(int attackIndex) => new (this, attackIndex);
         public ImmutableList<AttackPowerLensedContext> GetAttackContexts() => Attacks.Select((targetEffect, index) => BuildAttackContext(index)).ToImmutableList();
@@ -20,12 +20,12 @@ namespace GameEngine.Generator.Context
         public ImmutableList<AttackProfile> Attacks => Power.Fold(p => p.Attacks, p => p.Attacks.Items);
         public ImmutableList<TargetEffect> Effects => Power.Fold(p => p.Effects, p => p.Effects.Items);
         public ImmutableList<IPowerModifier> Modifiers => Power.Fold(left => left.Modifiers, right => right.Modifiers.Items);
-        public ToolType ToolType => Power.Fold(left => left.PowerInfo.ToolProfile.Type, right => right.Tool);
-        public ToolRange ToolRange => Power.Fold(left => left.PowerInfo.ToolProfile.Range, right => right.ToolRange);
-        public PowerFrequency Usage => Power.Fold(left => left.PowerInfo.Usage, right => right.Usage);
-        public int Level => Power.Fold(left => left.PowerInfo.Level, right => 0); // TODO - shouldn't have 0 level
-        public Ability Ability => Power.Fold(left => left.PowerInfo.ToolProfile.Abilities[0], right => right.Attacks[0].Ability); // TODO - is this the right ability?
-        public ImmutableList<Ability> Abilities => Power.Fold(left => left.PowerInfo.ToolProfile.Abilities, right => right.Attacks.Select(a => a.Ability).ToImmutableList()); // TODO - some modifiers could have abilities
+        public ToolType ToolType => PowerInfo.ToolType;
+        public ToolRange ToolRange => PowerInfo.ToolRange;
+        public PowerFrequency Usage => PowerInfo.Usage;
+        public int Level => PowerInfo.Level;
+        public Ability Ability => PowerInfo.Abilities[0];
+        public ImmutableList<Ability> Abilities => PowerInfo.Abilities;
 
         public IEnumerable<IModifier> AllModifiers(bool includeNested) => Power.Fold(left => left.AllModifiers(includeNested), right => right.AllModifiers(includeNested));
     }

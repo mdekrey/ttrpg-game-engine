@@ -1,7 +1,4 @@
-﻿Usage: AtWill
-Tool: Implement
-ToolRange: Range
-Attacks:
+﻿Attacks:
 - Target:
     Name: TwoHits
   Ability: Strength

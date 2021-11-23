@@ -1,7 +1,4 @@
-﻿Usage: Encounter
-Tool: Weapon
-ToolRange: Melee
-Attacks:
+﻿Attacks:
 - Target:
     Name: TwoHits
   Ability: Strength

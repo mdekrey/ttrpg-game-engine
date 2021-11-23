@@ -1,8 +1,12 @@
-﻿- Level: 1
-  PowerProfile:
+﻿- PowerInfo:
     Usage: AtWill
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Wisdom
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits

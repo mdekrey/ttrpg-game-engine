@@ -1,7 +1,4 @@
-﻿Usage: AtWill
-Tool: Weapon
-ToolRange: Melee
-Attacks:
+﻿Attacks:
 - Target:
     Target: Enemy, Self, Ally
     Name: Basic Target

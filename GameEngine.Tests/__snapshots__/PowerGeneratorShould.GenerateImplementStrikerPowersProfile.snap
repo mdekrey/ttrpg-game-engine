@@ -1,8 +1,11 @@
-﻿- Level: 1
-  PowerProfile:
+﻿- PowerInfo:
     Usage: AtWill
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -27,11 +30,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: AtWill
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -63,11 +69,14 @@
         - Amount: +4
           Name: Shift
         Name: Skirmish Movement
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: AtWill
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -107,11 +116,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: AtWill
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -158,11 +170,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -187,11 +202,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -224,11 +242,14 @@
       - Conditions:
         - Name: Marked
         Name: Condition
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -270,11 +291,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -306,11 +330,14 @@
         - Amount: +4
           Name: Shift
         Name: Skirmish Movement
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -340,11 +367,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -393,11 +423,14 @@
         - Amount: WIS
           Name: Shift
         Name: Skirmish Movement
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -431,11 +464,14 @@
         - Amount: WIS
           Name: Temporary Hit Points
         Name: Boost
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits
@@ -473,11 +509,14 @@
       - Conditions:
         - Name: Deafened
         Name: Condition
-- Level: 3
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 3
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -502,11 +541,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 3
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 3
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -537,11 +579,14 @@
       - Movement:
         - Name: Shift
         Name: Skirmish Movement
-- Level: 3
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 3
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -608,11 +653,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 3
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 3
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -654,11 +702,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 5
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 5
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -696,11 +747,14 @@
           Amount: +1
           Name: Slide Opponent
         Name: MovementControl
-- Level: 5
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 5
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -740,11 +794,14 @@
         - Amount: WIS
           Name: Shift
         Name: Skirmish Movement
-- Level: 5
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 5
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -783,11 +840,14 @@
             Name: Immobilized
           AfterFailedSave: true
         Name: Condition
-- Level: 5
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 5
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -821,11 +881,14 @@
       - Boosts:
         - Name: Healing Surge
         Name: Boost
-- Level: 7
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 7
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -874,11 +937,14 @@
         - Amount: WIS
           Name: Shift
         Name: Skirmish Movement
-- Level: 7
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 7
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -910,11 +976,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 7
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 7
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -943,11 +1012,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 7
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 7
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -994,11 +1066,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 9
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 9
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1033,11 +1108,14 @@
           Limit: Target
           Name: Attack
         Name: Boost
-- Level: 9
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 9
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1062,11 +1140,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 9
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 9
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1127,11 +1208,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 9
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 9
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1174,11 +1258,14 @@
             Name: Immobilized
           AfterFailedSave: true
         Name: Condition
-- Level: 11
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 11
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1203,11 +1290,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 11
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 11
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Name: UpToThreeTargets
@@ -1241,11 +1331,14 @@
             Name: Immobilized
           AfterFailedSave: true
         Name: Condition
-- Level: 11
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 11
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1277,11 +1370,14 @@
         - Amount: WIS
           Name: Shift
         Name: Skirmish Movement
-- Level: 11
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 11
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1314,11 +1410,14 @@
       - Conditions:
         - Name: Marked
         Name: Condition
-- Level: 13
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 13
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1343,11 +1442,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 13
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 13
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1397,11 +1499,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 13
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 13
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1450,11 +1555,14 @@
         - Amount: WIS + 2
           Name: Shift
         Name: Skirmish Movement
-- Level: 13
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 13
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1487,11 +1595,14 @@
         - Amount: WIS + 2
           Name: Temporary Hit Points
         Name: Boost
-- Level: 15
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 15
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Name: UpToThreeTargets
@@ -1511,11 +1622,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 15
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 15
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1540,11 +1654,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 15
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 15
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1586,11 +1703,14 @@
           Amount: +1
           Name: Slide Opponent
         Name: MovementControl
-- Level: 15
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 15
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1631,11 +1751,14 @@
         - Amount: WIS
           Name: Shift
         Name: Skirmish Movement
-- Level: 17
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 17
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1667,11 +1790,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 17
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 17
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1703,11 +1829,14 @@
         - Amount: +4
           Name: Shift
         Name: Skirmish Movement
-- Level: 17
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 17
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1766,11 +1895,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 17
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 17
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits
@@ -1799,11 +1931,14 @@
         - Amount: WIS
           Name: Temporary Hit Points
         Name: Boost
-- Level: 19
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 19
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1838,11 +1973,14 @@
           Defense: Will
           Name: Defense
         Name: Boost
-- Level: 19
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 19
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1880,11 +2018,14 @@
         - Amount: +4
           Name: Shift
         Name: Skirmish Movement
-- Level: 19
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 19
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Name: UpToThreeTargets
@@ -1917,11 +2058,14 @@
           Defense: Will
           Name: Defense
         Name: Boost
-- Level: 19
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 19
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1957,11 +2101,14 @@
           Amount: +2
           Name: Slide Opponent
         Name: MovementControl
-- Level: 20
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 20
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1993,11 +2140,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 20
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 20
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2035,11 +2185,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 20
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 20
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2078,11 +2231,14 @@
           Defense: Fortitude
           Name: Defense
         Name: Boost
-- Level: 20
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 20
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits
@@ -2116,11 +2272,14 @@
           Amount: +1
           Name: Slide Opponent
         Name: MovementControl
-- Level: 23
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 23
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2157,11 +2316,14 @@
             Name: Restrained
           AfterFailedSave: true
         Name: Condition
-- Level: 23
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 23
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2186,11 +2348,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 23
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 23
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2222,11 +2387,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 23
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 23
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2258,11 +2426,14 @@
         - Amount: WIS
           Name: Shift
         Name: Skirmish Movement
-- Level: 25
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 25
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits
@@ -2298,11 +2469,14 @@
           Limit: Target
           Name: Attack
         Name: Boost
-- Level: 25
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 25
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2343,11 +2517,14 @@
         - Amount: +2
           Name: Defense
         Name: Boost
-- Level: 25
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 25
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2389,11 +2566,14 @@
             Name: Dying
           AfterFailedSave: true
         Name: Condition
-- Level: 25
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 25
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2431,11 +2611,14 @@
           Amount: +1
           Name: Slide Opponent
         Name: MovementControl
-- Level: 27
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 27
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits
@@ -2465,11 +2648,14 @@
           Limit: NextAttack
           Name: Attack
         Name: Boost
-- Level: 27
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 27
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2501,11 +2687,14 @@
         - Amount: +8
           Name: Shift
         Name: Skirmish Movement
-- Level: 27
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 27
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2542,11 +2731,14 @@
             Name: Grants Combat Advantage
           AfterFailedSave: false
         Name: Condition
-- Level: 27
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 27
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2571,11 +2763,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 29
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 29
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2609,11 +2804,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 29
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 29
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2680,11 +2878,14 @@
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
-- Level: 29
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 29
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2725,11 +2926,14 @@
             Name: Grants Combat Advantage
           AfterFailedSave: false
         Name: Condition
-- Level: 29
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 29
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally

@@ -82,7 +82,7 @@ namespace GameEngine.Generator
 
         public IEnumerable<(int level, PowerFrequency usage, int count)> RemainingPowers(ImmutableList<ClassPowerProfile> powers)
         {
-            var countBySet = powers.GroupBy(p => (level: p.Level, usage: p.PowerProfile.Usage)).ToDictionary(kvp => kvp.Key, kvp => kvp.Count());
+            var countBySet = powers.GroupBy(p => (level: p.PowerInfo.Level, usage: p.PowerInfo.Usage)).ToDictionary(kvp => kvp.Key, kvp => kvp.Count());
 
             return from powerSet in providedPowers
                    let count = countBySet.TryGetValue((powerSet.level, powerSet.usage), out int c) ? c : 0
@@ -97,7 +97,7 @@ namespace GameEngine.Generator
                            let power = BuildPower(powerInfo)
                            where power != null
                            where !exclude.Concat(BasicPowers.All).Any(prev => prev.Matches(power))
-                           select new ClassPowerProfile(Level: level, PowerProfile: power));
+                           select new ClassPowerProfile(PowerInfo: powerInfo.ToPowerInfo(), PowerProfile: power));
 
             PowerProfile? BuildPower(PowerHighLevelInfo powerInfo)
             {
@@ -130,7 +130,7 @@ namespace GameEngine.Generator
 
         public PowerProfile? GenerateProfile(PowerHighLevelInfo powerInfo, IEnumerable<PowerProfile>? exclude = null)
         {
-            var toExclude = (exclude ?? Enumerable.Empty<PowerProfile>()).Concat(BasicPowers.All).Select(p => p with { Usage = powerInfo.Usage });
+            var toExclude = (exclude ?? Enumerable.Empty<PowerProfile>()).Concat(BasicPowers.All);
             var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
             var root = RootBuilder(basePower, powerInfo);
             var powerProfileBuilder = root;

@@ -103,14 +103,11 @@ public static class ApiConversion
         new Api.RulesText(Label: model.Label, Text: model.Text);
 
     public static Api.PowerProfile ToApi(this GameEngine.Generator.ClassPowerProfile model) =>
-        model.PowerProfile.ToApi(model.Level);
-
-    public static Api.PowerProfile ToApi(this GameEngine.Generator.PowerProfile model, int? level = null) =>
         new Api.PowerProfile(
-            Usage: model.Usage.ToApi(),
-            Tool: model.Tool.ToApi(),
-            ToolRange: model.ToolRange.ToApi(),
-            Level: level
+            Usage: model.PowerInfo.Usage.ToApi(),
+            Tool: model.PowerInfo.ToolType.ToApi(),
+            ToolRange: model.PowerInfo.ToolRange.ToApi(),
+            Level: model.PowerInfo.Level
         // Attacks: model.Attacks,
         // Modifiers: model.Modifiers
         );

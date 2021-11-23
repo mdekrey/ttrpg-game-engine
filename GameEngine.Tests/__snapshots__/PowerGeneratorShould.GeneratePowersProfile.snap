@@ -1,8 +1,12 @@
-﻿- Level: 1
-  PowerProfile:
+﻿- PowerInfo:
     Usage: AtWill
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -23,11 +27,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: AtWill
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -52,11 +60,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: AtWill
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -90,11 +102,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: AtWill
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -115,11 +131,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -140,11 +160,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -168,11 +192,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -200,11 +228,15 @@
         - Amount: STR
           Name: Shift
         Name: Skirmish Movement
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -225,11 +257,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -269,11 +305,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -311,11 +351,15 @@
           Amount: +2
           Name: Slide Opponent
         Name: MovementControl
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -346,11 +390,15 @@
           Limit: Target
           Name: Attack
         Name: Boost
-- Level: 1
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -371,11 +419,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 3
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 3
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -396,11 +448,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 3
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 3
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -428,11 +484,15 @@
         - Amount: STR + 2
           Name: Shift
         Name: Skirmish Movement
-- Level: 3
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 3
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -457,11 +517,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 3
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 3
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -482,11 +546,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 5
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 5
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -517,11 +585,15 @@
           Limit: NextAttack
           Name: Attack
         Name: Boost
-- Level: 5
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 5
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -555,11 +627,15 @@
         - Amount: STR
           Name: Shift
         Name: Skirmish Movement
-- Level: 5
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 5
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -589,11 +665,15 @@
         - Amount: DEX
           Name: Temporary Hit Points
         Name: Boost
-- Level: 5
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 5
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -633,11 +713,15 @@
             Name: Blinded
           AfterFailedSave: true
         Name: Condition
-- Level: 7
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 7
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -686,11 +770,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 7
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 7
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -711,11 +799,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 7
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 7
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -743,11 +835,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 7
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 7
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -775,11 +871,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 9
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 9
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits
@@ -809,11 +909,15 @@
         Name: Boost
       - Damage: +0
         Name: Make Basic Attack
-- Level: 9
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 9
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -851,11 +955,15 @@
             Name: Unconscious
           AfterFailedSave: true
         Name: Condition
-- Level: 9
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 9
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -892,11 +1000,15 @@
         - Amount: STR
           Name: Shift
         Name: Skirmish Movement
-- Level: 9
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 9
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -926,11 +1038,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 11
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 11
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -957,11 +1073,15 @@
       - Movement:
         - Name: Shift
         Name: Skirmish Movement
-- Level: 11
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 11
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -982,11 +1102,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 11
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 11
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1029,11 +1153,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 11
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 11
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1058,11 +1186,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 13
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 13
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits
@@ -1080,11 +1212,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 13
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 13
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1108,11 +1244,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 13
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 13
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1146,11 +1286,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 13
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 13
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1175,11 +1319,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 15
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 15
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Name: UpToThreeTargets
@@ -1210,11 +1358,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 15
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 15
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1235,11 +1387,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 15
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 15
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1275,11 +1431,15 @@
         - Name: Defense Penalty
         - Name: Slowed
         Name: Condition
-- Level: 15
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 15
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1309,11 +1469,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 17
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 17
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1336,11 +1500,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 17
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 17
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1383,11 +1551,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 17
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 17
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1415,11 +1587,15 @@
         - Amount: +2
           Name: Shift
         Name: Skirmish Movement
-- Level: 17
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 17
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1447,11 +1623,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 19
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 19
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1480,11 +1660,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 19
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 19
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits
@@ -1512,11 +1696,15 @@
           Defense: Reflex
           Name: Defense
         Name: Boost
-- Level: 19
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 19
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1550,11 +1738,15 @@
         - Amount: STR
           Name: Shift
         Name: Skirmish Movement
-- Level: 19
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 19
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1589,11 +1781,15 @@
         - Amount: STR
           Name: Temporary Hit Points
         Name: Boost
-- Level: 20
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 20
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1627,11 +1823,15 @@
         - Amount: +8
           Name: Shift
         Name: Skirmish Movement
-- Level: 20
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 20
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1683,11 +1883,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 20
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 20
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1720,11 +1924,15 @@
           Defense: ArmorClass
           Name: Defense
         Name: Boost
-- Level: 20
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 20
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1763,11 +1971,15 @@
           Amount: +2
           Name: Slide Opponent
         Name: MovementControl
-- Level: 23
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 23
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1814,11 +2026,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 23
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 23
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1857,11 +2073,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 23
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 23
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1882,11 +2102,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 23
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 23
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1911,11 +2135,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 25
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 25
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1945,11 +2173,15 @@
         - Amount: STR
           Name: Temporary Hit Points
         Name: Boost
-- Level: 25
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 25
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1979,11 +2211,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 25
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 25
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2012,11 +2248,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 25
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 25
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits
@@ -2058,11 +2298,15 @@
           Amount: +2
           Name: Slide Opponent
         Name: MovementControl
-- Level: 27
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 27
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2083,11 +2327,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 27
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 27
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2111,11 +2359,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 27
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 27
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2143,11 +2395,15 @@
         - Amount: STR + 2
           Name: Shift
         Name: Skirmish Movement
-- Level: 27
-  PowerProfile:
+- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 27
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2181,11 +2437,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 29
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 29
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2215,11 +2475,15 @@
     - PowerSource: Martial
       Name: Power Source
     Effects: []
-- Level: 29
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 29
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -2256,11 +2520,15 @@
         - Amount: STR
           Name: Shift
         Name: Skirmish Movement
-- Level: 29
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 29
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Name: UpToThreeTargets
@@ -2292,11 +2560,15 @@
         - Amount: +2
           Name: Shift
         Name: Skirmish Movement
-- Level: 29
-  PowerProfile:
+- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 29
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally

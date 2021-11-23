@@ -22,17 +22,18 @@ public class PowerController : PowerControllerBase
         var classProfile = generateSamplePowerBody.ClassProfile.FromApi();
         var toolProfile = classProfile.Tools[generateSamplePowerBody.ToolIndex];
         var powerProfileConfig = toolProfile.PowerProfileConfigs[generateSamplePowerBody.PowerProfileIndex];
-        var powerProfile = powerGenerator.GenerateProfile(new PowerHighLevelInfo(
-            Level: generateSamplePowerBody.Level, 
-            Usage: generateSamplePowerBody.Usage.FromApi(),
-            ClassProfile: classProfile,
-            ToolProfile: toolProfile,
-            PowerProfileConfig: powerProfileConfig));
+        var powerInfo = new PowerHighLevelInfo(
+                    Level: generateSamplePowerBody.Level,
+                    Usage: generateSamplePowerBody.Usage.FromApi(),
+                    ClassProfile: classProfile,
+                    ToolProfile: toolProfile,
+                    PowerProfileConfig: powerProfileConfig);
+        var powerProfile = powerGenerator.GenerateProfile(powerInfo);
 
         if (powerProfile == null)
             return Task.FromResult(TypeSafeGenerateSamplePowerResult.BadRequest(new() { { "NoPowers", new[] { "Could not generate any powers" } } }));
 
-        var classPowerProfile = new ClassPowerProfile(generateSamplePowerBody.Level, powerProfile);
+        var classPowerProfile = new ClassPowerProfile(powerInfo.ToPowerInfo(), powerProfile);
         var powerToken = powerProfile.GetProfileToken();
 
         return Task.FromResult(TypeSafeGenerateSamplePowerResult.Ok(new GenerateSamplePowerResponse(

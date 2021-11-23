@@ -1,7 +1,4 @@
-﻿Usage: Daily
-Tool: Weapon
-ToolRange: Melee
-Attacks:
+﻿Attacks:
 - Target:
     EffectModifier:
       Conditions:

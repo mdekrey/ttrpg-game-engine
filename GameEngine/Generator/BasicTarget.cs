@@ -49,9 +49,9 @@ namespace GameEngine.Generator
             };
         }
 
-        public AttackType GetAttackType(PowerProfile power)
+        public AttackType GetAttackType(ToolType toolType, ToolRange toolRange)
         {
-            return (power.Tool, power.ToolRange) switch
+            return (toolType, toolRange) switch
             {
                 (ToolType.Weapon, ToolRange.Melee) => new MeleeWeaponAttackType(),
                 (ToolType.Implement, ToolRange.Melee) => new MeleeTouchAttackType(),
@@ -73,7 +73,7 @@ namespace GameEngine.Generator
 
         string IAttackTargetModifier.GetTargetText(AttackContext attackContext) => GetTargetText();
 
-        AttackType IAttackTargetModifier.GetAttackType(AttackContext attackContext) => GetAttackType(attackContext.PowerProfile);
+        AttackType IAttackTargetModifier.GetAttackType(AttackContext attackContext) => GetAttackType(attackContext.ToolType, attackContext.ToolRange);
 
         string? IAttackTargetModifier.GetAttackNotes(AttackContext attackContext) => GetAttackNotes();
 
@@ -81,7 +81,7 @@ namespace GameEngine.Generator
 
         string IEffectTargetModifier.GetTargetText(EffectContext effectContext) => GetTargetText();
 
-        AttackType IEffectTargetModifier.GetAttackType(EffectContext effectContext) => GetAttackType(effectContext.PowerProfile);
+        AttackType IEffectTargetModifier.GetAttackType(EffectContext effectContext) => GetAttackType(effectContext.ToolType, effectContext.ToolRange);
 
         string? IEffectTargetModifier.GetAttackNotes(EffectContext effectContext) => GetAttackNotes();
     }

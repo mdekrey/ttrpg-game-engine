@@ -13,7 +13,7 @@ namespace GameEngine.Generator
         public static IEnumerable<PowerProfileBuilder> PreApply(this IEnumerable<PowerProfileBuilder> powers)
         {
             var options = from power in powers
-                          let context = new PowerContext(power)
+                          let context = new PowerContext(power, power.PowerInfo)
                           from builder in context.GetAttackContexts().Select(a => a.AttackContext).Aggregate(
                                     Enumerable.Repeat(ImmutableList<AttackProfile>.Empty, 1),
                                     (prev, next) => prev.SelectMany(l => next.PreApplyImplementNonArmorDefense(UpgradeStage.InitializeAttacks).Select(o => l.Add(o)))

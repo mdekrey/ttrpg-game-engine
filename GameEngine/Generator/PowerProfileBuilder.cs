@@ -27,7 +27,7 @@ namespace GameEngine.Generator
         {
             get
             {
-                var context = new PowerContext(this);
+                var context = new PowerContext(this, PowerInfo);
                 return (
                     from set in new[]
                     {
@@ -44,9 +44,6 @@ namespace GameEngine.Generator
         {
             var builder = ApplyWeaponDice();
             return new PowerProfile(
-                Usage: builder.PowerInfo.Usage,
-                Tool: builder.PowerInfo.ToolProfile.Type,
-                ToolRange: builder.PowerInfo.ToolProfile.Range,
                 Attacks: builder.Attacks.Select(a => a.Build()).ToImmutableList(),
                 Modifiers: builder.Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList(),
                 Effects: builder.Effects.Select(e => e.WithoutPlaceholders()).Where(e => e.Modifiers.Any()).ToImmutableList()
@@ -55,7 +52,7 @@ namespace GameEngine.Generator
 
         private PowerProfileBuilder ApplyWeaponDice()
         {
-            var context = new PowerContext(this);
+            var context = new PowerContext(this, PowerInfo);
             var cost = context.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
             var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
 
@@ -91,7 +88,7 @@ namespace GameEngine.Generator
 
         public bool IsValid()
         {
-            var powerContext = new PowerContext(this);
+            var powerContext = new PowerContext(this, PowerInfo);
             if (AllModifiers(false).Cast<IModifier>().GetComplexity(powerContext) > Limits.MaxComplexity)
                 return false;
 
@@ -112,7 +109,7 @@ namespace GameEngine.Generator
 
         public virtual IEnumerable<PowerProfileBuilder> GetUpgrades(UpgradeStage stage)
         {
-            var powerContext = new PowerContext(this);
+            var powerContext = new PowerContext(this, PowerInfo);
 
             return (
                 from set in new[]
@@ -170,7 +167,7 @@ namespace GameEngine.Generator
 
         private IEnumerable<DamageLens> GetDamageLenses()
         {
-            var powerContext = new PowerContext(this);
+            var powerContext = new PowerContext(this, PowerInfo);
             return (from attackContext in powerContext.GetAttackContexts()
                     from effectContext in attackContext.AttackContext.GetEffectContexts()
                     let lens = attackContext.Lens.To(effectContext.Lens)

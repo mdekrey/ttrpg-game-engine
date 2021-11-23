@@ -2,13 +2,12 @@
 using GameEngine.Rules;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace GameEngine.Generator
 {
     public record PowerProfile(
-        PowerFrequency Usage,
-        ToolType Tool, ToolRange ToolRange,
         EquatableImmutableList<AttackProfile> Attacks,
         EquatableImmutableList<IPowerModifier> Modifiers,
         EquatableImmutableList<TargetEffect> Effects
@@ -31,11 +30,17 @@ namespace GameEngine.Generator
 
         internal bool Matches(PowerProfile power)
         {
-            return Usage == power.Usage
-                && Tool == power.Tool
-                && ToolRange == power.ToolRange
-                && Attacks.Equals(power.Attacks)
+            return Attacks.Equals(power.Attacks)
                 && Modifiers.Where(m => !m.ExcludeFromUniqueness()).SequenceEqual(power.Modifiers.Where(m => !m.ExcludeFromUniqueness()));
         }
+    }
+
+    public record PowerInfo(
+        PowerFrequency Usage,
+        ToolType ToolType, ToolRange ToolRange,
+        int Level,
+        EquatableImmutableList<Ability> Abilities) : IPowerInfo
+    {
+        ImmutableList<Ability> IPowerInfo.Abilities => Abilities.Items;
     }
 }

@@ -1,8 +1,12 @@
-﻿- Level: 19
-  PowerProfile:
+﻿- PowerInfo:
     Usage: Daily
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 19
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally

@@ -1,8 +1,12 @@
-﻿- Level: 1
-  PowerProfile:
+﻿- PowerInfo:
     Usage: Daily
-    Tool: Implement
+    ToolType: Implement
     ToolRange: Range
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally

@@ -1,8 +1,12 @@
-﻿- Level: 1
-  PowerProfile:
+﻿- PowerInfo:
     Usage: Encounter
-    Tool: Weapon
+    ToolType: Weapon
     ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits

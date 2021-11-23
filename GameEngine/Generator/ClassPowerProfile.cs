@@ -1,7 +1,7 @@
 ﻿namespace GameEngine.Generator
 {
     public record ClassPowerProfile(
-        int Level,
+        PowerInfo PowerInfo,
         PowerProfile PowerProfile
     );
 }

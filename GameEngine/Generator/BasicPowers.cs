@@ -1,4 +1,5 @@
 ﻿using GameEngine.Generator.Modifiers;
+using GameEngine.Rules;
 using System.Collections.Immutable;
 using static GameEngine.Generator.ImmutableConstructorExtension;
 
@@ -6,21 +7,19 @@ namespace GameEngine.Generator
 {
     public static class BasicPowers
     {
+        public static readonly PowerInfo BasicMeleeInfo = new PowerInfo(PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, 0, ImmutableList<Ability>.Empty.Add(Ability.Strength));
         public static readonly PowerProfile BasicMelee = new PowerProfile(
-            Usage: Rules.PowerFrequency.AtWill, 
-            Tool: ToolType.Weapon, 
-            ToolRange: ToolRange.Melee, 
             Attacks: Build(
                 new AttackProfile( 
                     Target: new BasicTarget(Target.Ally | Target.Enemy | Target.Self),
-                    Ability: Rules.Ability.Strength, 
+                    Ability: Ability.Strength, 
                     Effects: Build(
                         new TargetEffect(
                             new SameAsOtherTarget(),
                             EffectType.Harmful, 
                             Build<IEffectModifier>(
                                 new DamageModifier(
-                                    Rules.GameDiceExpression.Empty with { WeaponDiceCount = 1 } + Rules.Ability.Strength,
+                                    GameDiceExpression.Empty with { WeaponDiceCount = 1 } + Ability.Strength,
                                     DamageTypes: ImmutableList<DamageType>.Empty
                                 )
                             )
@@ -33,21 +32,19 @@ namespace GameEngine.Generator
             Effects: ImmutableList<TargetEffect>.Empty
         );
 
+        public static readonly PowerInfo BasicRangedInfo = new PowerInfo(PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Range, 0, ImmutableList<Ability>.Empty.Add(Ability.Strength));
         public static readonly PowerProfile BasicRanged = new PowerProfile(
-            Usage: Rules.PowerFrequency.AtWill,
-            Tool: ToolType.Weapon,
-            ToolRange: ToolRange.Range,
             Attacks: Build(
                 new AttackProfile(
                     Target: new BasicTarget(Target.Ally | Target.Enemy | Target.Self),
-                    Ability: Rules.Ability.Dexterity,
+                    Ability: Ability.Dexterity,
                     Effects: Build(
                         new TargetEffect(
                             new SameAsOtherTarget(),
                             EffectType.Harmful,
                             Build<IEffectModifier>(
                                 new DamageModifier(
-                                    Rules.GameDiceExpression.Empty with { WeaponDiceCount = 1 } + Rules.Ability.Dexterity,
+                                    GameDiceExpression.Empty with { WeaponDiceCount = 1 } + Ability.Dexterity,
                                     DamageTypes: ImmutableList<DamageType>.Empty
                                 )
                             )

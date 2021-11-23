@@ -1,7 +1,4 @@
-﻿Usage: Daily
-Tool: Weapon
-ToolRange: Melee
-Attacks:
+﻿Attacks:
 - Target:
     Target: Enemy, Self, Ally
     Size: 5
