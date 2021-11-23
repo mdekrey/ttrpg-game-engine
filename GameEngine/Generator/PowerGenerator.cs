@@ -132,39 +132,44 @@ namespace GameEngine.Generator
         {
             var toExclude = (exclude ?? Enumerable.Empty<PowerProfile>()).Concat(BasicPowers.All);
             var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
+            var limits =
+                new PowerLimits(basePower,
+                    Minimum: GetAttackMinimumPower(basePower, powerInfo.ClassProfile.Role, randomGenerator) - (powerInfo.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
+                    MaxComplexity: GetAttackMaxComplexity(powerInfo.Usage)
+                );
             var root = RootBuilder(basePower, powerInfo);
             var powerProfileBuilder = root;
 
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, powerInfo, UpgradeStage.Standard, exclude: toExclude, preApplyOnce: true);
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, powerInfo, UpgradeStage.Finalize, exclude: toExclude);
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, powerInfo, limits, UpgradeStage.Standard, exclude: toExclude, preApplyOnce: true);
+            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, powerInfo, limits, UpgradeStage.Finalize, exclude: toExclude);
 
             if (powerProfileBuilder == root)
                 return null;
 
-            return (powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) }).Build(powerInfo);
+            return (powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) }).Build(powerInfo, limits);
         }
 
-        public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder, PowerHighLevelInfo powerInfo, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
+        public PowerProfileBuilder ApplyUpgrades(PowerProfileBuilder powerProfileBuilder, PowerHighLevelInfo powerInfo, PowerLimits limits, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
         {
             while (true)
             {
                 var oldBuilder = powerProfileBuilder;
-                var upgrades = powerProfileBuilder.GetUpgrades(powerInfo, stage).Where(entry => entry.IsValid(powerInfo));
+                var upgrades = powerProfileBuilder.GetUpgrades(powerInfo, limits, stage).Where(entry => entry.IsValid(powerInfo, limits));
                 if (preApplyOnce)
                 {
                     var burst = upgrades.Where(e => e.AllModifiers(true).Any(m => m is BurstFormula.BurstModifier)).ToArray();
 
-                    var preApplyUpgrades = upgrades.ToChances(powerInfo.PowerProfileConfig, powerInfo).ToArray();
-                    var temp = preApplyUpgrades.Select(d => d.Result).PreApply(powerInfo);
+                    var preApplyUpgrades = upgrades.ToChances(powerInfo.PowerProfileConfig, powerInfo, limits).ToArray();
+                    var temp = preApplyUpgrades.Select(d => d.Result).PreApply(powerInfo, limits);
                     if (temp.Any())
                         upgrades = temp;
                     preApplyOnce = false;
                 }
                 var preChance = (from entry in upgrades
-                                 let builtEntry = entry.Build(powerInfo)
+                                 let builtEntry = entry.Build(powerInfo, limits)
                                  where !exclude.Contains(builtEntry)
                                  select entry).ToArray();
-                var validModifiers = preChance.ToChances(powerInfo.PowerProfileConfig, powerInfo).ToArray();
+                var validModifiers = preChance.ToChances(powerInfo.PowerProfileConfig, powerInfo, limits).ToArray();
                 if (validModifiers.Length == 0)
                     break;
                 powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);
@@ -178,10 +183,6 @@ namespace GameEngine.Generator
         private PowerProfileBuilder RootBuilder(double basePower, PowerHighLevelInfo info)
         {
             var result = new PowerProfileBuilder(
-                new PowerLimits(basePower,
-                    Minimum: GetAttackMinimumPower(basePower, info.ClassProfile.Role, randomGenerator) - (info.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
-                    MaxComplexity: GetAttackMaxComplexity(info.Usage)
-                ),
                 Build(RootAttackBuilder(basePower, info, randomGenerator)),
                 ImmutableList<IPowerModifier>.Empty,
                 ImmutableList<TargetEffect>.Empty

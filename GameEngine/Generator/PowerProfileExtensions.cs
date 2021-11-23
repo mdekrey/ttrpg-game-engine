@@ -10,7 +10,7 @@ namespace GameEngine.Generator
 {
     public static class PowerProfileExtensions
     {
-        public static IEnumerable<PowerProfileBuilder> PreApply(this IEnumerable<PowerProfileBuilder> powers, IPowerInfo powerInfo)
+        public static IEnumerable<PowerProfileBuilder> PreApply(this IEnumerable<PowerProfileBuilder> powers, IPowerInfo powerInfo, PowerLimits limits)
         {
             var options = from power in powers
                           let context = new PowerContext(power, powerInfo)
@@ -19,16 +19,16 @@ namespace GameEngine.Generator
                                     (prev, next) => prev.SelectMany(l => next.PreApplyImplementNonArmorDefense(UpgradeStage.InitializeAttacks).Select(o => l.Add(o)))
                                 )
                                 .Select(attacks => power with { Attacks = attacks })
-                          let b = builder.FullyInitialize(powerInfo)
+                          let b = builder.FullyInitialize(powerInfo, limits)
                           where b.AllModifiers(true).Any(p => p.CanUseRemainingPower()) // Ensures ABIL mod or multiple hits
                           select b;
 
             return options;
         }
 
-        public static PowerProfileBuilder FullyInitialize(this PowerProfileBuilder builder, IPowerInfo powerInfo)
+        public static PowerProfileBuilder FullyInitialize(this PowerProfileBuilder builder, IPowerInfo powerInfo, PowerLimits limits)
         {
-            while (builder.GetUpgrades(powerInfo, UpgradeStage.InitializeAttacks).Where(b => b.IsValid(powerInfo)).FirstOrDefault() is PowerProfileBuilder next)
+            while (builder.GetUpgrades(powerInfo, limits, UpgradeStage.InitializeAttacks).Where(b => b.IsValid(powerInfo, limits)).FirstOrDefault() is PowerProfileBuilder next)
                 builder = next;
             return builder;
         }

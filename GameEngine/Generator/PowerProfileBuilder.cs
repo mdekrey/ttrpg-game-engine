@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public record PowerProfileBuilder(PowerLimits Limits, ImmutableList<AttackProfile> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffect> Effects)
+    public record PowerProfileBuilder(ImmutableList<AttackProfile> Attacks, ImmutableList<IPowerModifier> Modifiers, ImmutableList<TargetEffect> Effects)
     {
     }
 
@@ -43,9 +43,9 @@ namespace GameEngine.Generator
             
         }
 
-        internal static PowerProfile Build(this PowerProfileBuilder _this, IPowerInfo PowerInfo)
+        internal static PowerProfile Build(this PowerProfileBuilder _this, IPowerInfo PowerInfo, PowerLimits Limits)
         {
-            var builder = _this.ApplyWeaponDice(PowerInfo);
+            var builder = _this.ApplyWeaponDice(PowerInfo, Limits);
             return new PowerProfile(
                 Attacks: builder.Attacks.Select(a => a.Build()).ToImmutableList(),
                 Modifiers: builder.Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList(),
@@ -53,7 +53,7 @@ namespace GameEngine.Generator
             );
         }
 
-        private static PowerProfileBuilder ApplyWeaponDice(this PowerProfileBuilder _this, IPowerInfo PowerInfo)
+        private static PowerProfileBuilder ApplyWeaponDice(this PowerProfileBuilder _this, IPowerInfo PowerInfo, PowerLimits Limits)
         {
             var context = new PowerContext(_this, PowerInfo);
             var cost = context.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
@@ -63,7 +63,7 @@ namespace GameEngine.Generator
 
             var min = damages.Sum(c => c.Effectiveness);
 
-            var remaining = _this.Limits.Initial - _this.TotalCost(PowerInfo).Fixed - fixedCost;
+            var remaining = Limits.Initial - _this.TotalCost(PowerInfo).Fixed - fixedCost;
             var baseAmount = remaining / min;
             if (PowerInfo.ToolType == ToolType.Weapon)
                 baseAmount = Math.Floor(baseAmount);
@@ -89,28 +89,28 @@ namespace GameEngine.Generator
                 .Aggregate(_this, (pb, lens) => lens.setter(pb, lens.Damage));
         }
 
-        public static bool IsValid(this PowerProfileBuilder _this, IPowerInfo PowerInfo)
+        public static bool IsValid(this PowerProfileBuilder _this, IPowerInfo PowerInfo, PowerLimits Limits)
         {
             var powerContext = new PowerContext(_this, PowerInfo);
-            if (_this.AllModifiers(false).Cast<IModifier>().GetComplexity(powerContext) > _this.Limits.MaxComplexity)
+            if (_this.AllModifiers(false).Cast<IModifier>().GetComplexity(powerContext) > Limits.MaxComplexity)
                 return false;
 
             var cost = powerContext.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
             var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
             var min = cost.Sum(c => c.SingleTargetMultiplier);
-            var remaining = _this.TotalCost(PowerInfo).Apply(_this.Limits.Initial) - fixedCost;
+            var remaining = _this.TotalCost(PowerInfo).Apply(Limits.Initial) - fixedCost;
 
             if (remaining <= 0)
                 return false; // Have to have damage remaining
-            if (remaining / min < _this.Limits.Minimum)
+            if (remaining / min < Limits.Minimum)
                 return false;
-            if (PowerInfo.ToolType == ToolType.Weapon && _this.ApplyWeaponDice(PowerInfo).AllModifiers(true).OfType<DamageModifier>().Any(d => d.Damage.WeaponDiceCount < 1))
+            if (PowerInfo.ToolType == ToolType.Weapon && _this.ApplyWeaponDice(PowerInfo, Limits).AllModifiers(true).OfType<DamageModifier>().Any(d => d.Damage.WeaponDiceCount < 1))
                 return false; // Must have a full weapon die for any weapon
 
             return true;
         }
 
-        public static IEnumerable<PowerProfileBuilder> GetUpgrades(this PowerProfileBuilder _this, IPowerInfo PowerInfo, UpgradeStage stage)
+        public static IEnumerable<PowerProfileBuilder> GetUpgrades(this PowerProfileBuilder _this, IPowerInfo PowerInfo, PowerLimits Limits, UpgradeStage stage)
         {
             var powerContext = new PowerContext(_this, PowerInfo);
 
@@ -143,7 +143,7 @@ namespace GameEngine.Generator
                 }
                 from entry in set
                 from upgraded in entry.FinalizeUpgrade()
-                where upgraded.IsValid(PowerInfo)
+                where upgraded.IsValid(PowerInfo, Limits)
                 select upgraded
             );
         }
