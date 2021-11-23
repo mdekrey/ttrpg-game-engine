@@ -155,7 +155,7 @@ namespace GameEngine.Generator
             while (true)
             {
                 var oldBuilder = powerProfileBuilder;
-                var upgrades = powerProfileBuilder.GetUpgrades(buildContext, stage).Where(buildContext.IsValid);
+                var upgrades = powerProfileBuilder.GetUpgrades(buildContext.PowerInfo, stage).Where(buildContext.IsValid);
                 if (preApplyOnce)
                 {
                     var burst = upgrades.Where(e => e.AllModifiers(true).Any(m => m is BurstFormula.BurstModifier)).ToArray();

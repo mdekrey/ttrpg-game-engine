@@ -28,7 +28,7 @@ namespace GameEngine.Generator
 
         public static PowerProfile FullyInitialize(this PowerProfile builder, IBuildContext buildContext)
         {
-            while (builder.GetUpgrades(buildContext, UpgradeStage.InitializeAttacks).Where(buildContext.IsValid).FirstOrDefault() is PowerProfile next)
+            while (builder.GetUpgrades(buildContext.PowerInfo, UpgradeStage.InitializeAttacks).Where(buildContext.IsValid).FirstOrDefault() is PowerProfile next)
                 builder = next;
             return builder;
         }

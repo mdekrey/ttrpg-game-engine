@@ -39,9 +39,9 @@ namespace GameEngine.Generator
             
         }
 
-        public static IEnumerable<PowerProfile> GetUpgrades(this PowerProfile _this, IBuildContext buildContext, UpgradeStage stage)
+        public static IEnumerable<PowerProfile> GetUpgrades(this PowerProfile _this, IPowerInfo powerInfo, UpgradeStage stage)
         {
-            var powerContext = new PowerContext(_this, buildContext.PowerInfo);
+            var powerContext = new PowerContext(_this, powerInfo);
 
             return (
                 from set in new[]
@@ -72,7 +72,6 @@ namespace GameEngine.Generator
                 }
                 from entry in set
                 from upgraded in entry.FinalizeUpgrade()
-                where buildContext.IsValid(upgraded)
                 select upgraded
             );
         }
