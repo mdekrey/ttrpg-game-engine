@@ -21,11 +21,22 @@ namespace GameEngine.Generator
             };
         }
 
+        internal static TargetEffect Build(this EffectContext effectContext) =>
+            new TargetEffect(
+                Target: effectContext.Effect.Target.Finalize(effectContext),
+                EffectType: effectContext.EffectType,
+                Modifiers: effectContext.Modifiers.Finalize(effectContext).ToImmutableList()
+            );
+
+        public static IEnumerable<IEffectModifier> Finalize(this IEnumerable<IEffectModifier> _this, EffectContext context) =>
+            from modifier in _this
+            let finalizer = modifier.Finalize(context)
+            let newValue = finalizer == null ? modifier : finalizer()
+            where newValue != null
+            select newValue;
+
         public static PowerCost TotalCost(this EffectContext effectContext) =>
             effectContext.Effect.Modifiers.Select(m => m.GetCost(effectContext)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b) + effectContext.Effect.Target.GetCost(effectContext);
-
-        internal static TargetEffect WithoutPlaceholders(this TargetEffect targetEffect) =>
-            targetEffect with { Modifiers = targetEffect.Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList() };
 
         public static IEnumerable<IModifier> AllModifiers(this TargetEffect targetEffect) => targetEffect.Modifiers.Add<IModifier>(targetEffect.Target);
 

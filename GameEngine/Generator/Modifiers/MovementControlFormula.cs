@@ -31,7 +31,11 @@ namespace GameEngine.Generator.Modifiers
             public override int GetComplexity(PowerContext powerContext) => IsPlaceholder() ? 0 : 1;
             public override PowerCost GetCost(EffectContext effectContext) =>
                 new PowerCost(Fixed: Effects.Select(c => c.Cost()).Sum());
-            public override bool IsPlaceholder() => Effects.Count == 0;
+            public bool IsPlaceholder() => Effects.Count == 0;
+            public override ModifierFinalizer<IEffectModifier>? Finalize(EffectContext powerContext) =>
+                IsPlaceholder()
+                    ? () => null
+                    : null;
 
             public override bool UsesDuration() => false;
             public override bool IsInstantaneous() => true;

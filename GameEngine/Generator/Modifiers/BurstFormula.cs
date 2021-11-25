@@ -115,6 +115,9 @@ namespace GameEngine.Generator.Modifiers
 
             string? IEffectTargetModifier.GetAttackNotes(EffectContext effectContext) => null;
             string? IAttackTargetModifier.GetAttackNotes(AttackContext attackContext) => null;
+
+            IAttackTargetModifier IAttackTargetModifier.Finalize(AttackContext powerContext) => this;
+            IEffectTargetModifier IEffectTargetModifier.Finalize(EffectContext powerContext) => this;
         }
     }
 

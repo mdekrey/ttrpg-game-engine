@@ -14,5 +14,7 @@ namespace GameEngine.Generator.Modifiers
         AttackType GetAttackType(EffectContext effectContext);
         string? GetAttackNotes(EffectContext effectContext);
         TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext);
+
+        IEffectTargetModifier Finalize(EffectContext powerContext);
     }
 }

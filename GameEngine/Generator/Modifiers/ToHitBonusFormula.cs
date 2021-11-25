@@ -23,7 +23,11 @@ namespace GameEngine.Generator.Modifiers
         public record ToHitBonus(GameDiceExpression Amount) : AttackModifier(ModifierName)
         {
             public override int GetComplexity(PowerContext powerContext) => IsPlaceholder() ? 0 : 1;
-            public override bool IsPlaceholder() => Amount == GameDiceExpression.Empty;
+            public bool IsPlaceholder() => Amount == GameDiceExpression.Empty;
+            public override ModifierFinalizer<IAttackModifier>? Finalize(AttackContext powerContext) =>
+                IsPlaceholder()
+                    ? () => null
+                    : null;
 
             public override PowerCost GetCost(AttackContext attackContext) => new PowerCost(Amount.ToWeaponDice());
 

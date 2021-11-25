@@ -13,7 +13,6 @@ namespace GameEngine.Generator.Context
         public IEnumerable<EffectAttackLensedContext> GetEffectContexts() => Attack.Effects.Select((targetEffect, index) => BuildEffectContext(index));
 
         public ImmutableList<TargetEffect> Effects => Attack.Effects.Items;
-        public PowerProfile PowerProfileBuilder => RootContext.PowerProfile;
         public PowerProfile PowerProfile => RootContext.PowerProfile;
         public PowerContext PowerContext => RootContext;
         public ImmutableList<IAttackModifier> Modifiers => Attack.Modifiers;

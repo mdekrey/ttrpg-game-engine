@@ -83,7 +83,7 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerContext powerContext) => 0;
             public override PowerCost GetCost(PowerContext powerContext) => PowerCost.Empty;
-            public override bool IsPlaceholder() => true;
+            public override ModifierFinalizer<IPowerModifier>? Finalize(PowerContext powerContext) => () => null;
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext) => Enumerable.Empty<IPowerModifier>();
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
@@ -95,7 +95,6 @@ namespace GameEngine.Generator.Modifiers
             public const string ModifierName = "RequiredHitForNextAttack";
 
             public override PowerCost GetCost(AttackContext attackContext) => PowerCost.Empty;
-            public override bool IsPlaceholder() => false;
             public override bool CanUseRemainingPower() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext) =>
                 Enumerable.Empty<IAttackModifier>();
@@ -117,7 +116,6 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(AttackContext attackContext) =>
                 new PowerCost(Multiplier: 1 / FollowupAttackPower, SingleTargetMultiplier: 1 / FollowupAttackPower);
-            public override bool IsPlaceholder() => false;
             public override bool CanUseRemainingPower() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext) =>
                 Enumerable.Empty<IAttackModifier>();
@@ -189,6 +187,8 @@ namespace GameEngine.Generator.Modifiers
                 yield return EffectModifier;
             }
 
+            public IAttackTargetModifier Finalize(AttackContext powerContext) => this;
+
         }
 
         // Identical attacks against up to 3 targets.
@@ -217,6 +217,7 @@ namespace GameEngine.Generator.Modifiers
 
             public IEnumerable<IAttackTargetModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext) =>
                 Enumerable.Empty<IAttackTargetModifier>();
+            public IAttackTargetModifier Finalize(AttackContext powerContext) => this;
         }
     }
 }

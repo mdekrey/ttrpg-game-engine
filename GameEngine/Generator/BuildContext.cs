@@ -19,10 +19,11 @@ namespace GameEngine.Generator
         public PowerProfile Build(PowerProfile profile)
         {
             var builder = ApplyWeaponDice(profile);
+            var context = new PowerContext(builder, PowerInfo);
             return new PowerProfile(
-                Attacks: builder.Attacks.Select(a => a.Build()).ToImmutableList(),
-                Modifiers: builder.Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList(),
-                Effects: builder.Effects.Select(e => e.WithoutPlaceholders()).Where(e => e.Modifiers.Any()).ToImmutableList()
+                Attacks: context.GetAttackContexts().Select(a => a.AttackContext.Build()).ToImmutableList(),
+                Modifiers: builder.Modifiers.Finalize(context).ToImmutableList(),
+                Effects: context.GetEffectContexts().Select(e => e.EffectContext.Build()).Where(e => e.Modifiers.Any()).ToImmutableList()
             );
         }
 

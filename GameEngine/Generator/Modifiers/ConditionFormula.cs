@@ -199,7 +199,10 @@ namespace GameEngine.Generator.Modifiers
                             Conditions.Select(c => c.Cost() * DurationMultiplier(Duration.EndOfUserNextTurn)).Sum()
                             + afterEffect.Cost() * DurationMultiplier(Duration.SaveEnds) / 2
                     });
-            public override bool IsPlaceholder() => Conditions.Count == 0;
+            public override ModifierFinalizer<IEffectModifier>? Finalize(EffectContext powerContext) =>
+                Conditions.Count == 0
+                    ? () => null
+                    : null;
             public override bool UsesDuration() => Conditions.Any();
             public override bool IsInstantaneous() => false;
             public override bool IsBeneficial() => false;

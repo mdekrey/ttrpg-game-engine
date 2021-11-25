@@ -8,11 +8,11 @@ namespace GameEngine.Generator.Modifiers
     {
         public abstract int GetComplexity(PowerContext powerContext);
         public abstract PowerCost GetCost(AttackContext attackContext);
-        public virtual bool IsPlaceholder() => false;
         public abstract IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext);
         public virtual double ApplyEffectiveWeaponDice(double weaponDice) => weaponDice;
 
         public abstract AttackInfoMutator? GetAttackInfoMutator(AttackContext attackContext);
         public virtual bool CanUseRemainingPower() => false;
+        public virtual ModifierFinalizer<IAttackModifier>? Finalize(AttackContext powerContext) => null;
     }
 }

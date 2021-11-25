@@ -8,7 +8,6 @@ namespace GameEngine.Generator.Modifiers
     {
         public abstract PowerCost GetCost(EffectContext effectContext);
         public abstract int GetComplexity(PowerContext powerContext);
-        public virtual bool IsPlaceholder() => false;
         public abstract bool UsesDuration();
         public abstract bool IsInstantaneous();
         public abstract bool IsBeneficial();
@@ -17,5 +16,7 @@ namespace GameEngine.Generator.Modifiers
         public abstract TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext);
 
         public abstract IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext);
+
+        public virtual ModifierFinalizer<IEffectModifier>? Finalize(EffectContext powerContext) => null;
     }
 }

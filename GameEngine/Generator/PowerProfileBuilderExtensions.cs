@@ -39,7 +39,6 @@ namespace GameEngine.Generator
                 from cost in set
                 select cost
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
-            
         }
 
         public static IEnumerable<PowerProfile> GetUpgrades(this PowerProfile _this, IPowerInfo powerInfo, UpgradeStage stage)
@@ -86,5 +85,11 @@ namespace GameEngine.Generator
         public static IEnumerable<PowerProfile> FinalizeUpgrade(this PowerProfile _this) =>
             _this.Modifiers.Aggregate(Enumerable.Repeat(_this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)));
 
+        public static IEnumerable<IPowerModifier> Finalize(this IEnumerable<IPowerModifier> _this, PowerContext context) =>
+            from modifier in _this
+            let finalizer = modifier.Finalize(context)
+            let newValue = finalizer == null ? modifier : finalizer()
+            where newValue != null
+            select newValue;
     }
 }

@@ -12,8 +12,6 @@ namespace GameEngine.Generator
         public int GetComplexity(PowerContext powerContext) => 0;
         public PowerCost GetCost(EffectContext effectContext) => PowerCost.Empty;
 
-        bool IModifier.IsPlaceholder() => false;
-
         public AttackType GetAttackType(EffectContext effectContext)
         {
             var attackContext = GetAttackContext(effectContext);
@@ -50,5 +48,6 @@ namespace GameEngine.Generator
 
         public static EffectContext FindContextAt(AttackContext context) => context.BuildEffectContext(context.Effects.FindIndex(e => e.Target is SameAsOtherTarget { OtherAttackIndex: null })).EffectContext;
 
+        public IEffectTargetModifier Finalize(EffectContext powerContext) => this;
     }
 }

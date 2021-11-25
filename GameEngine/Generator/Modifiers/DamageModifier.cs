@@ -13,7 +13,6 @@ namespace GameEngine.Generator.Modifiers
         public override int GetComplexity(PowerContext powerContext) => 0;
 
         public override PowerCost GetCost(EffectContext effectContext) => new PowerCost(Damage.ToWeaponDice());
-        public override bool IsPlaceholder() => false;
         public override bool CanUseRemainingPower() => GetAbilities().Any();
 
         private IEnumerable<Ability> GetAbilities()

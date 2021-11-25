@@ -84,5 +84,9 @@ namespace GameEngine.Generator
         AttackType IEffectTargetModifier.GetAttackType(EffectContext effectContext) => GetAttackType(effectContext.ToolType, effectContext.ToolRange);
 
         string? IEffectTargetModifier.GetAttackNotes(EffectContext effectContext) => GetAttackNotes();
+
+        IAttackTargetModifier IAttackTargetModifier.Finalize(AttackContext powerContext) => this;
+        IEffectTargetModifier IEffectTargetModifier.Finalize(EffectContext powerContext) => this;
+
     }
 }

@@ -10,5 +10,7 @@ namespace GameEngine.Generator.Modifiers
         double ApplyEffectiveWeaponDice(double weaponDice);
         AttackInfoMutator? GetAttackInfoMutator(AttackContext attackContext);
         IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext);
+
+        ModifierFinalizer<IAttackModifier>? Finalize(AttackContext powerContext);
     }
 }

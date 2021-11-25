@@ -13,5 +13,7 @@ namespace GameEngine.Generator.Modifiers
         bool IsHarmful();
         IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext);
         TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext);
+
+        ModifierFinalizer<IEffectModifier>? Finalize(EffectContext powerContext);
     }
 }

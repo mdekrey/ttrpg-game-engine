@@ -37,11 +37,11 @@ namespace GameEngine.Generator.Modifiers
                                   select mod)
                 yield return new SelfBoostStanceModifier(entry);
 
-            for (var usage = powerContext.Usage - 1; usage >= Rules.PowerFrequency.AtWill; usage -= 1)
-            {
-                yield return new PersonalStanceModifierRewrite(usage);
+            //for (var usage = powerContext.Usage - 1; usage >= Rules.PowerFrequency.AtWill; usage -= 1)
+            //{
+            //    yield return new PersonalStanceModifierRewrite(usage);
 
-            }
+            //}
         }
 
         public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier("Self-Boost Stance")

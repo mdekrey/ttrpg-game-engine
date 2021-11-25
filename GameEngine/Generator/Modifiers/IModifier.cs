@@ -11,11 +11,12 @@ namespace GameEngine.Generator.Modifiers
     {
         string Name { get; }
         int GetComplexity(PowerContext powerContext);
-        bool IsPlaceholder();
-
+        
         // If this modifier can soak all remaining power (that is, accounting for the ABIL damage modifier), this should return true
         bool CanUseRemainingPower() => false;
 
         IEnumerable<IModifier> GetNestedModifiers() => Enumerable.Empty<IModifier>();
     }
+
+    public delegate T? ModifierFinalizer<T>() where T : IModifier;
 }

@@ -163,7 +163,10 @@ namespace GameEngine.Generator.Modifiers
         public record BoostModifier(EquatableImmutableList<Boost> Boosts) : EffectModifier(ModifierName)
         {
             public override int GetComplexity(PowerContext powerContext) => Boosts.Select(boost => boost.Category()).Distinct().Count();
-            public override bool IsPlaceholder() => Boosts.Count == 0;
+            public override ModifierFinalizer<IEffectModifier>? Finalize(EffectContext powerContext) =>
+                Boosts.Count == 0
+                    ? () => null
+                    : null;
             public override bool UsesDuration() => Boosts.Any(b => b.UsesDuration());
             public override bool IsInstantaneous() => Boosts.Any(b => b.IsInstantaneous());
             public override bool IsBeneficial() => true;

@@ -45,13 +45,20 @@ namespace GameEngine.Generator
                 select entry
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
 
-        internal static AttackProfile Build(this AttackProfile builder) =>
+        internal static AttackProfile Build(this AttackContext attackContext) =>
             new AttackProfile(
-                builder.Target,
-                builder.Ability,
-                builder.Effects.Select(teb => teb.WithoutPlaceholders()).Where(teb => teb.Modifiers.Any()).ToImmutableList(),
-                builder.Modifiers.Where(m => !m.IsPlaceholder()).ToImmutableList()
+                attackContext.Attack.Target.Finalize(attackContext),
+                attackContext.Attack.Ability,
+                attackContext.GetEffectContexts().Select(e => e.EffectContext.Build()).Where(teb => teb.Modifiers.Any()).ToImmutableList(),
+                attackContext.Attack.Modifiers.Finalize(attackContext).ToImmutableList()
             );
+
+        public static IEnumerable<IAttackModifier> Finalize(this IEnumerable<IAttackModifier> _this, AttackContext context) =>
+            from modifier in _this
+            let finalizer = modifier.Finalize(context)
+            let newValue = finalizer == null ? modifier : finalizer()
+            where newValue != null
+            select newValue;
 
         public static IEnumerable<AttackProfile> GetUpgrades(this AttackContext attackContext, UpgradeStage stage) =>
             from set in new[]

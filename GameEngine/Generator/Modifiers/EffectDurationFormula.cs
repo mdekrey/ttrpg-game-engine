@@ -28,7 +28,6 @@ namespace GameEngine.Generator.Modifiers
         public record EffectDurationModifier(Duration Duration) : PowerModifier(ModifierName)
         {
             public override int GetComplexity(PowerContext powerContext) => 0;
-            public override bool IsPlaceholder() => false;
 
             public override PowerCost GetCost(PowerContext powerContext) => PowerCost.Empty;
 

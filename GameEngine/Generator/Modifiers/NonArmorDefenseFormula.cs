@@ -29,7 +29,11 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerContext powerContext) => (powerContext.ToolType == ToolType.Implement || IsPlaceholder()) ? 0 : 1;
 
-            public override bool IsPlaceholder() => Defense == DefenseType.ArmorClass;
+            public bool IsPlaceholder() => Defense == DefenseType.ArmorClass;
+            public override ModifierFinalizer<IAttackModifier>? Finalize(AttackContext powerContext) =>
+                IsPlaceholder()
+                    ? () => null
+                    : null;
 
             public override PowerCost GetCost(AttackContext attackContext) => new PowerCost(Defense == DefenseType.ArmorClass || attackContext.ToolType == ToolType.Implement ? 0 : 0.5);
 
