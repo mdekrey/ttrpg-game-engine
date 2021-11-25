@@ -85,6 +85,15 @@ namespace GameEngine.Generator
         public static IEnumerable<PowerProfile> FinalizeUpgrade(this PowerProfile _this) =>
             _this.Modifiers.Aggregate(Enumerable.Repeat(_this, 1), (builders, modifier) => builders.SelectMany(builder => modifier.TrySimplifySelf(builder).DefaultIfEmpty(builder)));
 
+        public static PowerProfile Build(this PowerContext context)
+        {
+            return new PowerProfile(
+                Attacks: context.GetAttackContexts().Select(a => a.AttackContext.Build()).ToImmutableList(),
+                Modifiers: context.Modifiers.Finalize(context).ToImmutableList(),
+                Effects: context.GetEffectContexts().Select(e => e.EffectContext.Build()).Where(e => e.Modifiers.Any()).ToImmutableList()
+            );
+        }
+
         public static IEnumerable<IPowerModifier> Finalize(this IEnumerable<IPowerModifier> _this, PowerContext context) =>
             from modifier in _this
             let finalizer = modifier.Finalize(context)

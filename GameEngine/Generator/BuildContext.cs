@@ -20,11 +20,7 @@ namespace GameEngine.Generator
         {
             var builder = ApplyWeaponDice(profile);
             var context = new PowerContext(builder, PowerInfo);
-            return new PowerProfile(
-                Attacks: context.GetAttackContexts().Select(a => a.AttackContext.Build()).ToImmutableList(),
-                Modifiers: builder.Modifiers.Finalize(context).ToImmutableList(),
-                Effects: context.GetEffectContexts().Select(e => e.EffectContext.Build()).Where(e => e.Modifiers.Any()).ToImmutableList()
-            );
+            return context.Build();
         }
 
         public bool IsValid(PowerProfile profile)

@@ -37,11 +37,11 @@ namespace GameEngine.Generator.Modifiers
                                   select mod)
                 yield return new SelfBoostStanceModifier(entry);
 
-            //for (var usage = powerContext.Usage - 1; usage >= Rules.PowerFrequency.AtWill; usage -= 1)
-            //{
-            //    yield return new PersonalStanceModifierRewrite(usage);
+            // for (var usage = powerContext.Usage - 1; usage >= Rules.PowerFrequency.AtWill; usage -= 1)
+            // {
+            //     yield return new PersonalStanceModifierRewrite(usage);
 
-            //}
+            // }
         }
 
         public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier("Self-Boost Stance")
@@ -84,7 +84,7 @@ namespace GameEngine.Generator.Modifiers
             {
                 yield return new PowerProfile(
                     Attacks: ImmutableList<AttackProfile>.Empty,
-                    Modifiers: ImmutableList<IPowerModifier>.Empty.Add(new PersonalStanceModifier(builder, Usage)),
+                    Modifiers: ImmutableList<IPowerModifier>.Empty.Add(new PersonalStanceModifier(builder with { Modifiers = builder.Modifiers.Items.Remove(this) }, Usage)),
                     Effects: ImmutableList<TargetEffect>.Empty
                 );
             }
@@ -96,8 +96,16 @@ namespace GameEngine.Generator.Modifiers
 
             public override PowerCost GetCost(PowerContext powerContext) =>
                 // TODO - this is not the right cost. See Deadly Haste Strike.
-                new PowerCost(PowerGenerator.GetBasePower(powerContext.Level, powerContext.Usage) - PowerGenerator.GetBasePower(powerContext.Level, Usage)) 
+                new PowerCost(PowerGenerator.GetBasePower(powerContext.Level, powerContext.Usage) - PowerGenerator.GetBasePower(powerContext.Level, Usage))
                     + InnerPower.TotalCost(powerContext.PowerInfo);
+
+            public override ModifierFinalizer<IPowerModifier>? Finalize(PowerContext powerContext)
+            {
+                return () => new PersonalStanceModifier(
+                    InnerPowerContext(powerContext).Build(),
+                    Usage
+                );
+            }
 
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext)
             {
