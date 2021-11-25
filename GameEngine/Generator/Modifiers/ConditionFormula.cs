@@ -148,6 +148,8 @@ namespace GameEngine.Generator.Modifiers
         {
             if (powerContext.HasDuration())
                 yield break;
+            if (!powerContext.Attacks.Any())
+                yield break;
             foreach (var entry in from duration in new[] { Duration.SaveEnds, Duration.EndOfEncounter }
                                   from condition in new ConditionModifier(ImmutableList<Condition>.Empty).GetUpgrades(stage, duration)
                                   select new EffectAndDurationModifier(duration, condition))

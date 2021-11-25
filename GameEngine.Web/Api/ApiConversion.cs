@@ -156,7 +156,7 @@ public static class ApiConversion
     public static Api.PowerTextProfile ToApi(this Generator.NamedPowerProfile powerProfile) =>
         new Api.PowerTextProfile(
             Id: powerProfile.Id.ToString(),
-            Text: (powerProfile.Profile.ToPowerTextBlock() with
+            Text: (powerProfile.Profile.ToPowerContext().ToPowerTextBlock() with
             {
                 Name = powerProfile.Name,
                 FlavorText = powerProfile.FlavorText,

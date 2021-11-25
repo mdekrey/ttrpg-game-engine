@@ -24,6 +24,9 @@ namespace GameEngine.Generator
             };
         }
 
+        public static int GetComplexity(this PowerContext powerContext) =>
+            powerContext.PowerProfile.AllModifiers(false).Cast<IModifier>().GetComplexity(powerContext);
+
         public static PowerCost TotalCost(this PowerProfile _this, IPowerInfo PowerInfo)
         {
             var context = new PowerContext(_this, PowerInfo);
@@ -42,33 +45,37 @@ namespace GameEngine.Generator
         public static IEnumerable<PowerProfile> GetUpgrades(this PowerProfile _this, IPowerInfo powerInfo, UpgradeStage stage)
         {
             var powerContext = new PowerContext(_this, powerInfo);
+            return powerContext.GetUpgrades(stage);
+        }
 
+        public static IEnumerable<PowerProfile> GetUpgrades(this PowerContext powerContext, UpgradeStage stage)
+        {
             return (
                 from set in new[]
                 {
                     from effectContext in powerContext.GetEffectContexts()
                     from upgrade in effectContext.EffectContext.GetUpgrades(stage)
-                    select _this.Replace(effectContext.Lens, upgrade)
+                    select powerContext.PowerProfile.Replace(effectContext.Lens, upgrade)
                     ,
                     from attackContext in powerContext.GetAttackContexts()
                     from upgrade in attackContext.AttackContext.GetUpgrades(stage)
-                    select _this.Replace(attackContext.Lens, upgrade)
+                    select powerContext.PowerProfile.Replace(attackContext.Lens, upgrade)
                     ,
-                    from modifier in _this.Modifiers
+                    from modifier in powerContext.PowerProfile.Modifiers
                     from upgrade in modifier.GetUpgrades(stage, powerContext)
-                    select _this.Apply(upgrade, modifier)
+                    select powerContext.PowerProfile.Apply(upgrade, modifier)
                     ,
                     from formula in ModifierDefinitions.powerModifiers
                     from mod in formula.GetBaseModifiers(stage, powerContext)
-                    where !_this.Modifiers.Any(m => m.Name == mod.Name)
-                    select _this.Apply(mod)
+                    where !powerContext.PowerProfile.Modifiers.Any(m => m.Name == mod.Name)
+                    select powerContext.PowerProfile.Apply(mod)
                     ,
                     from entry in TargetOptions
                     where !powerContext.GetEffectContexts().Any(te => (te.EffectContext.Target & entry.Target) != 0)
                     let newBuilder = new TargetEffect(new BasicTarget(entry.Target), entry.EffectType, ImmutableList<IEffectModifier>.Empty)
                     let effectContext = new EffectContext(powerContext, newBuilder)
                     from newBuilderUpgrade in effectContext.GetUpgrades(stage)
-                    select _this with { Effects = _this.Effects.Items.Add(newBuilderUpgrade) }
+                    select powerContext.PowerProfile with { Effects = powerContext.PowerProfile.Effects.Items.Add(newBuilderUpgrade) }
                 }
                 from entry in set
                 from upgraded in entry.FinalizeUpgrade()

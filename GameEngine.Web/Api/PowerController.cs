@@ -37,7 +37,7 @@ public class PowerController : PowerControllerBase
         var powerToken = powerProfile.GetProfileToken();
 
         return Task.FromResult(TypeSafeGenerateSamplePowerResult.Ok(new GenerateSamplePowerResponse(
-            Power: classPowerProfile.ToPowerTextBlock().ToApi(),
+            Power: classPowerProfile.ToPowerContext().ToPowerTextBlock().ToApi(),
             PowerJson: powerToken.ToString()
         )));
     }

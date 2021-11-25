@@ -29,7 +29,7 @@ namespace GameEngine.Generator
         public bool IsValid(PowerProfile profile)
         {
             var powerContext = new PowerContext(profile, PowerInfo);
-            if (profile.AllModifiers(false).Cast<IModifier>().GetComplexity(powerContext) > Limits.MaxComplexity)
+            if (powerContext.GetComplexity() > Limits.MaxComplexity)
                 return false;
 
             var cost = powerContext.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();

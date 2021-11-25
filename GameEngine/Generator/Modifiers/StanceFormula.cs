@@ -36,6 +36,12 @@ namespace GameEngine.Generator.Modifiers
                                   where mod.UsesDuration() && !mod.IsInstantaneous()
                                   select mod)
                 yield return new SelfBoostStanceModifier(entry);
+
+            for (var usage = powerContext.Usage - 1; usage >= Rules.PowerFrequency.AtWill; usage -= 1)
+            {
+                yield return new PersonalStanceModifierRewrite(usage);
+
+            }
         }
 
         public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier("Self-Boost Stance")
@@ -70,6 +76,48 @@ namespace GameEngine.Generator.Modifiers
                     yield return this with { EffectModifier = entry };
                 }
             }
+        }
+
+        public record PersonalStanceModifierRewrite(Rules.PowerFrequency Usage) : RewritePowerModifier()
+        {
+            public override IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile builder)
+            {
+                yield return new PowerProfile(
+                    Attacks: ImmutableList<AttackProfile>.Empty,
+                    Modifiers: ImmutableList<IPowerModifier>.Empty.Add(new PersonalStanceModifier(builder, Usage)),
+                    Effects: ImmutableList<TargetEffect>.Empty
+                );
+            }
+        }
+
+        public record PersonalStanceModifier(PowerProfile InnerPower, Rules.PowerFrequency Usage) : PowerModifier("Personal Stance")
+        {
+            public override int GetComplexity(PowerContext powerContext) => 1 + (powerContext with { PowerProfile = InnerPower }).GetComplexity();
+
+            public override PowerCost GetCost(PowerContext powerContext) =>
+                // TODO - this is not the right cost. See Deadly Haste Strike.
+                new PowerCost(PowerGenerator.GetBasePower(powerContext.Level, powerContext.Usage) - PowerGenerator.GetBasePower(powerContext.Level, Usage)) 
+                    + InnerPower.TotalCost(powerContext.PowerInfo);
+
+            public override PowerTextMutator? GetTextMutator(PowerContext powerContext)
+            {
+                return new PowerTextMutator(int.MaxValue, text => text with
+                {
+                    Keywords = text.Keywords.Items.Add("Stance"),
+                    RulesText = text.RulesText.AddSentence("Effect", "Until the stance ends, you gain access to the associated power."),
+                    AssociatedPower = InnerPowerContext(powerContext).ToPowerTextBlock(),
+                });
+            }
+
+            public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext)
+            {
+                return InnerPowerContext(powerContext).GetUpgrades(stage)
+                    .Where(upgrade => upgrade.Effects.Count == 0 && upgrade.Modifiers.Count == 0)
+                    .Select(upgrade => this with { InnerPower = upgrade });
+            }
+
+            private PowerContext InnerPowerContext(PowerContext powerContext) =>
+                new PowerContext(InnerPower, powerContext.PowerInfo.ToPowerInfo() with { Usage = Usage });
         }
     }
 }

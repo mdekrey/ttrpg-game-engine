@@ -21,7 +21,7 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             if (stage != UpgradeStage.Standard)
                 yield break;
-            if (powerContext.Attacks.Count > 1)
+            if (powerContext.Attacks.Count != 1)
                 yield break;
 
             yield return new TargetDelegateModifier(new TwoHitsModifier());

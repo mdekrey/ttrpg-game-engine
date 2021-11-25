@@ -11,14 +11,18 @@ namespace GameEngine.Generator.Text
 {
     public static class PowerProfileTextGeneration
     {
-        public static PowerTextBlock ToPowerTextBlock(this ClassPowerProfile profile)
+        public static PowerContext ToPowerContext(this ClassPowerProfile profile)
+        {
+            return new PowerContext(profile.PowerProfile, profile.PowerInfo);
+        }
+        public static PowerTextBlock ToPowerTextBlock(this PowerContext context)
         {
             var result = new PowerTextBlock(
                 Name: "Unknown",
-                TypeInfo: $"{profile.PowerInfo.ToolType.ToText()} Attack {profile.PowerInfo.Level}",
+                TypeInfo: $"{context.ToolType.ToText()} Attack {context.Level}",
                 FlavorText: null,
-                PowerUsage: profile.PowerInfo.Usage.ToText(),
-                Keywords: ImmutableList<string>.Empty.Add(profile.PowerInfo.ToolType.ToKeyword()),
+                PowerUsage: context.Usage.ToText(),
+                Keywords: ImmutableList<string>.Empty.Add(context.ToolType.ToKeyword()),
                 ActionType: "Standard Action",
                 AttackType: null,
                 AttackTypeDetails: null,
@@ -27,13 +31,16 @@ namespace GameEngine.Generator.Text
                 Trigger: null,
                 Target: null,
                 Attack: null,
-                RulesText: ImmutableList<RulesText>.Empty
+                RulesText: ImmutableList<RulesText>.Empty,
+                AssociatedPower: null
             );
 
-            var context = new PowerContext(profile.PowerProfile, profile.PowerInfo);
             var attacks = context.GetAttackContexts().Select((attackContext) => attackContext.AttackContext.ToAttackInfo()).ToArray();
-            result = result.AddAttack(attacks[0], 1);
-            result = (from mod in profile.PowerProfile.Modifiers
+            if (attacks.Length > 0)
+            {
+                result = result.AddAttack(attacks[0], 1);
+            }
+            result = (from mod in context.Modifiers
                       let mutator = mod.GetTextMutator(context)
                       where mutator != null
                       orderby mutator.Priority

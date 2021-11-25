@@ -13,7 +13,8 @@ namespace GameEngine.Rules
         string? Prerequisite, string? Requirement, string? Trigger,
         string? Target,
         string? Attack,
-        EquatableImmutableList<RulesText> RulesText
+        EquatableImmutableList<RulesText> RulesText,
+        PowerTextBlock? AssociatedPower
     );
 
     public record RulesText(
