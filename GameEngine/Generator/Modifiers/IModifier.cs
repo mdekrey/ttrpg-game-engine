@@ -15,7 +15,7 @@ namespace GameEngine.Generator.Modifiers
         // If this modifier can soak all remaining power (that is, accounting for the ABIL damage modifier), this should return true
         bool CanUseRemainingPower() => false;
 
-        IEnumerable<IModifier> GetNestedModifiers() => Enumerable.Empty<IModifier>();
+        IEnumerable<Lens<IModifier, IModifier>> GetNestedModifiers() => Enumerable.Empty<Lens<IModifier, IModifier>>();
     }
 
     public delegate T? ModifierFinalizer<T>() where T : IModifier;

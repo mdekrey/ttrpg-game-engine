@@ -180,11 +180,14 @@ namespace GameEngine.Generator.Modifiers
                        select this with { EffectModifier = upgrade };
             }
 
-            public IEnumerable<IModifier> GetNestedModifiers()
+            public IEnumerable<Lens<IModifier, IModifier>> GetNestedModifiers()
             {
                 if (EffectModifier == null)
                     yield break;
-                yield return EffectModifier;
+                yield return Lens<IModifier>.To<IModifier>(
+                    mod => mod is TwoHitsModifier twoHits ? twoHits.EffectModifier! : throw new InvalidOperationException(),
+                    (mod, newMod) => mod is TwoHitsModifier twoHits && newMod is IEffectModifier effectModifier ? twoHits with { EffectModifier = effectModifier } : throw new InvalidOperationException()
+                );
             }
 
             public IAttackTargetModifier Finalize(AttackContext powerContext) => this;

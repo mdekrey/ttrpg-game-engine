@@ -33,8 +33,9 @@ namespace GameEngine.Generator
             };
         }
 
-        public static PowerCost TotalCost(this AttackContext attackContext) =>
-            (
+        public static PowerCost TotalCost(this AttackContext attackContext)
+        {
+            var summed = (
                 from set in new[]
                 {
                     attackContext.Attack.Modifiers.Select(m => m.GetCost(attackContext)),
@@ -44,6 +45,8 @@ namespace GameEngine.Generator
                 from entry in set
                 select entry
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+            return summed; // TODO - this should be flattened
+        }
 
         internal static AttackProfile Build(this AttackContext attackContext) =>
             new AttackProfile(
@@ -90,6 +93,20 @@ namespace GameEngine.Generator
             select entry;
 
         public static IEnumerable<IModifier> AllModifiers(this AttackProfile builder) => builder.Modifiers.Concat<IModifier>(from targetEffect in builder.Effects from mod in targetEffect.AllModifiers() select mod);
+
+        private static readonly Lens<AttackProfile, IModifier> TargetLens = Lens<AttackProfile>.To<IModifier>(p => p.Target, (p, mod) => p with { Target = (IAttackTargetModifier)mod });
+        public static IEnumerable<Lens<AttackProfile, IModifier>> AllModifierLenses(this AttackProfile attackProfile) =>
+            (
+                from modIndex in attackProfile.Modifiers.Select((_, i) => i)
+                select Lens<AttackProfile>.To<IModifier>(p => p.Modifiers[modIndex], (p, mod) => p with { Modifiers = p.Modifiers.Items.SetItem(modIndex, (IAttackModifier)mod) })
+            )
+            .Concat<Lens<AttackProfile, IModifier>>(
+                from effectIndex in attackProfile.Effects.Select((_, i) => i)
+                let effectLens = Lens<AttackProfile>.To(p => p.Effects[effectIndex], (p, effect) => p with { Effects = p.Effects.Items.SetItem(effectIndex, effect) })
+                from modLens in attackProfile.Effects[effectIndex].AllModifierLenses()
+                select effectLens.To(modLens)
+            )
+            .Add(TargetLens);
 
     }
 }

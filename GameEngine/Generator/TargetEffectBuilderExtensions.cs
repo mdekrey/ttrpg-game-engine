@@ -40,6 +40,14 @@ namespace GameEngine.Generator
 
         public static IEnumerable<IModifier> AllModifiers(this TargetEffect targetEffect) => targetEffect.Modifiers.Add<IModifier>(targetEffect.Target);
 
+        private static readonly Lens<TargetEffect, IModifier> TargetLens = Lens<TargetEffect>.To<IModifier>(p => p.Target, (p, mod) => p with { Target = (IEffectTargetModifier)mod });
+        public static IEnumerable<Lens<TargetEffect, IModifier>> AllModifierLenses(this TargetEffect targetEffect) => 
+            (
+                from modIndex in targetEffect.Modifiers.Select((_, i) => i)
+                select Lens<TargetEffect>.To<IModifier>(p => p.Modifiers[modIndex], (p, mod) => p with { Modifiers = p.Modifiers.Items.SetItem(modIndex, (IEffectModifier)mod) })
+            )
+            .Add(TargetLens);
+
         public static IEnumerable<TargetEffect> GetUpgrades(this EffectContext effectContext, UpgradeStage stage)
         {
             var currentTarget = effectContext.Target;

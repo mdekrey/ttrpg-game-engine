@@ -35,6 +35,7 @@ namespace GameEngine.Generator
                 {
                     _this.Modifiers.Select(m => { return m.GetCost(context); }),
                     context.GetEffectContexts().Select(e => e.EffectContext.TotalCost()),
+                    // context.GetAttackContexts().Select(e => e.AttackContext.TotalCost()),
                 }
                 from cost in set
                 select cost
@@ -100,5 +101,33 @@ namespace GameEngine.Generator
             let newValue = finalizer == null ? modifier : finalizer()
             where newValue != null
             select newValue;
+
+        public static IEnumerable<Lens<PowerProfile, IModifier>> GetModifierLenses(this PowerProfile power)
+        {
+            var stack = new Stack<Lens<PowerProfile, IModifier>>(
+                (
+                    from modIndex in power.Modifiers.Select((_, i) => i)
+                    select Lens<PowerProfile>.To<IModifier>(p => p.Modifiers[modIndex], (p, mod) => p with { Modifiers = p.Modifiers.Items.SetItem(modIndex, (IPowerModifier)mod) })
+                )
+                .Concat<Lens<PowerProfile, IModifier>>(
+                    from attackIndex in power.Attacks.Select((_, i) => i)
+                    let attackLens = Lens<PowerProfile>.To(p => p.Attacks[attackIndex], (p, attack) => p with { Attacks = p.Attacks.Items.SetItem(attackIndex, attack) })
+                    from modLens in power.Attacks[attackIndex].AllModifierLenses()
+                    select attackLens.To(modLens)
+                )
+                .Concat<Lens<PowerProfile, IModifier>>(
+                    from effectIndex in power.Effects.Select((_, i) => i)
+                    let effectLens = Lens<PowerProfile>.To(p => p.Effects[effectIndex], (p, effect) => p with { Effects = p.Effects.Items.SetItem(effectIndex, effect) })
+                    from modLens in power.Effects[effectIndex].AllModifierLenses()
+                    select effectLens.To(modLens)
+                )
+            );
+            while (stack.TryPop(out var current))
+            {
+                yield return current;
+                foreach (var entry in power.Get(current).GetNestedModifiers())
+                    stack.Push(current.To(entry));
+            }
+        }
     }
 }

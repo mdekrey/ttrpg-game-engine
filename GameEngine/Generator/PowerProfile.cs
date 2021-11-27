@@ -24,7 +24,7 @@ namespace GameEngine.Generator
                 yield return current;
                 if (includeNested)
                     foreach (var entry in current.GetNestedModifiers())
-                        stack.Push(entry);
+                        stack.Push(current.Get(entry));
             }
         }
 

@@ -7,13 +7,6 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
-    public interface IBuildContext
-    {
-        PowerHighLevelInfo PowerInfo { get; }
-        bool IsValid(PowerProfile profile);
-        PowerProfile Build(PowerProfile profile);
-    }
-
     public record LimitBuildContext(PowerHighLevelInfo PowerInfo, PowerLimits Limits) : IBuildContext
     {
         public PowerProfile Build(PowerProfile profile)
@@ -98,7 +91,16 @@ namespace GameEngine.Generator
                             Modifiers = e.Modifiers.Items.SetItem(m.index, newDamage),
                         }
                     )));
-
         }
+
+        //private IEnumerable<DamageLens> GetDamageLenses(PowerProfile _this)
+        //{
+        //    var powerDamage = _this.TotalCost(PowerInfo).Fixed;
+        //    return from lens in _this.GetModifierLenses()
+        //           let mod = _this.Get(lens) as DamageModifier
+        //           where mod != null
+        //           let newPowerDamage = _this.Replace(lens, mod with { Damage = mod.Damage with { WeaponDiceCount = mod.Damage.WeaponDiceCount + 1 } }).TotalCost(PowerInfo).Fixed
+        //           select new DamageLens(mod, newPowerDamage - powerDamage, (p, m) => p.Replace(lens, m));
+        //}
     }
 }
