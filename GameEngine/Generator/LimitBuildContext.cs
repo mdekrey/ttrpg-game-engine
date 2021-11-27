@@ -23,9 +23,11 @@ namespace GameEngine.Generator
                 return false;
 
             var cost = powerContext.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
-            var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
             var min = cost.Sum(c => c.SingleTargetMultiplier);
-            var remaining = profile.TotalCost(PowerInfo).Apply(Limits.Initial) - fixedCost;
+            //var otherMin = GetDamageLensesNew(profile).Sum(c => c.Effectiveness);
+            //if (min != otherMin)
+            //    System.Diagnostics.Debugger.Break();
+            var remaining = profile.TotalCost(PowerInfo).Apply(Limits.Initial);
 
             if (remaining <= 0)
                 return false; // Have to have damage remaining
@@ -40,14 +42,11 @@ namespace GameEngine.Generator
         private PowerProfile ApplyWeaponDice(PowerProfile _this)
         {
             var context = new PowerContext(_this, PowerInfo);
-            var cost = context.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
-            var fixedCost = cost.Sum(c => c.Fixed * c.Multiplier);
-
             var damages = GetDamageLenses(_this).ToImmutableList();
 
             var min = damages.Sum(c => c.Effectiveness);
 
-            var remaining = Limits.Initial - _this.TotalCost(PowerInfo).Fixed - fixedCost;
+            var remaining = Limits.Initial - _this.TotalCost(PowerInfo).Fixed;
             var baseAmount = remaining / min;
             if (PowerInfo.ToolProfile.Type == ToolType.Weapon)
                 baseAmount = Math.Floor(baseAmount);
@@ -93,14 +92,14 @@ namespace GameEngine.Generator
                     )));
         }
 
-        //private IEnumerable<DamageLens> GetDamageLenses(PowerProfile _this)
-        //{
-        //    var powerDamage = _this.TotalCost(PowerInfo).Fixed;
-        //    return from lens in _this.GetModifierLenses()
-        //           let mod = _this.Get(lens) as DamageModifier
-        //           where mod != null
-        //           let newPowerDamage = _this.Replace(lens, mod with { Damage = mod.Damage with { WeaponDiceCount = mod.Damage.WeaponDiceCount + 1 } }).TotalCost(PowerInfo).Fixed
-        //           select new DamageLens(mod, newPowerDamage - powerDamage, (p, m) => p.Replace(lens, m));
-        //}
+        private IEnumerable<DamageLens> GetDamageLensesNew(PowerProfile _this)
+        {
+            var powerDamage = _this.TotalCost(PowerInfo).Fixed;
+            return from lens in _this.GetModifierLenses()
+                   let mod = _this.Get(lens) as DamageModifier
+                   where mod != null
+                   let newPowerDamage = _this.Replace(lens, mod with { Damage = mod.Damage with { WeaponDiceCount = mod.Damage.WeaponDiceCount + 1 } }).TotalCost(PowerInfo).Fixed
+                   select new DamageLens(mod, newPowerDamage - powerDamage, (p, m) => p.Replace(lens, m));
+        }
     }
 }

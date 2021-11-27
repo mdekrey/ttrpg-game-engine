@@ -30,16 +30,17 @@ namespace GameEngine.Generator
         public static PowerCost TotalCost(this PowerProfile _this, IPowerInfo PowerInfo)
         {
             var context = new PowerContext(_this, PowerInfo);
-            return (
+            var attacks = context.GetAttackContexts().Select(e => e.AttackContext.TotalCost()).Select(c => new PowerCost(c.Fixed * c.Multiplier)).Aggregate((a, b) => a + b);
+            var power = (
                 from set in new[]
                 {
                     _this.Modifiers.Select(m => { return m.GetCost(context); }),
                     context.GetEffectContexts().Select(e => e.EffectContext.TotalCost()),
-                    // context.GetAttackContexts().Select(e => e.AttackContext.TotalCost()),
                 }
                 from cost in set
                 select cost
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
+            return power + attacks;
         }
 
         public static IEnumerable<PowerProfile> GetUpgrades(this PowerProfile _this, IPowerInfo powerInfo, UpgradeStage stage)

@@ -45,7 +45,7 @@ namespace GameEngine.Generator
                 from entry in set
                 select entry
             ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
-            return summed; // TODO - this should be flattened
+            return summed;
         }
 
         internal static AttackProfile Build(this AttackContext attackContext) =>
