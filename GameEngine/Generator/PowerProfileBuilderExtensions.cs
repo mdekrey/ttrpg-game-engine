@@ -30,7 +30,7 @@ namespace GameEngine.Generator
         public static PowerCost TotalCost(this PowerProfile _this, IPowerInfo PowerInfo)
         {
             var context = new PowerContext(_this, PowerInfo);
-            var attacks = context.GetAttackContexts().Select(e => e.AttackContext.TotalCost()).Select(c => new PowerCost(c.Fixed * c.Multiplier)).Aggregate((a, b) => a + b);
+            var attacks = context.GetAttackContexts().Select(e => e.AttackContext.TotalCost()).Select(c => new PowerCost(c.Fixed * c.Multiplier)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
             var power = (
                 from set in new[]
                 {

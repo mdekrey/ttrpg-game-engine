@@ -1,0 +1,64 @@
+﻿- PowerInfo:
+    Usage: Daily
+    ToolType: Weapon
+    ToolRange: Melee
+    Level: 19
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
+    Attacks: []
+    Modifiers:
+    - InnerPower:
+        Attacks:
+        - Target:
+            Target: Enemy, Self, Ally
+            Size: 3
+            Type: Burst
+            Name: Multiple
+          Ability: Strength
+          Effects:
+          - Target:
+              Name: See Other
+            EffectType: Harmful
+            Modifiers:
+            - Damage: 1[W] + STR
+              DamageTypes: []
+              Name: Damage
+            - Conditions:
+              - Name: Dazed
+              Name: Condition
+          Modifiers: []
+        Modifiers: []
+        Effects: []
+      Name: Personal Stance
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 19
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Stance
+  - Weapon
+  ActionType: Standard Action
+  RulesText:
+  - Label: Effect
+    Text: Until the stance ends, you gain access to the associated power.
+  AssociatedPower:
+    Name: Unknown
+    TypeInfo: Weapon Attack 19
+    PowerUsage: At-Will
+    Keywords:
+    - Weapon
+    ActionType: Standard Action
+    AttackType: Close
+    AttackTypeDetails: burst 1
+    Target: Each creature
+    Attack: STR vs. AC
+    RulesText:
+    - Label: Hit
+      Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.

@@ -1,6 +1,7 @@
 ﻿using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -19,5 +20,8 @@ namespace GameEngine.Generator.Modifiers
         public abstract PowerTextMutator? GetTextMutator(PowerContext powerContext);
 
         public virtual ModifierFinalizer<IPowerModifier>? Finalize(PowerContext powerContext) => null;
+
+        public virtual IEnumerable<Lens<IModifier, IModifier>> GetNestedModifiers() => Enumerable.Empty<Lens<IModifier, IModifier>>();
+
     }
 }

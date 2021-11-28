@@ -39,10 +39,10 @@ namespace GameEngine.Generator.Modifiers
                                   select mod)
                 yield return new SelfBoostStanceModifier(entry);
 
-            // for (var usage = powerContext.Usage - 1; usage >= Rules.PowerFrequency.AtWill; usage -= 1)
-            // {
-            //     yield return new PersonalStanceModifierRewrite();
-            // }
+            for (var usage = powerContext.Usage - 1; usage >= Rules.PowerFrequency.AtWill; usage -= 1)
+            {
+                yield return new PersonalStanceModifierRewrite();
+            }
         }
 
         public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier("Self-Boost Stance")
@@ -95,12 +95,16 @@ namespace GameEngine.Generator.Modifiers
         {
             public override int GetComplexity(PowerContext powerContext) => 1 + (powerContext with { PowerProfile = InnerPower }).GetComplexity();
 
-            public override PowerCost GetCost(PowerContext powerContext) =>
+            public override PowerCost GetCost(PowerContext powerContext)
+            {
                 // TODO - this is not the right cost. See Deadly Haste Strike.
-                (powerContext.Usage == Rules.PowerFrequency.Daily
-                    ? new PowerCost(PowerGenerator.GetBasePower(powerContext.Level, powerContext.Usage) - PowerGenerator.GetBasePower(powerContext.Level, Rules.PowerFrequency.Encounter))
-                    : new PowerCost((PowerGenerator.GetBasePower(powerContext.Level, Rules.PowerFrequency.Encounter) - PowerGenerator.GetBasePower(powerContext.Level, Rules.PowerFrequency.AtWill)) * 0.5))
+                return new PowerCost(
+                    powerContext.Usage == Rules.PowerFrequency.Daily
+                    ? PowerGenerator.GetBasePower(powerContext.Level, powerContext.Usage) - PowerGenerator.GetBasePower(powerContext.Level, Rules.PowerFrequency.Encounter)
+                    : (PowerGenerator.GetBasePower(powerContext.Level, Rules.PowerFrequency.Encounter) - PowerGenerator.GetBasePower(powerContext.Level, Rules.PowerFrequency.AtWill)) * 0.5
+                )
                     + InnerPower.TotalCost(powerContext.PowerInfo);
+            }
 
             public override ModifierFinalizer<IPowerModifier>? Finalize(PowerContext powerContext)
             {
@@ -128,6 +132,14 @@ namespace GameEngine.Generator.Modifiers
 
             private PowerContext InnerPowerContext(PowerContext powerContext) =>
                 new PowerContext(InnerPower, powerContext.PowerInfo.ToPowerInfo() with { Usage = Rules.PowerFrequency.AtWill });
+
+            private static readonly Lens<IModifier, PowerProfile> toPowerProfile = 
+                Lens<IModifier>.To(m => ((PersonalStanceModifier)m).InnerPower, (m, p) => ((PersonalStanceModifier)m) with { InnerPower = p });
+            public override IEnumerable<Lens<IModifier, IModifier>> GetNestedModifiers()
+            {
+                return from lens in InnerPower.GetModifierLenses()
+                       select toPowerProfile.To(lens);
+            }
         }
     }
 }
