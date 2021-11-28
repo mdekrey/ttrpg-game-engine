@@ -9,14 +9,17 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: TwoHits
+        Target: Enemy, Self, Ally
+        Size: 2
+        Type: Blast
+        Name: Multiple
       Ability: Wisdom
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: WIS
+        - Damage: d4 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -34,12 +37,12 @@
   - Implement
   - Martial
   ActionType: Standard Action
-  AttackType: Melee
-  AttackTypeDetails: touch
-  Target: One or two creatures
-  Attack: WIS vs. Fortitude, two attacks
+  AttackType: Close
+  AttackTypeDetails: blast 2
+  Target: Each creature
+  Attack: WIS vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: WIS damage.
+    Text: d4 + WIS damage.
   - Label: Special
     Text: This power counts as a melee basic attack. When a power allows you to make a melee basic attack, you can use this power.

@@ -7,7 +7,7 @@
       Name: See Other
     EffectType: Harmful
     Modifiers:
-    - Damage: STR
+    - Damage: d4 + STR
       DamageTypes:
       - Radiant
       Name: Damage
@@ -15,7 +15,6 @@
   - Defense: Fortitude
     Name: Non-Armor Defense
 Modifiers:
-- Name: Is Basic Attack
 - PowerSource: Arcane
   Name: Power Source
 Effects: []

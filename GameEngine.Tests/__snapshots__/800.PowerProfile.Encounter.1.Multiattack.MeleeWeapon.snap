@@ -1,6 +1,6 @@
 ﻿Attacks:
 - Target:
-    Name: TwoHits
+    Name: UpToThreeTargets
   Ability: Strength
   Effects:
   - Target:

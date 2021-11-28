@@ -23,7 +23,7 @@ namespace GameEngine.Generator
                 return false;
 
             var cost = powerContext.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
-            var min = cost.Sum(c => c.SingleTargetMultiplier);
+            var min = cost.Sum(c => c.Multiplier);
             //var otherMin = GetDamageLensesNew(profile).Sum(c => c.Effectiveness);
             //if (min != otherMin)
             //    System.Diagnostics.Debugger.Break();

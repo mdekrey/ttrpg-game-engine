@@ -9,14 +9,17 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: TwoHits
+        Target: Enemy, Self, Ally
+        Size: 2
+        Type: Blast
+        Name: Multiple
       Ability: Strength
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: STR
+        - Damage: d4 + STR
           DamageTypes:
           - Radiant
           Name: Damage
@@ -35,12 +38,12 @@
   - Arcane
   - Implement
   ActionType: Standard Action
-  AttackType: Ranged
-  AttackTypeDetails: 10
-  Target: One or two creatures
-  Attack: STR vs. Fortitude, two attacks
+  AttackType: Close
+  AttackTypeDetails: blast 2
+  Target: Each creature
+  Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: STR radiant damage.
+    Text: d4 + STR radiant damage.
   - Label: Special
     Text: This power counts as a ranged basic attack. When a power allows you to make a ranged basic attack, you can use this power.

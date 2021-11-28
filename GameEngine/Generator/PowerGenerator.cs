@@ -167,7 +167,7 @@ namespace GameEngine.Generator
                 if (preApplyOnce)
                 {
 #if DEBUG
-                    var burst = upgrades.Where(e => e.AllModifiers(true).Any(m => m is BurstFormula.BurstModifier)).ToArray();
+                    var filtered = upgrades.Where(e => e.AllModifiers(true).Any(m => m is MultiattackFormula.TwoHitsModifier)).ToArray();
 #endif
 
                     var preApplyUpgrades = upgrades.ToChances(buildContext).ToArray();

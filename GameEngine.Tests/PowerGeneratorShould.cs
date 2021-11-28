@@ -78,9 +78,8 @@ namespace GameEngine.Tests
         }
 
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 2)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 3)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName, 751)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 751)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 800)]
         [Theory]
         public void GenerateRandomPowerProfile(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int seed)
         {
