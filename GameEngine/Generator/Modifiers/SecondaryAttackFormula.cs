@@ -115,7 +115,7 @@ namespace GameEngine.Generator.Modifiers
             public const string ModifierName = "RequiresPreviousHit";
 
             public override PowerCost GetCost(AttackContext attackContext) =>
-                new PowerCost(Multiplier: 1 / FollowupAttackPower, SingleTargetMultiplier: 1 / FollowupAttackPower);
+                new PowerCost(Multiplier: 1 / FollowupAttackPower);
             public override bool CanUseRemainingPower() => true;
             public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext) =>
                 Enumerable.Empty<IAttackModifier>();
@@ -128,7 +128,7 @@ namespace GameEngine.Generator.Modifiers
             public string Name => "TwoHits";
             public int GetComplexity(PowerContext powerContext) => 1;
             public PowerCost GetCost(AttackContext attackContext) =>
-                new PowerCost(Multiplier: 2, SingleTargetMultiplier: 1) 
+                new PowerCost(Multiplier: 2) 
                 + (EffectModifier?.GetCost(SameAsOtherTarget.FindContextAt(attackContext)) ?? PowerCost.Empty); // Because both attacks can hit the same target, SingleTargetMultiplier needs to be 1
 
             public AttackType GetAttackType(AttackContext attackContext) =>

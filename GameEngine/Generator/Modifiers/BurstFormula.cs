@@ -60,7 +60,7 @@ namespace GameEngine.Generator.Modifiers
             {
                 // TODO - this is not right, as wizards at lvl 17 get burst 2 with only 3d10 -> 3d8 loss
                 var multiplier = (Size - 1) / 2.0 + 1;
-                return new PowerCost(Multiplier: multiplier, SingleTargetMultiplier: multiplier);
+                return new PowerCost(Multiplier: multiplier);
             }
 
             public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, PowerFrequency usage)
