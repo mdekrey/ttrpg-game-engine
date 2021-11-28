@@ -2,7 +2,7 @@
     Usage: Daily
     ToolType: Weapon
     ToolRange: Melee
-    Level: 19
+    Level: 1
     Abilities:
     - Strength
     - Dexterity
@@ -25,20 +25,15 @@
             - Damage: 1[W] + STR
               DamageTypes: []
               Name: Damage
-            - Conditions:
-              - Name: Blinded
-              Name: Condition
           Modifiers: []
         Modifiers: []
         Effects: []
       Name: Stance Power
-    - Duration: SaveEnds
-      Name: Duration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
 - Name: Unknown
-  TypeInfo: Weapon Attack 19
+  TypeInfo: Weapon Attack 1
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -61,4 +56,4 @@
     Attack: STR vs. AC
     RulesText:
     - Label: Hit
-      Text: 1[W] + STR damage, and the target is blinded until the end of your next turn.
+      Text: 1[W] + STR damage.

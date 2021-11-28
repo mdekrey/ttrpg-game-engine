@@ -39,10 +39,8 @@ namespace GameEngine.Generator.Modifiers
                                   select mod)
                 yield return new SelfBoostStanceModifier(entry);
 
-            for (var usage = powerContext.Usage - 1; usage >= Rules.PowerFrequency.AtWill; usage -= 1)
-            {
+            if (powerContext.Usage != Rules.PowerFrequency.Encounter || powerContext.Level > 1)
                 yield return new PersonalStanceModifierRewrite();
-            }
         }
 
         public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier("Self-Boost Stance")
@@ -91,19 +89,13 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record PersonalStanceModifier(PowerProfile InnerPower) : PowerModifier("Personal Stance")
+        public record PersonalStanceModifier(PowerProfile InnerPower) : PowerModifier("Stance Power")
         {
             public override int GetComplexity(PowerContext powerContext) => 1 + (powerContext with { PowerProfile = InnerPower }).GetComplexity();
 
             public override PowerCost GetCost(PowerContext powerContext)
             {
-                // TODO - this is not the right cost. See Deadly Haste Strike.
-                return new PowerCost(
-                    powerContext.Usage == Rules.PowerFrequency.Daily
-                    ? PowerGenerator.GetBasePower(powerContext.Level, powerContext.Usage) - PowerGenerator.GetBasePower(powerContext.Level, Rules.PowerFrequency.Encounter)
-                    : (PowerGenerator.GetBasePower(powerContext.Level, Rules.PowerFrequency.Encounter) - PowerGenerator.GetBasePower(powerContext.Level, Rules.PowerFrequency.AtWill)) * 0.5
-                )
-                    + InnerPower.TotalCost(powerContext.PowerInfo);
+                return InnerPower.TotalCost(powerContext.PowerInfo) * 1.5;
             }
 
             public override ModifierFinalizer<IPowerModifier>? Finalize(PowerContext powerContext)
@@ -119,7 +111,11 @@ namespace GameEngine.Generator.Modifiers
                 {
                     Keywords = text.Keywords.Items.Add("Stance"),
                     RulesText = text.RulesText.AddSentence("Effect", "Until the stance ends, you gain access to the associated power."),
-                    AssociatedPower = InnerPowerContext(powerContext).ToPowerTextBlock(),
+                    AssociatedPower = InnerPowerContext(powerContext).ToPowerTextBlock() with
+                    {
+                        Name = text.Name + " Attack",
+                        TypeInfo = $"{powerContext.ToolType.ToText()} Attack",
+                    },
                 });
             }
 

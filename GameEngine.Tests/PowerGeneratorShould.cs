@@ -115,7 +115,9 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, "Progressive", null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, "Regressive", null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, "Ongoing", null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "StanceBoost", null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, "StanceBoost", null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "StancePower", null)]
         [InlineData("MeleeWeapon", 19, PowerFrequency.Daily, "StancePower", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, "TwoHits", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, "TwoHits", null)]
@@ -283,7 +285,7 @@ namespace GameEngine.Tests
             { "StancePower", new PowerProfileConfig(
                     "StancePower",
                     new PowerProfileConfig.PowerChance[] {
-                        new("$..[?(@.Name=='Personal Stance')]", 1),
+                        new("$..[?(@.Name=='Stance Power')]", 1),
                     }.ToImmutableList()
                 ) },
             { "UpToThree", MakeModifierTemplate("UpToThree", "@.Name=='UpToThreeTargets'") },
