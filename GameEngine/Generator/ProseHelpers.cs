@@ -13,7 +13,7 @@ namespace GameEngine.Generator
             if (rulesText.LastOrDefault(r => r.Label == label) is RulesText toReplace)
             {
                 var result = rulesText.Items.Remove(toReplace);
-                return result.Add(toReplace with { Text = toReplace.Text.FinishSentence() + " " + sentence });
+                return result.Add(toReplace with { Text = (toReplace.Text.FinishSentence() + " " + sentence).Trim() });
             }
             else
             {
@@ -23,6 +23,8 @@ namespace GameEngine.Generator
 
         public static string FinishSentence(this string text)
         {
+            if (text is not { Length: > 0 })
+                return text;
             if (!text.EndsWith("."))
                 return (text + ".");
             return text;

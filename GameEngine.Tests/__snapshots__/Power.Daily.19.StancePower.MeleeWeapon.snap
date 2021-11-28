@@ -57,7 +57,7 @@
   ActionType: Minor Action
   RulesText:
   - Label: Effect
-    Text: Until the stance ends, you gain access to the associated power. One of your allies gains a +4 power bonus to attack rolls on the next attack before the end of your next turn.
+    Text: One of your allies gains a +4 power bonus to attack rolls on the next attack before the end of your next turn. Until the stance ends, you gain access to the associated power.
   AssociatedPower:
     Name: Unknown Attack
     TypeInfo: Weapon Attack

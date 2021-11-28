@@ -40,17 +40,17 @@ namespace GameEngine.Generator.Text
             {
                 result = result.AddAttack(attacks[0], 1);
             }
-            result = (from mod in context.Modifiers
-                      let mutator = mod.GetTextMutator(context)
-                      where mutator != null
-                      orderby mutator.Priority
-                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current));
             result = attacks.Select((attack, index) => (attack, index)).Skip(1).Aggregate(result, (powerBlock, attackBlock) => powerBlock.AddAttack(attackBlock.attack, attackBlock.index + 1));
 
             result = result with
             {
                 RulesText = result.RulesText.AddEffectSentences(context.GetEffectContexts().Select(effectContext => effectContext.EffectContext.ToTargetInfo().PartsToSentence().Capitalize()))
             };
+            result = (from mod in context.Modifiers
+                      let mutator = mod.GetTextMutator(context)
+                      where mutator != null
+                      orderby mutator.Priority
+                      select mutator.Apply).Aggregate(result, (current, apply) => apply(current));
 
             return result with
             {
