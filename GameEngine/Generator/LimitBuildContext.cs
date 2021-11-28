@@ -22,11 +22,7 @@ namespace GameEngine.Generator
             if (powerContext.GetComplexity() > Limits.MaxComplexity)
                 return false;
 
-            var cost = powerContext.GetAttackContexts().Select(a => a.AttackContext.TotalCost()).ToImmutableList();
-            var min = cost.Sum(c => c.Multiplier);
-            //var otherMin = GetDamageLensesNew(profile).Sum(c => c.Effectiveness);
-            //if (min != otherMin)
-            //    System.Diagnostics.Debugger.Break();
+            var min = GetDamageLenses(profile).Sum(c => c.Effectiveness);
             var remaining = profile.TotalCost(PowerInfo).Apply(Limits.Initial);
 
             if (remaining <= 0)
@@ -76,23 +72,6 @@ namespace GameEngine.Generator
         record DamageLens(DamageModifier Damage, double Effectiveness, Func<PowerProfile, DamageModifier, PowerProfile> setter);
 
         private IEnumerable<DamageLens> GetDamageLenses(PowerProfile _this)
-        {
-            var powerContext = new PowerContext(_this, PowerInfo);
-            return (from attackContext in powerContext.GetAttackContexts()
-                    from effectContext in attackContext.AttackContext.GetEffectContexts()
-                    let lens = attackContext.Lens.To(effectContext.Lens)
-                    from m in effectContext.EffectContext.Modifiers.Select((mod, index) => (mod, index))
-                    let damage = m.mod as DamageModifier
-                    where damage != null
-                    select new DamageLens(damage, attackContext.AttackContext.TotalCost().Multiplier, (pb, newDamage) => pb.Update(lens, e =>
-                        e with
-                        {
-                            Modifiers = e.Modifiers.Items.SetItem(m.index, newDamage),
-                        }
-                    )));
-        }
-
-        private IEnumerable<DamageLens> GetDamageLensesNew(PowerProfile _this)
         {
             var powerDamage = _this.TotalCost(PowerInfo).Fixed;
             return from lens in _this.GetModifierLenses()
