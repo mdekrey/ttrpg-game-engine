@@ -26,7 +26,7 @@
               DamageTypes: []
               Name: Damage
             - Conditions:
-              - Name: Blinded
+              - Name: Dazed
               Name: Condition
           Modifiers: []
         Modifiers: []
@@ -36,7 +36,17 @@
       Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +4
+          Limit: NextAttack
+          Name: Attack
+        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 19
   PowerUsage: Daily
@@ -44,10 +54,10 @@
   - Martial
   - Stance
   - Weapon
-  ActionType: Standard Action
+  ActionType: Minor Action
   RulesText:
   - Label: Effect
-    Text: Until the stance ends, you gain access to the associated power.
+    Text: Until the stance ends, you gain access to the associated power. One of your allies gains a +4 power bonus to attack rolls on the next attack before the end of your next turn.
   AssociatedPower:
     Name: Unknown Attack
     TypeInfo: Weapon Attack
@@ -61,4 +71,4 @@
     Attack: STR vs. AC
     RulesText:
     - Label: Hit
-      Text: 1[W] + STR damage, and the target is blinded until the end of your next turn.
+      Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.

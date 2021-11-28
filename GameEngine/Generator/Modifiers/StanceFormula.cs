@@ -43,7 +43,9 @@ namespace GameEngine.Generator.Modifiers
                 yield return new PersonalStanceModifierRewrite();
         }
 
-        public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier("Self-Boost Stance")
+        public interface IStanceModifier { }
+
+        public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier("Self-Boost Stance"), IStanceModifier
         {
             public override int GetComplexity(PowerContext powerContext) => 1 + EffectModifier.GetComplexity(powerContext);
 
@@ -89,17 +91,22 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record PersonalStanceModifier(PowerProfile InnerPower) : PowerModifier("Stance Power")
+        public record PersonalStanceModifier(PowerProfile InnerPower) : PowerModifier("Stance Power"), IStanceModifier
         {
-            public override int GetComplexity(PowerContext powerContext) => 1 + (powerContext with { PowerProfile = InnerPower }).GetComplexity();
+            public override int GetComplexity(PowerContext powerContext) => 1 + Math.Max(0, (powerContext with { PowerProfile = InnerPower }).GetComplexity() - 1);
 
             public override PowerCost GetCost(PowerContext powerContext)
             {
-                return InnerPower.TotalCost(powerContext.PowerInfo) * 1.5;
+                var cost = InnerPower.TotalCost(powerContext.PowerInfo);
+                return new PowerCost(Fixed: (cost.Fixed - 1.5) * 3);
             }
 
             public override ModifierFinalizer<IPowerModifier>? Finalize(PowerContext powerContext)
             {
+                var cost = InnerPower.TotalCost(powerContext.PowerInfo);
+                if (cost.Fixed <= 1.5)
+                    return () => null;
+
                 return () => new PersonalStanceModifier(
                     InnerPowerContext(powerContext).Build()
                 );
@@ -110,6 +117,7 @@ namespace GameEngine.Generator.Modifiers
                 return new PowerTextMutator(int.MaxValue, text => text with
                 {
                     Keywords = text.Keywords.Items.Add("Stance"),
+                    ActionType = "Minor Action",
                     RulesText = text.RulesText.AddSentence("Effect", "Until the stance ends, you gain access to the associated power."),
                     AssociatedPower = InnerPowerContext(powerContext).ToPowerTextBlock() with
                     {
@@ -123,13 +131,14 @@ namespace GameEngine.Generator.Modifiers
             {
                 return InnerPowerContext(powerContext).GetUpgrades(stage)
                     .Where(upgrade => upgrade.Effects.Count == 0 && upgrade.Modifiers.Count == 0)
+                    .Where(upgrade => !upgrade.Modifiers.OfType<IStanceModifier>().Any())
                     .Select(upgrade => this with { InnerPower = upgrade });
             }
 
             private PowerContext InnerPowerContext(PowerContext powerContext) =>
                 new PowerContext(InnerPower, powerContext.PowerInfo.ToPowerInfo() with { Usage = Rules.PowerFrequency.AtWill });
 
-            private static readonly Lens<IModifier, PowerProfile> toPowerProfile = 
+            private static readonly Lens<IModifier, PowerProfile> toPowerProfile =
                 Lens<IModifier>.To(m => ((PersonalStanceModifier)m).InnerPower, (m, p) => ((PersonalStanceModifier)m) with { InnerPower = p });
             public override IEnumerable<Lens<IModifier, IModifier>> GetNestedModifiers()
             {

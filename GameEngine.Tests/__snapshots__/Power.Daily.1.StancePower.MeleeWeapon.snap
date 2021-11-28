@@ -39,7 +39,7 @@
   - Martial
   - Stance
   - Weapon
-  ActionType: Standard Action
+  ActionType: Minor Action
   RulesText:
   - Label: Effect
     Text: Until the stance ends, you gain access to the associated power.
