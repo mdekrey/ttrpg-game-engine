@@ -203,6 +203,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RulesText'
+        associatedPower:
+          $ref: '#/components/schemas/PowerTextBlock'
     RulesText:
       type: object
       required:

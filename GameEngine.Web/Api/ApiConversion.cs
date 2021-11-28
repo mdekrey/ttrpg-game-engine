@@ -96,7 +96,8 @@ public static class ApiConversion
             Trigger: model.Trigger,
             Target: model.Target,
             Attack: model.Attack,
-            RulesText: model.RulesText.Select(ToApi).ToImmutableList()
+            RulesText: model.RulesText.Select(ToApi).ToImmutableList(),
+            AssociatedPower: model.AssociatedPower?.ToApi()
         );
 
     public static Api.RulesText ToApi(this GameEngine.Rules.RulesText model) =>
