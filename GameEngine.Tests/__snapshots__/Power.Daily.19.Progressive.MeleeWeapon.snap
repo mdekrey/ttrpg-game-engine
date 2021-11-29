@@ -35,6 +35,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 19
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -47,3 +48,6 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage, and the target is slowed (save ends). If the target fails its first saving throw against this power, the target becomes unconscious (save ends).
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

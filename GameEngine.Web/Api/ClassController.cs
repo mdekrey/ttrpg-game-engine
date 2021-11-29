@@ -93,8 +93,11 @@ public class ClassController : ClassControllerBase
                     {
                         Powers = classDetails.Original.Powers.Items.SetItem(index, classDetails.Original.Powers.Items[index] with
                         {
-                            Name = setPowerFlavorBody.Name,
-                            FlavorText = setPowerFlavorBody.FlavorText,
+                            Flavor = new Generator.Text.FlavorText(
+                                Fields: ImmutableDictionary<string, string>.Empty
+                                    .Add("Name", setPowerFlavorBody.Name)
+                                    .Add("Flavor Text", setPowerFlavorBody.FlavorText)
+                            ),
                         })
                     }
                 };

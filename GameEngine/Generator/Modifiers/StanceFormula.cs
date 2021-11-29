@@ -58,15 +58,15 @@ namespace GameEngine.Generator.Modifiers
                 if (origMutator == null)
                     return null;
 
-                return new (5000, (text) =>
+                return new (5000, (text, flavor) =>
                 {
                     var tempTarget = origMutator.Apply(effectContext.GetDefaultTargetInfo());
 
-                    return text with
+                    return (text with
                     {
                         Keywords = text.Keywords.Items.Add("Stance"),
                         RulesText = text.RulesText.Items.Add(new Rules.RulesText(Label: "Effect", Text: tempTarget.PartsToSentence().Capitalize()))
-                    };
+                    }, flavor);
                 });
             }
 
@@ -112,19 +112,32 @@ namespace GameEngine.Generator.Modifiers
                 );
             }
 
+            private const string innerKey = "Associated";
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext)
             {
-                return new PowerTextMutator(int.MaxValue, text => text with
+                return new PowerTextMutator(int.MaxValue, (text, flavor) =>
                 {
-                    Keywords = text.Keywords.Items.Add("Stance"),
-                    ActionType = "Minor Action",
-                    RulesText = text.RulesText.AddSentence("Effect", "Until the stance ends, you gain access to the associated power."),
-                    AssociatedPower = InnerPowerContext(powerContext).ToPowerTextBlock() with
+                    var (associated, innerFlavor) = InnerPowerContext(powerContext).ToPowerTextBlock(flavor.GetInner(innerKey, BuildDefaults(flavor)));
+                    flavor = flavor.IncludeInner(innerFlavor, innerKey);
+                    return (text with
                     {
-                        Name = text.Name + " Attack",
-                        TypeInfo = $"{powerContext.ToolType.ToText()} Attack",
-                    },
+                        Keywords = text.Keywords.Items.Add("Stance"),
+                        ActionType = "Minor Action",
+                        RulesText = text.RulesText.AddSentence("Effect", $"Until the stance ends, you gain access to {flavor.Fields["Associated Name"]}."),
+                        AssociatedPower = associated with
+                        {
+                            TypeInfo = $"{powerContext.ToolType.ToText()} Attack",
+                        },
+                    }, flavor);
                 });
+            }
+
+            private static ImmutableDictionary<string, string> BuildDefaults(FlavorText flavor)
+            {
+                var builder = ImmutableDictionary<string, string>.Empty.ToBuilder();
+                if (flavor.Fields.TryGetValue("Name", out var name))
+                    builder.Add("Name", name + " Attack");
+                return builder.ToImmutable();
             }
 
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext)

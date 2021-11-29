@@ -41,6 +41,7 @@
         Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -55,3 +56,6 @@
     Text: 1[W] + STR damage. You slide the target +1 squares.
   - Label: Effect
     Text: One of your allies gains a +2 power bonus to attack rolls on the next attack before the end of your next turn.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

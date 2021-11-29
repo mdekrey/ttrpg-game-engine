@@ -39,6 +39,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 19
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -54,3 +55,6 @@
     Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is blinded, dazed, and deafened until the end of your next turn.
   - Label: Effect
     Text: You gain a +2 power bonus to attack rolls against the target until the stance ends.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

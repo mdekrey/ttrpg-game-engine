@@ -154,14 +154,14 @@ public static class ApiConversion
             generatedClassDetails.Powers.Select(p => p.ToApi())
         );
 
-    public static Api.PowerTextProfile ToApi(this Generator.NamedPowerProfile powerProfile) =>
-        new Api.PowerTextProfile(
+    public static Api.PowerTextProfile ToApi(this Generator.NamedPowerProfile powerProfile)
+    {
+        var (textBlock, flavor) = powerProfile.Profile.ToPowerContext().ToPowerTextBlock(powerProfile.Flavor);
+        // TODO - pass flavor to API
+        return new Api.PowerTextProfile(
             Id: powerProfile.Id.ToString(),
-            Text: (powerProfile.Profile.ToPowerContext().ToPowerTextBlock() with
-            {
-                Name = powerProfile.Name,
-                FlavorText = powerProfile.FlavorText,
-            }).ToApi(),
+            Text: textBlock.ToApi(),
             Profile: powerProfile.Profile.ToApi()
         );
+    }
 }

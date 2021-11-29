@@ -33,12 +33,12 @@ namespace GameEngine.Generator.Modifiers
             }
 
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext) =>
-                new(0, (textBlock) =>
+                new(0, (textBlock, flavor) =>
                 {
-                    return textBlock with
+                    return (textBlock with
                     {
                         ActionType = "Minor Action",
-                    };
+                    }, flavor);
                 });
         }
     }

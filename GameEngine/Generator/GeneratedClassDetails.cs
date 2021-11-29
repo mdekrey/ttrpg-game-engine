@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameEngine.Generator.Text;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,5 +9,5 @@ namespace GameEngine.Generator
     {
     }
 
-    public record NamedPowerProfile(Guid Id, string Name, string FlavorText, ClassPowerProfile Profile);
+    public record NamedPowerProfile(Guid Id, FlavorText Flavor, ClassPowerProfile Profile);
 }

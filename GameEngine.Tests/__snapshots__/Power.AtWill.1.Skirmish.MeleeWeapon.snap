@@ -36,6 +36,7 @@
         Name: Skirmish Movement
 - Name: Unknown
   TypeInfo: Weapon Attack 1
+  FlavorText: ''
   PowerUsage: At-Will
   Keywords:
   - Martial
@@ -50,3 +51,6 @@
     Text: 1[W] + STR damage.
   - Label: Effect
     Text: You may shift STR squares.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

@@ -140,10 +140,10 @@ namespace GameEngine.Tests
             var powerHighLevelInfo = new PowerHighLevelInfo(level, powerFrequency, toolProfile, classProfile, powerProfileConfig);
             var powerProfile = new ClassPowerProfile(powerHighLevelInfo.ToPowerInfo(), target.GenerateProfile(powerHighLevelInfo)!);
 
-            PowerTextBlock power = powerProfile.ToPowerContext().ToPowerTextBlock();
+            var (power, flavor) = powerProfile.ToPowerContext().ToPowerTextBlock(FlavorText.Empty);
 
             Snapshot.Match(
-                Serializer.Serialize(new object[] { powerProfile, power }),
+                Serializer.Serialize(new object[] { powerProfile, power, flavor }),
                 ToSnapshotName(seed, "Power", powerFrequency, level, powerTemplate, configName)
             );
         }

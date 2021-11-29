@@ -33,6 +33,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -45,3 +46,6 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage, and the target is knocked prone and is pulled +4 squares.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

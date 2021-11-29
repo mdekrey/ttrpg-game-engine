@@ -32,6 +32,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 19
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -44,3 +45,6 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR + DEX damage, and the target takes ongoing 5 (save ends).
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

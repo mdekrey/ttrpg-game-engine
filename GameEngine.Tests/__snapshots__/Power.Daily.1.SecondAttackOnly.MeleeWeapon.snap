@@ -42,6 +42,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -60,3 +61,6 @@
     Text: STR vs. AC
   - Label: Secondary Hit
     Text: 1[W] + STR damage.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

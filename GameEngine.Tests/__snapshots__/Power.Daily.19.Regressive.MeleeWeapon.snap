@@ -35,6 +35,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 19
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -47,3 +48,6 @@
   RulesText:
   - Label: Hit
     Text: 3[W] + STR + DEX damage, and the target is stunned (save ends). When the target succeeds against its saving throw against this power, the target is dazed (save ends).
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

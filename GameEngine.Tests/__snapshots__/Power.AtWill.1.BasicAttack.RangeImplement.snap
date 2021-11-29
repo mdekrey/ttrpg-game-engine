@@ -33,6 +33,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Implement Attack 1
+  FlavorText: ''
   PowerUsage: At-Will
   Keywords:
   - Arcane
@@ -47,3 +48,6 @@
     Text: d4 + STR radiant damage.
   - Label: Special
     Text: This power counts as a ranged basic attack. When a power allows you to make a ranged basic attack, you can use this power.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

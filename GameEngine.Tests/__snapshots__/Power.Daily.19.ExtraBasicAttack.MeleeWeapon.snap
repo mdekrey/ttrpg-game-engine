@@ -37,6 +37,7 @@
         Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 19
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -51,3 +52,6 @@
     Text: 1[W] + STR damage.
   - Label: Effect
     Text: One of your allies gains a +8 power bonus to attack rolls until the end of your next turn and may immediately make a basic attack as a free action and add STR to the damage.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

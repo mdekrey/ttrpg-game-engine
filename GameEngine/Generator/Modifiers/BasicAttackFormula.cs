@@ -29,7 +29,7 @@ namespace GameEngine.Generator.Modifiers
                 new PowerCost(Fixed: 0.5);
 
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext) =>
-                new(10000, (textBlock) =>
+                new(10000, (textBlock, flavor) =>
                 {
                     var meleeOrRanged = powerContext.ToolRange switch
                     {
@@ -37,12 +37,12 @@ namespace GameEngine.Generator.Modifiers
                         ToolRange.Range => "ranged",
                         _ => throw new NotImplementedException(),
                     };
-                    return textBlock with
+                    return (textBlock with
                     {
                         RulesText = textBlock.RulesText.Items.Add(new(
                             "Special", $"This power counts as a {meleeOrRanged} basic attack. When a power allows you to make a {meleeOrRanged} basic attack, you can use this power."
                         ))
-                    };
+                    }, flavor);
                 });
 
             public override IEnumerable<IPowerModifier> GetUpgrades(UpgradeStage stage, PowerContext powerContext)

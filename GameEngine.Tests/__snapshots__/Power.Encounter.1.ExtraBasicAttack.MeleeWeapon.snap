@@ -34,6 +34,7 @@
         Name: Make Basic Attack
 - Name: Unknown
   TypeInfo: Weapon Attack 1
+  FlavorText: ''
   PowerUsage: Encounter
   Keywords:
   - Martial
@@ -48,3 +49,6 @@
     Text: 1[W] + STR damage.
   - Label: Effect
     Text: One of your allies may immediately make a basic attack as a free action and add STR to the damage.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

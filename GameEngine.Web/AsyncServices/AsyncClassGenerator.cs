@@ -106,7 +106,7 @@ class AsyncClassGenerationProcess
         {
             Original = current.Original with
             {
-                Powers = current.Original.Powers.Items.Add(new NamedPowerProfile(Guid.NewGuid(), "Unknown", "", powerProfile)),
+                Powers = current.Original.Powers.Items.Add(new NamedPowerProfile(Guid.NewGuid(), Generator.Text.FlavorText.Empty, powerProfile)),
             }
         }).ConfigureAwait(false);
 

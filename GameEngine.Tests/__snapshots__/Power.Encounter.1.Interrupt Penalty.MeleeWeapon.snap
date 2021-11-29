@@ -29,6 +29,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
+  FlavorText: ''
   PowerUsage: Encounter
   Keywords:
   - Martial
@@ -42,3 +43,6 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR + DEX damage.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

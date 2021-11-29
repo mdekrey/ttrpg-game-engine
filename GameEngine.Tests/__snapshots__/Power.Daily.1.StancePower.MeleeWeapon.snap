@@ -34,6 +34,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -42,10 +43,11 @@
   ActionType: Minor Action
   RulesText:
   - Label: Effect
-    Text: Until the stance ends, you gain access to the associated power.
+    Text: Until the stance ends, you gain access to Unknown Attack.
   AssociatedPower:
     Name: Unknown Attack
     TypeInfo: Weapon Attack
+    FlavorText: ''
     PowerUsage: At-Will
     Keywords:
     - Weapon
@@ -57,3 +59,8 @@
     RulesText:
     - Label: Hit
       Text: 1[W] + STR damage.
+- Fields:
+    Associated Flavor Text: ''
+    Associated Name: Unknown Attack
+    Flavor Text: ''
+    Name: Unknown

@@ -32,6 +32,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Implement Attack 1
+  FlavorText: ''
   PowerUsage: At-Will
   Keywords:
   - Implement
@@ -46,3 +47,6 @@
     Text: d4 + WIS damage.
   - Label: Special
     Text: This power counts as a melee basic attack. When a power allows you to make a melee basic attack, you can use this power.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

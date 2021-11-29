@@ -47,13 +47,13 @@ namespace GameEngine.Generator.Modifiers
             }
 
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext) =>
-                new(0, (textBlock) =>
+                new(0, (textBlock, flavor) =>
                 {
                     var result = textBlock with
                     {
                         ActionType = "Immediate Reaction",
                     };
-                    return Trigger switch
+                    return (Trigger switch
                     {
                         Trigger.YouOrAllyAttacked => result with
                         {
@@ -66,7 +66,7 @@ namespace GameEngine.Generator.Modifiers
                             Target = "The moving creature",
                         },
                         _ => throw new NotImplementedException(),
-                    };
+                    }, flavor);
                 });
         }
     }

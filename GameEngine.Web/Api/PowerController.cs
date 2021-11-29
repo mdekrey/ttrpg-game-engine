@@ -36,8 +36,10 @@ public class PowerController : PowerControllerBase
         var classPowerProfile = new ClassPowerProfile(powerInfo.ToPowerInfo(), powerProfile);
         var powerToken = powerProfile.GetProfileToken();
 
+        var (textBlock, flavor) = classPowerProfile.ToPowerContext().ToPowerTextBlock(FlavorText.Empty);
+
         return Task.FromResult(TypeSafeGenerateSamplePowerResult.Ok(new GenerateSamplePowerResponse(
-            Power: classPowerProfile.ToPowerContext().ToPowerTextBlock().ToApi(),
+            Power: textBlock.ToApi(),
             PowerJson: powerToken.ToString()
         )));
     }

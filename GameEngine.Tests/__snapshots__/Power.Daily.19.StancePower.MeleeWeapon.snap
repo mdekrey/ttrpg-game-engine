@@ -49,6 +49,7 @@
         Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 19
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -57,10 +58,11 @@
   ActionType: Minor Action
   RulesText:
   - Label: Effect
-    Text: One of your allies gains a +4 power bonus to attack rolls on the next attack before the end of your next turn. Until the stance ends, you gain access to the associated power.
+    Text: One of your allies gains a +4 power bonus to attack rolls on the next attack before the end of your next turn. Until the stance ends, you gain access to Unknown Attack.
   AssociatedPower:
     Name: Unknown Attack
     TypeInfo: Weapon Attack
+    FlavorText: ''
     PowerUsage: At-Will
     Keywords:
     - Weapon
@@ -72,3 +74,8 @@
     RulesText:
     - Label: Hit
       Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.
+- Fields:
+    Associated Flavor Text: ''
+    Associated Name: Unknown Attack
+    Flavor Text: ''
+    Name: Unknown

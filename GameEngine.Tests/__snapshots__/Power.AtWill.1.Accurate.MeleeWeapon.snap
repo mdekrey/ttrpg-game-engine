@@ -29,6 +29,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
+  FlavorText: ''
   PowerUsage: At-Will
   Keywords:
   - Martial
@@ -41,3 +42,6 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

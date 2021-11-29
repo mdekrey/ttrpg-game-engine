@@ -32,6 +32,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Implement Attack 1
+  FlavorText: ''
   PowerUsage: At-Will
   Keywords:
   - Arcane
@@ -44,3 +45,6 @@
   RulesText:
   - Label: Hit
     Text: d4 + STR radiant damage.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

@@ -54,6 +54,7 @@
         Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
+  FlavorText: ''
   PowerUsage: Encounter
   Keywords:
   - Martial
@@ -74,3 +75,6 @@
     Text: 1[W] + STR damage.
   - Label: Effect
     Text: You or one of your allies gains a STR power bonus to attack rolls against the target until the end of your next turn.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

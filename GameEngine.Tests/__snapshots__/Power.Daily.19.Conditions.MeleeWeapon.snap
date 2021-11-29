@@ -39,6 +39,7 @@
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 19
+  FlavorText: ''
   PowerUsage: Daily
   Keywords:
   - Martial
@@ -51,3 +52,6 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage, and the target is blinded (save ends) and is pulled +1 squares.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown
