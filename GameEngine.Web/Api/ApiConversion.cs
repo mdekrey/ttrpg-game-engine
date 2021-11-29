@@ -157,11 +157,11 @@ public static class ApiConversion
     public static Api.PowerTextProfile ToApi(this Generator.NamedPowerProfile powerProfile)
     {
         var (textBlock, flavor) = powerProfile.Profile.ToPowerContext().ToPowerTextBlock(powerProfile.Flavor);
-        // TODO - pass flavor to API
         return new Api.PowerTextProfile(
             Id: powerProfile.Id.ToString(),
             Text: textBlock.ToApi(),
-            Profile: powerProfile.Profile.ToApi()
+            Profile: powerProfile.Profile.ToApi(),
+            Flavor: flavor.Fields.ToDictionary(f => f.Key, f => f.Value)
         );
     }
 }

@@ -2,6 +2,7 @@
 using GameEngine.Web.AsyncServices;
 using GameEngine.Web.Storage;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
@@ -74,7 +75,7 @@ public class ClassController : ClassControllerBase
         }
     }
 
-    protected override async Task<TypeSafeSetPowerFlavorResult> SetPowerFlavorTypeSafe(string classStringId, string powerStringId, SetPowerFlavorRequest setPowerFlavorBody)
+    protected override async Task<TypeSafeSetPowerFlavorResult> SetPowerFlavorTypeSafe(string classStringId, string powerStringId, Dictionary<string, string> setPowerFlavorBody)
     {
         if (!Guid.TryParse(classStringId, out var classId) || !Guid.TryParse(powerStringId, out var powerId))
             return TypeSafeSetPowerFlavorResult.NotFound();
@@ -94,16 +95,14 @@ public class ClassController : ClassControllerBase
                         Powers = classDetails.Original.Powers.Items.SetItem(index, classDetails.Original.Powers.Items[index] with
                         {
                             Flavor = new Generator.Text.FlavorText(
-                                Fields: ImmutableDictionary<string, string>.Empty
-                                    .Add("Name", setPowerFlavorBody.Name)
-                                    .Add("Flavor Text", setPowerFlavorBody.FlavorText)
+                                Fields: setPowerFlavorBody.ToImmutableDictionary(f => f.Key, f => f.Value)
                             ),
                         })
                     }
                 };
             });
 
-            return status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success
+            return status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success s
                 ? TypeSafeSetPowerFlavorResult.Ok()
                 : TypeSafeSetPowerFlavorResult.Conflict();
         }

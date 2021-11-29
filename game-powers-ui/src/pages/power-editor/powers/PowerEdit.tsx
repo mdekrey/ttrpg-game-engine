@@ -15,16 +15,19 @@ import { Spinner } from 'components/spinner/spinner';
 import { Subject } from 'rxjs';
 import { RequestParams } from 'api/operations/setPowerFlavor';
 import useConstant from 'use-constant';
+import { useMemo } from 'react';
+import { ObjectShape } from 'yup/lib/object';
 
-export type PowerTextInfo = {
-	name: string;
-	flavorText: string;
-};
+type FlavorText = Record<string, string>;
+// export type PowerTextInfo = {
+// 	'Name': string;
+// 	'Flavor Text': string;
+// };
 
-export const powerTextInfoSchema: yup.SchemaOf<PowerTextInfo> = yup.object({
-	name: yup.string().required().label('Name'),
-	flavorText: yup.string().required().label('Flavor Text'),
-});
+// export const powerTextInfoSchema: yup.SchemaOf<FlavorText> = yup.object({
+// 	name: yup.string().required().label('Name'),
+// 	flavorText: yup.string().required().label('Flavor Text'),
+// });
 
 export function PowerEdit({
 	power,
@@ -35,17 +38,23 @@ export function PowerEdit({
 	param: RequestParams;
 	onRequestReload: () => void;
 }) {
+	const keys = Object.keys(power.flavor).sort().join(',');
+	const schema = useMemo(() => {
+		const result: ObjectShape = {};
+		keys.split(',').forEach((key) => {
+			result[key] = yup.string().required().label(key);
+		});
+		return yup.object(result) as yup.SchemaOf<FlavorText>;
+	}, [keys]);
+
 	const api = useApi();
-	const submitSubject = useConstant(() => new Subject<PowerTextInfo>());
+	const submitSubject = useConstant(() => new Subject<FlavorText>());
 	const deleteSubject = useConstant(() => new Subject<void>());
 	const { powerUsage, attackType, name: originalName, flavorText: originalFlavor, ...text } = power.text;
 
-	const { handleSubmit, ...form } = useGameForm<PowerTextInfo>({
-		defaultValues: {
-			name: originalName,
-			flavorText: originalFlavor || '',
-		},
-		schema: powerTextInfoSchema,
+	const { handleSubmit, ...form } = useGameForm<FlavorText>({
+		defaultValues: power.flavor,
+		schema,
 	});
 
 	const maybeSaving = useObservable<Loadable<boolean>>(
@@ -54,7 +63,8 @@ export function PowerEdit({
 				map((data) =>
 					api.setPowerFlavor(param, data, 'application/json').pipe(
 						map((response) => (response.statusCode === 200 ? makeLoaded(true) : makeError(response))),
-						startWith(makeLoading())
+						startWith(makeLoading()),
+						tap((status) => status.type === 'loaded' && onRequestReload && onRequestReload())
 					)
 				),
 				switchAll()
@@ -83,19 +93,21 @@ export function PowerEdit({
 
 	return (
 		<div className="grid grid-cols-3 gap-4 print:grid-cols-2">
-			<PowerTextBlock
-				className="col-span-2"
-				name={form.watch('name')}
-				flavorText={form.watch('flavorText')}
-				{...text}
-				powerUsage={powerUsage as PowerType}
-				attackType={(attackType || null) as 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null}
-			/>
+			<div className="col-span-2">
+				<PowerTextBlock
+					name={form.watch('Name')}
+					flavorText={form.watch('Flavor Text')}
+					{...text}
+					powerUsage={powerUsage as PowerType}
+					attackType={(attackType || null) as 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null}
+				/>
+			</div>
 			<form
 				onSubmit={disabled ? () => {} : handleSubmit((d) => submitSubject.next(d))}
 				className="grid grid-cols-1 gap-3 self-start print:hidden">
-				<TextboxField label="Name" form={form} name="name" disabled={disabled} />
-				<TextboxField label="Flavor Text" form={form} name="flavorText" disabled={disabled} />
+				{keys.split(',').map((key) => (
+					<TextboxField key={key} label={key} form={form} name={key} disabled={disabled} />
+				))}
 				<ButtonRow>
 					<Button contents="icon" type="submit" disabled={disabled}>
 						{isLoading(maybeSaving) ? <Spinner /> : <SaveIcon className="w-5 h-5" />}

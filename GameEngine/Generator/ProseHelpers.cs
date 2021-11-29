@@ -50,8 +50,9 @@ namespace GameEngine.Generator
                 _ => throw new NotImplementedException("We don't use monikers that high up!"),
             };
 
-        public static string Capitalize(this string s) =>
-            s[0..1].ToUpper() + s[1..^0];
+        public static string Capitalize(this string s) => s is { Length: 0 } 
+            ? s
+            : s[0..1].ToUpper() + s[1..^0];
 
         public static string ToText(this Enum enumValue)
         {
