@@ -38,7 +38,7 @@ namespace GameEngine.Generator
         private PowerProfile ApplyWeaponDice(PowerProfile _this)
         {
             var context = new PowerContext(_this, PowerInfo);
-            var damages = GetDamageLenses(_this).OrderByDescending(e => e.Damage.Weight ?? 1).ToImmutableList();
+            var damages = GetDamageLenses(_this).OrderByDescending(e => e.Damage.Order ?? 1).ToImmutableList();
 
             var result = _this;
             var stepSize = PowerInfo.ToolProfile.Type == ToolType.Weapon ? 1 : 0.5;

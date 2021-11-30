@@ -43,7 +43,7 @@ namespace GameEngine.Tests.Modifiers
                             new DamageModifier(
                                 Rules.GameDiceExpression.Empty + Rules.Ability.Strength,
                                 DamageTypes: ImmutableList<DamageType>.Empty,
-                                Weight: 1
+                                Order: 1
                             )
                         )
                     )

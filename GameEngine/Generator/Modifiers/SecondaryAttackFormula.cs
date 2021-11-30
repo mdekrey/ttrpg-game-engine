@@ -53,7 +53,7 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        private static Lens<IModifier, double?> damageWeightLens = Lens<IModifier>.To(mod => ((DamageModifier)mod).Weight, (mod, newWeight) => ((DamageModifier)mod) with { Weight = newWeight });
+        private static Lens<IModifier, int?> damageOrderLens = Lens<IModifier>.To(mod => ((DamageModifier)mod).Order, (mod, newWeight) => ((DamageModifier)mod) with { Order = newWeight });
         public record SplitAttackModifier(int AmountsCount, bool RequiresPreviousHit) : RewritePowerModifier()
         {
             public override IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile power)
@@ -80,11 +80,11 @@ namespace GameEngine.Generator.Modifiers
                 var weights = Enumerable.Range(0, AmountsCount).Select(i => i * 0.5 + 0.5);
                 var damageMods = (from lens in resultPower.GetModifierLenses()
                                   where resultPower.Get(lens) is DamageModifier
-                                  select lens.To(damageWeightLens))
+                                  select lens.To(damageOrderLens))
                     .Select((lens, index) => (lens, index))
                     .ToArray();
-                yield return damageMods.Aggregate(resultPower, (currentPower, tuple) => currentPower.Replace(tuple.lens, tuple.index * 0.5 + 0.5));
-                //yield return damageMods.Aggregate(resultPower, (currentPower, tuple) => currentPower.Replace(tuple.lens, (damageMods.Length - tuple.index - 1) * 0.5 + 0.5));
+                yield return damageMods.Aggregate(resultPower, (currentPower, tuple) => currentPower.Replace(tuple.lens, tuple.index + 1));
+                yield return damageMods.Aggregate(resultPower, (currentPower, tuple) => currentPower.Replace(tuple.lens, damageMods.Length - tuple.index));
             }
         }
 

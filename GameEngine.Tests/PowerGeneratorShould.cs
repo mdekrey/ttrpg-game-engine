@@ -79,7 +79,7 @@ namespace GameEngine.Tests
 
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 2)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName, 751)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 800)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, "UpToThreeTargets", 800)]
         [Theory]
         public void GenerateRandomPowerProfile(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int seed)
         {
@@ -235,6 +235,12 @@ namespace GameEngine.Tests
                     "TwoHits",
                     new PowerProfileConfig.PowerChance[] {
                         new("$..[?(@.Name=='TwoHits')]", 1),
+                    }.ToImmutableList()
+                ) },
+            { "UpToThreeTargets", new PowerProfileConfig(
+                    "UpToThreeTargets",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@.Name=='UpToThreeTargets')]", 1),
                     }.ToImmutableList()
                 ) },
             { "MinorAction", new PowerProfileConfig(
