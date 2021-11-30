@@ -63,8 +63,8 @@ namespace GameEngine.Generator.Modifiers
                 var t = effectContext.Target;
                 return new(100, (target) => target with
                 {
-                    Parts = target.Parts.AddRange(Effects.Select(e => e.HitPart(t)).Where(e => e is { Length: > 0 })!),
-                    AdditionalSentences = target.AdditionalSentences.AddRange(Effects.Select(e => e.HitSentence(t)).Where(e => e is { Length: > 0 })!),
+                    Parts = target.Parts.AddRange(Effects.Select(e => e.HitPart(effectContext)).Where(e => e is { Length: > 0 })!),
+                    AdditionalSentences = target.AdditionalSentences.AddRange(Effects.Select(e => e.HitSentence(effectContext)).Where(e => e is { Length: > 0 })!),
                 });
             }
         }
@@ -72,8 +72,8 @@ namespace GameEngine.Generator.Modifiers
         public abstract record MovementControl(string Name)
         {
             public abstract int Order();
-            public abstract string? HitPart(Target target);
-            public abstract string? HitSentence(Target target);
+            public abstract string? HitPart(EffectContext effectContext);
+            public abstract string? HitSentence(EffectContext effectContext);
             public abstract double Cost();
             public virtual IEnumerable<MovementControl> GetUpgrades(IEnumerable<Ability> abilities) =>
                 Enumerable.Empty<MovementControl>();
@@ -83,8 +83,8 @@ namespace GameEngine.Generator.Modifiers
         {
             public override double Cost() => 1;
             public override int Order() => 1;
-            public override string? HitPart(Target target) => target == Target.Self ? "are knocked prone" : "is knocked prone";
-            public override string? HitSentence(Target target) => null;
+            public override string? HitPart(EffectContext effectContext) => effectContext.Target == Target.Self ? "are knocked prone" : "is knocked prone";
+            public override string? HitSentence(EffectContext effectContext) => null;
         }
 
         public enum OpponentMovementMode
@@ -97,7 +97,7 @@ namespace GameEngine.Generator.Modifiers
         public record SlideOpponent(OpponentMovementMode Mode, GameDiceExpression Amount) : MovementControl("Slide Opponent")
         {
             public override int Order() => 0;
-            public override string? HitPart(Target target) => (target, Mode) switch
+            public override string? HitPart(EffectContext effectContext) => (effectContext.Target, Mode) switch
             {
                 (Target.Self, OpponentMovementMode.Push) => $"are pushed {Amount} squares",
                 (_, OpponentMovementMode.Push) => $"is pushed {Amount} squares",
@@ -107,12 +107,12 @@ namespace GameEngine.Generator.Modifiers
                 (_, OpponentMovementMode.Slide) => null,
                 _ => throw new NotImplementedException(),
             };
-            public override string? HitSentence(Target target) => (target, Mode) switch
+            public override string? HitSentence(EffectContext effectContext) => (effectContext.Target, Mode) switch
             {
                 (_, OpponentMovementMode.Push) => null,
                 (_, OpponentMovementMode.Pull) => null,
                 (Target.Self, OpponentMovementMode.Slide) => null,
-                (_, OpponentMovementMode.Slide) => $"You slide the target {Amount} squares.", // TODO - is "the target" correct?
+                (_, OpponentMovementMode.Slide) => $"You slide {effectContext.GetTargetText()} {Amount} squares.",
                 _ => throw new NotImplementedException(),
             };
             public override double Cost() => Amount.ToWeaponDice() * 2;
