@@ -17,7 +17,7 @@ namespace GameEngine.Generator.Modifiers
 
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
-            if (powerContext.Modifiers.OfType<MultiattackAppliedModifier>().Any())
+            if (powerContext.Modifiers.OfType<IUniquePowerModifier>().Any())
                 yield break;
             if (stage != UpgradeStage.Standard)
                 yield break;
@@ -88,7 +88,7 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record MultiattackAppliedModifier() : PowerModifier(ModifierName)
+        public record MultiattackAppliedModifier() : PowerModifier(ModifierName), IUniquePowerModifier
         {
             public override int GetComplexity(PowerContext powerContext) => 0;
             public override PowerCost GetCost(PowerContext powerContext) => PowerCost.Empty;

@@ -9,7 +9,10 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: TwoHits
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Burst
+        Name: Multiple
       Ability: Strength
       Effects:
       - Target:
@@ -40,10 +43,10 @@
   - Stance
   - Weapon
   ActionType: Standard Action
-  AttackType: Melee
-  AttackTypeDetails: weapon
-  Target: One or two creatures
-  Attack: STR vs. AC, two attacks
+  AttackType: Close
+  AttackTypeDetails: burst 1
+  Target: Each creature
+  Attack: STR vs. AC
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage.

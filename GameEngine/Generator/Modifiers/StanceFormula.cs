@@ -43,9 +43,7 @@ namespace GameEngine.Generator.Modifiers
                 yield return new PersonalStanceModifierRewrite();
         }
 
-        public interface IStanceModifier { }
-
-        public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier("Self-Boost Stance"), IStanceModifier
+        public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier("Self-Boost Stance"), IUniquePowerModifier
         {
             public override int GetComplexity(PowerContext powerContext) => 1 + EffectModifier.GetComplexity(powerContext);
 
@@ -91,7 +89,7 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record PersonalStanceModifier(PowerProfile InnerPower) : PowerModifier("Stance Power"), IStanceModifier
+        public record PersonalStanceModifier(PowerProfile InnerPower) : PowerModifier("Stance Power"), IUniquePowerModifier
         {
             public override int GetComplexity(PowerContext powerContext) => 1 + Math.Max(0, (powerContext with { PowerProfile = InnerPower }).GetComplexity() - 1);
 
@@ -144,7 +142,7 @@ namespace GameEngine.Generator.Modifiers
             {
                 return InnerPowerContext(powerContext).GetUpgrades(stage)
                     .Where(upgrade => upgrade.Effects.Count == 0 && upgrade.Modifiers.Count == 0)
-                    .Where(upgrade => !upgrade.Modifiers.OfType<IStanceModifier>().Any())
+                    .Where(upgrade => !upgrade.Modifiers.OfType<IUniquePowerModifier>().Any())
                     .Select(upgrade => this with { InnerPower = upgrade });
             }
 
