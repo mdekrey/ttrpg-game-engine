@@ -18,6 +18,9 @@ namespace GameEngine.Generator
 
         public bool IsValid(PowerProfile profile)
         {
+            if (profile.AllModifiers(true).OfType<IUniquePowerModifier>().Count() > 1)
+                return false;
+
             var powerContext = new PowerContext(profile, PowerInfo);
             if (powerContext.GetComplexity() > Limits.MaxComplexity)
                 return false;
