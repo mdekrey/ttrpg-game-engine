@@ -1,6 +1,7 @@
 ﻿using GameEngine.Rules;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GameEngine.Generator
@@ -8,7 +9,8 @@ namespace GameEngine.Generator
     public static class GameDiceExpressionExtensions
     {
         public static double ToWeaponDice(this GameDiceExpression gameDiceExpression) =>
-            gameDiceExpression.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 4.0;
+            gameDiceExpression.With(4, new CharacterAbilities(2, 2, 2, 2, 2, 2)).Modifier / 4.0 
+            + gameDiceExpression.DieCodes.Entries.Select(dieCode => (dieCode.Sides + 1) / 2.0 * dieCode.DieCount).Sum() / 5.5;
         public static GameDiceExpression RoundModifier(this GameDiceExpression gameDiceExpression) =>
             gameDiceExpression + (gameDiceExpression.DieCodes.Modifier / 4);
         public static GameDiceExpression StepUpModifier(this GameDiceExpression gameDiceExpression) =>

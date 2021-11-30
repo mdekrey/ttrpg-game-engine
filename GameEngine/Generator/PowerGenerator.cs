@@ -221,7 +221,8 @@ namespace GameEngine.Generator
                                     info.ToolProfile.PreferredDamageTypes
                                         .Take(info.Usage == PowerFrequency.AtWill ? 1 : info.ToolProfile.PreferredDamageTypes.Count)
                                         .Select(v => new RandomChances<ImmutableList<DamageType>>(v))
-                                )
+                                ),
+                                Weight: 1
                             )
                         }.ToImmutableList()
                     )

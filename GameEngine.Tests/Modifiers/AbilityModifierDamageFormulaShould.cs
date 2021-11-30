@@ -42,7 +42,8 @@ namespace GameEngine.Tests.Modifiers
                         Build<IEffectModifier>(
                             new DamageModifier(
                                 Rules.GameDiceExpression.Empty + Rules.Ability.Strength,
-                                DamageTypes: ImmutableList<DamageType>.Empty
+                                DamageTypes: ImmutableList<DamageType>.Empty,
+                                Weight: 1
                             )
                         )
                     )

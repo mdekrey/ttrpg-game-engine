@@ -38,39 +38,37 @@ namespace GameEngine.Generator
         private PowerProfile ApplyWeaponDice(PowerProfile _this)
         {
             var context = new PowerContext(_this, PowerInfo);
-            var damages = GetDamageLenses(_this).ToImmutableList();
+            var damages = GetDamageLenses(_this).OrderByDescending(e => e.Damage.Weight ?? 1).ToImmutableList();
 
-            var min = damages.Sum(c => c.Effectiveness);
-
-            var remaining = Limits.Initial - _this.TotalCost(PowerInfo).Fixed;
-            var baseAmount = remaining / min;
-            if (PowerInfo.ToolProfile.Type == ToolType.Weapon)
-                baseAmount = Math.Floor(baseAmount);
-
-            var repeated = damages.Select(c => baseAmount * c.Effectiveness);
-            var distribuatable = remaining - repeated.Sum();
-
-            // TODO - this keeps most almost equal, but what about one that does much more? Does this work with "first attack must hit" balances? This should be tested.
-            var result = WeaponDiceDistribution.Increasing switch
+            var result = _this;
+            var stepSize = PowerInfo.ToolProfile.Type == ToolType.Weapon ? 1 : 0.5;
+            var damageAmounts = damages.ToDictionary(d => d, d => (originalDamage: d.Damage.Damage, added: 0.0));
+            bool hasIncreased;
+            do
             {
-                WeaponDiceDistribution.Decreasing => repeated.Select((v, i) => (i + 1) <= distribuatable ? v + 1 : v),
-                WeaponDiceDistribution.Increasing => repeated.Select((v, i) => (_this.Attacks.Count - i) <= distribuatable ? v + 1 : v),
-                _ => throw new InvalidOperationException(),
-            };
-
-            return Enumerable.Zip(result, damages, (weaponDice, lens) => lens with
-            {
-                Damage = lens.Damage with
+                hasIncreased = false;
+                foreach (var e in damages)
                 {
-                    Damage = lens.Damage.Damage + PowerProfileExtensions.ToDamageEffect(PowerInfo.ToolProfile.Type, weaponDice / lens.Effectiveness)
+                    var (originalDamage, added) = damageAmounts[e];
+                    added += stepSize;
+                    var temp = result.Update(e.Lens, mod => mod with { Damage = originalDamage + PowerProfileExtensions.ToDamageEffect(PowerInfo.ToolProfile.Type, added) });
+                    if (temp.TotalCost(PowerInfo).Apply(Limits.Initial) >= 0)
+                    {
+                        damageAmounts[e] = (originalDamage, added);
+                        result = temp;
+                        hasIncreased = true;
+                    }
                 }
-            })
-                .Aggregate(_this, (pb, lens) => lens.setter(pb, lens.Damage));
+
+            } while (hasIncreased);
+
+            return result;
         }
 
 
-        record DamageLens(DamageModifier Damage, double Effectiveness, Func<PowerProfile, DamageModifier, PowerProfile> setter);
+        record DamageLens(DamageModifier Damage, double Effectiveness, Lens<PowerProfile, DamageModifier> Lens);
 
+        private static Lens<IModifier, DamageModifier> damageLens = Lens<IModifier>.To(mod => (DamageModifier)mod, (mod, newMod) => newMod);
         private IEnumerable<DamageLens> GetDamageLenses(PowerProfile _this)
         {
             var powerDamage = _this.TotalCost(PowerInfo).Fixed;
@@ -78,7 +76,7 @@ namespace GameEngine.Generator
                    let mod = _this.Get(lens) as DamageModifier
                    where mod != null
                    let newPowerDamage = _this.Replace(lens, mod with { Damage = mod.Damage with { WeaponDiceCount = mod.Damage.WeaponDiceCount + 1 } }).TotalCost(PowerInfo).Fixed
-                   select new DamageLens(mod, newPowerDamage - powerDamage, (p, m) => p.Replace(lens, m));
+                   select new DamageLens(mod, Effectiveness: newPowerDamage - powerDamage, Lens: lens.To(damageLens));
         }
     }
 }

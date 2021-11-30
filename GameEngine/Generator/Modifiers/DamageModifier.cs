@@ -8,7 +8,8 @@ using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record DamageModifier(GameDiceExpression Damage, EquatableImmutableList<DamageType> DamageTypes) : EffectModifier("Damage")
+    public record DamageModifier(GameDiceExpression Damage, EquatableImmutableList<DamageType> DamageTypes, 
+        [Newtonsoft.Json.JsonProperty(NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)] double? Weight = null) : EffectModifier("Damage")
     {
         public override int GetComplexity(PowerContext powerContext) => 0;
 
@@ -54,5 +55,10 @@ namespace GameEngine.Generator.Modifiers
         public override bool IsInstantaneous() => false;
         public override bool IsBeneficial() => false;
         public override bool IsHarmful() => true;
+
+        public override ModifierFinalizer<IEffectModifier>? Finalize(EffectContext powerContext)
+        {
+            return () => this with { Weight = null };
+        }
     }
 }
