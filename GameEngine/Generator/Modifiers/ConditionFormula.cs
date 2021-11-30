@@ -258,8 +258,6 @@ namespace GameEngine.Generator.Modifiers
                     where !Conditions.OfType<DefensePenalty>().Any() // only allow one defense penalty
                     select this with { Conditions = Conditions.Items.Add(defenseCondition) },
 
-                    // TODO - add OngoingDamage
-
                     from condition in Conditions
                     from upgrade in condition.GetUpgrades()
                     select this with { Conditions = Filter(Conditions.Items.Remove(condition).Add(upgrade)) },
