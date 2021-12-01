@@ -12,7 +12,7 @@ export function ClassSurvey() {
 	);
 
 	async function submitClassProfile(classProfile: ClassProfile) {
-		const response = await api.generatePowers({}, classProfile, 'application/json').toPromise();
+		const response = await api.generatePowers({ body: classProfile }).toPromise();
 		if (response.statusCode === 200) {
 			window.location.href = `/class/edit/${response.data.classProfileId}`;
 		}

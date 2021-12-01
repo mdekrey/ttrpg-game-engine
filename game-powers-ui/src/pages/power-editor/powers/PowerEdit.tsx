@@ -3,7 +3,6 @@ import { PowerTextProfile } from 'api/models/PowerTextProfile';
 import { Button } from 'components/button/Button';
 import { TextboxField } from 'components/forms';
 import { PowerTextBlock } from 'components/power';
-import { PowerType } from 'components/power/Power';
 import { useApi } from 'core/hooks/useApi';
 import { useGameForm } from 'core/hooks/useGameForm';
 import { useObservable } from 'core/hooks/useObservable';
@@ -17,6 +16,7 @@ import { RequestParams } from 'api/operations/setPowerFlavor';
 import useConstant from 'use-constant';
 import { useMemo } from 'react';
 import { ObjectShape } from 'yup/lib/object';
+import { powerTextBlockToProps } from 'components/power/PowerTextBlock';
 
 type FlavorText = Record<string, string>;
 // export type PowerTextInfo = {
@@ -50,7 +50,7 @@ export function PowerEdit({
 	const api = useApi();
 	const submitSubject = useConstant(() => new Subject<FlavorText>());
 	const deleteSubject = useConstant(() => new Subject<void>());
-	const { powerUsage, attackType, name: originalName, flavorText: originalFlavor, ...text } = power.text;
+	const { name: originalName, flavorText: originalFlavor, ...text } = power.text;
 
 	const { handleSubmit, ...form } = useGameForm<FlavorText>({
 		defaultValues: power.flavor,
@@ -61,7 +61,7 @@ export function PowerEdit({
 		() =>
 			submitSubject.pipe(
 				map((data) =>
-					api.setPowerFlavor(param, data, 'application/json').pipe(
+					api.setPowerFlavor({ params: param, body: data }).pipe(
 						map((response) => (response.statusCode === 200 ? makeLoaded(true) : makeError(response))),
 						startWith(makeLoading()),
 						tap((status) => status.type === 'loaded' && onRequestReload && onRequestReload())
@@ -76,7 +76,7 @@ export function PowerEdit({
 		() =>
 			deleteSubject.pipe(
 				map(() =>
-					api.replacePower(param).pipe(
+					api.replacePower({ params: param }).pipe(
 						map((response) => (response.statusCode === 200 ? makeLoaded(true) : makeError(response))),
 						startWith(makeLoading()),
 						tap((status) => status.type === 'loaded' && onRequestReload && onRequestReload())
@@ -95,11 +95,7 @@ export function PowerEdit({
 		<div className="grid grid-cols-3 gap-4 print:grid-cols-2">
 			<div className="col-span-2">
 				<PowerTextBlock
-					name={form.watch('Name')}
-					flavorText={form.watch('Flavor Text')}
-					{...text}
-					powerUsage={powerUsage as PowerType}
-					attackType={(attackType || null) as 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null}
+					{...powerTextBlockToProps({ ...text, name: form.watch('Name'), flavorText: form.watch('Flavor Text') })}
 				/>
 			</div>
 			<form

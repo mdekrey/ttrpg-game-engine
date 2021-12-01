@@ -22,7 +22,7 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 			combineLatest([input$, restartPolling]).pipe(
 				map(([inputs]) => inputs),
 				map(([id]) =>
-					api.getClass({ id }).pipe(
+					api.getClass({ params: { id } }).pipe(
 						repeatWhen((completed) => completed.pipe(delay(1000))),
 						takeWhile((response) => response.statusCode === 200 && response.data.inProgress === true, true),
 						map((response) =>

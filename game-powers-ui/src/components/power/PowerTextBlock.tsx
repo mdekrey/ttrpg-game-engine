@@ -1,3 +1,4 @@
+import { PowerTextBlock as ApiPowerTextBlock } from 'api/models/PowerTextBlock';
 import { Power, PowerType } from './Power';
 import { MeleeIcon, RangedIcon, AreaIcon, CloseIcon } from './icons';
 import { RulesText } from './RulesText';
@@ -8,6 +9,15 @@ const iconMapping: Record<string, typeof MeleeIcon | undefined> = {
 	Close: CloseIcon,
 	Area: AreaIcon,
 };
+
+export function powerTextBlockToProps(powerTextBlock: ApiPowerTextBlock): PowerTextBlockProps {
+	return {
+		...powerTextBlock,
+		powerUsage: powerTextBlock.powerUsage as PowerType,
+		attackType: powerTextBlock.attackType as PowerTextBlockProps['attackType'],
+		associatedPower: powerTextBlock.associatedPower as PowerTextBlockProps['associatedPower'],
+	};
+}
 
 export type PowerTextBlockProps = {
 	name: string;
@@ -24,7 +34,7 @@ export type PowerTextBlockProps = {
 	target?: string | null;
 	attack?: string | null;
 	rulesText: { label?: string | null; text: string }[];
-	associatedPower?: PowerTextBlockProps;
+	associatedPower?: PowerTextBlockProps | null;
 };
 
 export function PowerTextBlock({

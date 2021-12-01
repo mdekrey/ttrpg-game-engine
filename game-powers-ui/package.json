@@ -11,7 +11,7 @@
 		"@hookform/resolvers": "^2.8.0",
 		"@mdx-js/loader": "^1.6.22",
 		"@mdx-js/react": "^1.6.22",
-		"@principlestudios/openapi-codegen-typescript-rxjs": "0.1.1",
+		"@principlestudios/openapi-codegen-typescript": "0.2.1",
 		"@principlestudios/react-scripts-lib": "4.0.5",
 		"@storybook/addon-actions": "^6.3.5",
 		"@storybook/addon-essentials": "^6.3.5",

@@ -10,7 +10,6 @@ import { Button } from 'components/button/Button';
 import { ButtonRow } from 'components/ButtonRow';
 import { YamlEditor } from 'components/monaco/YamlEditor';
 import { PowerTextBlock } from 'components/power';
-import { PowerType } from 'components/power/Power';
 import { PowerProfileConfig } from 'api/models/PowerProfileConfig';
 import { AstViewer } from 'components/json/ast';
 import { of, Subject } from 'rxjs';
@@ -19,6 +18,7 @@ import { map, filter, switchAll, startWith } from 'rxjs/operators';
 import produce from 'immer';
 import useConstant from 'use-constant';
 import { powerProfileConfigSchema } from 'core/schemas/api';
+import { powerTextBlockToProps } from 'components/power/PowerTextBlock';
 import { SamplePowerData, SamplePowerRequestBody } from './SamplePowers';
 
 const safePaths: typeof jp.paths = (obj, pathExpression, count) => {
@@ -65,9 +65,8 @@ export function PowerProfileConfigBuilder({
 						: refreshOverride.pipe(
 								startWith(null),
 								map(() =>
-									api.generateSamplePower(
-										{},
-										{
+									api.generateSamplePower({
+										body: {
 											classProfile: produce(classProfile, (cp) => {
 												// eslint-disable-next-line no-param-reassign
 												cp.tools[toolIndex].powerProfileConfigs[powerProfileIndex] = currentPowerProfileConfig.current;
@@ -77,8 +76,7 @@ export function PowerProfileConfigBuilder({
 											level,
 											usage,
 										},
-										'application/json'
-									)
+									})
 								),
 								switchAll(),
 								filter(is200),
@@ -170,13 +168,7 @@ export function PowerProfileConfigBuilder({
 					</button>
 				</div>
 				<div className="flex-1 overflow-y-auto">
-					{power && tab === 'power' && (
-						<PowerTextBlock
-							{...power.power}
-							powerUsage={power.power.powerUsage as PowerType}
-							attackType={(power.power.attackType || null) as 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null}
-						/>
-					)}
+					{power && tab === 'power' && <PowerTextBlock {...powerTextBlockToProps(power.power)} />}
 					{power && tab === 'tree' && ast && (
 						<>
 							<AstViewer data={ast} highlight={paths} />

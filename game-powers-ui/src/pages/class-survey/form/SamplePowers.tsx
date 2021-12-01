@@ -8,6 +8,7 @@ import { filter } from 'rxjs/operators';
 import { PowerTextBlock } from 'components/power';
 import { PowerType } from 'components/power/Power';
 import { StructuredResponses, RequestBodies } from 'api/operations/generateSamplePower';
+import { powerTextBlockToProps } from 'components/power/PowerTextBlock';
 
 export type SamplePowerData = StructuredResponses[200]['application/json'];
 export type SamplePowerRequestBody = RequestBodies['application/json'];
@@ -47,7 +48,7 @@ export function SamplePowers({
 
 	const addPower = useCallback(
 		async (params: typeof generateParams) => {
-			const response = await api.generateSamplePower({}, params, 'application/json').toPromise();
+			const response = await api.generateSamplePower({ body: params }).toPromise();
 			if (is200(response)) setPowers((p) => [...p, response.data]);
 			if (shouldExpand() && is200(response)) addPower(params);
 		},
@@ -86,11 +87,7 @@ export function SamplePowers({
 					key={i}
 					className="flex-shrink-0 w-96 max-w-full mr-4 text-left"
 					onClick={onSelectPower && (() => onSelectPower(power))}>
-					<PowerTextBlock
-						{...power.power}
-						powerUsage={power.power.powerUsage as PowerType}
-						attackType={(power.power.attackType || null) as 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null}
-					/>
+					<PowerTextBlock {...powerTextBlockToProps(power.power)} />
 				</button>
 			))}
 		</div>
