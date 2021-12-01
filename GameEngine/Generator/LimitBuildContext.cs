@@ -25,7 +25,7 @@ namespace GameEngine.Generator
             if (powerContext.GetComplexity() > Limits.MaxComplexity)
                 return false;
 
-            var min = GetDamageLenses(profile).Sum(c => c.Effectiveness);
+            var min = GetDamageLenses(profile).Sum(c => c.Effectiveness / (c.Damage.Weight ?? 1));
             var remaining = profile.TotalCost(PowerInfo).Apply(Limits.Initial);
 
             if (remaining <= 0)

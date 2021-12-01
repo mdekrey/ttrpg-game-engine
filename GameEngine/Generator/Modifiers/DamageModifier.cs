@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.ComponentModel;
 using System.Linq;
 using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
+using Newtonsoft.Json;
 using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
 {
     public record DamageModifier(GameDiceExpression Damage, EquatableImmutableList<DamageType> DamageTypes, 
-        [Newtonsoft.Json.JsonProperty(NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)] int? Order = null) : EffectModifier("Damage")
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)] int? Order = null,
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)] double? Weight = 1.0) : EffectModifier("Damage")
     {
         public override int GetComplexity(PowerContext powerContext) => 0;
 
@@ -58,7 +61,11 @@ namespace GameEngine.Generator.Modifiers
 
         public override ModifierFinalizer<IEffectModifier>? Finalize(EffectContext powerContext)
         {
-            return () => this with { Order = null };
+            return () => this with
+            {
+                Order = null,
+                Weight = null,
+            };
         }
     }
 }

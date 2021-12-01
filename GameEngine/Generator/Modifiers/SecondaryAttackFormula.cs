@@ -17,9 +17,9 @@ namespace GameEngine.Generator.Modifiers
 
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
-            if (powerContext.Modifiers.OfType<IUniquePowerModifier>().Any())
-                yield break;
             if (stage != UpgradeStage.Standard)
+                yield break;
+            if (powerContext.Modifiers.OfType<IUniquePowerModifier>().Any())
                 yield break;
             if (powerContext.Attacks.Count != 1)
                 yield break;

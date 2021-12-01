@@ -13,14 +13,15 @@ namespace GameEngine.Generator.Text
         ImmutableList<string> AdditionalSentences
     )
     {
-        public string PartsToSentence()
+        public string PartsToSentence(bool fullSentence = false)
         {
+            var damagePart = fullSentence && DamageExpression is { Length: > 0 } ? $"{Target.Capitalize()} takes {DamageExpression}" : DamageExpression;
             var join = Parts is not { Count: > 0 } ? ""
-                : DamageExpression is { Length: > 0 } ? $", and {Target} "
+                : DamageExpression is { Length: > 0 } ? $"{(fullSentence ? "" : ",")} and {Target} "
                 : (Target + " ");
 
             return (
-                DamageExpression + join + OxfordComma(Parts.ToArray())
+                damagePart + join + OxfordComma(Parts.ToArray())
             ).FinishSentence();
         }
     }

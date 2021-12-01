@@ -30,6 +30,8 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             if (powerContext.Usage == Rules.PowerFrequency.AtWill)
                 yield break;
+            if (powerContext.Modifiers.OfType<IUniquePowerModifier>().Any())
+                yield break;
 
             var target = GetStanceEffect(powerContext);
 

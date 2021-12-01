@@ -44,6 +44,7 @@ namespace GameEngine.Generator
         public static TargetEffect FindAt(PowerContext context, int attackIndex) =>
             context.Attacks[attackIndex].Effects.Single(e => e.Target is SameAsOtherTarget { OtherAttackIndex: int a } && a == attackIndex);
 
+        public static int FindIndex(AttackContext context) => context.Effects.FindIndex(e => e.Target is SameAsOtherTarget { OtherAttackIndex: null });
         public static TargetEffect FindAt(AttackContext context) => FindAt(context.PowerContext, context.AttackIndex);
 
         public static EffectContext FindContextAt(AttackContext context) => context.BuildEffectContext(context.Effects.FindIndex(e => e.Target is SameAsOtherTarget { OtherAttackIndex: null })).EffectContext;

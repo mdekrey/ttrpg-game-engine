@@ -1,0 +1,55 @@
+﻿- PowerInfo:
+    Usage: Daily
+    ToolType: Weapon
+    ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Burst
+        Name: Multiple
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W]
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Name: Zone
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  FlavorText: ''
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Close
+  AttackTypeDetails: burst 1
+  Target: Each creature
+  Attack: STR vs. AC
+  RulesText:
+  - Label: Hit
+    Text: 1[W] damage.
+  - Label: Effect
+    Text: The burst creates a zone of something that fills the area until the end of your next turn. Any creature that enters the zone or starts their turn there takes the zone effects.
+  - Label: Zone Effect
+    Text: The creature takes 1[W] damage.
+  - Label: Sustain Minor
+    Text: The zone persists.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown
+    Zone Description: something
