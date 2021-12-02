@@ -29,13 +29,13 @@ namespace GameEngine.Generator.Modifiers
             var effectContext = SameAsOtherTarget.FindContextAt(attackContext.AttackContext);
             var effectLens = Lens<ImmutableList<TargetEffect>>.To(effects => effects[effectIndex], (effects, e) => effects.SetItem(effectIndex, e));
             var modLens = effect.AllModifierLenses().FirstOrDefault(lens => effect.Get(lens) is DamageModifier);
-            var damageLens = modLens != null 
+            var damageLens = modLens != null
                 ? firstAttackEffectsLens
                     .To(effectLens)
                     .To(modLens)
                     .To(damageModLens)
                 : null;
-            
+
             yield return new ConjurationApplicationModifier(
                 p =>
                 {
@@ -95,7 +95,7 @@ namespace GameEngine.Generator.Modifiers
                 var effectContext = SameAsOtherTarget.FindContextAt(attackContext.AttackContext);
                 var targetInfo = (effectContext.ToTargetInfo() with { Target = "the creature" }).PartsToSentence(true);
 
-                return new(0, (textBlock, flavor) =>
+                return new(5000, (textBlock, flavor) =>
                 {
                     var thing = flavor.GetText("Conjured Simple", "thing", out flavor);
                     var fancyThing = flavor.GetText("Conjured Detail", "fancy thing", out flavor);
@@ -105,7 +105,7 @@ namespace GameEngine.Generator.Modifiers
                         Target = $"One creature adjacent to the {thing}",
                         RulesText = textBlock.RulesText
                             .AddSentence("Effect", $"You conjure a {fancyThing} that occupies a square within range, and the {thing} attacks.")
-                            .AddSentence("Sustain Minor", $"You can sustain this power until the end of the encounter. As a standard action, you can make another attack with the {thing}."),                        
+                            .AddSentence("Sustain Minor", $"You can sustain this power until the end of the encounter. As a standard action, you can make another attack with the {thing}. As a move action, you can move the {thing} up to 6 squares."),
                     };
                     return (result, flavor);
                 });
