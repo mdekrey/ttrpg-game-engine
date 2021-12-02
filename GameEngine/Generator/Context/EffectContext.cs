@@ -1,4 +1,5 @@
 ﻿using GameEngine.Generator.Modifiers;
+using GameEngine.Generator.Text;
 using GameEngine.Rules;
 using System;
 using System.Collections.Immutable;
@@ -30,8 +31,9 @@ namespace GameEngine.Generator.Context
 
         internal Text.TargetInfoMutator? GetTargetInfoMutator() => Effect.Target.GetTargetInfoMutator(this);
 
-        public Text.TargetInfo GetDefaultTargetInfo() =>
-            new Text.TargetInfo(
+        public Text.TargetInfo GetDefaultTargetInfo()
+        {
+            return new Text.TargetInfo(
                 Target: GetTargetText(),
                 AttackType: GetAttackType(),
                 AttackNotes: GetAttackNotes(),
@@ -39,6 +41,7 @@ namespace GameEngine.Generator.Context
                 Parts: ImmutableList<string>.Empty,
                 AdditionalSentences: ImmutableList<string>.Empty
             );
+        }
 
         public Duration GetDuration() => Duration ?? PowerContext.GetDuration();
     }

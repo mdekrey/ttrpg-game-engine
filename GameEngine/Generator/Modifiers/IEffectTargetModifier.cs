@@ -10,7 +10,7 @@ namespace GameEngine.Generator.Modifiers
         PowerCost GetCost(EffectContext effectContext);
         IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext);
 
-        string GetTargetText(EffectContext effectContext);
+        string GetTargetText(EffectContext attackContext);
         AttackType GetAttackType(EffectContext effectContext);
         string? GetAttackNotes(EffectContext effectContext);
         TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext);

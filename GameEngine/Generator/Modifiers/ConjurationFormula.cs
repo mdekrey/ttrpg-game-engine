@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public class ZoneFormula : IPowerModifierFormula
+    public class ConjurationFormula : IPowerModifierFormula
     {
         private static readonly Lens<PowerProfile, ImmutableList<TargetEffect>> firstAttackEffectsLens = Lens<PowerProfile>.To(
                 p => p.Attacks[0].Effects.Items,
@@ -36,34 +36,57 @@ namespace GameEngine.Generator.Modifiers
                     .To(damageModLens)
                 : null;
             
-            var burst = new BurstFormula().GetBaseModifiers(UpgradeStage.Standard, attackContext.AttackContext);
-
-            foreach (var target in burst)
-                yield return new ZoneApplicationModifier(
-                    p =>
-                    {
-                        var result = p.Update(attackContext.Lens, attack => attack with { Target = target });
-                        if (damageLens == null)
-                            return result;
-                        return result.Update(damageLens, d => d with { Weight = 2 });
-                    });
+            yield return new ConjurationApplicationModifier(
+                p =>
+                {
+                    var result = p.Update(attackContext.Lens, attack => attack with { Target = new ConjurationTarget() });
+                    if (damageLens == null)
+                        return result;
+                    return result.Update(damageLens, d => d with { Weight = 1.5 });
+                });
         }
 
-        public record ZoneApplicationModifier(Func<PowerProfile, PowerProfile> Apply) : RewritePowerModifier()
+        public record ConjurationTarget() : IAttackTargetModifier
+        {
+            public string Name => "Conjuration Target";
+
+            public IAttackTargetModifier Finalize(AttackContext powerContext) => this;
+
+            public string? GetAttackNotes(AttackContext attackContext) => null;
+
+            public AttackType GetAttackType(AttackContext attackContext) => new RangedAttackType(10);
+
+            public int GetComplexity(PowerContext powerContext) => 0;
+
+            public PowerCost GetCost(AttackContext attackContext) => PowerCost.Empty;
+
+            public Target GetTarget(AttackContext attackContext) => Target.Enemy | Target.Ally | Target.Self;
+
+            public TargetInfoMutator? GetTargetInfoMutator(AttackContext attackContext) => null;
+
+            public string GetTargetText(AttackContext attackContext) => "Replaced by ConjurationModifier";
+
+            public IEnumerable<IAttackTargetModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext)
+            {
+                yield break;
+            }
+        }
+
+        public record ConjurationApplicationModifier(Func<PowerProfile, PowerProfile> Apply) : RewritePowerModifier()
         {
             public override IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile builder)
             {
-                yield return Apply(builder) with { Modifiers = builder.Modifiers.Items.Remove(this).Add(new ZoneModifier()) };
+                yield return Apply(builder) with { Modifiers = builder.Modifiers.Items.Remove(this).Add(new ConjurationModifier()) };
 
 
             }
         }
 
-        public record ZoneModifier() : PowerModifier("Zone"), IUniquePowerModifier
+        public record ConjurationModifier() : PowerModifier("Conjuration"), IUniquePowerModifier
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 
-            public override PowerCost GetCost(PowerContext powerContext) => new PowerCost(0, Multiplier: 2);
+            public override PowerCost GetCost(PowerContext powerContext) => new PowerCost(0, Multiplier: 1.5);
 
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext)
             {
@@ -71,16 +94,18 @@ namespace GameEngine.Generator.Modifiers
                 var burst = attackContext.AttackContext.Attack.Target.GetAttackType(attackContext.AttackContext).TypeDetailsText().Split(" ")[0];
                 var effectContext = SameAsOtherTarget.FindContextAt(attackContext.AttackContext);
                 var targetInfo = (effectContext.ToTargetInfo() with { Target = "the creature" }).PartsToSentence(true);
-                
+
                 return new(0, (textBlock, flavor) =>
                 {
+                    var thing = flavor.GetText("Conjured Simple", "thing", out flavor);
+                    var fancyThing = flavor.GetText("Conjured Detail", "fancy thing", out flavor);
                     var result = textBlock with
                     {
-                        Keywords = textBlock.Keywords.Items.Add("Zone"),
+                        Keywords = textBlock.Keywords.Items.Add("Conjuration"),
+                        Target = $"One creature adjacent to the {thing}",
                         RulesText = textBlock.RulesText
-                            .AddSentence("Effect", $"The {burst} creates a zone of {flavor.GetText("Zone Description", "something", out flavor)} that fills the area until the end of your next turn. Any creature that enters the zone or starts their turn there takes the zone effects.")
-                            .AddSentence("Zone Effect", targetInfo)
-                            .AddSentence("Sustain Minor", "The zone persists."),                        
+                            .AddSentence("Effect", $"You conjure a {fancyThing} that occupies a square within range, and the {thing} attacks.")
+                            .AddSentence("Sustain Minor", $"You can sustain this power until the end of the encounter. As a standard action, you can make another attack with the {thing}."),                        
                     };
                     return (result, flavor);
                 });

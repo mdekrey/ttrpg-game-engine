@@ -34,8 +34,8 @@ namespace GameEngine.Generator
             new BasicAttackFormula(),
             new StanceFormula(),
             new ZoneFormula(),
+            new ConjurationFormula(),
             // TODO: Sustain, includes:
-            //   - conjuration
             //   - ongoing attacks, such as continued lightning, continued psychic attack, combo melee attacks, etc...
         }.ToImmutableList();
         public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = new ITargetFormula[]
