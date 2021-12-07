@@ -132,6 +132,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "Control", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "Zone", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "Conjuration", null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "RepeatedAttacks", null)]
         [Theory]
         public void GeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
         {
@@ -327,6 +328,12 @@ namespace GameEngine.Tests
                     "Conjuration",
                     new PowerProfileConfig.PowerChance[] {
                         new("$..[?(@.Name=='Conjuration')]", 1),
+                    }.ToImmutableList()
+                ) },
+            { "RepeatedAttacks", new PowerProfileConfig(
+                    "RepeatedAttacks",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@.Name=='RepeatedAttacks')]", 1),
                     }.ToImmutableList()
                 ) },
         };

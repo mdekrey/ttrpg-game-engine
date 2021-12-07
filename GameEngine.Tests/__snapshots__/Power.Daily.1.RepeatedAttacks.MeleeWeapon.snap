@@ -1,0 +1,50 @@
+﻿- PowerInfo:
+    Usage: Daily
+    ToolType: Weapon
+    ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Burst
+        Name: Multiple
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers: []
+    Modifiers:
+    - Name: RepeatedAttacks
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  FlavorText: ''
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Close
+  AttackTypeDetails: burst 1
+  Target: Each creature
+  Attack: STR vs. AC
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage.
+  - Label: Sustain Minor
+    Text: You may repeat the attack.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown
