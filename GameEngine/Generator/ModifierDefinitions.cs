@@ -18,7 +18,7 @@ namespace GameEngine.Generator
             new MovementControlFormula(),
             new MakeBasicAttackFormula(),
             new RerollAnyFormula(),
-            // TODO: Disarm and catch
+            new DisarmAndCatchFormula(),
         }.ToImmutableList();
         public static readonly ImmutableList<IAttackModifierFormula> attackModifiers = new IAttackModifierFormula[] {
             NonArmorDefense,

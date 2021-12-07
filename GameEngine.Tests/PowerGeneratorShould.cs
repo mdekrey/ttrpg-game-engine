@@ -135,6 +135,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "RepeatedAttacks", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "RerollAll", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "IgnoreCoverOrConcealment", null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "DisarmAndCatch", null)]
         [Theory]
         public void GeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
         {
@@ -351,6 +352,12 @@ namespace GameEngine.Tests
                     "IgnoreCoverOrConcealment",
                     new PowerProfileConfig.PowerChance[] {
                         new("$..[?(@..Name=='Ignore Cover or Concealment')]", 1),
+                    }.ToImmutableList()
+                ) },
+            { "DisarmAndCatch", new PowerProfileConfig(
+                    "DisarmAndCatch",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@..Name=='Disarm and Catch')]", 1),
                     }.ToImmutableList()
                 ) },
         };
