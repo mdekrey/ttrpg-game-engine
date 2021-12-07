@@ -10,7 +10,6 @@ using GameEngine.Generator.Context;
 
 namespace GameEngine.Generator.Modifiers
 {
-
     public record ToHitBonusFormula() : IAttackModifierFormula
     {
         public const string ModifierName = "To-Hit Bonus to Current Attack";

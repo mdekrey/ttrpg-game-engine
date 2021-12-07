@@ -24,7 +24,7 @@ namespace GameEngine.Generator
             NonArmorDefense,
             new ToHitBonusFormula(),
             new RerollAnyFormula(),
-            // TODO: Ignore cover/concealment
+            new IgnoreCoverOrConcealmentFormula(),
         }.ToImmutableList();
         public static readonly ImmutableList<IPowerModifierFormula> powerModifiers = new IPowerModifierFormula[] {
             new ConditionFormula(),
