@@ -133,6 +133,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "Zone", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "Conjuration", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "RepeatedAttacks", null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "RerollAll", null)]
         [Theory]
         public void GeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
         {
@@ -142,6 +143,8 @@ namespace GameEngine.Tests
 
             var powerHighLevelInfo = new PowerHighLevelInfo(level, powerFrequency, toolProfile, classProfile, powerProfileConfig);
             var powerProfile = new ClassPowerProfile(powerHighLevelInfo.ToPowerInfo(), target.GenerateProfile(powerHighLevelInfo)!);
+
+            Assert.NotNull(powerProfile.PowerProfile);
 
             var (power, flavor) = powerProfile.ToPowerContext().ToPowerTextBlock(FlavorText.Empty);
 
@@ -336,11 +339,17 @@ namespace GameEngine.Tests
                         new("$..[?(@.Name=='RepeatedAttacks')]", 1),
                     }.ToImmutableList()
                 ) },
+            { "RerollAll", new PowerProfileConfig(
+                    "RerollAll",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@..Name=='Reroll attack')]..[?(@..Name=='Reroll damage')]", 1),
+                    }.ToImmutableList()
+                ) },
         };
 
         private static PowerProfileConfig MakeModifierTemplate(string Name, params string[] require)
         {
-            string[] disallow = new[] { "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@..Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'", "@.Name=='Zone'" }.Except(require).ToArray();
+            string[] disallow = new[] { "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@..Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'", "@.Name=='Zone'", "@.Name=='Reroll attack'", "@.Name=='Reroll damage'" }.Except(require).ToArray();
             return new PowerProfileConfig(
                 Name: Name,
                 PowerChances: require.Select(modName => new PowerProfileConfig.PowerChance($"$..[?({modName})]", 1)).DefaultIfEmpty(new("$", 1))

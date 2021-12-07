@@ -10,6 +10,7 @@ namespace GameEngine.Generator.Text
         string Target,
         GameDiceExpression AttackExpression,
         string? AttackNotes,
+        ImmutableList<string> AttackNoteSentences,
         DefenseType Defense,
         ImmutableList<string> HitSentences,
         ImmutableList<string> MissSentences
@@ -24,7 +25,8 @@ namespace GameEngine.Generator.Text
             string.Join(" ", MissSentences);
 
         internal string ToAttackText() => $"{this.AttackExpression} vs. {this.Defense.ToText()}"
-            + (AttackNotes is { Length: > 0 } ? $", {AttackNotes}" : "");
+            + (AttackNotes is { Length: > 0 } ? $", {AttackNotes}" : "")
+            + (AttackNoteSentences is { Count: > 0 } ? $". {string.Join(" ", AttackNoteSentences.Select(n => n.FinishSentence()))}" : "");
 
         public ImmutableList<string> SpecialSentences => ImmutableList<string>.Empty; // TODO - remove this or use it
     }

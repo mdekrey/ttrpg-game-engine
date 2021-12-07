@@ -47,8 +47,6 @@ namespace GameEngine.Generator.Modifiers
             public override IEnumerable<PowerProfile> TrySimplifySelf(PowerProfile builder)
             {
                 yield return Apply(builder) with { Modifiers = builder.Modifiers.Items.Remove(this).Add(new RepeatedAttacksModifier()) };
-
-
             }
         }
 

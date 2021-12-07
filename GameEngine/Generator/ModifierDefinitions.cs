@@ -17,12 +17,13 @@ namespace GameEngine.Generator
             new BoostFormula(),
             new MovementControlFormula(),
             new MakeBasicAttackFormula(),
+            //new RerollAnyFormula(),
             // TODO: Disarm and catch
         }.ToImmutableList();
         public static readonly ImmutableList<IAttackModifierFormula> attackModifiers = new IAttackModifierFormula[] {
             NonArmorDefense,
             new ToHitBonusFormula(),
-            // TODO: Reroll attack
+            //new RerollAnyFormula(),
             // TODO: Ignore cover/concealment
         }.ToImmutableList();
         public static readonly ImmutableList<IPowerModifierFormula> powerModifiers = new IPowerModifierFormula[] {
@@ -36,6 +37,7 @@ namespace GameEngine.Generator
             new ZoneFormula(),
             new ConjurationFormula(),
             new RepeatedAttacksFormula(),
+            new RerollAnyFormula(),
         }.ToImmutableList();
         public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = new ITargetFormula[]
         {

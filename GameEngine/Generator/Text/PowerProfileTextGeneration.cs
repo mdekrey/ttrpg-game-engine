@@ -122,6 +122,7 @@ namespace GameEngine.Generator.Text
                 Target: attackContext.GetTargetText(),
                 AttackExpression: (GameDiceExpression)attackContext.Ability,
                 AttackNotes: attackContext.GetAttackNotes(),
+                AttackNoteSentences: ImmutableList<string>.Empty,
                 Defense: DefenseType.ArmorClass,
                 HitSentences: targetInfos.Select(effect => effect.PartsToSentence()).ToImmutableList()
                     .AddRange(targetInfos.SelectMany(t => t.AdditionalSentences)),

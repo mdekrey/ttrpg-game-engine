@@ -1,0 +1,46 @@
+﻿- PowerInfo:
+    Usage: Daily
+    ToolType: Weapon
+    ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: UpToThreeTargets
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Reroll damage
+        - Damage: 1[W] + STR
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: Reroll attack
+    Modifiers:
+    - PowerSource: Martial
+      Name: Power Source
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  FlavorText: ''
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One, two, or three creatures
+  Attack: STR vs. AC, one attack per target. You can reroll the attack roll but must use the second result.
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage. You can reroll each damage die once but must use the second result.
+- Fields:
+    Flavor Text: ''
+    Name: Unknown
