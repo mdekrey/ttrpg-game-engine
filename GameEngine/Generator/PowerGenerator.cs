@@ -167,7 +167,7 @@ namespace GameEngine.Generator
                 if (preApplyOnce)
                 {
 #if DEBUG
-                    var filtered = upgrades.Where(e => e.AllModifiers(true).Any(m => m is ConjurationFormula.ConjurationModifier)).ToArray();
+                    var filtered = upgrades.Where(e => e.AllModifiers(true).Any(m => m is RerollAnyFormula.RerollDamage)).ToArray();
 #endif
 
                     var preApplyUpgrades = upgrades.ToChances(buildContext).ToArray();

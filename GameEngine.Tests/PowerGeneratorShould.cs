@@ -285,6 +285,7 @@ namespace GameEngine.Tests
                     "Ongoing",
                     new PowerProfileConfig.PowerChance[] {
                         new("$..Modifiers[?(@.Name!='Condition' && @.Name!='Duration' && @.Name!='Damage')]", 0),
+                        new("$..EffectModifier", 0),
                         new("$.Attacks..[?(@.Name=='Condition' && @.Conditions[0].Name == 'Ongoing')]", 1),
                     }.ToImmutableList()
                 ) },
