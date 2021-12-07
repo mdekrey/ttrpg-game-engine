@@ -92,10 +92,6 @@
         - Damage: d4 + WIS
           DamageTypes: []
           Name: Damage
-        - Conditions:
-          - Defense: Will
-            Name: Defense Penalty
-          Name: Condition
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
@@ -104,7 +100,16 @@
       Name: Duration
     - PowerSource: Arcane
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        OtherAttackIndex: 0
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Defense: Will
+          Name: Defense Penalty
+        Name: Condition
 - PowerInfo:
     Usage: AtWill
     ToolType: Implement
@@ -179,18 +184,86 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
+        - Conditions:
+          - Name: Grants Combat Advantage
+          AfterEffect:
+            Condition:
+              Name: Dazed
+            AfterFailedSave: true
+          Name: Condition
         - Damage: 3d4 + WIS
           DamageTypes: []
           Name: Damage
-        - Conditions:
-          - Name: Defense Penalty
-          Name: Condition
       Modifiers:
-      - Defense: Reflex
+      - Defense: Will
         Name: Non-Armor Defense
     Modifiers:
-    - Duration: EndOfUserNextTurn
+    - Duration: SaveEnds
       Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Amount: +4
+        Name: To-Hit Bonus to Current Attack
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
+    - Trigger: YouOrAllyAttacked
+      Name: OpportunityAction
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
@@ -217,7 +290,353 @@
         - Damage: d4 + WIS
           DamageTypes: []
           Name: Damage
+        - Conditions:
+          - Name: Dazed
+          Name: Condition
       Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Defense: Will
+        Name: Non-Armor Defense
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Name: RequiredHitForNextAttack
+      - Defense: Will
+        Name: Non-Armor Defense
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Movement:
+        - Amount: WIS
+          Name: Shift
+        Name: Skirmish Movement
+    - Target:
+        OtherAttackIndex: 0
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Marked
+        Name: Condition
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Kind: Concealment
+        Name: Ignore Cover or Concealment
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +4
+          Defense: Reflex
+          Name: Defense
+        Name: Boost
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - Trigger: YouOrAllyAttacked
+      Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 1
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Amount: +2
+        Name: To-Hit Bonus to Current Attack
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Name: Extra Saving Throw
+        Name: Boost
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 3
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Area
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        OtherAttackIndex: 0
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Defense: Reflex
+          Name: Defense Penalty
+        Name: Condition
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 3
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+      - Amount: +4
+        Name: To-Hit Bonus to Current Attack
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 3
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Name: RequiredHitForNextAttack
       - Defense: Reflex
         Name: Non-Armor Defense
     - Target:
@@ -235,10 +654,11 @@
           DamageTypes: []
           Name: Damage
       Modifiers:
-      - Defense: Reflex
+      - Name: RequiresPreviousHit
+      - Defense: Fortitude
         Name: Non-Armor Defense
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
+      - Kind: Cover, Concealment
+        Name: Ignore Cover or Concealment
     Modifiers:
     - PowerSource: Arcane
       Name: Power Source
@@ -247,7 +667,7 @@
     Usage: Encounter
     ToolType: Implement
     ToolRange: Range
-    Level: 1
+    Level: 3
     Abilities:
     - Wisdom
   PowerProfile:
@@ -270,769 +690,16 @@
       - Defense: Fortitude
         Name: Non-Armor Defense
     Modifiers:
-    - Trigger: YouOrAllyAttacked
-      Name: OpportunityAction
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 1
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Reflex
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d4
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 1
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - Name: Minor Action
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 1
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 2d10 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - Trigger: YouOrAllyAttacked
-      Name: OpportunityAction
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Movement:
-        - Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 1
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-        - Conditions:
-          - Name: Grants Combat Advantage
-          AfterEffect:
-            Condition:
-              Name: Dominated
-            AfterFailedSave: true
-          Name: Condition
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 1
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d8
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d8 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 3
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-        - Conditions:
-          - Defense: Will
-            Name: Defense Penalty
-          - Name: Marked
-          Name: Condition
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 3
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Kind: Cover, Concealment
-        Name: Ignore Cover or Concealment
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 3
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks: []
-    Modifiers:
-    - InnerPower:
-        Attacks:
-        - Target:
-            Target: Enemy, Self, Ally
-            Name: Basic Target
-          Ability: Wisdom
-          Effects:
-          - Target:
-              Name: See Other
-            EffectType: Harmful
-            Modifiers:
-            - Damage: 3d4 + WIS
-              DamageTypes: []
-              Name: Damage
-          Modifiers:
-          - Defense: Fortitude
-            Name: Non-Armor Defense
-        Modifiers: []
-        Effects:
-        - Target:
-            Target: Self
-            Name: Basic Target
-          EffectType: Beneficial
-          Modifiers:
-          - Movement:
-            - Amount: +2
-              Name: Shift
-            Name: Skirmish Movement
-      Name: Stance Power
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 3
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks: []
-    Modifiers:
-    - InnerPower:
-        Attacks:
-        - Target:
-            Target: Enemy, Self, Ally
-            Size: 1
-            Type: Blast
-            Name: Multiple
-          Ability: Wisdom
-          Effects:
-          - Target:
-              Name: See Other
-            EffectType: Harmful
-            Modifiers:
-            - Damage: 3d4 + WIS
-              DamageTypes: []
-              Name: Damage
-          Modifiers:
-          - Amount: +2
-            Name: To-Hit Bonus to Current Attack
-          - Defense: Reflex
-            Name: Non-Armor Defense
-        Modifiers: []
-        Effects: []
-      Name: Stance Power
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 5
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Conditions:
-          - Name: Surprised
-          AfterEffect:
-            Condition:
-              Name: Unconscious
-            AfterFailedSave: true
-          Name: Condition
-        - Damage: 3d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self, Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: WIS
-          Limit: NextAttack
-          Name: Attack
-        Name: Boost
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 5
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - Trigger: ACreatureMovesAdjacent
-      Name: OpportunityAction
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: WIS
-          Name: Attack
-        Name: Boost
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 5
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d10 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
-      - Kind: Cover, SuperiorCover
-        Name: Ignore Cover or Concealment
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 5
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d8 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Movement:
-        - Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: +4
-          Name: Defense
-        Name: Boost
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 7
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks: []
-    Modifiers:
-    - InnerPower:
-        Attacks:
-        - Target:
-            Target: Enemy, Self, Ally
-            Size: 3
-            Type: Area
-            Name: Multiple
-          Ability: Wisdom
-          Effects:
-          - Target:
-              Name: See Other
-            EffectType: Harmful
-            Modifiers:
-            - Damage: d4 + WIS
-              DamageTypes: []
-              Name: Damage
-          Modifiers:
-          - Defense: Will
-            Name: Non-Armor Defense
-        Modifiers: []
-        Effects:
-        - Target:
-            Target: Self
-            Name: Basic Target
-          EffectType: Beneficial
-          Modifiers:
-          - Movement:
-            - Amount: WIS
-              Name: Shift
-            Name: Skirmish Movement
-      Name: Stance Power
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 7
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 7
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
     - Trigger: ACreatureMovesAdjacent
       Name: OpportunityAction
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
 - PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 7
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Will
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Name: RequiredHitForNextAttack
-      - Defense: Reflex
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Reflex
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self, Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Effects:
-        - Mode: Slide
-          Amount: +1
-          Name: Slide Opponent
-        Name: MovementControl
-- PowerInfo:
     Usage: Daily
     ToolType: Implement
     ToolRange: Range
-    Level: 9
+    Level: 5
     Abilities:
     - Wisdom
   PowerProfile:
@@ -1056,27 +723,364 @@
             Amount: +1
             Name: Slide Opponent
           Name: MovementControl
+        - Conditions:
+          - Name: Grants Combat Advantage
+          AfterEffect:
+            Condition:
+              Name: Helpless
+            AfterFailedSave: true
+          Name: Condition
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: EndOfEncounter
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 5
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Amount: +8
+        Name: To-Hit Bonus to Current Attack
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Movement:
+        - Amount: WIS
+          Name: Shift
+        Name: Skirmish Movement
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 5
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks: []
+    Modifiers:
+    - InnerPower:
+        Attacks:
+        - Target:
+            Target: Enemy, Self, Ally
+            Name: Basic Target
+          Ability: Wisdom
+          Effects:
+          - Target:
+              Name: See Other
+            EffectType: Harmful
+            Modifiers:
+            - Damage: 3d4 + WIS
+              DamageTypes: []
+              Name: Damage
+          Modifiers:
+          - Defense: Reflex
+            Name: Non-Armor Defense
+        Modifiers: []
+        Effects:
+        - Target:
+            Target: Self
+            Name: Basic Target
+          EffectType: Beneficial
+          Modifiers:
+          - Movement:
+            - Amount: +2
+              Name: Shift
+            Name: Skirmish Movement
+          - Effects:
+            - Mode: Pull
+              Amount: +1
+              Name: Slide Opponent
+            Name: MovementControl
+      Name: Stance Power
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 5
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Name: RequiredHitForNextAttack
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Defense: Reflex
+        Name: Non-Armor Defense
+      - Amount: +2
+        Name: To-Hit Bonus to Current Attack
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Effects:
+        - Mode: Slide
+          Amount: +1
+          Name: Slide Opponent
+        Name: MovementControl
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 7
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Area
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
       Modifiers:
       - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
+    - Trigger: ACreatureMovesAdjacent
+      Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 7
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Defense: Will
+        Name: Non-Armor Defense
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d4
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 7
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+        - Conditions:
+          - Defense: ArmorClass
+            Name: Defense Penalty
+          - Name: Deafened
+          Name: Condition
+      Modifiers:
+      - Defense: Reflex
         Name: Non-Armor Defense
     Modifiers:
     - Duration: SaveEnds
       Name: Duration
     - PowerSource: Arcane
       Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 7
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 2
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
     Effects:
     - Target:
-        OtherAttackIndex: 0
-        Name: See Other
-      EffectType: Harmful
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
       Modifiers:
-      - Conditions:
-        - Name: Stunned
-        AfterEffect:
-          Condition:
-            Name: Marked
-          AfterFailedSave: false
-        Name: Condition
+      - Movement:
+        - Amount: WIS
+          Name: Shift
+        Name: Skirmish Movement
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
@@ -1146,15 +1150,14 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 4d10 + WIS
+        - Damage: 3d8 + WIS
           DamageTypes: []
           Name: Damage
         - Conditions:
           - Name: Dazed
-          AfterEffect:
-            Condition:
-              Name: Surprised
-            AfterFailedSave: true
+          - Defense: Fortitude
+            Name: Defense Penalty
+          - Name: Deafened
           Name: Condition
       Modifiers:
       - Defense: Fortitude
@@ -1171,7 +1174,7 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: WIS
+        - Amount: +2
           Name: Shift
         Name: Skirmish Movement
 - PowerInfo:
@@ -1194,20 +1197,77 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 3d8 + WIS
+        - Damage: 4d8 + WIS
+          DamageTypes: []
+          Name: Damage
+        - Effects:
+          - Mode: Push
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        OtherAttackIndex: 0
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Defense: Will
+          Name: Defense Penalty
+        - Name: Deafened
+        Name: Condition
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 9
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 4d8 + WIS
           DamageTypes: []
           Name: Damage
         - Conditions:
-          - Name: Stunned
+          - Name: Restrained
+          - Name: Deafened
           Name: Condition
       Modifiers:
       - Defense: Fortitude
         Name: Non-Armor Defense
     Modifiers:
-    - Name: RepeatedAttacks
     - PowerSource: Arcane
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Limit: Target
+          Name: Attack
+        Name: Boost
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement
@@ -1286,6 +1346,8 @@
       - Defense: Will
         Name: Non-Armor Defense
     Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
     Effects:
@@ -1296,7 +1358,7 @@
       Modifiers:
       - Boosts:
         - Amount: WIS
-          Limit: NextAttack
+          Limit: Target
           Name: Attack
         Name: Boost
 - PowerInfo:
@@ -1310,7 +1372,7 @@
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
-        Size: 2
+        Size: 1
         Type: Blast
         Name: Multiple
       Ability: Wisdom
@@ -1319,21 +1381,19 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: d4 + WIS
+        - Damage: 3d8 + WIS
           DamageTypes: []
           Name: Damage
         - Conditions:
-          - Name: Dazed
-          AfterEffect:
-            Condition:
-              Name: Stunned
-            AfterFailedSave: true
+          - Defense: ArmorClass
+            Name: Defense Penalty
+          - Name: Marked
           Name: Condition
       Modifiers:
-      - Defense: Will
+      - Defense: Fortitude
         Name: Non-Armor Defense
     Modifiers:
-    - Duration: SaveEnds
+    - Duration: EndOfUserNextTurn
       Name: Duration
     - PowerSource: Arcane
       Name: Power Source
@@ -1352,8 +1412,8 @@
         Attacks:
         - Target:
             Target: Enemy, Self, Ally
-            Size: 1
-            Type: Blast
+            Size: 3
+            Type: Area
             Name: Multiple
           Ability: Wisdom
           Effects:
@@ -1361,11 +1421,11 @@
               Name: See Other
             EffectType: Harmful
             Modifiers:
-            - Damage: 3d4 + WIS
+            - Damage: d4 + WIS
               DamageTypes: []
               Name: Damage
           Modifiers:
-          - Defense: Will
+          - Defense: Fortitude
             Name: Non-Armor Defense
         Modifiers: []
         Effects:
@@ -1390,52 +1450,37 @@
     Abilities:
     - Wisdom
   PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-        - Conditions:
-          - Defense: ArmorClass
-            Name: Defense Penalty
-          - Name: Restrained
-          - Name: Weakened
-          Name: Condition
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Reflex
-        Name: Non-Armor Defense
+    Attacks: []
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
+    - InnerPower:
+        Attacks:
+        - Target:
+            Target: Enemy, Self, Ally
+            Name: Basic Target
+          Ability: Wisdom
+          Effects:
+          - Target:
+              Name: See Other
+            EffectType: Harmful
+            Modifiers:
+            - Damage: 3d4 + WIS
+              DamageTypes: []
+              Name: Damage
+          Modifiers:
+          - Defense: Fortitude
+            Name: Non-Armor Defense
+        Modifiers: []
+        Effects:
+        - Target:
+            Target: Self
+            Name: Basic Target
+          EffectType: Beneficial
+          Modifiers:
+          - Movement:
+            - Amount: WIS
+              Name: Shift
+            Name: Skirmish Movement
+      Name: Stance Power
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
@@ -1448,177 +1493,9 @@
     - Wisdom
   PowerProfile:
     Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
     - Target:
         Target: Enemy, Self, Ally
         Size: 2
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: EndOfEncounter
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        OtherAttackIndex: 0
-        Name: See Other
-      EffectType: Harmful
-      Modifiers:
-      - Conditions:
-        - Name: Grants Combat Advantage
-        AfterEffect:
-          Condition:
-            Name: Surprised
-          AfterFailedSave: true
-        Name: Condition
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 13
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d8 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: WIS
-          Name: Attack
-        Name: Boost
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 13
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 3
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 15
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
         Type: Blast
         Name: Multiple
       Ability: Wisdom
@@ -1633,6 +1510,110 @@
       Modifiers:
       - Amount: +2
         Name: To-Hit Bonus to Current Attack
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 13
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+        - Conditions:
+          - Defense: Will
+            Name: Defense Penalty
+          Name: Condition
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Defense: Will
+        Name: Non-Armor Defense
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Burst
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Name: RequiredHitForNextAttack
+      - Defense: Will
+        Name: Non-Armor Defense
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Name: RequiresPreviousHit
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 13
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
     Modifiers:
@@ -1647,11 +1628,7 @@
       EffectType: Harmful
       Modifiers:
       - Conditions:
-        - Name: Surprised
-        AfterEffect:
-          Condition:
-            Name: Unconscious
-          AfterFailedSave: true
+        - Name: Dazed
         Name: Condition
 - PowerInfo:
     Usage: Daily
@@ -1673,16 +1650,14 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 3d8 + WIS
+        - Damage: 7d6 + WIS
           DamageTypes: []
           Name: Damage
         - Conditions:
-          - Name: Surprised
-          - Defense: Will
-            Name: Defense Penalty
+          - Name: Dazed
           AfterEffect:
             Condition:
-              Name: Dazed
+              Name: Grants Combat Advantage
             AfterFailedSave: false
           Name: Condition
       Modifiers:
@@ -1713,7 +1688,10 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: UpToThreeTargets
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
       Ability: Wisdom
       Effects:
       - Target:
@@ -1724,9 +1702,51 @@
           DamageTypes: []
           Name: Damage
       Modifiers:
+      - Amount: +2
+        Name: To-Hit Bonus to Current Attack
       - Defense: Fortitude
         Name: Non-Armor Defense
     Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Name: Healing Surge
+        Name: Boost
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 15
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 4d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - Trigger: ACreatureMovesAdjacent
+      Name: OpportunityAction
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
@@ -1750,65 +1770,33 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Name: Surprised
-          AfterEffect:
-            Condition:
-              Name: Unconscious
-            AfterFailedSave: true
-          Name: Condition
         - Damage: 4d8 + WIS
           DamageTypes: []
           Name: Damage
+        - Effects:
+          - Name: Prone
+          - Mode: Slide
+            Amount: +1
+            Name: Slide Opponent
+          Name: MovementControl
       Modifiers:
       - Defense: Fortitude
         Name: Non-Armor Defense
-      - Kind: Cover
-        Name: Ignore Cover or Concealment
     Modifiers:
-    - Duration: SaveEnds
+    - Duration: EndOfEncounter
       Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 17
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d8 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-    Modifiers:
     - PowerSource: Arcane
       Name: Power Source
     Effects:
     - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
+        OtherAttackIndex: 0
+        Name: See Other
+      EffectType: Harmful
       Modifiers:
-      - Movement:
-        - Name: Shift
-        Name: Skirmish Movement
+      - Conditions:
+        - Defense: Will
+          Name: Defense Penalty
+        Name: Condition
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement
@@ -1832,17 +1820,12 @@
         - Damage: 3d8 + WIS
           DamageTypes: []
           Name: Damage
-        - Conditions:
-          - Name: Marked
-          - Defense: Will
-            Name: Defense Penalty
-          Name: Condition
       Modifiers:
       - Defense: Reflex
         Name: Non-Armor Defense
+      - Amount: +4
+        Name: To-Hit Bonus to Current Attack
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
@@ -1881,6 +1864,46 @@
     Abilities:
     - Wisdom
   PowerProfile:
+    Attacks: []
+    Modifiers:
+    - InnerPower:
+        Attacks:
+        - Target:
+            Target: Enemy, Self, Ally
+            Name: Basic Target
+          Ability: Wisdom
+          Effects:
+          - Target:
+              Name: See Other
+            EffectType: Harmful
+            Modifiers:
+            - Conditions:
+              - Name: Marked
+              Name: Condition
+            - Damage: d10 + WIS
+              DamageTypes: []
+              Name: Damage
+          Modifiers:
+          - Defense: Reflex
+            Name: Non-Armor Defense
+        Modifiers:
+        - Duration: SaveEnds
+          Name: Duration
+        Effects: []
+      Name: Stance Power
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 17
+    Abilities:
+    - Wisdom
+  PowerProfile:
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
@@ -1893,12 +1916,78 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: d4 + WIS
+        - Damage: 3d10 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
-      - Defense: Will
+      - Defense: Fortitude
         Name: Non-Armor Defense
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Movement:
+        - Amount: WIS
+          Name: Shift
+        Name: Skirmish Movement
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 19
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 4
+        Type: Wall
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Amount: +2
+        Name: To-Hit Bonus to Current Attack
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: EndOfEncounter
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Defense: Will
+          Name: Defense
+        Name: Boost
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 19
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
     - Target:
         Target: Enemy, Self, Ally
         Size: 1
@@ -1910,15 +1999,60 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: d4 + WIS
+        - Conditions:
+          - Name: Blinded
+          Name: Condition
+        - Damage: 5d10 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
-      - Amount: +8
-        Name: To-Hit Bonus to Current Attack
     Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self, Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Limit: Target
+          Name: Attack
+        Name: Boost
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 19
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 4d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - Trigger: YouOrAllyAttacked
+      Name: OpportunityAction
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
@@ -1942,40 +2076,32 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 7d6 + WIS
+        - Damage: 12d4 + WIS
           DamageTypes: []
           Name: Damage
+        - Conditions:
+          - Name: Grants Combat Advantage
+          AfterEffect:
+            Condition:
+              Name: Blinded
+            AfterFailedSave: true
+          Name: Condition
       Modifiers:
-      - Defense: Fortitude
+      - Defense: Will
         Name: Non-Armor Defense
+      - Kind: Cover, SuperiorCover
+        Name: Ignore Cover or Concealment
     Modifiers:
     - Duration: SaveEnds
       Name: Duration
     - PowerSource: Arcane
       Name: Power Source
-    Effects:
-    - Target:
-        OtherAttackIndex: 0
-        Name: See Other
-      EffectType: Harmful
-      Modifiers:
-      - Conditions:
-        - Name: Stunned
-        AfterEffect:
-          Condition:
-            Name: Unconscious
-          AfterFailedSave: true
-        Name: Condition
-      - Effects:
-        - Mode: Pull
-          Amount: +1
-          Name: Slide Opponent
-        Name: MovementControl
+    Effects: []
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
     ToolRange: Range
-    Level: 19
+    Level: 20
     Abilities:
     - Wisdom
   PowerProfile:
@@ -1991,37 +2117,127 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 12d4 + WIS
+        - Damage: 6d10 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Will
         Name: Non-Armor Defense
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
     Modifiers:
-    - Duration: SaveEnds
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Movement:
+        - Amount: WIS + 2
+          Name: Shift
+        Name: Skirmish Movement
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: WIS + 2
+          Limit: NextAttack
+          Name: Attack
+        Name: Boost
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 20
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 2
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 7d6 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
+    - EffectModifier:
+        Boosts:
+        - Amount: WIS
+          Limit: Target
+          Name: Attack
+        Name: Boost
+      Name: Self-Boost Stance
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 20
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: UpToThreeTargets
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 4d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: EndOfEncounter
       Name: Duration
     - PowerSource: Arcane
       Name: Power Source
     Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Name: Temporary Hit Points
+        Name: Boost
     - Target:
         OtherAttackIndex: 0
         Name: See Other
       EffectType: Harmful
       Modifiers:
       - Conditions:
-        - Name: Marked
+        - Name: Dazed
         AfterEffect:
           Condition:
-            Name: Stunned
+            Name: Unconscious
           AfterFailedSave: true
         Name: Condition
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
     ToolRange: Range
-    Level: 19
+    Level: 20
     Abilities:
     - Wisdom
   PowerProfile:
@@ -2041,230 +2257,68 @@
           DamageTypes: []
           Name: Damage
         - Conditions:
-          - Name: Blinded
-          AfterEffect:
-            Condition:
-              Name: Unconscious
-            AfterFailedSave: true
-          Name: Condition
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        OtherAttackIndex: 0
-        Name: See Other
-      EffectType: Harmful
-      Modifiers:
-      - Conditions:
-        - Amount: 5
-          Name: Ongoing
-        Name: Condition
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 19
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Name: UpToThreeTargets
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 12d4 + WIS
-          DamageTypes: []
-          Name: Damage
-        - Conditions:
+          - Amount: 5
+            Name: Ongoing
           - Defense: Reflex
             Name: Defense Penalty
-          - Name: Marked
+          - Name: Dazed
           Name: Condition
       Modifiers:
       - Defense: Reflex
         Name: Non-Armor Defense
     Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 20
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d8 + WIS
-          DamageTypes: []
-          Name: Damage
-        - Effects:
-          - Name: Prone
-          Name: MovementControl
-      Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - Trigger: YouOrAllyAttacked
-      Name: OpportunityAction
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 20
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Conditions:
-          - Name: Grants Combat Advantage
-          AfterEffect:
-            Condition:
-              Name: Stunned
-            AfterFailedSave: true
-          Name: Condition
-        - Damage: 10d6 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 20
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 2
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 4d8 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Amount: +2
-        Name: To-Hit Bonus to Current Attack
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
     - Duration: SaveEnds
       Name: Duration
     - PowerSource: Arcane
       Name: Power Source
     Effects:
-    - Target:
-        OtherAttackIndex: 0
-        Name: See Other
-      EffectType: Harmful
-      Modifiers:
-      - Conditions:
-        - Name: Slowed
-        AfterEffect:
-          Condition:
-            Name: Immobilized
-          AfterFailedSave: true
-        Name: Condition
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 20
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 2
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 4d8 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Movement:
-        - Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
     - Target:
         Target: Ally
         Name: Basic Target
       EffectType: Beneficial
       Modifiers:
       - Boosts:
-        - Amount: WIS + 2
-          Name: Attack
+        - Amount: +2
+          Defense: Will
+          Name: Defense
         Name: Boost
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 23
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 4d8 + WIS
+          DamageTypes: []
+          Name: Damage
+        - Conditions:
+          - Defense: Will
+            Name: Defense Penalty
+          - Name: Dazed
+          Name: Condition
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: EndOfUserNextTurn
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement
@@ -2289,7 +2343,7 @@
           DamageTypes: []
           Name: Damage
       Modifiers:
-      - Defense: Fortitude
+      - Defense: Will
         Name: Non-Armor Defense
       - Amount: +8
         Name: To-Hit Bonus to Current Attack
@@ -2308,229 +2362,6 @@
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
-        Size: 2
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d8 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Movement:
-        - Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 23
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 2
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d8 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self, Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: +2
-          Defense: Fortitude
-          Name: Defense
-        Name: Boost
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 23
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d8 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 3d8 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Fortitude
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 25
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 7d6 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
-    - Trigger: YouOrAllyAttacked
-      Name: OpportunityAction
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 25
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 7d6 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Defense: Will
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 7d6 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Amount: +4
-        Name: To-Hit Bonus to Current Attack
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: +2
-          Defense: Fortitude
-          Name: Defense
-        Name: Boost
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 25
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
         Size: 1
         Type: Blast
         Name: Multiple
@@ -2544,84 +2375,26 @@
           - Name: Grants Combat Advantage
           AfterEffect:
             Condition:
-              Name: Helpless
+              Name: Blinded
             AfterFailedSave: true
           Name: Condition
-        - Damage: 12d4 + WIS
+        - Damage: 3d10 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
-      - Defense: Reflex
+      - Defense: Fortitude
         Name: Non-Armor Defense
     Modifiers:
     - Duration: SaveEnds
       Name: Duration
     - PowerSource: Arcane
       Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: WIS
-          Name: Regeneration
-        - Amount: +2
-          Name: Temporary Hit Points
-        Name: Boost
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 25
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 7d6 + WIS
-          DamageTypes: []
-          Name: Damage
-        - Conditions:
-          - Defense: Will
-            Name: Defense Penalty
-          - Amount: 10
-            Name: Ongoing
-          - Name: Dazed
-          Name: Condition
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self, Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Name: Healing Surge
-        - Amount: WIS
-          Name: Temporary Hit Points
-        Name: Boost
+    Effects: []
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement
     ToolRange: Range
-    Level: 27
+    Level: 23
     Abilities:
     - Wisdom
   PowerProfile:
@@ -2644,7 +2417,224 @@
       - Defense: Fortitude
         Name: Non-Armor Defense
     Modifiers:
+    - Trigger: YouOrAllyAttacked
+      Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects: []
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 25
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+    Modifiers:
     - Trigger: ACreatureMovesAdjacent
+      Name: OpportunityAction
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self, Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +8
+          Defense: Fortitude
+          Name: Defense
+        Name: Boost
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 25
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Conditions:
+          - Name: Slowed
+          AfterEffect:
+            Condition:
+              Name: Immobilized
+            AfterFailedSave: true
+          Name: Condition
+        - Damage: 12d4 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: WIS
+          Name: Attack
+        Name: Boost
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 25
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 5d10 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Will
+        Name: Non-Armor Defense
+      - Amount: +8
+        Name: To-Hit Bonus to Current Attack
+    Modifiers:
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self, Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Name: Extra Saving Throw
+        - Amount: WIS + 2
+          Name: Temporary Hit Points
+        Name: Boost
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 25
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 7d6 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Fortitude
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        Target: Self
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Movement:
+        - Amount: +8
+          Name: Shift
+        Name: Skirmish Movement
+    - Target:
+        OtherAttackIndex: 0
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Grants Combat Advantage
+        AfterEffect:
+          Condition:
+            Name: Dominated
+          AfterFailedSave: true
+        Name: Condition
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 27
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d8 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - Trigger: YouOrAllyAttacked
       Name: OpportunityAction
     - PowerSource: Arcane
       Name: Power Source
@@ -2692,12 +2682,56 @@
           Name: Damage
       Modifiers:
       - Name: RequiresPreviousHit
-      - Defense: Reflex
+      - Defense: Will
         Name: Non-Armor Defense
     Modifiers:
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 27
+    Abilities:
+    - Wisdom
+  PowerProfile:
+    Attacks:
+    - Target:
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+        Name: Multiple
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Damage: 3d10 + WIS
+          DamageTypes: []
+          Name: Damage
+      Modifiers:
+      - Defense: Reflex
+        Name: Non-Armor Defense
+    Modifiers:
+    - Duration: EndOfEncounter
+      Name: Duration
+    - PowerSource: Arcane
+      Name: Power Source
+    Effects:
+    - Target:
+        OtherAttackIndex: 0
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Dazed
+        AfterEffect:
+          Condition:
+            Name: Surprised
+          AfterFailedSave: true
+        Name: Condition
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement
@@ -2712,86 +2746,35 @@
         Attacks:
         - Target:
             Target: Enemy, Self, Ally
-            Size: 1
-            Type: Blast
-            Name: Multiple
+            Name: Basic Target
           Ability: Wisdom
           Effects:
           - Target:
               Name: See Other
             EffectType: Harmful
             Modifiers:
-            - Damage: 3d4 + WIS
+            - Damage: 2d10 + WIS
               DamageTypes: []
               Name: Damage
           Modifiers:
-          - Defense: Will
+          - Defense: Reflex
             Name: Non-Armor Defense
-          - Amount: +4
-            Name: To-Hit Bonus to Current Attack
         Modifiers: []
-        Effects: []
+        Effects:
+        - Target:
+            Target: Self
+            Name: Basic Target
+          EffectType: Beneficial
+          Modifiers:
+          - Movement:
+            - Amount: +2
+              Name: Shift
+            Name: Skirmish Movement
       Name: Stance Power
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
 - PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 27
-    Abilities:
-    - Wisdom
-  PowerProfile:
-    Attacks:
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 3
-        Type: Area
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Will
-        Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 3
-        Type: Burst
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: d4 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Defense: Reflex
-        Name: Non-Armor Defense
-    Modifiers:
-    - PowerSource: Arcane
-      Name: Power Source
-    Effects:
-    - Target:
-        Target: Self
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Movement:
-        - Amount: WIS
-          Name: Shift
-        Name: Skirmish Movement
-- PowerInfo:
     Usage: Daily
     ToolType: Implement
     ToolRange: Range
@@ -2811,57 +2794,15 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 4d8 + WIS
+        - Damage: 7d6 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
-      - Name: RequiredHitForNextAttack
       - Defense: Fortitude
         Name: Non-Armor Defense
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 4d10 + WIS
-          DamageTypes: []
-          Name: Damage
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Name: RequiredHitForNextAttack
-      - Defense: Will
-        Name: Non-Armor Defense
-      - Kind: Cover, SuperiorCover
-        Name: Ignore Cover or Concealment
-    - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Damage: 4d8 + WIS
-          DamageTypes: []
-          Name: Damage
-        - Conditions:
-          - Defense: Fortitude
-            Name: Defense Penalty
-          Name: Condition
-      Modifiers:
-      - Name: RequiresPreviousHit
-      - Defense: Reflex
-        Name: Non-Armor Defense
     Modifiers:
+    - Trigger: ACreatureMovesAdjacent
+      Name: OpportunityAction
     - PowerSource: Arcane
       Name: Power Source
     Effects: []
@@ -2875,24 +2816,14 @@
   PowerProfile:
     Attacks:
     - Target:
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-        Name: Multiple
+        Name: UpToThreeTargets
       Ability: Wisdom
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Name: Blinded
-          AfterEffect:
-            Condition:
-              Name: Unconscious
-            AfterFailedSave: true
-          Name: Condition
-        - Damage: 6d10 + WIS
+        - Damage: 10d6 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -2905,7 +2836,16 @@
       Name: Duration
     - PowerSource: Arcane
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        OtherAttackIndex: 0
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Defense: Will
+          Name: Defense Penalty
+        Name: Condition
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
@@ -2926,28 +2866,32 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 6d10 + WIS
+        - Damage: 10d6 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
       - Defense: Reflex
         Name: Non-Armor Defense
-      - Amount: +8
+      - Amount: +4
         Name: To-Hit Bonus to Current Attack
     Modifiers:
+    - Duration: SaveEnds
+      Name: Duration
     - PowerSource: Arcane
       Name: Power Source
     Effects:
     - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
+        OtherAttackIndex: 0
+        Name: See Other
+      EffectType: Harmful
       Modifiers:
-      - Boosts:
-        - Name: Extra Saving Throw
-        - Amount: +4
-          Name: Temporary Hit Points
-        Name: Boost
+      - Conditions:
+        - Name: Grants Combat Advantage
+        AfterEffect:
+          Condition:
+            Name: Unconscious
+          AfterFailedSave: true
+        Name: Condition
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
@@ -2971,15 +2915,8 @@
         - Damage: 9d8 + WIS
           DamageTypes: []
           Name: Damage
-        - Conditions:
-          - Name: Slowed
-          AfterEffect:
-            Condition:
-              Name: Immobilized
-            AfterFailedSave: true
-          Name: Condition
       Modifiers:
-      - Defense: Fortitude
+      - Defense: Will
         Name: Non-Armor Defense
     Modifiers:
     - Duration: SaveEnds
@@ -2993,5 +2930,14 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Name: Shift
+        - Amount: +2
+          Name: Shift
         Name: Skirmish Movement
+    - Target:
+        OtherAttackIndex: 0
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Conditions:
+        - Name: Weakened
+        Name: Condition

@@ -23,7 +23,7 @@
               Name: Dazed
             AfterFailedSave: false
           Name: Condition
-        - Damage: 3[W] + STR + DEX
+        - Damage: 2[W] + STR + DEX
           DamageTypes: []
           Name: Damage
       Modifiers: []
@@ -47,7 +47,7 @@
   Attack: STR vs. AC, one attack per target
   RulesText:
   - Label: Hit
-    Text: 3[W] + STR + DEX damage, and the target is stunned (save ends). When the target succeeds against its saving throw against this power, the target is dazed (save ends).
+    Text: 2[W] + STR + DEX damage, and the target is stunned (save ends). When the target succeeds against its saving throw against this power, the target is dazed (save ends).
 - Fields:
     Flavor Text: ''
     Name: Unknown

@@ -48,7 +48,7 @@ namespace GameEngine.Generator.Modifiers
                 ),
                 new (Name: "Dominated",
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Grants Combat Advantage" }),
-                    AllowDirectApplication: false, AllowAfterEfect: true, Cost: 2, // TODO - check cost
+                    AllowDirectApplication: false, AllowAfterEfect: true, Cost: 2,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Dominated"
                 ),
                 new (Name: "Dying",
@@ -62,7 +62,7 @@ namespace GameEngine.Generator.Modifiers
                 ),
                 new (Name: "Helpless",
                     Subsumes: Empty.AddRange(new[] { "Grants Combat Advantage" }),
-                    AllowDirectApplication: false, AllowAfterEfect: false, Cost: 1.5, // TODO - check cost
+                    AllowDirectApplication: false, AllowAfterEfect: false, Cost: 1.5,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Helpless"
                 ),
                 new (Name: "Immobilized",
@@ -71,17 +71,17 @@ namespace GameEngine.Generator.Modifiers
                     OtherVerb: "is", SelfVerb: "are", Effect: "Immobilized"
                 ),
                 new (Name: "Marked",
-                    AllowDirectApplication: true, AllowAfterEfect: false, Cost: 0.5, // TODO - check cost
+                    AllowDirectApplication: true, AllowAfterEfect: false, Cost: 0.5,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Marked"
                 ),
                 new (Name: "Petrified",
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed" }),
-                    AllowDirectApplication: false, AllowAfterEfect: true, Cost: 2, // TODO - check cost
+                    AllowDirectApplication: false, AllowAfterEfect: true, Cost: 2,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Petrified"
                 ),
                 new (Name: "Restrained",
                     Subsumes: Empty.AddRange(new[] { "Immobilized", "Slowed" }),
-                    AllowDirectApplication: true, AllowAfterEfect: false, Cost: 2, // TODO - check cost
+                    AllowDirectApplication: true, AllowAfterEfect: false, Cost: 1.5,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Restrained"
                 ),
                 new (Name: "Slowed",
@@ -90,12 +90,12 @@ namespace GameEngine.Generator.Modifiers
                 ),
                 new (Name: "Stunned",
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Marked", "Surprised", "Grants Combat Advantage" }),
-                    AllowDirectApplication: true, AllowAfterEfect: true, Cost: 1, // TODO - check cost
+                    AllowDirectApplication: true, AllowAfterEfect: true, Cost: 1.5,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Stunned"
                 ),
                 new (Name: "Surprised",
                     Subsumes: Empty.AddRange(new[] { "Dazed", "Grants Combat Advantage" }),
-                    AllowDirectApplication: true, AllowAfterEfect: false, Cost: 1, // TODO - check cost
+                    AllowDirectApplication: false, AllowAfterEfect: false, Cost: 1,
                     OtherVerb: "is", SelfVerb: "are", Effect: "Surprised"
                 ),
                 new (Name: "Unconscious",
