@@ -167,7 +167,7 @@ namespace GameEngine.Generator
                 if (preApplyOnce)
                 {
 #if DEBUG
-                    var filtered = upgrades.Where(e => e.AllModifiers(true).Any(m => m is MultiattackFormula.TwoHitsModifier)).ToArray();
+                    var filtered = upgrades.Where(e => e.AllModifiers(true).Any(m => m is ConjurationFormula.ConjurationModifier)).ToArray();
 #endif
 
                     var preApplyUpgrades = upgrades.ToChances(buildContext).ToArray();

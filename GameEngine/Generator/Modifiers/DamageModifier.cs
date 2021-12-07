@@ -10,7 +10,13 @@ using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record DamageModifier(GameDiceExpression Damage, EquatableImmutableList<DamageType> DamageTypes, 
+    public enum DamageDiceType
+    {
+        DiceOnly,
+    }
+
+    public record DamageModifier(GameDiceExpression Damage, EquatableImmutableList<DamageType> DamageTypes,
+        DamageDiceType? OverrideDiceType = null,
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)] int? Order = null,
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)] double? Weight = 1.0) : EffectModifier("Damage")
     {
@@ -65,6 +71,7 @@ namespace GameEngine.Generator.Modifiers
             {
                 Order = null,
                 Weight = null,
+                OverrideDiceType = null,
             };
         }
     }

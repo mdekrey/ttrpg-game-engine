@@ -52,10 +52,19 @@ namespace GameEngine.Generator
                 _ => throw new ArgumentException("Invalid enum value for tool", nameof(tool)),
             };
 
-        public static GameDiceExpression ToDamageEffect(ToolType tool, double weaponDice)
+        public static GameDiceExpression ToDamageEffect(ToolType tool, double weaponDice, DamageDiceType? overrideDiceType)
         {
-            if (tool == ToolType.Weapon)
-                return GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice };
+            return overrideDiceType switch
+            {
+                DamageDiceType.DiceOnly => ApproximateWeaponDiceWithDieCode(weaponDice),
+                null when tool == ToolType.Weapon => ToWeaponDice(weaponDice),
+                null when tool == ToolType.Implement => ApproximateWeaponDiceWithDieCode(weaponDice),
+                _ => throw new NotSupportedException(),
+            };
+        }
+
+        private static GameDiceExpression ApproximateWeaponDiceWithDieCode(double weaponDice)
+        {
             var averageDamage = weaponDice * 5.5;
             var dieType = (
                 from entry in new[]
@@ -78,5 +87,7 @@ namespace GameEngine.Generator
                 return (dice: dice, remainder: averageDamage % damagePerDie);
             }
         }
+
+        private static GameDiceExpression ToWeaponDice(double weaponDice) => GameDiceExpression.Empty with { WeaponDiceCount = (int)weaponDice };
     }
 }

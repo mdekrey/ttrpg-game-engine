@@ -42,7 +42,7 @@ namespace GameEngine.Generator.Modifiers
                     var result = p.Update(attackContext.Lens, attack => attack with { Target = new ConjurationTarget() });
                     if (damageLens == null)
                         return result;
-                    return result.Update(damageLens, d => d with { Weight = 1.5 });
+                    return result.Update(damageLens, d => d with { Weight = 1.5, OverrideDiceType = DamageDiceType.DiceOnly });
                 });
         }
 
