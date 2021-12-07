@@ -23,7 +23,7 @@ namespace GameEngine.Generator
         public static readonly ImmutableList<IAttackModifierFormula> attackModifiers = new IAttackModifierFormula[] {
             NonArmorDefense,
             new ToHitBonusFormula(),
-            //new RerollAnyFormula(),
+            new RerollAnyFormula(),
             // TODO: Ignore cover/concealment
         }.ToImmutableList();
         public static readonly ImmutableList<IPowerModifierFormula> powerModifiers = new IPowerModifierFormula[] {
