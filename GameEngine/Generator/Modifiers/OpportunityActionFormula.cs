@@ -21,15 +21,16 @@ namespace GameEngine.Generator.Modifiers
             if (powerContext.Modifiers.Any(m => m.ChangesActionType()))
                 yield break;
 
+            yield return new OpportunityActionModifier(Trigger.Custom);
             yield return new OpportunityActionModifier(Trigger.YouOrAllyAttacked);
             yield return new OpportunityActionModifier(Trigger.ACreatureMovesAdjacent);
         }
 
         public enum Trigger
         {
+            Custom,
             YouOrAllyAttacked,
             ACreatureMovesAdjacent,
-            // TODO - more triggers
         }
 
         public record OpportunityActionModifier(Trigger Trigger) : PowerModifier(ModifierName)
@@ -53,20 +54,35 @@ namespace GameEngine.Generator.Modifiers
                     {
                         ActionType = "Immediate Reaction",
                     };
-                    return (Trigger switch
+
+                    switch (Trigger)
                     {
-                        Trigger.YouOrAllyAttacked => result with
-                        {
-                            Trigger = "You or an ally is attacked by a creature",
-                            Target = "The attacking creature",
-                        },
-                        Trigger.ACreatureMovesAdjacent => result with
-                        {
-                            Trigger = "A creature moves adjacent to you",
-                            Target = "The moving creature",
-                        },
-                        _ => throw new NotImplementedException(),
-                    }, flavor);
+                        case Trigger.Custom:
+                            var trigger = flavor.GetText("Trigger", "An adjacent enemy marked by you moves without shifting on its turn", out flavor);
+                            var target = flavor.GetText("Target", "The triggering enemy", out flavor);
+                            return (result with
+                            {
+                                Trigger = trigger,
+                                Target = target,
+                            }, flavor);
+
+                        case Trigger.YouOrAllyAttacked:
+                            return (result with
+                            {
+                                Trigger = "You or an ally is attacked by a creature",
+                                Target = "The attacking creature",
+                            }, flavor);
+
+                        case Trigger.ACreatureMovesAdjacent:
+                            return (result with
+                            {
+                                Trigger = "A creature moves adjacent to you",
+                                Target = "The moving creature",
+                            }, flavor);
+
+                        default:
+                            throw new NotSupportedException();
+                    }
                 });
         }
     }

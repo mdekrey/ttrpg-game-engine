@@ -13,7 +13,7 @@
       Name: Damage
   Modifiers: []
 Modifiers:
-- Trigger: YouOrAllyAttacked
+- Trigger: Custom
   Name: OpportunityAction
 - PowerSource: Martial
   Name: Power Source

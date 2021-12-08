@@ -22,7 +22,7 @@
           Name: Damage
       Modifiers: []
     Modifiers:
-    - Trigger: YouOrAllyAttacked
+    - Trigger: Custom
       Name: OpportunityAction
     - PowerSource: Martial
       Name: Power Source
@@ -37,8 +37,8 @@
   ActionType: Immediate Reaction
   AttackType: Melee
   AttackTypeDetails: weapon
-  Trigger: You or an ally is attacked by a creature
-  Target: The attacking creature
+  Trigger: An adjacent enemy marked by you moves without shifting on its turn
+  Target: The triggering enemy
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
@@ -46,3 +46,5 @@
 - Fields:
     Flavor Text: ''
     Name: Unknown
+    Target: The triggering enemy
+    Trigger: An adjacent enemy marked by you moves without shifting on its turn
