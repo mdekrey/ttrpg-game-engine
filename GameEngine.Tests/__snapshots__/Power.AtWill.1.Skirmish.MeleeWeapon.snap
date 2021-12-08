@@ -31,7 +31,7 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: STR
+        - Amount: DEX
           Name: Shift
         Name: Skirmish Movement
 - Name: Unknown
@@ -50,7 +50,7 @@
   - Label: Hit
     Text: 1[W] + STR damage.
   - Label: Effect
-    Text: You may shift STR squares.
+    Text: You may shift DEX squares.
 - Fields:
     Flavor Text: ''
     Name: Unknown

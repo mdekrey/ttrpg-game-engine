@@ -12,19 +12,21 @@ namespace GameEngine.Generator.Modifiers
     public record SkirmishFormula() : IEffectFormula
     {
         public const string ModifierName = "Skirmish Movement";
+        private static readonly IReadOnlyList<Ability> fortitudeAttributes = new[] { Ability.Strength, Ability.Constitution };
 
         public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, EffectContext effectContext)
         {
             if (stage < UpgradeStage.Standard) yield break;
             if (effectContext.Target != Target.Self) yield break;
 
-            // TODO - when should we use the secondary ability?
-            //var ability = attack.PowerInfo.ToolProfile.Abilities.Count == 1
-            //    ? attack.Ability
-            //    : attack.PowerInfo.ToolProfile.Abilities.Except(new[] { attack.Ability }).First();
-            var ability = effectContext.Ability;
+            var abilities = effectContext.Abilities.Except(fortitudeAttributes).ToArray() switch
+            {
+                { Length: 0 } => effectContext.Abilities,
+                IReadOnlyList<Ability> a => a,
+            };
 
-            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift((GameDiceExpression)ability)));
+            foreach (var ability in abilities)
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift((GameDiceExpression)ability)));
             yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(2)));
         }
 

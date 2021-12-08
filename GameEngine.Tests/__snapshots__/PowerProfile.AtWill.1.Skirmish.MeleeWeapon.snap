@@ -22,6 +22,6 @@ Effects:
   EffectType: Beneficial
   Modifiers:
   - Movement:
-    - Amount: STR
+    - Amount: DEX
       Name: Shift
     Name: Skirmish Movement

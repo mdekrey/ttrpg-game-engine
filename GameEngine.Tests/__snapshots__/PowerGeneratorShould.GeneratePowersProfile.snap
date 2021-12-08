@@ -60,7 +60,7 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: STR
+        - Amount: DEX
           Name: Shift
         Name: Skirmish Movement
 - PowerInfo:
@@ -455,7 +455,7 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: STR
+        - Amount: DEX
           Name: Shift
         Name: Skirmish Movement
 - PowerInfo:
@@ -710,7 +710,7 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: STR
+        - Amount: DEX
           Name: Shift
         Name: Skirmish Movement
 - PowerInfo:
@@ -1655,7 +1655,7 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: STR
+        - Amount: DEX
           Name: Shift
         Name: Skirmish Movement
     - Target:
@@ -1944,7 +1944,7 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: STR
+        - Amount: DEX
           Name: Shift
         Name: Skirmish Movement
 - PowerInfo:
@@ -2120,7 +2120,7 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: STR
+        - Amount: DEX
           Name: Shift
         Name: Skirmish Movement
 - PowerInfo:
@@ -2352,7 +2352,7 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: STR
+        - Amount: DEX
           Name: Shift
         Name: Skirmish Movement
 - PowerInfo:
@@ -2390,7 +2390,7 @@
       EffectType: Beneficial
       Modifiers:
       - Movement:
-        - Amount: STR
+        - Amount: DEX
           Name: Shift
         Name: Skirmish Movement
     - Target:
