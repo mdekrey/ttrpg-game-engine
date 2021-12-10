@@ -25,7 +25,13 @@ namespace GameEngine.Generator
             if (powerContext.GetComplexity() > Limits.MaxComplexity)
                 return false;
 
-            var min = GetDamageLenses(profile).Sum(c => c.Effectiveness / (c.Damage.Weight ?? 1));
+            var powerDamage = profile.TotalCost(PowerInfo).Fixed;
+            var min = GetDamageLenses(profile).Sum(c =>
+            {
+                var newPowerDamage = profile.Replace(c.Lens, c.Damage with { Damage = c.Damage.Damage with { WeaponDiceCount = c.Damage.Damage.WeaponDiceCount + 1 } }).TotalCost(PowerInfo).Fixed;
+                var effectiveness = newPowerDamage - powerDamage;
+                return effectiveness / (c.Damage.Weight ?? 1);
+            });
             var remaining = profile.TotalCost(PowerInfo).Apply(Limits.Initial);
 
             if (remaining <= 0)
@@ -40,10 +46,14 @@ namespace GameEngine.Generator
 
         private PowerProfile ApplyWeaponDice(PowerProfile _this)
         {
-            var context = new PowerContext(_this, PowerInfo);
-            var damages = GetDamageLenses(_this).OrderByDescending(e => e.Damage.Order ?? 1).ToImmutableList();
+            return ApplyWeaponDice(_this, PowerInfo, Limits.Initial);
+        }
+        public static PowerProfile ApplyWeaponDice(PowerProfile profile, IPowerInfo powerInfo, double maxPower)
+        {
+            var context = new PowerContext(profile, powerInfo);
+            var damages = GetDamageLenses(profile).OrderByDescending(e => e.Damage.Order ?? 1).ToImmutableList();
 
-            var result = _this;
+            var result = profile;
             var stepSize = 0.5;
             var damageAmounts = damages.ToDictionary(d => d, d => (originalDamage: d.Damage.Damage, added: 0.0));
             bool hasIncreased;
@@ -54,8 +64,8 @@ namespace GameEngine.Generator
                 {
                     var (originalDamage, added) = damageAmounts[e];
                     added += stepSize;
-                    var temp = result.Update(e.Lens, mod => mod with { Damage = originalDamage + PowerProfileExtensions.ToDamageEffect(PowerInfo.ToolProfile.Type, added, mod.OverrideDiceType) });
-                    if (temp.TotalCost(PowerInfo).Apply(Limits.Initial) >= 0)
+                    var temp = result.Update(e.Lens, mod => mod with { Damage = originalDamage + PowerProfileExtensions.ToDamageEffect(powerInfo.ToolType, added, mod.OverrideDiceType) });
+                    if (temp.TotalCost(powerInfo).Apply(maxPower) >= 0)
                     {
                         damageAmounts[e] = (originalDamage, added);
                         result = temp;
@@ -69,17 +79,15 @@ namespace GameEngine.Generator
         }
 
 
-        record DamageLens(DamageModifier Damage, double Effectiveness, Lens<PowerProfile, DamageModifier> Lens);
+        public record DamageLens(DamageModifier Damage, Lens<PowerProfile, DamageModifier> Lens);
 
         private static Lens<IModifier, DamageModifier> damageLens = Lens<IModifier>.To(mod => (DamageModifier)mod, (mod, newMod) => newMod);
-        private IEnumerable<DamageLens> GetDamageLenses(PowerProfile _this)
+        public static IEnumerable<DamageLens> GetDamageLenses(PowerProfile profile)
         {
-            var powerDamage = _this.TotalCost(PowerInfo).Fixed;
-            return from lens in _this.GetModifierLenses()
-                   let mod = _this.Get(lens) as DamageModifier
+            return from lens in profile.GetModifierLenses()
+                   let mod = profile.Get(lens) as DamageModifier
                    where mod != null
-                   let newPowerDamage = _this.Replace(lens, mod with { Damage = mod.Damage with { WeaponDiceCount = mod.Damage.WeaponDiceCount + 1 } }).TotalCost(PowerInfo).Fixed
-                   select new DamageLens(mod, Effectiveness: newPowerDamage - powerDamage, Lens: lens.To(damageLens));
+                   select new DamageLens(mod, Lens: lens.To(damageLens));
         }
     }
 }

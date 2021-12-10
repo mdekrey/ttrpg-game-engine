@@ -12,6 +12,7 @@ namespace GameEngine.Generator.Serialization
 
         public static IEnumerable<JsonConverter> GetJsonConverters()
         {
+            yield return new GameDiceExpressionConverter();
             yield return GetConverter<IEffectModifier>();
             yield return GetConverter<IAttackTargetModifier>();
             yield return GetConverter<IEffectTargetModifier>();

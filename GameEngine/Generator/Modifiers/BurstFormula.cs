@@ -54,9 +54,9 @@ namespace GameEngine.Generator.Modifiers
 
             public int GetComplexity(PowerContext powerContext) => 1;
 
-            PowerCost IAttackTargetModifier.GetCost(AttackContext attackContext) => GetCost();
-            PowerCost IEffectTargetModifier.GetCost(EffectContext effectContext) => GetCost();
-            public PowerCost GetCost()
+            PowerCost IAttackTargetModifier.GetCost(AttackContext attackContext) => GetCost(attackContext.PowerContext.PowerInfo);
+            PowerCost IEffectTargetModifier.GetCost(EffectContext effectContext) => GetCost(effectContext.PowerContext.PowerInfo);
+            public PowerCost GetCost(IPowerInfo powerInfo)
             {
                 // TODO - this is not right, as wizards at lvl 17 get burst 2 with only 3d10 -> 3d8 loss
                 var multiplier = (Size - 1) / 2.0 + 1;

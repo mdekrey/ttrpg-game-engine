@@ -131,16 +131,11 @@ namespace GameEngine.Generator
         public PowerProfile? GenerateProfile(PowerHighLevelInfo powerInfo, IEnumerable<PowerProfile>? exclude = null)
         {
             var toExclude = (exclude ?? Enumerable.Empty<PowerProfile>()).Concat(BasicPowers.All);
-            var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
-            var limits =
-                new PowerLimits(basePower,
-                    Minimum: GetAttackMinimumPower(basePower, powerInfo.ClassProfile.Role, randomGenerator) - (powerInfo.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
-                    MaxComplexity: GetAttackMaxComplexity(powerInfo.Usage)
-                );
-            var root = RootBuilder(basePower, powerInfo);
-            var powerProfileBuilder = root;
+            var limits = GetLimits(powerInfo);
+            var root = RootBuilder(powerInfo);
             var buildContext = new LimitBuildContext(powerInfo, limits);
 
+            var powerProfileBuilder = root;
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, buildContext, UpgradeStage.Standard, exclude: toExclude, preApplyOnce: true);
             powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, buildContext, UpgradeStage.Finalize, exclude: toExclude);
 
@@ -148,6 +143,17 @@ namespace GameEngine.Generator
                 return null;
 
             return buildContext.Build(powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) });
+        }
+
+        private PowerLimits GetLimits(PowerHighLevelInfo powerInfo)
+        {
+            var basePower = GetBasePower(powerInfo.Level, powerInfo.Usage);
+            var limits =
+                new PowerLimits(basePower,
+                    Minimum: GetAttackMinimumPower(basePower, powerInfo.ClassProfile.Role, randomGenerator) - (powerInfo.ToolProfile.Type == ToolType.Implement ? 0.5 : 0),
+                    MaxComplexity: GetAttackMaxComplexity(powerInfo.Usage)
+                );
+            return limits;
         }
 
         public PowerProfile ApplyUpgrades(PowerProfile powerProfileBuilder, IBuildContext buildContext, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
@@ -191,17 +197,17 @@ namespace GameEngine.Generator
             return powerProfileBuilder;
         }
 
-        private PowerProfile RootBuilder(double basePower, PowerHighLevelInfo info)
+        private PowerProfile RootBuilder(PowerHighLevelInfo info)
         {
             var result = new PowerProfile(
-                Build(RootAttackBuilder(basePower, info, randomGenerator)),
+                Build(RootAttackBuilder(info, randomGenerator)),
                 ImmutableList<IPowerModifier>.Empty,
                 ImmutableList<TargetEffect>.Empty
             );
             return result; // no modifiers yet, no need to finalize
         }
 
-        private static AttackProfile RootAttackBuilder(double basePower, PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
+        private static AttackProfile RootAttackBuilder(PowerHighLevelInfo info, RandomGenerator randomGenerator) =>
             new AttackProfile(
                 new BasicTarget(Target.Enemy | Target.Ally | Target.Self),
                 Ability: randomGenerator.RandomSelection(
