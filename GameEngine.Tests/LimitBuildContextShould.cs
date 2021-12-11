@@ -36,6 +36,90 @@ namespace GameEngine.Tests
                 "d6 + INT"
             );
 
+        [Fact]
+        public void AssignDamageForSleep() => // ID_FMP_POWER_451
+            VerifyFinalDamage(
+                Wizard with { Level = 1, Usage = Rules.PowerFrequency.Daily },
+                DeserializeYaml<PowerProfile>(@"
+                      Attacks:
+                      - Target:
+                          Name: Multiple
+                          Size: 5
+                          Type: Burst
+                          Target: Enemy, Self, Ally
+                        Ability: Strength
+                        Effects:
+                        - Target: { Name: See Other }
+                          EffectType: Harmful
+                          Modifiers:
+                          - { Name: Damage, Damage: '+0', DamageTypes: [], Order: 1 }
+                          - Name: Condition
+                            Conditions:
+                            - { Name: Simple, ConditionName: Slowed }
+                            AfterEffect:
+                              Condition: { Name: Simple, ConditionName: Unconscious }
+                              AfterFailedSave: true
+                        Modifiers:
+                        - { Name: Non-Armor Defense, Defense: Will }
+                      Modifiers:
+                      - { Name: Power Source, PowerSource: Arcane }
+                      Effects: []
+                ")!,
+                "+0"
+            );
+
+        [Fact(Skip = "TODO - this works for size 5, but not size 7")]
+        public void AssignDamageForFireball() => // ID_FMP_POWER_1553
+            VerifyFinalDamage(
+                Wizard with { Level = 5, Usage = Rules.PowerFrequency.Daily },
+                DeserializeYaml<PowerProfile>(@"
+                      Attacks:
+                      - Target:
+                          Name: Multiple
+                          Size: 7
+                          Type: Burst
+                          Target: Enemy, Self, Ally
+                        Ability: Strength
+                        Effects:
+                        - Target: { Name: See Other }
+                          EffectType: Harmful
+                          Modifiers:
+                          - { Name: Damage, Damage: INT, DamageTypes: [ Fire ], Order: 1 }
+                        Modifiers:
+                        - { Name: Non-Armor Defense, Defense: Reflex }
+                      Modifiers:
+                      - { Name: Power Source, PowerSource: Arcane }
+                      Effects: []
+                ")!,
+                "4d6 + INT"
+            );
+
+        [Fact(Skip = "The burst takes too much power at this level")]
+        public void AssignDamageForCombust() => // ID_FMP_POWER_184
+            VerifyFinalDamage(
+                Wizard with { Level = 17, Usage = Rules.PowerFrequency.Encounter },
+                DeserializeYaml<PowerProfile>(@"
+                      Attacks:
+                      - Target:
+                          Name: Multiple
+                          Size: 5
+                          Type: Burst
+                          Target: Enemy, Self, Ally
+                        Ability: Strength
+                        Effects:
+                        - Target: { Name: See Other }
+                          EffectType: Harmful
+                          Modifiers:
+                          - { Name: Damage, Damage: INT, DamageTypes: [ Fire ], Order: 1 }
+                        Modifiers:
+                        - { Name: Non-Armor Defense, Defense: Reflex }
+                      Modifiers:
+                      - { Name: Power Source, PowerSource: Arcane }
+                      Effects: []
+                ")!,
+                "5d6 + INT"
+            );
+
         private void VerifyFinalDamage(IPowerInfo powerInfo, PowerProfile powerProfile, params string[] finalDamage)
         {
             // Arrange
