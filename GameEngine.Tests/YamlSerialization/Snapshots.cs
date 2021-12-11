@@ -2,10 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using YamlDotNet.Serialization;
 
 namespace GameEngine.Tests.YamlSerialization
@@ -26,7 +23,7 @@ namespace GameEngine.Tests.YamlSerialization
             {
                 Converters =
                 {
-                    new LegacyEnumNamingStrategy(),
+                    new Newtonsoft.Json.Converters.StringEnumConverter(),
                     new GameDiceExpressionConverter(),
                     new DictionarySortingConverter(),
                 },
@@ -41,38 +38,6 @@ namespace GameEngine.Tests.YamlSerialization
             var json = JToken.FromObject(target, JsonSerializer).ToString();
             using var sr = new StringReader(json);
             return Serializer.Serialize(YamlDeserializer.Deserialize(sr)!);
-        }
-    }
-
-    internal class DictionarySortingConverter : JsonConverter
-    {
-        public override bool CanConvert(System.Type objectType)
-        {
-            return objectType.GetInterfaces().Any(iface => iface.IsGenericType && iface.GetGenericTypeDefinition() == typeof(IDictionary<,>));
-        }
-
-        public override bool CanRead => false;
-
-        public override object? ReadJson(JsonReader reader, System.Type objectType, object? existingValue, JsonSerializer serializer)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
-        {
-            if (value == null)
-            {
-                writer.WriteNull();
-                return;
-            }
-            var keyValuePairs = ((IEnumerable)value).OfType<dynamic>().Select(kv => (Key: (string)kv.Key.ToString(), Value: (object)kv.Value)).ToArray();
-            writer.WriteStartObject();
-            foreach (var kv in keyValuePairs.OrderBy(kv => kv.Key))
-            {
-                writer.WritePropertyName(kv.Key);
-                writer.WriteValue(kv.Value);
-            }
-            writer.WriteEndObject();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿- PowerInfo:
-    Usage: AtWill
+    Usage: At-Will
     ToolType: Implement
     ToolRange: Range
     Level: 1
@@ -29,7 +29,7 @@
       PowerSource: Arcane
     Effects: []
 - PowerInfo:
-    Usage: AtWill
+    Usage: At-Will
     ToolType: Implement
     ToolRange: Range
     Level: 1
@@ -66,7 +66,7 @@
         - Name: Shift
           Amount: +4
 - PowerInfo:
-    Usage: AtWill
+    Usage: At-Will
     ToolType: Implement
     ToolRange: Range
     Level: 1
@@ -108,7 +108,7 @@
           Amount: +2
           Defense: Fortitude
 - PowerInfo:
-    Usage: AtWill
+    Usage: At-Will
     ToolType: Implement
     ToolRange: Range
     Level: 1

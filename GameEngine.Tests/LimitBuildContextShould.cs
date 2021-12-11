@@ -13,6 +13,7 @@ namespace GameEngine.Tests
 {
     public class LimitBuildContextShould
     {
+        private static readonly PowerInfo Wizard = new PowerInfo(Rules.PowerFrequency.AtWill, ToolType.Implement, ToolRange.Range, 1, ImmutableList<Rules.Ability>.Empty.Add(Rules.Ability.Intelligence));
 
         public static readonly YamlDotNet.Serialization.IDeserializer Deserializer = new YamlDotNet.Serialization.Deserializer();
         public static readonly Newtonsoft.Json.JsonSerializer jsonDeserializer;
@@ -35,34 +36,30 @@ namespace GameEngine.Tests
         }
 
         [Fact]
-        public void AssignDamageForScorchingBurst()
-        {
-            // ID_FMP_POWER_1166
+        public void AssignDamageForScorchingBurst() => // ID_FMP_POWER_1166
             VerifyFinalDamage(
-                new PowerInfo(Rules.PowerFrequency.AtWill, ToolType.Implement, ToolRange.Range, 1, ImmutableList<Rules.Ability>.Empty.Add(Rules.Ability.Intelligence)),
+                Wizard,
                 DeserializeYaml<PowerProfile>(@"
                       Attacks:
                       - Target:
-                          $$modType: BurstModifier.v1
-                          Target: Enemy, Self, Ally
+                          Name: Multiple
                           Size: 3
                           Type: Burst
-                          Name: Multiple
+                          Target: Enemy, Self, Ally
                         Ability: Strength
                         Effects:
-                        - Target: { $$modType: SameAsOtherTarget.v1, Name: See Other }
+                        - Target: { Name: See Other }
                           EffectType: Harmful
                           Modifiers:
-                          - { Damage: INT, DamageTypes: [ Fire ], Order: 1, $$modType: DamageModifier.v1, Name: Damage }
+                          - { Name: Damage, Damage: INT, DamageTypes: [ Fire ], Order: 1 }
                         Modifiers:
-                        - { Defense: Reflex, $$modType: NonArmorDefenseModifier.v1, Name: Non-Armor Defense }
+                        - { Name: Non-Armor Defense, Defense: Reflex }
                       Modifiers:
-                      - { PowerSource: Arcane, $$modType: PowerSourceModifier.v1, Name: Power Source }
+                      - { Name: Power Source, PowerSource: Arcane }
                       Effects: []
                 ")!,
                 "d6 + INT"
             );
-        }
 
         private void VerifyFinalDamage(IPowerInfo powerInfo, PowerProfile powerProfile, params string[] finalDamage)
         {

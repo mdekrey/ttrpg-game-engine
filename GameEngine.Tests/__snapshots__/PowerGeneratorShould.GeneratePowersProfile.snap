@@ -1,5 +1,5 @@
 ﻿- PowerInfo:
-    Usage: AtWill
+    Usage: At-Will
     ToolType: Weapon
     ToolRange: Melee
     Level: 1
@@ -28,7 +28,7 @@
       PowerSource: Martial
     Effects: []
 - PowerInfo:
-    Usage: AtWill
+    Usage: At-Will
     ToolType: Weapon
     ToolRange: Melee
     Level: 1
@@ -64,7 +64,7 @@
         - Name: Shift
           Amount: DEX
 - PowerInfo:
-    Usage: AtWill
+    Usage: At-Will
     ToolType: Weapon
     ToolRange: Melee
     Level: 1
@@ -97,7 +97,7 @@
       PowerSource: Martial
     Effects: []
 - PowerInfo:
-    Usage: AtWill
+    Usage: At-Will
     ToolType: Weapon
     ToolRange: Melee
     Level: 1
