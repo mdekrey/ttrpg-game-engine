@@ -26,7 +26,7 @@
     Modifiers:
     - EffectModifier:
         Boosts:
-        - Amount: +2
+        - Amount: +4
           Limit: Target
           Name: Attack
         Name: Boost
@@ -51,7 +51,7 @@
   - Label: Hit
     Text: 1[W] + STR damage.
   - Label: Effect
-    Text: You gain a +2 power bonus to attack rolls against the target until the stance ends.
+    Text: You gain a +4 power bonus to attack rolls against the target until the stance ends.
 - Fields:
     Flavor Text: ''
     Name: Unknown

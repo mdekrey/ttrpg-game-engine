@@ -10,7 +10,7 @@
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
-        Size: 2
+        Size: 1
         Type: Blast
         Name: Multiple
       Ability: Strength
@@ -19,7 +19,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: d4 + STR
+        - Damage: d6 + STR
           DamageTypes:
           - Radiant
           Name: Damage
@@ -40,12 +40,12 @@
   - Implement
   ActionType: Standard Action
   AttackType: Close
-  AttackTypeDetails: blast 2
+  AttackTypeDetails: blast 1
   Target: Each creature
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d4 + STR radiant damage.
+    Text: d6 + STR radiant damage.
   - Label: Special
     Text: This power counts as a ranged basic attack. When a power allows you to make a ranged basic attack, you can use this power.
 - Fields:

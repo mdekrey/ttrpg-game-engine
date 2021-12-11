@@ -77,7 +77,9 @@ namespace GameEngine.Generator
                 orderby entry.results.remainder ascending
                 select (sides: entry.sides, count: entry.results.dice, remainder: entry.results.remainder)
             ).ToArray();
-            var (sides, count, remainder) = dieType.First();
+            var (sides, count, remainder) = dieType.FirstOrDefault();
+            if (count == 0)
+                return GameDiceExpression.Empty;
 
             return new Dice.DieCode(count, sides);
 

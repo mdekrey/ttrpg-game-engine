@@ -1,9 +1,6 @@
 ﻿Attacks:
 - Target:
-    Target: Enemy, Self, Ally
-    Size: 3
-    Type: Burst
-    Name: Multiple
+    Name: Conjuration Target
   Ability: Strength
   Effects:
   - Target:
@@ -12,19 +9,21 @@
     Modifiers:
     - Conditions:
       - Name: Blinded
+      - Name: Dazed
+      - Name: Deafened
+      AfterEffect:
+        Condition:
+          Name: Unconscious
+        AfterFailedSave: true
       Name: Condition
-    - Damage: 1[W] + STR
+    - Damage: d10 + STR + DEX
       DamageTypes: []
       Name: Damage
-    - Effects:
-      - Mode: Pull
-        Amount: +1
-        Name: Slide Opponent
-      Name: MovementControl
   Modifiers: []
 Modifiers:
 - Duration: SaveEnds
   Name: Duration
+- Name: Conjuration
 - PowerSource: Martial
   Name: Power Source
 Effects: []

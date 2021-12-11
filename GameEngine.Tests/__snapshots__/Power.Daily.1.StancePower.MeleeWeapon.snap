@@ -25,13 +25,28 @@
             - Damage: 1[W] + STR
               DamageTypes: []
               Name: Damage
+            - Conditions:
+              - Name: Dazed
+              Name: Condition
           Modifiers: []
         Modifiers: []
         Effects: []
       Name: Stance Power
+    - Duration: SaveEnds
+      Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects: []
+    Effects:
+    - Target:
+        Target: Ally
+        Name: Basic Target
+      EffectType: Beneficial
+      Modifiers:
+      - Boosts:
+        - Amount: +2
+          Limit: NextAttack
+          Name: Attack
+        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''
@@ -43,7 +58,7 @@
   ActionType: Minor Action
   RulesText:
   - Label: Effect
-    Text: Until the stance ends, you gain access to Unknown Attack.
+    Text: One of your allies gains a +2 power bonus to attack rolls on the next attack before the end of your next turn. Until the stance ends, you gain access to Unknown Attack.
   AssociatedPower:
     Name: Unknown Attack
     TypeInfo: Weapon Attack
@@ -58,7 +73,7 @@
     Attack: STR vs. AC
     RulesText:
     - Label: Hit
-      Text: 1[W] + STR damage.
+      Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.
 - Fields:
     Associated Flavor Text: ''
     Associated Name: Unknown Attack

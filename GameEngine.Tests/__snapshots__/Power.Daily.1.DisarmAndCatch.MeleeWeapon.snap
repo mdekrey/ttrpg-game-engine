@@ -10,7 +10,9 @@
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
-        Name: Basic Target
+        Size: 3
+        Type: Burst
+        Name: Multiple
       Ability: Strength
       Effects:
       - Target:
@@ -22,7 +24,6 @@
           DamageTypes: []
           Name: Damage
         - Conditions:
-          - Name: Blinded
           - Name: Dazed
           Name: Condition
       Modifiers: []
@@ -38,13 +39,13 @@
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Melee
-  AttackTypeDetails: weapon
-  Target: One creature
+  AttackType: Close
+  AttackTypeDetails: burst 1
+  Target: Each creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is blinded and dazed until the end of your next turn and drops one weapon it is holding. You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square).
+    Text: 1[W] + STR damage, and the target is dazed until the end of your next turn and drops one weapon it is holding. You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square).
 - Fields:
     Flavor Text: ''
     Name: Unknown

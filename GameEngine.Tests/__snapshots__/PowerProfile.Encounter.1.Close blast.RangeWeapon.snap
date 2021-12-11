@@ -1,7 +1,7 @@
 ﻿Attacks:
 - Target:
     Target: Enemy, Self, Ally
-    Size: 3
+    Size: 4
     Type: Blast
     Name: Multiple
   Ability: Strength

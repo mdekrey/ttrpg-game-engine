@@ -13,6 +13,9 @@
     - Damage: 1[W] + STR
       DamageTypes: []
       Name: Damage
+    - Conditions:
+      - Name: Dazed
+      Name: Condition
   Modifiers: []
 Modifiers:
 - PowerSource: Martial

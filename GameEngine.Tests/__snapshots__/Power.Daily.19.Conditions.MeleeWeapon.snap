@@ -9,10 +9,7 @@
   PowerProfile:
     Attacks:
     - Target:
-        Target: Enemy, Self, Ally
-        Size: 3
-        Type: Burst
-        Name: Multiple
+        Name: Conjuration Target
       Ability: Strength
       Effects:
       - Target:
@@ -21,19 +18,21 @@
         Modifiers:
         - Conditions:
           - Name: Blinded
+          - Name: Dazed
+          - Name: Deafened
+          AfterEffect:
+            Condition:
+              Name: Unconscious
+            AfterFailedSave: true
           Name: Condition
-        - Damage: 1[W] + STR
+        - Damage: d10 + STR + DEX
           DamageTypes: []
           Name: Damage
-        - Effects:
-          - Mode: Pull
-            Amount: +1
-            Name: Slide Opponent
-          Name: MovementControl
       Modifiers: []
     Modifiers:
     - Duration: SaveEnds
       Name: Duration
+    - Name: Conjuration
     - PowerSource: Martial
       Name: Power Source
     Effects: []
@@ -42,16 +41,23 @@
   FlavorText: ''
   PowerUsage: Daily
   Keywords:
+  - Conjuration
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Close
-  AttackTypeDetails: burst 1
-  Target: Each creature
+  AttackType: Ranged
+  AttackTypeDetails: 10
+  Target: One creature adjacent to the thing
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is blinded (save ends) and is pulled +1 squares.
+    Text: d10 + STR + DEX damage, and the target is blinded, dazed, and deafened (save ends). If the target fails its first saving throw against this power, the target becomes unconscious (save ends).
+  - Label: Effect
+    Text: You conjure a fancy thing that occupies a square within range, and the thing attacks.
+  - Label: Sustain Minor
+    Text: You can sustain this power until the end of the encounter. As a standard action, you can make another attack with the thing. As a move action, you can move the thing up to 6 squares.
 - Fields:
+    Conjured Detail: fancy thing
+    Conjured Simple: thing
     Flavor Text: ''
     Name: Unknown

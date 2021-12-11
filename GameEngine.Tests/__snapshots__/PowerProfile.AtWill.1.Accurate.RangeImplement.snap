@@ -10,15 +10,15 @@
       Name: See Other
     EffectType: Harmful
     Modifiers:
-    - Damage: d4 + STR
+    - Damage: d6 + STR
       DamageTypes:
       - Radiant
       Name: Damage
   Modifiers:
+  - Amount: +2
+    Name: To-Hit Bonus to Current Attack
   - Defense: Fortitude
     Name: Non-Armor Defense
-  - Amount: +4
-    Name: To-Hit Bonus to Current Attack
 Modifiers:
 - PowerSource: Arcane
   Name: Power Source

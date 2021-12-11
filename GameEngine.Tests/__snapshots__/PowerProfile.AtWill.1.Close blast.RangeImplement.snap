@@ -10,7 +10,7 @@
       Name: See Other
     EffectType: Harmful
     Modifiers:
-    - Damage: d4 + STR
+    - Damage: d6 + STR
       DamageTypes:
       - Radiant
       Name: Damage

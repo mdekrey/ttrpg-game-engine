@@ -1,9 +1,7 @@
 ﻿Attacks:
 - Target:
     Target: Enemy, Self, Ally
-    Size: 1
-    Type: Blast
-    Name: Multiple
+    Name: Basic Target
   Ability: Strength
   Effects:
   - Target:

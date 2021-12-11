@@ -26,7 +26,9 @@
               DamageTypes: []
               Name: Damage
             - Conditions:
+              - Name: Blinded
               - Name: Dazed
+              - Name: Deafened
               Name: Condition
           Modifiers: []
         Modifiers: []
@@ -36,17 +38,7 @@
       Name: Duration
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: +4
-          Limit: NextAttack
-          Name: Attack
-        Name: Boost
+    Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 19
   FlavorText: ''
@@ -58,7 +50,7 @@
   ActionType: Minor Action
   RulesText:
   - Label: Effect
-    Text: One of your allies gains a +4 power bonus to attack rolls on the next attack before the end of your next turn. Until the stance ends, you gain access to Unknown Attack.
+    Text: Until the stance ends, you gain access to Unknown Attack.
   AssociatedPower:
     Name: Unknown Attack
     TypeInfo: Weapon Attack
@@ -73,7 +65,7 @@
     Attack: STR vs. AC
     RulesText:
     - Label: Hit
-      Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.
+      Text: 1[W] + STR damage, and the target is blinded, dazed, and deafened until the end of your next turn.
 - Fields:
     Associated Flavor Text: ''
     Associated Name: Unknown Attack

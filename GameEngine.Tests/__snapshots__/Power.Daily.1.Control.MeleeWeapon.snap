@@ -10,7 +10,9 @@
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
-        Name: Basic Target
+        Size: 3
+        Type: Burst
+        Name: Multiple
       Ability: Strength
       Effects:
       - Target:
@@ -23,7 +25,7 @@
         - Effects:
           - Name: Prone
           - Mode: Pull
-            Amount: +4
+            Amount: +2
             Name: Slide Opponent
           Name: MovementControl
       Modifiers: []
@@ -39,13 +41,13 @@
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Melee
-  AttackTypeDetails: weapon
-  Target: One creature
+  AttackType: Close
+  AttackTypeDetails: burst 1
+  Target: Each creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is knocked prone and is pulled +4 squares.
+    Text: 1[W] + STR damage, and the target is knocked prone and is pulled +2 squares.
 - Fields:
     Flavor Text: ''
     Name: Unknown

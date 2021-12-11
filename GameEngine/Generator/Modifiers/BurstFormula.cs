@@ -58,9 +58,7 @@ namespace GameEngine.Generator.Modifiers
             PowerCost IEffectTargetModifier.GetCost(EffectContext effectContext) => GetCost(effectContext.PowerContext.PowerInfo);
             public PowerCost GetCost(IPowerInfo powerInfo)
             {
-                // TODO - this is not right, as wizards at lvl 17 get burst 2 with only 3d10 -> 3d8 loss
-                var multiplier = (Size - 1) / 2.0 + 1;
-                return new PowerCost(Multiplier: multiplier);
+                return new PowerCost((Size * Math.Max(Size, 3)) / 10.8);
             }
 
             public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, PowerFrequency usage)

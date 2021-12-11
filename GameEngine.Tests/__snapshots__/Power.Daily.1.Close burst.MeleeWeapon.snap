@@ -22,6 +22,9 @@
         - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
+        - Conditions:
+          - Name: Dazed
+          Name: Condition
       Modifiers: []
     Modifiers:
     - PowerSource: Martial
@@ -41,7 +44,7 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage.
+    Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

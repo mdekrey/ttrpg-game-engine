@@ -22,22 +22,15 @@
         - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
+        - Conditions:
+          - Name: Blinded
+          Name: Condition
       Modifiers: []
     Modifiers:
     - Name: RepeatedAttacks
     - PowerSource: Martial
       Name: Power Source
-    Effects:
-    - Target:
-        Target: Ally
-        Name: Basic Target
-      EffectType: Beneficial
-      Modifiers:
-      - Boosts:
-        - Amount: +2
-          Limit: NextAttack
-          Name: Attack
-        Name: Boost
+    Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''
@@ -52,9 +45,7 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage.
-  - Label: Effect
-    Text: One of your allies gains a +2 power bonus to attack rolls on the next attack before the end of your next turn.
+    Text: 1[W] + STR damage, and the target is blinded until the end of your next turn.
   - Label: Sustain Minor
     Text: You may repeat the attack.
 - Fields:

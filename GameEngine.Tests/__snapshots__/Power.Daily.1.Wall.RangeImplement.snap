@@ -10,7 +10,7 @@
     Attacks:
     - Target:
         Target: Enemy, Self, Ally
-        Size: 8
+        Size: 6
         Type: Wall
         Name: Multiple
       Ability: Strength
@@ -19,7 +19,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: d4 + STR
+        - Damage: d6 + STR
           DamageTypes:
           - Radiant
           Name: Damage
@@ -39,12 +39,12 @@
   - Implement
   ActionType: Standard Action
   AttackType: Area
-  AttackTypeDetails: wall 16 within 40
+  AttackTypeDetails: wall 12 within 30
   Target: Each creature
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d4 + STR radiant damage.
+    Text: d6 + STR radiant damage.
 - Fields:
     Flavor Text: ''
     Name: Unknown

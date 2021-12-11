@@ -60,7 +60,7 @@ namespace GameEngine.Tests
                       - { PowerSource: Arcane, $$modType: PowerSourceModifier.v1, Name: Power Source }
                       Effects: []
                 ")!,
-                "d4 + STR" // TODO - this is wrong
+                "d6 + STR" // TODO - this is wrong
             );
         }
 
