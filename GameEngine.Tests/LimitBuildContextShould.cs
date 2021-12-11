@@ -26,14 +26,13 @@ namespace GameEngine.Tests
                         - Target: { Name: See Other }
                           EffectType: Harmful
                           Modifiers:
-                          - { Name: Damage, Damage: INT, DamageTypes: [ Fire ], Order: 1 }
+                          - { Name: Damage, Damage: d6 + INT, DamageTypes: [ Fire ], Order: 1 }
                         Modifiers:
                         - { Name: Non-Armor Defense, Defense: Reflex }
                       Modifiers:
                       - { Name: Power Source, PowerSource: Arcane }
                       Effects: []
-                ")!,
-                "d6 + INT"
+                ")!
             );
 
         [Fact]
@@ -64,8 +63,7 @@ namespace GameEngine.Tests
                       Modifiers:
                       - { Name: Power Source, PowerSource: Arcane }
                       Effects: []
-                ")!,
-                "+0"
+                ")!
             );
 
         [Fact(Skip = "TODO - this works for size 5, but not size 7")]
@@ -84,14 +82,13 @@ namespace GameEngine.Tests
                         - Target: { Name: See Other }
                           EffectType: Harmful
                           Modifiers:
-                          - { Name: Damage, Damage: INT, DamageTypes: [ Fire ], Order: 1 }
+                          - { Name: Damage, Damage: 4d6 + INT, DamageTypes: [ Fire ], Order: 1 }
                         Modifiers:
                         - { Name: Non-Armor Defense, Defense: Reflex }
                       Modifiers:
                       - { Name: Power Source, PowerSource: Arcane }
                       Effects: []
-                ")!,
-                "4d6 + INT"
+                ")!
             );
 
         [Fact(Skip = "The burst takes too much power at this level")]
@@ -110,29 +107,30 @@ namespace GameEngine.Tests
                         - Target: { Name: See Other }
                           EffectType: Harmful
                           Modifiers:
-                          - { Name: Damage, Damage: INT, DamageTypes: [ Fire ], Order: 1 }
+                          - { Name: Damage, Damage: 5d6 + INT, DamageTypes: [ Fire ], Order: 1 }
                         Modifiers:
                         - { Name: Non-Armor Defense, Defense: Reflex }
                       Modifiers:
                       - { Name: Power Source, PowerSource: Arcane }
                       Effects: []
-                ")!,
-                "5d6 + INT"
+                ")!
             );
 
-        private void VerifyFinalDamage(IPowerInfo powerInfo, PowerProfile powerProfile, params string[] finalDamage)
+        private void VerifyFinalDamage(IPowerInfo powerInfo, PowerProfile expectedProfile)
         {
             // Arrange
             var basePower = PowerGenerator.GetBasePower(powerInfo.Level, powerInfo.Usage);
+            var damageLenses = LimitBuildContext.GetDamageLenses(expectedProfile);
+            var expectedDamage = damageLenses.Select(d => expectedProfile.Get(d.Lens).Damage.ToString()).ToArray();
+            var powerProfile = damageLenses.Aggregate(expectedProfile, (prev, lens) => prev.Update(lens.Lens, d => d with { Damage = d.Damage with { DieCodes = Dice.DieCodes.Empty, WeaponDiceCount = 0 } }));
 
             // Act
             var actualPower = LimitBuildContext.ApplyWeaponDice(powerProfile, powerInfo, basePower);
 
             // Assert
-            var damageLenses = LimitBuildContext.GetDamageLenses(actualPower);
             var actualDamage = damageLenses.Select(d => actualPower.Get(d.Lens).Damage.ToString()).ToArray();
-            for (var i = 0; i < finalDamage.Length || i < actualDamage.Length; i++)
-                Assert.Equal(finalDamage[i], actualDamage[i]);
+            for (var i = 0; i < expectedDamage.Length || i < actualDamage.Length; i++)
+                Assert.Equal(expectedDamage[i], actualDamage[i]);
         }
     }
 }
