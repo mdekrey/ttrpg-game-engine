@@ -273,14 +273,14 @@ namespace GameEngine.Tests
                     "Progressive",
                     new PowerProfileConfig.PowerChance[] {
                         new("$..Modifiers[?(@.Name!='Condition' && @.Name!='Duration' && @.Name!='Damage')]", 0),
-                        new("$.Attacks..[?(@.Name=='Condition' && @.Conditions[0].Name == 'Slowed')].[?(@..AfterFailedSave==true)]..[?(@.Name=='Unconscious')]", 1),
+                        new("$.Attacks..[?(@.Name=='Condition' && @.Conditions[0].ConditionName == 'Slowed')].[?(@..AfterFailedSave==true)]..[?(@.ConditionName =='Unconscious')]", 1),
                     }.ToImmutableList()
                 ) },
             { "Regressive", new PowerProfileConfig(
                     "Regressive",
                     new PowerProfileConfig.PowerChance[] {
                         new("$..Modifiers[?(@.Name!='Condition' && @.Name!='Duration' && @.Name!='Damage')]", 0),
-                        new("$.Attacks..[?(@.Name=='Condition' && @.Conditions[0].Name == 'Stunned')].[?(@..AfterFailedSave==false)]..[?(@.Name=='Dazed')]", 1),
+                        new("$.Attacks..[?(@.Name=='Condition' && @.Conditions[0].ConditionName == 'Stunned')].[?(@..AfterFailedSave==false)]..[?(@.ConditionName =='Dazed')]", 1),
                     }.ToImmutableList()
                 ) },
             { "Ongoing", new PowerProfileConfig(

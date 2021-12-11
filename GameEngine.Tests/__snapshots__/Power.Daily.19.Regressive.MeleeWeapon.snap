@@ -16,22 +16,24 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Name: Stunned
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Stunned
           AfterEffect:
             Condition:
-              Name: Dazed
+              Name: Simple
+              ConditionName: Dazed
             AfterFailedSave: false
-          Name: Condition
-        - Damage: 2[W] + STR + DEX
+        - Name: Damage
+          Damage: 2[W] + STR + DEX
           DamageTypes: []
-          Name: Damage
       Modifiers: []
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Duration
+      Duration: SaveEnds
+    - Name: Power Source
+      PowerSource: Martial
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 19

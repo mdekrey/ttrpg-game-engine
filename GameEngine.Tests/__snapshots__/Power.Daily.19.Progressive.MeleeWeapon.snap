@@ -16,22 +16,24 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Conditions:
-          - Name: Slowed
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Slowed
           AfterEffect:
             Condition:
-              Name: Unconscious
+              Name: Simple
+              ConditionName: Unconscious
             AfterFailedSave: true
-          Name: Condition
-        - Damage: 1[W] + STR
+        - Name: Damage
+          Damage: 1[W] + STR
           DamageTypes: []
-          Name: Damage
       Modifiers: []
     Modifiers:
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Duration
+      Duration: SaveEnds
+    - Name: Power Source
+      PowerSource: Martial
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 19
