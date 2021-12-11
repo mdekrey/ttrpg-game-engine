@@ -53,14 +53,14 @@ namespace GameEngine.Tests
                         - Target: { $$modType: SameAsOtherTarget.v1, Name: See Other }
                           EffectType: Harmful
                           Modifiers:
-                          - { Damage: STR, DamageTypes: [ Radiant ], Order: 1, $$modType: DamageModifier.v1, Name: Damage }
+                          - { Damage: INT, DamageTypes: [ Fire ], Order: 1, $$modType: DamageModifier.v1, Name: Damage }
                         Modifiers:
-                        - { Defense: Fortitude, $$modType: NonArmorDefenseModifier.v1, Name: Non-Armor Defense }
+                        - { Defense: Reflex, $$modType: NonArmorDefenseModifier.v1, Name: Non-Armor Defense }
                       Modifiers:
                       - { PowerSource: Arcane, $$modType: PowerSourceModifier.v1, Name: Power Source }
                       Effects: []
                 ")!,
-                "d6 + STR" // TODO - this is wrong
+                "d6 + INT"
             );
         }
 
