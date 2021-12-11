@@ -1,0 +1,27 @@
+# Wizard, Scorching Burst
+# ID_FMP_POWER_1166
+# Verifies burst at lvl 1
+Profile:
+  Usage: At-Will
+  Level: 1
+  ToolType: Implement
+  ToolRange: Range
+  Abilities: [Intelligence]
+Power:
+  Attacks:
+  - Target:
+      Name: Multiple
+      Size: 3
+      Type: Burst
+      Target: Enemy, Self, Ally
+    Ability: Strength
+    Effects:
+    - Target: { Name: See Other }
+      EffectType: Harmful
+      Modifiers:
+      - { Name: Damage, Damage: d6 + INT, DamageTypes: [ Fire ], Order: 1 }
+    Modifiers:
+    - { Name: Non-Armor Defense, Defense: Reflex }
+  Modifiers:
+  - { Name: Power Source, PowerSource: Arcane }
+  Effects: []

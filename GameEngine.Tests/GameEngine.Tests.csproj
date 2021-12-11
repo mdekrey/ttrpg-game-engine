@@ -9,6 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Sample\Wizard.1.AtWill.ScorchingBurst.yaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Sample/*.yaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Snapshooter.Xunit" Version="0.6.2" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />

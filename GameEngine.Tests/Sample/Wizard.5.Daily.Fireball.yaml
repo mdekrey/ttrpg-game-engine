@@ -1,0 +1,27 @@
+# Wizard, Fireball
+# ID_FMP_POWER_1553
+# Verifies burst at lvl 5
+Profile:
+  Usage: Daily
+  Level: 5
+  ToolType: Implement
+  ToolRange: Range
+  Abilities: [Intelligence]
+Power:
+  Attacks:
+  - Target:
+      Name: Multiple
+      Size: 7
+      Type: Burst
+      Target: Enemy, Self, Ally
+    Ability: Strength
+    Effects:
+    - Target: { Name: See Other }
+      EffectType: Harmful
+      Modifiers:
+      - { Name: Damage, Damage: 4d6 + INT, DamageTypes: [ Fire ], Order: 1 }
+    Modifiers:
+    - { Name: Non-Armor Defense, Defense: Reflex }
+  Modifiers:
+  - { Name: Power Source, PowerSource: Arcane }
+  Effects: []

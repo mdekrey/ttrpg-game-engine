@@ -1,0 +1,33 @@
+# Wizard, Sleep
+# ID_FMP_POWER_451
+# Verifies burst at lvl 1
+Profile:
+  Usage: Daily
+  Level: 1
+  ToolType: Implement
+  ToolRange: Range
+  Abilities: [Intelligence]
+Power:
+  Attacks:
+  - Target:
+      Name: Multiple
+      Size: 5
+      Type: Burst
+      Target: Enemy, Self, Ally
+    Ability: Strength
+    Effects:
+    - Target: { Name: See Other }
+      EffectType: Harmful
+      Modifiers:
+      - { Name: Damage, Damage: '+0', DamageTypes: [], Order: 1 }
+      - Name: Condition
+        Conditions:
+        - { Name: Simple, ConditionName: Slowed }
+        AfterEffect:
+          Condition: { Name: Simple, ConditionName: Unconscious }
+          AfterFailedSave: true
+    Modifiers:
+    - { Name: Non-Armor Defense, Defense: Will }
+  Modifiers:
+  - { Name: Power Source, PowerSource: Arcane }
+  Effects: []
