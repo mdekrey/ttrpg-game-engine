@@ -1,39 +1,14 @@
 ﻿using GameEngine.Generator;
-using GameEngine.Generator.Modifiers;
-using GameEngine.Generator.Serialization;
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
+using static GameEngine.Tests.YamlSerialization.Snapshots;
 
 namespace GameEngine.Tests
 {
     public class LimitBuildContextShould
     {
         private static readonly PowerInfo Wizard = new PowerInfo(Rules.PowerFrequency.AtWill, ToolType.Implement, ToolRange.Range, 1, ImmutableList<Rules.Ability>.Empty.Add(Rules.Ability.Intelligence));
-
-        public static readonly YamlDotNet.Serialization.IDeserializer Deserializer = new YamlDotNet.Serialization.Deserializer();
-        public static readonly Newtonsoft.Json.JsonSerializer jsonDeserializer;
-
-        static LimitBuildContextShould()
-        {
-            jsonDeserializer = new Newtonsoft.Json.JsonSerializer();
-            foreach (var converter in ProfileSerialization.GetJsonConverters())
-                jsonDeserializer.Converters.Add(converter);
-            jsonDeserializer.Converters.Add(new GameDiceExpressionConverter());
-        }
-
-        [return: System.Diagnostics.CodeAnalysis.MaybeNull]
-        private T DeserializeYaml<T>(string v)
-        {
-            using var sr = new System.IO.StringReader(v);
-            var yamlObject = Deserializer.Deserialize(sr);
-            var token = Newtonsoft.Json.Linq.JToken.FromObject(yamlObject!, jsonDeserializer);
-            return token.ToObject<T>(jsonDeserializer);
-        }
 
         [Fact]
         public void AssignDamageForScorchingBurst() => // ID_FMP_POWER_1166

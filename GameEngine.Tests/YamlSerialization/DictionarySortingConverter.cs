@@ -31,7 +31,7 @@ namespace GameEngine.Tests.YamlSerialization
             foreach (var kv in keyValuePairs.OrderBy(kv => kv.Key))
             {
                 writer.WritePropertyName(kv.Key);
-                writer.WriteValue(kv.Value);
+                serializer.Serialize(writer, kv.Value);
             }
             writer.WriteEndObject();
         }

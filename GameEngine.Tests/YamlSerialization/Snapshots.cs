@@ -39,5 +39,14 @@ namespace GameEngine.Tests.YamlSerialization
             using var sr = new StringReader(json);
             return Serializer.Serialize(YamlDeserializer.Deserialize(sr)!);
         }
+
+        [return: System.Diagnostics.CodeAnalysis.MaybeNull]
+        public static T DeserializeYaml<T>(string v)
+        {
+            using var sr = new System.IO.StringReader(v);
+            var yamlObject = YamlDeserializer.Deserialize(sr);
+            var token = Newtonsoft.Json.Linq.JToken.FromObject(yamlObject!, JsonSerializer);
+            return token.ToObject<T>(JsonSerializer);
+        }
     }
 }
