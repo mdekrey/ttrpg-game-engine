@@ -571,7 +571,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: d10 + STR
+        - Damage: 2d8 + STR
           DamageTypes: []
           Name: Damage
       Modifiers:

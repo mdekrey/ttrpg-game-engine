@@ -287,7 +287,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: d4 + WIS
+        - Damage: d6 + WIS
           DamageTypes: []
           Name: Damage
         - Conditions:
@@ -801,7 +801,7 @@
               Name: See Other
             EffectType: Harmful
             Modifiers:
-            - Damage: 3d4 + WIS
+            - Damage: 4d4 + WIS
               DamageTypes: []
               Name: Damage
           Modifiers:
@@ -884,7 +884,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 3d4 + WIS
+        - Damage: 4d4 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -977,7 +977,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 3d4
+        - Damage: 2d8
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -1101,7 +1101,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 4d8 + WIS
+        - Damage: 6d6 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -1119,7 +1119,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 4d10
+        - Damage: 4d8
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -1320,7 +1320,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 3d4 + WIS
+        - Damage: 2d8 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -1421,7 +1421,7 @@
               Name: See Other
             EffectType: Harmful
             Modifiers:
-            - Damage: d4 + WIS
+            - Damage: d6 + WIS
               DamageTypes: []
               Name: Damage
           Modifiers:
@@ -1463,7 +1463,7 @@
               Name: See Other
             EffectType: Harmful
             Modifiers:
-            - Damage: 3d4 + WIS
+            - Damage: 4d4 + WIS
               DamageTypes: []
               Name: Damage
           Modifiers:
@@ -1504,7 +1504,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 3d4 + WIS
+        - Damage: 2d8 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -1577,7 +1577,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: d4 + WIS
+        - Damage: d6 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -2135,7 +2135,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 4d8 + WIS
+        - Damage: 6d6 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -2176,7 +2176,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 3d4 + WIS
+        - Damage: 2d8 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -2664,7 +2664,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 3d8 + WIS
+        - Damage: 4d6 + WIS
           DamageTypes: []
           Name: Damage
       Modifiers:
@@ -2774,7 +2774,7 @@
               Name: See Other
             EffectType: Harmful
             Modifiers:
-            - Damage: 3d4 + WIS
+            - Damage: 2d8 + WIS
               DamageTypes: []
               Name: Damage
           Modifiers:

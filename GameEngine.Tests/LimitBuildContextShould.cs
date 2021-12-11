@@ -75,7 +75,8 @@ namespace GameEngine.Tests
             // Assert
             var damageLenses = LimitBuildContext.GetDamageLenses(actualPower);
             var actualDamage = damageLenses.Select(d => actualPower.Get(d.Lens).Damage.ToString()).ToArray();
-            Assert.True(actualDamage.SequenceEqual(finalDamage));
+            for (var i = 0; i < finalDamage.Length || i < actualDamage.Length; i++)
+                Assert.Equal(finalDamage[i], actualDamage[i]);
         }
     }
 }

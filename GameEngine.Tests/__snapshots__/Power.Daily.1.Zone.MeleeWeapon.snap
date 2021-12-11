@@ -19,7 +19,7 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W]
+        - Damage: 1[W] + STR
           DamageTypes: []
           Name: Damage
       Modifiers: []
@@ -43,11 +43,11 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] damage.
+    Text: 1[W] + STR damage.
   - Label: Effect
     Text: The burst creates a zone of something that fills the area until the end of your next turn. Any creature that enters the zone or starts their turn there takes the zone effects.
   - Label: Zone Effect
-    Text: The creature takes 1[W] damage.
+    Text: The creature takes 1[W] + STR damage.
   - Label: Sustain Minor
     Text: The zone persists.
 - Fields:

@@ -25,13 +25,7 @@ namespace GameEngine.Generator
             if (powerContext.GetComplexity() > Limits.MaxComplexity)
                 return false;
 
-            var powerDamage = profile.TotalCost(PowerInfo).Fixed;
-            var min = GetDamageLenses(profile).Sum(c =>
-            {
-                var newPowerDamage = profile.Replace(c.Lens, c.Damage with { Damage = c.Damage.Damage with { WeaponDiceCount = c.Damage.Damage.WeaponDiceCount + 1 } }).TotalCost(PowerInfo).Fixed;
-                var effectiveness = newPowerDamage - powerDamage;
-                return effectiveness / (c.Damage.Weight ?? 1);
-            });
+            var min = GetDamageLenses(profile).Sum(c => GetEffectiveness(profile, PowerInfo, c));
             var remaining = profile.TotalCost(PowerInfo).Apply(Limits.Initial);
 
             if (remaining <= 0)
@@ -44,6 +38,14 @@ namespace GameEngine.Generator
             return true;
         }
 
+        private static double GetEffectiveness(PowerProfile profile, IPowerInfo powerInfo, DamageLens fullLens)
+        {
+            var initialPowerDamage = profile.TotalCost(powerInfo).Fixed;
+            var newPowerDamage = profile.Replace(fullLens.Lens, fullLens.Damage with { Damage = fullLens.Damage.Damage with { WeaponDiceCount = fullLens.Damage.Damage.WeaponDiceCount + 1 } }).TotalCost(powerInfo).Fixed;
+            var effectiveness = newPowerDamage - initialPowerDamage;
+            return effectiveness / (fullLens.Damage.Weight ?? 1);
+        }
+
         private PowerProfile ApplyWeaponDice(PowerProfile _this)
         {
             return ApplyWeaponDice(_this, PowerInfo, Limits.Initial);
@@ -52,28 +54,21 @@ namespace GameEngine.Generator
         {
             var context = new PowerContext(profile, powerInfo);
             var damages = GetDamageLenses(profile).OrderByDescending(e => e.Damage.Order ?? 1).ToImmutableList();
+            var remaining = profile.TotalCost(powerInfo).Apply(maxPower);
+            var damagesWithEffectiveness = (from damage in damages
+                                            let effectiveness = GetEffectiveness(profile, powerInfo, damage)
+                                            select new { Modifier = damage.Damage, Lens = damage.Lens, Effectiveness = effectiveness }).ToArray();
 
             var result = profile;
-            var stepSize = 0.5;
-            var damageAmounts = damages.ToDictionary(d => d, d => (originalDamage: d.Damage.Damage, added: 0.0));
-            bool hasIncreased;
-            do
+            for (var i = 0; i < damagesWithEffectiveness.Length; i++)
             {
-                hasIncreased = false;
-                foreach (var e in damages)
-                {
-                    var (originalDamage, added) = damageAmounts[e];
-                    added += stepSize;
-                    var temp = result.Update(e.Lens, mod => mod with { Damage = originalDamage + PowerProfileExtensions.ToDamageEffect(powerInfo.ToolType, added, mod.OverrideDiceType) });
-                    if (temp.TotalCost(powerInfo).Apply(maxPower) >= 0)
-                    {
-                        damageAmounts[e] = (originalDamage, added);
-                        result = temp;
-                        hasIncreased = true;
-                    }
-                }
-
-            } while (hasIncreased);
+                var factor = damagesWithEffectiveness[i].Effectiveness / damagesWithEffectiveness.Skip(i).Sum(e => e.Effectiveness);
+                var currentShare = remaining * factor / damagesWithEffectiveness[i].Effectiveness;
+                var currentDamage = PowerProfileExtensions.ToDamageEffect(powerInfo.ToolType, currentShare, damagesWithEffectiveness[i].Modifier.OverrideDiceType);
+                var actualShare = currentDamage.ToWeaponDice();
+                remaining -= actualShare * damagesWithEffectiveness[i].Effectiveness;
+                result = result.Update(damagesWithEffectiveness[i].Lens, mod => mod with { Damage = damagesWithEffectiveness[i].Modifier.Damage + currentDamage });
+            }
 
             return result;
         }
