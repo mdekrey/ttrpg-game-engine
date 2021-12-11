@@ -1,32 +1,32 @@
 ﻿Attacks:
 - Target:
+    Name: Multiple
     Target: Enemy, Self, Ally
     Size: 1
     Type: Blast
-    Name: Multiple
   Ability: Strength
   Effects:
   - Target:
       Name: See Other
     EffectType: Harmful
     Modifiers:
-    - Damage: d6 + STR
+    - Name: Damage
+      Damage: d6 + STR
       DamageTypes:
       - Radiant
-      Name: Damage
   Modifiers:
-  - Defense: Fortitude
-    Name: Non-Armor Defense
+  - Name: Non-Armor Defense
+    Defense: Fortitude
 Modifiers:
-- PowerSource: Arcane
-  Name: Power Source
+- Name: Power Source
+  PowerSource: Arcane
 Effects:
 - Target:
-    Target: Self
     Name: Basic Target
+    Target: Self
   EffectType: Beneficial
   Modifiers:
-  - Movement:
-    - Amount: DEX
-      Name: Shift
-    Name: Skirmish Movement
+  - Name: Skirmish Movement
+    Movement:
+    - Name: Shift
+      Amount: DEX

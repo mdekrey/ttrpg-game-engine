@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public abstract record RewritePowerModifier() : PowerModifier("N/A" /* This doesn't matter because it'll be rewritten */)
+    public abstract record RewritePowerModifier() : PowerModifier()
     {
         public override int GetComplexity(PowerContext powerContext) => 0;
 

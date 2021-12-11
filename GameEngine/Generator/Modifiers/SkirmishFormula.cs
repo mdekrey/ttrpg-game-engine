@@ -11,7 +11,6 @@ namespace GameEngine.Generator.Modifiers
 {
     public record SkirmishFormula() : IEffectFormula
     {
-        public const string ModifierName = "Skirmish Movement";
         private static readonly IReadOnlyList<Ability> fortitudeAttributes = new[] { Ability.Strength, Ability.Constitution };
 
         public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, EffectContext effectContext)
@@ -30,14 +29,15 @@ namespace GameEngine.Generator.Modifiers
             yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(2)));
         }
 
-        public abstract record SkirmishMovement(string Name)
+        public abstract record SkirmishMovement()
         {
             public abstract double Cost();
             public abstract IEnumerable<SkirmishMovement> GetUpgrades(EffectContext effectContext);
 
             public abstract string GetAttackPart(Target target);
         }
-        public record Shift(GameDiceExpression? Amount) : SkirmishMovement("Shift")
+        [ModifierName("Shift")]
+        public record Shift(GameDiceExpression? Amount) : SkirmishMovement()
         {
             // If Amount is null, it means "your speed"
             public override double Cost() => Amount == null ? 1 : Amount.ToWeaponDice();
@@ -54,7 +54,8 @@ namespace GameEngine.Generator.Modifiers
                 ? $"may shift {Amount} squares"
                 : $"may shift a number of squares equal to {(target == Target.Self ? "your" : "their")} speed";
         }
-        public record MovementDoesNotProvoke() : SkirmishMovement("Non-Provoking Movement")
+        [ModifierName("Non-Provoking Movement")]
+        public record MovementDoesNotProvoke() : SkirmishMovement()
         {
             public override double Cost() => 0.5;
             public override IEnumerable<SkirmishMovement> GetUpgrades(EffectContext effectContext)
@@ -67,7 +68,9 @@ namespace GameEngine.Generator.Modifiers
                 ? $"do not provoke opportunity attacks from movement for the rest of the turn"
                 : $"does not provoke opportunity attacks from movement for the rest of the turn";
         }
-        public record SkirmishMovementModifier(EquatableImmutableList<SkirmishMovement> Movement) : EffectModifier(ModifierName)
+
+        [ModifierName("Skirmish Movement")]
+        public record SkirmishMovementModifier(EquatableImmutableList<SkirmishMovement> Movement) : EffectModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
             public override bool UsesDuration() => false;

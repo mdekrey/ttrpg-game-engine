@@ -9,26 +9,26 @@
   PowerProfile:
     Attacks:
     - Target:
+        Name: Multiple
         Target: Enemy, Self, Ally
         Size: 1
         Type: Blast
-        Name: Multiple
       Ability: Wisdom
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: d6 + WIS
+        - Name: Damage
+          Damage: d6 + WIS
           DamageTypes: []
-          Name: Damage
       Modifiers:
-      - Defense: Fortitude
-        Name: Non-Armor Defense
+      - Name: Non-Armor Defense
+        Defense: Fortitude
     Modifiers:
     - Name: Is Basic Attack
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Power Source
+      PowerSource: Martial
     Effects: []
 - Name: Unknown
   TypeInfo: Implement Attack 1

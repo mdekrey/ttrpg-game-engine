@@ -9,7 +9,7 @@ namespace GameEngine.Generator.Modifiers
 
     public interface IModifier
     {
-        string Name { get; }
+        string? GetName() => ModifierNameAttribute.GetName(this.GetType());
         int GetComplexity(PowerContext powerContext);
         
         // If this modifier can soak all remaining power (that is, accounting for the ABIL damage modifier), this should return true

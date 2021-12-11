@@ -79,7 +79,7 @@ namespace GameEngine.Generator
                 ,
                 from formula in ModifierDefinitions.attackModifiers
                 from mod in formula.GetBaseModifiers(stage, attackContext)
-                where !attackContext.Modifiers.Any(m => m.Name == mod.Name)
+                where !attackContext.Modifiers.Any(m => m.GetName() == mod.GetName())
                 select attackContext.Attack.Apply(mod)
                 ,
                 from entry in TargetOptions

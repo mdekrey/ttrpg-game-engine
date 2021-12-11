@@ -9,44 +9,45 @@
   PowerProfile:
     Attacks: []
     Modifiers:
-    - InnerPower:
+    - Name: Stance Power
+      InnerPower:
         Attacks:
         - Target:
+            Name: Multiple
             Target: Enemy, Self, Ally
             Size: 3
             Type: Burst
-            Name: Multiple
           Ability: Strength
           Effects:
           - Target:
               Name: See Other
             EffectType: Harmful
             Modifiers:
-            - Damage: 1[W] + STR
+            - Name: Damage
+              Damage: 1[W] + STR
               DamageTypes: []
-              Name: Damage
-            - Conditions:
-              - Name: Dazed
-              Name: Condition
+            - Name: Condition
+              Conditions:
+              - Name: Simple
+                ConditionName: Dazed
           Modifiers: []
         Modifiers: []
         Effects: []
-      Name: Stance Power
-    - Duration: SaveEnds
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Duration
+      Duration: SaveEnds
+    - Name: Power Source
+      PowerSource: Martial
     Effects:
     - Target:
-        Target: Ally
         Name: Basic Target
+        Target: Ally
       EffectType: Beneficial
       Modifiers:
-      - Boosts:
-        - Amount: +2
+      - Name: Boost
+        Boosts:
+        - Name: Attack
+          Amount: +2
           Limit: NextAttack
-          Name: Attack
-        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''

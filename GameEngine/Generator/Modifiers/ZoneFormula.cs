@@ -59,7 +59,8 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record ZoneModifier() : PowerModifier("Zone"), IUniquePowerModifier
+        [ModifierName("Zone")]
+        public record ZoneModifier() : PowerModifier(), IUniquePowerModifier
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 

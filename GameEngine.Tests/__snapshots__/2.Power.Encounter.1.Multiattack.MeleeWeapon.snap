@@ -9,49 +9,49 @@
   PowerProfile:
     Attacks:
     - Target:
-        Target: Enemy, Self, Ally
         Name: Basic Target
+        Target: Enemy, Self, Ally
       Ability: Strength
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
+        - Name: Damage
+          Damage: 1[W] + STR
           DamageTypes: []
-          Name: Damage
       Modifiers:
       - Name: RequiredHitForNextAttack
     - Target:
-        Target: Enemy, Self, Ally
         Name: Basic Target
+        Target: Enemy, Self, Ally
       Ability: Strength
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
+        - Name: Damage
+          Damage: 1[W] + STR
           DamageTypes: []
-          Name: Damage
       Modifiers:
-      - Name: RequiresPreviousHit
+      - Name: Multiattack
     Modifiers:
-    - Duration: EndOfUserNextTurn
-      Name: Duration
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Duration
+      Duration: EndOfUserNextTurn
+    - Name: Power Source
+      PowerSource: Martial
     Effects:
     - Target:
-        Target: Self, Ally
         Name: Basic Target
+        Target: Self, Ally
       EffectType: Beneficial
       Modifiers:
-      - Boosts:
-        - Amount: STR
+      - Name: Boost
+        Boosts:
+        - Name: Attack
+          Amount: STR
           Limit: Target
-          Name: Attack
-        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''

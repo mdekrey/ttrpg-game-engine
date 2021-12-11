@@ -8,8 +8,6 @@ namespace GameEngine.Generator.Serialization
 {
     public static class ProfileSerialization
     {
-        const string version = "1";
-
         public static IEnumerable<JsonConverter> GetJsonConverters()
         {
             yield return new GameDiceExpressionConverter();
@@ -27,16 +25,16 @@ namespace GameEngine.Generator.Serialization
         private static JsonConverter GetConverter<T>()
         {
             // TODO - older versions
-            var builder = JsonSubtypesConverterBuilder.Of<T>("$$modType").SerializeDiscriminatorProperty(addDiscriminatorFirst: true);
+            var builder = JsonSubtypesConverterBuilder.Of<T>("Name").SerializeDiscriminatorProperty(addDiscriminatorFirst: true);
 
             var entries = from type in typeof(T).Assembly.GetTypes()
-                          where typeof(T).IsAssignableFrom(type)
+                          where typeof(T).IsAssignableFrom(type) && !typeof(RewritePowerModifier).IsAssignableFrom(type)
                           where !type.IsAbstract
                           select type;
 
             foreach (var entry in entries)
             {
-                builder.RegisterSubtype(entry, entry.Name + ".v" + version);
+                builder.RegisterSubtype(entry, ModifierNameAttribute.GetName(entry));
             }
 
             return builder.Build();

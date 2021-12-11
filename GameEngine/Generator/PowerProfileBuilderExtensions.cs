@@ -68,7 +68,7 @@ namespace GameEngine.Generator
                     ,
                     from formula in ModifierDefinitions.powerModifiers
                     from mod in formula.GetBaseModifiers(stage, powerContext)
-                    where !powerContext.PowerProfile.Modifiers.Any(m => m.Name == mod.Name)
+                    where !powerContext.PowerProfile.Modifiers.Any(m => m.GetName() == mod.GetName())
                     select powerContext.PowerProfile.Apply(mod)
                     ,
                     from entry in TargetOptions

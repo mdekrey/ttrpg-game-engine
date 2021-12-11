@@ -7,11 +7,11 @@
       Name: See Other
     EffectType: Harmful
     Modifiers:
-    - Damage: 1[W] + STR
+    - Name: Damage
+      Damage: 1[W] + STR
       DamageTypes: []
-      Name: Damage
   Modifiers: []
 Modifiers:
-- PowerSource: Martial
-  Name: Power Source
+- Name: Power Source
+  PowerSource: Martial
 Effects: []

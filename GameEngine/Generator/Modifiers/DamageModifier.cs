@@ -15,10 +15,11 @@ namespace GameEngine.Generator.Modifiers
         DiceOnly,
     }
 
+    [ModifierName("Damage")]
     public record DamageModifier(GameDiceExpression Damage, EquatableImmutableList<DamageType> DamageTypes,
         DamageDiceType? OverrideDiceType = null,
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)] int? Order = null,
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)] double? Weight = 1.0) : EffectModifier("Damage")
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)] double? Weight = 1.0) : EffectModifier()
     {
         public override int GetComplexity(PowerContext powerContext) => 0;
 

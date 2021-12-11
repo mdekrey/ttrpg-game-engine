@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameEngine.Generator.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,8 +31,13 @@ namespace GameEngine.Generator
         {
             var serializer = new Newtonsoft.Json.JsonSerializer()
             {
-                Converters = { new Newtonsoft.Json.Converters.StringEnumConverter() }
+                Converters =
+                { 
+                    new Newtonsoft.Json.Converters.StringEnumConverter()
+                },
             };
+            foreach (var converter in ProfileSerialization.GetJsonConverters())
+                serializer.Converters.Add(converter);
             return Newtonsoft.Json.Linq.JToken.FromObject(powerProfile, serializer);
         }
     }

@@ -7,23 +7,27 @@
       Name: See Other
     EffectType: Harmful
     Modifiers:
-    - Conditions:
-      - Name: Blinded
-      - Name: Dazed
-      - Name: Deafened
+    - Name: Condition
+      Conditions:
+      - Name: Simple
+        ConditionName: Blinded
+      - Name: Simple
+        ConditionName: Dazed
+      - Name: Simple
+        ConditionName: Deafened
       AfterEffect:
         Condition:
-          Name: Unconscious
+          Name: Simple
+          ConditionName: Unconscious
         AfterFailedSave: true
-      Name: Condition
-    - Damage: d10 + STR + DEX
+    - Name: Damage
+      Damage: d10 + STR + DEX
       DamageTypes: []
-      Name: Damage
   Modifiers: []
 Modifiers:
-- Duration: SaveEnds
-  Name: Duration
+- Name: Duration
+  Duration: SaveEnds
 - Name: Conjuration
-- PowerSource: Martial
-  Name: Power Source
+- Name: Power Source
+  PowerSource: Martial
 Effects: []

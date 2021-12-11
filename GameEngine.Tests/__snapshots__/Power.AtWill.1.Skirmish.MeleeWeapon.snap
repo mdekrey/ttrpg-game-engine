@@ -9,31 +9,31 @@
   PowerProfile:
     Attacks:
     - Target:
-        Target: Enemy, Self, Ally
         Name: Basic Target
+        Target: Enemy, Self, Ally
       Ability: Strength
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
+        - Name: Damage
+          Damage: 1[W] + STR
           DamageTypes: []
-          Name: Damage
       Modifiers: []
     Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Power Source
+      PowerSource: Martial
     Effects:
     - Target:
-        Target: Self
         Name: Basic Target
+        Target: Self
       EffectType: Beneficial
       Modifiers:
-      - Movement:
-        - Amount: DEX
-          Name: Shift
-        Name: Skirmish Movement
+      - Name: Skirmish Movement
+        Movement:
+        - Name: Shift
+          Amount: DEX
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''

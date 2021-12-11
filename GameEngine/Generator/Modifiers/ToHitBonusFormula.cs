@@ -12,14 +12,13 @@ namespace GameEngine.Generator.Modifiers
 {
     public record ToHitBonusFormula() : IAttackModifierFormula
     {
-        public const string ModifierName = "To-Hit Bonus to Current Attack";
-
         public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackContext attackContext)
         {
             return new ToHitBonus(0).GetUpgrades(stage, attackContext);
         }
 
-        public record ToHitBonus(GameDiceExpression Amount) : AttackModifier(ModifierName)
+        [ModifierName("To-Hit Bonus to Current Attack")]
+        public record ToHitBonus(GameDiceExpression Amount) : AttackModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => IsPlaceholder() ? 0 : 1;
             public bool IsPlaceholder() => Amount == GameDiceExpression.Empty;

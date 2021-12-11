@@ -9,30 +9,30 @@
   PowerProfile:
     Attacks:
     - Target:
+        Name: Multiple
         Target: Enemy, Self, Ally
         Size: 3
         Type: Burst
-        Name: Multiple
       Ability: Strength
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
+        - Name: Damage
+          Damage: 1[W] + STR
           DamageTypes: []
-          Name: Damage
       Modifiers: []
     Modifiers:
-    - EffectModifier:
-        Boosts:
-        - Amount: +4
-          Limit: Target
-          Name: Attack
+    - Name: Self-Boost Stance
+      EffectModifier:
         Name: Boost
-      Name: Self-Boost Stance
-    - PowerSource: Martial
-      Name: Power Source
+        Boosts:
+        - Name: Attack
+          Amount: +4
+          Limit: Target
+    - Name: Power Source
+      PowerSource: Martial
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1

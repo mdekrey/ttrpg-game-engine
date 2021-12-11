@@ -16,9 +16,7 @@ namespace GameEngine.Generator.Modifiers
         private static readonly Lens<PowerProfile, ImmutableList<TargetEffect>> effectsLens = Lens<PowerProfile>.To(p => p.Effects.Items, (p, e) => p with { Effects = e });
         private static readonly Lens<AttackProfile, ImmutableList<TargetEffect>> attackToEffectLens = Lens<AttackProfile>.To(p => p.Effects.Items, (p, e) => p with { Effects = e });
 
-        public const string ModifierName = "Condition";
-
-        public record ConditionOptionKey(Condition Condition, Duration Duration);
+        public record ConditionOptionKey(BasicCondition Condition, Duration Duration);
         public record ConditionOptionValue(PowerCost Cost, int Chances);
 
         public record ConditionDefinition(string Name, double Cost, string OtherVerb, string SelfVerb, string Effect, bool AllowDirectApplication, bool AllowAfterEfect, ImmutableList<string> Subsumes)
@@ -124,11 +122,11 @@ namespace GameEngine.Generator.Modifiers
 
         public static IEnumerable<Condition> GetBaseConditions()
         {
-            return from set in new[]
+            return from set in new []
                    {
                        from basicCondition in basicConditions.Keys
                        where basicConditions[basicCondition].AllowDirectApplication
-                       select new Condition(basicCondition),
+                       select (Condition)new BasicCondition(basicCondition),
                        DefenseConditions,
                    }
                    from mod in set
@@ -184,7 +182,8 @@ namespace GameEngine.Generator.Modifiers
 
         public record AfterEffect(Condition Condition, bool AfterFailedSave);
 
-        public record ConditionModifier(EquatableImmutableList<Condition> Conditions, AfterEffect? AfterEffect = null) : EffectModifier(ModifierName)
+        [ModifierName("Condition")]
+        public record ConditionModifier(EquatableImmutableList<Condition> Conditions, AfterEffect? AfterEffect = null) : EffectModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => (Conditions.Count + 2) / 3;
             public override PowerCost GetCost(EffectContext effectContext) =>
@@ -222,32 +221,33 @@ namespace GameEngine.Generator.Modifiers
                     where basicConditions[basicCondition].Subsumes.Count > 0
                     from simple in basicConditions[basicCondition].Subsumes
                     where basicConditions[simple].AllowDirectApplication
-                    select new ConditionModifier(ImmutableList<Condition>.Empty.Add(new Condition(simple)), new AfterEffect(new Condition(basicCondition), true)),
+                    select new ConditionModifier(ImmutableList<Condition>.Empty.Add(new BasicCondition(simple)), new AfterEffect(new BasicCondition(basicCondition), true)),
 
                     from basicCondition in basicConditions.Keys
                     where Conditions.Count == 0 && duration == Duration.SaveEnds
                     where basicConditions[basicCondition].Subsumes.Count > 0
                     from simple in basicConditions[basicCondition].Subsumes
                     where basicConditions[simple].AllowDirectApplication
-                    select new ConditionModifier(ImmutableList<Condition>.Empty.Add(new Condition(basicCondition)), new AfterEffect(new Condition(simple), false)),
+                    select new ConditionModifier(ImmutableList<Condition>.Empty.Add(new BasicCondition(basicCondition)), new AfterEffect(new BasicCondition(simple), false)),
 
                     from basicCondition in basicConditions.Keys
                     where basicConditions[basicCondition].AllowDirectApplication
-                    where !Conditions.Select(b => b.Name).Contains(basicCondition)
+                    where !Conditions.OfType<BasicCondition>().Select(b => b.ConditionName).Contains(basicCondition)
                     where !GetSubsumed(Conditions).Contains(basicCondition)
-                    select this with { Conditions = Filter(Conditions.Items.Add(new Condition(basicCondition))) },
+                    select this with { Conditions = Filter(Conditions.Items.Add(new BasicCondition(basicCondition))) },
 
                     from basicCondition in basicConditions.Keys
-                    where !Conditions.Select(b => b.Name).Contains(basicCondition) && Conditions.Count > 0
-                    let newCondition = new Condition(basicCondition)
+                    where !Conditions.OfType<BasicCondition>().Select(b => b.ConditionName).Contains(basicCondition) && Conditions.Count > 0
+                    let newCondition = new BasicCondition(basicCondition)
                     let filtered = Filter(Conditions.Items.Add(newCondition))
-                    where filtered.Count == 1 && filtered[0].Name == basicCondition // the new condition subsumes all other conditions
+                    where filtered.Count == 1 && filtered[0] is BasicCondition b && b.ConditionName == basicCondition // the new condition subsumes all other conditions
                     select this with { AfterEffect = new (newCondition, true) },
 
                     from basicCondition in basicConditions.Keys
-                    where !Conditions.Select(b => b.Name).Contains(basicCondition) && Conditions.Count > 0
+                    where Conditions.Count > 0
+                    where !Conditions.OfType<BasicCondition>().Select(b => b.ConditionName).Contains(basicCondition)
                     where GetSubsumed(Conditions).Contains(basicCondition)
-                    let newCondition = new Condition(basicCondition) // the new condition is a lesser version of one of the others already applied
+                    let newCondition = new BasicCondition(basicCondition) // the new condition is a lesser version of one of the others already applied
                     select this with { AfterEffect = new (newCondition, false) },
 
                     from amount in Enumerable.Repeat(5, 1)
@@ -317,24 +317,40 @@ namespace GameEngine.Generator.Modifiers
         private static ImmutableList<Condition> Filter(ImmutableList<Condition> conditions)
         {
             var subsumed = GetSubsumed(conditions);
-            return conditions.Where(c => !subsumed.Contains(c.Name)).ToImmutableList();
+            return conditions.Where(c => c is not BasicCondition basic || !subsumed.Contains(basic.ConditionName)).ToImmutableList();
         }
 
         private static HashSet<string> GetSubsumed(ImmutableList<Condition> conditions) =>
-            conditions.Select(c => c.Name).SelectMany(c => basicConditions.ContainsKey(c) && basicConditions[c].Subsumes.Any()
-                                ? basicConditions[c].Subsumes
-                                : Enumerable.Empty<string>()).ToHashSet();
+            conditions
+                .OfType<BasicCondition>()
+                .Select(c => c.ConditionName)
+                .SelectMany(c => 
+                    basicConditions.ContainsKey(c) && basicConditions[c].Subsumes.Any()
+                        ? basicConditions[c].Subsumes
+                        : Enumerable.Empty<string>()
+                )
+                .ToHashSet();
 
-        public record Condition(string Name)
+        public abstract record Condition()
         {
-            public virtual double Cost() => basicConditions[Name].Cost;
-            public virtual IEnumerable<Condition> GetUpgrades() =>
-                Enumerable.Empty<Condition>();
-            public virtual string Verb(Target target) => target == Target.Self ? basicConditions[Name].SelfVerb : basicConditions[Name].OtherVerb;
-            public virtual string Effect() => basicConditions[Name].Effect;
+            public abstract double Cost();
+            public abstract IEnumerable<Condition> GetUpgrades();
+            public abstract string Verb(Target target);
+            public abstract string Effect();
         }
 
-        public record OngoingDamage(int Amount) : Condition("Ongoing")
+        [ModifierName("Simple")]
+        public record BasicCondition(string ConditionName) : Condition()
+        {
+            public override double Cost() => basicConditions[ConditionName].Cost;
+            public override IEnumerable<Condition> GetUpgrades() =>
+                Enumerable.Empty<Condition>();
+            public override string Verb(Target target) => target == Target.Self ? basicConditions[ConditionName].SelfVerb : basicConditions[ConditionName].OtherVerb;
+            public override string Effect() => basicConditions[ConditionName].Effect;
+        }
+
+        [ModifierName("Ongoing")]
+        public record OngoingDamage(int Amount) : Condition()
         {
             public override double Cost() => Amount / 5;
 
@@ -347,7 +363,8 @@ namespace GameEngine.Generator.Modifiers
             public override string Effect() => $"ongoing {Amount}";
         }
 
-        public record DefensePenalty(DefenseType? Defense) : Condition("Defense Penalty")
+        [ModifierName("Defense Penalty")]
+        public record DefensePenalty(DefenseType? Defense) : Condition()
         {
             public override double Cost() => Defense == null ? 1 : 0.5;
 

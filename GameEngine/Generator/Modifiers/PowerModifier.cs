@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public abstract record PowerModifier(string Name) : IPowerModifier
+    public abstract record PowerModifier() : IPowerModifier
     {
         public virtual bool ExcludeFromUniqueness() => false;
         public virtual bool ChangesActionType() => false;

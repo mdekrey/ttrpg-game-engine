@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public abstract record AttackModifier(string Name) : IAttackModifier
+    public abstract record AttackModifier() : IAttackModifier
     {
         public abstract int GetComplexity(PowerContext powerContext);
         public abstract PowerCost GetCost(AttackContext attackContext);

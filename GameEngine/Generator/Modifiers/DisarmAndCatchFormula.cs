@@ -17,7 +17,8 @@ namespace GameEngine.Generator.Modifiers
             yield return new DisarmAndCatch();
         }
 
-        public record DisarmAndCatch() : EffectModifier("Disarm and Catch")
+        [ModifierName("Disarm and Catch")]
+        public record DisarmAndCatch() : EffectModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
             public override bool UsesDuration() => false;

@@ -9,8 +9,6 @@ namespace GameEngine.Generator.Modifiers
 {
     public record IgnoreCoverOrConcealmentFormula() : IAttackModifierFormula
     {
-        public const string ModifierName = "To-Hit Bonus to Current Attack";
-
         public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackContext attackContext)
         {
             if (stage < UpgradeStage.Standard) yield break;
@@ -30,7 +28,8 @@ namespace GameEngine.Generator.Modifiers
             Concealment = 4,
         }
 
-        public record IgnoreCoverOrConcealment(CoverConcealment Kind) : AttackModifier("Ignore Cover or Concealment")
+        [ModifierName("Ignore Cover or Concealment")]
+        public record IgnoreCoverOrConcealment(CoverConcealment Kind) : AttackModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 

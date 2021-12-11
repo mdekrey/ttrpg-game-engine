@@ -10,8 +10,6 @@ namespace GameEngine.Generator.Modifiers
 {
     public record MovementControlFormula() : IEffectFormula
     {
-        public const string ModifierName = "MovementControl";
-
         public IEnumerable<IEffectModifier> GetBaseModifiers(UpgradeStage stage, EffectContext effectContext)
         {
             return new MovementModifier(ImmutableList<MovementControl>.Empty).GetUpgrades(stage, effectContext);
@@ -26,7 +24,8 @@ namespace GameEngine.Generator.Modifiers
                 new SlideOpponent(OpponentMovementMode.Slide, 1),
             }.ToImmutableList();
 
-        public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : EffectModifier(ModifierName)
+        [ModifierName("MovementControl")]
+        public record MovementModifier(EquatableImmutableList<MovementControl> Effects) : EffectModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => IsPlaceholder() ? 0 : 1;
             public override PowerCost GetCost(EffectContext effectContext) =>
@@ -48,7 +47,7 @@ namespace GameEngine.Generator.Modifiers
                     : from set in new[]
                       {
                           from basicCondition in basicEffects
-                          where !Effects.Select(b => b.Name).Contains(basicCondition.Name)
+                          where !Effects.Select(b => ModifierNameAttribute.GetName(b.GetType())).Contains(ModifierNameAttribute.GetName(basicCondition.GetType()))
                           select this with { Effects = Effects.Items.Add(basicCondition) },
 
                           from condition in Effects
@@ -69,7 +68,7 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public abstract record MovementControl(string Name)
+        public abstract record MovementControl()
         {
             public abstract int Order();
             public abstract string? HitPart(EffectContext effectContext);
@@ -79,7 +78,8 @@ namespace GameEngine.Generator.Modifiers
                 Enumerable.Empty<MovementControl>();
         }
 
-        public record Prone() : MovementControl("Prone")
+        [ModifierName("Prone")]
+        public record Prone() : MovementControl()
         {
             public override double Cost() => 1;
             public override int Order() => 1;
@@ -94,7 +94,8 @@ namespace GameEngine.Generator.Modifiers
             Slide
         }
 
-        public record SlideOpponent(OpponentMovementMode Mode, GameDiceExpression Amount) : MovementControl("Slide Opponent")
+        [ModifierName("Slide Opponent")]
+        public record SlideOpponent(OpponentMovementMode Mode, GameDiceExpression Amount) : MovementControl()
         {
             public override int Order() => 0;
             public override string? HitPart(EffectContext effectContext) => (effectContext.Target, Mode) switch

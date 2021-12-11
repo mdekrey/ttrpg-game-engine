@@ -50,7 +50,8 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record RepeatedAttacksModifier() : PowerModifier("RepeatedAttacks"), IUniquePowerModifier
+        [ModifierName("RepeatedAttacks")]
+        public record RepeatedAttacksModifier() : PowerModifier(), IUniquePowerModifier
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 

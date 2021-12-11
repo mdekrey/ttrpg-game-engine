@@ -64,7 +64,8 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record RerollAttack() : AttackModifier("Reroll attack")
+        [ModifierName("Reroll attack")]
+        public record RerollAttack() : AttackModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
             public override ModifierFinalizer<IAttackModifier>? Finalize(AttackContext powerContext) => null;
@@ -80,7 +81,8 @@ namespace GameEngine.Generator.Modifiers
                 new(0, (attack, index) => attack with { AttackNoteSentences = attack.AttackNoteSentences.Add("You can reroll the attack roll but must use the second result.") });
         }
 
-        public record RerollDamage() : EffectModifier("Reroll damage")
+        [ModifierName("Reroll damage")]
+        public record RerollDamage() : EffectModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 

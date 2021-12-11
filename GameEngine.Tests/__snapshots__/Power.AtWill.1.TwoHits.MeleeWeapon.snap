@@ -16,13 +16,13 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W]
+        - Name: Damage
+          Damage: 1[W]
           DamageTypes: []
-          Name: Damage
       Modifiers: []
     Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Power Source
+      PowerSource: Martial
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1

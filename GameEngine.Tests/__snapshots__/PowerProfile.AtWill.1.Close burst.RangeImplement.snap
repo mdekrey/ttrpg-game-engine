@@ -1,23 +1,23 @@
 ﻿Attacks:
 - Target:
+    Name: Multiple
     Target: Enemy, Self, Ally
     Size: 3
     Type: Burst
-    Name: Multiple
   Ability: Strength
   Effects:
   - Target:
       Name: See Other
     EffectType: Harmful
     Modifiers:
-    - Damage: d6 + STR
+    - Name: Damage
+      Damage: d6 + STR
       DamageTypes:
       - Radiant
-      Name: Damage
   Modifiers:
-  - Defense: Fortitude
-    Name: Non-Armor Defense
+  - Name: Non-Armor Defense
+    Defense: Fortitude
 Modifiers:
-- PowerSource: Arcane
-  Name: Power Source
+- Name: Power Source
+  PowerSource: Arcane
 Effects: []

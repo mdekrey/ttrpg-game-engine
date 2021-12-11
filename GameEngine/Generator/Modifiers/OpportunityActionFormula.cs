@@ -10,8 +10,6 @@ namespace GameEngine.Generator.Modifiers
 {
     public record OpportunityActionFormula() : IPowerModifierFormula
     {
-        public const string ModifierName = "OpportunityAction";
-
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
             if (powerContext.Usage == PowerFrequency.AtWill)
@@ -33,7 +31,8 @@ namespace GameEngine.Generator.Modifiers
             ACreatureMovesAdjacent,
         }
 
-        public record OpportunityActionModifier(Trigger Trigger) : PowerModifier(ModifierName)
+        [ModifierName("OpportunityAction")]
+        public record OpportunityActionModifier(Trigger Trigger) : PowerModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
             public override bool ChangesActionType() => true;

@@ -1,23 +1,24 @@
 ﻿Attacks:
 - Target:
+    Name: Multiple
     Target: Enemy, Self, Ally
     Size: 5
     Type: Burst
-    Name: Multiple
   Ability: Strength
   Effects:
   - Target:
       Name: See Other
     EffectType: Harmful
     Modifiers:
-    - Damage: 1[W] + STR
+    - Name: Damage
+      Damage: 1[W] + STR
       DamageTypes: []
-      Name: Damage
-    - Conditions:
-      - Name: Dazed
-      Name: Condition
+    - Name: Condition
+      Conditions:
+      - Name: Simple
+        ConditionName: Dazed
   Modifiers: []
 Modifiers:
-- PowerSource: Martial
-  Name: Power Source
+- Name: Power Source
+  PowerSource: Martial
 Effects: []

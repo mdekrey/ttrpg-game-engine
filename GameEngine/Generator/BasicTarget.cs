@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
+    [ModifierName("Basic Target")]
     public record BasicTarget(Target Target) : IEffectTargetModifier, IAttackTargetModifier
     {
-        public string Name => "Basic Target";
         public int GetComplexity(PowerContext powerContext) => 0;
 
         public PowerCost GetCost() => PowerCost.Empty;

@@ -12,7 +12,6 @@ namespace GameEngine.Generator.Modifiers
 {
     public record NonArmorDefenseFormula() : IAttackModifierFormula
     {
-        public const string ModifierName = "Non-Armor Defense";
         public IEnumerable<IAttackModifier> GetBaseModifiers(UpgradeStage stage, AttackContext attackContext)
         {
             if (stage != UpgradeStage.Standard && attackContext.ToolType == ToolType.Weapon)
@@ -25,7 +24,8 @@ namespace GameEngine.Generator.Modifiers
                 new(defense);
         }
 
-        public record NonArmorDefenseModifier(DefenseType Defense) : AttackModifier(ModifierName)
+        [ModifierName("Non-Armor Defense")]
+        public record NonArmorDefenseModifier(DefenseType Defense) : AttackModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => (powerContext.ToolType == ToolType.Implement || IsPlaceholder()) ? 0 : 1;
 

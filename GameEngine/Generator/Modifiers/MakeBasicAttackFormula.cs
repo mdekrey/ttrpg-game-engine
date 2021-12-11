@@ -17,7 +17,8 @@ namespace GameEngine.Generator.Modifiers
             yield return new MakeBasicAttackModifier(GameDiceExpression.Empty);
         }
 
-        public record MakeBasicAttackModifier(GameDiceExpression Damage) : EffectModifier("Make Basic Attack")
+        [ModifierName("Make Basic Attack")]
+        public record MakeBasicAttackModifier(GameDiceExpression Damage) : EffectModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
             public override bool UsesDuration() => false;

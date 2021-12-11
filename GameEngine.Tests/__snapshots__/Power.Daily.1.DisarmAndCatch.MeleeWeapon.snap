@@ -9,10 +9,10 @@
   PowerProfile:
     Attacks:
     - Target:
+        Name: Multiple
         Target: Enemy, Self, Ally
         Size: 3
         Type: Burst
-        Name: Multiple
       Ability: Strength
       Effects:
       - Target:
@@ -20,16 +20,17 @@
         EffectType: Harmful
         Modifiers:
         - Name: Disarm and Catch
-        - Damage: 1[W] + STR
+        - Name: Damage
+          Damage: 1[W] + STR
           DamageTypes: []
-          Name: Damage
-        - Conditions:
-          - Name: Dazed
-          Name: Condition
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Dazed
       Modifiers: []
     Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Power Source
+      PowerSource: Martial
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1

@@ -9,7 +9,6 @@ namespace GameEngine.Generator.Modifiers
 {
     public record EffectDurationFormula() : IPowerModifierFormula
     {
-        public const string ModifierName = "Duration";
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
             if (!powerContext.AllModifiers(true).OfType<IEffectModifier>().Any(d => d.UsesDuration()))
@@ -25,7 +24,8 @@ namespace GameEngine.Generator.Modifiers
                 yield return new EffectDurationModifier(Duration.EndOfEncounter);
         }
 
-        public record EffectDurationModifier(Duration Duration) : PowerModifier(ModifierName)
+        [ModifierName("Duration")]
+        public record EffectDurationModifier(Duration Duration) : PowerModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 0;
 

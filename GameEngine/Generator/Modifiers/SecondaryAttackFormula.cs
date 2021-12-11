@@ -13,8 +13,6 @@ namespace GameEngine.Generator.Modifiers
 {
     public record MultiattackFormula() : IPowerModifierFormula
     {
-        public const string ModifierName = "Multiattack";
-
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
             if (stage != UpgradeStage.Standard)
@@ -88,7 +86,8 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record MultiattackAppliedModifier() : PowerModifier(ModifierName), IUniquePowerModifier
+        [ModifierName("Multiattack Applied")] // TODO: This may have been only "Multiattack"
+        public record MultiattackAppliedModifier() : PowerModifier(), IUniquePowerModifier
         {
             public override int GetComplexity(PowerContext powerContext) => 0;
             public override PowerCost GetCost(PowerContext powerContext) => PowerCost.Empty;
@@ -97,11 +96,10 @@ namespace GameEngine.Generator.Modifiers
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext) => throw new NotSupportedException("Should be upgraded or removed before this point");
         }
 
-        public record MustHitForNextAttackModifier() : AttackModifier(MustHitForNextAttackModifier.ModifierName)
+        [ModifierName("RequiredHitForNextAttack")]
+        public record MustHitForNextAttackModifier() : AttackModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 0;
-
-            public const string ModifierName = "RequiredHitForNextAttack";
 
             public override PowerCost GetCost(AttackContext attackContext) => PowerCost.Empty;
             public override bool CanUseRemainingPower() => true;
@@ -115,7 +113,8 @@ namespace GameEngine.Generator.Modifiers
                 });
         }
 
-        public record SecondaryAttackModifier() : AttackModifier(SecondaryAttackModifier.ModifierName)
+        [ModifierName("Multiattack")]
+        public record SecondaryAttackModifier() : AttackModifier()
         {
             public const double FollowupAttackPower = 1.5;
 
@@ -132,9 +131,9 @@ namespace GameEngine.Generator.Modifiers
         }
 
         // Two Identical attacks
+        [ModifierName("TwoHits")]
         public record TwoHitsModifier(IEffectModifier? EffectModifier = null) : IAttackTargetModifier
         {
-            public string Name => "TwoHits";
             public int GetComplexity(PowerContext powerContext) => 1;
             public PowerCost GetCost(AttackContext attackContext) =>
                 new PowerCost(Multiplier: 2) 
@@ -181,7 +180,7 @@ namespace GameEngine.Generator.Modifiers
                 {
                     return from formula in ModifierDefinitions.effectModifiers
                            from mod in formula.GetBaseModifiers(stage, effectContext)
-                           where !attackContext.Modifiers.Any(m => m.Name == mod.Name)
+                           where !attackContext.Modifiers.Any(m => m.GetName() == mod.GetName())
                            select this with { EffectModifier = mod };
                 }
 
@@ -204,9 +203,9 @@ namespace GameEngine.Generator.Modifiers
         }
 
         // Identical attacks against up to 3 targets.
+        [ModifierName("UpToThreeTargets")]
         public record UpToThreeTargetsModifier() : IAttackTargetModifier
         {
-            public string Name => "UpToThreeTargets";
             public int GetComplexity(PowerContext powerContext) => 0;
             public PowerCost GetCost(AttackContext attackContext) => new PowerCost(1.5);
 

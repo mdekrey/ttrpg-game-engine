@@ -9,29 +9,29 @@
   PowerProfile:
     Attacks:
     - Target:
-        Target: Enemy, Self, Ally
         Name: Basic Target
+        Target: Enemy, Self, Ally
       Ability: Strength
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
+        - Name: Damage
+          Damage: 1[W] + STR
           DamageTypes: []
-          Name: Damage
       Modifiers: []
     Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Power Source
+      PowerSource: Martial
     Effects:
     - Target:
-        Target: Ally
         Name: Basic Target
+        Target: Ally
       EffectType: Beneficial
       Modifiers:
-      - Damage: STR
-        Name: Make Basic Attack
+      - Name: Make Basic Attack
+        Damage: STR
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''

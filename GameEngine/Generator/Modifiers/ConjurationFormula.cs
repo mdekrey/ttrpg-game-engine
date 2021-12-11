@@ -46,10 +46,9 @@ namespace GameEngine.Generator.Modifiers
                 });
         }
 
+        [ModifierName("Conjuration Target")]
         public record ConjurationTarget() : IAttackTargetModifier
         {
-            public string Name => "Conjuration Target";
-
             public IAttackTargetModifier Finalize(AttackContext powerContext) => this;
 
             public string? GetAttackNotes(AttackContext attackContext) => null;
@@ -82,7 +81,8 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        public record ConjurationModifier() : PowerModifier("Conjuration"), IUniquePowerModifier
+        [ModifierName("Conjuration")]
+        public record ConjurationModifier() : PowerModifier(), IUniquePowerModifier
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 

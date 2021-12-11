@@ -16,29 +16,29 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Effects:
-          - Mode: Slide
+        - Name: MovementControl
+          Effects:
+          - Name: Slide Opponent
+            Mode: Slide
             Amount: +1
-            Name: Slide Opponent
-          Name: MovementControl
-        - Damage: 1[W] + STR
+        - Name: Damage
+          Damage: 1[W] + STR
           DamageTypes: []
-          Name: Damage
       Modifiers: []
     Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Power Source
+      PowerSource: Martial
     Effects:
     - Target:
-        Target: Ally
         Name: Basic Target
+        Target: Ally
       EffectType: Beneficial
       Modifiers:
-      - Boosts:
-        - Amount: +2
+      - Name: Boost
+        Boosts:
+        - Name: Attack
+          Amount: +2
           Limit: NextAttack
-          Name: Attack
-        Name: Boost
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''

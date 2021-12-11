@@ -48,10 +48,9 @@ namespace GameEngine.Generator.Modifiers
             Wall,
         }
 
+        [ModifierName("Multiple")]
         public record BurstModifier(Target Target, int Size, BurstType Type) : IAttackTargetModifier, IEffectTargetModifier
         {
-            public string Name => "Multiple";
-
             public int GetComplexity(PowerContext powerContext) => 1;
 
             PowerCost IAttackTargetModifier.GetCost(AttackContext attackContext) => GetCost(attackContext.PowerContext.PowerInfo);

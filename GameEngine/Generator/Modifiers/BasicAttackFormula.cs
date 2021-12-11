@@ -21,7 +21,8 @@ namespace GameEngine.Generator.Modifiers
             yield return new IsBasicAttackModifier();
         }
 
-        public record IsBasicAttackModifier() : PowerModifier("Is Basic Attack")
+        [ModifierName("Is Basic Attack")]
+        public record IsBasicAttackModifier() : PowerModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 

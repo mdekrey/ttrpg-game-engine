@@ -74,7 +74,7 @@ namespace GameEngine.Tests
 
             var powerProfile = target.GenerateProfile(powerInfo)!;
 
-            Snapshot.Match(Serializer.Serialize(powerProfile), ToSnapshotName("PowerProfile", powerFrequency, level, powerTemplate, configName));
+            Snapshot.Match(SerializeToYaml(powerProfile), ToSnapshotName("PowerProfile", powerFrequency, level, powerTemplate, configName));
         }
 
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 2)]
@@ -87,7 +87,7 @@ namespace GameEngine.Tests
 
             var powerProfile = target.GenerateProfile(powerInfo)!;
 
-            Snapshot.Match(Serializer.Serialize(powerProfile), ToSnapshotName(seed, "PowerProfile", powerFrequency, level, powerTemplate, configName));
+            Snapshot.Match(SerializeToYaml(powerProfile), ToSnapshotName(seed, "PowerProfile", powerFrequency, level, powerTemplate, configName));
         }
 
         private (PowerGenerator target, PowerHighLevelInfo powerInfo) GetTargetProfile(RandomGenerator randomGenerator, string configName, int level, PowerFrequency powerFrequency, string powerTemplate)
@@ -151,7 +151,7 @@ namespace GameEngine.Tests
             var (power, flavor) = powerProfile.ToPowerContext().ToPowerTextBlock(FlavorText.Empty);
 
             Snapshot.Match(
-                Serializer.Serialize(new object[] { powerProfile, power, flavor }),
+                SerializeToYaml(new object[] { powerProfile, power, flavor }),
                 ToSnapshotName(seed, "Power", powerFrequency, level, powerTemplate, configName)
             );
         }
@@ -163,7 +163,7 @@ namespace GameEngine.Tests
 
             var powerProfile = target.GeneratePowerProfiles(CreateStrikerProfile());
 
-            Snapshot.Match(Serializer.Serialize(powerProfile));
+            Snapshot.Match(SerializeToYaml(powerProfile));
         }
 
         [Fact]
@@ -173,7 +173,7 @@ namespace GameEngine.Tests
 
             var powerProfile = target.GeneratePowerProfiles(CreateImplementStrikerProfile());
 
-            Snapshot.Match(Serializer.Serialize(powerProfile));
+            Snapshot.Match(SerializeToYaml(powerProfile));
         }
 
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]

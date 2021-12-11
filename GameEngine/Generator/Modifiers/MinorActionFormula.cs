@@ -20,7 +20,8 @@ namespace GameEngine.Generator.Modifiers
             yield return new MinorActionModifier();
         }
 
-        public record MinorActionModifier() : PowerModifier("Minor Action")
+        [ModifierName("Minor Action")]
+        public record MinorActionModifier() : PowerModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
             public override bool ChangesActionType() => true;

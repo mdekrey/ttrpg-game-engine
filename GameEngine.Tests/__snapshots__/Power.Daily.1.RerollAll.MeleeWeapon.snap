@@ -17,14 +17,14 @@
         EffectType: Harmful
         Modifiers:
         - Name: Reroll damage
-        - Damage: 1[W] + STR
+        - Name: Damage
+          Damage: 1[W] + STR
           DamageTypes: []
-          Name: Damage
       Modifiers:
       - Name: Reroll attack
     Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Power Source
+      PowerSource: Martial
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1

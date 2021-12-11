@@ -16,25 +16,25 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Damage: 1[W] + STR
+        - Name: Damage
+          Damage: 1[W] + STR
           DamageTypes: []
-          Name: Damage
       Modifiers: []
     Modifiers:
-    - PowerSource: Martial
-      Name: Power Source
+    - Name: Power Source
+      PowerSource: Martial
     Effects:
     - Target:
-        Target: Ally
         Name: Basic Target
+        Target: Ally
       EffectType: Beneficial
       Modifiers:
-      - Damage: STR
-        Name: Make Basic Attack
-      - Boosts:
-        - Amount: +8
-          Name: Attack
-        Name: Boost
+      - Name: Make Basic Attack
+        Damage: STR
+      - Name: Boost
+        Boosts:
+        - Name: Attack
+          Amount: +8
 - Name: Unknown
   TypeInfo: Weapon Attack 19
   FlavorText: ''

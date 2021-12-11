@@ -12,8 +12,6 @@ namespace GameEngine.Generator.Modifiers
 {
     public record BoostFormula() : IEffectFormula
     {
-        public const string ModifierName = "Boost";
-
         private static IEnumerable<Boost> GetBasicBoosts(IEnumerable<Ability> abilities, Duration duration)
         {
             var amounts = new GameDiceExpression[] { 2 }.Concat(abilities.Select(a => (GameDiceExpression)a));
@@ -55,7 +53,7 @@ namespace GameEngine.Generator.Modifiers
             Target,
         }
 
-        public abstract record Boost(string Name)
+        public abstract record Boost()
         {
             public abstract double Cost();
             public abstract bool UsesDuration();
@@ -64,7 +62,8 @@ namespace GameEngine.Generator.Modifiers
             public abstract string BoostText(Target target);
             public abstract string Category();
         }
-        public record AttackBoost(GameDiceExpression Amount, Limit? Limit) : Boost("Attack")
+        [ModifierName("Attack")]
+        public record AttackBoost(GameDiceExpression Amount, Limit? Limit) : Boost()
         {
             public override double Cost() => Amount.ToWeaponDice()
                 * (Limit == null ? 2 : 1);
@@ -92,7 +91,8 @@ namespace GameEngine.Generator.Modifiers
             public override string Category() => "Offsense";
 
         }
-        public record DefenseBoost(GameDiceExpression Amount, DefenseType? Defense) : Boost("Defense")
+        [ModifierName("Defense")]
+        public record DefenseBoost(GameDiceExpression Amount, DefenseType? Defense) : Boost()
         {
             public override double Cost() => Amount.ToWeaponDice()
                 * (Defense == null ? 2 : 1);
@@ -110,7 +110,8 @@ namespace GameEngine.Generator.Modifiers
                 : $"gains a {Amount} power bonus to {Defense?.ToText() ?? "all defenses"}";
             public override string Category() => "Defense";
         }
-        public record TemporaryHitPoints(GameDiceExpression Amount) : Boost("Temporary Hit Points")
+        [ModifierName("Temporary Hit Points")]
+        public record TemporaryHitPoints(GameDiceExpression Amount) : Boost()
         {
             public override double Cost() => Amount.ToWeaponDice();
             public override bool UsesDuration() => false;
@@ -126,7 +127,8 @@ namespace GameEngine.Generator.Modifiers
                 : $"gains {Amount} temporary hit points";
             public override string Category() => "Healing";
         }
-        public record ExtraSavingThrow() : Boost("Extra Saving Throw")
+        [ModifierName("Extra Saving Throw")]
+        public record ExtraSavingThrow() : Boost()
         {
             public override double Cost() => 1;
             public override bool UsesDuration() => false;
@@ -135,7 +137,8 @@ namespace GameEngine.Generator.Modifiers
             public override string BoostText(Target target) => $"may immediately make a saving throw";
             public override string Category() => "Healing";
         }
-        public record HealingSurge() : Boost("Healing Surge")
+        [ModifierName("Healing Surge")]
+        public record HealingSurge() : Boost()
         {
             public override double Cost() => 1;
             public override bool UsesDuration() => false;
@@ -144,7 +147,8 @@ namespace GameEngine.Generator.Modifiers
             public override string BoostText(Target target) => $"may immediately spend a healing surge";
             public override string Category() => "Healing";
         }
-        public record Regeneration(GameDiceExpression Amount) : Boost("Regeneration")
+        [ModifierName("Regeneration")]
+        public record Regeneration(GameDiceExpression Amount) : Boost()
         {
             public override double Cost() => Amount.ToWeaponDice();
             public override bool UsesDuration() => true;
@@ -160,7 +164,8 @@ namespace GameEngine.Generator.Modifiers
             public override string Category() => "Healing";
         }
 
-        public record BoostModifier(EquatableImmutableList<Boost> Boosts) : EffectModifier(ModifierName)
+        [ModifierName("Boost")]
+        public record BoostModifier(EquatableImmutableList<Boost> Boosts) : EffectModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => Boosts.Select(boost => boost.Category()).Distinct().Count();
             public override ModifierFinalizer<IEffectModifier>? Finalize(EffectContext powerContext) =>
@@ -192,7 +197,7 @@ namespace GameEngine.Generator.Modifiers
                 from set in new[]
                 {
                     from basicBoost in GetBasicBoosts(abilities, duration)
-                    where !Boosts.Select(b => b.Name).Contains(basicBoost.Name)
+                    where !Boosts.Select(b => ModifierNameAttribute.GetName(b.GetType())).Contains(ModifierNameAttribute.GetName(basicBoost.GetType()))
                     select this with { Boosts = Boosts.Items.Add(basicBoost) },
 
                     from boost in Boosts

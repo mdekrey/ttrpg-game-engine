@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace GameEngine.Generator
 {
+    [ModifierName("See Other")]
     public record SameAsOtherTarget(int? OtherAttackIndex = null) : IEffectTargetModifier
     {
-        public string Name => "See Other";
         public int GetComplexity(PowerContext powerContext) => 0;
         public PowerCost GetCost(EffectContext effectContext) => PowerCost.Empty;
 

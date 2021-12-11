@@ -1,31 +1,31 @@
 ﻿Attacks:
 - Target:
-    Target: Enemy, Self, Ally
     Name: Basic Target
+    Target: Enemy, Self, Ally
   Ability: Strength
   Effects:
   - Target:
       Name: See Other
     EffectType: Harmful
     Modifiers:
-    - Damage: d4 + STR
+    - Name: Damage
+      Damage: d4 + STR
       DamageTypes:
       - Radiant
-      Name: Damage
   Modifiers:
-  - Defense: Fortitude
-    Name: Non-Armor Defense
+  - Name: Non-Armor Defense
+    Defense: Fortitude
 Modifiers:
-- PowerSource: Arcane
-  Name: Power Source
+- Name: Power Source
+  PowerSource: Arcane
 Effects:
 - Target:
-    Target: Ally
     Name: Basic Target
+    Target: Ally
   EffectType: Beneficial
   Modifiers:
-  - Boosts:
-    - Amount: +4
+  - Name: Boost
+    Boosts:
+    - Name: Attack
+      Amount: +4
       Limit: NextAttack
-      Name: Attack
-    Name: Boost

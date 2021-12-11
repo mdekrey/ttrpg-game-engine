@@ -5,10 +5,9 @@ using System.Collections.Generic;
 
 namespace GameEngine.Generator.Modifiers
 {
-    public record PowerSourceModifier(string PowerSource): PowerModifier(ModifierName)
+    [ModifierName("Power Source")]
+    public record PowerSourceModifier(string PowerSource): PowerModifier()
     {
-        const string ModifierName = "Power Source";
-
         public override bool ExcludeFromUniqueness() => true;
 
         public override int GetComplexity(PowerContext powerContext) => 0;
