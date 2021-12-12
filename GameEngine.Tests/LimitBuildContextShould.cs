@@ -15,6 +15,10 @@ namespace GameEngine.Tests
         [InlineData("Wizard.1.Daily.Sleep")]
         //[InlineData("Wizard.5.Daily.Fireball", Skip = "TODO - this works for size 5, but not size 7")]
         //[InlineData("Wizard.17.Encounter.Combust", Skip = "TODO - The burst takes too much power at this level")]
+        [InlineData("Ranger.1.AtWill.TwinStrike")]
+        //[InlineData("Ranger.1.Encounter.TwoFangedStrike", Skip = "TODO - The extra effect isn't being calculated correctly")]
+        //[InlineData("Ranger.17.Encounter.TwoWeaponEviscerate", Skip = "TODO - See the file")]
+        [InlineData("Paladin.17.Encounter.FortifyingSmite")]
         [Theory]
         public void CalculateCorrectDamageForSample(string sampleFile)
         {

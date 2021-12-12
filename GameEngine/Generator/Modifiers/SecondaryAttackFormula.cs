@@ -132,12 +132,13 @@ namespace GameEngine.Generator.Modifiers
 
         // Two Identical attacks
         [ModifierName("TwoHits")]
+        // TODO: Multiple EffectModifiers, such as including damage
         public record TwoHitsModifier(IEffectModifier? EffectModifier = null) : IAttackTargetModifier
         {
             public int GetComplexity(PowerContext powerContext) => 1;
             public PowerCost GetCost(AttackContext attackContext) =>
-                new PowerCost(Multiplier: 2) 
-                + (EffectModifier?.GetCost(SameAsOtherTarget.FindContextAt(attackContext)) ?? PowerCost.Empty); // Because both attacks can hit the same target, SingleTargetMultiplier needs to be 1
+                new PowerCost(Multiplier: 2)
+                + ((EffectModifier?.GetCost(SameAsOtherTarget.FindContextAt(attackContext)) ?? PowerCost.Empty) * 1); // TODO - this isn't the right amount
 
             public AttackType GetAttackType(AttackContext attackContext) =>
                 (attackContext.ToolType, attackContext.ToolRange) switch

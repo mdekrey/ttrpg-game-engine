@@ -1,0 +1,29 @@
+# Paladin, Fortifying Smite
+# ID_FMP_POWER_352
+# Verifies 17 Encounter
+Profile:
+  Usage: Encounter
+  Level: 17
+  ToolType: Weapon
+  ToolRange: Melee
+  Abilities: [Charisma, Wisdom]
+Power:
+  Attacks:
+  - Target: { Name: Basic Target, Target: Enemy, Self, Ally }
+    Ability: Charisma
+    Effects:
+    - Target: { Name: See Other }
+      EffectType: Harmful
+      Modifiers:
+      - Name: Damage
+        Damage: 3[W] + CHA
+        DamageTypes: []
+      - Name: Boost
+        Boosts:
+        - Name: Defense
+          Amount: WIS
+          Defense: Armor Class
+    Modifiers: []
+  Modifiers:
+  - { Name: Power Source, PowerSource: Divine }
+  Effects: []

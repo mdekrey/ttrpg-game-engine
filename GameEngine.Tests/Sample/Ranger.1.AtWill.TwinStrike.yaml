@@ -1,0 +1,23 @@
+# Ranger, Twin Strike
+# ???
+# Verifies TwoHits
+Profile:
+  Usage: At-Will
+  Level: 1
+  ToolType: Weapon
+  ToolRange: Melee
+  Abilities: [Strength]
+Power:
+  Attacks:
+  - Target:
+      Name: TwoHits
+    Ability: Strength
+    Effects:
+    - Target: { Name: See Other }
+      EffectType: Harmful
+      Modifiers:
+      - { Name: Damage, Damage: '[W]', DamageTypes: [], Order: 1 }
+    Modifiers: []
+  Modifiers:
+  - { Name: Power Source, PowerSource: Martial }
+  Effects: []

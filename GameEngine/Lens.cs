@@ -10,7 +10,22 @@ namespace GameEngine
             new(getter, setter);
     }
 
-    public record Lens<TInput, TInner>(Func<TInput, TInner> Getter, Func<TInput, TInner, TInput> Setter);
+    public record Lens<TInput, TInner>(Func<TInput, TInner> Getter, Func<TInput, TInner, TInput> Setter)
+    {
+        public Lens<TNewInput, TInner> CastInput<TNewInput>() where TNewInput : TInput =>
+            CastMoreSpecific<TInput, TNewInput>.Lens.To(this);
+
+        public Lens<TInput, TNewInner> CastOutput<TNewInner>() where TNewInner : TInner =>
+            this.To(CastMoreGeneric<TNewInner, TInner>.Lens);
+    }
+    internal static class CastMoreSpecific<T, TNew> where TNew : T
+    {
+        public static readonly Lens<TNew, T> Lens = Lens<TNew>.To<T>(n => n, (_, n) => (TNew)n!);
+    }
+    internal static class CastMoreGeneric<T, TNew> where T : TNew
+    {
+        public static readonly Lens<TNew, T> Lens = Lens<TNew>.To<T>(n => (T)n!, (_, n) => n!);
+    }
 
     public static class LensExtensions
     {

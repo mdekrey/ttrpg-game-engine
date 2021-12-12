@@ -85,7 +85,7 @@
         - Name: Condition
           Conditions:
           - Name: Defense Penalty
-            Defense: ArmorClass
+            Defense: Armor Class
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
@@ -663,7 +663,7 @@
         - Name: Condition
           Conditions:
           - Name: Defense Penalty
-            Defense: ArmorClass
+            Defense: Armor Class
         - Name: Damage
           Damage: 3[W] + STR
           DamageTypes: []
@@ -1729,7 +1729,7 @@
         - Name: Simple
           ConditionName: Slowed
         - Name: Defense Penalty
-          Defense: ArmorClass
+          Defense: Armor Class
 - PowerInfo:
     Usage: Daily
     ToolType: Weapon

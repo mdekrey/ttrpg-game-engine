@@ -1,0 +1,33 @@
+# Ranger, Two-Weapon Eviscerate
+# ID_FMP_POWER_1388
+# Verifies TwoHits
+Profile:
+  Usage: Encounter
+  Level: 17
+  ToolType: Weapon
+  ToolRange: Melee
+  Abilities: [Strength]
+Power:
+  Attacks:
+  - Target:
+      Name: TwoHits
+      EffectModifier:
+        Name: Condition
+        Conditions:
+        - Name: Simple
+          ConditionName: Weakened
+        - Name: Ongoing # TODO - this isn't right, it should have damage in addition to weakened
+          Amount: 5
+    Ability: Strength
+    Effects:
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Name: Damage
+        Damage: 1[W] + STR
+        DamageTypes: []
+    Modifiers: []
+  Modifiers:
+  - { Name: Power Source, PowerSource: Martial }
+  Effects: []

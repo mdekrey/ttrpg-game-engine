@@ -76,13 +76,12 @@ namespace GameEngine.Generator
 
         public record DamageLens(DamageModifier Damage, Lens<PowerProfile, DamageModifier> Lens);
 
-        private static Lens<IModifier, DamageModifier> damageLens = Lens<IModifier>.To(mod => (DamageModifier)mod, (mod, newMod) => newMod);
         public static IEnumerable<DamageLens> GetDamageLenses(PowerProfile profile)
         {
             return from lens in profile.GetModifierLenses()
                    let mod = profile.Get(lens) as DamageModifier
                    where mod != null
-                   select new DamageLens(mod, Lens: lens.To(damageLens));
+                   select new DamageLens(mod, Lens: lens.CastOutput<DamageModifier>());
         }
     }
 }

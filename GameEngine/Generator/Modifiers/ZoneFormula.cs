@@ -13,7 +13,6 @@ namespace GameEngine.Generator.Modifiers
                 p => p.Attacks[0].Effects.Items,
                 (p, e) => p with { Attacks = p.Attacks.Items.SetItem(0, p.Attacks.Items[0] with { Effects = e }) }
             );
-        private static Lens<IModifier, DamageModifier> damageModLens = Lens<IModifier>.To(mod => (DamageModifier)mod, (mod, newMod) => newMod);
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
         {
             if (stage != UpgradeStage.Standard)
@@ -33,7 +32,7 @@ namespace GameEngine.Generator.Modifiers
                 ? firstAttackEffectsLens
                     .To(effectLens)
                     .To(modLens)
-                    .To(damageModLens)
+                    .CastOutput<DamageModifier>()
                 : null;
             
             var burst = new BurstFormula().GetBaseModifiers(UpgradeStage.Standard, attackContext.AttackContext);
