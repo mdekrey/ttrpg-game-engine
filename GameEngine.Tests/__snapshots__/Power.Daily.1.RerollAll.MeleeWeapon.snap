@@ -16,12 +16,12 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Name: Reroll damage
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
       Modifiers:
       - Name: Reroll attack
+      - Name: Reroll damage
     Modifiers:
     - Name: Power Source
       PowerSource: Martial

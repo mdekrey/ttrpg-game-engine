@@ -17,8 +17,16 @@ namespace GameEngine.Generator
         {
             return targetEffect with
             {
-                Modifiers = toRemove == null ? targetEffect.Modifiers.Items.Add(target) : targetEffect.Modifiers.Items.Remove(toRemove).Add(target),
+                Modifiers = targetEffect.Modifiers.Items.Apply(target, toRemove),
             };
+        }
+
+        public static ImmutableList<T> Apply<T>(this ImmutableList<T> list, T target, T? toRemove = null)
+            where T : class
+        {
+            return toRemove == null 
+                ? list.Add(target) 
+                : list.Remove(toRemove).Add(target);
         }
 
         internal static TargetEffect Build(this EffectContext effectContext) =>

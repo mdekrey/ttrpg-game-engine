@@ -1,8 +1,8 @@
 ﻿Attacks:
 - Target:
     Name: TwoHits
-    EffectModifier:
-      Name: Condition
+    BothAttacksHitModifiers:
+    - Name: Condition
       Conditions:
       - Name: Simple
         ConditionName: Dazed

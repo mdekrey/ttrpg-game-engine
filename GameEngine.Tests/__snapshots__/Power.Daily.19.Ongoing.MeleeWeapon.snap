@@ -9,7 +9,7 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: UpToThreeTargets
+        Name: TwoHits
       Ability: Strength
       Effects:
       - Target:
@@ -20,10 +20,6 @@
           Conditions:
           - Name: Ongoing
             Amount: 5
-          - Name: Simple
-            ConditionName: Blinded
-          - Name: Simple
-            ConditionName: Dazed
         - Name: Damage
           Damage: 1[W] + STR + DEX
           DamageTypes: []
@@ -44,11 +40,11 @@
   ActionType: Standard Action
   AttackType: Melee
   AttackTypeDetails: weapon
-  Target: One, two, or three creatures
-  Attack: STR vs. AC, one attack per target
+  Target: One or two creatures
+  Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR + DEX damage, and the target takes ongoing 5 and is blinded and dazed (save ends).
+    Text: 1[W] + STR + DEX damage, and the target takes ongoing 5 (save ends).
 - Fields:
     Flavor Text: ''
     Name: Unknown

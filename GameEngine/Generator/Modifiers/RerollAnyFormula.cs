@@ -13,9 +13,11 @@ namespace GameEngine.Generator.Modifiers
         {
             if (stage != UpgradeStage.Standard)
                 yield break;
-            if (attackContext.Modifiers.OfType<RerollAttack>().Any())
-                yield break;
-            yield return new RerollAttack();
+            if (!attackContext.Modifiers.OfType<RerollAttack>().Any())
+                yield return new RerollAttack();
+            if (!attackContext.Modifiers.OfType<RerollDamage>().Any()
+                && attackContext.Effects.Any(e => e.Modifiers.OfType<DamageModifier>().Any()))
+                yield return new RerollDamage();
         }
 
         public IEnumerable<IPowerModifier> GetBaseModifiers(UpgradeStage stage, PowerContext powerContext)
@@ -35,10 +37,6 @@ namespace GameEngine.Generator.Modifiers
         {
             if (stage != UpgradeStage.Standard)
                 yield break;
-            if (effectContext.Modifiers.OfType<RerollDamage>().Any())
-                yield break;
-            if (effectContext.Modifiers.OfType<DamageModifier>().Any())
-                yield return new RerollDamage();
         }
 
         public record RerollAll() : RewritePowerModifier()
@@ -49,15 +47,15 @@ namespace GameEngine.Generator.Modifiers
                 {
                     Modifiers = builder.Modifiers.Items.Remove(this),
                     Attacks = builder.Attacks
-                        .Select(a => a with
+                        .Select(a =>
                         {
-                            Modifiers = a.Modifiers.Items.Add(new RerollAttack()),
-                            Effects = a.Effects.Select(e => e with
+                            var mods = a.Modifiers.Items.Add(new RerollAttack());
+                            if (a.Effects.Any(e => e.Modifiers.OfType<DamageModifier>().Any()))
+                                mods = mods.Add(new RerollDamage());
+                            return a with
                             {
-                                Modifiers = e.Modifiers.OfType<DamageModifier>().Any()
-                                    ? e.Modifiers.Items.Add(new RerollDamage())
-                                    : e.Modifiers,
-                            }).ToImmutableList()
+                                Modifiers = mods
+                            };
                         })
                         .ToImmutableList(),
                 };
@@ -82,29 +80,21 @@ namespace GameEngine.Generator.Modifiers
         }
 
         [ModifierName("Reroll damage")]
-        public record RerollDamage() : EffectModifier()
+        public record RerollDamage() : AttackModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 
-            public override PowerCost GetCost(EffectContext effectContext) => new PowerCost(Fixed: 0.5);
+            public override PowerCost GetCost(AttackContext effectContext) => new PowerCost(Fixed: 0.5);
 
-            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext)
+            public override AttackInfoMutator? GetAttackInfoMutator(AttackContext effectContext)
             {
-                return new TargetInfoMutator(0, (effect) => effect with { AdditionalSentences = effect.AdditionalSentences.Add("You can reroll each damage die once but must use the second result.") });
+                return new AttackInfoMutator(0, (attack, index) => attack with { HitSentences = attack.HitSentences.Add("You can reroll each damage die once but must use the second result.") });
             }
 
-            public override IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext)
+            public override IEnumerable<IAttackModifier> GetUpgrades(UpgradeStage stage, AttackContext effectContext)
             {
                 yield break;
             }
-
-            public override bool IsBeneficial() => true;
-
-            public override bool IsHarmful() => false;
-
-            public override bool IsInstantaneous() => true;
-
-            public override bool UsesDuration() => false;
         }
     }
 

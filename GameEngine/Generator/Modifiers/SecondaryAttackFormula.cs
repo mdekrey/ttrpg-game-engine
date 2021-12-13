@@ -86,7 +86,7 @@ namespace GameEngine.Generator.Modifiers
             }
         }
 
-        [ModifierName("Multiattack Applied")] // TODO: This may have been only "Multiattack"
+        [ModifierName("Multiattack Applied")]
         public record MultiattackAppliedModifier() : PowerModifier(), IUniquePowerModifier
         {
             public override int GetComplexity(PowerContext powerContext) => 0;
@@ -133,12 +133,24 @@ namespace GameEngine.Generator.Modifiers
         // Two Identical attacks
         [ModifierName("TwoHits")]
         // TODO: Multiple EffectModifiers, such as including damage
-        public record TwoHitsModifier(IEffectModifier? EffectModifier = null) : IAttackTargetModifier
+        public record TwoHitsModifier(EquatableImmutableList<IEffectModifier>? BothAttacksHitModifiers) : IAttackTargetModifier
         {
-            public int GetComplexity(PowerContext powerContext) => 1;
+            public TwoHitsModifier() : this(ImmutableList<IEffectModifier>.Empty)
+            {
+            }
+
+            public int GetComplexity(PowerContext powerContext) => Math.Max(1, BothAttacksHitModifiers.Select(a => a.GetComplexity(powerContext)).Sum());
             public PowerCost GetCost(AttackContext attackContext) =>
                 new PowerCost(Multiplier: 2)
-                + ((EffectModifier?.GetCost(SameAsOtherTarget.FindContextAt(attackContext)) ?? PowerCost.Empty) * 1); // TODO - this isn't the right amount
+                + GetBothAttacksHitCost(attackContext) * 1; // TODO - this isn't the right amount
+
+            private PowerCost GetBothAttacksHitCost(AttackContext attackContext)
+            {
+                if (BothAttacksHitModifiers is not { Count: > 0 }) return PowerCost.Empty;
+
+                var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
+                return BothAttacksHitModifiers.Select(e => e.GetCost(effectContext)).Aggregate((a, b) => a + b);
+            }
 
             public AttackType GetAttackType(AttackContext attackContext) =>
                 (attackContext.ToolType, attackContext.ToolRange) switch
@@ -157,19 +169,24 @@ namespace GameEngine.Generator.Modifiers
             public bool CanUseRemainingPower() => true;
             public TargetInfoMutator? GetTargetInfoMutator(AttackContext attackContext)
             {
-                if (EffectModifier == null)
+                if (BothAttacksHitModifiers is not { Count: > 0 })
                     return null;
                 var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
-                var origMutator = EffectModifier.GetTargetInfoMutator(effectContext);
-                if (origMutator == null)
-                    return null;
+                
+                var bothAttacksHitTargetInfo = (from mutator in (from mod in BothAttacksHitModifiers
+                                                                      let mutator = mod.GetTargetInfoMutator(effectContext)
+                                                                      select mutator)
+                                                     where mutator != null
+                                                     orderby mutator.Priority
+                                                     select mutator.Apply).Aggregate(effectContext.GetDefaultTargetInfo(), (current, apply) => apply(current));
 
                 return new TargetInfoMutator(100, (targetInfo) =>
                 {
-                    var tempTarget = origMutator.Apply(targetInfo);
+                    //var bothAttacksHitTargetInfo = bothAttacksHitTargetInfoApply.Aggregate(targetInfo, (current, apply) => apply(current));
+                    // TODO - handle rest of bothAttacksHitTargetInfo
                     return targetInfo with
                     {
-                        AdditionalSentences = targetInfo.AdditionalSentences.Add($"If both of your attacks hit the same target, the target is also {OxfordComma(tempTarget.Parts.ToArray())}".FinishSentence())
+                        AdditionalSentences = targetInfo.AdditionalSentences.Add($"If both of your attacks hit the same target, the target is also {OxfordComma(bothAttacksHitTargetInfo.Parts.ToArray())}".FinishSentence())
                     };
                 });
             }
@@ -177,29 +194,29 @@ namespace GameEngine.Generator.Modifiers
             public IEnumerable<IAttackTargetModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext)
             {
                 var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
-                if (EffectModifier == null)
-                {
-                    return from formula in ModifierDefinitions.effectModifiers
-                           from mod in formula.GetBaseModifiers(stage, effectContext)
-                           where !attackContext.Modifiers.Any(m => m.GetName() == mod.GetName())
-                           select this with { EffectModifier = mod };
-                }
 
-                return from upgrade in EffectModifier.GetUpgrades(stage, effectContext)
-                       select this with { EffectModifier = upgrade };
+                return from set in new IEnumerable<IAttackTargetModifier>[]
+                {
+                    from formula in ModifierDefinitions.effectModifiers
+                    from mod in formula.GetBaseModifiers(stage, effectContext)
+                    where !attackContext.Modifiers.Any(m => m.GetName() == mod.GetName()) && !BothAttacksHitModifiers.Any(m => m.GetName() == mod.GetName())
+                    select this with { BothAttacksHitModifiers = (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty).Add(mod) },
+
+                    from modifier in (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty)
+                    from upgrade in modifier.GetUpgrades(stage, effectContext)
+                    select this with { BothAttacksHitModifiers = (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty).Apply(upgrade, modifier) },
+                }
+                       from entry in set
+                       select entry;
             }
 
+            private static readonly Lens<TwoHitsModifier, ImmutableList<IEffectModifier>> innerEffectsLens = Lens<TwoHitsModifier>.To(m => (m.BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty), (m, e) => m with { BothAttacksHitModifiers = e });
             public IEnumerable<Lens<IModifier, IModifier>> GetNestedModifiers()
             {
-                if (EffectModifier == null)
-                    yield break;
-                yield return Lens<IModifier>.To<IModifier>(
-                    mod => mod is TwoHitsModifier twoHits ? twoHits.EffectModifier! : throw new InvalidOperationException(),
-                    (mod, newMod) => mod is TwoHitsModifier twoHits && newMod is IEffectModifier effectModifier ? twoHits with { EffectModifier = effectModifier } : throw new InvalidOperationException()
-                );
+                return innerEffectsLens.EachItem(this).Select(lens => lens.CastInput<IModifier>().CastOutput<IModifier>()).ToArray();
             }
 
-            public IAttackTargetModifier Finalize(AttackContext powerContext) => this;
+            public IAttackTargetModifier Finalize(AttackContext powerContext) => this.BothAttacksHitModifiers is { Count: > 0 } ? this : this with { BothAttacksHitModifiers = null };
 
         }
 
