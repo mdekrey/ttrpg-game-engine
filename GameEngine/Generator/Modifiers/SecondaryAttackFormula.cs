@@ -181,11 +181,16 @@ namespace GameEngine.Generator.Modifiers
 
                 return new TargetInfoMutator(100, (targetInfo) =>
                 {
-                    // TODO - handle rest of bothAttacksHitTargetInfo
+                    var parts = new[]
+                    {
+                        bothAttacksHitTargetInfo.DamageExpression != null ? $"takes an extra {bothAttacksHitTargetInfo.DamageExpression}" : null,
+                    }.Where(s => s != null).Concat(bothAttacksHitTargetInfo.Parts).ToArray();
+
                     return targetInfo with
                     {
                         AdditionalSentences = targetInfo.AdditionalSentences
-                            .Add($"If both of your attacks hit the same target, the target is also {OxfordComma(bothAttacksHitTargetInfo.Parts.ToArray())}".FinishSentence())
+                            .Add($"If both of your attacks hit the same target, the target is also {OxfordComma(parts!)}".FinishSentence())
+                            .AddRange(bothAttacksHitTargetInfo.AdditionalSentences)
                     };
                 });
             }

@@ -46,7 +46,7 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is blinded and dazed until the end of your next turn and drops one weapon it is holding.
+    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is blinded and dazed until the end of your next turn and drops one weapon it is holding. You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square).
 - Fields:
     Flavor Text: ''
     Name: Unknown
