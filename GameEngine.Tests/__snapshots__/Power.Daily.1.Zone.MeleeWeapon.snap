@@ -11,7 +11,7 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 3
+        Size: 7
         Type: Burst
       Ability: Strength
       Effects:
@@ -38,7 +38,7 @@
   - Zone
   ActionType: Standard Action
   AttackType: Close
-  AttackTypeDetails: burst 1
+  AttackTypeDetails: burst 3
   Target: Each creature
   Attack: STR vs. AC
   RulesText:

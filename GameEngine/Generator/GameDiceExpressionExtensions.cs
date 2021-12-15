@@ -1,4 +1,5 @@
-﻿using GameEngine.Rules;
+﻿using GameEngine.Generator.Modifiers;
+using GameEngine.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,5 +30,48 @@ namespace GameEngine.Generator
                 }
             }
         }
+
+
+        public static GameDiceExpression ToDamageAmount(ToolType tool, double weaponDice, DamageDiceType? overrideDiceType)
+        {
+            if (weaponDice < 0)
+                System.Diagnostics.Debugger.Break();
+            return overrideDiceType switch
+            {
+                DamageDiceType.DiceOnly => ApproximateWeaponDiceWithDieCode(weaponDice),
+                null when tool == ToolType.Weapon => ToWeaponDice(weaponDice),
+                null when tool == ToolType.Implement => ApproximateWeaponDiceWithDieCode(weaponDice),
+                _ => throw new NotSupportedException(),
+            };
+        }
+
+        private static GameDiceExpression ApproximateWeaponDiceWithDieCode(double weaponDice)
+        {
+            var averageDamage = weaponDice * 5.5;
+            var dieType = (
+                from entry in new[]
+                {
+                    (sides: 10, results: GetDiceCount(averageDamage, 5.5)),
+                    (sides: 8, results: GetDiceCount(averageDamage, 4.5)),
+                    (sides: 6, results: GetDiceCount(averageDamage, 3.5)),
+                    (sides: 4, results: GetDiceCount(averageDamage, 2.5)),
+                }
+                orderby entry.results.remainder ascending, entry.sides descending
+                select (sides: entry.sides, count: entry.results.dice, remainder: entry.results.remainder)
+            ).ToArray();
+            var (sides, count, remainder) = dieType.FirstOrDefault();
+            if (count == 0)
+                return GameDiceExpression.Empty;
+
+            return new Dice.DieCode(count, sides);
+
+            (int dice, double remainder) GetDiceCount(double averageDamage, double damagePerDie)
+            {
+                var dice = Math.Max(0, (int)Math.Round(averageDamage / damagePerDie));
+                return (dice: dice, remainder: Math.Abs((dice * damagePerDie) - averageDamage));
+            }
+        }
+
+        private static GameDiceExpression ToWeaponDice(double weaponDice) => GameDiceExpression.Empty with { WeaponDiceCount = Math.Max(0, (int)weaponDice) };
     }
 }

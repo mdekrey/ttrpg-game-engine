@@ -2,7 +2,7 @@
 - Target:
     Name: Multiple
     Target: Enemy, Self, Ally
-    Size: 3
+    Size: 7
     Type: Burst
   Ability: Strength
   Effects:
@@ -13,10 +13,6 @@
     - Name: Damage
       Damage: 1[W] + STR
       DamageTypes: []
-    - Name: Condition
-      Conditions:
-      - Name: Simple
-        ConditionName: Dazed
   Modifiers: []
 - Target:
     Name: Basic Target

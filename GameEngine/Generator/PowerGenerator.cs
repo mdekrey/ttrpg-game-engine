@@ -259,7 +259,7 @@ namespace GameEngine.Generator
             {
                 ( >= 1 and <= 20, PowerFrequency.AtWill) => 2,
                 ( >= 21, PowerFrequency.AtWill) => 3,
-                (_, PowerFrequency.Encounter) => 2 + ((level + 9) / 10),
+                (_, PowerFrequency.Encounter) => 3 + (level / 5) / 2.0,
                 ( <= 19, PowerFrequency.Daily) => 4.5 + level / 4,
                 ( >= 20, PowerFrequency.Daily) => 3.5 + level / 4,
                 _ => throw new InvalidOperationException(),

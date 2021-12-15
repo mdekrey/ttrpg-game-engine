@@ -11,7 +11,7 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 7
+        Size: 11
         Type: Burst
       Ability: Strength
       Effects:
@@ -20,7 +20,7 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: 1[W] + STR
+          Damage: 1[W] + STR + DEX
           DamageTypes: []
       Modifiers: []
     Modifiers:
@@ -29,7 +29,7 @@
         Name: Boost
         Boosts:
         - Name: Attack
-          Amount: +4
+          Amount: +8
           Limit: Target
     - Name: Power Source
       PowerSource: Martial
@@ -44,14 +44,14 @@
   - Weapon
   ActionType: Standard Action
   AttackType: Close
-  AttackTypeDetails: burst 3
+  AttackTypeDetails: burst 5
   Target: Each creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage.
+    Text: 1[W] + STR + DEX damage.
   - Label: Effect
-    Text: You gain a +4 power bonus to attack rolls against the target until the stance ends.
+    Text: You gain a +8 power bonus to attack rolls against the target until the stance ends.
 - Fields:
     Flavor Text: ''
     Name: Unknown

@@ -34,6 +34,8 @@
                 ConditionName: Dazed
               - Name: Simple
                 ConditionName: Deafened
+              - Name: Simple
+                ConditionName: Marked
           Modifiers: []
         Modifiers: []
         Effects: []
@@ -68,7 +70,7 @@
     Attack: STR vs. AC
     RulesText:
     - Label: Hit
-      Text: 1[W] + STR damage, and the target is blinded, dazed, and deafened until the end of your next turn.
+      Text: 1[W] + STR damage, and the target is blinded, dazed, deafened, and marked until the end of your next turn.
 - Fields:
     Associated Flavor Text: ''
     Associated Name: Unknown Attack

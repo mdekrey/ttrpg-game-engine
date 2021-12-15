@@ -2,7 +2,7 @@
 - Target:
     Name: Multiple
     Target: Enemy, Self, Ally
-    Size: 4
+    Size: 6
     Type: Blast
   Ability: Strength
   Effects:

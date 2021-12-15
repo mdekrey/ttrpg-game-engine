@@ -1,0 +1,27 @@
+# Wizard, Black Fire
+# ID_FMP_POWER_2278
+# Verifies blast at lvl 27 encounter (2 damage types)
+Profile:
+  Usage: Daily
+  Level: 29
+  ToolType: Implement
+  ToolRange: Range
+  Abilities: [Intelligence]
+Power:
+  Attacks:
+  - Target:
+      Name: Multiple
+      Size: 5
+      Type: Blast
+      Target: Enemy, Self, Ally
+    Ability: Strength
+    Effects:
+    - Target: { Name: See Other }
+      EffectType: Harmful
+      Modifiers:
+      - { Name: Damage, Damage: 6d6 + INT, DamageTypes: [ Fire, Necrotic ], Order: 1 }
+    Modifiers:
+    - { Name: Non-Armor Defense, Defense: Reflex }
+  Modifiers:
+  - { Name: Power Source, PowerSource: Arcane }
+  Effects: []

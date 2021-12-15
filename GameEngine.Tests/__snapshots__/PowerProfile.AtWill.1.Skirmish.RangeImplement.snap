@@ -1,9 +1,7 @@
 ﻿Attacks:
 - Target:
-    Name: Multiple
+    Name: Basic Target
     Target: Enemy, Self, Ally
-    Size: 1
-    Type: Blast
   Ability: Strength
   Effects:
   - Target:
@@ -11,7 +9,7 @@
     EffectType: Harmful
     Modifiers:
     - Name: Damage
-      Damage: d6 + STR
+      Damage: d10 + STR
       DamageTypes:
       - Radiant
   Modifiers:

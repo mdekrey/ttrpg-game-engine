@@ -13,15 +13,13 @@
         ConditionName: Blinded
       - Name: Simple
         ConditionName: Dazed
-      - Name: Simple
-        ConditionName: Deafened
       AfterEffect:
         Condition:
           Name: Simple
           ConditionName: Unconscious
         AfterFailedSave: true
     - Name: Damage
-      Damage: d10 + STR + DEX
+      Damage: 4d4 + STR + DEX
       DamageTypes: []
   Modifiers: []
 Modifiers:

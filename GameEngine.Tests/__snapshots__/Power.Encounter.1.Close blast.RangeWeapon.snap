@@ -11,7 +11,7 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 4
+        Size: 6
         Type: Blast
       Ability: Strength
       Effects:
@@ -36,7 +36,7 @@
   - Weapon
   ActionType: Standard Action
   AttackType: Close
-  AttackTypeDetails: blast 4
+  AttackTypeDetails: blast 6
   Target: Each creature
   Attack: STR vs. AC
   RulesText:

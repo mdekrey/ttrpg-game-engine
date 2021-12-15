@@ -11,13 +11,13 @@ Power:
   Attacks:
   - Target:
       Name: TwoHits
-      EffectModifier:
-        Name: Condition
+      BothAttacksHitModifiers:
+      - Name: Damage
+        Damage: 1d10
+      - Name: Condition
         Conditions:
         - Name: Simple
           ConditionName: Weakened
-        - Name: Ongoing # TODO - this isn't right, it should have damage in addition to weakened
-          Amount: 5
     Ability: Strength
     Effects:
     - Target:

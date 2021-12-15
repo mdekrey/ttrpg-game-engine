@@ -9,10 +9,7 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 3
-        Type: Burst
+        Name: UpToThreeTargets
       Ability: Strength
       Effects:
       - Target:
@@ -25,7 +22,7 @@
         - Name: Condition
           Conditions:
           - Name: Simple
-            ConditionName: Blinded
+            ConditionName: Dazed
       Modifiers:
       - Name: Ignore Cover or Concealment
         Kind: Cover, Concealment
@@ -41,13 +38,13 @@
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Close
-  AttackTypeDetails: burst 1
-  Target: Each creature
-  Attack: STR vs. AC. The attack ignores cover and concealment, but not superior cover or total concealment.
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One, two, or three creatures
+  Attack: STR vs. AC, one attack per target. The attack ignores cover and concealment, but not superior cover or total concealment.
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is blinded until the end of your next turn.
+    Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

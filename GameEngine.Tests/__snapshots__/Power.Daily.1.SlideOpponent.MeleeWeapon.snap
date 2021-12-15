@@ -9,36 +9,30 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: TwoHits
+        Name: UpToThreeTargets
       Ability: Strength
       Effects:
       - Target:
           Name: See Other
         EffectType: Harmful
         Modifiers:
+        - Name: Damage
+          Damage: 1[W] + STR
+          DamageTypes: []
         - Name: MovementControl
           Effects:
           - Name: Slide Opponent
             Mode: Slide
-            Amount: +1
-        - Name: Damage
-          Damage: 1[W] + STR
-          DamageTypes: []
+            Amount: +2
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Dazed
       Modifiers: []
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
-    Effects:
-    - Target:
-        Name: Basic Target
-        Target: Ally
-      EffectType: Beneficial
-      Modifiers:
-      - Name: Boost
-        Boosts:
-        - Name: Attack
-          Amount: +2
-          Limit: NextAttack
+    Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''
@@ -49,13 +43,11 @@
   ActionType: Standard Action
   AttackType: Melee
   AttackTypeDetails: weapon
-  Target: One or two creatures
-  Attack: STR vs. AC, two attacks
+  Target: One, two, or three creatures
+  Attack: STR vs. AC, one attack per target
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. You slide the target +1 squares.
-  - Label: Effect
-    Text: One of your allies gains a +2 power bonus to attack rolls on the next attack before the end of your next turn.
+    Text: 1[W] + STR damage, and the target is dazed until the end of your next turn. You slide the target +2 squares.
 - Fields:
     Flavor Text: ''
     Name: Unknown

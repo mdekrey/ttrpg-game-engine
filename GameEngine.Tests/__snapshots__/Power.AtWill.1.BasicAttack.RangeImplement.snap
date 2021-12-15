@@ -9,10 +9,8 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: Multiple
+        Name: Basic Target
         Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
       Ability: Strength
       Effects:
       - Target:
@@ -20,7 +18,7 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: d6 + STR
+          Damage: d10 + STR
           DamageTypes:
           - Radiant
       Modifiers:
@@ -39,13 +37,13 @@
   - Arcane
   - Implement
   ActionType: Standard Action
-  AttackType: Close
-  AttackTypeDetails: blast 1
-  Target: Each creature
+  AttackType: Ranged
+  AttackTypeDetails: 10
+  Target: One creature
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d6 + STR radiant damage.
+    Text: d10 + STR radiant damage.
   - Label: Special
     Text: This power counts as a ranged basic attack. When a power allows you to make a ranged basic attack, you can use this power.
 - Fields:

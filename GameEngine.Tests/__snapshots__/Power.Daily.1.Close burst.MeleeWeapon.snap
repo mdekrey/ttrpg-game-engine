@@ -11,7 +11,7 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 5
+        Size: 7
         Type: Burst
       Ability: Strength
       Effects:
@@ -25,7 +25,7 @@
         - Name: Condition
           Conditions:
           - Name: Simple
-            ConditionName: Dazed
+            ConditionName: Blinded
       Modifiers: []
     Modifiers:
     - Name: Power Source
@@ -40,12 +40,12 @@
   - Weapon
   ActionType: Standard Action
   AttackType: Close
-  AttackTypeDetails: burst 2
+  AttackTypeDetails: burst 3
   Target: Each creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.
+    Text: 1[W] + STR damage, and the target is blinded until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

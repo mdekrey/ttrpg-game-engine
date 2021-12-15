@@ -11,7 +11,7 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 3
+        Size: 7
         Type: Burst
       Ability: Strength
       Effects:
@@ -22,10 +22,6 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
-        - Name: Condition
-          Conditions:
-          - Name: Simple
-            ConditionName: Dazed
       Modifiers: []
     - Target:
         Name: Basic Target
@@ -53,12 +49,12 @@
   - Weapon
   ActionType: Standard Action
   AttackType: Close
-  AttackTypeDetails: burst 1
+  AttackTypeDetails: burst 3
   Target: Each creature
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.
+    Text: 1[W] + STR damage.
   - Label: Secondary Target
     Text: One creature
   - Label: Secondary Attack

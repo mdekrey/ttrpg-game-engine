@@ -11,7 +11,7 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 6
+        Size: 8
         Type: Wall
       Ability: Strength
       Effects:
@@ -23,6 +23,12 @@
           Damage: d6 + STR
           DamageTypes:
           - Radiant
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Blinded
+          - Name: Simple
+            ConditionName: Dazed
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Fortitude
@@ -39,12 +45,12 @@
   - Implement
   ActionType: Standard Action
   AttackType: Area
-  AttackTypeDetails: wall 12 within 30
+  AttackTypeDetails: wall 16 within 40
   Target: Each creature
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d6 + STR radiant damage.
+    Text: d6 + STR radiant damage, and the target is blinded and dazed until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

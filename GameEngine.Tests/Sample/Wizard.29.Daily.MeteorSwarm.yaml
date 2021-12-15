@@ -1,0 +1,27 @@
+# Wizard, Meteor Swarm
+# ID_FMP_POWER_467
+# Verifies burst at lvl 29 daily
+Profile:
+  Usage: Daily
+  Level: 29
+  ToolType: Implement
+  ToolRange: Range
+  Abilities: [Intelligence]
+Power:
+  Attacks:
+  - Target:
+      Name: Multiple
+      Size: 11
+      Type: Burst
+      Target: Enemy, Self, Ally
+    Ability: Strength
+    Effects:
+    - Target: { Name: See Other }
+      EffectType: Harmful
+      Modifiers:
+      - { Name: Damage, Damage: 8d6 + INT, DamageTypes: [ Fire ], Order: 1 }
+    Modifiers:
+    - { Name: Non-Armor Defense, Defense: Reflex }
+  Modifiers:
+  - { Name: Power Source, PowerSource: Arcane }
+  Effects: []

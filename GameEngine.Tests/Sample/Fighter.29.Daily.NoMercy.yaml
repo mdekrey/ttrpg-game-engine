@@ -1,0 +1,24 @@
+# Fighter, No Mercy
+# ID_FMP_POWER_1102
+# This is a daily with lower-than-max damage
+Profile:
+  Usage: Daily
+  Level: 29
+  ToolType: Weapon
+  ToolRange: Melee
+  Abilities: [Strength]
+Power:
+  Attacks:
+  - Target:
+      Name: Basic Target
+      Target: Enemy, Self, Ally
+    Ability: Strength
+    Effects:
+    - Target: { Name: See Other }
+      EffectType: Harmful
+      Modifiers:
+      - { Name: Damage, Damage: '7[W] + STR', DamageTypes: [], Order: 1 }
+    Modifiers: []
+  Modifiers:
+  - { Name: Power Source, PowerSource: Martial }
+  Effects: []

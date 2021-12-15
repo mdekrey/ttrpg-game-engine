@@ -2,7 +2,7 @@
 - Target:
     Name: Multiple
     Target: Enemy, Self, Ally
-    Size: 5
+    Size: 7
     Type: Burst
   Ability: Strength
   Effects:
@@ -16,7 +16,7 @@
     - Name: Condition
       Conditions:
       - Name: Simple
-        ConditionName: Dazed
+        ConditionName: Blinded
   Modifiers: []
 Modifiers:
 - Name: Power Source

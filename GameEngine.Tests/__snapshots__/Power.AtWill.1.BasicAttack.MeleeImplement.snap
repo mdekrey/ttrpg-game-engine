@@ -9,10 +9,8 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: Multiple
+        Name: Basic Target
         Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
       Ability: Wisdom
       Effects:
       - Target:
@@ -20,7 +18,7 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: d6 + WIS
+          Damage: d10 + WIS
           DamageTypes: []
       Modifiers:
       - Name: Non-Armor Defense
@@ -38,13 +36,13 @@
   - Implement
   - Martial
   ActionType: Standard Action
-  AttackType: Close
-  AttackTypeDetails: blast 1
-  Target: Each creature
+  AttackType: Melee
+  AttackTypeDetails: touch
+  Target: One creature
   Attack: WIS vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d6 + WIS damage.
+    Text: d10 + WIS damage.
   - Label: Special
     Text: This power counts as a melee basic attack. When a power allows you to make a melee basic attack, you can use this power.
 - Fields:

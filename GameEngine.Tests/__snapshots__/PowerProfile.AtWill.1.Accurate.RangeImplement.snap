@@ -1,9 +1,7 @@
 ﻿Attacks:
 - Target:
-    Name: Multiple
+    Name: Basic Target
     Target: Enemy, Self, Ally
-    Size: 1
-    Type: Blast
   Ability: Strength
   Effects:
   - Target:
@@ -11,14 +9,14 @@
     EffectType: Harmful
     Modifiers:
     - Name: Damage
-      Damage: d6 + STR
+      Damage: d4 + STR
       DamageTypes:
       - Radiant
   Modifiers:
-  - Name: To-Hit Bonus to Current Attack
-    Amount: +2
   - Name: Non-Armor Defense
     Defense: Fortitude
+  - Name: To-Hit Bonus to Current Attack
+    Amount: +4
 Modifiers:
 - Name: Power Source
   PowerSource: Arcane

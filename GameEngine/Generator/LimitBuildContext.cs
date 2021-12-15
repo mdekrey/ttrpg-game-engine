@@ -64,7 +64,7 @@ namespace GameEngine.Generator
             {
                 var factor = damagesWithEffectiveness[i].Effectiveness / damagesWithEffectiveness.Skip(i).Sum(e => e.Effectiveness);
                 var currentShare = remaining * factor / damagesWithEffectiveness[i].Effectiveness;
-                var currentDamage = PowerProfileExtensions.ToDamageEffect(powerInfo.ToolType, currentShare, damagesWithEffectiveness[i].Modifier.OverrideDiceType);
+                var currentDamage = GameDiceExpressionExtensions.ToDamageAmount(powerInfo.ToolType, currentShare, damagesWithEffectiveness[i].Modifier.OverrideDiceType);
                 var actualShare = currentDamage.ToWeaponDice();
                 remaining -= actualShare * damagesWithEffectiveness[i].Effectiveness;
                 result = result.Update(damagesWithEffectiveness[i].Lens, mod => mod with { Damage = damagesWithEffectiveness[i].Modifier.Damage + currentDamage });

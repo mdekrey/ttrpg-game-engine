@@ -17,7 +17,7 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: 3d4 + STR
+          Damage: 2d8 + STR
           DamageTypes: []
         - Name: Condition
           Conditions:
@@ -46,7 +46,7 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 3d4 + STR damage, and the target is blinded and dazed until the end of your next turn.
+    Text: 2d8 + STR damage, and the target is blinded and dazed until the end of your next turn.
   - Label: Effect
     Text: You conjure a fancy thing that occupies a square within range, and the thing attacks.
   - Label: Sustain Minor

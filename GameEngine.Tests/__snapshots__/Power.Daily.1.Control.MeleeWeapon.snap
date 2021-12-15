@@ -9,10 +9,7 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 3
-        Type: Burst
+        Name: Conjuration Target
       Ability: Strength
       Effects:
       - Target:
@@ -20,16 +17,17 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: 1[W] + STR
+          Damage: 2d8 + STR
           DamageTypes: []
         - Name: MovementControl
           Effects:
           - Name: Prone
           - Name: Slide Opponent
             Mode: Pull
-            Amount: +2
+            Amount: +1
       Modifiers: []
     Modifiers:
+    - Name: Conjuration
     - Name: Power Source
       PowerSource: Martial
     Effects: []
@@ -38,16 +36,23 @@
   FlavorText: ''
   PowerUsage: Daily
   Keywords:
+  - Conjuration
   - Martial
   - Weapon
   ActionType: Standard Action
-  AttackType: Close
-  AttackTypeDetails: burst 1
-  Target: Each creature
+  AttackType: Ranged
+  AttackTypeDetails: 10
+  Target: One creature adjacent to the thing
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is knocked prone and is pulled +2 squares.
+    Text: 2d8 + STR damage, and the target is knocked prone and is pulled +1 squares.
+  - Label: Effect
+    Text: You conjure a fancy thing that occupies a square within range, and the thing attacks.
+  - Label: Sustain Minor
+    Text: You can sustain this power until the end of the encounter. As a standard action, you can make another attack with the thing. As a move action, you can move the thing up to 6 squares.
 - Fields:
+    Conjured Detail: fancy thing
+    Conjured Simple: thing
     Flavor Text: ''
     Name: Unknown

@@ -57,20 +57,29 @@ namespace GameEngine.Generator.Modifiers
             PowerCost IEffectTargetModifier.GetCost(EffectContext effectContext) => GetCost(effectContext.PowerContext.PowerInfo);
             public PowerCost GetCost(IPowerInfo powerInfo)
             {
-                return new PowerCost((Size * Math.Max(Size, 3)) / 10.8);
+                var sizeFactor = Type switch
+                {
+                    BurstType.Blast => Size + 2 / 3,
+                    BurstType.Burst => Size / 2,
+                    BurstType.Area => Size / 2,
+                    BurstType.Wall => Size / 4,
+                    _ => throw new NotSupportedException(),
+                };
+                return new PowerCost(Multiplier: Math.Log10(sizeFactor - (int)powerInfo.Usage - powerInfo.Level / 5 + 5) + 1);
             }
 
-            public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, PowerFrequency usage)
+            public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, PowerFrequency usage, int level)
             {
                 if (stage < UpgradeStage.Standard) yield break;
                 // TODO - size is not correct, as lvl 23 encounters for wizards get burst 4 (9)
                 if (usage == PowerFrequency.AtWill && Size >= 3) yield break;
-                if (usage == PowerFrequency.Encounter && Size >= 5) yield break;
+                if (usage == PowerFrequency.Encounter && Size >= 7) yield break;
+                if (Size >= 7 + (level / 9) * 2) yield break;
 
                 yield return this with { Size = Size + (Type == BurstType.Blast ? 1 : 2) };
             }
-            IEnumerable<IEffectTargetModifier> IEffectTargetModifier.GetUpgrades(UpgradeStage stage, EffectContext effectContext) => GetUpgrades(stage, effectContext.Usage).OfType<IEffectTargetModifier>();
-            IEnumerable<IAttackTargetModifier> IAttackTargetModifier.GetUpgrades(UpgradeStage stage, AttackContext attackContext) => GetUpgrades(stage, attackContext.Usage).OfType<IAttackTargetModifier>();
+            IEnumerable<IEffectTargetModifier> IEffectTargetModifier.GetUpgrades(UpgradeStage stage, EffectContext effectContext) => GetUpgrades(stage, effectContext.Usage, effectContext.PowerContext.Level).OfType<IEffectTargetModifier>();
+            IEnumerable<IAttackTargetModifier> IAttackTargetModifier.GetUpgrades(UpgradeStage stage, AttackContext attackContext) => GetUpgrades(stage, attackContext.Usage, attackContext.PowerContext.Level).OfType<IAttackTargetModifier>();
 
 
             Target IEffectTargetModifier.GetTarget(EffectContext effectContext) => Target;

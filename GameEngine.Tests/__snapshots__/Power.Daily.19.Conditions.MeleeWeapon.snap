@@ -22,15 +22,13 @@
             ConditionName: Blinded
           - Name: Simple
             ConditionName: Dazed
-          - Name: Simple
-            ConditionName: Deafened
           AfterEffect:
             Condition:
               Name: Simple
               ConditionName: Unconscious
             AfterFailedSave: true
         - Name: Damage
-          Damage: d10 + STR + DEX
+          Damage: 4d4 + STR + DEX
           DamageTypes: []
       Modifiers: []
     Modifiers:
@@ -55,7 +53,7 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: d10 + STR + DEX damage, and the target is blinded, dazed, and deafened (save ends). If the target fails its first saving throw against this power, the target becomes unconscious (save ends).
+    Text: 4d4 + STR + DEX damage, and the target is blinded and dazed (save ends). If the target fails its first saving throw against this power, the target becomes unconscious (save ends).
   - Label: Effect
     Text: You conjure a fancy thing that occupies a square within range, and the thing attacks.
   - Label: Sustain Minor

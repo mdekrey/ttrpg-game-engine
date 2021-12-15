@@ -31,7 +31,8 @@ namespace GameEngine.Tests.Modifiers
                 result.Add(level.ToString(), Enumerable.Range(1, 4).ToDictionary(size => size.ToString(), size =>
                 {
                     var burst = new BurstFormula.BurstModifier(Target.Enemy, size, BurstFormula.BurstType.Area);
-                    return burst.GetCost(levelledPowerInfo).Fixed;
+                    var cost = burst.GetCost(levelledPowerInfo);
+                    return $"{cost.Multiplier},{cost.Fixed}";
                 }));
             }
 
