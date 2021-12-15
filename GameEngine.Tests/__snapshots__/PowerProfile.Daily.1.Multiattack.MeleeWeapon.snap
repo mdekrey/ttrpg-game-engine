@@ -2,8 +2,11 @@
 - Target:
     Name: TwoHits
     BothAttacksHitModifiers:
+    - Name: Disarm and Catch
     - Name: Condition
       Conditions:
+      - Name: Simple
+        ConditionName: Blinded
       - Name: Simple
         ConditionName: Dazed
   Ability: Strength
@@ -19,14 +22,4 @@
 Modifiers:
 - Name: Power Source
   PowerSource: Martial
-Effects:
-- Target:
-    Name: Basic Target
-    Target: Ally
-  EffectType: Beneficial
-  Modifiers:
-  - Name: Boost
-    Boosts:
-    - Name: Attack
-      Amount: +2
-      Limit: NextAttack
+Effects: []

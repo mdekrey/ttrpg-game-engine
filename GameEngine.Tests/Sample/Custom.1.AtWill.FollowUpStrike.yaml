@@ -1,0 +1,44 @@
+# Not in the book, "Follow-up Strike"
+# Verifies Strength of 'RequiredHitForNextAttack'
+Profile:
+  Usage: At-Will
+  ToolType: Weapon
+  ToolRange: Melee
+  Level: 1
+  Abilities:
+  - Strength
+  - Dexterity
+Power:
+  Attacks:
+  - Target:
+      Name: Basic Target
+      Target: Enemy, Self, Ally
+    Ability: Strength
+    Effects:
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Name: Damage
+        Damage: 1[W]
+        DamageTypes: []
+    Modifiers:
+    - Name: RequiredHitForNextAttack
+  - Target:
+      Name: Basic Target
+      Target: Enemy, Self, Ally
+    Ability: Strength
+    Effects:
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Name: Damage
+        Damage: 1[W] + STR
+        DamageTypes: []
+    Modifiers:
+    - Name: Multiattack
+  Modifiers:
+  - Name: Power Source
+    PowerSource: Martial
+  Effects: []

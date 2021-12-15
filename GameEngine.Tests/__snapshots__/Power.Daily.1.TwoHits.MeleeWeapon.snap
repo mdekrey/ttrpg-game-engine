@@ -11,8 +11,11 @@
     - Target:
         Name: TwoHits
         BothAttacksHitModifiers:
+        - Name: Disarm and Catch
         - Name: Condition
           Conditions:
+          - Name: Simple
+            ConditionName: Blinded
           - Name: Simple
             ConditionName: Dazed
       Ability: Strength
@@ -28,17 +31,7 @@
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
-    Effects:
-    - Target:
-        Name: Basic Target
-        Target: Ally
-      EffectType: Beneficial
-      Modifiers:
-      - Name: Boost
-        Boosts:
-        - Name: Attack
-          Amount: +2
-          Limit: NextAttack
+    Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''
@@ -53,9 +46,7 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is dazed until the end of your next turn.
-  - Label: Effect
-    Text: One of your allies gains a +2 power bonus to attack rolls on the next attack before the end of your next turn.
+    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is blinded and dazed until the end of your next turn and drops one weapon it is holding.
 - Fields:
     Flavor Text: ''
     Name: Unknown

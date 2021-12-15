@@ -1,4 +1,6 @@
-﻿namespace GameEngine.Generator
+﻿using System.Collections;
+
+namespace GameEngine.Generator
 {
     public record PowerCost(double Fixed = 0, double Multiplier = 1)
     {
@@ -20,6 +22,11 @@
         public double Apply(double original)
         {
             return (original / Multiplier) - Fixed;
+        }
+
+        public PowerCost ApplyMultiplier()
+        {
+            return new PowerCost(Fixed: Fixed * Multiplier);
         }
     }
 }

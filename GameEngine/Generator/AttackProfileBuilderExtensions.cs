@@ -35,17 +35,17 @@ namespace GameEngine.Generator
 
         public static PowerCost TotalCost(this AttackContext attackContext)
         {
+            var targetCost = attackContext.Attack.Target.GetCost(attackContext);
             var summed = (
                 from set in new[]
                 {
                     attackContext.Attack.Modifiers.Select(m => m.GetCost(attackContext)),
                     attackContext.GetEffectContexts().Select(e => e.EffectContext.TotalCost()),
-                    Enumerable.Repeat(attackContext.Attack.Target.GetCost(attackContext), 1),
                 }
                 from entry in set
                 select entry
-            ).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b);
-            return summed;
+            ).DefaultIfEmpty(PowerCost.Empty).Sum().ApplyMultiplier();
+            return new PowerCost(Fixed: summed.Fixed * targetCost.Multiplier + targetCost.Fixed);
         }
 
         internal static AttackProfile Build(this AttackContext attackContext) =>

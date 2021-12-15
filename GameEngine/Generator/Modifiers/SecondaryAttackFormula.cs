@@ -141,14 +141,14 @@ namespace GameEngine.Generator.Modifiers
             public int GetComplexity(PowerContext powerContext) => Math.Max(1, BothAttacksHitModifiers.Select(a => a.GetComplexity(powerContext)).Sum());
             public PowerCost GetCost(AttackContext attackContext) =>
                 new PowerCost(Multiplier: 2)
-                + GetBothAttacksHitCost(attackContext) * 1; // TODO - this isn't the right amount
+                + GetBothAttacksHitCost(attackContext) * 0.5;
 
             private PowerCost GetBothAttacksHitCost(AttackContext attackContext)
             {
                 if (BothAttacksHitModifiers is not { Count: > 0 }) return PowerCost.Empty;
 
                 var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
-                return BothAttacksHitModifiers.Select(e => e.GetCost(effectContext)).Aggregate((a, b) => a + b);
+                return BothAttacksHitModifiers.Select(e => e.GetCost(effectContext)).Sum();
             }
 
             public AttackType GetAttackType(AttackContext attackContext) =>

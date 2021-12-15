@@ -44,7 +44,7 @@ namespace GameEngine.Generator
             select newValue;
 
         public static PowerCost TotalCost(this EffectContext effectContext) =>
-            effectContext.Effect.Modifiers.Select(m => m.GetCost(effectContext)).DefaultIfEmpty(PowerCost.Empty).Aggregate((a, b) => a + b) + effectContext.Effect.Target.GetCost(effectContext);
+            (effectContext.Effect.Modifiers.Select(m => m.GetCost(effectContext)).Sum() + effectContext.Effect.Target.GetCost(effectContext)).ApplyMultiplier();
 
         public static IEnumerable<IModifier> AllModifiers(this TargetEffect targetEffect) => targetEffect.Modifiers.Add<IModifier>(targetEffect.Target);
 
