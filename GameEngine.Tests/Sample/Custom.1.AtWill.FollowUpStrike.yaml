@@ -1,5 +1,10 @@
-# Not in the book, "Follow-up Strike"
-# Verifies Strength of 'RequiredHitForNextAttack'
+Meta:
+  Class: Custom (Generated)
+  Name: Follow-up Strike
+  Id: N/A
+  Purpose: Verifies Strength of 'RequiredHitForNextAttack'
+Flavor:
+  Name: Follow-up Strike
 Profile:
   Usage: At-Will
   ToolType: Weapon

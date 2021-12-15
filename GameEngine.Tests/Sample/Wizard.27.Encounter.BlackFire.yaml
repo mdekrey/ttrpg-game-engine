@@ -1,6 +1,10 @@
-# Wizard, Black Fire
-# ID_FMP_POWER_2278
-# Verifies blast at lvl 27 encounter (2 damage types)
+Meta:
+  Class: Wizard
+  Name: Black Fire
+  Id: ID_FMP_POWER_2278
+  Purpose: Verifies blast at lvl 27 encounter (2 damage types)
+Flavor:
+  Name: Black Fire
 Profile:
   Usage: Daily
   Level: 29

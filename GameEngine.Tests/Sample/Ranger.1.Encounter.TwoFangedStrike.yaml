@@ -1,6 +1,10 @@
-# Ranger, Two-Fanged Strike
-# ID_FMP_POWER_2209
-# Verifies TwoHits
+Meta:
+  Class: Ranger
+  Name: Two-Fanged Strike
+  Id: ID_FMP_POWER_2209
+  Purpose: Verifies TwoHits
+Flavor:
+  Name: Two-Fanged Strike
 Profile:
   Usage: Encounter
   Level: 1

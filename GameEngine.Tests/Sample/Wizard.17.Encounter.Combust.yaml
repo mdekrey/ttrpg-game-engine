@@ -1,6 +1,10 @@
-# Wizard, Combust
-# ID_FMP_POWER_184
-# Verifies burst at lvl 17 encounter
+Meta:
+  Class: Wizard
+  Name: Combust
+  Id: ID_FMP_POWER_184
+  Purpose: Verifies burst at lvl 17 encounter
+Flavor:
+  Name: Combust
 Profile:
   Usage: Encounter
   Level: 17
@@ -12,7 +16,7 @@ Power:
   - Target:
       Name: Multiple
       Size: 5
-      Type: Burst
+      Type: Area
       Target: Enemy, Self, Ally
     Ability: Strength
     Effects:

@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Ranger
+  Id: ID_FMP_POWER_87
+  Name: Twin Strike
+  Purpose: Verifies TwoHits
+Flavor:
+  Flavor Text: ''
+  Name: Twin Strike
+Power:
+  Name: Twin Strike
+  TypeInfo: Weapon Attack 1
+  FlavorText: ''
+  PowerUsage: At-Will
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One or two creatures
+  Attack: STR vs. AC, two attacks
+  RulesText:
+  - Label: Hit
+    Text: 1[W] damage.

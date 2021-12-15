@@ -1,6 +1,10 @@
-# Fighter, No Mercy
-# ID_FMP_POWER_1102
-# This is a daily with lower-than-max damage
+Meta:
+  Class: Fighter
+  Name: No Mercy
+  Id: ID_FMP_POWER_1102
+  Purpose: This is a daily with lower-than-max damage
+Flavor:
+  Name: No Mercy
 Profile:
   Usage: Daily
   Level: 29

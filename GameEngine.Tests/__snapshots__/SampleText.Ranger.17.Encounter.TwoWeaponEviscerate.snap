@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Ranger
+  Id: ID_FMP_POWER_1388
+  Name: Two-Weapon Eviscerate
+  Purpose: Verifies TwoHits
+Flavor:
+  Flavor Text: ''
+  Name: Two-Weapon Eviscerate
+Power:
+  Name: Two-Weapon Eviscerate
+  TypeInfo: Weapon Attack 17
+  FlavorText: ''
+  PowerUsage: Encounter
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One or two creatures
+  Attack: STR vs. AC, two attacks
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also takes an extra d10 damage and is weakened until the end of your next turn.

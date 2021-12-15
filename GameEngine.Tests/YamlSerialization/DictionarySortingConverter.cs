@@ -9,7 +9,8 @@ namespace GameEngine.Tests.YamlSerialization
     {
         public override bool CanConvert(System.Type objectType)
         {
-            return objectType.GetInterfaces().Any(iface => iface.IsGenericType && iface.GetGenericTypeDefinition() == typeof(IDictionary<,>));
+            return objectType.GetInterfaces().Any(iface => iface.IsGenericType && iface.GetGenericTypeDefinition() == typeof(IDictionary<,>))
+                && objectType != typeof(Newtonsoft.Json.Linq.JObject);
         }
 
         public override bool CanRead => false;

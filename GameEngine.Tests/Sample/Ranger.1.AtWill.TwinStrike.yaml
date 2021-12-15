@@ -1,6 +1,10 @@
-# Ranger, Twin Strike
-# ???
-# Verifies TwoHits
+Meta:
+  Class: Ranger
+  Name: Twin Strike
+  Id: ID_FMP_POWER_87
+  Purpose: Verifies TwoHits
+Flavor:
+  Name: Twin Strike
 Profile:
   Usage: At-Will
   Level: 1

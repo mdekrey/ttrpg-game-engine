@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Wizard
+  Id: ID_FMP_POWER_2278
+  Name: Black Fire
+  Purpose: Verifies blast at lvl 27 encounter (2 damage types)
+Flavor:
+  Flavor Text: ''
+  Name: Black Fire
+Power:
+  Name: Black Fire
+  TypeInfo: Implement Attack 29
+  FlavorText: ''
+  PowerUsage: Daily
+  Keywords:
+  - Arcane
+  - Implement
+  ActionType: Standard Action
+  AttackType: Close
+  AttackTypeDetails: blast 5
+  Target: Each creature
+  Attack: STR vs. Reflex
+  RulesText:
+  - Label: Hit
+    Text: 6d6 + INT fire and necrotic damage.

@@ -1,6 +1,10 @@
-# Wizard, Fireball
-# ID_FMP_POWER_1553
-# Verifies burst at lvl 5
+Meta:
+  Class: Wizard
+  Name: Fireball
+  Id: ID_FMP_POWER_1553
+  Purpose: Verifies burst at lvl 5
+Flavor:
+  Name: Fireball
 Profile:
   Usage: Daily
   Level: 5
@@ -12,7 +16,7 @@ Power:
   - Target:
       Name: Multiple
       Size: 7
-      Type: Burst
+      Type: Area
       Target: Enemy, Self, Ally
     Ability: Strength
     Effects:

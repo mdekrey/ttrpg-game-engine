@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Wizard
+  Id: ID_FMP_POWER_451
+  Name: Sleep
+  Purpose: Verifies burst at lvl 1 with no damage
+Flavor:
+  Flavor Text: ''
+  Name: Sleep
+Power:
+  Name: Sleep
+  TypeInfo: Implement Attack 1
+  FlavorText: ''
+  PowerUsage: Daily
+  Keywords:
+  - Arcane
+  - Implement
+  ActionType: Standard Action
+  AttackType: Area
+  AttackTypeDetails: burst 2 within 25
+  Target: Each creature
+  Attack: STR vs. Will
+  RulesText:
+  - Label: Hit
+    Text: +0 damage, and the target is slowed until the end of your next turn. If the target fails its first saving throw against this power, the target becomes unconscious (save ends).

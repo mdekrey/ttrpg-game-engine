@@ -1,6 +1,10 @@
-# Paladin, Fortifying Smite
-# ID_FMP_POWER_352
-# Verifies 17 Encounter
+Meta:
+  Class: Paladin
+  Name: Fortifying Smite
+  Id: ID_FMP_POWER_352
+  Purpose: Verifies 17 Encounter
+Flavor:
+  Name: Fortifying Smite
 Profile:
   Usage: Encounter
   Level: 17

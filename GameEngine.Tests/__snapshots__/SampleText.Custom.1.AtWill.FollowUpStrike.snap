@@ -1,0 +1,30 @@
+﻿Meta:
+  Class: Custom (Generated)
+  Id: N/A
+  Name: Follow-up Strike
+  Purpose: Verifies Strength of 'RequiredHitForNextAttack'
+Flavor:
+  Flavor Text: ''
+  Name: Follow-up Strike
+Power:
+  Name: Follow-up Strike
+  TypeInfo: Weapon Attack 1
+  FlavorText: ''
+  PowerUsage: At-Will
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One creature
+  Attack: STR vs. AC
+  RulesText:
+  - Label: Hit
+    Text: 1[W] damage. Make a secondary attack.
+  - Label: Secondary Target
+    Text: One creature
+  - Label: Secondary Attack
+    Text: STR vs. AC
+  - Label: Secondary Hit
+    Text: 1[W] + STR damage.

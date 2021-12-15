@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Wizard
+  Id: ID_FMP_POWER_1166
+  Name: Scorching Burst
+  Purpose: Verifies burst at lvl 1
+Flavor:
+  Flavor Text: ''
+  Name: Scorching Burst
+Power:
+  Name: Scorching Burst
+  TypeInfo: Implement Attack 1
+  FlavorText: ''
+  PowerUsage: At-Will
+  Keywords:
+  - Arcane
+  - Implement
+  ActionType: Standard Action
+  AttackType: Area
+  AttackTypeDetails: burst 1 within 15
+  Target: Each creature
+  Attack: STR vs. Reflex
+  RulesText:
+  - Label: Hit
+    Text: d6 + INT fire damage.

@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Wizard
+  Id: ID_FMP_POWER_184
+  Name: Combust
+  Purpose: Verifies burst at lvl 17 encounter
+Flavor:
+  Flavor Text: ''
+  Name: Combust
+Power:
+  Name: Combust
+  TypeInfo: Implement Attack 17
+  FlavorText: ''
+  PowerUsage: Encounter
+  Keywords:
+  - Arcane
+  - Implement
+  ActionType: Standard Action
+  AttackType: Area
+  AttackTypeDetails: burst 2 within 25
+  Target: Each creature
+  Attack: STR vs. Reflex
+  RulesText:
+  - Label: Hit
+    Text: 5d6 + INT fire damage.

@@ -1,6 +1,10 @@
-# Wizard, Sleep
-# ID_FMP_POWER_451
-# Verifies burst at lvl 1
+Meta:
+  Class: Wizard
+  Name: Sleep
+  Id: ID_FMP_POWER_451
+  Purpose: Verifies burst at lvl 1 with no damage
+Flavor:
+  Name: Sleep
 Profile:
   Usage: Daily
   Level: 1
@@ -12,7 +16,7 @@ Power:
   - Target:
       Name: Multiple
       Size: 5
-      Type: Burst
+      Type: Area
       Target: Enemy, Self, Ally
     Ability: Strength
     Effects:

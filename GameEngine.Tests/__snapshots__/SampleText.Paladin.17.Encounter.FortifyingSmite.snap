@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Paladin
+  Id: ID_FMP_POWER_352
+  Name: Fortifying Smite
+  Purpose: Verifies 17 Encounter
+Flavor:
+  Flavor Text: ''
+  Name: Fortifying Smite
+Power:
+  Name: Fortifying Smite
+  TypeInfo: Weapon Attack 17
+  FlavorText: ''
+  PowerUsage: Encounter
+  Keywords:
+  - Divine
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One enemy
+  Attack: CHA vs. AC
+  RulesText:
+  - Label: Hit
+    Text: 3[W] + CHA damage, and the target gains a WIS power bonus to AC until the end of your next turn.

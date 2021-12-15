@@ -1,6 +1,10 @@
-# Wizard, Scorching Burst
-# ID_FMP_POWER_1166
-# Verifies burst at lvl 1
+Meta:
+  Class: Wizard
+  Name: Scorching Burst
+  Id: ID_FMP_POWER_1166
+  Purpose: Verifies burst at lvl 1
+Flavor:
+  Name: Scorching Burst
 Profile:
   Usage: At-Will
   Level: 1
@@ -12,7 +16,7 @@ Power:
   - Target:
       Name: Multiple
       Size: 3
-      Type: Burst
+      Type: Area
       Target: Enemy, Self, Ally
     Ability: Strength
     Effects:

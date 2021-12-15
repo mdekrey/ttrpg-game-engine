@@ -1,6 +1,10 @@
-# Ranger, Two-Weapon Eviscerate
-# ID_FMP_POWER_1388
-# Verifies TwoHits
+Meta:
+  Class: Ranger
+  Name: Two-Weapon Eviscerate
+  Id: ID_FMP_POWER_1388
+  Purpose: Verifies TwoHits
+Flavor:
+  Name: Two-Weapon Eviscerate
 Profile:
   Usage: Encounter
   Level: 17

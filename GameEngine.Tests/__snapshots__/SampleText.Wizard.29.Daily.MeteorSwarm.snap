@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Wizard
+  Id: ID_FMP_POWER_467
+  Name: Meteor Swarm
+  Purpose: Verifies burst at lvl 29 daily
+Flavor:
+  Flavor Text: ''
+  Name: Meteor Swarm
+Power:
+  Name: Meteor Swarm
+  TypeInfo: Implement Attack 29
+  FlavorText: ''
+  PowerUsage: Daily
+  Keywords:
+  - Arcane
+  - Implement
+  ActionType: Standard Action
+  AttackType: Area
+  AttackTypeDetails: burst 5 within 55
+  Target: Each creature
+  Attack: STR vs. Reflex
+  RulesText:
+  - Label: Hit
+    Text: 8d6 + INT fire damage.

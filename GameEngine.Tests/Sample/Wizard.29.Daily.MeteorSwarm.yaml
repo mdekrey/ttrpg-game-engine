@@ -1,6 +1,10 @@
-# Wizard, Meteor Swarm
-# ID_FMP_POWER_467
-# Verifies burst at lvl 29 daily
+Meta:
+  Class: Wizard
+  Name: Meteor Swarm
+  Id: ID_FMP_POWER_467
+  Purpose: Verifies burst at lvl 29 daily
+Flavor:
+  Name: Meteor Swarm
 Profile:
   Usage: Daily
   Level: 29
@@ -12,7 +16,7 @@ Power:
   - Target:
       Name: Multiple
       Size: 11
-      Type: Burst
+      Type: Area
       Target: Enemy, Self, Ally
     Ability: Strength
     Effects:

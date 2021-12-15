@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Wizard
+  Id: ID_FMP_POWER_1553
+  Name: Fireball
+  Purpose: Verifies burst at lvl 5
+Flavor:
+  Flavor Text: ''
+  Name: Fireball
+Power:
+  Name: Fireball
+  TypeInfo: Implement Attack 5
+  FlavorText: ''
+  PowerUsage: Daily
+  Keywords:
+  - Arcane
+  - Implement
+  ActionType: Standard Action
+  AttackType: Area
+  AttackTypeDetails: burst 3 within 35
+  Target: Each creature
+  Attack: STR vs. Reflex
+  RulesText:
+  - Label: Hit
+    Text: 4d6 + INT fire damage.

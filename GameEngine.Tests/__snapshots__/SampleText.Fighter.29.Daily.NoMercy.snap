@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Fighter
+  Id: ID_FMP_POWER_1102
+  Name: No Mercy
+  Purpose: This is a daily with lower-than-max damage
+Flavor:
+  Flavor Text: ''
+  Name: No Mercy
+Power:
+  Name: No Mercy
+  TypeInfo: Weapon Attack 29
+  FlavorText: ''
+  PowerUsage: Daily
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One creature
+  Attack: STR vs. AC
+  RulesText:
+  - Label: Hit
+    Text: 7[W] + STR damage.

@@ -1,0 +1,24 @@
+﻿Meta:
+  Class: Ranger
+  Id: ID_FMP_POWER_2209
+  Name: Two-Fanged Strike
+  Purpose: Verifies TwoHits
+Flavor:
+  Flavor Text: ''
+  Name: Two-Fanged Strike
+Power:
+  Name: Two-Fanged Strike
+  TypeInfo: Weapon Attack 1
+  FlavorText: ''
+  PowerUsage: Encounter
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One or two creatures
+  Attack: STR vs. AC, two attacks
+  RulesText:
+  - Label: Hit
+    Text: 1[W] + STR damage.
