@@ -132,7 +132,6 @@ namespace GameEngine.Generator.Modifiers
 
         // Two Identical attacks
         [ModifierName("TwoHits")]
-        // TODO: Multiple EffectModifiers, such as including damage
         public record TwoHitsModifier(EquatableImmutableList<IEffectModifier>? BothAttacksHitModifiers) : IAttackTargetModifier
         {
             public TwoHitsModifier() : this(ImmutableList<IEffectModifier>.Empty)
@@ -182,11 +181,11 @@ namespace GameEngine.Generator.Modifiers
 
                 return new TargetInfoMutator(100, (targetInfo) =>
                 {
-                    //var bothAttacksHitTargetInfo = bothAttacksHitTargetInfoApply.Aggregate(targetInfo, (current, apply) => apply(current));
                     // TODO - handle rest of bothAttacksHitTargetInfo
                     return targetInfo with
                     {
-                        AdditionalSentences = targetInfo.AdditionalSentences.Add($"If both of your attacks hit the same target, the target is also {OxfordComma(bothAttacksHitTargetInfo.Parts.ToArray())}".FinishSentence())
+                        AdditionalSentences = targetInfo.AdditionalSentences
+                            .Add($"If both of your attacks hit the same target, the target is also {OxfordComma(bothAttacksHitTargetInfo.Parts.ToArray())}".FinishSentence())
                     };
                 });
             }

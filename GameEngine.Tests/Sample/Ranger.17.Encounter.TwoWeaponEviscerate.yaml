@@ -14,6 +14,7 @@ Power:
       BothAttacksHitModifiers:
       - Name: Damage
         Damage: 1d10
+        DamageTypes: []
       - Name: Condition
         Conditions:
         - Name: Simple

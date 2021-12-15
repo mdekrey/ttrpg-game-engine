@@ -71,7 +71,6 @@ namespace GameEngine.Generator.Modifiers
             public IEnumerable<IEffectTargetModifier> GetUpgrades(UpgradeStage stage, PowerFrequency usage, int level)
             {
                 if (stage < UpgradeStage.Standard) yield break;
-                // TODO - size is not correct, as lvl 23 encounters for wizards get burst 4 (9)
                 if (usage == PowerFrequency.AtWill && Size >= 3) yield break;
                 if (usage == PowerFrequency.Encounter && Size >= 7) yield break;
                 if (Size >= 7 + (level / 9) * 2) yield break;

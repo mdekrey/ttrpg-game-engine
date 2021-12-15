@@ -24,7 +24,6 @@ namespace GameEngine.Generator.Serialization
 
         private static JsonConverter GetConverter<T>()
         {
-            // TODO - older versions
             var builder = JsonSubtypesConverterBuilder.Of<T>("Name").SerializeDiscriminatorProperty(addDiscriminatorFirst: true);
 
             var entries = from type in typeof(T).Assembly.GetTypes()

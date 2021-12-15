@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Linq;
@@ -23,7 +24,8 @@ namespace GameEngine.Generator.Modifiers
     {
         public override int GetComplexity(PowerContext powerContext) => 0;
 
-        public override PowerCost GetCost(EffectContext effectContext) => new PowerCost(Damage.ToWeaponDice());
+        public override PowerCost GetCost(EffectContext effectContext) => 
+            new PowerCost(Damage.ToWeaponDice()) * (1 + Math.Log(Math.Max(DamageTypes.Count, 1), 2));
         public override bool CanUseRemainingPower() => GetAbilities().Any();
 
         private IEnumerable<Ability> GetAbilities()

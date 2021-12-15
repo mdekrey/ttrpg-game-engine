@@ -27,7 +27,5 @@ namespace GameEngine.Generator.Text
         internal string ToAttackText() => $"{this.AttackExpression} vs. {this.Defense.ToText()}"
             + (AttackNotes is { Length: > 0 } ? $", {AttackNotes}" : "")
             + (AttackNoteSentences is { Count: > 0 } ? $". {string.Join(" ", AttackNoteSentences.Select(n => n.FinishSentence()))}" : "");
-
-        public ImmutableList<string> SpecialSentences => ImmutableList<string>.Empty; // TODO - remove this or use it
     }
 }

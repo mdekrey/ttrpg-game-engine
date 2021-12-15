@@ -88,7 +88,7 @@ namespace GameEngine.Generator.Modifiers
             public IEnumerable<EffectModifier> GetUpgrades(EffectContext effectContext) =>
                 from set in new[]
                 {
-                    // TODO - multiple types of movement?
+                    // TODO - additional non-shift movement?
 
                     from movement in Movement
                     from upgrade in movement.GetUpgrades(effectContext)

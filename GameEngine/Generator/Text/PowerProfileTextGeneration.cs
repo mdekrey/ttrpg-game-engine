@@ -152,8 +152,7 @@ namespace GameEngine.Generator.Text
                     Attack = attack.ToAttackText(),
                     RulesText = power.RulesText.Items
                         .Add(new("Hit", attack.Hit))
-                        .Add(new("Miss", attack.Miss))
-                        .Add(new("Special", string.Join(" ", attack.SpecialSentences))),
+                        .Add(new("Miss", attack.Miss)),
                 };
             }
             else
