@@ -24,7 +24,7 @@ namespace GameEngine.Generator.Modifiers
     {
         public override int GetComplexity(PowerContext powerContext) => 0;
 
-        public override PowerCost GetCost(EffectContext effectContext) => 
+        public override PowerCost GetCost(EffectContext effectContext) =>
             new PowerCost(Damage.ToWeaponDice()) * (1 + Math.Log(Math.Max(DamageTypes.Count, 1), 2));
         public override bool CanUseRemainingPower() => GetAbilities().Any();
 
@@ -56,12 +56,17 @@ namespace GameEngine.Generator.Modifiers
         }
 
         public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) =>
-            new(-100, (target) => target with { DamageExpression = string.Join(" ", new string[]
-            {
+            new(-100, (target) => (target with { DamageExpression = DamageText() }));
+
+        public string DamageText()
+        {
+            return string.Join(" ", new string[]
+                        {
                 Damage.ToString(),
                 OxfordComma(DamageTypes.Select(d => d.ToText().ToLower()).ToArray()),
                 "damage"
-            }.Where(s => s is { Length: > 0 })) });
+                        }.Where(s => s is { Length: > 0 }));
+        }
 
         public override bool UsesDuration() => false;
         public override bool IsInstantaneous() => false;

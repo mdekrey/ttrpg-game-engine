@@ -27,6 +27,7 @@
     - Name: Is Basic Attack
     - Name: Power Source
       PowerSource: Martial
+    - Name: Increase Damage by Level
     Effects: []
 - Name: Unknown
   TypeInfo: Implement Attack 1
@@ -43,6 +44,8 @@
   RulesText:
   - Label: Hit
     Text: d10 + WIS damage.
+  - Label: Level 21
+    Text: Increase from d10 + WIS damage to 2d10 + WIS damage
   - Label: Special
     Text: This power counts as a melee basic attack. When a power allows you to make a melee basic attack, you can use this power.
 - Fields:

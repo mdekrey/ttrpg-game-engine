@@ -1,7 +1,6 @@
 ﻿using GameEngine.Generator.Context;
 using GameEngine.Generator.Modifiers;
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -25,7 +24,7 @@ namespace GameEngine.Generator
             if (powerContext.GetComplexity() > Limits.MaxComplexity)
                 return false;
 
-            var min = GetDamageLenses(profile).Sum(c => GetEffectiveness(profile, PowerInfo, c));
+            var min = profile.GetDamageLenses().Sum(c => GetEffectiveness(profile, PowerInfo, c));
             var remaining = profile.TotalCost(PowerInfo).Apply(Limits.Initial);
 
             if (remaining <= 0)
@@ -53,7 +52,7 @@ namespace GameEngine.Generator
         public static PowerProfile ApplyWeaponDice(PowerProfile profile, IPowerInfo powerInfo, double maxPower)
         {
             var context = new PowerContext(profile, powerInfo);
-            var damages = GetDamageLenses(profile).OrderByDescending(e => e.Damage.Order ?? 1).ToImmutableList();
+            var damages = profile.GetDamageLenses().OrderByDescending(e => e.Damage.Order ?? 1).ToImmutableList();
             var remaining = profile.TotalCost(powerInfo).Apply(maxPower);
             var damagesWithEffectiveness = (from damage in damages
                                             let effectiveness = GetEffectiveness(profile, powerInfo, damage)
@@ -71,17 +70,6 @@ namespace GameEngine.Generator
             }
 
             return result;
-        }
-
-
-        public record DamageLens(DamageModifier Damage, Lens<PowerProfile, DamageModifier> Lens);
-
-        public static IEnumerable<DamageLens> GetDamageLenses(PowerProfile profile)
-        {
-            return from lens in profile.GetModifierLenses()
-                   let mod = profile.Get(lens) as DamageModifier
-                   where mod != null
-                   select new DamageLens(mod, Lens: lens.CastOutput<DamageModifier>());
         }
     }
 }

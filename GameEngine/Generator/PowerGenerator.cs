@@ -142,7 +142,12 @@ namespace GameEngine.Generator
             if (powerProfileBuilder == root)
                 return null;
 
-            return buildContext.Build(powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) });
+            powerProfileBuilder = powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) };
+            if (powerInfo.Usage == PowerFrequency.AtWill)
+            {
+                powerProfileBuilder = powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.AtWillIncreasingPower()) };
+            }
+            return buildContext.Build(powerProfileBuilder);
         }
 
         private PowerLimits GetLimits(PowerHighLevelInfo powerInfo)

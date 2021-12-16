@@ -15,6 +15,7 @@
 Modifiers:
 - Name: Power Source
   PowerSource: Martial
+- Name: Increase Damage by Level
 Effects:
 - Target:
     Name: Basic Target

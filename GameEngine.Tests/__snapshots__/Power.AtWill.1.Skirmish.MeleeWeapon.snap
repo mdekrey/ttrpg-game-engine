@@ -24,6 +24,7 @@
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
+    - Name: Increase Damage by Level
     Effects:
     - Target:
         Name: Basic Target
@@ -52,6 +53,8 @@
     Text: 1[W] + STR damage.
   - Label: Effect
     Text: You may shift DEX squares.
+  - Label: Level 21
+    Text: Increase from 1[W] + STR damage to 2[W] + STR damage
 - Fields:
     Flavor Text: ''
     Name: Unknown

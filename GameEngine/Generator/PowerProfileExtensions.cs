@@ -52,5 +52,12 @@ namespace GameEngine.Generator
                 _ => throw new ArgumentException("Invalid enum value for tool", nameof(tool)),
             };
 
+        public static IEnumerable<DamageLens> GetDamageLenses(this PowerProfile profile)
+        {
+            return from lens in profile.GetModifierLenses()
+                   let mod = profile.Get(lens) as DamageModifier
+                   where mod != null
+                   select new DamageLens(mod, Lens: lens.CastOutput<DamageModifier>());
+        }
     }
 }

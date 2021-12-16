@@ -18,6 +18,7 @@
 Modifiers:
 - Name: Power Source
   PowerSource: Arcane
+- Name: Increase Damage by Level
 Effects:
 - Target:
     Name: Basic Target

@@ -24,4 +24,5 @@ Modifiers:
   Duration: EndOfUserNextTurn
 - Name: Power Source
   PowerSource: Arcane
+- Name: Increase Damage by Level
 Effects: []

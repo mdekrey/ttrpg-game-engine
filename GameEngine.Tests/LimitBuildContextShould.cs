@@ -32,7 +32,7 @@ namespace GameEngine.Tests
             // Arrange
             var (_, powerInfo, expectedProfile, _) = GetSampleFromFile(sampleFile);
             var basePower = PowerGenerator.GetBasePower(powerInfo.Level, powerInfo.Usage);
-            var damageLenses = LimitBuildContext.GetDamageLenses(expectedProfile);
+            var damageLenses = expectedProfile.GetDamageLenses();
             var expectedDamage = damageLenses.Select(d => expectedProfile.Get(d.Lens).Damage.ToString()).ToArray();
             var powerProfile = damageLenses.Aggregate(expectedProfile, (prev, lens) => prev.Update(lens.Lens, d => d with { Damage = d.Damage with { DieCodes = Dice.DieCodes.Empty, WeaponDiceCount = 0 } }));
 

@@ -1,6 +1,5 @@
 ﻿using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
-using System;
 using System.Collections.Generic;
 
 namespace GameEngine.Generator.Modifiers
@@ -24,5 +23,4 @@ namespace GameEngine.Generator.Modifiers
             return new(0, (pt, flavor) => (pt with { Keywords = pt.Keywords.Items.Add(PowerSource) }, flavor));
         }
     }
-
 }

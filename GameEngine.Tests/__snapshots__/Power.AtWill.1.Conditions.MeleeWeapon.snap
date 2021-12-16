@@ -30,6 +30,7 @@
       Duration: EndOfUserNextTurn
     - Name: Power Source
       PowerSource: Martial
+    - Name: Increase Damage by Level
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
@@ -46,6 +47,8 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.
+  - Label: Level 21
+    Text: Increase from 1[W] + STR damage to 2[W] + STR damage
 - Fields:
     Flavor Text: ''
     Name: Unknown

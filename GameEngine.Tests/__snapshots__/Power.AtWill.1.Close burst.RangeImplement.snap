@@ -29,6 +29,7 @@
     Modifiers:
     - Name: Power Source
       PowerSource: Arcane
+    - Name: Increase Damage by Level
     Effects: []
 - Name: Unknown
   TypeInfo: Implement Attack 1
@@ -45,6 +46,8 @@
   RulesText:
   - Label: Hit
     Text: d6 + STR radiant damage.
+  - Label: Level 21
+    Text: Increase from d6 + STR radiant damage to 2d6 + STR radiant damage
 - Fields:
     Flavor Text: ''
     Name: Unknown

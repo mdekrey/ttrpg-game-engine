@@ -26,6 +26,7 @@
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
+    - Name: Increase Damage by Level
     Effects: []
 - PowerInfo:
     Usage: At-Will
@@ -53,6 +54,7 @@
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
+    - Name: Increase Damage by Level
     Effects:
     - Target:
         Name: Basic Target
@@ -96,6 +98,7 @@
       Duration: EndOfUserNextTurn
     - Name: Power Source
       PowerSource: Martial
+    - Name: Increase Damage by Level
     Effects: []
 - PowerInfo:
     Usage: At-Will
@@ -138,6 +141,7 @@
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
+    - Name: Increase Damage by Level
     Effects: []
 - PowerInfo:
     Usage: Encounter
