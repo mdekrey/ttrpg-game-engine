@@ -1,5 +1,6 @@
 ﻿using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
+using GameEngine.Rules;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -80,7 +81,7 @@ namespace GameEngine.Generator.Modifiers
                         RulesText = textBlock.RulesText
                             .AddSentence("Effect", $"The {burst} creates a zone of {flavor.GetText("Zone Description", "something", out flavor)} that fills the area until the end of your next turn. Any creature that enters the zone or starts their turn there takes the zone effects.")
                             .AddSentence("Zone Effect", targetInfo)
-                            .AddSentence("Sustain Minor", "The zone persists."),                        
+                            .AddSentence($"Sustain {ActionType.Minor.ToActionName()}", "The zone persists."),                        
                     };
                     return (result, flavor);
                 });

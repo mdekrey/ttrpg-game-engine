@@ -48,7 +48,7 @@
     Text: The burst creates a zone of something that fills the area until the end of your next turn. Any creature that enters the zone or starts their turn there takes the zone effects.
   - Label: Zone Effect
     Text: The creature takes 1[W] + STR damage.
-  - Label: Sustain Minor
+  - Label: Sustain Bonus
     Text: The zone persists.
 - Fields:
     Flavor Text: ''

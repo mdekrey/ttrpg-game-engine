@@ -49,7 +49,7 @@
     Text: 2d8 + STR damage, and the target is knocked prone and is pulled +1 squares.
   - Label: Effect
     Text: You conjure a fancy thing that occupies a square within range, and the thing attacks.
-  - Label: Sustain Minor
+  - Label: Sustain Bonus
     Text: You can sustain this power until the end of the encounter. As a standard action, you can make another attack with the thing. As a move action, you can move the thing up to 6 squares.
 - Fields:
     Conjured Detail: fancy thing

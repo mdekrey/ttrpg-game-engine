@@ -1,5 +1,6 @@
 ﻿using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
+using GameEngine.Rules;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -65,7 +66,7 @@ namespace GameEngine.Generator.Modifiers
                     var result = textBlock with
                     {
                         RulesText = textBlock.RulesText
-                            .AddSentence("Sustain Minor", $"You may repeat the attack."),
+                            .AddSentence($"Sustain {ActionType.Minor.ToActionName()}", $"You may repeat the attack."),
                     };
                     return (result, flavor);
                 });

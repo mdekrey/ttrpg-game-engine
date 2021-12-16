@@ -38,7 +38,7 @@ namespace GameEngine.Generator.Modifiers
                 {
                     return (textBlock with
                     {
-                        ActionType = "Minor Action",
+                        ActionType = $"{ActionType.Minor.ToActionName()} Action",
                     }, flavor);
                 });
         }

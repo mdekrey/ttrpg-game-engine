@@ -47,7 +47,7 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.
-  - Label: Sustain Minor
+  - Label: Sustain Bonus
     Text: You may repeat the attack.
 - Fields:
     Flavor Text: ''

@@ -51,7 +51,7 @@ namespace GameEngine.Generator.Modifiers
                 {
                     var result = textBlock with
                     {
-                        ActionType = "Immediate Reaction",
+                        ActionType = ActionType.Opportunity.ToActionName(),
                     };
 
                     switch (Trigger)

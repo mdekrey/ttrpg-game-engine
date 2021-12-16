@@ -1,5 +1,6 @@
 ﻿using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
+using GameEngine.Rules;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -124,7 +125,7 @@ namespace GameEngine.Generator.Modifiers
                     return (text with
                     {
                         Keywords = text.Keywords.Items.Add("Stance"),
-                        ActionType = "Minor Action",
+                        ActionType = $"{ActionType.Minor} Action",
                         RulesText = text.RulesText.AddSentence("Effect", $"Until the stance ends, you gain access to {flavor.Fields["Associated Name"]}."),
                         AssociatedPower = associated with
                         {

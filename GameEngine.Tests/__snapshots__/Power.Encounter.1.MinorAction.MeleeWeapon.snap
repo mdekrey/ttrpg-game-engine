@@ -33,7 +33,7 @@
   Keywords:
   - Martial
   - Weapon
-  ActionType: Minor Action
+  ActionType: Bonus Action
   AttackType: Melee
   AttackTypeDetails: weapon
   Target: One creature

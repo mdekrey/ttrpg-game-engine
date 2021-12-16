@@ -34,7 +34,7 @@
   Keywords:
   - Martial
   - Weapon
-  ActionType: Immediate Reaction
+  ActionType: Opportunity Action
   AttackType: Melee
   AttackTypeDetails: weapon
   Trigger: An adjacent enemy marked by you moves without shifting on its turn

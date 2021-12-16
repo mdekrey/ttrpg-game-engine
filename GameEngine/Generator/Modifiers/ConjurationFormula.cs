@@ -1,5 +1,6 @@
 ﻿using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
+using GameEngine.Rules;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -101,7 +102,7 @@ namespace GameEngine.Generator.Modifiers
                         Target = $"One creature adjacent to the {thing}",
                         RulesText = textBlock.RulesText
                             .AddSentence("Effect", $"You conjure a {fancyThing} that occupies a square within range, and the {thing} attacks.")
-                            .AddSentence("Sustain Minor", $"You can sustain this power until the end of the encounter. As a standard action, you can make another attack with the {thing}. As a move action, you can move the {thing} up to 6 squares."),
+                            .AddSentence($"Sustain {ActionType.Minor.ToActionName()}", $"You can sustain this power until the end of the encounter. As a standard action, you can make another attack with the {thing}. As a move action, you can move the {thing} up to 6 squares."),
                     };
                     return (result, flavor);
                 });

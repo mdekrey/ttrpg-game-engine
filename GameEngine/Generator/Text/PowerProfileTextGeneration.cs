@@ -62,7 +62,7 @@ namespace GameEngine.Generator.Text
                 FlavorText: flavor.GetText("Flavor Text", "", out flavor),
                 PowerUsage: context.Usage.ToText(),
                 Keywords: ImmutableList<string>.Empty.Add(context.ToolType.ToKeyword()),
-                ActionType: "Standard Action",
+                ActionType: $"{ActionType.Standard.ToActionName()} Action",
                 AttackType: null,
                 AttackTypeDetails: null,
                 Prerequisite: null,
