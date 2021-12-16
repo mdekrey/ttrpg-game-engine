@@ -39,7 +39,17 @@
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
-    Effects: []
+    Effects:
+    - Target:
+        Name: Basic Target
+        Target: Self
+      EffectType: Beneficial
+      Modifiers:
+      - Name: Skirmish Movement
+        Movement:
+        - Name: Extra Movement
+          Amount: DEX
+          MovementType: Move
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''
@@ -61,6 +71,8 @@
     Text: STR vs. AC
   - Label: Secondary Hit
     Text: 1[W] + STR damage.
+  - Label: Effect
+    Text: You may move DEX squares.
 - Fields:
     Flavor Text: ''
     Name: Unknown

@@ -27,7 +27,17 @@
     - Name: Zone
     - Name: Power Source
       PowerSource: Martial
-    Effects: []
+    Effects:
+    - Target:
+        Name: Basic Target
+        Target: Self
+      EffectType: Beneficial
+      Modifiers:
+      - Name: Skirmish Movement
+        Movement:
+        - Name: Extra Movement
+          Amount: DEX
+          MovementType: Move
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''
@@ -45,7 +55,7 @@
   - Label: Hit
     Text: 1[W] + STR damage.
   - Label: Effect
-    Text: The burst creates a zone of something that fills the area until the end of your next turn. Any creature that enters the zone or starts their turn there takes the zone effects.
+    Text: You may move DEX squares. The burst creates a zone of something that fills the area until the end of your next turn. Any creature that enters the zone or starts their turn there takes the zone effects.
   - Label: Zone Effect
     Text: The creature takes 1[W] + STR damage.
   - Label: Sustain Bonus

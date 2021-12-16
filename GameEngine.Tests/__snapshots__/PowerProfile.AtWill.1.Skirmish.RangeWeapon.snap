@@ -23,5 +23,6 @@ Effects:
   Modifiers:
   - Name: Skirmish Movement
     Movement:
-    - Name: Shift
+    - Name: Extra Movement
       Amount: DEX
+      MovementType: Shift

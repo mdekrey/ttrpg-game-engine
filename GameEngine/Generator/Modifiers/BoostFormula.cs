@@ -48,7 +48,6 @@ namespace GameEngine.Generator.Modifiers
 
         public enum Limit
         {
-            // TODO - this limit should probably be a restriction instead
             NextAttack,
             Target,
         }

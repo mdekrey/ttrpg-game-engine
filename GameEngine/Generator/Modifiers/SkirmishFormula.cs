@@ -25,8 +25,12 @@ namespace GameEngine.Generator.Modifiers
             };
 
             foreach (var ability in abilities)
-                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift((GameDiceExpression)ability)));
-            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new Shift(2)));
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new ExtraMovement((GameDiceExpression)ability, MovementType.Move)));
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new ExtraMovement(2, MovementType.Move)));
+
+            foreach (var ability in abilities)
+                yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new ExtraMovement((GameDiceExpression)ability, MovementType.Shift)));
+            yield return new SkirmishMovementModifier(Build<SkirmishMovement>(new ExtraMovement(2, MovementType.Shift)));
         }
 
         public abstract record SkirmishMovement()
@@ -36,13 +40,28 @@ namespace GameEngine.Generator.Modifiers
 
             public abstract string GetAttackPart(Target target);
         }
-        [ModifierName("Shift")]
-        public record Shift(GameDiceExpression? Amount) : SkirmishMovement()
+
+        public enum MovementType
+        {
+            Move,
+            Shift,
+        }
+
+        [ModifierName("Extra Movement")]
+        public record ExtraMovement(GameDiceExpression? Amount, MovementType MovementType) : SkirmishMovement()
         {
             // If Amount is null, it means "your speed"
-            public override double Cost() => Amount == null ? 1 : Amount.ToWeaponDice();
+            public override double Cost() => (Amount == null ? 1 : Amount.ToWeaponDice())
+                * MovementType switch
+                {
+                    MovementType.Move => 0.5,
+                    MovementType.Shift => 1,
+                    _ => throw new NotSupportedException(),
+                };
             public override IEnumerable<SkirmishMovement> GetUpgrades(EffectContext effectContext)
             {
+                if (MovementType == MovementType.Move)
+                    yield return this with { MovementType = MovementType.Shift };
                 if (Amount == null) yield break;
 
                 foreach (var entry in Amount.GetStandardIncreases(effectContext.Abilities))
@@ -51,8 +70,16 @@ namespace GameEngine.Generator.Modifiers
                     yield return this with { Amount = null };
             }
             public override string GetAttackPart(Target target) => Amount != null
-                ? $"may shift {Amount} squares"
-                : $"may shift a number of squares equal to {(target == Target.Self ? "your" : "their")} speed";
+                ? $"may {MoveText()} {Amount} squares"
+                : $"may {MoveText()} a number of squares equal to {(target == Target.Self ? "your" : "their")} speed";
+
+            private string MoveText() =>
+                MovementType switch
+                { 
+                    MovementType.Move => "move",
+                    MovementType.Shift => "shift",
+                    _ => throw new NotSupportedException(),
+                };
         }
         [ModifierName("Non-Provoking Movement")]
         public record MovementDoesNotProvoke() : SkirmishMovement()
@@ -63,7 +90,6 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             }
 
-            // TODO - should this use duration?
             public override string GetAttackPart(Target target) => target == Target.Self
                 ? $"do not provoke opportunity attacks from movement for the rest of the turn"
                 : $"does not provoke opportunity attacks from movement for the rest of the turn";
@@ -88,8 +114,6 @@ namespace GameEngine.Generator.Modifiers
             public IEnumerable<EffectModifier> GetUpgrades(EffectContext effectContext) =>
                 from set in new[]
                 {
-                    // TODO - additional non-shift movement?
-
                     from movement in Movement
                     from upgrade in movement.GetUpgrades(effectContext)
                     select this with { Movement = Movement.Items.Remove(movement).Add(upgrade) },

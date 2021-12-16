@@ -32,8 +32,9 @@
       Modifiers:
       - Name: Skirmish Movement
         Movement:
-        - Name: Shift
+        - Name: Extra Movement
           Amount: DEX
+          MovementType: Shift
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''

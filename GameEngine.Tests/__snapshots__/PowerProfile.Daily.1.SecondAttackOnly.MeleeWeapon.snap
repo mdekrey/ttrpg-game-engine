@@ -30,4 +30,14 @@
 Modifiers:
 - Name: Power Source
   PowerSource: Martial
-Effects: []
+Effects:
+- Target:
+    Name: Basic Target
+    Target: Self
+  EffectType: Beneficial
+  Modifiers:
+  - Name: Skirmish Movement
+    Movement:
+    - Name: Extra Movement
+      Amount: DEX
+      MovementType: Move
