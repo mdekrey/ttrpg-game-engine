@@ -15,11 +15,11 @@
     - Name: Damage
       Damage: 1[W] + STR
       DamageTypes: []
+      IncreaseAtHigherLevels: true
   Modifiers: []
 Modifiers:
 - Name: Duration
   Duration: EndOfUserNextTurn
 - Name: Power Source
   PowerSource: Martial
-- Name: Increase Damage by Level
 Effects: []

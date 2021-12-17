@@ -20,13 +20,13 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: To-Hit Bonus to Current Attack
         Amount: +2
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
-    - Name: Increase Damage by Level
     Effects: []
 - PowerInfo:
     Usage: At-Will
@@ -50,11 +50,11 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers: []
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
-    - Name: Increase Damage by Level
     Effects:
     - Target:
         Name: Basic Target
@@ -92,13 +92,13 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers: []
     Modifiers:
     - Name: Duration
       Duration: EndOfUserNextTurn
     - Name: Power Source
       PowerSource: Martial
-    - Name: Increase Damage by Level
     Effects: []
 - PowerInfo:
     Usage: At-Will
@@ -122,6 +122,7 @@
         - Name: Damage
           Damage: 1[W]
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: RequiredHitForNextAttack
     - Target:
@@ -136,12 +137,12 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: Multiattack
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
-    - Name: Increase Damage by Level
     Effects: []
 - PowerInfo:
     Usage: Encounter

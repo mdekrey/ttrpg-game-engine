@@ -19,11 +19,11 @@
         - Name: Damage
           Damage: 1[W]
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers: []
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
-    - Name: Increase Damage by Level
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
@@ -39,9 +39,7 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] damage.
-  - Label: Level 21
-    Text: Increase 1[W] damage to 2[W] damage
+    Text: '1[W] damage. Level 21: 2[W] damage.'
 - Fields:
     Flavor Text: ''
     Name: Unknown

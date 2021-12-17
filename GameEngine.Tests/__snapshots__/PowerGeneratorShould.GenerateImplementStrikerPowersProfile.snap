@@ -19,6 +19,7 @@
         - Name: Damage
           Damage: d4 + WIS
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Fortitude
@@ -27,7 +28,6 @@
     Modifiers:
     - Name: Power Source
       PowerSource: Arcane
-    - Name: Increase Damage by Level
     Effects: []
 - PowerInfo:
     Usage: At-Will
@@ -50,13 +50,13 @@
         - Name: Damage
           Damage: d10 + WIS
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Reflex
     Modifiers:
     - Name: Power Source
       PowerSource: Arcane
-    - Name: Increase Damage by Level
     Effects:
     - Target:
         Name: Basic Target
@@ -91,13 +91,13 @@
         - Name: Damage
           Damage: d6 + WIS
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Will
     Modifiers:
     - Name: Power Source
       PowerSource: Arcane
-    - Name: Increase Damage by Level
     Effects: []
 - PowerInfo:
     Usage: At-Will
@@ -120,6 +120,7 @@
         - Name: Damage
           Damage: d4 + WIS
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: RequiredHitForNextAttack
       - Name: Non-Armor Defense
@@ -136,6 +137,7 @@
         - Name: Damage
           Damage: d6 + WIS
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: Multiattack
       - Name: Non-Armor Defense
@@ -145,7 +147,6 @@
     Modifiers:
     - Name: Power Source
       PowerSource: Arcane
-    - Name: Increase Damage by Level
     Effects: []
 - PowerInfo:
     Usage: Encounter

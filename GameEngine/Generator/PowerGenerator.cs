@@ -145,7 +145,7 @@ namespace GameEngine.Generator
             powerProfileBuilder = powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) };
             if (powerInfo.Usage == PowerFrequency.AtWill)
             {
-                powerProfileBuilder = powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.AtWillIncreasingPower()) };
+                powerProfileBuilder = powerProfileBuilder.GetDamageLenses().Select(d => d.Lens).Aggregate(powerProfileBuilder, (prev, lens) => prev.Update(lens, d => d with { IncreaseAtHigherLevels = true }));
             }
             return buildContext.Build(powerProfileBuilder);
         }

@@ -23,13 +23,13 @@
           Damage: d6 + STR
           DamageTypes:
           - Radiant
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Fortitude
     Modifiers:
     - Name: Power Source
       PowerSource: Arcane
-    - Name: Increase Damage by Level
     Effects: []
 - Name: Unknown
   TypeInfo: Implement Attack 1
@@ -45,9 +45,7 @@
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d6 + STR radiant damage.
-  - Label: Level 21
-    Text: Increase from d6 + STR radiant damage to 2d6 + STR radiant damage
+    Text: 'd6 + STR radiant damage. Level 21: 2d6 + STR radiant damage.'
 - Fields:
     Flavor Text: ''
     Name: Unknown

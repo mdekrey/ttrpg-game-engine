@@ -24,13 +24,13 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers: []
     Modifiers:
     - Name: Duration
       Duration: EndOfUserNextTurn
     - Name: Power Source
       PowerSource: Martial
-    - Name: Increase Damage by Level
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
@@ -46,9 +46,7 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is dazed until the end of your next turn.
-  - Label: Level 21
-    Text: Increase from 1[W] + STR damage to 2[W] + STR damage
+    Text: '1[W] + STR damage, and the target is dazed until the end of your next turn. Level 21: 2[W] + STR damage.'
 - Fields:
     Flavor Text: ''
     Name: Unknown

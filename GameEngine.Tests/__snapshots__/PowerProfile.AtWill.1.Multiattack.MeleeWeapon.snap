@@ -11,6 +11,7 @@
     - Name: Damage
       Damage: 1[W]
       DamageTypes: []
+      IncreaseAtHigherLevels: true
   Modifiers:
   - Name: RequiredHitForNextAttack
 - Target:
@@ -25,10 +26,10 @@
     - Name: Damage
       Damage: 1[W] + STR
       DamageTypes: []
+      IncreaseAtHigherLevels: true
   Modifiers:
   - Name: Multiattack
 Modifiers:
 - Name: Power Source
   PowerSource: Martial
-- Name: Increase Damage by Level
 Effects: []

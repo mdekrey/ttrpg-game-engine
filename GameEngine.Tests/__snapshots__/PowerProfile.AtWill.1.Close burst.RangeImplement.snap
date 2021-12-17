@@ -14,11 +14,11 @@
       Damage: d6 + STR
       DamageTypes:
       - Radiant
+      IncreaseAtHigherLevels: true
   Modifiers:
   - Name: Non-Armor Defense
     Defense: Fortitude
 Modifiers:
 - Name: Power Source
   PowerSource: Arcane
-- Name: Increase Damage by Level
 Effects: []

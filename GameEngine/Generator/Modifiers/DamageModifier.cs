@@ -19,8 +19,9 @@ namespace GameEngine.Generator.Modifiers
     [ModifierName("Damage")]
     public record DamageModifier(GameDiceExpression Damage, EquatableImmutableList<DamageType> DamageTypes,
         DamageDiceType? OverrideDiceType = null,
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)] int? Order = null,
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)] double? Weight = 1.0) : EffectModifier()
+        [property: JsonProperty(NullValueHandling = NullValueHandling.Ignore)] int? Order = null,
+        [property: JsonProperty(NullValueHandling = NullValueHandling.Ignore)] double? Weight = 1.0,
+        [property: JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate), DefaultValue(false)] bool IncreaseAtHigherLevels = false) : EffectModifier()
     {
         public override int GetComplexity(PowerContext powerContext) => 0;
 
@@ -56,16 +57,38 @@ namespace GameEngine.Generator.Modifiers
         }
 
         public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) =>
-            new(-100, (target) => (target with { DamageExpression = DamageText() }));
+            new(-100, (target) =>
+            {
+                var result = target with
+                {
+                    DamageExpression = DamageText(Damage),
+                };
+                if (IncreaseAtHigherLevels)
+                {
+                    var initial = Damage;
+                    var increased = initial with
+                    {
+                        DieCodes = initial.DieCodes * 2,
+                        WeaponDiceCount = initial.WeaponDiceCount * 2,
+                    };
+                    var initialText = DamageText(initial);
+                    var increasedText = DamageText(increased);
+                    result = result with
+                    {
+                        AdditionalSentences = result.AdditionalSentences.Add($"Level 21: {increasedText}.")
+                    };
+                }
+                return result;
+            });
 
-        public string DamageText()
+        public string DamageText(GameDiceExpression damage)
         {
             return string.Join(" ", new string[]
-                        {
-                Damage.ToString(),
+            {
+                damage.ToString(),
                 OxfordComma(DamageTypes.Select(d => d.ToText().ToLower()).ToArray()),
                 "damage"
-                        }.Where(s => s is { Length: > 0 }));
+            }.Where(s => s is { Length: > 0 }));
         }
 
         public override bool UsesDuration() => false;

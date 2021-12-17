@@ -35,7 +35,9 @@ namespace GameEngine.Tests.YamlSerialization
 
         public static string SerializeToYaml(object target)
         {
-            var json = JToken.FromObject(target, JsonSerializer).ToString();
+            using var sw = new StringWriter();
+            JsonSerializer.Serialize(sw, target);
+            var json = sw.ToString();
             using var sr = new StringReader(json);
             return Serializer.Serialize(YamlDeserializer.Deserialize(sr)!);
         }

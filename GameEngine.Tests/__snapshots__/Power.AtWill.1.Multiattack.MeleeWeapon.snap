@@ -20,6 +20,7 @@
         - Name: Damage
           Damage: 1[W]
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: RequiredHitForNextAttack
     - Target:
@@ -34,12 +35,12 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
+          IncreaseAtHigherLevels: true
       Modifiers:
       - Name: Multiattack
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
-    - Name: Increase Damage by Level
     Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
@@ -55,15 +56,13 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] damage. Make a secondary attack.
+    Text: '1[W] damage. Level 21: 2[W] damage. Make a secondary attack.'
   - Label: Secondary Target
     Text: One creature
   - Label: Secondary Attack
     Text: STR vs. AC
   - Label: Secondary Hit
-    Text: 1[W] + STR damage.
-  - Label: Level 21
-    Text: Increase from 1[W] + STR damage to 2[W] + STR damage and from 1[W] damage to 2[W] damage
+    Text: '1[W] + STR damage. Level 21: 2[W] + STR damage.'
 - Fields:
     Flavor Text: ''
     Name: Unknown
