@@ -148,7 +148,27 @@ namespace GameEngine.Generator.Modifiers
                 if (BothAttacksHitModifiers is not { Count: > 0 }) return PowerCost.Empty;
 
                 var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
-                return BothAttacksHitModifiers.Select(e => e.GetCost(effectContext)).Sum();
+
+                var orig = ModifiersCost(effectContext.Modifiers);
+
+                var bothHitCost = ModifiersCost(
+                    BothAttacksHitModifiers.Aggregate(
+                        effectContext.Modifiers,
+                        (prev, mod) =>
+                        {
+                            var (oldMod, newMod) = prev
+                                .Select(m => m.Combine(mod) is CombineEffectResult<IEffectModifier>.CombineToOne { Result: var one } ? (oldMod: m, newMod: one) : (oldMod: m, newMod: null))
+                                .Where(t => t.newMod != null)
+                                .FirstOrDefault();
+                            if (newMod != null)
+                                return prev.Remove(oldMod).Add(newMod);
+                            return prev.Add(mod);
+                        })
+                );
+
+                return new PowerCost(bothHitCost.Fixed - orig.Fixed);
+
+                PowerCost ModifiersCost(ImmutableList<IEffectModifier> modifiers) => modifiers.Select(m => m.GetCost(effectContext)).Sum();
             }
 
             public AttackType GetAttackType(AttackContext attackContext) =>

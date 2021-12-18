@@ -2671,6 +2671,13 @@
         - Name: Damage
           Damage: STR + DEX
           DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Stunned
+          - Name: Defense Penalty
+          - Name: Simple
+            ConditionName: Restrained
       Modifiers: []
     Modifiers:
     - Name: Duration
@@ -2683,19 +2690,14 @@
         OtherAttackIndex: 0
       EffectType: Harmful
       Modifiers:
-      - Name: Disarm and Catch
       - Name: Condition
         Conditions:
         - Name: Simple
-          ConditionName: Deafened
+          ConditionName: Weakened
         - Name: Simple
           ConditionName: Stunned
-        - Name: Defense Penalty
-        AfterEffect:
-          Condition:
-            Name: Simple
-            ConditionName: Grants Combat Advantage
-          AfterFailedSave: false
+        - Name: Simple
+          ConditionName: Restrained
 - PowerInfo:
     Usage: Daily
     ToolType: Weapon
@@ -2707,8 +2709,10 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: Basic Target
+        Name: Multiple
         Target: Enemy, Self, Ally
+        Size: 5
+        Type: Burst
       Ability: Strength
       Effects:
       - Target:
@@ -2716,10 +2720,12 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: 7[W] + STR
+          Damage: STR + DEX
           DamageTypes: []
       Modifiers: []
     Modifiers:
+    - Name: Duration
+      Duration: SaveEnds
     - Name: Power Source
       PowerSource: Martial
     Effects:
@@ -2731,14 +2737,23 @@
       - Name: Skirmish Movement
         Movement:
         - Name: Extra Movement
-          Amount: +8
+          Amount: DEX
           MovementType: Shift
     - Target:
-        Name: Basic Target
-        Target: Ally
-      EffectType: Beneficial
+        Name: See Other
+        OtherAttackIndex: 0
+      EffectType: Harmful
       Modifiers:
-      - Name: Boost
-        Boosts:
-        - Name: Attack
-          Amount: STR
+      - Name: Condition
+        Conditions:
+        - Name: Defense Penalty
+          Defense: Armor Class
+        - Name: Simple
+          ConditionName: Deafened
+        - Name: Simple
+          ConditionName: Stunned
+        AfterEffect:
+          Condition:
+            Name: Simple
+            ConditionName: Grants Combat Advantage
+          AfterFailedSave: false

@@ -15,6 +15,7 @@ namespace GameEngine.Tests
         const double tolerance = 0.25;
         private record Sample(JObject Meta, PowerInfo Profile, PowerProfile Power, ImmutableDictionary<string, string> Flavor);
 
+        [InlineData("Custom.23.Encounter.TwoAttacksStack")]
         [InlineData("Wizard.1.AtWill.ScorchingBurst")]
         [InlineData("Wizard.1.Daily.Sleep")]
         [InlineData("Wizard.5.Daily.Fireball")]
@@ -61,6 +62,7 @@ namespace GameEngine.Tests
         }
 
         [InlineData("Custom.1.AtWill.FollowUpStrike")]
+        [InlineData("Custom.23.Encounter.TwoAttacksStack")]
         [InlineData("Wizard.1.AtWill.ScorchingBurst")]
         [InlineData("Wizard.1.Daily.Sleep")]
         [InlineData("Wizard.5.Daily.Fireball")]
@@ -95,6 +97,7 @@ namespace GameEngine.Tests
         }
 
         [InlineData("Custom.1.AtWill.FollowUpStrike")]
+        [InlineData("Custom.23.Encounter.TwoAttacksStack")]
         [InlineData("Wizard.1.AtWill.ScorchingBurst")]
         [InlineData("Wizard.1.Daily.Sleep")]
         [InlineData("Wizard.5.Daily.Fireball")]

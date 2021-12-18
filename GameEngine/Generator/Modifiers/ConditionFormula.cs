@@ -238,12 +238,14 @@ namespace GameEngine.Generator.Modifiers
 
                     from basicCondition in basicConditions.Keys
                     where !Conditions.OfType<BasicCondition>().Select(b => b.ConditionName).Contains(basicCondition) && Conditions.Count > 0
+                    where duration == Duration.SaveEnds
                     let newCondition = new BasicCondition(basicCondition)
                     let filtered = Filter(Conditions.Items.Add(newCondition))
                     where filtered.Count == 1 && filtered[0] is BasicCondition b && b.ConditionName == basicCondition // the new condition subsumes all other conditions
                     select this with { AfterEffect = new (newCondition, true) },
 
                     from basicCondition in basicConditions.Keys
+                    where duration == Duration.SaveEnds
                     where Conditions.Count > 0
                     where !Conditions.OfType<BasicCondition>().Select(b => b.ConditionName).Contains(basicCondition)
                     where GetSubsumed(Conditions).Contains(basicCondition)

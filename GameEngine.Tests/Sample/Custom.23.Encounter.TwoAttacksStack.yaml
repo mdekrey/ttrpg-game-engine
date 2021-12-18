@@ -1,0 +1,43 @@
+Meta:
+  Class: Custom (Generated)
+  Name: Two Attacks Stack
+  Id: N/A
+  Purpose: Verifies strength of a two-weapon attack if two hits happen
+Flavor:
+  Name: Two Attacks Stack
+Profile:
+  Usage: Encounter
+  ToolType: Weapon
+  ToolRange: Melee
+  Level: 17
+  Abilities:
+  - Strength
+  - Dexterity
+Power:
+  Attacks:
+  - Target:
+      Name: TwoHits
+      BothAttacksHitModifiers:
+      - Name: Condition
+        Conditions:
+        - Name: Simple
+          ConditionName: Immobilized
+        - Name: Simple
+          ConditionName: Dazed
+    Ability: Strength
+    Effects:
+    - Target:
+        Name: See Other
+      EffectType: Harmful
+      Modifiers:
+      - Name: Damage
+        Damage: 1[W] + STR
+        DamageTypes: []
+      - Name: Condition
+        Conditions:
+        - Name: Simple
+          ConditionName: Slowed
+    Modifiers: []
+  Modifiers:
+  - { Name: Power Source, PowerSource: Martial }
+  Effects: []
