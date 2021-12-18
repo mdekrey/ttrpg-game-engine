@@ -66,7 +66,6 @@ namespace GameEngine.Generator
 
         public static IEnumerable<TargetEffect> GetUpgrades(this EffectContext effectContext, UpgradeStage stage)
         {
-            // TODO - should support restrictions
             var currentTarget = effectContext.Target;
             return from set in new[] {
                        from upgrade in effectContext.Effect.Target.GetUpgrades(stage, effectContext)
