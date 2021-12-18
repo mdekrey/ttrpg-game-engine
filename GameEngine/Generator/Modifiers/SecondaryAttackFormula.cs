@@ -203,6 +203,8 @@ namespace GameEngine.Generator.Modifiers
 
             public IEnumerable<IAttackTargetModifier> GetUpgrades(UpgradeStage stage, AttackContext attackContext)
             {
+                if (stage != UpgradeStage.Standard)
+                    return Enumerable.Empty<IAttackTargetModifier>();
                 var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
 
                 return from set in new IEnumerable<IAttackTargetModifier>[]
@@ -215,6 +217,11 @@ namespace GameEngine.Generator.Modifiers
 
                     from modifier in (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty)
                     from upgrade in modifier.GetUpgrades(stage, effectContext)
+                    select this with { BothAttacksHitModifiers = (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty).Apply(upgrade, modifier) },
+
+                    from modifier in effectContext.Modifiers
+                    from upgrade in modifier.GetUpgrades(stage, effectContext)
+                    where !BothAttacksHitModifiers.Any(m => m.Combine(upgrade) is CombineResult<IEffectModifier>.CombineToOne)
                     select this with { BothAttacksHitModifiers = (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty).Apply(upgrade, modifier) },
                 }
                        from entry in set
