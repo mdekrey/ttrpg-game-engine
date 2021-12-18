@@ -22,22 +22,18 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
+        - Name: Restriction
+          RestrictedEffects:
+          - Name: Condition
+            Conditions:
+            - Name: Simple
+              ConditionName: Dazed
       Modifiers: []
     Modifiers:
     - Name: Zone
     - Name: Power Source
       PowerSource: Martial
-    Effects:
-    - Target:
-        Name: Basic Target
-        Target: Self
-      EffectType: Beneficial
-      Modifiers:
-      - Name: Skirmish Movement
-        Movement:
-        - Name: Extra Movement
-          Amount: DEX
-          MovementType: Move
+    Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''
@@ -53,9 +49,9 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage.
+    Text: 1[W] + STR damage. If you are doing something special (TODO), the target is also is dazed until the end of your next turn.
   - Label: Effect
-    Text: You may move DEX squares. The burst creates a zone of something that fills the area until the end of your next turn. Any creature that enters the zone or starts their turn there takes the zone effects.
+    Text: The burst creates a zone of something that fills the area until the end of your next turn. Any creature that enters the zone or starts their turn there takes the zone effects.
   - Label: Zone Effect
     Text: The creature takes 1[W] + STR damage.
   - Label: Sustain Bonus

@@ -20,6 +20,12 @@
           Damage: 1[W]
           DamageTypes: []
           IncreaseAtHigherLevels: true
+        - Name: Restriction
+          RestrictedEffects:
+          - Name: Condition
+            Conditions:
+            - Name: Simple
+              ConditionName: Grants Combat Advantage
       Modifiers: []
     Modifiers:
     - Name: Power Source
@@ -39,7 +45,7 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: '1[W] damage. Level 21: 2[W] damage.'
+    Text: '1[W] damage. Level 21: 2[W] damage. If you are doing something special (TODO), the target is also grants combat advantage until the end of your next turn.'
 - Fields:
     Flavor Text: ''
     Name: Unknown

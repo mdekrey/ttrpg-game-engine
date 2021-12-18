@@ -7,7 +7,6 @@ using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
 using static GameEngine.Generator.ImmutableConstructorExtension;
-using static GameEngine.Generator.PowerBuildingExtensions;
 using static GameEngine.Generator.ProseHelpers;
 
 namespace GameEngine.Generator.Modifiers
@@ -178,12 +177,7 @@ namespace GameEngine.Generator.Modifiers
                     return null;
                 var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
                 
-                var bothAttacksHitTargetInfo = (from mutator in (from mod in BothAttacksHitModifiers
-                                                                      let mutator = mod.GetTargetInfoMutator(effectContext)
-                                                                      select mutator)
-                                                     where mutator != null
-                                                     orderby mutator.Priority
-                                                     select mutator.Apply).Aggregate(effectContext.GetDefaultTargetInfo(), (current, apply) => apply(current));
+                var bothAttacksHitTargetInfo = effectContext.GetTargetInfoForEffects(BothAttacksHitModifiers);
 
                 return new TargetInfoMutator(100, (targetInfo) =>
                 {
@@ -194,6 +188,7 @@ namespace GameEngine.Generator.Modifiers
 
                     return targetInfo with
                     {
+                        // TODO - probably make this an "extra rule section"
                         AdditionalSentences = targetInfo.AdditionalSentences
                             .Add($"If both of your attacks hit the same target, the target is also {OxfordComma(parts!)}".FinishSentence())
                             .AddRange(bothAttacksHitTargetInfo.AdditionalSentences)
@@ -234,7 +229,10 @@ namespace GameEngine.Generator.Modifiers
                 return innerEffectsLens.EachItem(this).Select(lens => lens.CastInput<IModifier>().CastOutput<IModifier>()).ToArray();
             }
 
-            public IAttackTargetModifier Finalize(AttackContext powerContext) => this.BothAttacksHitModifiers is { Count: > 0 } ? this : this with { BothAttacksHitModifiers = null };
+            public IAttackTargetModifier Finalize(AttackContext attackContext) => 
+                this.BothAttacksHitModifiers is { Count: > 0 } && GetBothAttacksHitCost(attackContext) is { Fixed: > 0 }
+                    ? this
+                    : this with { BothAttacksHitModifiers = null };
 
         }
 

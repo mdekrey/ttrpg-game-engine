@@ -13,6 +13,12 @@
     - Name: Damage
       Damage: 1[W] + STR
       DamageTypes: []
+    - Name: Restriction
+      RestrictedEffects:
+      - Name: Condition
+        Conditions:
+        - Name: Simple
+          ConditionName: Dazed
   Modifiers: []
 - Target:
     Name: Basic Target
@@ -26,18 +32,14 @@
     - Name: Damage
       Damage: 1[W] + STR
       DamageTypes: []
+    - Name: Restriction
+      RestrictedEffects:
+      - Name: Condition
+        Conditions:
+        - Name: Simple
+          ConditionName: Dazed
   Modifiers: []
 Modifiers:
 - Name: Power Source
   PowerSource: Martial
-Effects:
-- Target:
-    Name: Basic Target
-    Target: Self
-  EffectType: Beneficial
-  Modifiers:
-  - Name: Skirmish Movement
-    Movement:
-    - Name: Extra Movement
-      Amount: DEX
-      MovementType: Move
+Effects: []

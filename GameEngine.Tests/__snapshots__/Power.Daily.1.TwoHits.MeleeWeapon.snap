@@ -11,13 +11,17 @@
     - Target:
         Name: TwoHits
         BothAttacksHitModifiers:
-        - Name: Disarm and Catch
         - Name: Condition
           Conditions:
           - Name: Simple
             ConditionName: Blinded
-          - Name: Simple
-            ConditionName: Dazed
+        - Name: Disarm and Catch
+        - Name: Restriction
+          RestrictedEffects:
+          - Name: Condition
+            Conditions:
+            - Name: Simple
+              ConditionName: Blinded
       Ability: Strength
       Effects:
       - Target:
@@ -27,6 +31,12 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
+        - Name: Restriction
+          RestrictedEffects:
+          - Name: Condition
+            Conditions:
+            - Name: Simple
+              ConditionName: Grants Combat Advantage
       Modifiers: []
     Modifiers:
     - Name: Power Source
@@ -46,7 +56,7 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is blinded and dazed until the end of your next turn and drops one weapon it is holding. You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square).
+    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is blinded until the end of your next turn and drops one weapon it is holding. If you are doing something special (TODO), the target is also is blinded until the end of your next turn. You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square). If you are doing something special (TODO), the target is also grants combat advantage until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

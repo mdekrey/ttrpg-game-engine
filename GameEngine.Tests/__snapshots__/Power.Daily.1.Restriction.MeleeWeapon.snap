@@ -16,20 +16,21 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
-        - Name: MovementControl
-          Effects:
-          - Name: Slide Opponent
-            Mode: Slide
-            Amount: +2
         - Name: Restriction
           RestrictedEffects:
           - Name: Condition
             Conditions:
             - Name: Simple
-              ConditionName: Dazed
+              ConditionName: Blinded
         - Name: Damage
-          Damage: 1[W] + STR + DEX
+          Damage: 1[W] + STR
           DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Dazed
+          - Name: Simple
+            ConditionName: Deafened
       Modifiers: []
     Modifiers:
     - Name: Power Source
@@ -49,7 +50,7 @@
   Attack: STR vs. AC, one attack per target
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR + DEX damage. You slide the target +2 squares. If you are doing something special (TODO), the target is also is dazed until the end of your next turn.
+    Text: 1[W] + STR damage, and the target is dazed and deafened until the end of your next turn. If you are doing something special (TODO), the target is also is blinded until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

@@ -10,6 +10,12 @@
     - Name: Damage
       Damage: 1[W] + STR
       DamageTypes: []
+    - Name: Restriction
+      RestrictedEffects:
+      - Name: Condition
+        Conditions:
+        - Name: Simple
+          ConditionName: Dazed
   Modifiers: []
 Modifiers:
 - Name: Power Source

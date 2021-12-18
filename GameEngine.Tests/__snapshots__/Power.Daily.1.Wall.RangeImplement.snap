@@ -20,7 +20,7 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: d4 + STR
+          Damage: d6 + STR
           DamageTypes:
           - Radiant
         - Name: Condition
@@ -29,23 +29,19 @@
             ConditionName: Blinded
           - Name: Simple
             ConditionName: Dazed
+        - Name: Restriction
+          RestrictedEffects:
+          - Name: Condition
+            Conditions:
+            - Name: Simple
+              ConditionName: Dazed
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Fortitude
     Modifiers:
     - Name: Power Source
       PowerSource: Arcane
-    Effects:
-    - Target:
-        Name: Basic Target
-        Target: Self
-      EffectType: Beneficial
-      Modifiers:
-      - Name: Skirmish Movement
-        Movement:
-        - Name: Extra Movement
-          Amount: DEX
-          MovementType: Move
+    Effects: []
 - Name: Unknown
   TypeInfo: Implement Attack 1
   FlavorText: ''
@@ -60,9 +56,7 @@
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d4 + STR radiant damage, and the target is blinded and dazed until the end of your next turn.
-  - Label: Effect
-    Text: You may move DEX squares.
+    Text: d6 + STR radiant damage, and the target is blinded and dazed until the end of your next turn. If you are doing something special (TODO), the target is also is dazed until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

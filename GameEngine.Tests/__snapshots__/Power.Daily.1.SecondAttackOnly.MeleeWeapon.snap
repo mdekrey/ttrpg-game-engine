@@ -22,6 +22,12 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
+        - Name: Restriction
+          RestrictedEffects:
+          - Name: Condition
+            Conditions:
+            - Name: Simple
+              ConditionName: Dazed
       Modifiers: []
     - Target:
         Name: Basic Target
@@ -35,21 +41,17 @@
         - Name: Damage
           Damage: 1[W] + STR
           DamageTypes: []
+        - Name: Restriction
+          RestrictedEffects:
+          - Name: Condition
+            Conditions:
+            - Name: Simple
+              ConditionName: Dazed
       Modifiers: []
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
-    Effects:
-    - Target:
-        Name: Basic Target
-        Target: Self
-      EffectType: Beneficial
-      Modifiers:
-      - Name: Skirmish Movement
-        Movement:
-        - Name: Extra Movement
-          Amount: DEX
-          MovementType: Move
+    Effects: []
 - Name: Unknown
   TypeInfo: Weapon Attack 1
   FlavorText: ''
@@ -64,15 +66,13 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage.
+    Text: 1[W] + STR damage. If you are doing something special (TODO), the target is also is dazed until the end of your next turn.
   - Label: Secondary Target
     Text: One creature
   - Label: Secondary Attack
     Text: STR vs. AC
   - Label: Secondary Hit
-    Text: 1[W] + STR damage.
-  - Label: Effect
-    Text: You may move DEX squares.
+    Text: 1[W] + STR damage. If you are doing something special (TODO), the target is also is dazed until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

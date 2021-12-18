@@ -26,6 +26,12 @@
             - Name: Damage
               Damage: 1[W] + STR
               DamageTypes: []
+            - Name: Restriction
+              RestrictedEffects:
+              - Name: Condition
+                Conditions:
+                - Name: Simple
+                  ConditionName: Dazed
           Modifiers: []
         Modifiers: []
         Effects: []
@@ -59,7 +65,7 @@
     Attack: STR vs. AC
     RulesText:
     - Label: Hit
-      Text: 1[W] + STR damage.
+      Text: 1[W] + STR damage. If you are doing something special (TODO), the target is also is dazed until the end of your next turn.
 - Fields:
     Associated Flavor Text: ''
     Associated Name: Unknown Attack

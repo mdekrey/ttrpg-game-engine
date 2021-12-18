@@ -136,6 +136,7 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "RerollAll", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "IgnoreCoverOrConcealment", null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "DisarmAndCatch", null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, "Restriction", null)]
         [Theory]
         public void GeneratePower(string configName, int level, PowerFrequency powerFrequency, string powerTemplate, int? seed)
         {
@@ -360,11 +361,17 @@ namespace GameEngine.Tests
                         new("$..[?(@..Name=='Disarm and Catch')]", 1),
                     }.ToImmutableList()
                 ) },
+            { "Restriction", new PowerProfileConfig(
+                    "Restriction",
+                    new PowerProfileConfig.PowerChance[] {
+                        new("$..[?(@..Name=='Restriction')]", 1),
+                    }.ToImmutableList()
+                ) },
         };
 
         private static PowerProfileConfig MakeModifierTemplate(string Name, params string[] require)
         {
-            string[] disallow = new[] { "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@..Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'", "@.Name=='Zone'", "@.Name=='Reroll attack'", "@.Name=='Reroll damage'" }.Except(require).ToArray();
+            string[] disallow = new[] { "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@..Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'", "@.Name=='Zone'", "@.Name=='Reroll attack'", "@.Name=='Reroll damage'", "@.Name=='Restriction'" }.Except(require).ToArray();
             return new PowerProfileConfig(
                 Name: Name,
                 PowerChances: require.Select(modName => new PowerProfileConfig.PowerChance($"$..[?({modName})]", 1)).DefaultIfEmpty(new("$", 1))

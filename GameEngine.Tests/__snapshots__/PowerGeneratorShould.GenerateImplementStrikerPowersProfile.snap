@@ -526,10 +526,10 @@
         BothAttacksHitModifiers:
         - Name: Condition
           Conditions:
+          - Name: Defense Penalty
+            Defense: Armor Class
           - Name: Simple
-            ConditionName: Marked
-          - Name: Simple
-            ConditionName: Dazed
+            ConditionName: Deafened
       Ability: Wisdom
       Effects:
       - Target:
@@ -543,6 +543,8 @@
       - Name: Non-Armor Defense
         Defense: Will
     Modifiers:
+    - Name: Duration
+      Duration: EndOfUserNextTurn
     - Name: Power Source
       PowerSource: Arcane
     Effects:
@@ -554,8 +556,8 @@
       - Name: Boost
         Boosts:
         - Name: Attack
-          Amount: WIS
-          Limit: NextAttack
+          Amount: +2
+          Limit: Target
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement

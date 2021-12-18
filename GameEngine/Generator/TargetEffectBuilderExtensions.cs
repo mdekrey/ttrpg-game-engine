@@ -37,6 +37,13 @@ namespace GameEngine.Generator
                 Modifiers: effectContext.Modifiers.Finalize(effectContext).ToImmutableList()
             );
 
+        public static Text.TargetInfo GetTargetInfoForEffects(this EffectContext effectContext, ImmutableList<IEffectModifier> modifiers) =>
+            (from mod in modifiers
+             let mutator = mod.GetTargetInfoMutator(effectContext)
+             where mutator != null
+             orderby mutator.Priority
+             select mutator.Apply).Aggregate(effectContext.GetDefaultTargetInfo(), (current, apply) => apply(current));
+
         public static IEnumerable<IEffectModifier> Finalize(this IEnumerable<IEffectModifier> _this, EffectContext context) =>
             from modifier in _this
             let finalizer = modifier.Finalize(context)
