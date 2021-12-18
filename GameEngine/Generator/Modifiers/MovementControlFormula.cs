@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Combining;
 using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
@@ -67,12 +68,12 @@ namespace GameEngine.Generator.Modifiers
                 });
             }
 
-            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            public override CombineResult<IEffectModifier> Combine(IEffectModifier mod)
             {
                 if (mod is not MovementModifier other)
-                    return CombineEffectResult<IEffectModifier>.Cannot;
+                    return CombineResult<IEffectModifier>.Cannot;
 
-                return new CombineEffectResult<IEffectModifier>.CombineToOne(
+                return new CombineResult<IEffectModifier>.CombineToOne(
                     new MovementModifier(
                         (from effect in Effects.Concat(other.Effects)
                          group effect by effect.GetType() into effectsByType

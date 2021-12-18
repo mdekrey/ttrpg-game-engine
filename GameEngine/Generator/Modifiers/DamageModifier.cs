@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Linq;
+using GameEngine.Combining;
 using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
@@ -106,13 +107,13 @@ namespace GameEngine.Generator.Modifiers
             };
         }
 
-        public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier other)
+        public override CombineResult<IEffectModifier> Combine(IEffectModifier other)
         {
             if (other is not DamageModifier otherDamage)
-                return CombineEffectResult<IEffectModifier>.Cannot;
+                return CombineResult<IEffectModifier>.Cannot;
             if (otherDamage.OverrideDiceType != OverrideDiceType)
-                return CombineEffectResult<IEffectModifier>.Cannot;
-            return new CombineEffectResult<IEffectModifier>.CombineToOne(
+                return CombineResult<IEffectModifier>.Cannot;
+            return new CombineResult<IEffectModifier>.CombineToOne(
                 new DamageModifier(otherDamage.Damage + Damage, otherDamage.DamageTypes.Concat(DamageTypes).Distinct().ToImmutableList())
             );
         }

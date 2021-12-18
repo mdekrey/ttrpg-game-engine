@@ -1,4 +1,5 @@
-﻿using GameEngine.Generator.Context;
+﻿using GameEngine.Combining;
+using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using System.Collections.Generic;
 
@@ -14,7 +15,7 @@ namespace GameEngine.Generator.Modifiers
         public abstract bool IsHarmful();
         public virtual bool CanUseRemainingPower() => false;
         public abstract TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext);
-        public abstract CombineEffectResult<IEffectModifier> Combine(IEffectModifier other);
+        public abstract CombineResult<IEffectModifier> Combine(IEffectModifier other);
 
 
         public abstract IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext);

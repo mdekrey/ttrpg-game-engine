@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Combining;
 using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
@@ -234,12 +235,12 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
-            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            public override CombineResult<IEffectModifier> Combine(IEffectModifier mod)
             {
                 if (mod is not BoostModifier other)
-                    return CombineEffectResult<IEffectModifier>.Cannot;
+                    return CombineResult<IEffectModifier>.Cannot;
                 
-                return new CombineEffectResult<IEffectModifier>.CombineToOne(
+                return new CombineResult<IEffectModifier>.CombineToOne(
                     new BoostModifier(
                         (from boost in Boosts.Concat(other.Boosts)
                          group boost by boost.GetType() into boostsByType

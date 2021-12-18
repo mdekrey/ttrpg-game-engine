@@ -3,6 +3,7 @@ using GameEngine.Generator.Context;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Combining;
 
 namespace GameEngine.Generator
 {
@@ -71,7 +72,7 @@ namespace GameEngine.Generator
                        ,
                        from formula in ModifierDefinitions.effectModifiers
                        from mod in formula.GetBaseModifiers(stage, effectContext)
-                       where !effectContext.Effect.Modifiers.Any(m => m.Combine(mod) is CombineEffectResult<IEffectModifier>.CombineToOne)
+                       where !effectContext.Effect.Modifiers.Any(m => m.Combine(mod) is CombineResult<IEffectModifier>.CombineToOne)
                        select effectContext.Effect.Apply(mod)
                    }
                    from entry in set

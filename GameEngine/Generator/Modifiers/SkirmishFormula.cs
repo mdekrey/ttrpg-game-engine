@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Combining;
 using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
@@ -128,12 +129,12 @@ namespace GameEngine.Generator.Modifiers
                                                   select move.GetAttackPart(effectContext.Target))
                 });
 
-            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            public override CombineResult<IEffectModifier> Combine(IEffectModifier mod)
             {
                 if (mod is not SkirmishMovementModifier other)
-                    return CombineEffectResult<IEffectModifier>.Cannot;
+                    return CombineResult<IEffectModifier>.Cannot;
 
-                return new CombineEffectResult<IEffectModifier>.CombineToOne(
+                return new CombineResult<IEffectModifier>.CombineToOne(
                     new SkirmishMovementModifier(
                         (from move in Movement.Concat(other.Movement)
                          group move by move.GetType() into movesByType

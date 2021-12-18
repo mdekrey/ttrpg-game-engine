@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GameEngine.Combining;
 using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
@@ -43,11 +44,11 @@ namespace GameEngine.Generator.Modifiers
                         : target.Parts.Add($"may immediately make a basic attack as a free action and add {Damage} to the damage."),
                 });
 
-            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            public override CombineResult<IEffectModifier> Combine(IEffectModifier mod)
             {
                 if (mod is not MakeBasicAttackModifier)
-                    return CombineEffectResult<IEffectModifier>.Cannot;
-                return CombineEffectResult<IEffectModifier>.Use(this); // TODO - should use larger of the two, I think, but cost requires context
+                    return CombineResult<IEffectModifier>.Cannot;
+                return CombineResult<IEffectModifier>.Use(this); // TODO - should use larger of the two, I think, but cost requires context
             }
         }
     }

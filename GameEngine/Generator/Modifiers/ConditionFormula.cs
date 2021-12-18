@@ -7,6 +7,7 @@ using System;
 using static GameEngine.Generator.ProseHelpers;
 using GameEngine.Generator.Text;
 using GameEngine.Generator.Context;
+using GameEngine.Combining;
 
 namespace GameEngine.Generator.Modifiers
 {
@@ -315,12 +316,12 @@ namespace GameEngine.Generator.Modifiers
             }
 
 
-            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            public override CombineResult<IEffectModifier> Combine(IEffectModifier mod)
             {
                 if (mod is not ConditionModifier other)
-                    return CombineEffectResult<IEffectModifier>.Cannot;
+                    return CombineResult<IEffectModifier>.Cannot;
 
-                return new CombineEffectResult<IEffectModifier>.CombineToOne(
+                return new CombineResult<IEffectModifier>.CombineToOne(
                     new ConditionModifier(
                         (from condition in Conditions.Concat(other.Conditions)
                          group condition by condition.GetType() into conditionsByType

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using GameEngine.Combining;
 using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
@@ -150,22 +151,7 @@ namespace GameEngine.Generator.Modifiers
                 var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
 
                 var orig = ModifiersCost(effectContext.Modifiers);
-
-                var bothHitCost = ModifiersCost(
-                    BothAttacksHitModifiers.Aggregate(
-                        effectContext.Modifiers,
-                        (prev, mod) =>
-                        {
-                            var (oldMod, newMod) = prev
-                                .Select(m => m.Combine(mod) is CombineEffectResult<IEffectModifier>.CombineToOne { Result: var one } ? (oldMod: m, newMod: one) : (oldMod: m, newMod: null))
-                                .Where(t => t.newMod != null)
-                                .FirstOrDefault();
-                            if (newMod != null)
-                                return prev.Remove(oldMod).Add(newMod);
-                            return prev.Add(mod);
-                        })
-                );
-
+                var bothHitCost = ModifiersCost(effectContext.Modifiers.AddRange(BothAttacksHitModifiers).CombineList());
                 return new PowerCost(bothHitCost.Fixed - orig.Fixed);
 
                 PowerCost ModifiersCost(ImmutableList<IEffectModifier> modifiers) => modifiers.Select(m => m.GetCost(effectContext)).Sum();
@@ -223,8 +209,8 @@ namespace GameEngine.Generator.Modifiers
                 {
                     from formula in ModifierDefinitions.effectModifiers
                     from mod in formula.GetBaseModifiers(stage, effectContext)
-                    where !BothAttacksHitModifiers.Any(m => m.Combine(mod) is CombineEffectResult<IEffectModifier>.CombineToOne)
-                        && !effectContext.Modifiers.Any(m => m.Combine(mod) is CombineEffectResult<IEffectModifier>.CombineToOne { Result: var combined } && combined == m)
+                    where !BothAttacksHitModifiers.Any(m => m.Combine(mod) is CombineResult<IEffectModifier>.CombineToOne)
+                        && !effectContext.Modifiers.Any(m => m.Combine(mod) is CombineResult<IEffectModifier>.CombineToOne { Result: var combined } && combined == m)
                     select this with { BothAttacksHitModifiers = (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty).Add(mod) },
 
                     from modifier in (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty)

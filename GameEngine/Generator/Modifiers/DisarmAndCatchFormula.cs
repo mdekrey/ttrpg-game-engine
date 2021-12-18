@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GameEngine.Combining;
 using GameEngine.Generator.Context;
 using GameEngine.Generator.Text;
 using GameEngine.Rules;
@@ -40,11 +41,11 @@ namespace GameEngine.Generator.Modifiers
                     AdditionalSentences = target.AdditionalSentences.Add("You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square)."),
                 });
 
-            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            public override CombineResult<IEffectModifier> Combine(IEffectModifier mod)
             {
                 if (mod is not DisarmAndCatch)
-                    return CombineEffectResult<IEffectModifier>.Cannot;
-                return CombineEffectResult<IEffectModifier>.Use(this);
+                    return CombineResult<IEffectModifier>.Cannot;
+                return CombineResult<IEffectModifier>.Use(this);
             }
         }
     }
