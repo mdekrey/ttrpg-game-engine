@@ -46,9 +46,9 @@ namespace GameEngine.Generator.Modifiers
 
             public override CombineResult<IEffectModifier> Combine(IEffectModifier mod)
             {
-                if (mod is not MakeBasicAttackModifier)
+                if (mod is not MakeBasicAttackModifier other)
                     return CombineResult<IEffectModifier>.Cannot;
-                return CombineResult<IEffectModifier>.Use(this); // TODO - should use larger of the two, I think, but cost requires context
+                return CombineResult<IEffectModifier>.Use(Damage.ToWeaponDice() >= other.Damage.ToWeaponDice() ? this : other);
             }
         }
     }
