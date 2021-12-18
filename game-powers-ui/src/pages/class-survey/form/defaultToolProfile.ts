@@ -43,4 +43,10 @@ export const defaultToolProfile: Readonly<ToolProfile> = {
 			powerChances: [{ selector: "$..[?(@.Name=='Skirmish Movement')]", weight: 1.0 }],
 		},
 	],
+	possibleRestrictions: [
+		'the target is bloodied',
+		'you are dual wielding',
+		'you are bloodied',
+		'you have combat advantage against the target',
+	],
 };

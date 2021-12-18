@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
 import useConstant from 'use-constant';
 import { filter } from 'rxjs/operators';
 import { PowerTextBlock } from 'components/power';
-import { PowerType } from 'components/power/Power';
 import { StructuredResponses, RequestBodies } from 'api/operations/generateSamplePower';
 import { powerTextBlockToProps } from 'components/power/PowerTextBlock';
 

@@ -81,6 +81,7 @@ components:
         - abilities
         - preferredDamageTypes
         - powerProfileConfigs
+        - possibleRestrictions
       properties:
         toolType:
           $ref: '#/components/schemas/ToolType'
@@ -100,6 +101,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PowerProfileConfig'
+        possibleRestrictions:
+          type: array
+          items:
+            type: string
     PowerProfileConfig:
       type: object
       required:

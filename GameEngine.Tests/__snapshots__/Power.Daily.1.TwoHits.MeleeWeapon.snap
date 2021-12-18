@@ -6,6 +6,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -17,6 +22,7 @@
             ConditionName: Blinded
         - Name: Disarm and Catch
         - Name: Restriction
+          RestrictionIndex: 0
           RestrictedEffects:
           - Name: Condition
             Conditions:
@@ -32,6 +38,7 @@
           Damage: 1[W] + STR
           DamageTypes: []
         - Name: Restriction
+          RestrictionIndex: 0
           RestrictedEffects:
           - Name: Condition
             Conditions:
@@ -56,7 +63,7 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is blinded until the end of your next turn and drops one weapon it is holding. If you are doing something special (TODO), the target is also is blinded until the end of your next turn. You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square). If you are doing something special (TODO), the target is also grants combat advantage until the end of your next turn.
+    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also is blinded until the end of your next turn and drops one weapon it is holding. If the target is bloodied, the target is also is blinded until the end of your next turn. You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square). If the target is bloodied, the target is also grants combat advantage until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

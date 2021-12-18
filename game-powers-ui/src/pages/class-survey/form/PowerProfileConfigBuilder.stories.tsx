@@ -1,4 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { defaultToolProfile } from './defaultToolProfile';
 
 import { PowerProfileConfigBuilder } from './PowerProfileConfigBuilder';
 import { SamplePowerRequestBody } from './SamplePowers';
@@ -14,37 +15,7 @@ const powerProfile: SamplePowerRequestBody = {
 		name: 'Unimportant',
 		role: 'Controller',
 		powerSource: 'Martial',
-		tools: [
-			{
-				toolType: 'Weapon',
-				toolRange: 'Melee',
-				abilities: ['Strength'],
-				preferredDamageTypes: [[]],
-				powerProfileConfigs: [
-					{ name: 'Any Power', powerChances: [{ selector: '$', weight: 1 }] },
-					{
-						name: 'Accurate',
-						powerChances: [
-							{
-								selector: "$..[?(@.Name=='Non-Armor Defense' || @.Name=='To-Hit Bonus to Current Attack')]",
-								weight: 1,
-							},
-						],
-					},
-					{
-						name: 'Follow-up Attack',
-						powerChances: [
-							{ selector: "$..[?(@.Name=='RequiredHitForNextAttack' || @.Name=='RequiresPreviousHit')]", weight: 1 },
-						],
-					},
-					{ name: 'Two Attacks', powerChances: [{ selector: "$..[?(@.Name=='TwoHits')]", weight: 1 }] },
-					{ name: 'Multiple Attacks', powerChances: [{ selector: "$..[?(@.Name=='UpToThreeTargets')]", weight: 1 }] },
-					{ name: 'Apply conditions', powerChances: [{ selector: "$..[?(@.Name=='Condition')]", weight: 1 }] },
-					{ name: 'Reactions', powerChances: [{ selector: "$..[?(@.Name=='OpportunityAction')]", weight: 1 }] },
-					{ name: 'Maneuver', powerChances: [{ selector: "$..[?(@.Name=='Skirmish Movement')]", weight: 1 }] },
-				],
-			},
-		],
+		tools: [defaultToolProfile],
 	},
 	toolIndex: 0,
 	powerProfileIndex: 1,

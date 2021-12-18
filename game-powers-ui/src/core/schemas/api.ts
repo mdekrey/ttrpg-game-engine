@@ -51,6 +51,7 @@ export const toolSurveySchema: yup.SchemaOf<ToolProfile> = yup.object({
 		.min(1, 'Must have at least one damage type')
 		.label('Preferred Damage Types'),
 	powerProfileConfigs: yup.array(powerProfileConfigSchema).min(1).label('Power Profile Configs'),
+	possibleRestrictions: yup.array(yup.string().required()).min(1).label('Restrictions'),
 });
 export const classSurveySchema: yup.SchemaOf<ClassProfile> = yup.object({
 	name: yup.string().required().label('Name'),

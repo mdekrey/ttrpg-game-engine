@@ -6,6 +6,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -22,6 +27,7 @@
             AfterFailedSave: true
         - Name: Disarm and Catch
         - Name: Restriction
+          RestrictionIndex: 0
           RestrictedEffects:
           - Name: Condition
             Conditions:
@@ -71,7 +77,7 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is slowed (save ends). If the target fails its first saving throw against this power, the target becomes unconscious (save ends). If both of your attacks hit the same target, the target is also grants combat advantage (save ends) and drops one weapon it is holding. If the target fails its first saving throw against this power, the target is blinded (save ends). If you are doing something special (TODO), the target is also grants combat advantage (save ends). If the target fails its first saving throw against this power, the target is blinded (save ends). You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square).
+    Text: 1[W] + STR damage, and the target is slowed (save ends). If the target fails its first saving throw against this power, the target becomes unconscious (save ends). If both of your attacks hit the same target, the target is also grants combat advantage (save ends) and drops one weapon it is holding. If the target fails its first saving throw against this power, the target is blinded (save ends). If the target is bloodied, the target is also grants combat advantage (save ends). If the target fails its first saving throw against this power, the target is blinded (save ends). You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square).
 - Fields:
     Flavor Text: ''
     Name: Unknown

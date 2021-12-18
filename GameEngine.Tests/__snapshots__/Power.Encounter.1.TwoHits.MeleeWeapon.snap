@@ -6,6 +6,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -20,6 +25,7 @@
           Damage: 1[W] + STR
           DamageTypes: []
         - Name: Restriction
+          RestrictionIndex: 0
           RestrictedEffects:
           - Name: Condition
             Conditions:
@@ -44,7 +50,7 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. If you are doing something special (TODO), the target is also grants combat advantage until the end of your next turn.
+    Text: 1[W] + STR damage. If the target is bloodied, the target is also grants combat advantage until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

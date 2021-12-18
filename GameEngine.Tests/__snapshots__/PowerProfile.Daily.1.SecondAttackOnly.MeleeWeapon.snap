@@ -14,6 +14,7 @@
       Damage: 1[W] + STR
       DamageTypes: []
     - Name: Restriction
+      RestrictionIndex: 0
       RestrictedEffects:
       - Name: Condition
         Conditions:
@@ -33,6 +34,7 @@
       Damage: 1[W] + STR
       DamageTypes: []
     - Name: Restriction
+      RestrictionIndex: 0
       RestrictedEffects:
       - Name: Condition
         Conditions:

@@ -11,5 +11,7 @@ namespace GameEngine.Generator
         ToolRange IPowerInfo.ToolRange => ToolProfile.Range;
 
         ToolType IPowerInfo.ToolType => ToolProfile.Type;
+
+        ImmutableList<string> IPowerInfo.PossibleRestrictions => ToolProfile.PossibleRestrictions;
     }
 }

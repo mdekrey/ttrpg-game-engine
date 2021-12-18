@@ -22,7 +22,7 @@ namespace GameEngine.Tests.Modifiers
         [Fact]
         public void CalculateCost()
         {
-            var powerInfo = new PowerInfo(Rules.PowerFrequency.Daily, ToolType.Implement, ToolRange.Range, 0, ImmutableList<Rules.Ability>.Empty);
+            var powerInfo = new PowerInfo(Rules.PowerFrequency.Daily, ToolType.Implement, ToolRange.Range, 0, ImmutableList<Rules.Ability>.Empty, ImmutableList<string>.Empty);
             var result = new Dictionary<string, object>();
             for (int level = 1; level <= 30; level += 5)
             {

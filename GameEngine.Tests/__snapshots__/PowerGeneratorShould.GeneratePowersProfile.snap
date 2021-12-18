@@ -6,6 +6,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -36,6 +41,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -74,6 +84,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -108,6 +123,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -152,6 +172,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -181,6 +206,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -210,6 +240,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -262,6 +297,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -295,6 +335,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -335,6 +380,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -375,15 +425,15 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
         Name: TwoHits
-        BothAttacksHitModifiers:
-        - Name: Condition
-          Conditions:
-          - Name: Simple
-            ConditionName: Blinded
       Ability: Strength
       Effects:
       - Target:
@@ -403,11 +453,9 @@
         Target: Ally
       EffectType: Beneficial
       Modifiers:
-      - Name: MovementControl
-        Effects:
-        - Name: Slide Opponent
-          Mode: Slide
-          Amount: +1
+      - Name: Boost
+        Boosts:
+        - Name: Healing Surge
     - Target:
         Name: Basic Target
         Target: Self
@@ -416,7 +464,7 @@
       - Name: Boost
         Boosts:
         - Name: Temporary Hit Points
-          Amount: STR
+          Amount: +2
 - PowerInfo:
     Usage: Daily
     ToolType: Weapon
@@ -425,6 +473,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -468,6 +521,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -505,6 +563,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks: []
     Modifiers:
@@ -539,6 +602,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks: []
     Modifiers:
@@ -573,6 +641,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -607,6 +680,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -642,6 +720,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -675,6 +758,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -710,6 +798,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -756,6 +849,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -809,6 +907,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -838,6 +941,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -877,6 +985,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -915,6 +1028,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -963,6 +1081,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1000,6 +1123,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1029,6 +1157,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1077,6 +1210,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1113,6 +1251,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1142,6 +1285,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1171,6 +1319,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1213,6 +1366,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks: []
     Modifiers:
@@ -1257,6 +1415,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1300,6 +1463,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1337,6 +1505,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1366,6 +1539,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1397,6 +1575,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1443,6 +1626,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1488,6 +1676,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1530,6 +1723,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1578,6 +1776,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1611,6 +1814,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1650,6 +1858,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks: []
     Modifiers:
@@ -1684,6 +1897,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1730,6 +1948,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1777,6 +2000,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1817,6 +2045,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1860,6 +2093,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1934,6 +2172,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -1975,6 +2218,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2010,6 +2258,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2061,6 +2314,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2107,6 +2365,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2142,6 +2405,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks: []
     Modifiers:
@@ -2184,6 +2452,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2215,6 +2488,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2263,6 +2541,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2305,6 +2588,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2351,6 +2639,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2410,6 +2703,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2441,6 +2739,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2480,6 +2783,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2513,6 +2821,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2576,6 +2889,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2626,6 +2944,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2669,6 +2992,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -2711,6 +3039,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:

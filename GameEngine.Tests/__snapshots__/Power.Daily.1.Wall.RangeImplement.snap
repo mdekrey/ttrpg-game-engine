@@ -6,6 +6,11 @@
     Abilities:
     - Strength
     - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
   PowerProfile:
     Attacks:
     - Target:
@@ -30,6 +35,7 @@
           - Name: Simple
             ConditionName: Dazed
         - Name: Restriction
+          RestrictionIndex: 0
           RestrictedEffects:
           - Name: Condition
             Conditions:
@@ -56,7 +62,7 @@
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d6 + STR radiant damage, and the target is blinded and dazed until the end of your next turn. If you are doing something special (TODO), the target is also is dazed until the end of your next turn.
+    Text: d6 + STR radiant damage, and the target is blinded and dazed until the end of your next turn. If the target is bloodied, the target is also is dazed until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

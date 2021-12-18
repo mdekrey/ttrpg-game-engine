@@ -9,6 +9,7 @@ namespace GameEngine.Generator
         ToolRange ToolRange { get; }
         ToolType ToolType { get; }
         PowerFrequency Usage { get; }
+        System.Collections.Immutable.ImmutableList<string> PossibleRestrictions { get; }
     }
 
     public static class PowerInfoExtensions
@@ -21,7 +22,8 @@ namespace GameEngine.Generator
                 ToolType: original.ToolType,
                 ToolRange: original.ToolRange,
                 Level: original.Level,
-                Abilities: original.Abilities
+                Abilities: original.Abilities,
+                PossibleRestrictions: original.PossibleRestrictions
             );
         }
     }

@@ -39,8 +39,10 @@ namespace GameEngine.Generator
         PowerFrequency Usage,
         ToolType ToolType, ToolRange ToolRange,
         int Level,
-        EquatableImmutableList<Ability> Abilities) : IPowerInfo
+        EquatableImmutableList<Ability> Abilities,
+        EquatableImmutableList<string> PossibleRestrictions) : IPowerInfo
     {
         ImmutableList<Ability> IPowerInfo.Abilities => Abilities.Items;
+        ImmutableList<string> IPowerInfo.PossibleRestrictions => PossibleRestrictions.Items;
     }
 }

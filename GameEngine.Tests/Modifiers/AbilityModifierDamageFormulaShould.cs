@@ -22,7 +22,8 @@ namespace GameEngine.Tests.Modifiers
                         ToolRange.Melee,
                         Build(Rules.Ability.Strength, Rules.Ability.Dexterity),
                         Build(ImmutableList<DamageType>.Empty),
-                        Build(PowerProfileConfig.Empty)
+                        Build(PowerProfileConfig.Empty),
+                        ImmutableList<string>.Empty
                     );
 
             PowerHighLevelInfo info = new PowerHighLevelInfo(

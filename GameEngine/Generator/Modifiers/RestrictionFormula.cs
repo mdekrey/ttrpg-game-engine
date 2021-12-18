@@ -18,11 +18,13 @@ namespace GameEngine.Generator.Modifiers
             if (effectContext.EffectType != EffectType.Harmful)
                 return Enumerable.Empty<IEffectModifier>();
 
-            return new RestrictionModifier(ImmutableList<IEffectModifier>.Empty).GetUpgrades(stage, effectContext);
+            return from index in Enumerable.Range(0, effectContext.PowerContext.PowerInfo.PossibleRestrictions.Count)
+                   from upgrade in new RestrictionModifier(index, ImmutableList<IEffectModifier>.Empty).GetUpgrades(stage, effectContext)
+                   select upgrade;
         }
 
         [ModifierName("Restriction")]
-        public record RestrictionModifier(EquatableImmutableList<IEffectModifier> RestrictedEffects) : EffectModifier()
+        public record RestrictionModifier(int RestrictionIndex, EquatableImmutableList<IEffectModifier> RestrictedEffects) : EffectModifier()
         {
             public override int GetComplexity(PowerContext powerContext) => RestrictedEffects.GetComplexity(powerContext);
             public override bool UsesDuration() => false;
@@ -88,8 +90,7 @@ namespace GameEngine.Generator.Modifiers
 
                 return new(1000, (target) => target with
                 {
-                    // TODO - probably make this an "extra rule section"
-                    AdditionalSentences = target.AdditionalSentences.Add($"If you are doing something special (TODO), the target is also {OxfordComma(parts!)}".FinishSentence())
+                    AdditionalSentences = target.AdditionalSentences.Add($"If {effectContext.PowerContext.PowerInfo.PossibleRestrictions[RestrictionIndex]}, the target is also {OxfordComma(parts!)}".FinishSentence())
                             .AddRange(restrictedTargetInfo.AdditionalSentences),
                 });
             }

@@ -7,7 +7,7 @@ namespace GameEngine.Generator
 {
     public static class BasicPowers
     {
-        public static readonly PowerInfo BasicMeleeInfo = new PowerInfo(PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, 0, ImmutableList<Ability>.Empty.Add(Ability.Strength));
+        public static readonly PowerInfo BasicMeleeInfo = new PowerInfo(PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Melee, 0, ImmutableList<Ability>.Empty.Add(Ability.Strength), ImmutableList<string>.Empty);
         public static readonly PowerProfile BasicMelee = new PowerProfile(
             Attacks: Build(
                 new AttackProfile( 
@@ -32,7 +32,7 @@ namespace GameEngine.Generator
             Effects: ImmutableList<TargetEffect>.Empty
         );
 
-        public static readonly PowerInfo BasicRangedInfo = new PowerInfo(PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Range, 0, ImmutableList<Ability>.Empty.Add(Ability.Strength));
+        public static readonly PowerInfo BasicRangedInfo = new PowerInfo(PowerFrequency.AtWill, ToolType.Weapon, ToolRange.Range, 0, ImmutableList<Ability>.Empty.Add(Ability.Dexterity), ImmutableList<string>.Empty);
         public static readonly PowerProfile BasicRanged = new PowerProfile(
             Attacks: Build(
                 new AttackProfile(
