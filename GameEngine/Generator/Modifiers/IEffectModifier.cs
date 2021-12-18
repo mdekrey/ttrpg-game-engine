@@ -13,7 +13,18 @@ namespace GameEngine.Generator.Modifiers
         bool IsHarmful();
         IEnumerable<IEffectModifier> GetUpgrades(UpgradeStage stage, EffectContext effectContext);
         TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext);
+        CombineEffectResult<IEffectModifier> Combine(IEffectModifier other);
 
         ModifierFinalizer<IEffectModifier>? Finalize(EffectContext powerContext);
+    }
+
+    public abstract record CombineEffectResult<T>()
+    {
+        public static readonly CannotCombine Cannot = new CannotCombine();
+        public static CombineEffectResult<T> Use(T single) => new CombineToOne(single);
+
+        public record CannotCombine() : CombineEffectResult<T>();
+        public record CombineToOne(T Result) : CombineEffectResult<T>();
+        public record Simplify(T Original, T Other) : CombineEffectResult<T>();
     }
 }

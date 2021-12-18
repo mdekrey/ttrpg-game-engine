@@ -105,5 +105,16 @@ namespace GameEngine.Generator.Modifiers
                 OverrideDiceType = null,
             };
         }
+
+        public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier other)
+        {
+            if (other is not DamageModifier otherDamage)
+                return CombineEffectResult<IEffectModifier>.Cannot;
+            if (otherDamage.OverrideDiceType != OverrideDiceType)
+                return CombineEffectResult<IEffectModifier>.Cannot;
+            return new CombineEffectResult<IEffectModifier>.CombineToOne(
+                new DamageModifier(otherDamage.Damage + Damage, otherDamage.DamageTypes.Concat(DamageTypes).Distinct().ToImmutableList())
+            );
+        }
     }
 }

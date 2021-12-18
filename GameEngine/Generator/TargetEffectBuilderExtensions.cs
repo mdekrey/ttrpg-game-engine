@@ -71,7 +71,7 @@ namespace GameEngine.Generator
                        ,
                        from formula in ModifierDefinitions.effectModifiers
                        from mod in formula.GetBaseModifiers(stage, effectContext)
-                       where !effectContext.Effect.Modifiers.Any(m => m.GetName() == mod.GetName())
+                       where !effectContext.Effect.Modifiers.Any(m => m.Combine(mod) is CombineEffectResult<IEffectModifier>.CombineToOne)
                        select effectContext.Effect.Apply(mod)
                    }
                    from entry in set

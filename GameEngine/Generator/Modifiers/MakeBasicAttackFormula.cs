@@ -42,6 +42,13 @@ namespace GameEngine.Generator.Modifiers
                     Parts = Damage  == GameDiceExpression.Empty ? target.Parts.Add("may immediately make a basic attack as a free action")
                         : target.Parts.Add($"may immediately make a basic attack as a free action and add {Damage} to the damage."),
                 });
+
+            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            {
+                if (mod is not MakeBasicAttackModifier)
+                    return CombineEffectResult<IEffectModifier>.Cannot;
+                return CombineEffectResult<IEffectModifier>.Use(this); // TODO - should use larger of the two, I think, but cost requires context
+            }
         }
     }
 }

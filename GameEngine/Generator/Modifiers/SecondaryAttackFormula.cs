@@ -203,7 +203,8 @@ namespace GameEngine.Generator.Modifiers
                 {
                     from formula in ModifierDefinitions.effectModifiers
                     from mod in formula.GetBaseModifiers(stage, effectContext)
-                    where !attackContext.Modifiers.Any(m => m.GetName() == mod.GetName()) && !BothAttacksHitModifiers.Any(m => m.GetName() == mod.GetName())
+                    where !BothAttacksHitModifiers.Any(m => m.Combine(mod) is CombineEffectResult<IEffectModifier>.CombineToOne)
+                        && !effectContext.Modifiers.Any(m => m.Combine(mod) is CombineEffectResult<IEffectModifier>.CombineToOne { Result: var combined } && combined == m)
                     select this with { BothAttacksHitModifiers = (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty).Add(mod) },
 
                     from modifier in (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty)

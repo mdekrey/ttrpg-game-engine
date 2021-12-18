@@ -127,6 +127,20 @@ namespace GameEngine.Generator.Modifiers
                     Parts = target.Parts.AddRange(from move in Movement
                                                   select move.GetAttackPart(effectContext.Target))
                 });
+
+            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            {
+                if (mod is not SkirmishMovementModifier other)
+                    return CombineEffectResult<IEffectModifier>.Cannot;
+
+                return new CombineEffectResult<IEffectModifier>.CombineToOne(
+                    new SkirmishMovementModifier(
+                        (from move in Movement.Concat(other.Movement)
+                         group move by move.GetType() into movesByType
+                         select movesByType.OrderByDescending(b => b.Cost()).FirstOrDefault()).ToImmutableList()
+                    )
+                );
+            }
         }
     }
 

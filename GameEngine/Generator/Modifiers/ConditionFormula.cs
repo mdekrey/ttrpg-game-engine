@@ -312,6 +312,28 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
+
+            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            {
+                if (mod is not ConditionModifier other)
+                    return CombineEffectResult<IEffectModifier>.Cannot;
+
+                return new CombineEffectResult<IEffectModifier>.CombineToOne(
+                    new ConditionModifier(
+                        (from condition in Conditions.Concat(other.Conditions)
+                         group condition by condition.GetType() into conditionsByType
+                         from condition in CombineConditions(conditionsByType)
+                         select condition).ToImmutableList()
+                    )
+                );
+
+                IEnumerable<Condition> CombineConditions(IEnumerable<Condition> conditions)
+                {
+                    if (!conditions.Any(c => c is BasicCondition))
+                        return conditions.OrderByDescending(c => c.Cost()).Take(1);
+                    return Filter(conditions.ToImmutableList());
+                }
+            }
         }
 
         private static ImmutableList<Condition> Filter(ImmutableList<Condition> conditions)

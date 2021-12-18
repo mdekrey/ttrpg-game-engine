@@ -66,6 +66,20 @@ namespace GameEngine.Generator.Modifiers
                     AdditionalSentences = target.AdditionalSentences.AddRange(Effects.Select(e => e.HitSentence(effectContext)).Where(e => e is { Length: > 0 })!),
                 });
             }
+
+            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            {
+                if (mod is not MovementModifier other)
+                    return CombineEffectResult<IEffectModifier>.Cannot;
+
+                return new CombineEffectResult<IEffectModifier>.CombineToOne(
+                    new MovementModifier(
+                        (from effect in Effects.Concat(other.Effects)
+                         group effect by effect.GetType() into effectsByType
+                         select effectsByType.OrderByDescending(b => b.Cost()).FirstOrDefault()).ToImmutableList()
+                    )
+                );
+            }
         }
 
         public abstract record MovementControl()

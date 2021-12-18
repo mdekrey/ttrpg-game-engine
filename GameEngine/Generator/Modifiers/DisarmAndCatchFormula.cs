@@ -39,6 +39,13 @@ namespace GameEngine.Generator.Modifiers
                     Parts = target.Parts.Add("drops one weapon it is holding"),
                     AdditionalSentences = target.AdditionalSentences.Add("You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square)."),
                 });
+
+            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            {
+                if (mod is not DisarmAndCatch)
+                    return CombineEffectResult<IEffectModifier>.Cannot;
+                return CombineEffectResult<IEffectModifier>.Use(this);
+            }
         }
     }
 }

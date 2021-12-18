@@ -234,6 +234,19 @@ namespace GameEngine.Generator.Modifiers
                 }
             }
 
+            public override CombineEffectResult<IEffectModifier> Combine(IEffectModifier mod)
+            {
+                if (mod is not BoostModifier other)
+                    return CombineEffectResult<IEffectModifier>.Cannot;
+                
+                return new CombineEffectResult<IEffectModifier>.CombineToOne(
+                    new BoostModifier(
+                        (from boost in Boosts.Concat(other.Boosts)
+                         group boost by boost.GetType() into boostsByType
+                         select boostsByType.OrderByDescending(b => b.Cost()).FirstOrDefault()).ToImmutableList()
+                    )
+                );
+            }
         }
     }
 }
