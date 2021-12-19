@@ -20,7 +20,7 @@ Power:
   Target: One creature
   Attack: STR vs. AC
   RulesText:
-  - Label: Hit
+  - Label: Primary Hit
     Text: 1[W] damage. Make a secondary attack.
   - Label: Secondary Target
     Text: One creature

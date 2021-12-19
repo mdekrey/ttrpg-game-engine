@@ -21,4 +21,6 @@ Power:
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. If both of your attacks hit the same target, the target is also takes an extra d10 damage and is weakened until the end of your next turn.
+    Text: 1[W] + STR damage.
+  - Label: Both Hit Same Target, Also
+    Text: d10 damage, and the target is weakened until the end of your next turn.

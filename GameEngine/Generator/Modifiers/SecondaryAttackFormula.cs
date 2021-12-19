@@ -181,17 +181,13 @@ namespace GameEngine.Generator.Modifiers
 
                 return new TargetInfoMutator(100, (targetInfo) =>
                 {
-                    var parts = new[]
-                    {
-                        bothAttacksHitTargetInfo.DamageExpression != null ? $"takes an extra {bothAttacksHitTargetInfo.DamageExpression}" : null,
-                    }.Where(s => s != null).Concat(bothAttacksHitTargetInfo.Parts).ToArray();
-
                     return targetInfo with
                     {
-                        // TODO - probably make this an "extra rule section"
-                        AdditionalSentences = targetInfo.AdditionalSentences
-                            .Add($"If both of your attacks hit the same target, the target is also {OxfordComma(parts!)}".FinishSentence())
-                            .AddRange(bothAttacksHitTargetInfo.AdditionalSentences)
+                        AdditionalRules = targetInfo.AdditionalRules
+                            .Add(new ("Both Hit Same Target, Also", string.Join(" ",
+                                ImmutableList<string>.Empty.Add(bothAttacksHitTargetInfo.PartsToSentence())
+                                    .AddRange(bothAttacksHitTargetInfo.AdditionalSentences).Where(s => s is { Length: > 0 })
+                            ))),
                     };
                 });
             }
@@ -229,11 +225,13 @@ namespace GameEngine.Generator.Modifiers
                 return innerEffectsLens.EachItem(this).Select(lens => lens.CastInput<IModifier>().CastOutput<IModifier>()).ToArray();
             }
 
-            public IAttackTargetModifier Finalize(AttackContext attackContext) => 
-                this.BothAttacksHitModifiers is { Count: > 0 } && GetBothAttacksHitCost(attackContext) is { Fixed: > 0 }
-                    ? this
+            public IAttackTargetModifier Finalize(AttackContext attackContext)
+            {
+                var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
+                return this.BothAttacksHitModifiers is { Count: > 0 } && GetBothAttacksHitCost(attackContext) is { Fixed: > 0 }
+                    ? this with { BothAttacksHitModifiers = effectContext.Modifiers.AddRange(BothAttacksHitModifiers).RemoveRange(effectContext.Modifiers) }
                     : this with { BothAttacksHitModifiers = null };
-
+            }
         }
 
         // Identical attacks against up to 3 targets.

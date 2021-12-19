@@ -21,4 +21,6 @@ Power:
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage, and the target is slowed until the end of your next turn. If both of your attacks hit the same target, the target is also is immobilized and dazed until the end of your next turn.
+    Text: 1[W] + STR damage, and the target is slowed until the end of your next turn.
+  - Label: Both Hit Same Target, Also
+    Text: The target is immobilized and dazed until the end of your next turn.

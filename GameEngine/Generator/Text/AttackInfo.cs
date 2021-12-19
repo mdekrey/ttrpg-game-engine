@@ -13,7 +13,8 @@ namespace GameEngine.Generator.Text
         ImmutableList<string> AttackNoteSentences,
         DefenseType Defense,
         ImmutableList<string> HitSentences,
-        ImmutableList<string> MissSentences
+        ImmutableList<string> MissSentences,
+        ImmutableList<Rules.RulesText> AttackInfoExtraRules
     )
     {
         public string Hit =>

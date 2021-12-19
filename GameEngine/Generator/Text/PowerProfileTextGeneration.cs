@@ -70,16 +70,13 @@ namespace GameEngine.Generator.Text
                 Trigger: null,
                 Target: null,
                 Attack: null,
-                RulesText: ImmutableList<RulesText>.Empty,
+                RulesText: ImmutableList<Rules.RulesText>.Empty,
                 AssociatedPower: null
             );
 
             var attacks = context.GetAttackContexts().Select((attackContext) => attackContext.AttackContext.ToAttackInfo()).ToArray();
-            if (attacks.Length > 0)
-            {
-                result = result.AddAttack(attacks[0], 1);
-            }
-            result = attacks.Select((attack, index) => (attack, index)).Skip(1).Aggregate(result, (powerBlock, attackBlock) => powerBlock.AddAttack(attackBlock.attack, attackBlock.index + 1));
+            result = Enumerable.Range(0, attacks.Length)
+                .Aggregate(result, (powerBlock, index) => powerBlock.AddAttack(attacks[index], index + 1, attacks.Length));
 
             result = result with
             {
@@ -115,7 +112,7 @@ namespace GameEngine.Generator.Text
         public static AttackInfo ToAttackInfo(this AttackContext attackContext)
         {
             var targetInfos = attackContext.GetEffectContexts().Select(effectContext => effectContext.EffectContext.ToTargetInfo()).ToArray();
-            
+
 
             var result = new AttackInfo(
                 AttackType: attackContext.GetAttackType(),
@@ -126,9 +123,10 @@ namespace GameEngine.Generator.Text
                 Defense: DefenseType.ArmorClass,
                 HitSentences: targetInfos.Select(effect => effect.PartsToSentence()).ToImmutableList()
                     .AddRange(targetInfos.SelectMany(t => t.AdditionalSentences)),
-                MissSentences: ImmutableList<string>.Empty // TODO - miss targets
+                MissSentences: ImmutableList<string>.Empty, // TODO - miss targets
+                AttackInfoExtraRules: targetInfos.SelectMany(t => t.AdditionalRules).ToImmutableList()
             );
-            
+
 
             result = (from mod in attackContext.Modifiers
                       let mutator = mod.GetAttackInfoMutator(attackContext)
@@ -138,34 +136,38 @@ namespace GameEngine.Generator.Text
             return result;
         }
 
-        private static PowerTextBlock AddAttack(this PowerTextBlock power, AttackInfo attack, int index)
+        private static PowerTextBlock AddAttack(this PowerTextBlock power, AttackInfo attack, int index, int attackCount)
         {
-            if (power.AttackType == null)
+            var ordinalPrefix = index == 1 && attackCount == 1 ? string.Empty : $"{Ordinal(index).Capitalize()} ";
+            if (index == 1)
             {
-                if (index != 1)
+                if (power.AttackType != null)
                     throw new ArgumentException();
-                return power with
+                power = power with
                 {
                     AttackType = attack.AttackType.TypeText(),
                     AttackTypeDetails = attack.AttackType.TypeDetailsText(),
                     Target = attack.Target.Capitalize(),
                     Attack = attack.ToAttackText(),
-                    RulesText = power.RulesText.Items
-                        .Add(new("Hit", attack.Hit))
-                        .Add(new("Miss", attack.Miss)),
                 };
             }
             else
             {
-                return power with
+                power = power with
                 {
                     RulesText = power.RulesText.Items
-                        .Add(new($"{Ordinal(index).Capitalize()} Target", attack.Target.Capitalize()))
-                        .Add(new($"{Ordinal(index).Capitalize()} Attack", attack.ToAttackText()))
-                        .Add(new($"{Ordinal(index).Capitalize()} Hit", attack.Hit))
-                        .Add(new($"{Ordinal(index).Capitalize()} Miss", attack.Miss))
+                        .Add(new($"{ordinalPrefix}Target", attack.Target.Capitalize()))
+                        .Add(new($"{ordinalPrefix}Attack", attack.ToAttackText()))
                 };
             }
+
+            return power with
+            {
+                RulesText = power.RulesText.Items
+                    .Add(new($"{ordinalPrefix}Hit", attack.Hit))
+                    .Add(new($"{ordinalPrefix}Miss", attack.Miss))
+                    .AddRange(ordinalPrefix is { Length: > 1 } ? attack.AttackInfoExtraRules.Select(r => new RulesText($"{ordinalPrefix}{r.Label}", r.Text)) : attack.AttackInfoExtraRules)
+            };
         }
     }
 }

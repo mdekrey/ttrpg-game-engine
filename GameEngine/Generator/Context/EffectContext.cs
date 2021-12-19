@@ -39,7 +39,8 @@ namespace GameEngine.Generator.Context
                 AttackNotes: GetAttackNotes(),
                 DamageExpression: null,
                 Parts: ImmutableList<string>.Empty,
-                AdditionalSentences: ImmutableList<string>.Empty
+                AdditionalSentences: ImmutableList<string>.Empty,
+                AdditionalRules: ImmutableList<RulesText>.Empty
             );
         }
 

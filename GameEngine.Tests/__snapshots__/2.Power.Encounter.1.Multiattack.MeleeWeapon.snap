@@ -70,7 +70,7 @@
   Target: One creature
   Attack: STR vs. AC
   RulesText:
-  - Label: Hit
+  - Label: Primary Hit
     Text: 1[W] + STR damage. Make a secondary attack.
   - Label: Secondary Target
     Text: One creature
