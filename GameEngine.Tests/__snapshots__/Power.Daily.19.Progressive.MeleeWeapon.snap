@@ -19,25 +19,10 @@
         - Name: Condition
           Conditions:
           - Name: Simple
+            ConditionName: Slowed
+          - Name: Simple
             ConditionName: Grants Combat Advantage
-          AfterEffect:
-            Condition:
-              Name: Simple
-              ConditionName: Blinded
-            AfterFailedSave: true
         - Name: Disarm and Catch
-        - Name: Restriction
-          RestrictionIndex: 0
-          RestrictedEffects:
-          - Name: Condition
-            Conditions:
-            - Name: Simple
-              ConditionName: Grants Combat Advantage
-            AfterEffect:
-              Condition:
-                Name: Simple
-                ConditionName: Blinded
-              AfterFailedSave: true
       Ability: Strength
       Effects:
       - Target:
@@ -79,7 +64,7 @@
   - Label: Hit
     Text: 1[W] + STR damage, and the target is slowed (save ends). If the target fails its first saving throw against this power, the target becomes unconscious (save ends).
   - Label: Both Hit Same Target, Also
-    Text: The target grants combat advantage (save ends) and drops one weapon it is holding. If the target fails its first saving throw against this power, the target is blinded (save ends). If the target is bloodied, the target is also grants combat advantage (save ends). If the target fails its first saving throw against this power, the target is blinded (save ends). You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square).
+    Text: The target is slowed and grants combat advantage (save ends) and drops one weapon it is holding. You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square).
 - Fields:
     Flavor Text: ''
     Name: Unknown

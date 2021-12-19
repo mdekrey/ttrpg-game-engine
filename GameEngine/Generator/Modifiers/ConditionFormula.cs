@@ -334,7 +334,7 @@ namespace GameEngine.Generator.Modifiers
                 {
                     if (!conditions.Any(c => c is BasicCondition))
                         return conditions.OrderByDescending(c => c.Cost()).Take(1);
-                    return Filter(conditions.ToImmutableList());
+                    return Filter(conditions.Distinct().ToImmutableList());
                 }
             }
         }

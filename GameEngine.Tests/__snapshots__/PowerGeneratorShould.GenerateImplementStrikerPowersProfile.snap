@@ -588,6 +588,11 @@
     Attacks:
     - Target:
         Name: TwoHits
+        BothAttacksHitModifiers:
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Marked
       Ability: Wisdom
       Effects:
       - Target:
@@ -595,7 +600,7 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: d4 + WIS
+          Damage: d6 + WIS
           DamageTypes: []
       Modifiers:
       - Name: Non-Armor Defense
@@ -606,14 +611,14 @@
     Effects:
     - Target:
         Name: Basic Target
-        Target: Ally
+        Target: Self
       EffectType: Beneficial
       Modifiers:
-      - Name: MovementControl
-        Effects:
-        - Name: Slide Opponent
-          Mode: Slide
-          Amount: +2
+      - Name: Boost
+        Boosts:
+        - Name: Attack
+          Amount: WIS
+          Limit: NextAttack
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement
@@ -1363,52 +1368,12 @@
     - you are bloodied
     - you have combat advantage against the target
   PowerProfile:
-    Attacks: []
-    Modifiers:
-    - Name: Stance Power
-      InnerPower:
-        Attacks:
-        - Target:
-            Name: Multiple
-            Target: Enemy, Self, Ally
-            Size: 3
-            Type: Area
-          Ability: Wisdom
-          Effects:
-          - Target:
-              Name: See Other
-            EffectType: Harmful
-            Modifiers:
-            - Name: Damage
-              Damage: 2d4 + WIS
-              DamageTypes: []
-          Modifiers:
-          - Name: To-Hit Bonus to Current Attack
-            Amount: +2
-          - Name: Non-Armor Defense
-            Defense: Fortitude
-        Modifiers: []
-        Effects: []
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 11
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
     Attacks:
     - Target:
-        Name: Basic Target
+        Name: Multiple
         Target: Enemy, Self, Ally
+        Size: 3
+        Type: Burst
       Ability: Wisdom
       Effects:
       - Target:
@@ -1418,19 +1383,12 @@
         - Name: Damage
           Damage: 2d8 + WIS
           DamageTypes: []
-        - Name: Condition
-          Conditions:
-          - Name: Simple
-            ConditionName: Slowed
-          - Name: Simple
-            ConditionName: Marked
-          - Name: Defense Penalty
       Modifiers:
+      - Name: To-Hit Bonus to Current Attack
+        Amount: +2
       - Name: Non-Armor Defense
         Defense: Fortitude
     Modifiers:
-    - Name: Duration
-      Duration: EndOfUserNextTurn
     - Name: Power Source
       PowerSource: Arcane
     Effects: []
@@ -1457,8 +1415,49 @@
           Name: See Other
         EffectType: Harmful
         Modifiers:
+        - Name: Condition
+          Conditions:
+          - Name: Defense Penalty
+            Defense: Fortitude
         - Name: Damage
-          Damage: 3d8 + WIS
+          Damage: 2d8 + WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Reflex
+    Modifiers:
+    - Name: Duration
+      Duration: EndOfEncounter
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 11
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 8
+        Type: Wall
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: 2d8 + WIS
           DamageTypes: []
       Modifiers:
       - Name: Non-Armor Defense
@@ -1475,6 +1474,7 @@
       - Name: Skirmish Movement
         Movement:
         - Name: Extra Movement
+          Amount: WIS
           MovementType: Shift
 - PowerInfo:
     Usage: Encounter
@@ -1534,10 +1534,7 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 7
-        Type: Burst
+        Name: UpToThreeTargets
       Ability: Wisdom
       Effects:
       - Target:
@@ -1545,14 +1542,12 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: d6 + WIS
+          Damage: 3d8
           DamageTypes: []
       Modifiers:
       - Name: Non-Armor Defense
-        Defense: Reflex
+        Defense: Fortitude
     Modifiers:
-    - Name: OpportunityAction
-      Trigger: YouOrAllyAttacked
     - Name: Power Source
       PowerSource: Arcane
     Effects: []
@@ -1582,44 +1577,18 @@
         - Name: Damage
           Damage: 2d8 + WIS
           DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Defense Penalty
+            Defense: Armor Class
+          - Name: Simple
+            ConditionName: Restrained
       Modifiers:
-      - Name: RequiredHitForNextAttack
       - Name: Non-Armor Defense
-        Defense: Reflex
-    - Target:
-        Name: Basic Target
-        Target: Enemy, Self, Ally
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: 3d4
-          DamageTypes: []
-      Modifiers:
-      - Name: Multiattack
-      - Name: RequiredHitForNextAttack
-      - Name: Non-Armor Defense
-        Defense: Fortitude
-    - Target:
-        Name: Basic Target
-        Target: Enemy, Self, Ally
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: 3d4
-          DamageTypes: []
-      Modifiers:
-      - Name: Multiattack
-      - Name: Non-Armor Defense
-        Defense: Fortitude
+        Defense: Will
     Modifiers:
+    - Name: Duration
+      Duration: EndOfUserNextTurn
     - Name: Power Source
       PowerSource: Arcane
     Effects: []
@@ -1638,44 +1607,9 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: Basic Target
-        Target: Enemy, Self, Ally
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: 3d8 + WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Will
-      - Name: To-Hit Bonus to Current Attack
-        Amount: +4
-    Modifiers:
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 15
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks:
-    - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 2
+        Size: 3
         Type: Blast
       Ability: Wisdom
       Effects:
@@ -1687,27 +1621,24 @@
           Damage: 2d8 + WIS
           DamageTypes: []
       Modifiers:
-      - Name: To-Hit Bonus to Current Attack
-        Amount: +2
       - Name: Non-Armor Defense
         Defense: Will
     Modifiers:
     - Name: Duration
-      Duration: EndOfEncounter
+      Duration: EndOfUserNextTurn
     - Name: Power Source
       PowerSource: Arcane
     Effects:
     - Target:
-        Name: See Other
-        OtherAttackIndex: 0
-      EffectType: Harmful
+        Name: Basic Target
+        Target: Self
+      EffectType: Beneficial
       Modifiers:
-      - Name: Condition
-        Conditions:
-        - Name: Simple
-          ConditionName: Dazed
-        - Name: Defense Penalty
-          Defense: Will
+      - Name: Boost
+        Boosts:
+        - Name: Defense
+          Amount: +2
+          Defense: Fortitude
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
@@ -1734,17 +1665,51 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: 4d6 + WIS
+          Damage: 8d4 + WIS
           DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Defense Penalty
+            Defense: Reflex
+          - Name: Simple
+            ConditionName: Stunned
+          - Name: Simple
+            ConditionName: Weakened
       Modifiers:
-      - Name: RequiredHitForNextAttack
       - Name: Non-Armor Defense
         Defense: Will
+    Modifiers:
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects:
+    - Target:
+        Name: Basic Target
+        Target: Self
+      EffectType: Beneficial
+      Modifiers:
+      - Name: Skirmish Movement
+        Movement:
+        - Name: Extra Movement
+          MovementType: Move
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 15
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 3
-        Type: Burst
+        Size: 6
+        Type: Wall
       Ability: Wisdom
       Effects:
       - Target:
@@ -1752,101 +1717,35 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: 3d8 + WIS
+          Damage: 2d10 + WIS
           DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Defense Penalty
+            Defense: Reflex
+          - Name: Ongoing
+            Amount: 5
+          - Name: Simple
+            ConditionName: Slowed
       Modifiers:
-      - Name: Multiattack
-      - Name: RequiredHitForNextAttack
-      - Name: Non-Armor Defense
-        Defense: Will
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 3
-        Type: Area
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: 3d8 + WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Multiattack
       - Name: Non-Armor Defense
         Defense: Fortitude
     Modifiers:
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects:
-    - Target:
-        Name: Basic Target
-        Target: Self
-      EffectType: Beneficial
-      Modifiers:
-      - Name: Skirmish Movement
-        Movement:
-        - Name: Extra Movement
-          Amount: +2
-          MovementType: Shift
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 15
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks:
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 3
-        Type: Area
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: 7d6 + WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Will
-    Modifiers:
     - Name: Duration
-      Duration: EndOfEncounter
+      Duration: SaveEnds
     - Name: Power Source
       PowerSource: Arcane
     Effects:
     - Target:
         Name: Basic Target
-        Target: Self
+        Target: Self, Ally
       EffectType: Beneficial
       Modifiers:
-      - Name: Skirmish Movement
-        Movement:
-        - Name: Extra Movement
-          Amount: +4
-          MovementType: Move
-    - Target:
-        Name: See Other
-        OtherAttackIndex: 0
-      EffectType: Harmful
-      Modifiers:
-      - Name: Condition
-        Conditions:
-        - Name: Defense Penalty
-          Defense: Fortitude
+      - Name: Boost
+        Boosts:
+        - Name: Defense
+          Amount: +2
+          Defense: Armor Class
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
@@ -1873,28 +1772,72 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: 3d8 + WIS
+          Damage: 7d6 + WIS
           DamageTypes: []
       Modifiers:
       - Name: Non-Armor Defense
-        Defense: Will
+        Defense: Reflex
     Modifiers:
-    - Name: OpportunityAction
-      Trigger: YouOrAllyAttacked
+    - Name: Duration
+      Duration: SaveEnds
     - Name: Power Source
       PowerSource: Arcane
     Effects:
     - Target:
-        Name: Basic Target
-        Target: Self
-      EffectType: Beneficial
+        Name: See Other
+        OtherAttackIndex: 0
+      EffectType: Harmful
       Modifiers:
-      - Name: MovementControl
-        Effects:
-        - Name: Prone
-        - Name: Slide Opponent
-          Mode: Pull
-          Amount: +1
+      - Name: Condition
+        Conditions:
+        - Name: Simple
+          ConditionName: Slowed
+        AfterEffect:
+          Condition:
+            Name: Simple
+            ConditionName: Unconscious
+          AfterFailedSave: true
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 15
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: 8d4 + WIS
+          DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Slowed
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Reflex
+    Modifiers:
+    - Name: OpportunityAction
+      Trigger: ACreatureMovesAdjacent
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects: []
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement
@@ -2260,8 +2203,8 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
+        Size: 6
+        Type: Wall
       Ability: Wisdom
       Effects:
       - Target:
@@ -2269,11 +2212,256 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: 7d6 + WIS
+          Damage: 12d4 + WIS
           DamageTypes: []
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Reflex
+    Modifiers:
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects:
+    - Target:
+        Name: Basic Target
+        Target: Self
+      EffectType: Beneficial
+      Modifiers:
+      - Name: Skirmish Movement
+        Movement:
+        - Name: Extra Movement
+          Amount: +4
+          MovementType: Shift
+      - Name: Make Basic Attack
+        Damage: WIS
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 20
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 11
+        Type: Burst
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Will
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Burst
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Fortitude
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 11
+        Type: Burst
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Reflex
+    Modifiers:
+    - Name: Duration
+      Duration: EndOfEncounter
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects:
+    - Target:
+        Name: Basic Target
+        Target: Self
+      EffectType: Beneficial
+      Modifiers:
+      - Name: Skirmish Movement
+        Movement:
+        - Name: Extra Movement
+          Amount: WIS
+          MovementType: Shift
+    - Target:
+        Name: Basic Target
+        Target: Ally
+      EffectType: Beneficial
+      Modifiers:
+      - Name: Boost
+        Boosts:
+        - Name: Defense
+          Amount: +8
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 20
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: UpToThreeTargets
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: 3d10 + WIS
+          DamageTypes: []
+      - Target:
+          Name: Basic Target
+          Target: Self
+        EffectType: Beneficial
+        Modifiers:
+        - Name: Boost
+          Boosts:
+          - Name: Attack
+            Amount: WIS
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Fortitude
+    Modifiers:
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects:
+    - Target:
+        Name: Basic Target
+        Target: Self
+      EffectType: Beneficial
+      Modifiers:
+      - Name: Boost
+        Boosts:
+        - Name: Temporary Hit Points
+          Amount: WIS
+        - Name: Healing Surge
+        - Name: Extra Saving Throw
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 20
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 6
+        Type: Wall
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: WIS
+          DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Weakened
+          - Name: Simple
+            ConditionName: Stunned
+          - Name: Simple
+            ConditionName: Restrained
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Fortitude
+      - Name: To-Hit Bonus to Current Attack
+        Amount: +8
+    Modifiers:
+    - Name: Duration
+      Duration: EndOfEncounter
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects: []
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 20
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 10
+        Type: Wall
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Grants Combat Advantage
+          AfterEffect:
+            Condition:
+              Name: Simple
+              ConditionName: Dying
+            AfterFailedSave: true
+        - Name: Damage
+          Damage: 2d8 + WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Will
     Modifiers:
     - Name: Duration
       Duration: SaveEnds
@@ -2289,379 +2477,8 @@
         Effects:
         - Name: Prone
         - Name: Slide Opponent
-          Mode: Slide
+          Mode: Push
           Amount: +2
-    - Target:
-        Name: See Other
-        OtherAttackIndex: 0
-      EffectType: Harmful
-      Modifiers:
-      - Name: Condition
-        Conditions:
-        - Name: Simple
-          ConditionName: Dazed
-        AfterEffect:
-          Condition:
-            Name: Simple
-            ConditionName: Surprised
-          AfterFailedSave: true
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 20
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks:
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 12
-        Type: Wall
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Reflex
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 6
-        Type: Wall
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Will
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 12
-        Type: Wall
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Will
-    Modifiers:
-    - Name: Duration
-      Duration: SaveEnds
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects:
-    - Target:
-        Name: Basic Target
-        Target: Self
-      EffectType: Beneficial
-      Modifiers:
-      - Name: Skirmish Movement
-        Movement:
-        - Name: Extra Movement
-          Amount: WIS
-          MovementType: Shift
-    - Target:
-        Name: See Other
-        OtherAttackIndex: 0
-      EffectType: Harmful
-      Modifiers:
-      - Name: Condition
-        Conditions:
-        - Name: Simple
-          ConditionName: Unconscious
-        AfterEffect:
-          Condition:
-            Name: Simple
-            ConditionName: Stunned
-          AfterFailedSave: false
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 20
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks:
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 12
-        Type: Wall
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Fortitude
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 6
-        Type: Wall
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Reflex
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 12
-        Type: Wall
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Fortitude
-      - Name: To-Hit Bonus to Current Attack
-        Amount: +8
-    Modifiers:
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects:
-    - Target:
-        Name: Basic Target
-        Target: Self
-      EffectType: Beneficial
-      Modifiers:
-      - Name: Skirmish Movement
-        Movement:
-        - Name: Extra Movement
-          MovementType: Shift
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 20
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks:
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-        - Name: MovementControl
-          Effects:
-          - Name: Slide Opponent
-            Mode: Slide
-            Amount: +4
-          - Name: Prone
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Fortitude
-    Modifiers:
-    - Name: Duration
-      Duration: SaveEnds
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects:
-    - Target:
-        Name: See Other
-        OtherAttackIndex: 0
-      EffectType: Harmful
-      Modifiers:
-      - Name: Condition
-        Conditions:
-        - Name: Simple
-          ConditionName: Dazed
-        AfterEffect:
-          Condition:
-            Name: Simple
-            ConditionName: Dying
-          AfterFailedSave: true
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 20
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks:
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 5
-        Type: Area
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: 8d4 + WIS
-          DamageTypes: []
-        - Name: MovementControl
-          Effects:
-          - Name: Slide Opponent
-            Mode: Push
-            Amount: +2
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Fortitude
-    Modifiers:
-    - Name: OpportunityAction
-      Trigger: ACreatureMovesAdjacent
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 23
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks: []
-    Modifiers:
-    - Name: Stance Power
-      InnerPower:
-        Attacks:
-        - Target:
-            Name: Basic Target
-            Target: Enemy, Self, Ally
-          Ability: Wisdom
-          Effects:
-          - Target:
-              Name: See Other
-            EffectType: Harmful
-            Modifiers:
-            - Name: Damage
-              Damage: d6 + WIS
-              DamageTypes: []
-          Modifiers:
-          - Name: Non-Armor Defense
-            Defense: Will
-        Modifiers:
-        - Name: OpportunityAction
-          Trigger: ACreatureMovesAdjacent
-        Effects: []
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects: []
-- PowerInfo:
-    Usage: Encounter
-    ToolType: Implement
-    ToolRange: Range
-    Level: 23
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks:
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 3
-        Type: Area
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: d4 + WIS
-          DamageTypes: []
-        - Name: Condition
-          Conditions:
-          - Name: Simple
-            ConditionName: Slowed
-          - Name: Simple
-            ConditionName: Dazed
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Fortitude
-    Modifiers:
-    - Name: Duration
-      Duration: EndOfEncounter
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects: []
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement
@@ -2733,7 +2550,7 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 3
+        Size: 1
         Type: Blast
       Ability: Wisdom
       Effects:
@@ -2742,11 +2559,57 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: 4d6 + WIS
+          Damage: 3d8 + WIS
           DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Marked
+          AfterEffect:
+            Condition:
+              Name: Simple
+              ConditionName: Stunned
+            AfterFailedSave: true
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Will
+    Modifiers:
+    - Name: Duration
+      Duration: SaveEnds
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 23
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Burst
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: 3d8 + WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Fortitude
     Modifiers:
     - Name: Power Source
       PowerSource: Arcane
@@ -2759,8 +2622,109 @@
       - Name: Skirmish Movement
         Movement:
         - Name: Extra Movement
-          Amount: WIS
+          Amount: +8
           MovementType: Shift
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 23
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 3
+        Type: Area
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: 3d8 + WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Will
+    Modifiers:
+    - Name: Duration
+      Duration: SaveEnds
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects:
+    - Target:
+        Name: See Other
+        OtherAttackIndex: 0
+      EffectType: Harmful
+      Modifiers:
+      - Name: Condition
+        Conditions:
+        - Name: Defense Penalty
+          Defense: Reflex
+        - Name: Simple
+          ConditionName: Dazed
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 25
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks: []
+    Modifiers:
+    - Name: Stance Power
+      InnerPower:
+        Attacks:
+        - Target:
+            Name: Multiple
+            Target: Enemy, Self, Ally
+            Size: 1
+            Type: Blast
+          Ability: Wisdom
+          Effects:
+          - Target:
+              Name: See Other
+            EffectType: Harmful
+            Modifiers:
+            - Name: Damage
+              Damage: +0
+              DamageTypes: []
+          Modifiers: []
+        Modifiers:
+        - Name: OpportunityAction
+          Trigger: Custom
+        - Name: Duration
+          Duration: EndOfEncounter
+        Effects:
+        - Target:
+            Name: See Other
+            OtherAttackIndex: 0
+          EffectType: Harmful
+          Modifiers:
+          - Name: Condition
+            Conditions:
+            - Name: Ongoing
+              Amount: 5
+    - Name: Duration
+      Duration: SaveEnds
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects: []
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
@@ -2775,24 +2739,6 @@
     - you have combat advantage against the target
   PowerProfile:
     Attacks:
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 11
-        Type: Blast
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-      - Name: Non-Armor Defense
-        Defense: Will
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
@@ -2809,21 +2755,39 @@
           DamageTypes: []
         - Name: Condition
           Conditions:
-          - Name: Defense Penalty
-            Defense: Fortitude
           - Name: Simple
             ConditionName: Deafened
+          - Name: Ongoing
+            Amount: 10
           - Name: Simple
-            ConditionName: Restrained
+            ConditionName: Stunned
           AfterEffect:
             Condition:
               Name: Simple
-              ConditionName: Slowed
+              ConditionName: Surprised
             AfterFailedSave: false
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Name: Non-Armor Defense
+        Defense: Reflex
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 11
+        Type: Area
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: WIS
+          DamageTypes: []
       Modifiers:
       - Name: Multiattack
       - Name: Non-Armor Defense
-        Defense: Reflex
+        Defense: Will
     Modifiers:
     - Name: Duration
       Duration: SaveEnds
@@ -2832,14 +2796,13 @@
     Effects:
     - Target:
         Name: Basic Target
-        Target: Self
+        Target: Self, Ally
       EffectType: Beneficial
       Modifiers:
-      - Name: Skirmish Movement
-        Movement:
-        - Name: Extra Movement
-          Amount: WIS + 2
-          MovementType: Shift
+      - Name: Boost
+        Boosts:
+        - Name: Attack
+          Amount: WIS
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
@@ -2857,8 +2820,25 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 11
-        Type: Blast
+        Size: 10
+        Type: Wall
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Will
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 12
+        Type: Wall
       Ability: Wisdom
       Effects:
       - Target:
@@ -2871,189 +2851,6 @@
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Reflex
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 2
-        Type: Blast
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Reflex
-    Modifiers:
-    - Name: OpportunityAction
-      Trigger: ACreatureMovesAdjacent
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects:
-    - Target:
-        Name: Basic Target
-        Target: Ally
-      EffectType: Beneficial
-      Modifiers:
-      - Name: MovementControl
-        Effects:
-        - Name: Slide Opponent
-          Mode: Pull
-          Amount: +4
-        - Name: Prone
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 25
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks:
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 11
-        Type: Area
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Reflex
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 11
-        Type: Area
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Reflex
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 5
-        Type: Area
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Reflex
-    Modifiers:
-    - Name: Duration
-      Duration: EndOfEncounter
-    - Name: Minor Action
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects:
-    - Target:
-        Name: See Other
-        OtherAttackIndex: 0
-      EffectType: Harmful
-      Modifiers:
-      - Name: Condition
-        Conditions:
-        - Name: Simple
-          ConditionName: Stunned
-        - Name: Simple
-          ConditionName: Restrained
-        - Name: Defense Penalty
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 25
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks:
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 11
-        Type: Area
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Fortitude
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 5
-        Type: Area
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Fortitude
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 11
-        Type: Area
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Fortitude
     Modifiers:
     - Name: Duration
       Duration: SaveEnds
@@ -3077,18 +2874,22 @@
       Modifiers:
       - Name: Condition
         Conditions:
+        - Name: Defense Penalty
+          Defense: Armor Class
         - Name: Simple
-          ConditionName: Marked
+          ConditionName: Blinded
+        - Name: Simple
+          ConditionName: Stunned
         AfterEffect:
           Condition:
             Name: Simple
-            ConditionName: Unconscious
-          AfterFailedSave: true
+            ConditionName: Marked
+          AfterFailedSave: false
 - PowerInfo:
-    Usage: Encounter
+    Usage: Daily
     ToolType: Implement
     ToolRange: Range
-    Level: 27
+    Level: 25
     Abilities:
     - Wisdom
     PossibleRestrictions:
@@ -3097,61 +2898,56 @@
     - you are bloodied
     - you have combat advantage against the target
   PowerProfile:
-    Attacks:
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Fortitude
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 7
-        Type: Blast
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Fortitude
+    Attacks: []
     Modifiers:
+    - Name: Stance Power
+      InnerPower:
+        Attacks:
+        - Target:
+            Name: Multiple
+            Target: Enemy, Self, Ally
+            Size: 1
+            Type: Blast
+          Ability: Wisdom
+          Effects:
+          - Target:
+              Name: See Other
+            EffectType: Harmful
+            Modifiers:
+            - Name: Damage
+              Damage: WIS
+              DamageTypes: []
+            - Name: Condition
+              Conditions:
+              - Name: Simple
+                ConditionName: Immobilized
+              AfterEffect:
+                Condition:
+                  Name: Simple
+                  ConditionName: Slowed
+                AfterFailedSave: false
+          Modifiers:
+          - Name: Non-Armor Defense
+            Defense: Fortitude
+        Modifiers:
+        - Name: Duration
+          Duration: SaveEnds
+        Effects:
+        - Target:
+            Name: Basic Target
+            Target: Ally
+          EffectType: Beneficial
+          Modifiers:
+          - Name: Boost
+            Boosts:
+            - Name: Attack
+              Amount: +2
+              Limit: Target
     - Name: Duration
       Duration: SaveEnds
     - Name: Power Source
       PowerSource: Arcane
-    Effects:
-    - Target:
-        Name: See Other
-        OtherAttackIndex: 0
-      EffectType: Harmful
-      Modifiers:
-      - Name: Condition
-        Conditions:
-        - Name: Simple
-          ConditionName: Blinded
-        AfterEffect:
-          Condition:
-            Name: Simple
-            ConditionName: Unconscious
-          AfterFailedSave: true
+    Effects: []
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement
@@ -3170,7 +2966,7 @@
         Name: Multiple
         Target: Enemy, Self, Ally
         Size: 7
-        Type: Blast
+        Type: Burst
       Ability: Wisdom
       Effects:
       - Target:
@@ -3186,8 +2982,8 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 1
-        Type: Blast
+        Size: 3
+        Type: Burst
       Ability: Wisdom
       Effects:
       - Target:
@@ -3199,12 +2995,12 @@
           DamageTypes: []
       Modifiers:
       - Name: Non-Armor Defense
-        Defense: Will
+        Defense: Fortitude
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
         Size: 7
-        Type: Blast
+        Type: Burst
       Ability: Wisdom
       Effects:
       - Target:
@@ -3216,7 +3012,7 @@
           DamageTypes: []
       Modifiers:
       - Name: Non-Armor Defense
-        Defense: Reflex
+        Defense: Will
       - Name: To-Hit Bonus to Current Attack
         Amount: +8
     Modifiers:
@@ -3240,7 +3036,25 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 3
+        Size: 1
+        Type: Blast
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: RequiredHitForNextAttack
+      - Name: Non-Armor Defense
+        Defense: Fortitude
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 7
         Type: Burst
       Ability: Wisdom
       Effects:
@@ -3251,23 +3065,44 @@
         - Name: Damage
           Damage: WIS
           DamageTypes: []
-        - Name: Condition
-          Conditions:
-          - Name: Simple
-            ConditionName: Deafened
-          - Name: Simple
-            ConditionName: Restrained
-          - Name: Simple
-            ConditionName: Weakened
       Modifiers:
+      - Name: Multiattack
+      - Name: RequiredHitForNextAttack
       - Name: Non-Armor Defense
-        Defense: Reflex
+        Defense: Fortitude
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 8
+        Type: Wall
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: Multiattack
+      - Name: Non-Armor Defense
+        Defense: Will
     Modifiers:
-    - Name: Duration
-      Duration: EndOfEncounter
     - Name: Power Source
       PowerSource: Arcane
-    Effects: []
+    Effects:
+    - Target:
+        Name: Basic Target
+        Target: Self
+      EffectType: Beneficial
+      Modifiers:
+      - Name: MovementControl
+        Effects:
+        - Name: Slide Opponent
+          Mode: Push
+          Amount: WIS + 2
+        - Name: Prone
 - PowerInfo:
     Usage: Encounter
     ToolType: Implement
@@ -3298,7 +3133,7 @@
           DamageTypes: []
       Modifiers:
       - Name: Non-Armor Defense
-        Defense: Will
+        Defense: Fortitude
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
@@ -3316,19 +3151,113 @@
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Fortitude
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 8
+        Type: Wall
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: WIS
+          DamageTypes: []
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Will
     Modifiers:
+    - Name: OpportunityAction
+      Trigger: Custom
     - Name: Power Source
       PowerSource: Arcane
-    Effects:
+    Effects: []
+- PowerInfo:
+    Usage: Encounter
+    ToolType: Implement
+    ToolRange: Range
+    Level: 27
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
     - Target:
-        Name: Basic Target
-        Target: Self
-      EffectType: Beneficial
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 1
+        Type: Blast
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: WIS
+          DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Unconscious
+          AfterEffect:
+            Condition:
+              Name: Simple
+              ConditionName: Grants Combat Advantage
+            AfterFailedSave: false
       Modifiers:
-      - Name: Skirmish Movement
-        Movement:
-        - Name: Extra Movement
-          MovementType: Shift
+      - Name: Non-Armor Defense
+        Defense: Reflex
+    Modifiers:
+    - Name: Duration
+      Duration: SaveEnds
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects: []
+- PowerInfo:
+    Usage: Daily
+    ToolType: Implement
+    ToolRange: Range
+    Level: 29
+    Abilities:
+    - Wisdom
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: UpToThreeTargets
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: 8d8 + WIS
+          DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Defense Penalty
+            Defense: Reflex
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Will
+    Modifiers:
+    - Name: Duration
+      Duration: EndOfEncounter
+    - Name: Power Source
+      PowerSource: Arcane
+    Effects: []
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
@@ -3346,8 +3275,8 @@
     - Target:
         Name: Multiple
         Target: Enemy, Self, Ally
-        Size: 13
-        Type: Burst
+        Size: 14
+        Type: Wall
       Ability: Wisdom
       Effects:
       - Target:
@@ -3355,28 +3284,20 @@
         EffectType: Harmful
         Modifiers:
         - Name: Damage
-          Damage: WIS
+          Damage: 7d10 + WIS
           DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Slowed
+          AfterEffect:
+            Condition:
+              Name: Simple
+              ConditionName: Petrified
+            AfterFailedSave: true
       Modifiers:
       - Name: Non-Armor Defense
-        Defense: Will
-    - Target:
-        Name: Multiple
-        Target: Enemy, Self, Ally
-        Size: 5
-        Type: Burst
-      Ability: Wisdom
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: WIS
-          DamageTypes: []
-      Modifiers:
-      - Name: Non-Armor Defense
-        Defense: Reflex
+        Defense: Fortitude
     Modifiers:
     - Name: Duration
       Duration: SaveEnds
@@ -3393,20 +3314,6 @@
         - Name: Extra Movement
           Amount: WIS
           MovementType: Shift
-    - Target:
-        Name: See Other
-        OtherAttackIndex: 0
-      EffectType: Harmful
-      Modifiers:
-      - Name: Condition
-        Conditions:
-        - Name: Simple
-          ConditionName: Stunned
-        AfterEffect:
-          Condition:
-            Name: Simple
-            ConditionName: Unconscious
-          AfterFailedSave: true
 - PowerInfo:
     Usage: Daily
     ToolType: Implement
@@ -3428,8 +3335,8 @@
         - Target:
             Name: Multiple
             Target: Enemy, Self, Ally
-            Size: 1
-            Type: Blast
+            Size: 4
+            Type: Wall
           Ability: Wisdom
           Effects:
           - Target:
@@ -3442,31 +3349,21 @@
             - Name: Condition
               Conditions:
               - Name: Simple
-                ConditionName: Grants Combat Advantage
-              - Name: Simple
                 ConditionName: Restrained
-              - Name: Simple
-                ConditionName: Deafened
+              AfterEffect:
+                Condition:
+                  Name: Simple
+                  ConditionName: Slowed
+                AfterFailedSave: false
           Modifiers:
+          - Name: To-Hit Bonus to Current Attack
+            Amount: +2
           - Name: Non-Armor Defense
             Defense: Fortitude
         Modifiers:
         - Name: Duration
           Duration: SaveEnds
-        Effects:
-        - Target:
-            Name: See Other
-            OtherAttackIndex: 0
-          EffectType: Harmful
-          Modifiers:
-          - Name: Condition
-            Conditions:
-            - Name: Simple
-              ConditionName: Dazed
-            - Name: Simple
-              ConditionName: Blinded
-            - Name: Simple
-              ConditionName: Weakened
+        Effects: []
     - Name: Duration
       Duration: SaveEnds
     - Name: Power Source
@@ -3485,108 +3382,38 @@
     - you are bloodied
     - you have combat advantage against the target
   PowerProfile:
-    Attacks: []
-    Modifiers:
-    - Name: Stance Power
-      InnerPower:
-        Attacks:
-        - Target:
-            Name: Multiple
-            Target: Enemy, Self, Ally
-            Size: 3
-            Type: Burst
-          Ability: Wisdom
-          Effects:
-          - Target:
-              Name: See Other
-            EffectType: Harmful
-            Modifiers:
-            - Name: Condition
-              Conditions:
-              - Name: Simple
-                ConditionName: Surprised
-              AfterEffect:
-                Condition:
-                  Name: Simple
-                  ConditionName: Grants Combat Advantage
-                AfterFailedSave: false
-            - Name: Damage
-              Damage: WIS
-              DamageTypes: []
-          Modifiers:
-          - Name: Non-Armor Defense
-            Defense: Fortitude
+    Attacks:
+    - Target:
+        Name: Multiple
+        Target: Enemy, Self, Ally
+        Size: 2
+        Type: Blast
+      Ability: Wisdom
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
         Modifiers:
-        - Name: Duration
-          Duration: SaveEnds
-        Effects:
-        - Target:
-            Name: Basic Target
-            Target: Self
-          EffectType: Beneficial
-          Modifiers:
-          - Name: MovementControl
-            Effects:
-            - Name: Slide Opponent
-              Mode: Push
-              Amount: +2
-    - Name: Duration
-      Duration: EndOfEncounter
-    - Name: Power Source
-      PowerSource: Arcane
-    Effects: []
-- PowerInfo:
-    Usage: Daily
-    ToolType: Implement
-    ToolRange: Range
-    Level: 29
-    Abilities:
-    - Wisdom
-    PossibleRestrictions:
-    - the target is bloodied
-    - you are dual wielding
-    - you are bloodied
-    - you have combat advantage against the target
-  PowerProfile:
-    Attacks: []
+        - Name: Damage
+          Damage: +0
+          DamageTypes: []
+        - Name: Condition
+          Conditions:
+          - Name: Simple
+            ConditionName: Marked
+          AfterEffect:
+            Condition:
+              Name: Simple
+              ConditionName: Stunned
+            AfterFailedSave: true
+      Modifiers:
+      - Name: Non-Armor Defense
+        Defense: Reflex
     Modifiers:
-    - Name: Stance Power
-      InnerPower:
-        Attacks:
-        - Target:
-            Name: Multiple
-            Target: Enemy, Self, Ally
-            Size: 1
-            Type: Blast
-          Ability: Wisdom
-          Effects:
-          - Target:
-              Name: See Other
-            EffectType: Harmful
-            Modifiers:
-            - Name: Damage
-              Damage: WIS
-              DamageTypes: []
-            - Name: Condition
-              Conditions:
-              - Name: Simple
-                ConditionName: Deafened
-              AfterEffect:
-                Condition:
-                  Name: Simple
-                  ConditionName: Unconscious
-                AfterFailedSave: true
-          Modifiers:
-          - Name: To-Hit Bonus to Current Attack
-            Amount: +2
-          - Name: Non-Armor Defense
-            Defense: Will
-        Modifiers:
-        - Name: Duration
-          Duration: SaveEnds
-        Effects: []
+    - Name: OpportunityAction
+      Trigger: YouOrAllyAttacked
     - Name: Duration
-      Duration: EndOfEncounter
+      Duration: SaveEnds
     - Name: Power Source
       PowerSource: Arcane
     Effects: []

@@ -55,7 +55,7 @@
   Attack: STR vs. AC
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. If the target is bloodied, the target is also is dazed until the end of your next turn.
+    Text: 1[W] + STR damage. If the target is bloodied, the target also is dazed until the end of your next turn.
   - Label: Effect
     Text: The burst creates a zone of something that fills the area until the end of your next turn. Any creature that enters the zone or starts their turn there takes the zone effects.
   - Label: Zone Effect

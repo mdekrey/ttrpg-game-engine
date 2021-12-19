@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 
 namespace GameEngine.Generator.Context
 {
-    public record EffectContext(Either<PowerContext, AttackContext> RootContext, TargetEffect Effect, Duration? Duration = null)
+    public record EffectContext(Either<PowerContext, AttackContext> RootContext, TargetEffect Effect, Duration? Duration = null, bool IsInner = false)
     {
         public PowerProfile PowerProfileBuilder => RootContext.Fold((Func<PowerContext, PowerProfile>)(p => (PowerProfile)p.PowerProfile), (Func<AttackContext, PowerProfile>)(p => (PowerProfile)p.PowerProfile));
         public PowerProfile PowerProfile => RootContext.Fold((Func<PowerContext, PowerProfile>)(p => (PowerProfile)p.PowerProfile), (Func<AttackContext, PowerProfile>)(p => (PowerProfile)p.PowerProfile));

@@ -175,7 +175,7 @@ namespace GameEngine.Generator.Modifiers
             {
                 if (BothAttacksHitModifiers is not { Count: > 0 })
                     return null;
-                var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
+                var effectContext = GetEffectContext(attackContext);
                 
                 var bothAttacksHitTargetInfo = effectContext.GetTargetInfoForEffects(BothAttacksHitModifiers);
 
@@ -196,27 +196,38 @@ namespace GameEngine.Generator.Modifiers
             {
                 if (stage != UpgradeStage.Standard)
                     return Enumerable.Empty<IAttackTargetModifier>();
-                var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
+                var effectContext = GetEffectContext(attackContext);
+                var innerContext = ToInnerEffectContext(effectContext);
 
                 return from set in new IEnumerable<IAttackTargetModifier>[]
                 {
                     from formula in ModifierDefinitions.effectModifiers
-                    from mod in formula.GetBaseModifiers(stage, effectContext)
+                    from mod in formula.GetBaseModifiers(stage, innerContext)
                     where !BothAttacksHitModifiers.Any(m => m.Combine(mod) is CombineResult<IEffectModifier>.CombineToOne)
-                        && !effectContext.Modifiers.Any(m => m.Combine(mod) is CombineResult<IEffectModifier>.CombineToOne { Result: var combined } && combined == m)
+                        && !innerContext.Modifiers.Any(m => m.Combine(mod) is CombineResult<IEffectModifier>.CombineToOne { Result: var combined } && combined == m)
                     select this with { BothAttacksHitModifiers = (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty).Add(mod) },
 
-                    from modifier in (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty)
-                    from upgrade in modifier.GetUpgrades(stage, effectContext)
-                    select this with { BothAttacksHitModifiers = (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty).Apply(upgrade, modifier) },
-
-                    from modifier in effectContext.Modifiers
-                    from upgrade in modifier.GetUpgrades(stage, effectContext)
+                    from modifier in innerContext.Modifiers
+                    from upgrade in modifier.GetUpgrades(stage, innerContext)
                     where !BothAttacksHitModifiers.Any(m => m.Combine(upgrade) is CombineResult<IEffectModifier>.CombineToOne)
                     select this with { BothAttacksHitModifiers = (BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty).Apply(upgrade, modifier) },
                 }
                        from entry in set
                        select entry;
+            }
+
+            private static EffectContext GetEffectContext(AttackContext attackContext) => SameAsOtherTarget.FindContextAt(attackContext);
+
+            private EffectContext ToInnerEffectContext(EffectContext effectContext)
+            {
+                return effectContext with
+                {
+                    IsInner = true,
+                    Effect = effectContext.Effect with
+                    {
+                        Modifiers = effectContext.Modifiers.AddRange(BothAttacksHitModifiers ?? Enumerable.Empty<IEffectModifier>()).CombineList(),
+                    }
+                };
             }
 
             private static readonly Lens<TwoHitsModifier, ImmutableList<IEffectModifier>> innerEffectsLens = Lens<TwoHitsModifier>.To(m => (m.BothAttacksHitModifiers?.Items ?? ImmutableList<IEffectModifier>.Empty), (m, e) => m with { BothAttacksHitModifiers = e });
@@ -228,9 +239,13 @@ namespace GameEngine.Generator.Modifiers
             public IAttackTargetModifier Finalize(AttackContext attackContext)
             {
                 var effectContext = SameAsOtherTarget.FindContextAt(attackContext);
-                return this.BothAttacksHitModifiers is { Count: > 0 } && GetBothAttacksHitCost(attackContext) is { Fixed: > 0 }
-                    ? this with { BothAttacksHitModifiers = effectContext.Modifiers.AddRange(BothAttacksHitModifiers).RemoveRange(effectContext.Modifiers) }
-                    : this with { BothAttacksHitModifiers = null };
+                if (this.BothAttacksHitModifiers is not { Count: > 0 } || GetBothAttacksHitCost(attackContext) is not { Fixed: > 0 })
+                    return this with { BothAttacksHitModifiers = null };
+
+                var innerContext = ToInnerEffectContext(effectContext);
+                var mods = effectContext.Modifiers.AddRange(BothAttacksHitModifiers).CombineList().RemoveRange(effectContext.Modifiers);
+                var finalizedMods = mods.Finalize(innerContext).ToImmutableList();
+                return this with { BothAttacksHitModifiers = finalizedMods };
             }
         }
 

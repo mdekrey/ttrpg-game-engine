@@ -40,7 +40,7 @@
           - Name: Condition
             Conditions:
             - Name: Simple
-              ConditionName: Dazed
+              ConditionName: Deafened
       Modifiers:
       - Name: Non-Armor Defense
         Defense: Fortitude
@@ -62,7 +62,7 @@
   Attack: STR vs. Fortitude
   RulesText:
   - Label: Hit
-    Text: d6 + STR radiant damage, and the target is blinded and dazed until the end of your next turn. If the target is bloodied, the target is also is dazed until the end of your next turn.
+    Text: d6 + STR radiant damage, and the target is blinded and dazed until the end of your next turn. If the target is bloodied, the target also is deafened until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

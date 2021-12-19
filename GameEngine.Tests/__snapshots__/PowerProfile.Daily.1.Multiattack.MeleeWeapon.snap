@@ -2,13 +2,11 @@
 - Target:
     Name: TwoHits
     BothAttacksHitModifiers:
-    - Name: Disarm and Catch
     - Name: Condition
       Conditions:
       - Name: Simple
         ConditionName: Blinded
-      - Name: Simple
-        ConditionName: Dazed
+    - Name: Disarm and Catch
   Ability: Strength
   Effects:
   - Target:
@@ -22,4 +20,14 @@
 Modifiers:
 - Name: Power Source
   PowerSource: Martial
-Effects: []
+Effects:
+- Target:
+    Name: Basic Target
+    Target: Self
+  EffectType: Beneficial
+  Modifiers:
+  - Name: Skirmish Movement
+    Movement:
+    - Name: Extra Movement
+      Amount: DEX
+      MovementType: Move

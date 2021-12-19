@@ -30,7 +30,7 @@
           - Name: Condition
             Conditions:
             - Name: Simple
-              ConditionName: Grants Combat Advantage
+              ConditionName: Dazed
       Modifiers: []
     Modifiers:
     - Name: Power Source
@@ -50,7 +50,7 @@
   Attack: STR vs. AC, two attacks
   RulesText:
   - Label: Hit
-    Text: 1[W] + STR damage. If the target is bloodied, the target is also grants combat advantage until the end of your next turn.
+    Text: 1[W] + STR damage. If the target is bloodied, the target also is dazed until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

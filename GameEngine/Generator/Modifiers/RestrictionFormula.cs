@@ -51,8 +51,15 @@ namespace GameEngine.Generator.Modifiers
             {
                 if (stage != UpgradeStage.Standard)
                     return Enumerable.Empty<IEffectModifier>();
+                if (effectContext.IsInner) // This keeps complexity down
+                    return Enumerable.Empty<IEffectModifier>();
                 if (GetRestrictionCost(effectContext) != PowerCost.Empty)
                     return Enumerable.Empty<IEffectModifier>();
+
+                effectContext = effectContext with
+                {
+                    IsInner = true,
+                };
 
                 return from set in new IEnumerable<RestrictionModifier>[]
                 {
@@ -90,7 +97,7 @@ namespace GameEngine.Generator.Modifiers
 
                 return new(1000, (target) => target with
                 {
-                    AdditionalSentences = target.AdditionalSentences.Add($"If {effectContext.PowerContext.PowerInfo.PossibleRestrictions[RestrictionIndex]}, the target is also {OxfordComma(parts!)}".FinishSentence())
+                    AdditionalSentences = target.AdditionalSentences.Add($"If {effectContext.PowerContext.PowerInfo.PossibleRestrictions[RestrictionIndex]}, the target also {OxfordComma(parts!)}".FinishSentence())
                             .AddRange(restrictedTargetInfo.AdditionalSentences),
                 });
             }
