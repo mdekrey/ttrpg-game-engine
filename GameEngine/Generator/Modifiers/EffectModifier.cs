@@ -14,7 +14,7 @@ namespace GameEngine.Generator.Modifiers
         public abstract bool IsBeneficial();
         public abstract bool IsHarmful();
         public virtual bool CanUseRemainingPower() => false;
-        public abstract TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext);
+        public abstract TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half);
         public abstract CombineResult<IEffectModifier> Combine(IEffectModifier other);
 
 

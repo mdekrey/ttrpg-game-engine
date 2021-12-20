@@ -86,8 +86,10 @@ namespace GameEngine.Generator.Modifiers
                        select entry;
             }
 
-            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext)
+            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half)
             {
+                if (half)
+                    return null; // TODO: half
                 var restrictedTargetInfo = effectContext.GetTargetInfoForEffects(RestrictedEffects);
 
                 var parts = new[]

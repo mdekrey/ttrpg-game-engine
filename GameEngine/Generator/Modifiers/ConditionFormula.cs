@@ -276,8 +276,9 @@ namespace GameEngine.Generator.Modifiers
                 return GetUpgrades(stage, effectContext.GetDuration());
             }
 
-            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) =>
-                new(0, (target) => target with
+            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half) =>
+                half ? null : // TODO: half
+                new (0, (target) => target with
                 {
                     Parts = target.Parts.AddRange(GetParts(effectContext)),
                     AdditionalSentences = target.AdditionalSentences.AddRange(GetAdditionalSentences(effectContext))

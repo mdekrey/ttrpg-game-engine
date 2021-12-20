@@ -58,8 +58,10 @@ namespace GameEngine.Generator.Modifiers
                       from mod in set
                       select mod;
 
-            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext)
+            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half)
             {
+                if (half) return null; // TODO - half
+
                 var t = effectContext.Target;
                 return new(100, (target) => target with
                 {

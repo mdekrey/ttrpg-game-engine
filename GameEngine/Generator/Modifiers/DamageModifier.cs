@@ -57,7 +57,8 @@ namespace GameEngine.Generator.Modifiers
                 });
         }
 
-        public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) =>
+        public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half) =>
+            half ? null : // TODO - half
             new(-100, (target) =>
             {
                 var result = target with

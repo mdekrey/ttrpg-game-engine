@@ -122,7 +122,8 @@ namespace GameEngine.Generator.Modifiers
                 from mod in set
                 select mod;
 
-            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) =>
+            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half) =>
+                half ? null : // TODO - half
                 new(500, (target) => target with
                 {
                     Parts = target.Parts.AddRange(from move in Movement

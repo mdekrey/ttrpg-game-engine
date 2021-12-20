@@ -56,7 +56,7 @@ namespace GameEngine.Generator.Modifiers
             public override PowerTextMutator? GetTextMutator(PowerContext powerContext)
             {
                 var effectContext = GetStanceEffect(powerContext);
-                var origMutator = EffectModifier.GetTargetInfoMutator(effectContext);
+                var origMutator = EffectModifier.GetTargetInfoMutator(effectContext, false);
                 if (origMutator == null)
                     return null;
 

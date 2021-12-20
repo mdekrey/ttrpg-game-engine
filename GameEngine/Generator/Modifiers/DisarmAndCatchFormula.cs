@@ -34,7 +34,8 @@ namespace GameEngine.Generator.Modifiers
                 yield break;
             }
 
-            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext) =>
+            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half) =>
+                half ? null :
                 new(2000, (target) => target with
                 {
                     Parts = target.Parts.Add("drops one weapon it is holding"),

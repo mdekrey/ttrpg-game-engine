@@ -101,7 +101,7 @@ namespace GameEngine.Generator.Text
             var targetMutator = effectContext.GetTargetInfoMutator();
 
             result = (from mutator in (from mod in effectContext.Modifiers
-                                       let mutator = mod.GetTargetInfoMutator(effectContext)
+                                       let mutator = mod.GetTargetInfoMutator(effectContext, false)
                                        select mutator).Add(targetMutator)
                       where mutator != null
                       orderby mutator.Priority
