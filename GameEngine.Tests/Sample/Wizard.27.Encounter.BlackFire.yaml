@@ -28,4 +28,6 @@ Power:
     - { Name: Non-Armor Defense, Defense: Reflex }
   Modifiers:
   - { Name: Power Source, PowerSource: Arcane }
+  - Name: Miss Mitigation
+    Mode: Half
   Effects: []

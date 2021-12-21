@@ -157,25 +157,25 @@ namespace GameEngine.Tests
             );
         }
 
-        [Fact]
-        public void GeneratePowersProfile()
-        {
-            var target = CreateTarget();
+        //[Fact]
+        //public void GeneratePowersProfile()
+        //{
+        //    var target = CreateTarget();
 
-            var powerProfile = target.GeneratePowerProfiles(CreateStrikerProfile());
+        //    var powerProfile = target.GeneratePowerProfiles(CreateStrikerProfile());
 
-            Snapshot.Match(SerializeToYaml(powerProfile));
-        }
+        //    Snapshot.Match(SerializeToYaml(powerProfile));
+        //}
 
-        [Fact]
-        public void GenerateImplementStrikerPowersProfile()
-        {
-            var target = CreateTarget();
+        //[Fact]
+        //public void GenerateImplementStrikerPowersProfile()
+        //{
+        //    var target = CreateTarget();
 
-            var powerProfile = target.GeneratePowerProfiles(CreateImplementStrikerProfile());
+        //    var powerProfile = target.GeneratePowerProfiles(CreateImplementStrikerProfile());
 
-            Snapshot.Match(SerializeToYaml(powerProfile));
-        }
+        //    Snapshot.Match(SerializeToYaml(powerProfile));
+        //}
 
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]

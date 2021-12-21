@@ -22,3 +22,5 @@ Power:
   RulesText:
   - Label: Hit
     Text: 6d6 + INT fire and necrotic damage.
+  - Label: Miss
+    Text: Half damage.

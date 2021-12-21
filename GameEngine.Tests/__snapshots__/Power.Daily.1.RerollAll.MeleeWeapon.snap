@@ -28,6 +28,8 @@
       - Name: Reroll attack
       - Name: Reroll damage
     Modifiers:
+    - Name: Miss Mitigation
+      Mode: Half
     - Name: Power Source
       PowerSource: Martial
     Effects: []
@@ -46,6 +48,8 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage. You can reroll each damage die once but must use the second result.
+  - Label: Miss
+    Text: Half damage.
 - Fields:
     Flavor Text: ''
     Name: Unknown

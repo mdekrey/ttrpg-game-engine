@@ -51,7 +51,7 @@ namespace GameEngine.Generator.Modifiers
         }
 
         [ModifierName("RepeatedAttacks")]
-        public record RepeatedAttacksModifier() : PowerModifier(), IUniquePowerModifier
+        public record RepeatedAttacksModifier() : PowerModifier(), IUniquePowerModifier, MissMitigationFormula.IDisallowHalfDamage, MissMitigationFormula.IDisallowReliable
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 

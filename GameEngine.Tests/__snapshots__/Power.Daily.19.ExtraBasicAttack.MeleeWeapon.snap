@@ -26,6 +26,8 @@
           DamageTypes: []
       Modifiers: []
     Modifiers:
+    - Name: Miss Mitigation
+      Mode: Half
     - Name: Power Source
       PowerSource: Martial
     Effects:
@@ -57,6 +59,8 @@
     Text: 1[W] + STR damage.
   - Label: Effect
     Text: One of your allies gains a +8 power bonus to attack rolls until the end of your next turn and may immediately make a basic attack as a free action and add STR to the damage.
+  - Label: Miss
+    Text: Half damage.
 - Fields:
     Flavor Text: ''
     Name: Unknown

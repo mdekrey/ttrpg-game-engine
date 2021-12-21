@@ -34,4 +34,8 @@ Power:
     - { Name: Non-Armor Defense, Defense: Will }
   Modifiers:
   - { Name: Power Source, PowerSource: Arcane }
+  - Name: Duration
+    Duration: SaveEnds
+  - Name: Miss Mitigation
+    Mode: Half
   Effects: []

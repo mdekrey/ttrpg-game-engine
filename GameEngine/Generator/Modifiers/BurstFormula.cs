@@ -49,7 +49,7 @@ namespace GameEngine.Generator.Modifiers
         }
 
         [ModifierName("Multiple")]
-        public record BurstModifier(Target Target, int Size, BurstType Type) : IAttackTargetModifier, IEffectTargetModifier
+        public record BurstModifier(Target Target, int Size, BurstType Type) : IAttackTargetModifier, IEffectTargetModifier, MissMitigationFormula.IDisallowReliable
         {
             public int GetComplexity(PowerContext powerContext) => 1;
 
@@ -109,9 +109,9 @@ namespace GameEngine.Generator.Modifiers
                 return Type switch
                 {
                     BurstType.Blast => new CloseBlast(Size),
-                    BurstType.Area => new AreaBurst(Size / 2, Size * 5),
+                    BurstType.Area => new AreaBurst(Size / 2, Size * 5), // TODO: range is not correct
                     BurstType.Burst => new CloseBurst(Size / 2),
-                    BurstType.Wall => new AreaWall(Size * 2, Size * 5),
+                    BurstType.Wall => new AreaWall(Size * 2, Size * 5), // TODO: range is not correct
                     _ => throw new NotImplementedException(),
                 };
             }

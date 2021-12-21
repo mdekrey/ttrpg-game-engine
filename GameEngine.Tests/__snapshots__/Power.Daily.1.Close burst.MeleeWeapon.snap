@@ -33,6 +33,8 @@
             ConditionName: Blinded
       Modifiers: []
     Modifiers:
+    - Name: Miss Mitigation
+      Mode: Half
     - Name: Power Source
       PowerSource: Martial
     Effects: []
@@ -51,6 +53,8 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR damage, and the target is blinded until the end of your next turn.
+  - Label: Miss
+    Text: Half damage.
 - Fields:
     Flavor Text: ''
     Name: Unknown

@@ -39,6 +39,7 @@ namespace GameEngine.Generator
             new ConjurationFormula(),
             new RepeatedAttacksFormula(),
             new RerollAnyFormula(),
+            new MissMitigationFormula(),
         }.ToImmutableList();
         public static readonly ImmutableList<ITargetFormula> advancedTargetModifiers = new ITargetFormula[]
         {

@@ -142,12 +142,20 @@ namespace GameEngine.Generator
             if (powerProfileBuilder == root)
                 return null;
 
-            powerProfileBuilder = powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) };
-            if (powerInfo.Usage == PowerFrequency.AtWill)
-            {
-                powerProfileBuilder = powerProfileBuilder.GetDamageLenses().Select(d => d.Lens).Aggregate(powerProfileBuilder, (prev, lens) => prev.Update(lens, d => d with { IncreaseAtHigherLevels = true }));
-            }
+            powerProfileBuilder = AddFinishingTouches(powerProfileBuilder, powerInfo);
             return buildContext.Build(powerProfileBuilder);
+        }
+
+        public static PowerProfile AddFinishingTouches(PowerProfile powerProfileBuilder, PowerHighLevelInfo powerInfo)
+        {
+            powerProfileBuilder = powerProfileBuilder with { Modifiers = powerProfileBuilder.Modifiers.Items.Add(new Modifiers.PowerSourceModifier(powerInfo.ClassProfile.PowerSource)) };
+            switch (powerInfo.Usage)
+            {
+                case PowerFrequency.AtWill:
+                    powerProfileBuilder = powerProfileBuilder.GetDamageLenses().Select(d => d.Lens).Aggregate(powerProfileBuilder, (prev, lens) => prev.Update(lens, d => d with { IncreaseAtHigherLevels = true }));
+                    break;
+            }
+            return powerProfileBuilder;
         }
 
         private PowerLimits GetLimits(PowerHighLevelInfo powerInfo)

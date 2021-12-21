@@ -82,7 +82,7 @@ namespace GameEngine.Generator.Modifiers
         }
 
         [ModifierName("Conjuration")]
-        public record ConjurationModifier() : PowerModifier(), IUniquePowerModifier
+        public record ConjurationModifier() : PowerModifier(), IUniquePowerModifier, MissMitigationFormula.IDisallowHalfDamage, MissMitigationFormula.IDisallowReliable
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 

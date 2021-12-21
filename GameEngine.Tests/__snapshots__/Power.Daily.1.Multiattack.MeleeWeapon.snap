@@ -32,6 +32,8 @@
           DamageTypes: []
       Modifiers: []
     Modifiers:
+    - Name: Miss Mitigation
+      Mode: Half
     - Name: Power Source
       PowerSource: Martial
     Effects:
@@ -64,6 +66,8 @@
     Text: The target is blinded until the end of your next turn and drops one weapon it is holding. You can choose to catch the dropped weapon in a free hand or have it land on the ground at your feet (in your square).
   - Label: Effect
     Text: You may move DEX squares.
+  - Label: Miss
+    Text: Half damage.
 - Fields:
     Flavor Text: ''
     Name: Unknown

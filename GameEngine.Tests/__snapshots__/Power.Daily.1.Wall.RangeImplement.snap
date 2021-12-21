@@ -45,6 +45,8 @@
       - Name: Non-Armor Defense
         Defense: Fortitude
     Modifiers:
+    - Name: Miss Mitigation
+      Mode: Half
     - Name: Power Source
       PowerSource: Arcane
     Effects: []
@@ -63,6 +65,8 @@
   RulesText:
   - Label: Hit
     Text: d6 + STR radiant damage, and the target is blinded and dazed until the end of your next turn. If the target is bloodied, the target also is deafened until the end of your next turn.
+  - Label: Miss
+    Text: Half damage, and the target is dazed until the end of your next turn.
 - Fields:
     Flavor Text: ''
     Name: Unknown

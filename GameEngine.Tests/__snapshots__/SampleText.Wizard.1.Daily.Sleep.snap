@@ -21,4 +21,6 @@ Power:
   Attack: STR vs. Will
   RulesText:
   - Label: Hit
-    Text: +0 damage, and the target is slowed until the end of your next turn. If the target fails its first saving throw against this power, the target becomes unconscious (save ends).
+    Text: The target is slowed (save ends). If the target fails its first saving throw against this power, the target becomes unconscious (save ends).
+  - Label: Miss
+    Text: The target is slowed (save ends).

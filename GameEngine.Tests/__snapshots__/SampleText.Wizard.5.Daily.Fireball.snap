@@ -22,3 +22,5 @@ Power:
   RulesText:
   - Label: Hit
     Text: 4d6 + INT fire damage.
+  - Label: Miss
+    Text: Half damage.

@@ -58,9 +58,11 @@ namespace GameEngine.Generator.Modifiers
         }
 
         public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half) =>
-            half ? null : // TODO - half
+            half ? new (-100, (target) => Damage != GameDiceExpression.Empty ? target with { DamageExpression = "Half damage", } : target) :
             new(-100, (target) =>
             {
+                if (Damage == GameDiceExpression.Empty)
+                    return target;
                 var result = target with
                 {
                     DamageExpression = DamageText(Damage),

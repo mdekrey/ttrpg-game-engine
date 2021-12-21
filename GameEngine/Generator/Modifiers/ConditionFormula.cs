@@ -276,18 +276,41 @@ namespace GameEngine.Generator.Modifiers
                 return GetUpgrades(stage, effectContext.GetDuration());
             }
 
-            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half) =>
-                half ? null : // TODO: half
-                new (0, (target) => target with
-                {
-                    Parts = target.Parts.AddRange(GetParts(effectContext)),
-                    AdditionalSentences = target.AdditionalSentences.AddRange(GetAdditionalSentences(effectContext))
-                });
-
-
-            public IEnumerable<string> GetParts(EffectContext effectContext)
+            public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half)
             {
-                var duration = effectContext.GetDuration() switch
+                if (half)
+                {
+                    var (targetMod, duration) = Half(this, effectContext.GetDuration());
+                    return MutatorFor(effectContext, targetMod, duration);
+                }
+                return MutatorFor(effectContext, this, effectContext.GetDuration());
+            }
+
+            private static TargetInfoMutator MutatorFor(EffectContext effectContext, ConditionModifier conditionModifier, Duration duration)
+            {
+                return new(0, (target) => target with
+                {
+                    Parts = target.Parts.AddRange(conditionModifier.GetParts(effectContext, duration)),
+                    AdditionalSentences = target.AdditionalSentences.AddRange(conditionModifier.GetAdditionalSentences(effectContext))
+                });
+            }
+
+            private static (ConditionModifier, Duration) Half(ConditionModifier conditionModifier, Duration duration)
+            {
+                if (conditionModifier.AfterEffect != null) return (conditionModifier with { AfterEffect = null }, duration);
+                if (duration is not Duration.StanceEnds and not Duration.EndOfUserNextTurn) return (conditionModifier, duration - 1);
+                return (
+                    conditionModifier with
+                    {
+                        Conditions = conditionModifier.Conditions.OrderByDescending(c => c.Cost()).Skip(1).ToImmutableList()
+                    }, 
+                    duration
+                );
+            }
+
+            public IEnumerable<string> GetParts(EffectContext effectContext, Duration duration)
+            {
+                var durationText = duration switch
                 {
                     Duration.EndOfUserNextTurn => "until the end of your next turn",
                     Duration.SaveEnds => "(save ends)",
@@ -296,9 +319,12 @@ namespace GameEngine.Generator.Modifiers
                     _ => throw new System.NotImplementedException(),
                 };
 
+                if (!Conditions.Any())
+                    yield break;
+
                 yield return @$"{OxfordComma((from condition in Conditions
                                               group condition.Effect().ToLower() by condition.Verb(effectContext.Target) into verbGroup
-                                              select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())} {duration}";
+                                              select verbGroup.Key + " " + OxfordComma(verbGroup.ToArray())).ToArray())} {durationText}";
             }
 
 

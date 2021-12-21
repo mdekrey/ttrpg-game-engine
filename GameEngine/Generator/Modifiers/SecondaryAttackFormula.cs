@@ -132,7 +132,7 @@ namespace GameEngine.Generator.Modifiers
 
         // Two Identical attacks
         [ModifierName("TwoHits")]
-        public record TwoHitsModifier(EquatableImmutableList<IEffectModifier>? BothAttacksHitModifiers) : IAttackTargetModifier
+        public record TwoHitsModifier(EquatableImmutableList<IEffectModifier>? BothAttacksHitModifiers) : IAttackTargetModifier, MissMitigationFormula.IDisallowHalfDamage, MissMitigationFormula.IDisallowReliable
         {
             public TwoHitsModifier() : this(ImmutableList<IEffectModifier>.Empty)
             {
@@ -177,7 +177,7 @@ namespace GameEngine.Generator.Modifiers
                     return null;
                 var effectContext = GetEffectContext(attackContext);
                 
-                var bothAttacksHitTargetInfo = effectContext.GetTargetInfoForEffects(BothAttacksHitModifiers);
+                var bothAttacksHitTargetInfo = effectContext.GetTargetInfoForEffects(BothAttacksHitModifiers, half: false);
 
                 return new TargetInfoMutator(100, (targetInfo) =>
                 {

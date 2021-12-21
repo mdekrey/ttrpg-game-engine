@@ -60,7 +60,7 @@ namespace GameEngine.Generator.Modifiers
         }
 
         [ModifierName("Zone")]
-        public record ZoneModifier() : PowerModifier(), IUniquePowerModifier
+        public record ZoneModifier() : PowerModifier(), IUniquePowerModifier, MissMitigationFormula.IDisallowHalfDamage, MissMitigationFormula.IDisallowReliable
         {
             public override int GetComplexity(PowerContext powerContext) => 1;
 

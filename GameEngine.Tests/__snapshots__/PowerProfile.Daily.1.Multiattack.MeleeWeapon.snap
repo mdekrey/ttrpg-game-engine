@@ -18,6 +18,8 @@
       DamageTypes: []
   Modifiers: []
 Modifiers:
+- Name: Miss Mitigation
+  Mode: Half
 - Name: Power Source
   PowerSource: Martial
 Effects:

@@ -35,6 +35,8 @@
       - Name: Ignore Cover or Concealment
         Kind: Cover, Concealment
     Modifiers:
+    - Name: Miss Mitigation
+      Mode: Half
     - Name: Power Source
       PowerSource: Martial
     Effects: []
@@ -53,6 +55,8 @@
   RulesText:
   - Label: Hit
     Text: 1[W] + STR + DEX damage. If the target is bloodied, the target also is dazed until the end of your next turn.
+  - Label: Miss
+    Text: Half damage.
 - Fields:
     Flavor Text: ''
     Name: Unknown

@@ -47,7 +47,7 @@ namespace GameEngine.Generator.Modifiers
         }
 
         [ModifierName("Self-Boost Stance")]
-        public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier(), IUniquePowerModifier
+        public record SelfBoostStanceModifier(IEffectModifier EffectModifier) : PowerModifier(), IUniquePowerModifier, MissMitigationFormula.IDisallowHalfDamage, MissMitigationFormula.IDisallowReliable
         {
             public override int GetComplexity(PowerContext powerContext) => 1 + EffectModifier.GetComplexity(powerContext);
 
@@ -94,7 +94,7 @@ namespace GameEngine.Generator.Modifiers
         }
 
         [ModifierName("Stance Power")]
-        public record PersonalStanceModifier(PowerProfile InnerPower) : PowerModifier(), IUniquePowerModifier
+        public record PersonalStanceModifier(PowerProfile InnerPower) : PowerModifier(), IUniquePowerModifier, MissMitigationFormula.IDisallowHalfDamage, MissMitigationFormula.IDisallowReliable
         {
             public override int GetComplexity(PowerContext powerContext) => 1 + Math.Max(0, (powerContext with { PowerProfile = InnerPower }).GetComplexity() - 1);
 

@@ -22,3 +22,5 @@ Power:
   RulesText:
   - Label: Hit
     Text: 7[W] + STR damage.
+  - Label: Miss
+    Text: This power is not expended and may be used again with another Standard Action.

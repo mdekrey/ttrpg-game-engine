@@ -38,7 +38,7 @@ namespace GameEngine.Generator.Modifiers
             }
 
             public override TargetInfoMutator? GetTargetInfoMutator(EffectContext effectContext, bool half) =>
-                half ? null : // TODO - half
+                half ? null :
                 new(2000, (target) => target with
                 {
                     Parts = Damage  == GameDiceExpression.Empty ? target.Parts.Add("may immediately make a basic attack as a free action")

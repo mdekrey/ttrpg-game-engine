@@ -123,7 +123,7 @@ namespace GameEngine.Generator.Text
                 Defense: DefenseType.ArmorClass,
                 HitSentences: targetInfos.Select(effect => effect.PartsToSentence()).ToImmutableList()
                     .AddRange(targetInfos.SelectMany(t => t.AdditionalSentences)),
-                MissSentences: ImmutableList<string>.Empty, // TODO - miss targets
+                MissSentences: ImmutableList<string>.Empty,
                 AttackInfoExtraRules: targetInfos.SelectMany(t => t.AdditionalRules).ToImmutableList()
             );
 

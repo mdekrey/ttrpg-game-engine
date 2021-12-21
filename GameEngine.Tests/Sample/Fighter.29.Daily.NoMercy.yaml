@@ -25,4 +25,6 @@ Power:
     Modifiers: []
   Modifiers:
   - { Name: Power Source, PowerSource: Martial }
+  - Name: Miss Mitigation
+    Mode: Reliable
   Effects: []
