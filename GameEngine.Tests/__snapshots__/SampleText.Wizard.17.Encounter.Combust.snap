@@ -16,7 +16,7 @@ Power:
   - Implement
   ActionType: Standard Action
   AttackType: Area
-  AttackTypeDetails: burst 2 within 25
+  AttackTypeDetails: burst 2 within 20
   Target: Each creature
   Attack: STR vs. Reflex
   RulesText:

@@ -102,16 +102,16 @@ namespace GameEngine.Generator.Modifiers
                 };
             }
 
-            AttackType IEffectTargetModifier.GetAttackType(EffectContext effectContext) => GetAttackType();
-            AttackType IAttackTargetModifier.GetAttackType(AttackContext attackContext) => GetAttackType();
-            public AttackType GetAttackType()
+            AttackType IEffectTargetModifier.GetAttackType(EffectContext effectContext) => GetAttackType(effectContext.PowerContext.Level);
+            AttackType IAttackTargetModifier.GetAttackType(AttackContext attackContext) => GetAttackType(attackContext.PowerContext.Level);
+            public AttackType GetAttackType(int level)
             {
                 return Type switch
                 {
                     BurstType.Blast => new CloseBlast(Size),
-                    BurstType.Area => new AreaBurst(Size / 2, Size * 5), // TODO: range is not correct
+                    BurstType.Area => new AreaBurst(Size / 2, level < 10 ? 10 : 20),
                     BurstType.Burst => new CloseBurst(Size / 2),
-                    BurstType.Wall => new AreaWall(Size * 2, Size * 5), // TODO: range is not correct
+                    BurstType.Wall => new AreaWall(Size * 2, 10),
                     _ => throw new NotImplementedException(),
                 };
             }

@@ -59,7 +59,7 @@
   - Implement
   ActionType: Standard Action
   AttackType: Area
-  AttackTypeDetails: wall 16 within 40
+  AttackTypeDetails: wall 16 within 10
   Target: Each creature
   Attack: STR vs. Fortitude
   RulesText:
