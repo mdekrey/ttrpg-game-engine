@@ -37,11 +37,6 @@ public class GameInMemoryStorage : IGameStorage
             : new StorageStatus<AsyncProcessed<T>>.Failure();
     }
 
-    public Task SaveAsync<T>(Guid id, T data)
-    {
-        return SaveAsync(id, (object?)data);
-    }
-
     public async Task<StorageStatus<T>> LoadAsync<T>(Guid id)
     {
         await Task.Yield();

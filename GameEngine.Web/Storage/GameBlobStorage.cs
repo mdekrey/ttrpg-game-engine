@@ -26,9 +26,7 @@ public class GameBlobStorage : IGameStorage
         var jsonData = data == null ? JValue.CreateNull() : JToken.FromObject(data, jsonSerializer);
         var blobClient = containerClient.GetBlobClient(id.ToString());
         using var memoryStream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(jsonData.ToString()));
-        var response = await blobClient.UploadAsync(memoryStream, overwrite: true);
-        if (response.GetRawResponse().Status != 201)
-            throw new Exception();
+        await blobClient.UploadAsync(memoryStream, overwrite: true);
     }
 
     public async Task<StorageStatus<AsyncProcessed<T>>> UpdateAsync<T>(Guid id, Func<AsyncProcessed<T>, AsyncProcessed<T>> mutator)
@@ -40,11 +38,6 @@ public class GameBlobStorage : IGameStorage
         var newValue = mutator(originalValue);
         await SaveAsync(id, newValue);
         return new StorageStatus<AsyncProcessed<T>>.Success(newValue);
-    }
-
-    public Task SaveAsync<T>(Guid id, T data)
-    {
-        return SaveAsync(id, (object?)data);
     }
 
     public async Task<StorageStatus<T>> LoadAsync<T>(Guid id)
