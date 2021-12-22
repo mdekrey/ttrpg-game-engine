@@ -12,9 +12,9 @@ namespace GameEngine.Web.Api;
 public class ClassController : ClassControllerBase
 {
     private readonly AsyncClassGenerator asyncClassGenerator;
-    private readonly GameStorage gameStorage;
+    private readonly IGameStorage gameStorage;
 
-    public ClassController(AsyncClassGenerator asyncClassGenerator, Storage.GameStorage gameStorage)
+    public ClassController(AsyncClassGenerator asyncClassGenerator, Storage.IGameStorage gameStorage)
     {
         this.asyncClassGenerator = asyncClassGenerator;
         this.gameStorage = gameStorage;
@@ -37,7 +37,7 @@ public class ClassController : ClassControllerBase
             return TypeSafeGetClassResult.NotFound();
         var status = await gameStorage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(guid).ConfigureAwait(false);
 
-        return status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var classDetails }
+        return status is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var classDetails }
             ? TypeSafeGetClassResult.Ok(new(Original: classDetails.Original.ToApi(), InProgress: classDetails.InProgress))
             : TypeSafeGetClassResult.NotFound();
     }
@@ -60,7 +60,7 @@ public class ClassController : ClassControllerBase
                 };
             });
 
-            if (status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success { Value: AsyncProcessed<GeneratedClassDetails> v })
+            if (status is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: AsyncProcessed<GeneratedClassDetails> v })
             {
                 if (!v.InProgress)
                     await asyncClassGenerator.ResumeGeneratingNewClass(classId);
@@ -102,7 +102,7 @@ public class ClassController : ClassControllerBase
                 };
             });
 
-            return status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success s
+            return status is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success s
                 ? TypeSafeSetPowerFlavorResult.Ok()
                 : TypeSafeSetPowerFlavorResult.Conflict();
         }

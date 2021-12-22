@@ -12,10 +12,10 @@ namespace GameEngine.Web.AsyncServices;
 public class AsyncClassGenerator
 {
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly GameStorage gameStorage;
+    private readonly IGameStorage gameStorage;
     private readonly ILogger<PowerGenerator> powerGeneratorLogger;
 
-    public AsyncClassGenerator(IServiceScopeFactory serviceScopeFactory, Storage.GameStorage gameStorage, ILogger<PowerGenerator> powerGeneratorLogger)
+    public AsyncClassGenerator(IServiceScopeFactory serviceScopeFactory, Storage.IGameStorage gameStorage, ILogger<PowerGenerator> powerGeneratorLogger)
     {
         this.serviceScopeFactory = serviceScopeFactory;
         this.gameStorage = gameStorage;
@@ -36,7 +36,7 @@ public class AsyncClassGenerator
 
     internal async Task ResumeGeneratingNewClass(Guid classId)
     {
-        if (await gameStorage.UpdateAsync<GeneratedClassDetails>(classId, t => t with { InProgress = true }) is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success)
+        if (await gameStorage.UpdateAsync<GeneratedClassDetails>(classId, t => t with { InProgress = true }) is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success)
             AsyncClassGenerationProcess.Initiate(serviceScopeFactory, classId, powerGeneratorLogger);
     }
 }
@@ -86,12 +86,12 @@ class AsyncClassGenerationProcess
     private async Task<GeneratedClassDetails> GetClassDetails()
     {
         using var scope = serviceScopeFactory.CreateScope();
-        var storage = scope.ServiceProvider.GetRequiredService<GameStorage>();
+        var storage = scope.ServiceProvider.GetRequiredService<IGameStorage>();
 
         // TODO - retry
         var classDetails = await storage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(classId).ConfigureAwait(false);
 
-        return classDetails is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var next }
+        return classDetails is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var next }
             ? next.Original
             : throw new InvalidOperationException();
     }
@@ -99,7 +99,7 @@ class AsyncClassGenerationProcess
     private async Task<ImmutableList<Generator.NamedPowerProfile>> AddAsync(Generator.ClassPowerProfile powerProfile)
     {
         using var scope = serviceScopeFactory.CreateScope();
-        var storage = scope.ServiceProvider.GetRequiredService<GameStorage>();
+        var storage = scope.ServiceProvider.GetRequiredService<IGameStorage>();
         
         // TODO - retry
         var status = await storage.UpdateAsync<GeneratedClassDetails>(classId, current => current with
@@ -110,9 +110,9 @@ class AsyncClassGenerationProcess
             }
         }).ConfigureAwait(false);
 
-        return status is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var next }
+        return status is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var next }
             ? next.Original.Powers
-            : (await storage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(classId).ConfigureAwait(false)) is GameStorage.Status<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var orig }
+            : (await storage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(classId).ConfigureAwait(false)) is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var orig }
                 ? orig.Original.Powers
                 : throw new InvalidOperationException();
     }
@@ -120,7 +120,7 @@ class AsyncClassGenerationProcess
     private async Task FinishAsync()
     {
         using var scope = serviceScopeFactory.CreateScope();
-        var storage = scope.ServiceProvider.GetRequiredService<GameStorage>();
+        var storage = scope.ServiceProvider.GetRequiredService<IGameStorage>();
 
         // TODO - retry
         await storage.UpdateAsync<GeneratedClassDetails>(classId, current => current with

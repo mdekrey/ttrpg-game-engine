@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using GameEngine.Generator.Serialization;
 using GameEngine.Web.Api;
 using Microsoft.AspNetCore.Builder;
@@ -19,7 +20,23 @@ builder.Services.Configure<GameEngine.Web.Storage.GameStorageOptions>(options =>
         return serializer;
     };
 });
-builder.Services.AddSingleton<GameEngine.Web.Storage.GameStorage>();
+
+if (builder.Configuration["BlobStorage"] is string blobStorageConfiguration)
+{
+
+    builder.Services.AddTransient(sp =>
+    {
+        var blobContainerClient = new BlobContainerClient(blobStorageConfiguration, "sample-container");
+        blobContainerClient.CreateIfNotExists();
+        return blobContainerClient;
+    });
+
+    builder.Services.AddSingleton<GameEngine.Web.Storage.IGameStorage, GameEngine.Web.Storage.GameBlobStorage>();
+}
+else
+{
+    builder.Services.AddSingleton<GameEngine.Web.Storage.IGameStorage, GameEngine.Web.Storage.GameInMemoryStorage>();
+}
 
 var app = builder.Build();
 

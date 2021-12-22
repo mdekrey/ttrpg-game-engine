@@ -1,5 +1,6 @@
 .dockerignore
 .git/
+/GameEngine.Web/appsettings.Development.json
 /GameEngine.Web/wwwroot/react-frontend/
 
 ## UI files

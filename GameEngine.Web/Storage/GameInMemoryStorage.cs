@@ -8,18 +8,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GameEngine.Web.Storage;
-public class GameStorage
+public class GameInMemoryStorage : IGameStorage
 {
     private static readonly ConcurrentDictionary<Guid, JToken> data = new ();
     private readonly JsonSerializer jsonSerializer;
 
-    public abstract record Status<T>()
-    {
-        public record Success(T Value) : Status<T>;
-        public record Failure() : Status<T>;
-    }
-
-    public GameStorage(IOptions<GameStorageOptions> gameStorageOptions)
+    public GameInMemoryStorage(IOptions<GameStorageOptions> gameStorageOptions)
     {
         jsonSerializer = gameStorageOptions.Value.CreateJsonSerializer();
     }
@@ -28,19 +22,19 @@ public class GameStorage
     {
         await Task.Yield();
         var jsonData = data == null ? JValue.CreateNull() : JToken.FromObject(data, jsonSerializer);
-        GameStorage.data.AddOrUpdate(id, jsonData, (_, _) => jsonData);
+        GameInMemoryStorage.data.AddOrUpdate(id, jsonData, (_, _) => jsonData);
     }
 
-    public async Task<Status<AsyncProcessed<T>>> UpdateAsync<T>(Guid id, Func<AsyncProcessed<T>, AsyncProcessed<T>> mutator)
+    public async Task<StorageStatus<AsyncProcessed<T>>> UpdateAsync<T>(Guid id, Func<AsyncProcessed<T>, AsyncProcessed<T>> mutator)
     {
         await Task.Yield();
         if (!data.TryGetValue(id, out var original))
-            return new Status<AsyncProcessed<T>>.Failure();
+            return new StorageStatus<AsyncProcessed<T>>.Failure();
 
         var newValue = mutator(original.ToObject<AsyncProcessed<T>>(jsonSerializer)!);
-        return GameStorage.data.TryUpdate(id, data == null ? JValue.CreateNull() : JToken.FromObject(newValue, jsonSerializer), original)
-            ? new Status<AsyncProcessed<T>>.Success(newValue)
-            : new Status<AsyncProcessed<T>>.Failure();
+        return GameInMemoryStorage.data.TryUpdate(id, newValue == null ? JValue.CreateNull() : JToken.FromObject(newValue, jsonSerializer), original)
+            ? new StorageStatus<AsyncProcessed<T>>.Success(newValue!)
+            : new StorageStatus<AsyncProcessed<T>>.Failure();
     }
 
     public Task SaveAsync<T>(Guid id, T data)
@@ -48,12 +42,12 @@ public class GameStorage
         return SaveAsync(id, (object?)data);
     }
 
-    public async Task<Status<T>> LoadAsync<T>(Guid id)
+    public async Task<StorageStatus<T>> LoadAsync<T>(Guid id)
     {
         await Task.Yield();
         return data.ContainsKey(id)
-            ? new Status<T>.Success(data[id].ToObject<T>(jsonSerializer)!)
-            : new Status<T>.Failure();
+            ? new StorageStatus<T>.Success(data[id].ToObject<T>(jsonSerializer)!)
+            : new StorageStatus<T>.Failure();
     }
 
     public async Task<bool> DeleteAsync(Guid id)
