@@ -1,5 +1,6 @@
 ﻿using GameEngine.Generator;
 using GameEngine.Generator.Text;
+using GameEngine.Web.AsyncServices;
 using System;
 using System.Collections.Immutable;
 using System.Linq;
@@ -149,13 +150,13 @@ public static class ApiConversion
         };
 
 
-    public static Api.ClassDetailsReadOnly ToApi(this Generator.GeneratedClassDetails generatedClassDetails) =>
+    public static Api.ClassDetailsReadOnly ToApi(this GeneratedClassDetails generatedClassDetails) =>
         new ClassDetailsReadOnly(
             generatedClassDetails.Name,
             generatedClassDetails.Powers.Select(p => p.ToApi())
         );
 
-    public static Api.PowerTextProfile ToApi(this Generator.NamedPowerProfile powerProfile)
+    public static Api.PowerTextProfile ToApi(this NamedPowerProfile powerProfile)
     {
         var (textBlock, flavor) = powerProfile.Profile.ToPowerContext().ToPowerTextBlock(powerProfile.Flavor);
         return new Api.PowerTextProfile(

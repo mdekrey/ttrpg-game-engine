@@ -96,7 +96,7 @@ class AsyncClassGenerationProcess
             : throw new InvalidOperationException();
     }
 
-    private async Task<ImmutableList<Generator.NamedPowerProfile>> AddAsync(Generator.ClassPowerProfile powerProfile)
+    private async Task<ImmutableList<NamedPowerProfile>> AddAsync(Generator.ClassPowerProfile powerProfile)
     {
         using var scope = serviceScopeFactory.CreateScope();
         var storage = scope.ServiceProvider.GetRequiredService<IGameStorage>();
