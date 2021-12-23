@@ -11,10 +11,10 @@ namespace GameEngine.Web.AsyncServices;
 public class AsyncClassGenerator
 {
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IGameStorage gameStorage;
+    private readonly IBlobStorage<AsyncProcessed<GeneratedClassDetails>> gameStorage;
     private readonly ILogger<PowerGenerator> powerGeneratorLogger;
 
-    public AsyncClassGenerator(IServiceScopeFactory serviceScopeFactory, Storage.IGameStorage gameStorage, ILogger<PowerGenerator> powerGeneratorLogger)
+    public AsyncClassGenerator(IServiceScopeFactory serviceScopeFactory, Storage.IBlobStorage<AsyncProcessed<GeneratedClassDetails>> gameStorage, ILogger<PowerGenerator> powerGeneratorLogger)
     {
         this.serviceScopeFactory = serviceScopeFactory;
         this.gameStorage = gameStorage;
@@ -26,7 +26,7 @@ public class AsyncClassGenerator
         var classId = Guid.NewGuid();
         var classDetails = new GeneratedClassDetails(name, classProfile, ImmutableList<NamedPowerProfile>.Empty);
 
-        await gameStorage.SaveAsync<AsyncProcessed<GeneratedClassDetails>>(classId, new(classDetails, InProgress: true, CorrelationToken: Guid.NewGuid())).ConfigureAwait(false);
+        await gameStorage.SaveAsync(classId, new(classDetails, InProgress: true, CorrelationToken: Guid.NewGuid())).ConfigureAwait(false);
 
         AsyncClassGenerationProcess.Initiate(serviceScopeFactory, classId, powerGeneratorLogger);
 
@@ -35,7 +35,7 @@ public class AsyncClassGenerator
 
     internal async Task ResumeGeneratingNewClass(Guid classId)
     {
-        if (await gameStorage.UpdateAsync<GeneratedClassDetails>(classId, t => t with { InProgress = true }) is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success)
+        if (await gameStorage.UpdateAsync(classId, t => t with { InProgress = true }) is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success)
             AsyncClassGenerationProcess.Initiate(serviceScopeFactory, classId, powerGeneratorLogger);
     }
 }

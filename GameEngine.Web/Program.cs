@@ -1,6 +1,8 @@
 using Azure.Storage.Blobs;
 using GameEngine.Generator.Serialization;
 using GameEngine.Web.Api;
+using GameEngine.Web.AsyncServices;
+using GameEngine.Web.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,21 +23,26 @@ builder.Services.Configure<GameEngine.Web.Storage.GameStorageOptions>(options =>
     };
 });
 
-if (builder.Configuration["BlobStorage"] is string blobStorageConfiguration)
-{
+AddBlobStorage<AsyncProcessed<GeneratedClassDetails>>("sample-container");
 
-    builder.Services.AddTransient(sp =>
+void AddBlobStorage<T>(string containerName)
+{
+    if (builder.Configuration["BlobStorage"] is string connectionString)
     {
-        var blobContainerClient = new BlobContainerClient(blobStorageConfiguration, "sample-container");
-        blobContainerClient.CreateIfNotExists();
-        return blobContainerClient;
-    });
-
-    builder.Services.AddSingleton<GameEngine.Web.Storage.IGameStorage, GameEngine.Web.Storage.GameBlobStorage>();
+        var storageFactory = ActivatorUtilities.CreateFactory(typeof(AzureBlobStorage<T>), new System.Type[] { typeof(BlobContainerClient), });
+        builder.Services.AddSingleton<IBlobStorage<T>>(sp => (IBlobStorage<T>)storageFactory(sp, new[] { CreateBlobContainerClient(connectionString, containerName) }));
+    }
+    else
+    {
+        builder.Services.AddSingleton<GameEngine.Web.Storage.IBlobStorage<T>, GameEngine.Web.Storage.InMemoryBlobStorage<T>>();
+    }
 }
-else
+
+BlobContainerClient CreateBlobContainerClient(string storageConfiguration, string containerName)
 {
-    builder.Services.AddSingleton<GameEngine.Web.Storage.IGameStorage, GameEngine.Web.Storage.GameInMemoryStorage>();
+    var blobContainerClient = new BlobContainerClient(storageConfiguration, containerName);
+    blobContainerClient.CreateIfNotExists();
+    return blobContainerClient;
 }
 
 var app = builder.Build();

@@ -12,9 +12,9 @@ namespace GameEngine.Web.Api;
 public class ClassController : ClassControllerBase
 {
     private readonly AsyncClassGenerator asyncClassGenerator;
-    private readonly IGameStorage gameStorage;
+    private readonly IBlobStorage<AsyncProcessed<GeneratedClassDetails>> gameStorage;
 
-    public ClassController(AsyncClassGenerator asyncClassGenerator, Storage.IGameStorage gameStorage)
+    public ClassController(AsyncClassGenerator asyncClassGenerator, Storage.IBlobStorage<AsyncProcessed<GeneratedClassDetails>> gameStorage)
     {
         this.asyncClassGenerator = asyncClassGenerator;
         this.gameStorage = gameStorage;
@@ -35,7 +35,7 @@ public class ClassController : ClassControllerBase
     {
         if (!Guid.TryParse(id, out var guid))
             return TypeSafeGetClassResult.NotFound();
-        var status = await gameStorage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(guid).ConfigureAwait(false);
+        var status = await gameStorage.LoadAsync(guid).ConfigureAwait(false);
 
         return status is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var classDetails }
             ? TypeSafeGetClassResult.Ok(new(Original: classDetails.Original.ToApi(), InProgress: classDetails.InProgress))
@@ -49,7 +49,7 @@ public class ClassController : ClassControllerBase
         // TODO - retry
         try
         {
-            var status = await gameStorage.UpdateAsync<GeneratedClassDetails>(classId, classDetails =>
+            var status = await gameStorage.UpdateAsync(classId, classDetails =>
             {
                 return classDetails with
                 {
@@ -82,7 +82,7 @@ public class ClassController : ClassControllerBase
         // TODO - retry
         try
         {
-            var status = await gameStorage.UpdateAsync<GeneratedClassDetails>(classId, classDetails =>
+            var status = await gameStorage.UpdateAsync(classId, classDetails =>
             {
                 var index = classDetails.Original.Powers.Items.FindIndex(power => power.Id == powerId);
                 if (index < 0)

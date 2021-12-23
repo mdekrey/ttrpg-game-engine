@@ -55,10 +55,9 @@ class AsyncClassGenerationProcess
     private async Task<GeneratedClassDetails> GetClassDetails()
     {
         using var scope = serviceScopeFactory.CreateScope();
-        var storage = scope.ServiceProvider.GetRequiredService<IGameStorage>();
+        var storage = scope.ServiceProvider.GetRequiredService<IBlobStorage<AsyncProcessed<GeneratedClassDetails>>>();
 
-        // TODO - retry
-        var classDetails = await storage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(classId).ConfigureAwait(false);
+        var classDetails = await storage.LoadAsync(classId).ConfigureAwait(false);
 
         return classDetails is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var next }
             ? next.Original
@@ -68,9 +67,8 @@ class AsyncClassGenerationProcess
     private async Task<ImmutableList<NamedPowerProfile>> AddAsync(Generator.ClassPowerProfile powerProfile)
     {
         using var scope = serviceScopeFactory.CreateScope();
-        var storage = scope.ServiceProvider.GetRequiredService<IGameStorage>();
+        var storage = scope.ServiceProvider.GetRequiredService<IBlobStorage<AsyncProcessed<GeneratedClassDetails>>>();
         
-        // TODO - retry
         var status = await storage.UpdateAsync<GeneratedClassDetails>(classId, current => current with
         {
             Original = current.Original with
@@ -81,7 +79,7 @@ class AsyncClassGenerationProcess
 
         return status is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var next }
             ? next.Original.Powers
-            : (await storage.LoadAsync<AsyncProcessed<GeneratedClassDetails>>(classId).ConfigureAwait(false)) is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var orig }
+            : (await storage.LoadAsync(classId).ConfigureAwait(false)) is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var orig }
                 ? orig.Original.Powers
                 : throw new InvalidOperationException();
     }
@@ -89,10 +87,9 @@ class AsyncClassGenerationProcess
     private async Task FinishAsync()
     {
         using var scope = serviceScopeFactory.CreateScope();
-        var storage = scope.ServiceProvider.GetRequiredService<IGameStorage>();
+        var storage = scope.ServiceProvider.GetRequiredService<IBlobStorage<AsyncProcessed<GeneratedClassDetails>>>();
 
-        // TODO - retry
-        await storage.UpdateAsync<GeneratedClassDetails>(classId, current => current with
+        await storage.UpdateAsync(classId, current => current with
         {
             InProgress = false,
         }).ConfigureAwait(false);
