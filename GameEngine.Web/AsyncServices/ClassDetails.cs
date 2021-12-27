@@ -1,0 +1,42 @@
+﻿using Azure;
+using Azure.Data.Tables;
+using GameEngine.Generator;
+using GameEngine.Web.Storage;
+using System;
+
+namespace GameEngine.Web.AsyncServices;
+
+public record ClassDetails(string Name, ClassProfile ClassProfile, bool InProgress) : Storage.IStorable<ClassDetails.ClassDetailsTableEntity, Storage.TableKey>
+{
+    public ClassDetailsTableEntity ToStorableEntity(Storage.TableKey id) =>
+        new ClassDetailsTableEntity
+        {
+            PartitionKey = id.PartitionKey,
+            RowKey = id.RowKey,
+            Name = Name,
+            ClassProfileJson = GameSerialization.ToJson(ClassProfile),
+            InProgress = InProgress,
+        };
+
+    public static ClassDetails FromTableEntity(ClassDetailsTableEntity entity) =>
+        new ClassDetails(entity.Name, GameSerialization.FromJson<ClassProfile>(entity.ClassProfileJson), entity.InProgress);
+
+    public class ClassDetailsTableEntity : ITableEntity
+    {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public string PartitionKey { get; set; }
+        public string RowKey { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
+        public ETag ETag { get; set; }
+        public string Name { get; set; }
+        public string ClassProfileJson { get; set; }
+        public bool InProgress { get; set; }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    }
+
+    public static TableKey ToTableKey(Guid classId)
+    {
+        var bytes = classId.ToByteArray();
+        return new(Convert.ToBase64String(bytes[0..8]), Convert.ToBase64String(bytes[8..16]));
+    }
+}

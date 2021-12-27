@@ -11,31 +11,31 @@ namespace GameEngine.Web.AsyncServices;
 public class AsyncClassGenerator
 {
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly IBlobStorage<AsyncProcessed<GeneratedClassDetails>> gameStorage;
-    private readonly ILogger<PowerGenerator> powerGeneratorLogger;
+    private readonly ITableStorage<ClassDetails> classStorage;
 
-    public AsyncClassGenerator(IServiceScopeFactory serviceScopeFactory, Storage.IBlobStorage<AsyncProcessed<GeneratedClassDetails>> gameStorage, ILogger<PowerGenerator> powerGeneratorLogger)
+    public AsyncClassGenerator(IServiceScopeFactory serviceScopeFactory, ITableStorage<ClassDetails> classStorage)
     {
         this.serviceScopeFactory = serviceScopeFactory;
-        this.gameStorage = gameStorage;
-        this.powerGeneratorLogger = powerGeneratorLogger;
+        this.classStorage = classStorage;
     }
 
     internal async Task<Guid> BeginGeneratingNewClass(ClassProfile classProfile, string name)
     {
         var classId = Guid.NewGuid();
-        var classDetails = new GeneratedClassDetails(name, classProfile, ImmutableList<NamedPowerProfile>.Empty);
+        var classDetails = new ClassDetails(name, classProfile, InProgress: true);
+        var key = ClassDetails.ToTableKey(classId);
 
-        await gameStorage.SaveAsync(classId, new(classDetails, InProgress: true, CorrelationToken: Guid.NewGuid())).ConfigureAwait(false);
+        await classStorage.SaveAsync(key, classDetails).ConfigureAwait(false);
 
-        AsyncClassGenerationProcess.Initiate(serviceScopeFactory, classId, powerGeneratorLogger);
+        AsyncClassGenerationProcess.Initiate(classId, serviceScopeFactory);
 
         return classId;
     }
 
     internal async Task ResumeGeneratingNewClass(Guid classId)
     {
-        if (await gameStorage.UpdateAsync(classId, t => t with { InProgress = true }) is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success)
-            AsyncClassGenerationProcess.Initiate(serviceScopeFactory, classId, powerGeneratorLogger);
+        var key = ClassDetails.ToTableKey(classId);
+        if (await classStorage.UpdateAsync(key, t => t with { InProgress = true }) is StorageStatus<ClassDetails>.Success)
+            AsyncClassGenerationProcess.Initiate(classId, serviceScopeFactory);
     }
 }

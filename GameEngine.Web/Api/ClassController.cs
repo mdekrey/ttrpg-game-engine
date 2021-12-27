@@ -12,12 +12,14 @@ namespace GameEngine.Web.Api;
 public class ClassController : ClassControllerBase
 {
     private readonly AsyncClassGenerator asyncClassGenerator;
-    private readonly IBlobStorage<AsyncProcessed<GeneratedClassDetails>> gameStorage;
+    private readonly ITableStorage<ClassDetails> classStorage;
+    private readonly ITableStorage<PowerDetails> powerStorage;
 
-    public ClassController(AsyncClassGenerator asyncClassGenerator, Storage.IBlobStorage<AsyncProcessed<GeneratedClassDetails>> gameStorage)
+    public ClassController(AsyncClassGenerator asyncClassGenerator, ITableStorage<ClassDetails> classStorage, ITableStorage<PowerDetails> powerStorage)
     {
         this.asyncClassGenerator = asyncClassGenerator;
-        this.gameStorage = gameStorage;
+        this.classStorage = classStorage;
+        this.powerStorage = powerStorage;
     }
 
     protected override async Task<TypeSafeGeneratePowersResult> GeneratePowersTypeSafe(ClassProfile generateClassProfileBody)
@@ -35,10 +37,11 @@ public class ClassController : ClassControllerBase
     {
         if (!Guid.TryParse(id, out var guid))
             return TypeSafeGetClassResult.NotFound();
-        var status = await gameStorage.LoadAsync(guid).ConfigureAwait(false);
+        var status = await classStorage.LoadAsync(ClassDetails.ToTableKey(guid)).ConfigureAwait(false);
+        var powers = await powerStorage.Query((key, power) => key.PartitionKey == id.ToString()).ToArrayAsync();
 
-        return status is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var classDetails }
-            ? TypeSafeGetClassResult.Ok(new(Original: classDetails.Original.ToApi(), InProgress: classDetails.InProgress))
+        return status is StorageStatus<ClassDetails>.Success { Value: var classDetails }
+            ? TypeSafeGetClassResult.Ok(new(Original: classDetails.ToApi(powers), InProgress: classDetails.InProgress))
             : TypeSafeGetClassResult.NotFound();
     }
 
@@ -46,69 +49,38 @@ public class ClassController : ClassControllerBase
     {
         if (!Guid.TryParse(classStringId, out var classId) || !Guid.TryParse(powerStringId, out var powerId))
             return TypeSafeReplacePowerResult.NotFound();
-        // TODO - retry
-        try
-        {
-            var status = await gameStorage.UpdateAsync(classId, classDetails =>
-            {
-                return classDetails with
-                {
-                    Original = classDetails.Original with
-                    {
-                        Powers = classDetails.Original.Powers.Items.Where(power => power.Id != powerId).ToImmutableList()
-                    }
-                };
-            });
 
-            if (status is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: AsyncProcessed<GeneratedClassDetails> v })
-            {
-                if (!v.InProgress)
-                    await asyncClassGenerator.ResumeGeneratingNewClass(classId);
-                return TypeSafeReplacePowerResult.Ok();
-            }
+        await powerStorage.DeleteAsync(PowerDetails.ToTableKey(classId, powerId));
+        var status = await classStorage.LoadAsync(ClassDetails.ToTableKey(classId));
 
-            return TypeSafeReplacePowerResult.Conflict();
-        }
-        catch (InvalidOperationException)
+        if (status is StorageStatus<ClassDetails>.Success { Value: ClassDetails v })
         {
-            return TypeSafeReplacePowerResult.NotFound();
+            if (!v.InProgress)
+                await asyncClassGenerator.ResumeGeneratingNewClass(classId);
+            return TypeSafeReplacePowerResult.Ok();
         }
+
+        return TypeSafeReplacePowerResult.Conflict();
     }
 
     protected override async Task<TypeSafeSetPowerFlavorResult> SetPowerFlavorTypeSafe(string classStringId, string powerStringId, Dictionary<string, string> setPowerFlavorBody)
     {
         if (!Guid.TryParse(classStringId, out var classId) || !Guid.TryParse(powerStringId, out var powerId))
             return TypeSafeSetPowerFlavorResult.NotFound();
-        // TODO - retry
-        try
+
+        var key = PowerDetails.ToTableKey(classId, powerId);
+        var status = await powerStorage.UpdateAsync(key, powerDetails =>
         {
-            var status = await gameStorage.UpdateAsync(classId, classDetails =>
+            return powerDetails with
             {
-                var index = classDetails.Original.Powers.Items.FindIndex(power => power.Id == powerId);
-                if (index < 0)
-                    throw new InvalidOperationException();
+                Flavor = new Generator.Text.FlavorText(
+                    Fields: setPowerFlavorBody.ToImmutableDictionary(f => f.Key, f => f.Value)
+                ),
+            };
+        });
 
-                return classDetails with
-                {
-                    Original = classDetails.Original with
-                    {
-                        Powers = classDetails.Original.Powers.Items.SetItem(index, classDetails.Original.Powers.Items[index] with
-                        {
-                            Flavor = new Generator.Text.FlavorText(
-                                Fields: setPowerFlavorBody.ToImmutableDictionary(f => f.Key, f => f.Value)
-                            ),
-                        })
-                    }
-                };
-            });
-
-            return status is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success s
-                ? TypeSafeSetPowerFlavorResult.Ok()
-                : TypeSafeSetPowerFlavorResult.Conflict();
-        }
-        catch (InvalidOperationException)
-        {
-            return TypeSafeSetPowerFlavorResult.NotFound();
-        }
+        return status is StorageStatus<PowerDetails>.Success
+            ? TypeSafeSetPowerFlavorResult.Ok()
+            : TypeSafeSetPowerFlavorResult.Conflict();
     }
 }

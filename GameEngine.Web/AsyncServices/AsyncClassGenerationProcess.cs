@@ -12,26 +12,34 @@ namespace GameEngine.Web.AsyncServices;
 
 class AsyncClassGenerationProcess
 {
+    private static ObjectFactory asyncClassGenerationProcessFactory = ActivatorUtilities.CreateFactory(typeof(AsyncClassGenerationProcess), new System.Type[] { typeof(Guid), });
+
     private readonly Guid classId;
-    private readonly IServiceScopeFactory serviceScopeFactory;
+    private readonly TableKey classTableKey;
+    private readonly ITableStorage<ClassDetails> classStorage;
+    private readonly ITableStorage<PowerDetails> powerStorage;
     private readonly PowerGenerator powerGenerator;
 
-    public AsyncClassGenerationProcess(Guid classId, IServiceScopeFactory serviceScopeFactory, ILogger<PowerGenerator> powerGeneratorLogger)
+    public AsyncClassGenerationProcess(Guid classId, ITableStorage<ClassDetails> classStorage, ITableStorage<PowerDetails> powerStorage, ILogger<PowerGenerator> powerGeneratorLogger)
     {
         this.classId = classId;
-        this.serviceScopeFactory = serviceScopeFactory;
+        this.classTableKey = ClassDetails.ToTableKey(classId);
+        this.classStorage = classStorage;
+        this.powerStorage = powerStorage;
         this.powerGenerator = new PowerGenerator(new Random().Next, powerGeneratorLogger);
+
     }
 
     public async Task Run()
     {
-        var (_, classProfile, powers) = await GetClassDetails().ConfigureAwait(false);
+        var classProfile = (await GetClassDetails().ConfigureAwait(false)).ClassProfile;
+        var powers = await LoadPowers();
 
         var addingTask = Task.CompletedTask;
         var shouldContinue = true;
         while (shouldContinue)
         {
-            var result = powers.Items.Select(p => p.Profile).ToImmutableList();
+            var result = powers.Select(p => p.Profile).ToImmutableList();
             shouldContinue = false;
             powerGenerator.GeneratePowerProfiles(classProfile, () => result, newPower =>
             {
@@ -45,63 +53,53 @@ class AsyncClassGenerationProcess
             if (shouldContinue)
             {
                 await addingTask.ConfigureAwait(false);
-                (_, _, powers) = await GetClassDetails().ConfigureAwait(false);
+                powers = await LoadPowers();
             }
         }
         await addingTask.ConfigureAwait(false);
         await FinishAsync().ConfigureAwait(false);
     }
 
-    private async Task<GeneratedClassDetails> GetClassDetails()
+    private async Task<ClassDetails> GetClassDetails()
     {
-        using var scope = serviceScopeFactory.CreateScope();
-        var storage = scope.ServiceProvider.GetRequiredService<IBlobStorage<AsyncProcessed<GeneratedClassDetails>>>();
+        var classDetails = await classStorage.LoadAsync(classTableKey).ConfigureAwait(false);
 
-        var classDetails = await storage.LoadAsync(classId).ConfigureAwait(false);
-
-        return classDetails is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var next }
-            ? next.Original
+        return classDetails is StorageStatus<ClassDetails>.Success { Value: var next }
+            ? next
             : throw new InvalidOperationException();
     }
 
-    private async Task<ImmutableList<NamedPowerProfile>> AddAsync(Generator.ClassPowerProfile powerProfile)
+    private async Task<ImmutableList<PowerDetails>> AddAsync(Generator.ClassPowerProfile powerProfile)
     {
-        using var scope = serviceScopeFactory.CreateScope();
-        var storage = scope.ServiceProvider.GetRequiredService<IBlobStorage<AsyncProcessed<GeneratedClassDetails>>>();
+        var powerDetails = new PowerDetails(classId, Guid.NewGuid(), Generator.Text.FlavorText.Empty, powerProfile);
+        var key = powerDetails.ToTableKey();
+        await powerStorage.SaveAsync(key, powerDetails);
+        return await LoadPowers();
+    }
+
+    private async Task<ImmutableList<PowerDetails>> LoadPowers()
+    {
+        var partitionKey = classId.ToString();
+        return (await powerStorage.Query((key, power) => key.PartitionKey == partitionKey).ToArrayAsync()).ToImmutableList();
+    }
+
+    private async Task<bool> FinishAsync()
+    {
+        var loadedClass = await classStorage.LoadAsync(classTableKey);
+        if (loadedClass is not StorageStatus<ClassDetails>.Success { Value: var value } || value.InProgress == false)
+            return false;
         
-        var status = await storage.UpdateAsync<GeneratedClassDetails>(classId, current => current with
-        {
-            Original = current.Original with
-            {
-                Powers = current.Original.Powers.Items.Add(new NamedPowerProfile(Guid.NewGuid(), Generator.Text.FlavorText.Empty, powerProfile)),
-            }
-        }).ConfigureAwait(false);
-
-        return status is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var next }
-            ? next.Original.Powers
-            : (await storage.LoadAsync(classId).ConfigureAwait(false)) is StorageStatus<AsyncProcessed<GeneratedClassDetails>>.Success { Value: var orig }
-                ? orig.Original.Powers
-                : throw new InvalidOperationException();
+        await classStorage.SaveAsync(classTableKey, value with { InProgress = false });
+        return true;
     }
 
-    private async Task FinishAsync()
-    {
-        using var scope = serviceScopeFactory.CreateScope();
-        var storage = scope.ServiceProvider.GetRequiredService<IBlobStorage<AsyncProcessed<GeneratedClassDetails>>>();
-
-        await storage.UpdateAsync(classId, current => current with
-        {
-            InProgress = false,
-        }).ConfigureAwait(false);
-    }
-
-    internal static async void Initiate(IServiceScopeFactory serviceScopeFactory, Guid classId, ILogger<PowerGenerator> powerGeneratorLogger)
+    internal static async void Initiate(Guid classId, IServiceScopeFactory serviceScopeFactory)
     {
         await Task.Run(async () =>
         {
-            var process = new AsyncClassGenerationProcess(classId, serviceScopeFactory, powerGeneratorLogger);
+            using var serviceScope = serviceScopeFactory.CreateScope();
+            var process = (AsyncClassGenerationProcess)asyncClassGenerationProcessFactory(serviceScope.ServiceProvider, new object[] { classId });
             await process.Run().ConfigureAwait(false);
-
         }).ConfigureAwait(false);
     }
 }

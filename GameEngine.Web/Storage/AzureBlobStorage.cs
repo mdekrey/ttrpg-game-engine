@@ -46,8 +46,7 @@ public class AzureBlobStorage<T> : IBlobStorage<T>
 
     public async Task<bool> DeleteAsync(Guid id)
     {
-        var blobClient = containerClient.GetBlobClient(id.ToString());
-        var response = await blobClient.DeleteIfExistsAsync();
+        var response = await containerClient.DeleteBlobIfExistsAsync(id.ToString());
         return response.Value;
     }
 }
