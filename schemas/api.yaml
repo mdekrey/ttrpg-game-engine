@@ -55,19 +55,16 @@ components:
         - Thunder
         - Poison
         - Force
-    ClassProfile:
+    EditableClassProfile:
       type: object
       required:
         - name
-        - locked
         - role
         - powerSource
         - tools
       properties:
         name:
           type: string
-        locked:
-          type: boolean
         role:
           $ref: '#/components/schemas/CharacterRole'
         powerSource:
@@ -76,6 +73,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ToolProfile'
+    ClassProfile:
+      type: object
+      allOf:
+        - type: object
+          required: [locked]
+          properties:
+            locked:
+              type: boolean
+        - $ref: '#/components/schemas/EditableClassProfile'
     ToolProfile:
       type: object
       required:
@@ -259,7 +265,7 @@ paths:
                 - usage
               properties:
                 classProfile:
-                  $ref: '#/components/schemas/ClassProfile'
+                  $ref: '#/components/schemas/EditableClassProfile'
                 toolIndex:
                   type: integer
                   minimum: 0
@@ -297,7 +303,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ClassProfile'
+              $ref: '#/components/schemas/EditableClassProfile'
       responses:
         200:
           description: OK

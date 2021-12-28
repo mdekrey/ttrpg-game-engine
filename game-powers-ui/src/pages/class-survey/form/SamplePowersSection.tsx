@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
 import { SelectField } from 'components/forms';
-import { ClassProfile } from 'api/models/ClassProfile';
+import { EditableClassProfile } from 'api/models/EditableClassProfile';
 import { PowerFrequency } from 'api/models/PowerFrequency';
 import { Modal } from 'components/modal/modal';
 import { ToolProfile } from 'api/models/ToolProfile';
@@ -33,7 +33,7 @@ export function SamplePowersSection({
 	classProfile,
 	onSaveTool,
 }: {
-	classProfile: ClassProfile;
+	classProfile: EditableClassProfile;
 	onSaveTool: React.Dispatch<React.SetStateAction<Readonly<ToolProfile>[]>>;
 }) {
 	const [selectedCfg, setSelectedCfg] = useState<null | { toolIndex: number; powerConfigIndex: number }>(null);

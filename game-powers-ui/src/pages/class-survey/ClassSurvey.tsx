@@ -1,4 +1,4 @@
-import { ClassProfile } from 'api/models/ClassProfile';
+import { EditableClassProfile } from 'api/models/EditableClassProfile';
 import { useApi } from 'core/hooks/useApi';
 import { ClassSurveyForm } from './form/class-survey-form';
 
@@ -11,7 +11,7 @@ export function ClassSurvey() {
 		</div>
 	);
 
-	async function submitClassProfile(classProfile: ClassProfile) {
+	async function submitClassProfile(classProfile: EditableClassProfile) {
 		const response = await api.generatePowers({ body: classProfile }).toPromise();
 		if (response.statusCode === 200) {
 			window.location.href = `/class/edit/${response.data.classProfileId}`;

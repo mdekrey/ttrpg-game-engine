@@ -10,7 +10,7 @@ namespace GameEngine.Web.Api;
 
 public static class ApiConversion
 {
-    public static GameEngine.Generator.ClassProfile FromApi(this Api.ClassProfile apiModel) =>
+    public static GameEngine.Generator.ClassProfile FromApi(this Api.EditableClassProfile apiModel) =>
         new Generator.ClassProfile(apiModel.Role.FromApi(), apiModel.PowerSource, apiModel.Tools.Select(FromApi).ToImmutableList());
 
     public static GameEngine.Generator.ToolProfile FromApi(this Api.ToolProfile apiModel) =>

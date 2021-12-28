@@ -5,7 +5,7 @@ import { Button } from 'components/button/Button';
 import { Card } from 'components/card/card';
 import { SelectFormField, TextboxField } from 'components/forms';
 import { ButtonRow } from 'components/ButtonRow';
-import { ClassProfile } from 'api/models/ClassProfile';
+import { EditableClassProfile } from 'api/models/EditableClassProfile';
 import { classSurveySchemaWithoutTools, roles } from 'core/schemas/api';
 import { YamlEditor } from 'components/monaco/YamlEditor';
 import { SamplePowersSection } from './SamplePowersSection';
@@ -17,11 +17,11 @@ export function ClassSurveyForm({
 	defaultValues,
 }: {
 	className?: string;
-	onSubmit?: (form: ClassProfile) => void;
-	defaultValues?: ClassProfile;
+	onSubmit?: (form: EditableClassProfile) => void;
+	defaultValues?: EditableClassProfile;
 }) {
 	const [tools, setTools] = useState([defaultToolProfile]);
-	const { handleSubmit, ...form } = useGameForm<Omit<ClassProfile, 'tools' | 'locked'>>({
+	const { handleSubmit, ...form } = useGameForm<Omit<EditableClassProfile, 'tools'>>({
 		defaultValues: defaultValues || {
 			name: 'Custom Class',
 			role: 'Controller',
@@ -32,8 +32,8 @@ export function ClassSurveyForm({
 
 	const role = form.watch('role');
 	const powerSource = form.watch('powerSource');
-	const classProfile: ClassProfile = useMemo(
-		() => ({ name: 'Unimportant', role, powerSource, tools, locked: false }),
+	const classProfile: EditableClassProfile = useMemo(
+		() => ({ name: 'Unimportant', role, powerSource, tools }),
 		[role, powerSource, tools]
 	);
 
@@ -43,7 +43,7 @@ export function ClassSurveyForm({
 			onSubmit={
 				onSubmit &&
 				handleSubmit((value) => {
-					onSubmit({ ...value, tools, locked: false });
+					onSubmit({ ...value, tools });
 				})
 			}>
 			<Card className="grid grid-cols-6 gap-6">

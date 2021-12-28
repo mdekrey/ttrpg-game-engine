@@ -22,7 +22,7 @@ public class ClassController : ClassControllerBase
         this.powerStorage = powerStorage;
     }
 
-    protected override async Task<TypeSafeGeneratePowersResult> GeneratePowersTypeSafe(ClassProfile generateClassProfileBody)
+    protected override async Task<TypeSafeGeneratePowersResult> GeneratePowersTypeSafe(EditableClassProfile generateClassProfileBody)
     {
         if (!ModelState.IsValid) return TypeSafeGeneratePowersResult.BadRequest(ModelState.ToApiModelErrors());
 
@@ -41,7 +41,11 @@ public class ClassController : ClassControllerBase
         var powers = await powerStorage.Query((key, power) => key.PartitionKey == id.ToString()).ToArrayAsync();
 
         return status is StorageStatus<ClassDetails>.Success { Value: var classDetails }
-            ? TypeSafeGetClassResult.Ok(new(Original: classDetails.ToApi(powers.Select(v => v.Value)), InProgress: classDetails.ProgressState == ProgressState.InProgress))
+            ? TypeSafeGetClassResult.Ok(new(
+                Original: classDetails.ToApi(from v in powers
+                                             orderby v.Value.Profile.PowerInfo.Level, v.Value.Profile.PowerInfo.Usage
+                                             select v.Value),
+                InProgress: classDetails.ProgressState == ProgressState.InProgress))
             : TypeSafeGetClassResult.NotFound();
     }
 
