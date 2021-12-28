@@ -24,11 +24,11 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 				map(([id]) =>
 					api.getClass({ params: { id } }).pipe(
 						repeatWhen((completed) => completed.pipe(delay(1000))),
-						takeWhile((response) => response.statusCode === 200 && response.data.inProgress === true, true),
+						takeWhile((response) => response.statusCode === 200 && response.data.state === 'In Progress', true),
 						map((response) =>
 							response.statusCode === 404
 								? makeError<ReasonCode>('NotFound' as const)
-								: response.data.inProgress
+								: response.data.state === 'In Progress'
 								? makeLoading(toPowerTextGroups(response.data.original))
 								: makeLoaded(toPowerTextGroups(response.data.original))
 						)

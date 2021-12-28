@@ -139,6 +139,15 @@ public static class ApiConversion
             _ => throw new NotSupportedException(),
         };
 
+    public static Api.ProgressState ToApi(this AsyncServices.ProgressState model) =>
+        model switch
+        {
+            AsyncServices.ProgressState.InProgress => Api.ProgressState.InProgress,
+            AsyncServices.ProgressState.Finished => Api.ProgressState.Finished,
+            AsyncServices.ProgressState.Locked => Api.ProgressState.ReadOnly,
+            _ => throw new NotSupportedException(),
+        };
+
     public static Api.PowerTextBlock ToApi(this GameEngine.Rules.PowerTextBlock model) =>
         new Api.PowerTextBlock(
             Name: model.Name,
@@ -161,7 +170,7 @@ public static class ApiConversion
     public static Api.RulesText ToApi(this GameEngine.Rules.RulesText model) =>
         new Api.RulesText(Label: model.Label, Text: model.Text);
     public static Api.ClassProfile ToApi(this GameEngine.Web.AsyncServices.ClassDetails model) =>
-        new Api.ClassProfile(Name: model.Name, Locked: model.ProgressState == ProgressState.Locked, Role: model.ClassProfile.Role.ToApi(), PowerSource: model.ClassProfile.PowerSource, Tools: model.ClassProfile.Tools.Select(ToApi).ToImmutableList());
+        new Api.ClassProfile(Name: model.Name, State: model.ProgressState.ToApi(), Role: model.ClassProfile.Role.ToApi(), PowerSource: model.ClassProfile.PowerSource, Tools: model.ClassProfile.Tools.Select(ToApi).ToImmutableList());
 
     public static Api.PowerProfile ToApi(this GameEngine.Generator.ClassPowerProfile model) =>
         new Api.PowerProfile(
@@ -210,8 +219,9 @@ public static class ApiConversion
 
     public static Api.ClassDetailsReadOnly ToApi(this ClassDetails generatedClassDetails, IEnumerable<PowerDetails> powers) =>
         new ClassDetailsReadOnly(
-            generatedClassDetails.Name,
-            powers.Select(p => p.ToApi())
+            Name: generatedClassDetails.Name,
+            State: generatedClassDetails.ProgressState.ToApi(),
+            Powers: powers.Select(p => p.ToApi())
         );
 
     public static Api.PowerTextProfile ToApi(this PowerDetails powerProfile)

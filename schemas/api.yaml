@@ -3,7 +3,7 @@ info:
   title: Dnd Classes
   version: '1.0'
 servers:
-  - url: /v1
+  - url: /
 
 components:
   responses:
@@ -77,10 +77,10 @@ components:
       type: object
       allOf:
         - type: object
-          required: [locked]
+          required: [state]
           properties:
-            locked:
-              type: boolean
+            state:
+              $ref: '#/components/schemas/ProgressState'
         - $ref: '#/components/schemas/EditableClassProfile'
     ToolProfile:
       type: object
@@ -239,15 +239,24 @@ components:
       required:
         - name
         - powers
+        - state
       properties:
         name:
           type: string
+        state:
+          $ref: '#/components/schemas/ProgressState'
         powers:
           type: array
           items:
             $ref: '#/components/schemas/PowerTextProfile'
+    ProgressState:
+      type: string
+      enum:
+        - In Progress
+        - Finished
+        - Read-Only
 paths:
-  /generate-sample-power:
+  /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power
     post:
       operationId: generateSamplePower
@@ -294,7 +303,7 @@ paths:
                     type: string
         400:
           $ref: '#/components/responses/ModelValidation'
-  /generate-class:
+  /api/generate-class:
     x-dotnet-mvc-server-controller: Class
     post:
       operationId: generatePowers
@@ -318,7 +327,7 @@ paths:
                     type: string
         400:
           $ref: '#/components/responses/ModelValidation'
-  /class/{id}:
+  /api/class/{id}:
     x-dotnet-mvc-server-controller: Class
     get:
       operationId: getClass
@@ -337,15 +346,15 @@ paths:
                 type: object
                 required:
                   - original
-                  - inProgress
+                  - state
                 properties:
                   original:
                     $ref: '#/components/schemas/ClassDetailsReadOnly'
-                  inProgress:
-                    type: boolean
+                  state:
+                    $ref: '#/components/schemas/ProgressState'
         404:
           description: Class not found
-  /class/{classId}/power/{powerId}:
+  /api/class/{classId}/power/{powerId}:
     x-dotnet-mvc-server-controller: Class
     post:
       operationId: setPowerFlavor

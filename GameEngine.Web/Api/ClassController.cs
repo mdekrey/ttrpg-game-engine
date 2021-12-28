@@ -45,7 +45,7 @@ public class ClassController : ClassControllerBase
                 Original: classDetails.ToApi(from v in powers
                                              orderby v.Value.Profile.PowerInfo.Level, v.Value.Profile.PowerInfo.Usage
                                              select v.Value),
-                InProgress: classDetails.ProgressState == ProgressState.InProgress))
+                State: classDetails.ProgressState.ToApi()))
             : TypeSafeGetClassResult.NotFound();
     }
 
@@ -58,10 +58,10 @@ public class ClassController : ClassControllerBase
 
         if (status is StorageStatus<ClassDetails>.Success { Value: ClassDetails v })
         {
-            if (v.ProgressState == ProgressState.Locked)
+            if (v.ProgressState == AsyncServices.ProgressState.Locked)
                 return TypeSafeReplacePowerResult.Conflict();
             await powerStorage.DeleteAsync(PowerDetails.ToTableKey(classId, powerId));
-            if (v.ProgressState == ProgressState.Finished)
+            if (v.ProgressState == AsyncServices.ProgressState.Finished)
                 await asyncClassGenerator.ResumeGeneratingNewClass(classId);
             return TypeSafeReplacePowerResult.Ok();
         }

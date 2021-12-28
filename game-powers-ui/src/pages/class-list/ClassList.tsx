@@ -11,12 +11,12 @@ export function ClassList({ data: { classes } }: { data: { classes: Record<strin
 	return (
 		<ReaderLayout>
 			<ul className="list-disc ml-6 theme-4e-list">
-				{eachClass.map(({ id, name, locked }) => (
+				{eachClass.map(({ id, name, state }) => (
 					<li key={id} className="my-1">
 						<a href={`/class/${id}`} className="underline text-theme">
 							{name}
 						</a>
-						{locked ? (
+						{state === 'Read-Only' ? (
 							<LockClosedIcon className="w-5 h-5" />
 						) : (
 							<a href={`/class/edit/${id}`} className="underline text-theme">
