@@ -41,7 +41,7 @@ public class ClassController : ClassControllerBase
         var powers = await powerStorage.Query((key, power) => key.PartitionKey == id.ToString()).ToArrayAsync();
 
         return status is StorageStatus<ClassDetails>.Success { Value: var classDetails }
-            ? TypeSafeGetClassResult.Ok(new(Original: classDetails.ToApi(powers), InProgress: classDetails.InProgress))
+            ? TypeSafeGetClassResult.Ok(new(Original: classDetails.ToApi(powers.Select(v => v.Value)), InProgress: classDetails.ProgressState == ProgressState.InProgress))
             : TypeSafeGetClassResult.NotFound();
     }
 
@@ -50,17 +50,19 @@ public class ClassController : ClassControllerBase
         if (!Guid.TryParse(classStringId, out var classId) || !Guid.TryParse(powerStringId, out var powerId))
             return TypeSafeReplacePowerResult.NotFound();
 
-        await powerStorage.DeleteAsync(PowerDetails.ToTableKey(classId, powerId));
         var status = await classStorage.LoadAsync(ClassDetails.ToTableKey(classId));
 
         if (status is StorageStatus<ClassDetails>.Success { Value: ClassDetails v })
         {
-            if (!v.InProgress)
+            if (v.ProgressState == ProgressState.Locked)
+                return TypeSafeReplacePowerResult.Conflict();
+            await powerStorage.DeleteAsync(PowerDetails.ToTableKey(classId, powerId));
+            if (v.ProgressState == ProgressState.Finished)
                 await asyncClassGenerator.ResumeGeneratingNewClass(classId);
             return TypeSafeReplacePowerResult.Ok();
         }
 
-        return TypeSafeReplacePowerResult.Conflict();
+        return TypeSafeReplacePowerResult.NotFound();
     }
 
     protected override async Task<TypeSafeSetPowerFlavorResult> SetPowerFlavorTypeSafe(string classStringId, string powerStringId, Dictionary<string, string> setPowerFlavorBody)

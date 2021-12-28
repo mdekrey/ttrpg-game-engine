@@ -3,10 +3,19 @@ using Azure.Data.Tables;
 using GameEngine.Generator;
 using GameEngine.Web.Storage;
 using System;
+using System.Linq;
 
 namespace GameEngine.Web.AsyncServices;
 
-public record ClassDetails(string Name, ClassProfile ClassProfile, bool InProgress) : Storage.IStorable<ClassDetails.ClassDetailsTableEntity, Storage.TableKey>
+public enum ProgressState
+{
+    InProgress,
+    Finished,
+    Locked,
+    Deleted,
+}
+
+public record ClassDetails(string Name, ClassProfile ClassProfile, ProgressState ProgressState) : Storage.IStorable<ClassDetails.ClassDetailsTableEntity, Storage.TableKey>
 {
     public ClassDetailsTableEntity ToStorableEntity(Storage.TableKey id) =>
         new ClassDetailsTableEntity
@@ -15,11 +24,11 @@ public record ClassDetails(string Name, ClassProfile ClassProfile, bool InProgre
             RowKey = id.RowKey,
             Name = Name,
             ClassProfileJson = GameSerialization.ToJson(ClassProfile),
-            InProgress = InProgress,
+            ProgressState = ProgressState,
         };
 
     public static ClassDetails FromTableEntity(ClassDetailsTableEntity entity) =>
-        new ClassDetails(entity.Name, GameSerialization.FromJson<ClassProfile>(entity.ClassProfileJson), entity.InProgress);
+        new ClassDetails(entity.Name, GameSerialization.FromJson<ClassProfile>(entity.ClassProfileJson), entity.ProgressState);
 
     public class ClassDetailsTableEntity : ITableEntity
     {
@@ -30,7 +39,7 @@ public record ClassDetails(string Name, ClassProfile ClassProfile, bool InProgre
         public ETag ETag { get; set; }
         public string Name { get; set; }
         public string ClassProfileJson { get; set; }
-        public bool InProgress { get; set; }
+        public ProgressState ProgressState { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     }
 
@@ -38,5 +47,10 @@ public record ClassDetails(string Name, ClassProfile ClassProfile, bool InProgre
     {
         var bytes = classId.ToByteArray();
         return new(Convert.ToBase64String(bytes[0..8]), Convert.ToBase64String(bytes[8..16]));
+    }
+
+    public static Guid IdFromTableKey(TableKey tableKey)
+    {
+        return new Guid(Convert.FromBase64String(tableKey.PartitionKey).Concat(Convert.FromBase64String(tableKey.RowKey)).ToArray());
     }
 }

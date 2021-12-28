@@ -23,6 +23,16 @@ public static class ApiConversion
             PossibleRestrictions: apiModel.PossibleRestrictions.ToImmutableList()
         );
 
+    public static Api.ToolProfile ToApi(this Generator.ToolProfile model) =>
+        new Api.ToolProfile(
+            ToolType: ToApi(model.Type),
+            ToolRange: ToApi(model.Range),
+            Abilities: model.Abilities.Select(a => ToApi(a)).ToImmutableList(),
+            PreferredDamageTypes: model.PreferredDamageTypes.Select(a => a.Select(ToApi).ToImmutableList()).ToImmutableList(),
+            PowerProfileConfigs: model.PowerProfileConfigs.Select(a => a.ToApi()).ToImmutableList(),
+            PossibleRestrictions: model.PossibleRestrictions.ToImmutableList()
+        );
+
     public static GameEngine.DamageType FromApi(this Api.DamageType apiModel) =>
         apiModel switch
         {
@@ -37,14 +47,37 @@ public static class ApiConversion
             _ => throw new NotSupportedException(),
         };
 
+    public static Api.DamageType ToApi(this GameEngine.DamageType model) =>
+        model switch
+        {
+            GameEngine.DamageType.Fire => Api.DamageType.Fire,
+            GameEngine.DamageType.Cold => Api.DamageType.Cold,
+            GameEngine.DamageType.Necrotic => Api.DamageType.Necrotic,
+            GameEngine.DamageType.Radiant => Api.DamageType.Radiant,
+            GameEngine.DamageType.Lightning => Api.DamageType.Lightning,
+            GameEngine.DamageType.Thunder => Api.DamageType.Thunder,
+            GameEngine.DamageType.Poison => Api.DamageType.Poison,
+            GameEngine.DamageType.Force => Api.DamageType.Force,
+            _ => throw new NotSupportedException(),
+        };
+
     public static Generator.PowerProfileConfig FromApi(this Api.PowerProfileConfig apiModel) =>
         new Generator.PowerProfileConfig(
-            PowerChances: apiModel.PowerChances.Select(p => FromApiToPower(p)).ToImmutableList(),
+            PowerChances: apiModel.PowerChances.Select(FromApiToPower).ToImmutableList(),
+            Name: apiModel.Name
+        );
+
+    public static Api.PowerProfileConfig ToApi(this Generator.PowerProfileConfig apiModel) =>
+        new Api.PowerProfileConfig(
+            PowerChances: apiModel.PowerChances.Select(p => ToApi(p)).ToImmutableList(),
             Name: apiModel.Name
         );
 
     public static Generator.PowerProfileConfig.PowerChance FromApiToPower(this Api.PowerChance apiModel) =>
         new Generator.PowerProfileConfig.PowerChance(apiModel.Selector, apiModel.Weight);
+
+    public static Api.PowerChance ToApi(this Generator.PowerProfileConfig.PowerChance apiModel) =>
+        new Api.PowerChance(apiModel.Selector, apiModel.Weight);
 
     public static GameEngine.Rules.Ability FromApi(this Api.Ability apiModel) =>
         apiModel switch
@@ -55,6 +88,18 @@ public static class ApiConversion
             Api.Ability.Intelligence => Rules.Ability.Intelligence,
             Api.Ability.Wisdom => Rules.Ability.Wisdom,
             Api.Ability.Charisma => Rules.Ability.Charisma,
+            _ => throw new NotSupportedException(),
+        };
+
+    public static Api.Ability ToApi(this GameEngine.Rules.Ability model) =>
+        model switch
+        {
+            Rules.Ability.Strength => Api.Ability.Strength,
+            Rules.Ability.Constitution => Api.Ability.Constitution,
+            Rules.Ability.Dexterity => Api.Ability.Dexterity,
+            Rules.Ability.Intelligence => Api.Ability.Intelligence,
+            Rules.Ability.Wisdom => Api.Ability.Wisdom,
+            Rules.Ability.Charisma => Api.Ability.Charisma,
             _ => throw new NotSupportedException(),
         };
 
@@ -84,6 +129,16 @@ public static class ApiConversion
             _ => throw new NotSupportedException(),
         };
 
+    public static Api.CharacterRole ToApi(this GameEngine.Rules.ClassRole model) =>
+        model switch
+        {
+            GameEngine.Rules.ClassRole.Controller => Api.CharacterRole.Controller,
+            GameEngine.Rules.ClassRole.Defender => Api.CharacterRole.Defender,
+            GameEngine.Rules.ClassRole.Leader => Api.CharacterRole.Leader,
+            GameEngine.Rules.ClassRole.Striker => Api.CharacterRole.Striker,
+            _ => throw new NotSupportedException(),
+        };
+
     public static Api.PowerTextBlock ToApi(this GameEngine.Rules.PowerTextBlock model) =>
         new Api.PowerTextBlock(
             Name: model.Name,
@@ -105,6 +160,8 @@ public static class ApiConversion
 
     public static Api.RulesText ToApi(this GameEngine.Rules.RulesText model) =>
         new Api.RulesText(Label: model.Label, Text: model.Text);
+    public static Api.ClassProfile ToApi(this GameEngine.Web.AsyncServices.ClassDetails model) =>
+        new Api.ClassProfile(Name: model.Name, Locked: model.ProgressState == ProgressState.Locked, Role: model.ClassProfile.Role.ToApi(), PowerSource: model.ClassProfile.PowerSource, Tools: model.ClassProfile.Tools.Select(ToApi).ToImmutableList());
 
     public static Api.PowerProfile ToApi(this GameEngine.Generator.ClassPowerProfile model) =>
         new Api.PowerProfile(

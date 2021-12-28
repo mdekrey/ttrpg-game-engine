@@ -41,14 +41,14 @@ public class AzureTableStorage<T, TTableEntity> : ITableStorage<T>
         await tableClient.UpsertEntityAsync(tableEntity);
     }
 
-    public async IAsyncEnumerable<T> Query(Expression<Func<TableKey, T, bool>> filter)
+    public async IAsyncEnumerable<KeyValuePair<TableKey, T>> Query(Expression<Func<TableKey, T, bool>> filter)
     {
         var newParameter = Expression.Parameter(typeof(TTableEntity));
         var filterExpression = Expression.Lambda<Func<TTableEntity, bool>>(new QueryParameterRewriteVisitor(filter.Parameters, newParameter).Visit(filter.Body), newParameter);
         var pageable = tableClient.QueryAsync(filterExpression);
         await foreach(var entry in pageable)
         {
-            yield return entityFactory(entry);
+            yield return new KeyValuePair<TableKey, T>(new TableKey(entry.PartitionKey, entry.RowKey), entityFactory(entry));
         }
     }
 

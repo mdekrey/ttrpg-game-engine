@@ -11,5 +11,5 @@ public interface ITableStorage<T>
     Task<bool> DeleteAsync(TableKey id);
     Task<StorageStatus<T>> LoadAsync(TableKey id);
     Task SaveAsync(TableKey id, T data);
-    IAsyncEnumerable<T> Query(Expression<Func<TableKey, T, bool>> filter);
+    IAsyncEnumerable<KeyValuePair<TableKey, T>> Query(Expression<Func<TableKey, T, bool>> filter);
 }

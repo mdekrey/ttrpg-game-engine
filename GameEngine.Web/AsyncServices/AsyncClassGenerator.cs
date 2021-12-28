@@ -22,7 +22,7 @@ public class AsyncClassGenerator
     internal async Task<Guid> BeginGeneratingNewClass(ClassProfile classProfile, string name)
     {
         var classId = Guid.NewGuid();
-        var classDetails = new ClassDetails(name, classProfile, InProgress: true);
+        var classDetails = new ClassDetails(name, classProfile, ProgressState: ProgressState.InProgress);
         var key = ClassDetails.ToTableKey(classId);
 
         await classStorage.SaveAsync(key, classDetails).ConfigureAwait(false);
@@ -35,7 +35,7 @@ public class AsyncClassGenerator
     internal async Task ResumeGeneratingNewClass(Guid classId)
     {
         var key = ClassDetails.ToTableKey(classId);
-        if (await classStorage.UpdateAsync(key, t => t with { InProgress = true }) is StorageStatus<ClassDetails>.Success)
+        if (await classStorage.UpdateAsync(key, t => t with { ProgressState = ProgressState.InProgress }) is StorageStatus<ClassDetails>.Success)
             AsyncClassGenerationProcess.Initiate(classId, serviceScopeFactory);
     }
 }

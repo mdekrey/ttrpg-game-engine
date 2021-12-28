@@ -32,13 +32,16 @@ class AsyncClassGenerationProcess
 
     public async Task Run()
     {
-        var classProfile = (await GetClassDetails().ConfigureAwait(false)).ClassProfile;
-        var powers = await LoadPowers();
+        var details = await GetClassDetails().ConfigureAwait(false);
+        if (details.ProgressState != ProgressState.InProgress)
+            return;
+        var classProfile = details.ClassProfile;
 
         var addingTask = Task.CompletedTask;
         var shouldContinue = true;
         while (shouldContinue)
         {
+            var powers = await LoadPowers();
             var result = powers.Select(p => p.Profile).ToImmutableList();
             shouldContinue = false;
             powerGenerator.GeneratePowerProfiles(classProfile, () => result, newPower =>
@@ -47,16 +50,14 @@ class AsyncClassGenerationProcess
                 result = result.Add(newPower);
                 addingTask = addingTask.ContinueWith(async t =>
                 {
+                    var details = await GetClassDetails().ConfigureAwait(false);
+                    if (details.ProgressState != ProgressState.InProgress)
+                        return;
                     await AddAsync(newPower).ConfigureAwait(false);
                 }).Unwrap();
             });
-            if (shouldContinue)
-            {
-                await addingTask.ConfigureAwait(false);
-                powers = await LoadPowers();
-            }
+            await addingTask.ConfigureAwait(false);
         }
-        await addingTask.ConfigureAwait(false);
         await FinishAsync().ConfigureAwait(false);
     }
 
@@ -80,16 +81,16 @@ class AsyncClassGenerationProcess
     private async Task<ImmutableList<PowerDetails>> LoadPowers()
     {
         var partitionKey = classId.ToString();
-        return (await powerStorage.Query((key, power) => key.PartitionKey == partitionKey).ToArrayAsync()).ToImmutableList();
+        return (await powerStorage.Query((key, power) => key.PartitionKey == partitionKey).Select(kvp => kvp.Value).ToArrayAsync()).ToImmutableList();
     }
 
     private async Task<bool> FinishAsync()
     {
         var loadedClass = await classStorage.LoadAsync(classTableKey);
-        if (loadedClass is not StorageStatus<ClassDetails>.Success { Value: var value } || value.InProgress == false)
+        if (loadedClass is not StorageStatus<ClassDetails>.Success { Value: var value } || value.ProgressState != ProgressState.InProgress)
             return false;
-        
-        await classStorage.SaveAsync(classTableKey, value with { InProgress = false });
+
+        await classStorage.SaveAsync(classTableKey, value with { ProgressState = ProgressState.Finished });
         return true;
     }
 

@@ -1,0 +1,6 @@
+﻿@page "/class/view/{id:guid}"
+@model GameEngine.Web.Pages.Class.ViewModel
+@{
+}
+
+@await Html.React("pages/power-editor/power-editor", new { Model.ClassId })

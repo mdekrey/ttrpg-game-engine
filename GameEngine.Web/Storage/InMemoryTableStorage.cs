@@ -42,10 +42,10 @@ public class InMemoryTableStorage<T> : ITableStorage<T>
         return data.TryRemove(id, out JToken _);
     }
 
-    public IAsyncEnumerable<T> Query(Expression<Func<TableKey, T, bool>> filter)
+    public IAsyncEnumerable<KeyValuePair<TableKey, T>> Query(Expression<Func<TableKey, T, bool>> filter)
     {
         // This compilation should be cached for production loads
         var compiled = filter.Compile();
-        return data.Select(kvp => (kvp.Key, Value: kvp.Value.ToObject<T>(jsonSerializer)!)).Where(kvp => compiled(kvp.Key, kvp.Value)).Select(kvp => kvp.Value).ToAsyncEnumerable();
+        return data.Select(kvp => (kvp.Key, Value: kvp.Value.ToObject<T>(jsonSerializer)!)).Where(kvp => compiled(kvp.Key, kvp.Value)).Select(kvp => new KeyValuePair<TableKey, T>(kvp.Key, kvp.Value)).ToAsyncEnumerable();
     }
 }

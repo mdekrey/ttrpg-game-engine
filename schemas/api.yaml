@@ -59,12 +59,15 @@ components:
       type: object
       required:
         - name
+        - locked
         - role
         - powerSource
         - tools
       properties:
         name:
           type: string
+        locked:
+          type: boolean
         role:
           $ref: '#/components/schemas/CharacterRole'
         powerSource:
