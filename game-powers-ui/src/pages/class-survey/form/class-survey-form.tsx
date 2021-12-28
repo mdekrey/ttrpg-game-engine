@@ -21,7 +21,7 @@ export function ClassSurveyForm({
 	defaultValues?: ClassProfile;
 }) {
 	const [tools, setTools] = useState([defaultToolProfile]);
-	const { handleSubmit, ...form } = useGameForm<Omit<ClassProfile, 'tools'>>({
+	const { handleSubmit, ...form } = useGameForm<Omit<ClassProfile, 'tools' | 'locked'>>({
 		defaultValues: defaultValues || {
 			name: 'Custom Class',
 			role: 'Controller',
@@ -33,7 +33,7 @@ export function ClassSurveyForm({
 	const role = form.watch('role');
 	const powerSource = form.watch('powerSource');
 	const classProfile: ClassProfile = useMemo(
-		() => ({ name: 'Unimportant', role, powerSource, tools }),
+		() => ({ name: 'Unimportant', role, powerSource, tools, locked: false }),
 		[role, powerSource, tools]
 	);
 
@@ -43,7 +43,7 @@ export function ClassSurveyForm({
 			onSubmit={
 				onSubmit &&
 				handleSubmit((value) => {
-					onSubmit({ ...value, tools });
+					onSubmit({ ...value, tools, locked: false });
 				})
 			}>
 			<Card className="grid grid-cols-6 gap-6">

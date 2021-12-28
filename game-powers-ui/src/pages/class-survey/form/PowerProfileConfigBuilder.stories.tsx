@@ -15,6 +15,7 @@ const powerProfile: SamplePowerRequestBody = {
 		name: 'Unimportant',
 		role: 'Controller',
 		powerSource: 'Martial',
+		locked: false,
 		tools: [defaultToolProfile],
 	},
 	toolIndex: 0,

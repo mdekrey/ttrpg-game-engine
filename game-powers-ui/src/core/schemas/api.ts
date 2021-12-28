@@ -58,8 +58,9 @@ export const classSurveySchema: yup.SchemaOf<ClassProfile> = yup.object({
 	role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
 	powerSource: yup.string().required().label('Power Source'),
 	tools: yup.array(toolSurveySchema).min(1, 'Must have at least one tool'),
+	locked: yup.bool().required().label('Locked'),
 });
-export const classSurveySchemaWithoutTools: yup.SchemaOf<Omit<ClassProfile, 'tools'>> = yup.object({
+export const classSurveySchemaWithoutTools: yup.SchemaOf<Omit<ClassProfile, 'tools' | 'locked'>> = yup.object({
 	name: yup.string().required().label('Name'),
 	role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
 	powerSource: yup.string().required().label('Power Source'),

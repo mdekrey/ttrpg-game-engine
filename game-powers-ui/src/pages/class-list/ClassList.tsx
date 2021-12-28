@@ -1,13 +1,9 @@
 import { sortBy } from 'lodash/fp';
 import { ClassProfile } from 'api/models/ClassProfile';
 import { ReaderLayout } from 'components/reader-layout';
+import { LockClosedIcon, PencilIcon } from '@heroicons/react/solid';
 
-type ClassEntry = {
-	name: string;
-	classProfile: ClassProfile;
-};
-
-export function ClassList({ data: { classes } }: { data: { classes: Record<string, ClassEntry> } }) {
+export function ClassList({ data: { classes } }: { data: { classes: Record<string, ClassProfile> } }) {
 	const eachClass = sortBy(
 		(v) => v.name,
 		Object.keys(classes).map((key) => ({ id: key, ...classes[key] }))
@@ -15,11 +11,18 @@ export function ClassList({ data: { classes } }: { data: { classes: Record<strin
 	return (
 		<ReaderLayout>
 			<ul className="list-disc ml-6 theme-4e-list">
-				{eachClass.map(({ id, name }) => (
+				{eachClass.map(({ id, name, locked }) => (
 					<li key={id} className="my-1">
 						<a href={`/class/${id}`} className="underline text-theme">
 							{name}
 						</a>
+						{locked ? (
+							<LockClosedIcon className="w-5 h-5" />
+						) : (
+							<a href={`/class/edit/${id}`} className="underline text-theme">
+								<PencilIcon className="w-5 h-5 inline-block" />
+							</a>
+						)}
 					</li>
 				))}
 			</ul>
