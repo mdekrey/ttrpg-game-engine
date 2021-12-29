@@ -5,5 +5,6 @@
         InitializeAttacks,
         Standard,
         Finalize,
+        Finished,
     }
 }

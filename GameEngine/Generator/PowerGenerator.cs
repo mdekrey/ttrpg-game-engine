@@ -131,19 +131,28 @@ namespace GameEngine.Generator
         public PowerProfile? GenerateProfile(PowerHighLevelInfo powerInfo, IEnumerable<PowerProfile>? exclude = null)
         {
             var toExclude = (exclude ?? Enumerable.Empty<PowerProfile>()).Concat(BasicPowers.All);
-            var limits = GetLimits(powerInfo);
-            var root = RootBuilder(powerInfo);
-            var buildContext = new LimitBuildContext(powerInfo, limits);
+            PowerGeneratorState state = GetInitialBuildState(powerInfo); var original = state.PowerProfile;
 
-            var powerProfileBuilder = root;
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, buildContext, UpgradeStage.Standard, exclude: toExclude, preApplyOnce: true);
-            powerProfileBuilder = ApplyUpgrades(powerProfileBuilder, buildContext, UpgradeStage.Finalize, exclude: toExclude);
+            while (state.Stage != UpgradeStage.Finished)
+            {
+#if DEBUG
+                if (state.Iteration > 50)
+                    System.Diagnostics.Debugger.Break();
+#endif
+                state = DoIteration(state, toExclude);
+            }
 
-            if (powerProfileBuilder == root)
+            var powerProfileBuilder = state.PowerProfile;
+            if (powerProfileBuilder == original)
                 return null;
 
             powerProfileBuilder = AddFinishingTouches(powerProfileBuilder, powerInfo);
-            return buildContext.Build(powerProfileBuilder);
+            return state.BuildContext.Build(powerProfileBuilder);
+        }
+
+        public PowerGeneratorState GetInitialBuildState(PowerHighLevelInfo powerInfo)
+        {
+            return new PowerGeneratorState(0, RootBuilder(powerInfo), new LimitBuildContext(powerInfo, GetLimits(powerInfo)), UpgradeStage.InitializeAttacks);
         }
 
         public static PowerProfile AddFinishingTouches(PowerProfile powerProfileBuilder, PowerHighLevelInfo powerInfo)
@@ -169,45 +178,46 @@ namespace GameEngine.Generator
             return limits;
         }
 
-        public PowerProfile ApplyUpgrades(PowerProfile powerProfileBuilder, IBuildContext buildContext, UpgradeStage stage, IEnumerable<PowerProfile> exclude, bool preApplyOnce = false)
+        public PowerGeneratorState DoIteration(PowerGeneratorState state, IEnumerable<PowerProfile> exclude)
         {
-#if DEBUG
-            int count = 0;
-#endif
-            while (true)
+            var upgrades = GetPossibleUpgrades(state);
+            var preChance = (from entry in upgrades
+                             let builtEntry = state.BuildContext.Build(entry)
+                             where !exclude.Contains(builtEntry)
+                             select entry).ToArray();
+            var validModifiers = preChance.ToChances(state.BuildContext).ToArray();
+            var resultPowerProfile = validModifiers.Length == 0
+                ? state.PowerProfile
+                : randomGenerator.RandomSelection(validModifiers);
+
+            return state with
             {
-#if DEBUG
-                if (count > 50)
-                    System.Diagnostics.Debugger.Break();
-                count += 1;
-#endif
-                var oldBuilder = powerProfileBuilder;
-                var upgrades = powerProfileBuilder.GetUpgrades(buildContext.PowerInfo, stage).Where(buildContext.IsValid);
-                if (preApplyOnce)
+                Iteration = state.Iteration + 1,
+                PowerProfile = resultPowerProfile,
+                Stage = state.Stage switch
                 {
-#if DEBUG
-                    var filtered = upgrades.Where(e => e.AllModifiers(true).Any(m => m is RerollAnyFormula.RerollDamage)).ToArray();
-#endif
-
-                    var preApplyUpgrades = upgrades.ToChances(buildContext).ToArray();
-                    var temp = preApplyUpgrades.Select(d => d.Result).PreApply(buildContext);
-                    if (temp.Any())
-                        upgrades = temp;
-                    preApplyOnce = false;
+                    UpgradeStage.Finalize when state.PowerProfile == resultPowerProfile => UpgradeStage.Finished,
+                    _ when state.PowerProfile == resultPowerProfile => UpgradeStage.Finalize,
+                    UpgradeStage.InitializeAttacks => UpgradeStage.Standard,
+                    _ => state.Stage,
                 }
-                var preChance = (from entry in upgrades
-                                 let builtEntry = buildContext.Build(entry)
-                                 where !exclude.Contains(builtEntry)
-                                 select entry).ToArray();
-                var validModifiers = preChance.ToChances(buildContext).ToArray();
-                if (validModifiers.Length == 0)
-                    break;
-                powerProfileBuilder = randomGenerator.RandomSelection(validModifiers);
+            };
+        }
 
-                if (oldBuilder == powerProfileBuilder)
-                    break;
+        public static IEnumerable<PowerProfile> GetPossibleUpgrades(PowerGeneratorState state)
+        {
+            var upgrades = state.PowerProfile
+                .GetUpgrades(state.BuildContext.PowerInfo, state.Stage switch { UpgradeStage.InitializeAttacks => UpgradeStage.Standard, var v => v })
+                .Where(state.BuildContext.IsValid);
+            if (state.Stage == UpgradeStage.InitializeAttacks)
+            {
+                var preApplyUpgrades = upgrades.ToChances(state.BuildContext).ToArray();
+                var temp = preApplyUpgrades.Select(d => d.Result).PreApply(state.BuildContext);
+                if (temp.Any())
+                    upgrades = temp;
             }
-            return powerProfileBuilder;
+
+            return upgrades;
         }
 
         private PowerProfile RootBuilder(PowerHighLevelInfo info)
