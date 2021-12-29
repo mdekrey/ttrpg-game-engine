@@ -4,6 +4,7 @@ import { pipeJsx } from 'core/jsx/pipeJsx';
 import { Fragment } from 'react';
 
 const sizes = {
+	medium: <div className="sm:max-w-screen-sm md:max-w-screen-md" />,
 	full: <div className="w-full max-w-screen-xl" />,
 };
 

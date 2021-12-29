@@ -17,7 +17,7 @@ export function ClassList({ data: { classes } }: { data: { classes: Record<strin
 							{name}
 						</a>
 						{state === 'Read-Only' ? (
-							<LockClosedIcon className="w-5 h-5" />
+							<LockClosedIcon className="w-5 h-5 inline-block" />
 						) : (
 							<a href={`/class/edit/${id}`} className="underline text-theme">
 								<PencilIcon className="w-5 h-5 inline-block" />

@@ -14,13 +14,15 @@ import { defaultToolProfile } from './defaultToolProfile';
 export function ClassSurveyForm({
 	className,
 	onSubmit,
+	onCancel,
 	defaultValues,
 }: {
 	className?: string;
 	onSubmit?: (form: EditableClassProfile) => void;
+	onCancel?: () => void;
 	defaultValues?: EditableClassProfile;
 }) {
-	const [tools, setTools] = useState([defaultToolProfile]);
+	const [tools, setTools] = useState(defaultValues?.tools || [defaultToolProfile]);
 	const { handleSubmit, ...form } = useGameForm<Omit<EditableClassProfile, 'tools'>>({
 		defaultValues: defaultValues || {
 			name: 'Custom Class',
@@ -66,6 +68,11 @@ export function ClassSurveyForm({
 			<Card className="grid grid-cols-6 gap-6 mt-6">
 				<ButtonRow className="col-span-6">
 					<Button type="submit">Submit</Button>
+					{onCancel && (
+						<Button type="button" onClick={onCancel} look="cancel">
+							Cancel
+						</Button>
+					)}
 				</ButtonRow>
 			</Card>
 		</form>

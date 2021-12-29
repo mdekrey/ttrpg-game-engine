@@ -220,6 +220,9 @@ public static class ApiConversion
     public static Api.ClassDetailsReadOnly ToApi(this ClassDetails generatedClassDetails, IEnumerable<PowerDetails> powers) =>
         new ClassDetailsReadOnly(
             Name: generatedClassDetails.Name,
+            Role: generatedClassDetails.ClassProfile.Role.ToApi(),
+            PowerSource: generatedClassDetails.ClassProfile.PowerSource,
+            Tools: generatedClassDetails.ClassProfile.Tools.Select(ToApi),
             State: generatedClassDetails.ProgressState.ToApi(),
             Powers: powers.Select(p => p.ToApi())
         );

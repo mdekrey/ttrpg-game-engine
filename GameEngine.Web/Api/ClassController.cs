@@ -33,6 +33,27 @@ public class ClassController : ClassControllerBase
         return TypeSafeGeneratePowersResult.Ok(new GeneratePowersResponse(id.ToString()));
     }
 
+    protected override async Task<TypeSafeUpdateClassResult> UpdateClassTypeSafe(string id, EditableClassProfile updateClassBody)
+    {
+        if (!Guid.TryParse(id, out var classId))
+            return TypeSafeUpdateClassResult.NotFound();
+        if (!ModelState.IsValid) return TypeSafeUpdateClassResult.BadRequest(ModelState.ToApiModelErrors());
+        var key = ClassDetails.ToTableKey(classId);
+        if (await classStorage.LoadAsync(key) is not StorageStatus<ClassDetails>.Success { Value: var classProfile } || classProfile.ProgressState == AsyncServices.ProgressState.Deleted)
+            return TypeSafeUpdateClassResult.NotFound();
+        if (classProfile.ProgressState == AsyncServices.ProgressState.Locked)
+            return TypeSafeUpdateClassResult.Conflict();
+
+        if (await classStorage.UpdateAsync(key, cd => cd with
+        {
+            Name = updateClassBody.Name,
+            ClassProfile = updateClassBody.FromApi(),
+        }) is not StorageStatus<ClassDetails>.Success)
+            return TypeSafeUpdateClassResult.Conflict();
+
+        return TypeSafeUpdateClassResult.NoContent();
+    }
+
     protected override async Task<TypeSafeGetClassResult> GetClassTypeSafe(string id)
     {
         if (!Guid.TryParse(id, out var guid))
@@ -88,5 +109,41 @@ public class ClassController : ClassControllerBase
         return status is StorageStatus<PowerDetails>.Success
             ? TypeSafeSetPowerFlavorResult.Ok()
             : TypeSafeSetPowerFlavorResult.Conflict();
+    }
+
+    protected override async Task<TypeSafeLockClassResult> LockClassTypeSafe(string id)
+    {
+        if (!Guid.TryParse(id, out var classId))
+            return TypeSafeLockClassResult.NotFound();
+        var key = ClassDetails.ToTableKey(classId);
+        if (await classStorage.LoadAsync(key) is not StorageStatus<ClassDetails>.Success { Value: var classProfile } || classProfile.ProgressState == AsyncServices.ProgressState.Deleted)
+            return TypeSafeLockClassResult.NotFound();
+        if (classProfile.ProgressState is AsyncServices.ProgressState.Locked)
+            return TypeSafeLockClassResult.Conflict();
+
+        if (await classStorage.UpdateAsync(key, cd => cd with
+        {
+            ProgressState = AsyncServices.ProgressState.Locked,
+        }) is not StorageStatus<ClassDetails>.Success)
+            return TypeSafeLockClassResult.Conflict();
+
+        return TypeSafeLockClassResult.NoContent();
+    }
+
+    protected override async Task<TypeSafeDeleteClassResult> DeleteClassTypeSafe(string id)
+    {
+        if (!Guid.TryParse(id, out var classId))
+            return TypeSafeDeleteClassResult.NotFound();
+        var key = ClassDetails.ToTableKey(classId);
+        if (await classStorage.LoadAsync(key) is not StorageStatus<ClassDetails>.Success { Value: var classProfile } || classProfile.ProgressState == AsyncServices.ProgressState.Deleted)
+            return TypeSafeDeleteClassResult.NotFound();
+
+        if (await classStorage.UpdateAsync(key, cd => cd with
+        {
+            ProgressState = AsyncServices.ProgressState.Deleted,
+        }) is not StorageStatus<ClassDetails>.Success)
+            return TypeSafeDeleteClassResult.NotFound();
+
+        return TypeSafeDeleteClassResult.NoContent();
     }
 }
