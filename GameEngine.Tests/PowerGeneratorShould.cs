@@ -96,7 +96,7 @@ namespace GameEngine.Tests
 
             var (toolProfile, classProfile, powerProfileConfig) = GetToolProfile(configName, powerTemplate);
 
-            return (target, new(level, powerFrequency, toolProfile, classProfile, powerProfileConfig));
+            return (target, new(level, powerFrequency, classProfile, toolProfile, powerProfileConfig));
         }
 
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, MultiattackPowerTemplateName, 2)]
@@ -144,7 +144,7 @@ namespace GameEngine.Tests
 
             var (toolProfile, classProfile, powerProfileConfig) = GetToolProfile(configName, powerTemplate);
 
-            var powerHighLevelInfo = new PowerHighLevelInfo(level, powerFrequency, toolProfile, classProfile, powerProfileConfig);
+            var powerHighLevelInfo = new PowerHighLevelInfo(level, powerFrequency, classProfile, toolProfile, powerProfileConfig);
             var powerProfile = new ClassPowerProfile(powerHighLevelInfo.ToPowerInfo(), target.GenerateProfile(powerHighLevelInfo)!);
 
             Assert.NotNull(powerProfile.PowerProfile);
@@ -207,7 +207,7 @@ namespace GameEngine.Tests
 
             var (toolProfile, classProfile, powerProfileConfig) = GetToolProfile(configName, powerTemplate);
 
-            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, toolProfile, classProfile, powerProfileConfig))!;
+            var powerProfile = target.GenerateProfile(new(Level, powerFrequency, classProfile, toolProfile, powerProfileConfig))!;
 
             var serializer = new Newtonsoft.Json.JsonSerializer();
             foreach (var converter in ProfileSerialization.GetJsonConverters())
@@ -379,7 +379,7 @@ namespace GameEngine.Tests
             );
         }
 
-        private static (ToolProfile toolProfile, ClassProfile classProfile, PowerProfileConfig powerProfileConfig) GetToolProfile(string configName, string powerTemplate)
+        private static (int toolProfileIndex, ClassProfile classProfile, int powerProfileConfigIndex) GetToolProfile(string configName, string powerTemplate)
         {
             var classProfile = profiles[configName];
             var tool = classProfile.Tools.First();
@@ -388,7 +388,7 @@ namespace GameEngine.Tests
             {
                 PowerProfileConfigs = Build(powerProfileConfig),
             };
-            return (resultTool, classProfile with { Tools = Build(resultTool) }, powerProfileConfig);
+            return (0, classProfile with { Tools = Build(resultTool) }, 0);
         }
 
         private static readonly ImmutableDictionary<string, ClassProfile> classProfiles = new Dictionary<string, ClassProfile>

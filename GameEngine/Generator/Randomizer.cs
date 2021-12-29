@@ -11,12 +11,12 @@ namespace GameEngine.Generator
 
     public static class Randomizer
     {
-        public static IReadOnlyList<T> Shuffle<T>(this IReadOnlyList<T> source, RandomGenerator randomGenerator)
+        public static IReadOnlyList<T> Shuffle<T>(this IEnumerable<T> source, RandomGenerator randomGenerator)
         {
-            if (source.Count <= 1)
-                return source;
-            var result = new List<T>();
             var temp = source.ToImmutableList();
+            if (temp.Count <= 1)
+                return temp;
+            var result = new List<T>();
             while (temp.Count > 1)
             {
                 var index = randomGenerator(0, temp.Count);

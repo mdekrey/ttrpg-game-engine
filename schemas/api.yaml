@@ -255,6 +255,26 @@ components:
         - In Progress
         - Finished
         - Read-Only
+    PowerHighLevelInfo:
+      type: object
+      required:
+        - level
+        - usage
+        - classProfile
+        - toolIndex
+        - powerProfileIndex
+      properties:
+        level: { type: integer }
+        usage: { $ref: '#/components/schemas/PowerFrequency' }
+        classProfile: { $ref: '#/components/schemas/EditableClassProfile' }
+        toolIndex: { type: integer }
+        powerProfileIndex: { type: integer }
+    PowerGeneratorChoices:
+      type: object
+      required:
+        - iteration
+      properties:
+        iteration: { type: integer }
 paths:
   /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power
@@ -264,27 +284,7 @@ paths:
         required: true
         content:
           application/json:
-            schema:
-              type: object
-              required:
-                - classProfile
-                - toolIndex
-                - powerProfileIndex
-                - level
-                - usage
-              properties:
-                classProfile:
-                  $ref: '#/components/schemas/EditableClassProfile'
-                toolIndex:
-                  type: integer
-                  minimum: 0
-                powerProfileIndex:
-                  type: integer
-                  minimum: 0
-                level:
-                  type: integer
-                usage:
-                  $ref: '#/components/schemas/PowerFrequency'
+            schema: { $ref: '#/components/schemas/PowerHighLevelInfo' }
       responses:
         200:
           description: OK
@@ -457,3 +457,41 @@ paths:
           description: Class or power not found
         409:
           description: Failed to save due to async changes
+  # /api/power/begin-generation:
+  #   x-dotnet-mvc-server-controller: PowerGeneration
+  #   post:
+  #     operationId: beginPowerGeneration
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/PowerHighLevelInfo'
+  #     responses:
+  #       200:
+  #         description: OK
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/PowerGeneratorChoices'
+  #       400:
+  #         $ref: '#/components/responses/ModelValidation'
+  # /api/power/continue-generation:
+  #   x-dotnet-mvc-server-controller: PowerGeneration
+  #   post:
+  #     operationId: beginPowerGeneration
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/PowerGeneratorState'
+  #     responses:
+  #       200:
+  #         description: OK
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/PowerGeneratorChoices'
+  #       400:
+  #         $ref: '#/components/responses/ModelValidation'

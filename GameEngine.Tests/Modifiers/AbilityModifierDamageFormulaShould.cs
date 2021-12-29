@@ -29,9 +29,9 @@ namespace GameEngine.Tests.Modifiers
             PowerHighLevelInfo info = new PowerHighLevelInfo(
                                 1,
                                 Rules.PowerFrequency.Daily,
-                                ToolProfile: tool,
                                 ClassProfile: new ClassProfile(Rules.ClassRole.Striker, PowerSource.Martial, Build(tool)),
-                                PowerProfileConfig: tool.PowerProfileConfigs[0]
+                                ToolProfileIndex: 0,
+                                PowerProfileConfigIndex: 0
                             );
             var attack = new AttackProfile(
                 Target: new BasicTarget(Target.Enemy | Target.Ally | Target.Self), 

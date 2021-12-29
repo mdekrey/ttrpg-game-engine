@@ -61,6 +61,14 @@ public static class ApiConversion
             _ => throw new NotSupportedException(),
         };
 
+    public static Generator.PowerHighLevelInfo FromApi(this Api.PowerHighLevelInfo apiModel) =>
+        new Generator.PowerHighLevelInfo(
+            Level: apiModel.Level,
+            Usage: apiModel.Usage.FromApi(),
+            ClassProfile: apiModel.ClassProfile.FromApi(),
+            ToolProfileIndex: apiModel.ToolIndex,
+            PowerProfileConfigIndex: apiModel.PowerProfileIndex);
+
     public static Generator.PowerProfileConfig FromApi(this Api.PowerProfileConfig apiModel) =>
         new Generator.PowerProfileConfig(
             PowerChances: apiModel.PowerChances.Select(FromApiToPower).ToImmutableList(),

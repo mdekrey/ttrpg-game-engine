@@ -91,8 +91,8 @@ namespace GameEngine.Generator
 
         public IEnumerable<IEnumerable<ClassPowerProfile>> GeneratePowerProfileSelection(int level, PowerFrequency usage, ClassProfile classProfile, IEnumerable<PowerProfile>? exclude = null)
         {
-            return from tool in classProfile.Tools.Shuffle(randomGenerator)
-                   select (from powerProfileConfig in tool.PowerProfileConfigs.Shuffle(randomGenerator)
+            return from tool in classProfile.Tools.Select((t, i) => i).Shuffle(randomGenerator)
+                   select (from powerProfileConfig in classProfile.Tools[tool].PowerProfileConfigs.Select((c, i) => i).Shuffle(randomGenerator)
                            let powerInfo = GetPowerInfo(tool, powerProfileConfig)
                            let power = BuildPower(powerInfo)
                            where power != null
@@ -122,9 +122,9 @@ namespace GameEngine.Generator
                 }
             }
 
-            PowerHighLevelInfo GetPowerInfo(ToolProfile tool, PowerProfileConfig powerProfileConfig)
+            PowerHighLevelInfo GetPowerInfo(int toolIndex, int powerProfileConfigIndex)
             {
-                return new(Level: level, Usage: usage, ClassProfile: classProfile, ToolProfile: tool, PowerProfileConfig: powerProfileConfig);
+                return new(Level: level, Usage: usage, ClassProfile: classProfile, ToolProfileIndex: toolIndex, PowerProfileConfigIndex: powerProfileConfigIndex);
             }
         }
 
@@ -137,7 +137,10 @@ namespace GameEngine.Generator
             {
 #if DEBUG
                 if (state.Iteration > 50)
+                {
                     System.Diagnostics.Debugger.Break();
+                    break;
+                }
 #endif
                 state = DoIteration(state, toExclude);
             }

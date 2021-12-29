@@ -16,18 +16,10 @@ public class PowerController : PowerControllerBase
         this.powerGenerator = new PowerGenerator(new Random().Next, powerGeneratorLogger);
     }
 
-    protected override Task<TypeSafeGenerateSamplePowerResult> GenerateSamplePowerTypeSafe(GenerateSamplePowerRequest generateSamplePowerBody)
+    protected override Task<TypeSafeGenerateSamplePowerResult> GenerateSamplePowerTypeSafe(Api.PowerHighLevelInfo generateSamplePowerBody)
     {
         if (!ModelState.IsValid) return Task.FromResult(TypeSafeGenerateSamplePowerResult.BadRequest(ModelState.ToApiModelErrors()));
-        var classProfile = generateSamplePowerBody.ClassProfile.FromApi();
-        var toolProfile = classProfile.Tools[generateSamplePowerBody.ToolIndex];
-        var powerProfileConfig = toolProfile.PowerProfileConfigs[generateSamplePowerBody.PowerProfileIndex];
-        var powerInfo = new PowerHighLevelInfo(
-                    Level: generateSamplePowerBody.Level,
-                    Usage: generateSamplePowerBody.Usage.FromApi(),
-                    ClassProfile: classProfile,
-                    ToolProfile: toolProfile,
-                    PowerProfileConfig: powerProfileConfig);
+        var powerInfo = generateSamplePowerBody.FromApi();
         var powerProfile = powerGenerator.GenerateProfile(powerInfo);
 
         if (powerProfile == null)
