@@ -83,15 +83,6 @@ else
     app.UseHsts();
 }
 
-app.Use(async (context, next) =>
-{
-    await next();
-    if (context.Response.StatusCode == 404)
-    {
-        context.Response.Redirect("/");
-    }
-});
-
 app.UseHttpsRedirection();
 app.UseStaticFiles(new StaticFileOptions
 {
@@ -105,7 +96,15 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllers();
-app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+        endpoints.MapRazorPages();
+        endpoints.MapFallback((context) =>
+        {
+            context.Response.Redirect("/");
+            return System.Threading.Tasks.Task.CompletedTask;
+        });
+    });
 
 app.Run();

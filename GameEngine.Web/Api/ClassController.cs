@@ -61,7 +61,7 @@ public class ClassController : ClassControllerBase
         var status = await classStorage.LoadAsync(ClassDetails.ToTableKey(guid)).ConfigureAwait(false);
         var powers = await powerStorage.Query((key, power) => key.PartitionKey == id.ToString()).ToArrayAsync();
 
-        return status is StorageStatus<ClassDetails>.Success { Value: var classDetails }
+        return status is StorageStatus<ClassDetails>.Success { Value: var classDetails } && classDetails.ProgressState != AsyncServices.ProgressState.Deleted
             ? TypeSafeGetClassResult.Ok(new(
                 Original: classDetails.ToApi(from v in powers
                                              orderby v.Value.Profile.PowerInfo.Level, v.Value.Profile.PowerInfo.Usage

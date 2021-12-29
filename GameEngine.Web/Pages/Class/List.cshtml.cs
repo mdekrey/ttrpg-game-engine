@@ -23,7 +23,7 @@ namespace GameEngine.Web.Pages.Class
 
         public async Task OnGet()
         {
-            Classes = await (from kvp in classStorage.Query((key, c) => c.Name != null)
+            Classes = await (from kvp in classStorage.Query((key, c) => c.ProgressState != AsyncServices.ProgressState.Deleted).Where(c => c.Value.ProgressState != AsyncServices.ProgressState.Deleted)
                              select new KeyValuePair<Guid, ClassDetails>(ClassDetails.IdFromTableKey(kvp.Key), kvp.Value)).ToDictionaryAsync(kvp => kvp.Key, kvp => kvp.Value.ToApi());
         }
     }

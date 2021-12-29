@@ -1,4 +1,4 @@
-import { PencilIcon, LockOpenIcon } from '@heroicons/react/solid';
+import { PencilIcon, LockOpenIcon, TrashIcon } from '@heroicons/react/solid';
 import { ClassDetailsReadOnly } from 'api/models/ClassDetailsReadOnly';
 import { EditableClassProfile } from 'api/models/EditableClassProfile';
 import { Button } from 'components/button/Button';
@@ -7,11 +7,11 @@ import { Modal } from 'components/modal/modal';
 import { ReaderLayout } from 'components/reader-layout';
 import { useApi } from 'core/hooks/useApi';
 import { useObservable } from 'core/hooks/useObservable';
-import { initial, makeError, makeLoaded, makeLoading } from 'core/loadable/loadable';
+import { initial, isLoaded, makeError, makeLoaded, makeLoading } from 'core/loadable/loadable';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { groupBy } from 'lodash/fp';
 import { ClassSurveyForm } from 'pages/class-survey/form/class-survey-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { delay, map, repeatWhen, switchAll, takeWhile } from 'rxjs/operators';
 import useConstant from 'use-constant';
@@ -20,8 +20,7 @@ import { PowerSection } from './powers/PowerSection';
 type ReasonCode = 'NotFound';
 
 export function PowerEditor({ data: { classId } }: { data: { classId: string } }) {
-	const [editingClass, setEditingClass] = useState(false);
-	const [considerLock, setConsiderLock] = useState(false);
+	const [modalState, setModalState] = useState<'None' | 'Edit' | 'Lock' | 'Delete'>('None');
 	const restartPolling = useConstant(() => new BehaviorSubject<void>(undefined));
 	const api = useApi();
 	const data = useObservable(
@@ -47,9 +46,13 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 		[classId] as const
 	);
 
+	useEffect(() => {
+		if (isLoaded(data) && data.value.state === 'Read-Only') window.location.href = `/class/${classId}`;
+	}, [data, classId]);
+
 	const updateClass = async (newData: EditableClassProfile) => {
 		await api.updateClass({ body: newData, params: { id: classId } }).toPromise();
-		setEditingClass(false);
+		setModalState('None');
 		restartPolling.next();
 	};
 
@@ -57,6 +60,16 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 		await api.lockClass({ params: { id: classId } }).toPromise();
 		window.location.href = `/class/${classId}`;
 	};
+
+	const deleteClass = async () => {
+		await api.deleteClass({ params: { id: classId } }).toPromise();
+		window.location.href = `/`;
+	};
+
+	const closeModal = () => setModalState('None');
+	const setEditingClass = () => setModalState('Edit');
+	const setConsiderLock = () => setModalState('Lock');
+	const setConsiderDelete = () => setModalState('Delete');
 
 	return (
 		<div className="p-8">
@@ -70,11 +83,14 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 							<ReaderLayout>
 								<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl">
 									{loaded.original.name}
-									<Button className="ml-2" contents="icon" look="primary" onClick={() => setEditingClass(true)}>
+									<Button className="ml-2" contents="icon" look="primary" onClick={() => setEditingClass()}>
 										<PencilIcon className="w-5 h-5 inline-block" />
 									</Button>
-									<Button className="ml-2" contents="icon" look="primary" onClick={() => setConsiderLock(true)}>
+									<Button className="ml-2" contents="icon" look="primary" onClick={() => setConsiderLock()}>
 										<LockOpenIcon className="w-5 h-5 inline-block" />
+									</Button>
+									<Button className="ml-2" contents="icon" look="cancel" onClick={() => setConsiderDelete()}>
+										<TrashIcon className="w-5 h-5 inline-block" />
 									</Button>
 								</h1>
 								{Object.keys(powers).map((header) => (
@@ -88,19 +104,26 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 								))}
 							</ReaderLayout>
 							{isLoadingNext ? <>Loading</> : null}
-							<Modal show={editingClass} onClose={() => setEditingClass(false)} title="Alter Class" size="full">
-								<ClassSurveyForm
-									defaultValues={loaded.original}
-									onSubmit={updateClass}
-									onCancel={() => setEditingClass(false)}
-								/>
+							<Modal show={modalState === 'Edit'} onClose={closeModal} title="Alter Class" size="full">
+								<ClassSurveyForm defaultValues={loaded.original} onSubmit={updateClass} onCancel={closeModal} />
 							</Modal>
-							<Modal show={considerLock} onClose={() => setConsiderLock(false)} title="Lock Class" size="medium">
+							<Modal show={modalState === 'Lock'} onClose={closeModal} title="Lock Class" size="medium">
 								<form onSubmit={lockClass}>
 									<p>Locking the class cannot be undone. Are you sure all your edits are complete?</p>
 									<ButtonRow className="col-span-6">
 										<Button type="submit">Lock</Button>
-										<Button type="button" onClick={() => setConsiderLock(false)} look="cancel">
+										<Button type="button" onClick={closeModal} look="cancel">
+											Cancel
+										</Button>
+									</ButtonRow>
+								</form>
+							</Modal>
+							<Modal show={modalState === 'Delete'} onClose={closeModal} title="Delete Class" size="medium">
+								<form onSubmit={deleteClass}>
+									<p>Deleting the class cannot be undone. Are you sure?</p>
+									<ButtonRow className="col-span-6">
+										<Button type="submit">Delete</Button>
+										<Button type="button" onClick={closeModal} look="cancel">
 											Cancel
 										</Button>
 									</ButtonRow>
