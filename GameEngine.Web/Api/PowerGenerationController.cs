@@ -51,7 +51,7 @@ public class PowerGenerationController : PowerGenerationControllerBase
 
     private Api.PowerGeneratorChoices ToApi(Generator.PowerGeneratorState state, IEnumerable<Generator.PowerProfile> options)
     {
-        return new PowerGeneratorChoices(ToApi(state), options.Select(profile => ToApi(profile, state.BuildContext.PowerInfo)));
+        return new PowerGeneratorChoices(ToApi(state), options.Select(profile => ToApi(profile, state.BuildContext)));
     }
 
     private Api.PowerGeneratorState ToApi(Generator.PowerGeneratorState state)
@@ -81,12 +81,13 @@ public class PowerGenerationController : PowerGenerationControllerBase
         };
     }
 
-    private Api.PowerProfileChoice ToApi(Generator.PowerProfile profile, Generator.PowerHighLevelInfo powerInfo)
+    private Api.PowerProfileChoice ToApi(Generator.PowerProfile profile, IBuildContext buildContext)
     {
-        var finished = PowerGenerator.AddFinishingTouches(profile, powerInfo);
-        var (text, _) = new PowerContext(profile, powerInfo).ToPowerTextBlock(FlavorText.Empty);
+        var finished = PowerGenerator.AddFinishingTouches(profile, buildContext.PowerInfo);
+        finished = buildContext.Build(finished);
+        var (text, _) = new PowerContext(finished, buildContext.PowerInfo).ToPowerTextBlock(FlavorText.Empty);
 
-        return new Api.PowerProfileChoice(Profile: ToApi(profile), Level: powerInfo.Level, Usage: powerInfo.Usage.ToApi(), Text: text.ToApi());
+        return new Api.PowerProfileChoice(Profile: ToApi(profile), Level: buildContext.PowerInfo.Level, Usage: buildContext.PowerInfo.Usage.ToApi(), Text: text.ToApi());
     }
 
     private Api.PowerProfile ToApi(Generator.PowerProfile profile)

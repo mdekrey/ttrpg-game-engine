@@ -279,7 +279,7 @@ components:
           items: { $ref: '#/components/schemas/PowerProfileChoice' }
     PowerProfileChoice:
       type: object
-      required: [profile]
+      required: [profile, level, usage, text]
       properties:
         profile:
           $ref: '#/components/schemas/PowerProfile'

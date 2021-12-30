@@ -11,7 +11,7 @@ export default {
 
 const Template: ComponentStory<typeof Button> = ({ children, contents, ...args }) => (
 	<Button contents={contents || 'text'} {...args}>
-		{contents === 'text' ? children : <SaveIcon className="w-5 h-5" />}
+		{contents === 'text' ? children : <SaveIcon />}
 	</Button>
 );
 

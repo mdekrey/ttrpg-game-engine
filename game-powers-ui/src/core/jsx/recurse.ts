@@ -1,9 +1,6 @@
-import { Children, ReactNode, cloneElement, ReactElement, Fragment } from 'react';
+import { Children, ReactNode, cloneElement, Fragment } from 'react';
+import { isReactElement } from './isReactElement';
 import { pipeJsx, JsxMutator } from './pipeJsx';
-
-function isReactElement(child: ReactNode): child is ReactElement {
-	return Boolean(typeof child === 'object' && child && !('length' in child));
-}
 
 function addChildClass(child: ReactNode, ...operations: JsxMutator[]) {
 	if (!isReactElement(child)) {
