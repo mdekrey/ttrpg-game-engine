@@ -64,9 +64,6 @@ export function ClassViewer({ data: { classId } }: { data: { classId: string } }
 	);
 
 	function toPowerTextGroups(responseData: ClassDetailsReadOnly) {
-		return groupBy(
-			(block) => `${block.profile.level && `Level ${block.profile.level} `}${block.profile.usage} Powers`,
-			responseData.powers
-		);
+		return groupBy((block) => `${block.level && `Level ${block.level} `}${block.usage} Powers`, responseData.powers);
 	}
 }

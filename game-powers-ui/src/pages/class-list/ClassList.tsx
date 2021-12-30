@@ -1,9 +1,9 @@
 import { sortBy } from 'lodash/fp';
-import { ClassProfile } from 'api/models/ClassProfile';
+import { ClassDescriptor } from 'api/models/ClassDescriptor';
 import { ReaderLayout } from 'components/reader-layout';
 import { LockClosedIcon, PencilIcon } from '@heroicons/react/solid';
 
-export function ClassList({ data: { classes } }: { data: { classes: Record<string, ClassProfile> } }) {
+export function ClassList({ data: { classes } }: { data: { classes: Record<string, ClassDescriptor> } }) {
 	const eachClass = sortBy(
 		(v) => v.name,
 		Object.keys(classes).map((key) => ({ id: key, ...classes[key] }))

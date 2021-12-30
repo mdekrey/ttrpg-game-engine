@@ -12,7 +12,6 @@ import { SamplePowerRequestBody } from './SamplePowers';
 
 const powerProfile: SamplePowerRequestBody = {
 	classProfile: {
-		name: 'Unimportant',
 		role: 'Controller',
 		powerSource: 'Martial',
 		tools: [defaultToolProfile],

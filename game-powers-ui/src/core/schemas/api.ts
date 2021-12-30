@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { Ability } from 'api/models/Ability';
 import { CharacterRole } from 'api/models/CharacterRole';
-import { EditableClassProfile } from 'api/models/EditableClassProfile';
+import { EditableClassDescriptor } from 'api/models/EditableClassDescriptor';
 import { DamageType } from 'api/models/DamageType';
 import { PowerChance } from 'api/models/PowerChance';
 import { PowerProfileConfig } from 'api/models/PowerProfileConfig';
@@ -53,7 +53,7 @@ export const toolSurveySchema: yup.SchemaOf<ToolProfile> = yup.object({
 	powerProfileConfigs: yup.array(powerProfileConfigSchema).min(1).label('Power Profile Configs'),
 	possibleRestrictions: yup.array(yup.string().required()).min(1).label('Restrictions'),
 });
-export const classSurveySchemaWithoutTools: yup.SchemaOf<Omit<EditableClassProfile, 'tools'>> = yup.object({
+export const classSurveySchemaWithoutTools: yup.SchemaOf<Omit<EditableClassDescriptor, 'tools'>> = yup.object({
 	name: yup.string().required().label('Name'),
 	role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
 	powerSource: yup.string().required().label('Power Source'),

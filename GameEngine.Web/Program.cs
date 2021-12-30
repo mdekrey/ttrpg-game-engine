@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-builder.Services.AddOpenApiDndClasses<PowerController, ClassController>();
+builder.Services.AddOpenApiDndClasses<PowerController, ClassController, PowerGenerationController>();
 builder.Services.AddTransient<GameEngine.Web.AsyncServices.AsyncClassGenerator>();
 builder.Services.Configure<GameEngine.Web.Storage.GameStorageOptions>(options =>
 {

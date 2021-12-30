@@ -5,7 +5,7 @@ import { Button } from 'components/button/Button';
 import { Card } from 'components/card/card';
 import { SelectFormField, TextboxField } from 'components/forms';
 import { ButtonRow } from 'components/ButtonRow';
-import { EditableClassProfile } from 'api/models/EditableClassProfile';
+import { EditableClassDescriptor } from 'api/models/EditableClassDescriptor';
 import { classSurveySchemaWithoutTools, roles } from 'core/schemas/api';
 import { YamlEditor } from 'components/monaco/YamlEditor';
 import { SamplePowersSection } from './SamplePowersSection';
@@ -18,12 +18,12 @@ export function ClassSurveyForm({
 	defaultValues,
 }: {
 	className?: string;
-	onSubmit?: (form: EditableClassProfile) => void;
+	onSubmit?: (form: EditableClassDescriptor) => void;
 	onCancel?: () => void;
-	defaultValues?: EditableClassProfile;
+	defaultValues?: EditableClassDescriptor;
 }) {
 	const [tools, setTools] = useState(defaultValues?.tools || [defaultToolProfile]);
-	const { handleSubmit, ...form } = useGameForm<Omit<EditableClassProfile, 'tools'>>({
+	const { handleSubmit, ...form } = useGameForm<Omit<EditableClassDescriptor, 'tools'>>({
 		defaultValues: defaultValues || {
 			name: 'Custom Class',
 			role: 'Controller',
@@ -34,7 +34,7 @@ export function ClassSurveyForm({
 
 	const role = form.watch('role');
 	const powerSource = form.watch('powerSource');
-	const classProfile: EditableClassProfile = useMemo(
+	const classProfile: EditableClassDescriptor = useMemo(
 		() => ({ name: 'Unimportant', role, powerSource, tools }),
 		[role, powerSource, tools]
 	);

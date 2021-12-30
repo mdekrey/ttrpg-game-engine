@@ -192,7 +192,11 @@ namespace GameEngine.Generator
             var resultPowerProfile = validModifiers.Length == 0
                 ? state.PowerProfile
                 : randomGenerator.RandomSelection(validModifiers);
+            return ResolveState(state, resultPowerProfile);
+        }
 
+        public static PowerGeneratorState ResolveState(PowerGeneratorState state, PowerProfile resultPowerProfile)
+        {
             return state with
             {
                 Iteration = state.Iteration + 1,

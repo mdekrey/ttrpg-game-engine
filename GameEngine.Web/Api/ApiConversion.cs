@@ -10,8 +10,17 @@ namespace GameEngine.Web.Api;
 
 public static class ApiConversion
 {
-    public static GameEngine.Generator.ClassProfile FromApi(this Api.EditableClassProfile apiModel) =>
+    public static GameEngine.Generator.ClassProfile FromApi(this Api.EditableClassDescriptor apiModel) =>
         new Generator.ClassProfile(apiModel.Role.FromApi(), apiModel.PowerSource, apiModel.Tools.Select(FromApi).ToImmutableList());
+
+    public static Api.EditableClassDescriptor ToApi(this GameEngine.Generator.ClassProfile model, string name) =>
+        new Api.EditableClassDescriptor(Name: name, Role: model.Role.ToApi(), PowerSource: model.PowerSource, Tools: model.Tools.Select(ToApi).ToImmutableList());
+
+    public static Api.ClassProfile ToApi(this GameEngine.Generator.ClassProfile model) =>
+        new Api.ClassProfile(Role: model.Role.ToApi(), PowerSource: model.PowerSource, Tools: model.Tools.Select(ToApi).ToImmutableList());
+
+    public static GameEngine.Generator.ClassProfile FromApi(this Api.ClassProfile model) =>
+        new GameEngine.Generator.ClassProfile(Role: model.Role.FromApi(), PowerSource: model.PowerSource, Tools: model.Tools.Select(FromApi).ToImmutableList());
 
     public static GameEngine.Generator.ToolProfile FromApi(this Api.ToolProfile apiModel) =>
         new GameEngine.Generator.ToolProfile(
@@ -60,6 +69,14 @@ public static class ApiConversion
             GameEngine.DamageType.Force => Api.DamageType.Force,
             _ => throw new NotSupportedException(),
         };
+
+    public static Api.PowerHighLevelInfo ToApi(this Generator.PowerHighLevelInfo apiModel) =>
+        new Api.PowerHighLevelInfo(
+            Level: apiModel.Level,
+            Usage: apiModel.Usage.ToApi(),
+            ClassProfile: apiModel.ClassProfile.ToApi(),
+            ToolIndex: apiModel.ToolProfileIndex,
+            PowerProfileIndex: apiModel.PowerProfileConfigIndex);
 
     public static Generator.PowerHighLevelInfo FromApi(this Api.PowerHighLevelInfo apiModel) =>
         new Generator.PowerHighLevelInfo(
@@ -177,18 +194,18 @@ public static class ApiConversion
 
     public static Api.RulesText ToApi(this GameEngine.Rules.RulesText model) =>
         new Api.RulesText(Label: model.Label, Text: model.Text);
-    public static Api.ClassProfile ToApi(this GameEngine.Web.AsyncServices.ClassDetails model) =>
-        new Api.ClassProfile(Name: model.Name, State: model.ProgressState.ToApi(), Role: model.ClassProfile.Role.ToApi(), PowerSource: model.ClassProfile.PowerSource, Tools: model.ClassProfile.Tools.Select(ToApi).ToImmutableList());
+    public static Api.ClassDescriptor ToApi(this GameEngine.Web.AsyncServices.ClassDetails model) =>
+        new Api.ClassDescriptor(Name: model.Name, State: model.ProgressState.ToApi(), Role: model.ClassProfile.Role.ToApi(), PowerSource: model.ClassProfile.PowerSource, Tools: model.ClassProfile.Tools.Select(ToApi).ToImmutableList());
 
-    public static Api.PowerProfile ToApi(this GameEngine.Generator.ClassPowerProfile model) =>
-        new Api.PowerProfile(
-            Usage: model.PowerInfo.Usage.ToApi(),
-            Tool: model.PowerInfo.ToolType.ToApi(),
-            ToolRange: model.PowerInfo.ToolRange.ToApi(),
-            Level: model.PowerInfo.Level
-        // Attacks: model.Attacks,
-        // Modifiers: model.Modifiers
-        );
+    //public static Api.PowerProfile ToApi(this GameEngine.Generator.ClassPowerProfile model) =>
+    //    new Api.PowerProfile(
+    //        Usage: model.PowerInfo.Usage.ToApi(),
+    //        Tool: model.PowerInfo.ToolType.ToApi(),
+    //        ToolRange: model.PowerInfo.ToolRange.ToApi(),
+    //        Level: model.PowerInfo.Level
+    //    // Attacks: model.Attacks,
+    //    // Modifiers: model.Modifiers
+    //    );
 
     public static Api.PowerFrequency ToApi(this Rules.PowerFrequency model) =>
         model switch
@@ -241,7 +258,8 @@ public static class ApiConversion
         return new Api.PowerTextProfile(
             Id: powerProfile.PowerId.ToString(),
             Text: textBlock.ToApi(),
-            Profile: powerProfile.Profile.ToApi(),
+            Level: powerProfile.Profile.PowerInfo.Level,
+            Usage: powerProfile.Profile.PowerInfo.Usage.ToApi(),
             Flavor: flavor.Fields.ToDictionary(f => f.Key, f => f.Value)
         );
     }

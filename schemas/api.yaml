@@ -55,16 +55,13 @@ components:
         - Thunder
         - Poison
         - Force
-    EditableClassProfile:
+    ClassProfile:
       type: object
       required:
-        - name
         - role
         - powerSource
         - tools
       properties:
-        name:
-          type: string
         role:
           $ref: '#/components/schemas/CharacterRole'
         powerSource:
@@ -73,7 +70,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ToolProfile'
-    ClassProfile:
+    EditableClassDescriptor:
+      type: object
+      allOf:
+        - type: object
+          required: [name]
+          properties:
+            name:
+              type: string
+        - $ref: '#/components/schemas/ClassProfile'
+    ClassDescriptor:
       type: object
       allOf:
         - type: object
@@ -81,7 +87,7 @@ components:
           properties:
             state:
               $ref: '#/components/schemas/ProgressState'
-        - $ref: '#/components/schemas/EditableClassProfile'
+        - $ref: '#/components/schemas/EditableClassDescriptor'
     ToolProfile:
       type: object
       required:
@@ -139,40 +145,20 @@ components:
       type: object
       required:
         - id
-        - profile
+        - usage
         - text
         - flavor
       properties:
         id:
           type: string
-        profile:
-          $ref: '#/components/schemas/PowerProfile'
+        level: { type: integer }
+        usage: { $ref: '#/components/schemas/PowerFrequency' }
         text:
           $ref: '#/components/schemas/PowerTextBlock'
         flavor:
           type: object
           additionalProperties:
             type: string
-    PowerProfile:
-      type: object
-      required:
-        # - level
-        - usage
-        - tool
-        - toolRange
-        # - attacks
-        # - modifiers
-      properties:
-        level:
-          type: integer
-        usage:
-          $ref: '#/components/schemas/PowerFrequency'
-        tool:
-          $ref: '#/components/schemas/ToolType'
-        toolRange:
-          $ref: '#/components/schemas/ToolRange'
-        # - EquatableImmutableList<AttackProfile> Attacks
-        # - EquatableImmutableList<IPowerModifier> Modifiers
     PowerFrequency:
       type: string
       enum:
@@ -237,7 +223,7 @@ components:
     ClassDetailsReadOnly:
       type: object
       allOf:
-        - $ref: '#/components/schemas/EditableClassProfile'
+        - $ref: '#/components/schemas/EditableClassDescriptor'
         - type: object
           required:
             - powers
@@ -266,15 +252,82 @@ components:
       properties:
         level: { type: integer }
         usage: { $ref: '#/components/schemas/PowerFrequency' }
-        classProfile: { $ref: '#/components/schemas/EditableClassProfile' }
+        classProfile: { $ref: '#/components/schemas/ClassProfile' }
         toolIndex: { type: integer }
         powerProfileIndex: { type: integer }
-    PowerGeneratorChoices:
+    PowerGeneratorState:
       type: object
       required:
         - iteration
+        - buildContext
+        - stage
+        - powerProfile
       properties:
         iteration: { type: integer }
+        buildContext: { $ref: '#/components/schemas/LimitBuildContext' }
+        stage: { $ref: '#/components/schemas/UpgradeStage' }
+        powerProfile: { $ref: '#/components/schemas/PowerProfile' }
+    PowerGeneratorChoices:
+      type: object
+      required:
+        - state
+        - choices
+      properties:
+        state: { $ref: '#/components/schemas/PowerGeneratorState' }
+        choices:
+          type: array
+          items: { $ref: '#/components/schemas/PowerProfileChoice' }
+    PowerProfileChoice:
+      type: object
+      required: [profile]
+      properties:
+        profile:
+          $ref: '#/components/schemas/PowerProfile'
+        level: { type: integer }
+        usage: { $ref: '#/components/schemas/PowerFrequency' }
+        text:
+          $ref: '#/components/schemas/PowerTextBlock'
+    PowerProfile:
+      type: object
+      required:
+        - attacks
+        - modifiers
+        - effects
+      properties:
+        attacks:
+          type: array
+          items:
+            type: object
+            format: any
+        modifiers:
+          type: array
+          items:
+            type: object
+            format: any
+        effects:
+          type: array
+          items:
+            type: object
+            format: any
+    LimitBuildContext:
+      type: object
+      required:
+        - powerInfo
+        - initial
+        - minimum
+        - maxComplexity
+      properties:
+        powerInfo: { $ref: '#/components/schemas/PowerHighLevelInfo' }
+        initial: { type: number }
+        minimum: { type: number }
+        maxComplexity: { type: integer }
+    UpgradeStage:
+      type: string
+      enum:
+        - Initialize Attacks
+        - Standard
+        - Finalize
+        - Finished
 paths:
   /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power
@@ -312,7 +365,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EditableClassProfile'
+              $ref: '#/components/schemas/EditableClassDescriptor'
       responses:
         200:
           description: OK
@@ -380,7 +433,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EditableClassProfile'
+              $ref: '#/components/schemas/EditableClassDescriptor'
       responses:
         204:
           description: OK
@@ -457,41 +510,49 @@ paths:
           description: Class or power not found
         409:
           description: Failed to save due to async changes
-  # /api/power/begin-generation:
-  #   x-dotnet-mvc-server-controller: PowerGeneration
-  #   post:
-  #     operationId: beginPowerGeneration
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #           schema:
-  #             $ref: '#/components/schemas/PowerHighLevelInfo'
-  #     responses:
-  #       200:
-  #         description: OK
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/PowerGeneratorChoices'
-  #       400:
-  #         $ref: '#/components/responses/ModelValidation'
-  # /api/power/continue-generation:
-  #   x-dotnet-mvc-server-controller: PowerGeneration
-  #   post:
-  #     operationId: beginPowerGeneration
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #           schema:
-  #             $ref: '#/components/schemas/PowerGeneratorState'
-  #     responses:
-  #       200:
-  #         description: OK
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/PowerGeneratorChoices'
-  #       400:
-  #         $ref: '#/components/responses/ModelValidation'
+  /api/power/begin-generation:
+    x-dotnet-mvc-server-controller: PowerGeneration
+    post:
+      operationId: beginPowerGeneration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PowerHighLevelInfo'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PowerGeneratorChoices'
+        400:
+          $ref: '#/components/responses/ModelValidation'
+  /api/power/continue-generation:
+    x-dotnet-mvc-server-controller: PowerGeneration
+    post:
+      operationId: continuePowerGeneration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - state
+                - profile
+              properties:
+                state:
+                  $ref: '#/components/schemas/PowerGeneratorState'
+                profile:
+                  $ref: '#/components/schemas/PowerProfile'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PowerGeneratorChoices'
+        400:
+          $ref: '#/components/responses/ModelValidation'

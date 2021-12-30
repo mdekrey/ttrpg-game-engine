@@ -60,7 +60,9 @@ setDiagnosticsOptions({
 		{
 			uri: toFullUrl('/schemas/tools.json'),
 			fileMatch: ['tools.yaml'],
-			schema: { $ref: `${toFullUrl('/schemas/api.json')}#/components/schemas/EditableClassProfile/properties/tools` },
+			schema: {
+				$ref: `${toFullUrl('/schemas/api.json')}#/components/schemas/ClassProfile/properties/tools`,
+			},
 		},
 		{
 			uri: toFullUrl('/schemas/PowerProfileConfig.json'),

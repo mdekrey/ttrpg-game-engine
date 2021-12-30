@@ -12,6 +12,12 @@
     <ReactFrontend Include="$(NodeReactDir)\src\**\*" Visible="false" />
     <ReactFrontend Include="$(NodeReactDir)\*" Visible="false" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Api\csharp.config.yaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <OpenApiSchemaCSharpOptions Include="Api\csharp.config.yaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Data.Tables" Version="12.3.0" />

@@ -22,7 +22,7 @@ public class ClassController : ClassControllerBase
         this.powerStorage = powerStorage;
     }
 
-    protected override async Task<TypeSafeGeneratePowersResult> GeneratePowersTypeSafe(EditableClassProfile generateClassProfileBody)
+    protected override async Task<TypeSafeGeneratePowersResult> GeneratePowersTypeSafe(EditableClassDescriptor generateClassProfileBody)
     {
         if (!ModelState.IsValid) return TypeSafeGeneratePowersResult.BadRequest(ModelState.ToApiModelErrors());
 
@@ -33,7 +33,7 @@ public class ClassController : ClassControllerBase
         return TypeSafeGeneratePowersResult.Ok(new GeneratePowersResponse(id.ToString()));
     }
 
-    protected override async Task<TypeSafeUpdateClassResult> UpdateClassTypeSafe(string id, EditableClassProfile updateClassBody)
+    protected override async Task<TypeSafeUpdateClassResult> UpdateClassTypeSafe(string id, EditableClassDescriptor updateClassBody)
     {
         if (!Guid.TryParse(id, out var classId))
             return TypeSafeUpdateClassResult.NotFound();

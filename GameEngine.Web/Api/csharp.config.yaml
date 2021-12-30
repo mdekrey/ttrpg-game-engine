@@ -1,0 +1,4 @@
+﻿types:
+  object:
+    formats:
+      any: global::Newtonsoft.Json.Linq.JObject

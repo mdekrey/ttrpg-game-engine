@@ -19,7 +19,7 @@ namespace GameEngine.Web.Pages.Class
             this.classStorage = classStorage;
         }
 
-        public Dictionary<Guid, Api.ClassProfile>? Classes { get; private set; }
+        public Dictionary<Guid, Api.ClassDescriptor>? Classes { get; private set; }
 
         public async Task OnGet()
         {

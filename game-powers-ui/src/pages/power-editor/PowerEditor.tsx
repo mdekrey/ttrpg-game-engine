@@ -1,6 +1,6 @@
 import { PencilIcon, LockOpenIcon, TrashIcon } from '@heroicons/react/solid';
 import { ClassDetailsReadOnly } from 'api/models/ClassDetailsReadOnly';
-import { EditableClassProfile } from 'api/models/EditableClassProfile';
+import { EditableClassDescriptor } from 'api/models/EditableClassDescriptor';
 import { Button } from 'components/button/Button';
 import { ButtonRow } from 'components/ButtonRow';
 import { Modal } from 'components/modal/modal';
@@ -50,7 +50,7 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 		if (isLoaded(data) && data.value.state === 'Read-Only') window.location.href = `/class/${classId}`;
 	}, [data, classId]);
 
-	const updateClass = async (newData: EditableClassProfile) => {
+	const updateClass = async (newData: EditableClassDescriptor) => {
 		await api.updateClass({ body: newData, params: { id: classId } }).toPromise();
 		setModalState('None');
 		restartPolling.next();
@@ -138,9 +138,6 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 	);
 
 	function toPowerTextGroups(responseData: ClassDetailsReadOnly) {
-		return groupBy(
-			(block) => `${block.profile.level && `Level ${block.profile.level} `}${block.profile.usage} Powers`,
-			responseData.powers
-		);
+		return groupBy((block) => `${block.level && `Level ${block.level} `}${block.usage} Powers`, responseData.powers);
 	}
 }
