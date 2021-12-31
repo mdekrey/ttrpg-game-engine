@@ -3,6 +3,7 @@ import { ClassDetailsReadOnly } from 'api/models/ClassDetailsReadOnly';
 import { EditableClassDescriptor } from 'api/models/EditableClassDescriptor';
 import { Button } from 'components/button/Button';
 import { ButtonRow } from 'components/ButtonRow';
+import { ClassDescription } from 'components/mdx/ClassDescription';
 import { Modal } from 'components/modal/modal';
 import { ReaderLayout } from 'components/reader-layout';
 import { useApi } from 'core/hooks/useApi';
@@ -93,6 +94,7 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 										<TrashIcon className="w-5 h-5 inline-block" />
 									</Button>
 								</h1>
+								<ClassDescription mdx={loaded.original.description || ''} />
 								{Object.keys(powers).map((header) => (
 									<PowerSection
 										header={header}

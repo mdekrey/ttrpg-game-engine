@@ -13,8 +13,8 @@ public static class ApiConversion
     public static GameEngine.Generator.ClassProfile FromApi(this Api.EditableClassDescriptor apiModel) =>
         new Generator.ClassProfile(apiModel.Role.FromApi(), apiModel.PowerSource, apiModel.Tools.Select(FromApi).ToImmutableList());
 
-    public static Api.EditableClassDescriptor ToApi(this GameEngine.Generator.ClassProfile model, string name) =>
-        new Api.EditableClassDescriptor(Name: name, Role: model.Role.ToApi(), PowerSource: model.PowerSource, Tools: model.Tools.Select(ToApi).ToImmutableList());
+    public static Api.EditableClassDescriptor ToApi(this GameEngine.Generator.ClassProfile model, string name, string description) =>
+        new Api.EditableClassDescriptor(Name: name, Description: description, Role: model.Role.ToApi(), PowerSource: model.PowerSource, Tools: model.Tools.Select(ToApi).ToImmutableList());
 
     public static Api.ClassProfile ToApi(this GameEngine.Generator.ClassProfile model) =>
         new Api.ClassProfile(Role: model.Role.ToApi(), PowerSource: model.PowerSource, Tools: model.Tools.Select(ToApi).ToImmutableList());
@@ -195,7 +195,7 @@ public static class ApiConversion
     public static Api.RulesText ToApi(this GameEngine.Rules.RulesText model) =>
         new Api.RulesText(Label: model.Label, Text: model.Text);
     public static Api.ClassDescriptor ToApi(this GameEngine.Web.AsyncServices.ClassDetails model) =>
-        new Api.ClassDescriptor(Name: model.Name, State: model.ProgressState.ToApi(), Role: model.ClassProfile.Role.ToApi(), PowerSource: model.ClassProfile.PowerSource, Tools: model.ClassProfile.Tools.Select(ToApi).ToImmutableList());
+        new Api.ClassDescriptor(Name: model.Name, Description: model.Description, State: model.ProgressState.ToApi(), Role: model.ClassProfile.Role.ToApi(), PowerSource: model.ClassProfile.PowerSource, Tools: model.ClassProfile.Tools.Select(ToApi).ToImmutableList());
 
     //public static Api.PowerProfile ToApi(this GameEngine.Generator.ClassPowerProfile model) =>
     //    new Api.PowerProfile(
@@ -245,6 +245,7 @@ public static class ApiConversion
     public static Api.ClassDetailsReadOnly ToApi(this ClassDetails generatedClassDetails, IEnumerable<PowerDetails> powers) =>
         new ClassDetailsReadOnly(
             Name: generatedClassDetails.Name,
+            Description: generatedClassDetails.Description,
             Role: generatedClassDetails.ClassProfile.Role.ToApi(),
             PowerSource: generatedClassDetails.ClassProfile.PowerSource,
             Tools: generatedClassDetails.ClassProfile.Tools.Select(ToApi),

@@ -8,7 +8,7 @@ import { useGameForm } from 'core/hooks/useGameForm';
 import { useObservable } from 'core/hooks/useObservable';
 import { initial, isLoading, Loadable, makeError, makeLoaded, makeLoading } from 'core/loadable/loadable';
 import { map, startWith, switchAll, tap } from 'rxjs/operators';
-import { SaveIcon, TrashIcon } from '@heroicons/react/solid';
+import { CheckIcon, TrashIcon } from '@heroicons/react/solid';
 import { ButtonRow } from 'components/ButtonRow';
 import { Spinner } from 'components/spinner/spinner';
 import { Subject } from 'rxjs';
@@ -106,7 +106,7 @@ export function PowerEdit({
 				))}
 				<ButtonRow>
 					<Button contents="icon" type="submit" disabled={disabled}>
-						{isLoading(maybeSaving) ? <Spinner /> : <SaveIcon className="w-5 h-5" />}
+						{isLoading(maybeSaving) ? <Spinner /> : <CheckIcon className="w-5 h-5" />}
 					</Button>
 					<Button contents="icon" look="cancel" disabled={disabled} onClick={() => deleteSubject.next()}>
 						{isLoading(maybeDeleting) ? <Spinner /> : <TrashIcon className="w-5 h-5" />}

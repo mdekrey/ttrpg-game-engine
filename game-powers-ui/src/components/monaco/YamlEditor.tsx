@@ -4,10 +4,11 @@
 import EditorWorker from 'worker-loader!monaco-editor/esm/vs/editor/editor.worker';
 import YamlWorker from 'worker-loader!monaco-yaml/lib/esm/yaml.worker';
 import { useEffect, useRef, useState } from 'react';
-import { editor, Environment, IDisposable, Uri } from 'monaco-editor';
+import { editor, Environment, IDisposable } from 'monaco-editor';
 import { dump as toYaml, load as fromYaml } from 'js-yaml';
 import { SchemasSettings, setDiagnosticsOptions } from 'monaco-yaml';
 import api from 'api/api.yaml';
+import { getModelWithContent } from './getModelWithContent';
 
 declare global {
 	interface Window {
@@ -34,16 +35,6 @@ function toFullUrl(path: string) {
 	url.search = '';
 	url.hash = '';
 	return url.href;
-}
-
-function getModelWithContent(path: string | undefined, content: string) {
-	const uri = path === undefined ? undefined : Uri.parse(path);
-	const existing = uri ? editor.getModel(uri) : null;
-	if (existing) {
-		existing.setValue(content);
-		return existing;
-	}
-	return editor.createModel(content, 'yaml', path === undefined ? undefined : Uri.parse(path));
 }
 
 setDiagnosticsOptions({
@@ -91,7 +82,7 @@ export function YamlEditor<T>({ value, onChange, path }: { value: T; onChange?: 
 		if (!editorRef.current) {
 			editorRef.current = editor.create(divRef.current, {
 				automaticLayout: true,
-				model: getModelWithContent(path, yamlValue),
+				model: getModelWithContent(path, 'yaml', yamlValue),
 				theme: 'vs-light',
 			});
 			setIsEditorReady(true);

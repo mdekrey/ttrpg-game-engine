@@ -74,9 +74,11 @@ components:
       type: object
       allOf:
         - type: object
-          required: [name]
+          required: [name, description]
           properties:
             name:
+              type: string
+            description:
               type: string
         - $ref: '#/components/schemas/ClassProfile'
     ClassDescriptor:

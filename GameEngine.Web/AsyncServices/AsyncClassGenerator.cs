@@ -19,10 +19,10 @@ public class AsyncClassGenerator
         this.classStorage = classStorage;
     }
 
-    internal async Task<Guid> BeginGeneratingNewClass(ClassProfile classProfile, string name)
+    internal async Task<Guid> BeginGeneratingNewClass(ClassProfile classProfile, string name, string description)
     {
         var classId = Guid.NewGuid();
-        var classDetails = new ClassDetails(name, classProfile, ProgressState: ProgressState.InProgress);
+        var classDetails = new ClassDetails(name, description, classProfile, ProgressState: ProgressState.InProgress);
         var key = ClassDetails.ToTableKey(classId);
 
         await classStorage.SaveAsync(key, classDetails).ConfigureAwait(false);

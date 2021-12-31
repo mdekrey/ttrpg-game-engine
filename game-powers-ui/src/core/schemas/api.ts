@@ -53,8 +53,9 @@ export const toolSurveySchema: yup.SchemaOf<ToolProfile> = yup.object({
 	powerProfileConfigs: yup.array(powerProfileConfigSchema).min(1).label('Power Profile Configs'),
 	possibleRestrictions: yup.array(yup.string().required()).min(1).label('Restrictions'),
 });
-export const classSurveySchemaWithoutTools: yup.SchemaOf<Omit<EditableClassDescriptor, 'tools'>> = yup.object({
-	name: yup.string().required().label('Name'),
-	role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
-	powerSource: yup.string().required().label('Power Source'),
-});
+export const classSurveySchemaWithoutEditors: yup.SchemaOf<Omit<EditableClassDescriptor, 'tools' | 'description'>> =
+	yup.object({
+		name: yup.string().required().label('Name'),
+		role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
+		powerSource: yup.string().required().label('Power Source'),
+	});

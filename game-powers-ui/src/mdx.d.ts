@@ -57,3 +57,15 @@ declare module '@mdx-js/react' {
 // 		sync(path: string): React.FunctionComponent<MDXProviderProps>;
 // 	};
 // }
+
+declare module '@mdx-js/runtime' {
+	export interface MDXProps {
+		components?: Record<string, React.ComponentType<any>>;
+		scope?: Record<string, unknown>;
+		remarkPlugins?: unknown[];
+		children?: string;
+	}
+
+	const MDX: React.FunctionComponent<MDXProps>;
+	export default MDX;
+}

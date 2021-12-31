@@ -8,6 +8,7 @@ import { initial, Loadable, makeError, makeLoaded } from 'core/loadable/loadable
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { groupBy } from 'lodash/fp';
 import { map, switchAll } from 'rxjs/operators';
+import { ClassDescription } from '../../components/mdx/ClassDescription';
 import { PowerSection } from './powers/PowerSection';
 
 type ReasonCode = 'NotFound';
@@ -42,7 +43,7 @@ export function ClassViewer({ data: { classId } }: { data: { classId: string } }
 					return (
 						<>
 							<ReaderLayout>
-								<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl">
+								<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
 									{loaded.original.name}
 									{loaded.state !== 'Read-Only' ? (
 										<a href={`/class/edit/${classId}`} className="underline text-theme">
@@ -50,6 +51,7 @@ export function ClassViewer({ data: { classId } }: { data: { classId: string } }
 										</a>
 									) : null}
 								</h1>
+								<ClassDescription mdx={loaded.original.description || ''} />
 								{Object.keys(powers).map((header) => (
 									<PowerSection header={header} key={header} powers={powers[header]} />
 								))}
