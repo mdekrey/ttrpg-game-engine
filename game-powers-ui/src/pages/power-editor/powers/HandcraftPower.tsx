@@ -40,12 +40,18 @@ export const HandcraftPower = ({ classProfile, level, usage, toolIndex, powerPro
 
 	return (
 		<div>
+			{lastChoice ? (
+				<div>
+					<PowerTextBlock {...powerTextBlockToProps(lastChoice[0].text)} />
+				</div>
+			) : null}
+
 			<LoadableComponent
 				data={data}
 				errorComponent={() => <>Not Found</>}
 				loadedComponent={(loaded) => {
 					return (
-						<div className="grid gap-2 lg:grid-cols-3">
+						<div className="grid gap-2 lg:grid-cols-3 items-start">
 							{loaded.choices.map((choice, index) => (
 								<button
 									type="button"

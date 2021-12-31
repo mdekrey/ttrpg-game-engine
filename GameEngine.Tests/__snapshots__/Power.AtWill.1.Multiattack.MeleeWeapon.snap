@@ -14,8 +14,7 @@
   PowerProfile:
     Attacks:
     - Target:
-        Name: Basic Target
-        Target: Enemy, Self, Ally
+        Name: TwoHits
       Ability: Strength
       Effects:
       - Target:
@@ -26,23 +25,7 @@
           Damage: 1[W]
           DamageTypes: []
           IncreaseAtHigherLevels: true
-      Modifiers:
-      - Name: RequiredHitForNextAttack
-    - Target:
-        Name: Basic Target
-        Target: Enemy, Self, Ally
-      Ability: Strength
-      Effects:
-      - Target:
-          Name: See Other
-        EffectType: Harmful
-        Modifiers:
-        - Name: Damage
-          Damage: 1[W] + STR
-          DamageTypes: []
-          IncreaseAtHigherLevels: true
-      Modifiers:
-      - Name: Multiattack
+      Modifiers: []
     Modifiers:
     - Name: Power Source
       PowerSource: Martial
@@ -57,17 +40,11 @@
   ActionType: Standard Action
   AttackType: Melee
   AttackTypeDetails: weapon
-  Target: One creature
-  Attack: STR vs. AC
+  Target: One or two creatures
+  Attack: STR vs. AC, two attacks
   RulesText:
-  - Label: Primary Hit
-    Text: '1[W] damage. Level 21: 2[W] damage. Make a secondary attack.'
-  - Label: Secondary Target
-    Text: One creature
-  - Label: Secondary Attack
-    Text: STR vs. AC
-  - Label: Secondary Hit
-    Text: '1[W] + STR damage. Level 21: 2[W] + STR damage.'
+  - Label: Hit
+    Text: '1[W] damage. Level 21: 2[W] damage.'
 - Fields:
     Flavor Text: ''
     Name: Unknown

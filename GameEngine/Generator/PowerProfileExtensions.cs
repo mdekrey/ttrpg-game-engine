@@ -20,7 +20,7 @@ namespace GameEngine.Generator
                                 )
                                 .Select(attacks => power with { Attacks = attacks })
                           let b = builder.FullyInitialize(buildContext)
-                          where b.AllModifiers(true).Any(p => p.CanUseRemainingPower()) // Ensures ABIL mod or multiple hits
+                          where b.AllModifiers(true).Any(p => p.CanUseRemainingPower() || p is IUniquePowerModifier) // Ensures ABIL mod or multiple hits
                           select b;
 
             return options;
