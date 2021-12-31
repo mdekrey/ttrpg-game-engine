@@ -1,5 +1,6 @@
 ﻿using GameEngine.Rules;
 using Newtonsoft.Json;
+using System;
 
 namespace GameEngine.Generator.Serialization
 {
@@ -11,7 +12,14 @@ namespace GameEngine.Generator.Serialization
 
             if (s == null) return null;
 
-            return GameDiceExpression.Parse(s);
+            try
+            {
+                return GameDiceExpression.Parse(s);
+            }
+            catch (Exception ex)
+            {
+                throw new JsonSerializationException("Exception encountered parsing GameDiceExpression", ex);
+            }
 
         }
 

@@ -42,11 +42,23 @@ public class PowerGenerationController : PowerGenerationControllerBase
         await Task.Yield();
         if (!ModelState.IsValid) return TypeSafeContinuePowerGenerationResult.BadRequest(ModelState.ToApiModelErrors());
 
-        var state = PowerGenerator.ResolveState(FromApi(continuePowerGenerationBody.State), FromApi(continuePowerGenerationBody.Profile));
+        Generator.PowerGeneratorState state;
+        Generator.PowerProfile profile;
 
-        var options = PowerGenerator.GetPossibleUpgrades(state);
+        try
+        {
+            state = FromApi(continuePowerGenerationBody.State);
+            profile = FromApi(continuePowerGenerationBody.Profile);
+        }
+        catch (JsonSerializationException)
+        {
+            return TypeSafeContinuePowerGenerationResult.BadRequest(new());
+        }
+        var result = PowerGenerator.ResolveState(state, profile);
 
-        return TypeSafeContinuePowerGenerationResult.Ok(ToApi(state, options));
+        var options = PowerGenerator.GetPossibleUpgrades(result);
+
+        return TypeSafeContinuePowerGenerationResult.Ok(ToApi(result, options));
     }
 
     private Api.PowerGeneratorChoices ToApi(Generator.PowerGeneratorState state, IEnumerable<Generator.PowerProfile> options)

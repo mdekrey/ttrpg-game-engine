@@ -10,6 +10,8 @@ import { useObservable } from 'core/hooks/useObservable';
 import { initial, makeError, makeLoaded, makeLoading } from 'core/loadable/loadable';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { PowerGeneratorState } from 'api/models/PowerGeneratorState';
+import { YamlEditor } from 'components/monaco/YamlEditor';
+import { PowerProfile } from 'api/models/PowerProfile';
 
 export type HandcraftPowerProps = PowerHighLevelInfo & {};
 
@@ -38,10 +40,13 @@ export const HandcraftPower = ({ classProfile, level, usage, toolIndex, powerPro
 		[classProfile, level, usage, toolIndex, powerProfileIndex, lastChoice] as const
 	);
 
+	const updatePower = (power: PowerProfile) => setLastChoice((v) => v && [{ ...v[0], profile: power }, v[1]]);
+
 	return (
-		<div>
+		<div className="grid gap-2">
 			{lastChoice ? (
-				<div>
+				<div className="grid grid-cols-2 gap-2 h-64">
+					<YamlEditor value={lastChoice[0].profile} onChange={updatePower} />
 					<PowerTextBlock {...powerTextBlockToProps(lastChoice[0].text)} />
 				</div>
 			) : null}
