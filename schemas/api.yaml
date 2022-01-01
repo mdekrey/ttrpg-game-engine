@@ -157,10 +157,7 @@ components:
         usage: { $ref: '#/components/schemas/PowerFrequency' }
         text:
           $ref: '#/components/schemas/PowerTextBlock'
-        flavor:
-          type: object
-          additionalProperties:
-            type: string
+        flavor: { $ref: '#/components/schemas/FlavorText' }
     PowerFrequency:
       type: string
       enum:
@@ -237,6 +234,10 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/PowerTextProfile'
+    FlavorText:
+      type: object
+      additionalProperties:
+        type: string
     ProgressState:
       type: string
       enum:
@@ -264,11 +265,13 @@ components:
         - buildContext
         - stage
         - powerProfile
+        - flavorText
       properties:
         iteration: { type: integer }
         buildContext: { $ref: '#/components/schemas/LimitBuildContext' }
         stage: { $ref: '#/components/schemas/UpgradeStage' }
         powerProfile: { $ref: '#/components/schemas/PowerProfile' }
+        flavorText: { $ref: '#/components/schemas/FlavorText' }
     PowerGeneratorChoices:
       type: object
       required:
@@ -281,12 +284,13 @@ components:
           items: { $ref: '#/components/schemas/PowerProfileChoice' }
     PowerProfileChoice:
       type: object
-      required: [profile, level, usage, text]
+      required: [profile, level, usage, flavorText, text]
       properties:
         profile:
           $ref: '#/components/schemas/PowerProfile'
         level: { type: integer }
         usage: { $ref: '#/components/schemas/PowerFrequency' }
+        flavorText: { $ref: '#/components/schemas/FlavorText' }
         text:
           $ref: '#/components/schemas/PowerTextBlock'
     PowerProfile:
@@ -462,7 +466,7 @@ paths:
           description: Class not found
         409:
           description: Failed to save due to state
-  /api/class/{classId}/power/{powerId}:
+  /api/class/{classId}/power/{powerId}/flavor:
     x-dotnet-mvc-server-controller: Class
     post:
       operationId: setPowerFlavor
@@ -482,12 +486,46 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties:
-                type: string
+              $ref: '#/components/schemas/FlavorText'
       responses:
         200:
           description: OK
+        404:
+          description: Class or power not found
+        409:
+          description: Failed to save due to async changes
+  /api/class/{classId}/power/{powerId}:
+    x-dotnet-mvc-server-controller: Class
+    put:
+      operationId: replacePowerWith
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: powerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - state
+                - profile
+              properties:
+                state:
+                  $ref: '#/components/schemas/PowerGeneratorState'
+                profile:
+                  $ref: '#/components/schemas/PowerProfile'
+      responses:
+        200:
+          description: Power removed and new one will be added
         404:
           description: Class or power not found
         409:

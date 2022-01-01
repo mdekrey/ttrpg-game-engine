@@ -261,7 +261,17 @@ public static class ApiConversion
             Text: textBlock.ToApi(),
             Level: powerProfile.Profile.PowerInfo.Level,
             Usage: powerProfile.Profile.PowerInfo.Usage.ToApi(),
-            Flavor: flavor.Fields.ToDictionary(f => f.Key, f => f.Value)
+            Flavor: flavor.ToApi()
         );
+    }
+
+    public static Dictionary<string, string> ToApi(this FlavorText flavorText)
+    {
+        return flavorText.Fields.ToDictionary(f => f.Key, f => f.Value);
+    }
+
+    public static FlavorText FromApi(this Dictionary<string, string> flavorText)
+    {
+        return new FlavorText(flavorText.ToImmutableDictionary());
     }
 }

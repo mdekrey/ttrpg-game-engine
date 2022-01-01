@@ -155,7 +155,7 @@ namespace GameEngine.Generator
 
         public PowerGeneratorState GetInitialBuildState(PowerHighLevelInfo powerInfo)
         {
-            return new PowerGeneratorState(0, RootBuilder(powerInfo), new LimitBuildContext(powerInfo, GetLimits(powerInfo)), UpgradeStage.InitializeAttacks);
+            return new PowerGeneratorState(0, RootBuilder(powerInfo), new LimitBuildContext(powerInfo, GetLimits(powerInfo)), UpgradeStage.InitializeAttacks, FlavorText: Text.FlavorText.Empty);
         }
 
         public static PowerProfile AddFinishingTouches(PowerProfile powerProfileBuilder, PowerHighLevelInfo powerInfo)

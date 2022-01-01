@@ -91,6 +91,11 @@ public class ClassController : ClassControllerBase
         return TypeSafeReplacePowerResult.NotFound();
     }
 
+    protected override Task<TypeSafeReplacePowerWithResult> ReplacePowerWithTypeSafe(string classId, string powerId, ReplacePowerWithRequest replacePowerWithBody)
+    {
+        throw new NotImplementedException();
+    }
+
     protected override async Task<TypeSafeSetPowerFlavorResult> SetPowerFlavorTypeSafe(string classStringId, string powerStringId, Dictionary<string, string> setPowerFlavorBody)
     {
         if (!Guid.TryParse(classStringId, out var classId) || !Guid.TryParse(powerStringId, out var powerId))

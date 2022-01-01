@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
 import { map, startWith, switchAll } from 'rxjs/operators';
-import { CheckIcon } from '@heroicons/react/solid';
+import { CheckIcon, XIcon } from '@heroicons/react/solid';
 import { PowerHighLevelInfo } from 'api/models/PowerHighLevelInfo';
 import { PowerProfileChoice } from 'api/models/PowerProfileChoice';
 import { PowerProfile } from 'api/models/PowerProfile';
@@ -15,10 +15,24 @@ import { initial, makeError, makeLoaded, makeLoading } from 'core/loadable/loada
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { PowerGeneratorState } from 'api/models/PowerGeneratorState';
 import { YamlEditor } from 'components/monaco/YamlEditor';
+import { RequestBodies } from 'api/operations/replacePowerWith';
 
-export type HandcraftPowerProps = PowerHighLevelInfo & {};
+export type SelectPowerResult = RequestBodies['application/json'];
 
-export const HandcraftPower = ({ classProfile, level, usage, toolIndex, powerProfileIndex }: HandcraftPowerProps) => {
+export type HandcraftPowerProps = PowerHighLevelInfo & {
+	onSelectPower?: (power: SelectPowerResult) => void;
+	onCancel?: () => void;
+};
+
+export const HandcraftPower = ({
+	classProfile,
+	level,
+	usage,
+	toolIndex,
+	powerProfileIndex,
+	onSelectPower,
+	onCancel,
+}: HandcraftPowerProps) => {
 	const api = useApi();
 	const [lastChoice, setLastChoice] = useState<null | [PowerProfileChoice, PowerGeneratorState]>(null);
 
@@ -53,9 +67,19 @@ export const HandcraftPower = ({ classProfile, level, usage, toolIndex, powerPro
 					<div className="flex flex-col justify-between">
 						<PowerTextBlock {...powerTextBlockToProps(lastChoice[0].text)} />
 						<ButtonRow>
-							<Button contents="icon" look="primary">
-								<CheckIcon />
-							</Button>
+							{onSelectPower && (
+								<Button
+									contents="icon"
+									look="primary"
+									onClick={() => onSelectPower({ profile: lastChoice[0].profile, state: lastChoice[1] })}>
+									<CheckIcon />
+								</Button>
+							)}
+							{onCancel && (
+								<Button contents="icon" look="primary" onClick={onCancel}>
+									<XIcon />
+								</Button>
+							)}
 						</ButtonRow>
 					</div>
 				</div>

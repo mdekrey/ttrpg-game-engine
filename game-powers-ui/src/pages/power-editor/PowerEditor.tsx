@@ -97,6 +97,7 @@ export function PowerEditor({ data: { classId } }: { data: { classId: string } }
 								<ClassDescription mdx={loaded.original.description || ''} />
 								{Object.keys(powers).map((header) => (
 									<PowerSection
+										classProfile={loaded.original}
 										header={header}
 										key={header}
 										powers={powers[header]}
