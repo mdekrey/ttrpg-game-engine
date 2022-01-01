@@ -85,7 +85,7 @@ export function PowerEdit({
 	);
 
 	const [showHandCraftingModal, setShowHandCraftingModal] = useState(false);
-	const [selectedCfg, setSelectedCfg] = useState<null | { toolIndex: number; powerConfigIndex: number }>(null);
+	const [selectedToolIndex, setSelectedToolIndex] = useState<number>(0);
 	const saveHandcraftedSubject = useConstant(() => new Subject<SelectPowerResult>());
 	const maybeReplacing = useObservable<Loadable<boolean>>(
 		() =>
@@ -140,38 +140,30 @@ export function PowerEdit({
 				<SelectField
 					className="my-4"
 					label="Preview Powers"
-					value={selectedCfg === null ? ';' : `${selectedCfg.toolIndex};${selectedCfg.powerConfigIndex}`}
+					value={`${selectedToolIndex}`}
 					onChange={({ currentTarget: { value } }) => {
-						if (value) {
-							const [toolIndex, powerConfigIndex] = value.split(';', 2).map(Number);
-							setSelectedCfg({ toolIndex, powerConfigIndex });
-						} else setSelectedCfg(null);
+						setSelectedToolIndex(Number(value));
 					}}>
-					<option value="">None</option>
 					{classProfile.tools.map((tool, toolIndex) => (
-						<optgroup label={`${tool.toolRange} ${tool.toolType}`} key={toolIndex}>
-							{tool.powerProfileConfigs.map((powerConfig, powerConfigIndex) => (
-								<option key={powerConfigIndex} value={`${toolIndex};${powerConfigIndex}`}>
-									{powerConfig.name}
-								</option>
-							))}
-						</optgroup>
+						<option value={toolIndex} key={toolIndex}>
+							{`${tool.toolRange} ${tool.toolType}`}
+						</option>
 					))}
 				</SelectField>
-				{selectedCfg && (
-					<HandcraftPower
-						classProfile={classProfile}
-						toolIndex={selectedCfg.toolIndex}
-						powerProfileIndex={selectedCfg.powerConfigIndex}
-						level={power.level!}
-						usage={power.usage}
-						onCancel={() => setShowHandCraftingModal(false)}
-						onSelectPower={(body) => {
-							saveHandcraftedSubject.next(body);
-							setShowHandCraftingModal(false);
-						}}
-					/>
-				)}
+
+				<HandcraftPower
+					key={selectedToolIndex}
+					classProfile={classProfile}
+					toolIndex={selectedToolIndex}
+					powerProfileIndex={null}
+					level={power.level!}
+					usage={power.usage}
+					onCancel={() => setShowHandCraftingModal(false)}
+					onSelectPower={(body) => {
+						saveHandcraftedSubject.next(body);
+						setShowHandCraftingModal(false);
+					}}
+				/>
 			</Modal>
 		</div>
 	);

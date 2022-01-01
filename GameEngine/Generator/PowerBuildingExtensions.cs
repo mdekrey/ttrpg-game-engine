@@ -18,6 +18,8 @@ namespace GameEngine.Generator
         {
             var built = buildContext.Build(builder);
             var powerToken = GetProfileToken(built);
+            if (buildContext.PowerInfo.PowerProfileConfig == null)
+                return 1;
             var weights = (from entry in buildContext.PowerInfo.PowerProfileConfig.PowerChances
                            select (entry.Selector, powerToken.SelectTokens(entry.Selector).Any(), entry.Weight)).ToArray();
             return (from entry in buildContext.PowerInfo.PowerProfileConfig.PowerChances

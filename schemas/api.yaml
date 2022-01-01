@@ -251,7 +251,6 @@ components:
         - usage
         - classProfile
         - toolIndex
-        - powerProfileIndex
       properties:
         level: { type: integer }
         usage: { $ref: '#/components/schemas/PowerFrequency' }
@@ -277,8 +276,10 @@ components:
       required:
         - state
         - choices
+        - finalizedChoice
       properties:
         state: { $ref: '#/components/schemas/PowerGeneratorState' }
+        finalizedChoice: { $ref: '#/components/schemas/PowerProfileChoice' }
         choices:
           type: array
           items: { $ref: '#/components/schemas/PowerProfileChoice' }
@@ -516,13 +517,16 @@ paths:
             schema:
               type: object
               required:
-                - state
+                - flavorText
                 - profile
+                - powerInfo
               properties:
-                state:
-                  $ref: '#/components/schemas/PowerGeneratorState'
+                flavorText:
+                  $ref: '#/components/schemas/FlavorText'
                 profile:
                   $ref: '#/components/schemas/PowerProfile'
+                powerInfo:
+                  $ref: '#/components/schemas/PowerHighLevelInfo'
       responses:
         200:
           description: Power removed and new one will be added

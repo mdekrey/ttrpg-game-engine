@@ -1,6 +1,8 @@
 ﻿using GameEngine.Generator;
 using GameEngine.Web.AsyncServices;
 using GameEngine.Web.Storage;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -14,12 +16,14 @@ public class ClassController : ClassControllerBase
     private readonly AsyncClassGenerator asyncClassGenerator;
     private readonly ITableStorage<ClassDetails> classStorage;
     private readonly ITableStorage<PowerDetails> powerStorage;
+    private readonly JsonSerializer serializer;
 
-    public ClassController(AsyncClassGenerator asyncClassGenerator, ITableStorage<ClassDetails> classStorage, ITableStorage<PowerDetails> powerStorage)
+    public ClassController(AsyncClassGenerator asyncClassGenerator, ITableStorage<ClassDetails> classStorage, ITableStorage<PowerDetails> powerStorage, IOptions<GameEngine.Web.Storage.GameStorageOptions> options)
     {
         this.asyncClassGenerator = asyncClassGenerator;
         this.classStorage = classStorage;
         this.powerStorage = powerStorage;
+        this.serializer = options.Value.CreateJsonSerializer();
     }
 
     protected override async Task<TypeSafeGeneratePowersResult> GeneratePowersTypeSafe(EditableClassDescriptor generateClassProfileBody)
@@ -91,9 +95,24 @@ public class ClassController : ClassControllerBase
         return TypeSafeReplacePowerResult.NotFound();
     }
 
-    protected override Task<TypeSafeReplacePowerWithResult> ReplacePowerWithTypeSafe(string classId, string powerId, ReplacePowerWithRequest replacePowerWithBody)
+    protected override async Task<TypeSafeReplacePowerWithResult> ReplacePowerWithTypeSafe(string classStringId, string powerStringId, ReplacePowerWithRequest replacePowerWithBody)
     {
-        throw new NotImplementedException();
+        if (!Guid.TryParse(classStringId, out var classId) || !Guid.TryParse(powerStringId, out var powerId))
+            return TypeSafeReplacePowerWithResult.NotFound();
+
+        var key = PowerDetails.ToTableKey(classId, powerId);
+        var status = await powerStorage.UpdateAsync(key, powerDetails =>
+        {
+            return powerDetails with
+            {
+                Profile = new ClassPowerProfile(PowerProfile: replacePowerWithBody.Profile.FromApi(serializer), PowerInfo: replacePowerWithBody.PowerInfo.FromApi().ToPowerInfo()),
+                Flavor = replacePowerWithBody.FlavorText.FromApi(),
+            };
+        });
+
+        return status is StorageStatus<PowerDetails>.Success
+            ? TypeSafeReplacePowerWithResult.Ok()
+            : TypeSafeReplacePowerWithResult.Conflict();
     }
 
     protected override async Task<TypeSafeSetPowerFlavorResult> SetPowerFlavorTypeSafe(string classStringId, string powerStringId, Dictionary<string, string> setPowerFlavorBody)
@@ -106,9 +125,7 @@ public class ClassController : ClassControllerBase
         {
             return powerDetails with
             {
-                Flavor = new Generator.Text.FlavorText(
-                    Fields: setPowerFlavorBody.ToImmutableDictionary(f => f.Key, f => f.Value)
-                ),
+                Flavor = setPowerFlavorBody.FromApi(),
             };
         });
 

@@ -1,6 +1,7 @@
 ﻿using GameEngine.Generator;
 using GameEngine.Generator.Text;
 using GameEngine.Web.AsyncServices;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -274,4 +275,15 @@ public static class ApiConversion
     {
         return new FlavorText(flavorText.ToImmutableDictionary());
     }
+
+    public static Generator.PowerProfile FromApi(this Api.PowerProfile profile, JsonSerializer serializer)
+    {
+        return new Generator.PowerProfile(
+            Attacks: profile.Attacks.Select(a => ToObject<AttackProfile>(a)).ToImmutableList(),
+            Modifiers: profile.Modifiers.Select(a => ToObject<Generator.Modifiers.IPowerModifier>(a)).ToImmutableList(),
+            Effects: profile.Effects.Select(a => ToObject<TargetEffect>(a)).ToImmutableList()
+        );
+        T ToObject<T>(Newtonsoft.Json.Linq.JObject o) => o.ToObject<T>(serializer)!;
+    }
+
 }

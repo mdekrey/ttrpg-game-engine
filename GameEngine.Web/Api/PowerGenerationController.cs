@@ -32,9 +32,12 @@ public class PowerGenerationController : PowerGenerationControllerBase
 
         var state = powerGenerator.GetInitialBuildState(beginPowerGenerationBody.FromApi());
 
-        var options = PowerGenerator.GetPossibleUpgrades(state);
+        var initialOptions = new[] { state.PowerProfile }.PreApply(state.BuildContext).ToArray();
+        var finalized = Finalize(initialOptions.First(), state.BuildContext);
 
-        return TypeSafeBeginPowerGenerationResult.Ok(ToApi(state, options));
+        var options = initialOptions.Concat(PowerGenerator.GetPossibleUpgrades(state));
+
+        return TypeSafeBeginPowerGenerationResult.Ok(ToApi(state, options, finalized));
     }
 
     protected override async Task<TypeSafeContinuePowerGenerationResult> ContinuePowerGenerationTypeSafe(ContinuePowerGenerationRequest continuePowerGenerationBody)
@@ -48,22 +51,23 @@ public class PowerGenerationController : PowerGenerationControllerBase
         try
         {
             state = FromApi(continuePowerGenerationBody.State);
-            profile = FromApi(continuePowerGenerationBody.Profile);
+            profile = continuePowerGenerationBody.Profile.FromApi(serializer);
         }
         catch (JsonSerializationException)
         {
             return TypeSafeContinuePowerGenerationResult.BadRequest(new());
         }
+        var finalized = Finalize(profile, state.BuildContext);
         var result = PowerGenerator.ResolveState(state, profile);
 
         var options = PowerGenerator.GetPossibleUpgrades(result);
 
-        return TypeSafeContinuePowerGenerationResult.Ok(ToApi(result, options));
+        return TypeSafeContinuePowerGenerationResult.Ok(ToApi(result, options, finalized));
     }
 
-    private Api.PowerGeneratorChoices ToApi(Generator.PowerGeneratorState state, IEnumerable<Generator.PowerProfile> options)
+    private Api.PowerGeneratorChoices ToApi(Generator.PowerGeneratorState state, IEnumerable<Generator.PowerProfile> options, Generator.PowerProfile finalizedProfile)
     {
-        return new PowerGeneratorChoices(ToApi(state), options.Select(profile => ToApi(profile, originalFlavor: state.FlavorText, buildContext: state.BuildContext)));
+        return new PowerGeneratorChoices(ToApi(state), FinalizeToApi(finalizedProfile, originalFlavor: state.FlavorText, buildContext: state.BuildContext), options.Select(profile => FinalizeToApi(profile, originalFlavor: state.FlavorText, buildContext: state.BuildContext)));
     }
 
     private Api.PowerGeneratorState ToApi(Generator.PowerGeneratorState state)
@@ -93,13 +97,23 @@ public class PowerGenerationController : PowerGenerationControllerBase
         };
     }
 
-    private Api.PowerProfileChoice ToApi(Generator.PowerProfile profile, FlavorText originalFlavor, IBuildContext buildContext)
+    private Api.PowerProfileChoice FinalizeToApi(Generator.PowerProfile profile, FlavorText originalFlavor, IBuildContext buildContext)
     {
-        var finished = PowerGenerator.AddFinishingTouches(profile, buildContext.PowerInfo);
-        finished = buildContext.Build(finished);
+        var finished = Finalize(profile, buildContext);
         var (text, flavor) = new PowerContext(finished, buildContext.PowerInfo).ToPowerTextBlock(originalFlavor);
 
-        return new Api.PowerProfileChoice(Profile: ToApi(profile), Level: buildContext.PowerInfo.Level, Usage: buildContext.PowerInfo.Usage.ToApi(), FlavorText: flavor.ToApi(), Text: text.ToApi());
+        return ToApi(profile, flavor, text, buildContext.PowerInfo.Level, buildContext.PowerInfo.Usage);
+    }
+
+    private static Generator.PowerProfile Finalize(Generator.PowerProfile profile, IBuildContext buildContext)
+    {
+        var finished = PowerGenerator.AddFinishingTouches(profile, buildContext.PowerInfo);
+        return buildContext.Build(finished);
+    }
+
+    private Api.PowerProfileChoice ToApi(Generator.PowerProfile profile, FlavorText flavor, Rules.PowerTextBlock text, int level, Rules.PowerFrequency usage)
+    {
+        return new Api.PowerProfileChoice(Profile: ToApi(profile), Level: level, Usage: usage.ToApi(), FlavorText: flavor.ToApi(), Text: text.ToApi());
     }
 
     private Api.PowerProfile ToApi(Generator.PowerProfile profile)
@@ -113,19 +127,9 @@ public class PowerGenerationController : PowerGenerationControllerBase
         Newtonsoft.Json.Linq.JObject GetObject(object o) => Newtonsoft.Json.Linq.JObject.FromObject(o, serializer);
     }
 
-    private Generator.PowerProfile FromApi(Api.PowerProfile profile)
-    {
-        return new Generator.PowerProfile(
-            Attacks: profile.Attacks.Select(a => ToObject<AttackProfile>(a)).ToImmutableList(),
-            Modifiers: profile.Modifiers.Select(a => ToObject<IPowerModifier>(a)).ToImmutableList(),
-            Effects: profile.Effects.Select(a => ToObject<TargetEffect>(a)).ToImmutableList()
-        );
-        T ToObject<T>(Newtonsoft.Json.Linq.JObject o) => o.ToObject<T>(serializer)!;
-    }
-
     private Generator.PowerGeneratorState FromApi(Api.PowerGeneratorState state)
     {
-        return new Generator.PowerGeneratorState(state.Iteration, FromApi(state.PowerProfile), FromApi(state.BuildContext), FromApi(state.Stage), state.FlavorText.FromApi());
+        return new Generator.PowerGeneratorState(state.Iteration, state.PowerProfile.FromApi(serializer), FromApi(state.BuildContext), FromApi(state.Stage), state.FlavorText.FromApi());
     }
 
     private Generator.UpgradeStage FromApi(UpgradeStage stage)

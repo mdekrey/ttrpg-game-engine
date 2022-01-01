@@ -45,7 +45,8 @@ export function PowerProfileConfigBuilder({
 	onCancel,
 	onSave,
 }: PowerProfileConfigBuilderProps) {
-	const powerProfileConfig = classProfile.tools[toolIndex].powerProfileConfigs[powerProfileIndex];
+	const powerProfileConfig =
+		typeof powerProfileIndex === 'number' ? classProfile.tools[toolIndex].powerProfileConfigs[powerProfileIndex] : null;
 
 	const api = useApi();
 	const [updated, setUpdated] = useState(powerProfileConfig!);
@@ -67,10 +68,14 @@ export function PowerProfileConfigBuilder({
 								map(() =>
 									api.generateSamplePower({
 										body: {
-											classProfile: produce(classProfile, (cp) => {
-												// eslint-disable-next-line no-param-reassign
-												cp.tools[toolIndex].powerProfileConfigs[powerProfileIndex] = currentPowerProfileConfig.current;
-											}),
+											classProfile:
+												typeof powerProfileIndex === 'number'
+													? produce(classProfile, (cp) => {
+															// eslint-disable-next-line no-param-reassign
+															cp.tools[toolIndex].powerProfileConfigs[powerProfileIndex] =
+																currentPowerProfileConfig.current;
+													  })
+													: classProfile,
 											toolIndex,
 											powerProfileIndex,
 											level,

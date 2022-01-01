@@ -1,15 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
-import { PencilIcon } from '@heroicons/react/solid';
 import { SelectField } from 'components/forms';
 import { EditableClassDescriptor } from 'api/models/EditableClassDescriptor';
 import { PowerFrequency } from 'api/models/PowerFrequency';
-import { ButtonRow } from 'components/ButtonRow';
-import { Button } from 'components/button/Button';
 import { Modal } from 'components/modal/modal';
 import { ToolProfile } from 'api/models/ToolProfile';
 import produce from 'immer';
-import { HandcraftPower } from 'pages/power-editor/powers/HandcraftPower';
 import { SamplePowerData, SamplePowers } from './SamplePowers';
 import { PowerProfileConfigBuilder } from './PowerProfileConfigBuilder';
 
@@ -45,7 +41,6 @@ export function SamplePowersSection({
 		powerLevelOptions.find((p) => p.level === 19)!
 	);
 	const [selectedPower, setSelectedPower] = useState<null | SamplePowerData>(null);
-	const [showHandCraftingModal, setShowHandCraftingModal] = useState(false);
 
 	return (
 		<>
@@ -85,23 +80,16 @@ export function SamplePowersSection({
 				))}
 			</SelectField>
 			{selectedCfg && selectedLevel && (
-				<>
-					<ButtonRow className="col-span-6">
-						<Button contents="icon" look="primary" onClick={() => setShowHandCraftingModal(true)}>
-							<PencilIcon />
-						</Button>
-					</ButtonRow>
-					<div className="col-span-6">
-						<SamplePowers
-							classProfile={classProfile}
-							toolIndex={selectedCfg.toolIndex}
-							powerProfileIndex={selectedCfg.powerConfigIndex}
-							level={selectedLevel.level}
-							usage={selectedLevel.usage}
-							onSelectPower={(p) => setSelectedPower(p)}
-						/>
-					</div>
-				</>
+				<div className="col-span-6">
+					<SamplePowers
+						classProfile={classProfile}
+						toolIndex={selectedCfg.toolIndex}
+						powerProfileIndex={selectedCfg.powerConfigIndex}
+						level={selectedLevel.level}
+						usage={selectedLevel.usage}
+						onSelectPower={(p) => setSelectedPower(p)}
+					/>
+				</div>
 			)}
 			<Modal
 				show={selectedPower != null}
@@ -129,21 +117,6 @@ export function SamplePowersSection({
 					/>
 				)}
 			</Modal>
-			{selectedCfg && (
-				<Modal
-					show={showHandCraftingModal}
-					onClose={() => setShowHandCraftingModal(false)}
-					title="Handcraft Power"
-					size="full">
-					<HandcraftPower
-						classProfile={classProfile}
-						toolIndex={selectedCfg.toolIndex}
-						powerProfileIndex={selectedCfg.powerConfigIndex}
-						level={selectedLevel.level}
-						usage={selectedLevel.usage}
-					/>
-				</Modal>
-			)}
 		</>
 	);
 }
