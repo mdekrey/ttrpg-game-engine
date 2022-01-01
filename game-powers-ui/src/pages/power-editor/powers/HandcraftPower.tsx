@@ -1,8 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
 import { map, startWith, switchAll } from 'rxjs/operators';
+import { CheckIcon } from '@heroicons/react/solid';
 import { PowerHighLevelInfo } from 'api/models/PowerHighLevelInfo';
 import { PowerProfileChoice } from 'api/models/PowerProfileChoice';
+import { PowerProfile } from 'api/models/PowerProfile';
+import { ButtonRow } from 'components/ButtonRow';
+import { Button } from 'components/button/Button';
 import { PowerTextBlock } from 'components/power';
 import { powerTextBlockToProps } from 'components/power/PowerTextBlock';
 import { useApi } from 'core/hooks/useApi';
@@ -11,7 +15,6 @@ import { initial, makeError, makeLoaded, makeLoading } from 'core/loadable/loada
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { PowerGeneratorState } from 'api/models/PowerGeneratorState';
 import { YamlEditor } from 'components/monaco/YamlEditor';
-import { PowerProfile } from 'api/models/PowerProfile';
 
 export type HandcraftPowerProps = PowerHighLevelInfo & {};
 
@@ -43,11 +46,18 @@ export const HandcraftPower = ({ classProfile, level, usage, toolIndex, powerPro
 	const updatePower = (power: PowerProfile) => setLastChoice((v) => v && [{ ...v[0], profile: power }, v[1]]);
 
 	return (
-		<div className="grid gap-2">
+		<div className="grid gap-8">
 			{lastChoice ? (
-				<div className="grid grid-cols-2 gap-2 h-64">
+				<div className="grid grid-cols-2 gap-2">
 					<YamlEditor value={lastChoice[0].profile} onChange={updatePower} />
-					<PowerTextBlock {...powerTextBlockToProps(lastChoice[0].text)} />
+					<div className="flex flex-col justify-between">
+						<PowerTextBlock {...powerTextBlockToProps(lastChoice[0].text)} />
+						<ButtonRow>
+							<Button contents="icon" look="primary">
+								<CheckIcon />
+							</Button>
+						</ButtonRow>
+					</div>
 				</div>
 			) : null}
 

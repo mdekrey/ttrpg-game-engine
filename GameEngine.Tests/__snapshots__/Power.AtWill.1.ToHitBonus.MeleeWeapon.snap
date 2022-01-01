@@ -1,0 +1,53 @@
+﻿- PowerInfo:
+    Usage: At-Will
+    ToolType: Weapon
+    ToolRange: Melee
+    Level: 1
+    Abilities:
+    - Strength
+    - Dexterity
+    PossibleRestrictions:
+    - the target is bloodied
+    - you are dual wielding
+    - you are bloodied
+    - you have combat advantage against the target
+  PowerProfile:
+    Attacks:
+    - Target:
+        Name: Basic Target
+        Target: Enemy, Self, Ally
+      Ability: Strength
+      Effects:
+      - Target:
+          Name: See Other
+        EffectType: Harmful
+        Modifiers:
+        - Name: Damage
+          Damage: 1[W] + STR
+          DamageTypes: []
+          IncreaseAtHigherLevels: true
+      Modifiers:
+      - Name: To-Hit Bonus to Current Attack
+        Amount: +2
+    Modifiers:
+    - Name: Power Source
+      PowerSource: Martial
+    Effects: []
+- Name: Unknown
+  TypeInfo: Weapon Attack 1
+  FlavorText: ''
+  PowerUsage: At-Will
+  Keywords:
+  - Martial
+  - Weapon
+  ActionType: Standard Action
+  AttackType: Melee
+  AttackTypeDetails: weapon
+  Target: One creature
+  Attack: STR + 2 vs. AC
+  RulesText:
+  - Label: Hit
+    Text: '1[W] + STR damage. Level 21: 2[W] + STR damage.'
+- Fields:
+    Flavor Text: ''
+    Name: Unknown

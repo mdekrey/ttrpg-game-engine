@@ -84,23 +84,25 @@ export function SamplePowersSection({
 					</option>
 				))}
 			</SelectField>
-			<ButtonRow className="col-span-6">
-				<Button contents="icon" look="primary" onClick={() => setShowHandCraftingModal(true)}>
-					<PencilIcon />
-				</Button>
-			</ButtonRow>
-			<div className="col-span-6">
-				{selectedCfg && selectedLevel && (
-					<SamplePowers
-						classProfile={classProfile}
-						toolIndex={selectedCfg.toolIndex}
-						powerProfileIndex={selectedCfg.powerConfigIndex}
-						level={selectedLevel.level}
-						usage={selectedLevel.usage}
-						onSelectPower={(p) => setSelectedPower(p)}
-					/>
-				)}
-			</div>
+			{selectedCfg && selectedLevel && (
+				<>
+					<ButtonRow className="col-span-6">
+						<Button contents="icon" look="primary" onClick={() => setShowHandCraftingModal(true)}>
+							<PencilIcon />
+						</Button>
+					</ButtonRow>
+					<div className="col-span-6">
+						<SamplePowers
+							classProfile={classProfile}
+							toolIndex={selectedCfg.toolIndex}
+							powerProfileIndex={selectedCfg.powerConfigIndex}
+							level={selectedLevel.level}
+							usage={selectedLevel.usage}
+							onSelectPower={(p) => setSelectedPower(p)}
+						/>
+					</div>
+				</>
+			)}
 			<Modal
 				show={selectedPower != null}
 				onClose={() => setSelectedPower(null)}

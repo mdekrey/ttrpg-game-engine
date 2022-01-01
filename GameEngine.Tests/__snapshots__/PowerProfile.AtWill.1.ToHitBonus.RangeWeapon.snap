@@ -1,0 +1,21 @@
+﻿Attacks:
+- Target:
+    Name: Basic Target
+    Target: Enemy, Self, Ally
+  Ability: Strength
+  Effects:
+  - Target:
+      Name: See Other
+    EffectType: Harmful
+    Modifiers:
+    - Name: Damage
+      Damage: 1[W] + STR
+      DamageTypes: []
+      IncreaseAtHigherLevels: true
+  Modifiers:
+  - Name: To-Hit Bonus to Current Attack
+    Amount: +2
+Modifiers:
+- Name: Power Source
+  PowerSource: Martial
+Effects: []

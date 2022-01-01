@@ -219,7 +219,7 @@ namespace GameEngine.Generator
             if (state.Stage == UpgradeStage.InitializeAttacks)
             {
                 var preApplyUpgrades = upgrades.ToChances(state.BuildContext).ToArray();
-                var temp = preApplyUpgrades.Select(d => d.Result).PreApply(state.BuildContext);
+                var temp = new[] { state.PowerProfile }.Concat(preApplyUpgrades.Select(d => d.Result)).PreApply(state.BuildContext);
                 if (temp.Any())
                     upgrades = temp;
             }

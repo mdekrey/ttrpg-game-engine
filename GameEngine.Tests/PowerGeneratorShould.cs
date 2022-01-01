@@ -47,17 +47,19 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, NonArmorDefensePowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, AccurateImplementPowerTemplateName)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
         [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
         [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
         [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, NonArmorDefensePowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, AccurateImplementPowerTemplateName)]
         [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, AccurateImplementPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, CloseBlastPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, CloseBurstPowerTemplateName)]
@@ -103,7 +105,8 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName, null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName, null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName, null)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, AccuratePowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, NonArmorDefensePowerTemplateName, null)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, AccurateImplementPowerTemplateName, null)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, CloseBurstPowerTemplateName, null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Encounter, InterruptPenaltyPowerTemplateName, null)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.Daily, MultiattackPowerTemplateName, null)]
@@ -180,17 +183,19 @@ namespace GameEngine.Tests
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
-        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, NonArmorDefensePowerTemplateName)]
+        [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, AccurateImplementPowerTemplateName)]
         [InlineData("MeleeWeapon", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
         [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
         [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
         [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
-        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, NonArmorDefensePowerTemplateName)]
+        [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, AccurateImplementPowerTemplateName)]
         [InlineData("RangeWeapon", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, MultiattackPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, SkirmishPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, ConditionsPowerTemplateName)]
-        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, AccuratePowerTemplateName)]
+        [InlineData("RangeImplement", 1, PowerFrequency.AtWill, AccurateImplementPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, BonusPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, CloseBlastPowerTemplateName)]
         [InlineData("RangeImplement", 1, PowerFrequency.AtWill, CloseBurstPowerTemplateName)]
@@ -220,7 +225,8 @@ namespace GameEngine.Tests
         }
 
 
-        public const string AccuratePowerTemplateName = "Accurate"; // focus on bonus to hit
+        public const string NonArmorDefensePowerTemplateName = "NonArmor"; // focus on bonus to hit
+        public const string AccurateImplementPowerTemplateName = "ToHitBonus";
         public const string SkirmishPowerTemplateName = "Skirmish"; // focus on movement
         public const string MultiattackPowerTemplateName = "Multiattack";
         public const string CloseBurstPowerTemplateName = "Close burst";
@@ -232,7 +238,8 @@ namespace GameEngine.Tests
         public static readonly Dictionary<string, PowerProfileConfig> ModifierByTemplate = new Dictionary<string, PowerProfileConfig>
         {
             { "", PowerProfileConfig.Empty },
-            { AccuratePowerTemplateName, MakeModifierTemplate(AccuratePowerTemplateName, "@.Name=='Non-Armor Defense'", "@.Name=='To-Hit Bonus to Current Attack'") },
+            { NonArmorDefensePowerTemplateName, MakeModifierTemplate(NonArmorDefensePowerTemplateName, "@.Name=='Non-Armor Defense'") },
+            { AccurateImplementPowerTemplateName, MakeModifierTemplate(AccurateImplementPowerTemplateName, "@.Name=='To-Hit Bonus to Current Attack'") },
             { SkirmishPowerTemplateName, MakeModifierTemplate(SkirmishPowerTemplateName, "@.Name=='Skirmish Movement'") },
             { MultiattackPowerTemplateName, MakeModifierTemplate(MultiattackPowerTemplateName, "@.Name=='RequiredHitForNextAttack'", "@.Name=='RequiresPreviousHit'", "@..Name=='TwoHits'", "@.Name=='UpToThreeTargets'", "@.Name=='Multiattack'") },
             { CloseBurstPowerTemplateName, MakeModifierTemplate(CloseBurstPowerTemplateName, "@.Name=='Multiple' && @.Type=='Burst'") },
@@ -430,7 +437,7 @@ namespace GameEngine.Tests
                 toolProfiles["MeleeWeapon"] with
                 {
                     PowerProfileConfigs = Build(
-                        ModifierByTemplate[AccuratePowerTemplateName],
+                        ModifierByTemplate[NonArmorDefensePowerTemplateName],
                         ModifierByTemplate[SkirmishPowerTemplateName],
                         ModifierByTemplate[MultiattackPowerTemplateName],
                         ModifierByTemplate[ConditionsPowerTemplateName],
@@ -446,7 +453,7 @@ namespace GameEngine.Tests
                 toolProfiles["WisdomRangeNormalImplement"] with
                 {
                     PowerProfileConfigs = Build(
-                        ModifierByTemplate[AccuratePowerTemplateName],
+                        ModifierByTemplate[AccurateImplementPowerTemplateName],
                         ModifierByTemplate[SkirmishPowerTemplateName],
                         ModifierByTemplate[MultiattackPowerTemplateName],
                         ModifierByTemplate[ConditionsPowerTemplateName],
