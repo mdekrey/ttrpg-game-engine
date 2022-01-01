@@ -49,6 +49,7 @@ declare module '@mdx-js/react' {
 	}
 
 	export const MDXProvider: React.FunctionComponent<MDXProviderProps>;
+	export const useMDXComponents: (components?: Components | ((components: Components) => Components)) => Components;
 }
 
 // declare module 'mdx.macro' {

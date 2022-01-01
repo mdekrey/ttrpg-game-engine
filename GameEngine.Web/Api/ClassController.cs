@@ -47,6 +47,7 @@ public class ClassController : ClassControllerBase
         if (await classStorage.UpdateAsync(key, cd => cd with
         {
             Name = updateClassBody.Name,
+            Description = updateClassBody.Description,
             ClassProfile = updateClassBody.FromApi(),
         }) is not StorageStatus<ClassDetails>.Success)
             return TypeSafeUpdateClassResult.Conflict();

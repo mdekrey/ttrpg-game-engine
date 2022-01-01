@@ -2,7 +2,7 @@ import { Children, ReactNode, cloneElement, Fragment } from 'react';
 import { isReactElement } from './isReactElement';
 import { pipeJsx, JsxMutator } from './pipeJsx';
 
-function addChildClass(child: ReactNode, ...operations: JsxMutator[]) {
+function applyMutatorsToChildren(child: ReactNode, ...operations: JsxMutator[]) {
 	if (!isReactElement(child)) {
 		return child;
 	}
@@ -15,7 +15,7 @@ export function recurse(...operations: JsxMutator[]): JsxMutator {
 		c.type === Fragment && c.props.children
 			? cloneElement(c, {
 					...c.props,
-					children: Children.map(c.props.children, (child) => addChildClass(child, ...operations)),
+					children: Children.map(c.props.children, (child) => applyMutatorsToChildren(child, ...operations)),
 			  })
 			: c;
 }
