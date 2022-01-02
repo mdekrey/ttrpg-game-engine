@@ -53,7 +53,7 @@ namespace GameEngine.Generator
         {
             var context = new PowerContext(profile, powerInfo);
             var damages = profile.GetDamageLenses().OrderByDescending(e => e.Damage.Order ?? 1).ToImmutableList();
-            var remaining = profile.TotalCost(powerInfo).Apply(maxPower);
+            var remaining = Math.Max(0, profile.TotalCost(powerInfo).Apply(maxPower));
             var damagesWithEffectiveness = (from damage in damages
                                             let effectiveness = GetEffectiveness(profile, powerInfo, damage)
                                             select new { Modifier = damage.Damage, Lens = damage.Lens, Effectiveness = effectiveness }).ToArray();
@@ -66,6 +66,7 @@ namespace GameEngine.Generator
                 var currentDamage = GameDiceExpressionExtensions.ToDamageAmount(powerInfo.ToolType, currentShare, damagesWithEffectiveness[i].Modifier.OverrideDiceType);
                 var actualShare = currentDamage.ToWeaponDice();
                 remaining -= actualShare * damagesWithEffectiveness[i].Effectiveness;
+                if (remaining < 0) remaining = 0;
                 result = result.Update(damagesWithEffectiveness[i].Lens, mod => mod with { Damage = damagesWithEffectiveness[i].Modifier.Damage + currentDamage });
             }
 

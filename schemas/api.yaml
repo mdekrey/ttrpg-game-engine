@@ -586,11 +586,13 @@ paths:
               required:
                 - state
                 - profile
+                - advance
               properties:
                 state:
                   $ref: '#/components/schemas/PowerGeneratorState'
                 profile:
                   $ref: '#/components/schemas/PowerProfile'
+                advance: { type: boolean }
       responses:
         200:
           description: OK

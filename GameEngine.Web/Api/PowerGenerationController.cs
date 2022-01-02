@@ -58,7 +58,9 @@ public class PowerGenerationController : PowerGenerationControllerBase
             return TypeSafeContinuePowerGenerationResult.BadRequest(new());
         }
         var finalized = Finalize(profile, state.BuildContext);
-        var result = PowerGenerator.ResolveState(state, profile);
+        var result = continuePowerGenerationBody.Advance
+            ? PowerGenerator.ResolveState(state, profile)
+            : state with { PowerProfile = profile };
 
         var options = PowerGenerator.GetPossibleUpgrades(result);
 

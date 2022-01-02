@@ -15,7 +15,7 @@ import { Spinner } from 'components/spinner/spinner';
 import { Subject } from 'rxjs';
 import { RequestParams } from 'api/operations/setPowerFlavor';
 import useConstant from 'use-constant';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ObjectShape } from 'yup/lib/object';
 import { powerTextBlockToProps } from 'components/power/PowerTextBlock';
 import { ClassProfile } from 'api/models/ClassProfile';
@@ -51,6 +51,11 @@ export function PowerEdit({
 		defaultValues: power.flavor,
 		schema,
 	});
+	const { reset } = form;
+
+	useEffect(() => {
+		reset(power.flavor);
+	}, [reset, power.flavor]);
 
 	const submitSubject = useConstant(() => new Subject<FlavorText>());
 	const maybeSaving = useObservable<Loadable<boolean>>(

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 
 namespace GameEngine.Web.Storage
@@ -11,7 +12,10 @@ namespace GameEngine.Web.Storage
         {
             var result = new JsonSerializer()
             {
-
+                ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy(),
+                },
                 Converters =
                 {
                     new Newtonsoft.Json.Converters.StringEnumConverter(),
