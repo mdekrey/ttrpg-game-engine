@@ -11,7 +11,7 @@ import { PowerTextBlock } from 'components/power';
 import { powerTextBlockToProps } from 'components/power/PowerTextBlock';
 import { useApi } from 'core/hooks/useApi';
 import { useObservable } from 'core/hooks/useObservable';
-import { initial, makeError, makeLoaded } from 'core/loadable/loadable';
+import { initial, isLoaded, makeError, makeLoaded } from 'core/loadable/loadable';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { PowerGeneratorState } from 'api/models/PowerGeneratorState';
 import { YamlEditor } from 'components/monaco/YamlEditor';
@@ -46,10 +46,7 @@ export const HandcraftPower = ({
 						: api.continuePowerGeneration({
 								body: { profile: lastChoice[0].profile, state: lastChoice[1] },
 						  })
-					).pipe(
-						map((response) => (response.statusCode === 200 ? makeLoaded(response.data) : makeError('Invalid')))
-						// startWith(makeLoading())
-					)
+					).pipe(map((response) => (response.statusCode === 200 ? makeLoaded(response.data) : makeError('Invalid'))))
 				),
 				switchAll()
 			),
@@ -57,7 +54,14 @@ export const HandcraftPower = ({
 		[classProfile, level, usage, toolIndex, powerProfileIndex, lastChoice] as const
 	);
 
-	const updatePower = (power: PowerProfile) => setLastChoice((v) => v && [{ ...v[0], profile: power }, v[1]]);
+	const updatePower = (power: PowerProfile) =>
+		setLastChoice((v) =>
+			v
+				? [{ ...v[0], profile: power }, v[1]]
+				: isLoaded(data)
+				? [{ ...data.value.finalizedChoice, profile: power }, data.value.state]
+				: null
+		);
 
 	return (
 		<div className="grid gap-8">

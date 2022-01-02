@@ -9,7 +9,14 @@ namespace GameEngine.Web.Storage
 
         internal JsonSerializer CreateJsonSerializer()
         {
-            var result = new JsonSerializer();
+            var result = new JsonSerializer()
+            {
+
+                Converters =
+                {
+                    new Newtonsoft.Json.Converters.StringEnumConverter(),
+                }
+            };
             return ApplyJsonSerializerSettings?.Invoke(result) ?? result;
         }
     }
