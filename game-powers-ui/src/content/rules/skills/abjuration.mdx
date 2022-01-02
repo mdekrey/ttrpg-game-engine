@@ -1,4 +1,53 @@
 # Abjuration
 
+Abjurations are protective spells. They create physical or magical barriers,
+negate magical or physical abilities, harm trespassers, or even banish the
+subject of the spell to another plane of existence.
+
+## Challenge Checkpoints
+
+| Action | Action Type | DC |
+| ------ | ----------- | -- |
+| Ward an area (radius 20') with an audible alarm | Minor Action | 12 |
+| Ward an area (radius 20') against being entered by a type of creature | Minor Action | 15 |
+| Secure a door or container against being opened (+10 DC) | Minor Action | 15 |
+| Protect a creature from attacks against a type of creature (+2 to one defense) | Minor Action | 12 |
+
+Each of the above actions last for 10x longer than spent creating the effect, or
+approximately the next size up. (1 encounter casting lasts for 1 hour, 1 hour
+casting lasts for 10 hours, 1 day casting lasts for 1 week.) Casting every day
+for 1 week can make the effect last for 1 month, every day for one month can
+make it last one year. Effects may be made permanent by increasing the duration
+beyond one year.
+
+| Modifier | DC |
+| -------- | -- |
+| Increase duration one step | +5 |
+| Double the area of effect | +5 |
+| Apply to all creatures instead of type of creature | +5 |
+| Allow exceptions for specific creatures | +2 |
+
+## Story Concepts
+
+- What was the moment that pushed you to learn abjuration?
+- When did your abjuration magic fail you that you still regret?
+
 ## Powers
-- Counterspell by burning other powers (Target power must have either Arcane or Divine keywords; if the target power has the Weapon keyword, they may still make a basic attack)
+
+<Power>{`
+name: Counterspell
+typeInfo: Abjuration Power
+powerUsage: Special
+keywords: ['Abjuration', 'Arcane']
+actionType: Opportunity Action
+trigger: Any creature within 10 squares of you uses a non-basic power with a power source
+target: The creature activating the power
+prerequisite: You must have at least 10 skill points in Abjuration.
+attack: INT vs. Will. To make this attack, you must expend an unused power of the same usage type.
+rulesText:
+- label: Effect
+  text: >-
+    The power and all of its effects are cancelled. If the power had a martial
+    power source, the target may make a basic attack with the same weapon, if
+    any.
+`}</Power>

@@ -18,9 +18,29 @@ When selecting Social, you must select a favored social type and a neglected
 social type. For example, you may focus on the nobility and neglect criminal
 situations. Certain social powers will reference your favored social type.
 
+| Suggested Social Types |
+| ---------------------- |
+| Nobility |
+| Criminal |
+| Laborers |
+| Scholars |
+
+Certain circles require special introductions to gain access. Even if your
+favored social type is "criminal", you won't be able to call on the head of the
+theives' guild from a town in which you just arrived. Open circles, such as
+finding a dock workers' guild, may only require a night of carousing to gain
+access to leaders, but secret societies may require many weeks' worth of
+socializing and making contacts.
+
 ## Challenge Checkpoints
 
-Example uses of powers with DCs
+| Action | Action Type | DC |
+| ------ | ----------- | -- |
+| Improve a hostile NPC's attitude towards you to unfriendly | Minor Action | 20 |
+| Improve a unfriendly NPC's attitude towards you to indifferent | Minor Action | 15 |
+| Improve a indifferent NPC's attitude towards you to friendly | Minor Action | 15 |
+| Improve a friendly NPC's attitude towards you to helpful | Minor Action | 20 |
+| Carouse to find yourself an introduction | Major Action | 15 |
 
 ## Story Concepts
 
@@ -32,19 +52,24 @@ Example uses of powers with DCs
 
 <Power>{`
 name: Call in a Favor
+typeInfo: Social Power
 powerUsage: Special
-keywords: ['Non-Combat']
+keywords: ['Non-Combat', 'Social']
 actionType: Major Action
+attack: CHA vs. Will, adjusted for favorability
+target: One NPC within your social type
+prerequisite: You must have at least 5 skill points in Social.
 rulesText:
 - label: Effect
   text: >-
     Name the NPC and what favor they can grant you. You trade favors you've
-    earned to get the benefit you desire. Failure by less than 5 gets you a
-    lesser version of the favor. The NPC named must be favorable to you and the
-    favor you ask must be relatively similar in magnitude to the one you are
-    owed.
+    earned to get the benefit you desire. The favor you ask must be relatively
+    similar in magnitude to the one you are owed.
+- label: Miss
+  text: >-
+    Failure by less than 5 gets you a lesser version of the favor.
 - label: Recharge
   text: >-
-    You may only use this again after doing gaining a favor from someone
-    within your circles.
+    You may use this again after earning a favor from someone within your
+    circles.
 `}</Power>

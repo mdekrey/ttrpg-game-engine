@@ -47,6 +47,8 @@ export function PowerTextBlock({
 	actionType,
 	attackType,
 	attackTypeDetails,
+	prerequisite,
+	requirement,
 	trigger,
 	target,
 	attack,
@@ -84,6 +86,8 @@ export function PowerTextBlock({
 					{trigger && <RulesText label="Trigger">{trigger}</RulesText>}
 					{target && <RulesText label="Target">{target}</RulesText>}
 					{attack && <RulesText label="Attack">{attack}</RulesText>}
+					{prerequisite && <RulesText label="Prerequisite">{prerequisite}</RulesText>}
+					{requirement && <RulesText label="Requirement">{requirement}</RulesText>}
 				</div>
 				{rulesText.map(({ label, text }, index) => (
 					// eslint-disable-next-line react/no-array-index-key
