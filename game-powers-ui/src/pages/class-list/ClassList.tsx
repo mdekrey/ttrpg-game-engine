@@ -10,6 +10,7 @@ export function ClassList({ data: { classes } }: { data: { classes: Record<strin
 	);
 	return (
 		<ReaderLayout>
+			{eachClass.length ? null : <h1>No classes avaliable</h1>}
 			<ul className="list-disc ml-6 theme-4e-list">
 				{eachClass.map(({ id, name, state }) => (
 					<li key={id} className="my-1">
