@@ -30,6 +30,7 @@ export const Power = ({
 						'bg-red-dark': type === 'Encounter',
 						'bg-gray-dark': type === 'Daily',
 						'bg-orange-dark': type === 'Item',
+						'bg-blue-dark': type !== 'At-Will' && type !== 'Encounter' && type !== 'Daily' && type !== 'Item',
 					},
 					'font-header text-white',
 					'flex justify-between items-baseline px-2 pt-0.5'
