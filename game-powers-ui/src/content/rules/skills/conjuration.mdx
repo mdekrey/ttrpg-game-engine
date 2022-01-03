@@ -1,8 +1,95 @@
 # Conjuration
 
-## Modifiers
+Conjurations can transport creatures or objects over great distances, even from
+other planes, or create objects or effects on the spot.
 
-- Size
-- Material
-- Duration
-- Craftsmanship - Raw materials are easier, can be drawn from another plane. Crafted materials are harder.
+## Challenge Checkpoints
+
+Most conjurations are a minor action - they take too long to be effective in combat.
+
+The base DC for any summoning is 10, which last for 1 hour, modified as follows:
+
+| Target Description | Modifier |
+| ----------- | -------- |
+| Living Creature | +level |
+| Living Creature with control | +5x level |
+| Fine Object | +0 |
+| Diminuitive Object | +1 |
+| Tiny Object | +2 |
+| Small Object | +4 |
+| Medium Object | +8 |
+| Large Object | +16 |
+| Huge Object | +32 |
+| Gargantuan Object | +64 |
+| Colossal Object | +128 |
+
+Other modifiers for objects include:
+
+| Object Details | Modifier |
+| -------------- | -------- |
+| Raw materials | +0 |
+| Crafted materials | +DC to create<br/>Or, make an additional crafting check. |
+| Metal | x2 |
+| Precious Metal | x5 |
+| Crstaline | x10 |
+
+Duration can be extended:
+
+| Duration | Modifier |
+| -------- | -------- |
+| 1 minute | -5 |
+| 1 day | +2 |
+| 1 week | +5 |
+| 1 month | +10 |
+| 1 year | +20 |
+| Permanent | +50 |
+
+Teleportation depends on the quantity/size of targets, distance, and accuracy.
+Base DCs assume 1 medium-sized creature or equivalent meterials.
+
+| Teleportation | DC |
+| ------------- | -------- |
+| 100 miles | 15 |
+| Anywhere on plane | 20 |
+| Different plane | 25 |
+| Unfamiliar location | +5 |
+| General area | -5 |
+| Double targets | +2 |
+
+DCs for conjurations can be steep. Summoning a creature or object from elsewhere
+or from nothing is not easy, but the ritual may be made more reliable through
+use of special materials. Spending 100gp per point in the DC in incense, chalk,
+and other specially prepared materials can reduce the DC by 1 point.
+
+<p>For example, conjuring a permanent large bronze statue made to resemble a
+specific person (crafting DC 25) would be DC 202. This can be reduced to a DC 20
+check for {new Intl.NumberFormat('en-US').format(202 * (202 - 20) * 100)} gp. If
+the conjurer also were a master sculptor, the base DC would be 152 with an
+additional DC 25 crafting check, which could be reduced to a DC 20 check for
+{' ' + new Intl.NumberFormat('en-US').format(152 * (152 - 20) * 100)} gp. Either way,
+it would be cheaper for a sculptor to acquire the materials through mundane
+methods if at all possible.</p>
+
+Conjurers can form a special bond with living spirits summoned repeatedly
+without control. Such spirits can take the form of a familiar, special mount, or
+many other forms.
+
+## Story Concepts
+
+- What was the first thing you conjured?
+- What is your go-to conjuration for practice?
+
+## Powers
+
+<Power>{`
+name: Dimension Door
+typeInfo: Conjuration Power
+powerUsage: Daily
+keywords: ['Abjuration', 'Arcane']
+actionType: Move Action
+prerequisite: You must have at least 5 skill points in Conjuration.
+rulesText:
+- label: Effect
+  text: >-
+    Teleport 10 squares. You can't take other creatures with you.
+`}</Power>
