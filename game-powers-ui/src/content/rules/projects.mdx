@@ -1,0 +1,115 @@
+import { ClockSvg } from 'components/clock/ClockSvg';
+
+# Projects
+
+In the course of your characters' lives, there will be some actions they wish to
+take that require a larger investment than even a single [major
+action](/rules/non-combat#The-Main-Action-Types). These projects can be the way
+your character spends downtime, a source of side quests, or even a way to solve
+a major plot.
+
+Some examples include:
+
+- Construct an magical sword
+- Ingratiate yourself with the local nobility
+- Locate the tomb of an ancient hero
+- Rennovate a mansion
+- Conduct a thriving business
+- Prepare a ritual of massive proportions
+- Gain specialized training
+
+Projects allow us to:
+
+- Gloss over the details of how your character accomplishes a goal to ensure the
+  game continues to move without getting overly deep in minutia.
+- Have the long-term project be the result of more than
+  one roll of the dice.
+- Have a shared understanding of how far along the project is and how long it
+  will take to complete.
+
+## Designing a project
+
+A project consists of one or more phases, each tracked by progress clocks. A
+progress clock is a visual game tool that looks like a circle cut into slices,
+like a pie. (It can also be a simple progress bar, or tally count.)
+
+A project plan consists of:
+
+- The overall goal for the project
+- The number of phases to complete the project
+- The details for (at least) the first phase of the project (see the following
+  section)
+
+### Phase Design
+
+A phase needs to have the following details:
+
+- A rough description of what completing the phase means
+- A progress clock indicating the complexity of the phase. (This should have no
+  more than 12 ticks.)
+- A definition of how difficult the phase is. Phases can be automatic (the clock
+  ticks for any tangible amount of effort) or have a DC (the clock ticks only if
+  a DC is exceeded.) There may also be other DCs to gain additional ticks on the
+  clock for great rolls.
+- Any other in-game costs or requirements to work on the phase. (Materials, a
+  workshop, access to a library containing the information, etc.)
+
+Phases may not have only one way to complete them, and you may solicit help from
+other players or NPCs as is normal for gameplay.
+
+## Example Projects
+
+Because projects are so varied, here are a few examples.
+
+### Constructing a Masterpiece Sword
+
+Bendar the journeyman weaponsmith wishes to construct his masterpiece - a sword
+fit for heroes. Working with the GM, he determines that the project should be 3
+phases long:
+
+1. Gathering the materials
+2. Forge the blade
+3. Forge the hilt and add finishing touches
+
+Bendar wants to ensure his blade passes the guild's test to be admitted as a
+master, so wants only the best metal - he'll need adamantium. In addition to
+being expensive, it is also rare, even in the dwarven markets. To establish a
+source for himself, he'll need both coin and connections. The phase is
+established as:
+
+> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={4} />
+> 4-ticks, minimum DC 15 to increase, but will tick an additional 1 for each 5 that the DC is exceeded. 1 gp must be spent
+> per attempt, which can be through bribes, purchasing drinks, taxes or fees, or anything else creative. In some situations,
+> the GM shares, additional gold could be spent for additional ticks.
+
+Bendar decides to carouse with his other weaponsmithing contacts; a night on
+the town may loosen their lips to a source. Spending 1gp, he rolls his Social,
+and gets an 23. <ClockSvg className="w-em h-em inline-block" currentTicks={2} totalTicks={4} />
+Bendar hears of a lead with the merchant's guild, but no actual source yet.
+
+Bendar unfortunately has "merchants" as his neglected social type; Bendar
+doesn't bargain well, and doesn't get along with those who do. He needs to try,
+though, so tries the same tactic - 1gp later and a lucky roll of a 15, he inches
+towards his goal. <ClockSvg className="w-em h-em inline-block" currentTicks={3} totalTicks={4} />
+
+The merchants didn't have adamantium to sell directly, but directed him towards
+a band of adventurers who had been retrieving bits of adamantium on a
+semi-regular basis, if he promised to give the guild its due. Bendar tries to
+convince the adventurers, but an unlucky roll of 12 causes him to be challenged
+by guards expecting customs and import fees: he spends his 1gp on fines and is
+left without a lead.
+
+Hearing of his encounter with the guards, a local dealer in the black market
+approaches him and offers to... take care of it for him. Bendar, frustrated and
+feeling without much choice, pays the shady man's price of 10gp and gains access to the
+adamantium he desires. <ClockSvg className="w-em h-em inline-block" currentTicks={4} totalTicks={4} />
+
+With an admittedly expensive source of adamantium available, the next phase is established:
+
+> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={10} />
+> 12-ticks, DC 10 ticks 1, and DC 20 ticks 2. 20 gp must be spent per attempt to purchase adamantium via the black market.
+> Use of a workshop is required, but Bendar has his own.
+
+And so, Bendar's project progresses.
+
+<>{/*<ClockSvg className="w-16 h-16 inline-block" currentTicks={0} totalTicks={4} />*/}</>

@@ -2,8 +2,27 @@ import { MDXProvider, Components } from '@mdx-js/react';
 import classNames from 'classnames';
 import { recurse } from 'core/jsx/recurse';
 import QRCode from 'react-qr-code';
-import { pipeJsx } from 'core/jsx/pipeJsx';
+import { JsxMutator, pipeJsx } from 'core/jsx/pipeJsx';
 import { mergeStyles } from 'core/jsx/mergeStyles';
+import React, { cloneElement, ReactNode } from 'react';
+
+const headerLink: JsxMutator = (el) => {
+	if (el.props.id) return el;
+	const id = React.Children.map(el.props.children as ReactNode[], (child) => {
+		if (typeof child === 'string') return child;
+		return '';
+	})
+		?.filter((v) => v)
+		?.join(' ')
+		.replaceAll(/[^a-zA-Z0-9]/g, '-')
+		.replaceAll(/-+/g, '-');
+	if (id)
+		return cloneElement(el, {
+			...el.props,
+			id,
+		});
+	return el;
+};
 
 const headerTemplate = mergeStyles(
 	<i className={classNames('font-header font-bold', 'mt-4 first:mt-0')} style={{ pageBreakAfter: 'avoid' }} />
@@ -20,42 +39,48 @@ export const mdxComponents: Components = {
 			<h2 className={classNames(className, 'text-theme text-2xl')} {...props}>
 				{children}
 			</h2>,
-			headerTemplate
+			headerTemplate,
+			headerLink
 		),
 	h2: ({ children, className, ...props }) =>
 		pipeJsx(
 			<h3 className={classNames(className, 'text-theme text-xl')} {...props}>
 				{children}
 			</h3>,
-			headerTemplate
+			headerTemplate,
+			headerLink
 		),
 	h3: ({ children, className, ...props }) =>
 		pipeJsx(
 			<h4 className={classNames(className, 'text-lg')} {...props}>
 				{children}
 			</h4>,
-			headerTemplate
+			headerTemplate,
+			headerLink
 		),
 	h4: ({ children, className, ...props }) =>
 		pipeJsx(
 			<h5 className={classNames(className, 'text-base')} {...props}>
 				{children}
 			</h5>,
-			headerTemplate
+			headerTemplate,
+			headerLink
 		),
 	h5: ({ children, className, ...props }) =>
 		pipeJsx(
 			<h6 className={classNames(className, 'text-sm')} {...props}>
 				{children}
 			</h6>,
-			headerTemplate
+			headerTemplate,
+			headerLink
 		),
 	h6: ({ children, className, ...props }) =>
 		pipeJsx(
 			<h6 className={classNames(className, 'text-xs')} {...props}>
 				{children}
 			</h6>,
-			headerTemplate
+			headerTemplate,
+			headerLink
 		),
 	p: ({ children, className, ...props }) => (
 		<p className={classNames(className, 'theme-4e-indent')} {...props}>

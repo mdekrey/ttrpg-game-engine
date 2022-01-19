@@ -11,7 +11,7 @@ socialization that can occur.
 >   represent anywhere from the duration of a combat round to a day - or longer.
 > - **Turn:** On your turn, you take an action. Although many combat actions
 >   (standard, move, and minor actions) can often fit within a non-combat turn,
->   non-combat actions include one major action and one side action.
+>   non-combat actions include one major action and one minor action.
 
 Not every non-combat situation needs to be structured as an encounter; these
 rules should apply only when the players are not all acting as a team or another
@@ -153,7 +153,7 @@ actions, and quick actions.
 > - **Major Action:** Major actions are the core of non-combat encounters. You
 >   take one major action on your turn. Most major actions are resolved via a
 >   skill check and progress towards the stake of the participants' choice.
-> - **Side Action:** Side actions are enabling actions, simple actions that can
+> - **Minor Action:** Minor actions are enabling actions, simple actions that can
 >   lead to more exciting actions, or ones that minorly change the situation for
 >   other participants. _Examples:_ knocking some loose rocks toward a
 >   competitor in a rock climbing race, pointing out a safe path over difficult
@@ -194,11 +194,11 @@ for definitions of the different actions you can take.
 >
 > - **Your Actions:** You get the following two actions on your turn:
 >   - Major Action
->   - Side Action
+>   - Minor Action
 > - **Quick Actions:** You can take any number of quick actions on your turn.
 > - **Any Order:** You can take your actions in any order you wish, and you can
 >   skip any of them.
-> - **Substitute Actions:** You can take a second side action instead of a major
+> - **Substitute Actions:** You can take a second minor action instead of a major
 >   action.
 > - **Other Participants' Actions:** Other participants can take quick actions
 >   on your turn.
@@ -232,11 +232,11 @@ would involve Charisma-based checks.
 
 ## Aid Another
 
-You use your side action to aid another participant. Describe how you're assisting
+You use your minor action to aid another participant. Describe how you're assisting
 as part of your scene. You can use this action to aid someone else's skill check
 or ability check.
 
-> ### Aid Another: Side Action
+> ### Aid Another: Minor Action
 >
 > - **Same Skill or Ability Check:** You can aid a skill check or an ability
 >   check made by an adjacent ally. Make a DC 10 skill check or ability check.
@@ -283,10 +283,10 @@ wait for opponents so you can counteract their progress.
 
 ## Hinder Another
 
-You use your side action to hinder another participant. You can use this action
+You use your minor action to hinder another participant. You can use this action
 to apply a penalty to someone else's skill check or ability check.
 
-> ### Aid Another: Side Action
+> ### Aid Another: Minor Action
 >
 > - **Skill or Ability Check:** Describe what you're doing to hinder. It must be
 >   plausible to cause a complication in this manner. Make a DC 10 skill check
