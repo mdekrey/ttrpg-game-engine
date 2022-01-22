@@ -1,77 +1,167 @@
 import { Power } from 'components/mdx/Power';
+import { ClockSvg } from 'components/clock/ClockSvg';
 
 # Conjuration
 
 Conjurations can transport creatures or objects over great distances, even from
 other planes, or create objects or effects on the spot.
 
+**Creation**: A creation spell manipulates matter to create an object or
+creature in the place the spellcaster designates.
+
+**Summoning**: A summoning spell instantly brings a creaure or object to a place
+you designate for a period of time. When the spell ends or is dispelled, a
+summoned target is instantly sent back to where it came from. A summoned
+creature also goes away if it is killed or if its hit points drop to 0. It is
+not really dead. It takes the creature 24 hours for the creature to reform where
+it was summoned from, during which time it can't be summoned again.
+
+**Teleportation**: A teleportation spell transports one or more creatures or
+objects a great distance or even across planes. Teleportation typically moves
+targets away from the caster, but a special type of teleportation, known as a
+calling, draws creatures or objects to the caster.
+
+Any means of blocking astral travel blocks
+
 ## Challenge Checkpoints
+
+Preparing a conjuration takes time, careful calculation, and arcane materials.
+The complexity of a conjuration depends greatly on many factors, including (but
+not limited to) the target locale of the conjuration, the source of the creature
+or object, the size of the effect, and even the material makeup of the target.
+
+### Choosing your location
+
+Conjurers often have a space dedicated for their conjurations to save time by
+pre-calculating and permanently inscribing arcane symbols necessary for
+conjuration. Such prepared locales may be used for any type of conjuration.
+
+Preparing a locale for conjuration is a long-term project on the scale of weeks,
+based on the maximum size used for conjuration. A typical prepared locale for a
+Medium space (see [Sizes](/rules/basics#Sizes)) is as follows:
+
+> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={8} />
+> 100gp of arcane materials must be purchased, including inlays, gemstones, etc. Each round takes a week. Progress is tracked
+> on an 8-tick clock, where an Intelligence-based DC 15 conjuration check ticks 1, and a failure requires replenishing 10%
+> of the cost of materials.
+
+A larger or smaller space modifies the DC by the target size's Standard
+Modifier, the clock ticks and initial cost of materials by the target size's
+Standard Multiplier (see [Sizes](/rules/basics#Sizes)).
+
+A conjuration without a prepared location causes the DC to be 5 higher.
+
+### Creation
+
+A typical creation causes a medium-size amount of raw mundane materials to appear.
+
+### Summoning
+
+A typical summoning draws a particular extraplanar creature or object to the
+summoner. The summoner must have a special bond with the target for it to fully
+form, which can be developed over the course of a single-phase project. A basic
+project for a common being may be:
+
+> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={8} />
+> Each round takes a week. Progress is tracked on an 8-tick clock, where a Charisma-based DC 15 conjuration check ticks 1.
+> Each round requires 10gp of arcane materials.
+
+This project is only an example that may represent a typical small elemental and
+should be modified for larger and more powerful beings. Some may require gifts
+before allowing a summoner to call them at any time.
+
+Once a bond is formed, summoning is a simpler process. In a prepared location,
+it is a DC 15 conjuration check, modified by the target's size and the duration
+of the summoning. Alternatively, 10gp of arcane materials may be used in a
+prepared loacation, multiplied by the size's standard multiplier, to get a
+10-minute summoning without a roll.
+
+A summoned creature may choose to break its bond with the summoner at any time.
+As a result, summoners will often continue to send their powerful bound beings gifts.
+
+### Teleportation
+
+### Modifiers
+
+Duration can be extended:
+
+| Duration | Modifier |
+| -------- | -------- |
+| 1 minute | -5       |
+| 1 hour   | +0       |
+| 1 day    | +2       |
+| 1 week   | +5       |
+| 1 month  | +10      |
+| 1 year   | +20      |
+
+======
 
 Most conjurations are a minor non-combat action - they take too long to be
 effective in combat.
 
 The base DC for any summoning is 10, which last for 1 hour, modified as follows:
 
-| Target Description | Modifier |
-| ----------- | -------- |
-| Living Creature | +level |
+| Target Description           | Modifier  |
+| ---------------------------- | --------- |
+| Living Creature              | +level    |
 | Living Creature with control | +5x level |
-| Fine Object | +0 |
-| Diminuitive Object | +1 |
-| Tiny Object | +2 |
-| Small Object | +4 |
-| Medium Object | +8 |
-| Large Object | +16 |
-| Huge Object | +32 |
-| Gargantuan Object | +64 |
-| Colossal Object | +128 |
+| Fine Object                  | +0        |
+| Diminuitive Object           | +1        |
+| Tiny Object                  | +2        |
+| Small Object                 | +4        |
+| Medium Object                | +8        |
+| Large Object                 | +16       |
+| Huge Object                  | +32       |
+| Gargantuan Object            | +64       |
+| Colossal Object              | +128      |
 
 Other modifiers for objects include:
 
-| Object Details | Modifier |
-| -------------- | -------- |
-| Raw materials | +0 |
+| Object Details    | Modifier                                                 |
+| ----------------- | -------------------------------------------------------- |
+| Raw materials     | +0                                                       |
 | Crafted materials | +DC to create<br/>Or, make an additional crafting check. |
-| Metal | x2 |
-| Precious Metal | x5 |
-| Crstaline | x10 |
+| Metal             | x2                                                       |
+| Precious Metal    | x5                                                       |
+| Crstaline         | x10                                                      |
 
 Duration can be extended:
 
-| Duration | Modifier |
-| -------- | -------- |
-| 1 minute | -5 |
-| 1 day | +2 |
-| 1 week | +5 |
-| 1 month | +10 |
-| 1 year | +20 |
-| Permanent | +50 |
+| Duration  | Modifier |
+| --------- | -------- |
+| 1 minute  | -5       |
+| 1 hour    | +0       |
+| 1 day     | +2       |
+| 1 week    | +5       |
+| 1 month   | +10      |
+| 1 year    | +20      |
+| Permanent | +50      |
 
 Teleportation depends on the quantity/size of targets, distance, and accuracy.
 Base DCs assume 1 medium-sized creature or equivalent meterials.
 
-| Teleportation | DC |
-| ------------- | -------- |
-| 100 miles | 15 |
-| Anywhere on plane | 20 |
-| Different plane | 25 |
-| Unfamiliar location | +5 |
-| General area | -5 |
-| Double targets | +2 |
+| Teleportation       | DC  |
+| ------------------- | --- |
+| 100 miles           | 15  |
+| Anywhere on plane   | 20  |
+| Different plane     | 25  |
+| Unfamiliar location | +5  |
+| General area        | -5  |
+| Double targets      | +2  |
 
 DCs for conjurations can be steep. Summoning a creature or object from elsewhere
 or from nothing is not easy, but the ritual may be made more reliable through
 use of special materials. Spending 100gp per point in the DC in incense, chalk,
 and other specially prepared materials can reduce the DC by 1 point.
 
-<p>For example, conjuring a permanent large bronze statue made to resemble a
-specific person (crafting DC 20) would be DC 192. This can be reduced to a DC 20
-check for {new Intl.NumberFormat('en-US').format(192 * (192 - 20) * 100)} gp. If
-the conjurer also were a master sculptor, the base DC would be 152 with an
-additional DC 20 crafting check, which could be reduced to a DC 20 check for
-{' ' + new Intl.NumberFormat('en-US').format(142 * (142 - 20) * 100)} gp. Either way,
-it would be cheaper for a sculptor to acquire the materials through mundane
-methods if at all possible.</p>
+<p>
+	For example, conjuring a permanent large bronze statue made to resemble a specific person (crafting DC 20) would be DC
+	192. This can be reduced to a DC 20 check for {new Intl.NumberFormat('en-US').format(192 * (192 - 20) * 100)} gp. If
+	the conjurer also were a master sculptor, the base DC would be 152 with an additional DC 20 crafting check, which
+	could be reduced to a DC 20 check for
+	{' ' + new Intl.NumberFormat('en-US').format(142 * (142 - 20) * 100)} gp. Either way, it would be cheaper for a sculptor
+	to acquire the materials through mundane methods if at all possible.
+</p>
 
 Conjurers can form a special bond with living spirits summoned repeatedly
 without control. Such spirits can take the form of a familiar, special mount, or
