@@ -10,8 +10,8 @@ socialization that can occur.
 > - **Round:** In a round, every active participant takes a turn. A round can
 >   represent anywhere from the duration of a combat round to a day - or longer.
 > - **Turn:** On your turn, you take an action. Although many combat actions
->   (standard, move, and minor actions) can often fit within a non-combat turn,
->   non-combat actions include one major action and one minor action.
+>   (standard, move, and bonus actions) can often fit within a non-combat turn,
+>   non-combat turns include one major action and one minor action.
 
 Not every non-combat situation needs to be structured as an encounter; these
 rules should apply only when the players are not all acting as a team or another
@@ -61,10 +61,6 @@ meaningful.
 
 - A pie-eating contest could be arbitrated with the stake of "last character
   standing."
-- A month in town for training could be run as an encounter with "the month
-  ends" as stakes, but it would be better to add "earn enough training to level
-  up" as an additional stake. An alternate stake of "uncover an enticing new
-  adventure hook" would give players additional goals and options.
 - A climbing race might have the stake "first character to reach the top."
 - An auction would have the stakes "all goods are sold" and "everyone runs out
   of money."
@@ -97,8 +93,6 @@ the stakes and expected actions for the round, the DM will set the ability score
 for initiative.
 
 - A pie-eating contest would likely use the Constitution score.
-- A month in town to train likely uses each characters' primary ability score
-  for initiative.
 - A climbing race probably would use the Strength score (if it's more about
   athletics to climb the cliff itself quickly), but some situations may call for
   Dexterity (to see who can scramble the fastest) or Constitution (in the case
