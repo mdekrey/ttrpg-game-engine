@@ -30,30 +30,23 @@ The complexity of a conjuration depends greatly on many factors, including (but
 not limited to) the target locale of the conjuration, the source of the creature
 or object, the size of the effect, and even the material makeup of the target.
 
-### Choosing your location
+### Summoning Circles
 
 Conjurers often have a space dedicated for their conjurations to save time by
 pre-calculating and permanently inscribing arcane symbols necessary for
-conjuration. Such prepared locales may be used for any type of conjuration.
+conjuration. Prepared locations for conjurations are known as **summoning
+circles**, but they may be used for any type of conjuration. See (see [Rituals:
+Preparing a Location](/rules/rituals#Preparing-a-location)).
 
-Preparing a locale for conjuration is a long-term project on the scale of weeks,
-based on the maximum size used for conjuration. A typical prepared locale for a
-Medium space (see [Sizes](/rules/basics#Sizes)) is as follows:
-
-> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={8} />
-> 100gp of arcane materials must be purchased, including inlays, gemstones, etc. Each round takes a week. Progress is tracked
-> on an 8-tick clock, where an Intelligence-based DC 15 conjuration check ticks 1, and a failure requires replenishing 10%
-> of the cost of materials.
-
-A larger or smaller space modifies the DC by the target size's Standard
-Modifier, the clock ticks and initial cost of materials by the target size's
-Standard Multiplier (see [Sizes](/rules/basics#Sizes)).
-
-A conjuration without a prepared location causes the DC to be 5 higher.
+A conjuration with a summoning circle causes the DC to be 5 lower unless
+otherwise specified.
 
 ### Creation
 
-A typical creation causes a medium-size amount of raw mundane materials to appear.
+A typical creation takes an hour of time causes a medium-size amount of raw
+mundane materials to appear.
+
+TODO: cost? size? workmanship?
 
 ### Summoning
 
@@ -63,23 +56,40 @@ form, which can be developed over the course of a single-phase project. A basic
 project for a common being may be:
 
 > <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={8} />
-> Each round takes a week. Progress is tracked on an 8-tick clock, where a Charisma-based DC 15 conjuration check ticks 1.
+> Each round takes a week. Progress is tracked on an 8-tick clock, where a Charisma-based DC 20 conjuration check ticks 1.
 > Each round requires 10gp of arcane materials.
 
 This project is only an example that may represent a typical small elemental and
 should be modified for larger and more powerful beings. Some may require gifts
 before allowing a summoner to call them at any time.
 
-Once a bond is formed, summoning is a simpler process. In a prepared location,
-it is a DC 15 conjuration check, modified by the target's size and the duration
-of the summoning. Alternatively, 10gp of arcane materials may be used in a
-prepared loacation, multiplied by the size's standard multiplier, to get a
-10-minute summoning without a roll.
+Once a bond is formed, summoning is a simpler process, though still time
+consuming. A typical summoning takes 10 minutes and lasts for 1 hour. It is a DC
+20 conjuration check, modified by the target's size and the duration of the
+summoning and presence of a summoning circle. Alternatively, 10gp (multiplied by
+the size's standard multiplier) of arcane materials may be used when within a
+summoning circle to avoid the check to get a 10-minute summoning without a
+check.
 
 A summoned creature may choose to break its bond with the summoner at any time.
 As a result, summoners will often continue to send their powerful bound beings gifts.
 
 ### Teleportation
+
+A typical teleportation sends a target from a summoning circle to a chosen
+destination, which also has a summoning circle and is familiar to the caster.
+Such teleportation takes 10 minutes to cast, can only teleport a target the size
+of the smaller conjuration circle. Multiple targets may be teleported, but the
+combined size must be within the limit.
+
+If either the starting point or the end point does not have a summoning circle,
+a conjuration check must be made:
+
+- DC 20 if only one location is missing a conjuration circle
+- DC 25 if both locations are missing a conjuration circle.
+- +5 to the DC if the destination is on a different plane
+
+A failure on the roll means the teleportation still occurs but incurs a mishap. (TODO - define mishaps.)
 
 ### Modifiers
 
@@ -94,7 +104,7 @@ Duration can be extended:
 | 1 month  | +10      |
 | 1 year   | +20      |
 
-======
+# OLD - TODO, remove
 
 Most conjurations are a minor non-combat action - they take too long to be
 effective in combat.

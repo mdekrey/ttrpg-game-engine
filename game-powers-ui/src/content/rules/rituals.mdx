@@ -1,0 +1,59 @@
+import { ClockSvg } from 'components/clock/ClockSvg';
+
+# Rituals
+
+Most spellcasting outside of combat takes place in careful rituals. Subtle
+changes in an environment can cause unpredictable results for spells, so
+a spellcaster's control must be precise to pull off the most powerful rituals.
+
+## Preparing a location
+
+Spellcasters often have a space dedicated for their spells to save time by
+pre-calculating and permanently inscribing arcane symbols necessary for their
+schools of magic. They can be widly varied in appearance depending on the type
+of spells they are suited for, ranging from summoning circles to audience halls
+to showcase illusions.
+
+Preparing a locale for spellcasting for a single skill is a long-term project on
+the scale of weeks, based on the maximum size for the effect. A typical prepared
+locale for a Medium space (see [Sizes](/rules/basics#Sizes)) is as follows:
+
+> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={8} />
+> 100gp of arcane materials must be purchased, including inlays, gemstones, etc. Each round takes a week. Progress is tracked
+> on an 8-tick clock, where an Intelligence-based DC 15 check for the ritual skill in question ticks 1, and a failure requires
+> replenishing 10% of the cost of materials.
+
+A larger or smaller space modifies the DC by the target size's Standard
+Modifier, the clock ticks and initial cost of materials by the target size's
+Standard Multiplier (see [Sizes](/rules/basics#Sizes)).
+
+A single location may be used for multiple types of rituals, but creating the
+circle becomes a multi-phase project: one phase for each ritual skill to be used
+in the location. In addition, for each ritual skill beyond the first to be used,
+the cost of materials doubles. Adding a new ritual skill to an existing space
+only requires completing the new phase of the project, but requires the full
+price in arcane materials. The space is unusable for any ritual while
+construction is incomplete.
+
+For example, Celwyn the elven spellcaster wishes to prepare a space for
+medium-sized Abjuration, Conjuration, and Transmutation rituals. Such a space
+will cost 800gp to create with three 8-tick clocks <ClockSvg className="w-em h-em inline-block m-2" currentTicks={0} totalTicks={8} /> <ClockSvg className="w-em h-em inline-block m-2" currentTicks={0} totalTicks={8} /> <ClockSvg className="w-em h-em inline-block m-2" currentTicks={0} totalTicks={8} />,
+each requiring a DC 15 check for the corresponding skill to increase for each
+step of the way. At best, she'll be done in 24 weeks; at worst, the project
+will take longer and she'll need to replace 80gp of materials per failure.
+
+Celwyn later decides she wants to add Divination to the space. It would only
+take one more clock <ClockSvg className="w-em h-em inline-block m-2" currentTicks={0} totalTicks={8} />
+but she'd need to spend the full 1600gp, and failures would cost 160gp. Celwyn
+instead opts for an entirely new divination space, which will cost only 100gp.
+
+## Becoming familiar with a prepared ritual location
+
+A ritual location prepared by another spellcaster takes some getting used to.
+Because every spellcaster has their own style, becoming familiar with a location
+is necessary to gain the benefits of the prepared locale.
+
+To become familiar with a prepared ritual location, a character must spend an
+hour studying either the space itself or careful notes made for the purpose of
+becoming familiar with the space. For example, a summoning circle may be
+documented through an intricate drawing of the circle itself.
