@@ -1,5 +1,8 @@
 declare module '*.mdx' {
-	declare const component: React.FunctionComponent<MDXProviderProps>;
+	export const frontmatter: Record<string, unknown> | undefined;
+	declare const component: React.FunctionComponent<MDXProviderProps> & {
+		frontmatter?: typeof frontmatter;
+	};
 	export default component;
 }
 declare module '*.md' {
