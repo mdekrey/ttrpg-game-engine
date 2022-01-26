@@ -1,4 +1,5 @@
 import { ClockSvg } from 'components/clock/ClockSvg';
+import { ProjectPhase } from 'components/project/ProjectPhase';
 
 export const frontmatter = {
 	title: 'Projects'
@@ -83,9 +84,9 @@ Bendar the journeyman weaponsmith wishes to construct his masterpiece - a sword
 fit for heroes. Working with the GM, he determines that the project should be 3
 phases long:
 
-1. Gathering the materials
+1. Find a reliable source of Adamantine
 2. Forge the blade
-3. Forge the hilt and add finishing touches
+3. Add the finishing touches
 
 Bendar wants to ensure his blade passes the guild's test to be admitted as a
 master, so wants only the best metal - he'll need adamantine. In addition to
@@ -93,10 +94,23 @@ being expensive, it is also rare, even in the dwarven markets. To establish a
 source for himself, he'll need both coin and connections. The phase is
 established as:
 
-> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={4} />
-> 4-ticks, minimum DC 15 to increase, but will tick an additional 1 for each 5 that the DC is exceeded. 1 gp must be spent
-> per attempt, which can be through bribes, purchasing drinks, taxes or fees, or anything else creative. In some situations,
-> the GM shares, additional gold could be spent for additional ticks.
+<ProjectPhase
+	advancement={[
+		{
+			check: 'DC 15',
+			result: '1 tick'
+		},
+		{
+			check: 'Each +5 on result',
+			result: '+1 tick'
+		}
+	]}
+	cost="1 gp must be spent per attempt to make bribes, purchase drinks, pay taxes and fees, etc."
+	check="Varies"
+	goal="Find a reliable source of Adamantine"
+	totalTicks={4}>
+	<p>In some situations, the GM shares, additional gold could be spent for additional ticks.</p>
+</ProjectPhase>
 
 Bendar decides to carouse with his other weaponsmithing contacts; a night on
 the town may loosen their lips to a source. Spending 1gp, he rolls his Social,
@@ -122,10 +136,26 @@ adamantine he desires. <ClockSvg className="w-em h-em inline-block" currentTicks
 
 With an admittedly expensive source of adamantine available, the next phase is established:
 
-> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={8} />
-> Because adamantine is difficult to work with, this phase will have 8-ticks, where DC 20 ticks 1, and DC 25 ticks 2. 20
-> gp must be spent per attempt to purchase adamantine via the black market. Use of a workshop is required, but Bendar has
-> access to one through membership in the guild.
+<ProjectPhase
+	advancement={[
+		{
+			check: 'DC 20',
+			result: '1 tick'
+		},
+		{
+			check: 'DC 25',
+			result: '2 ticks'
+		}
+	]}
+	cost="20 gp must be spent per attempt to purchase adamantine via the black market."
+	check="INT + Weaponsmithing"
+	goal="Forge the Blade"
+	totalTicks={8}>
+	<p>
+		Adamantine is difficult to work with, and requires a steady supply to continue crafting. Use of a workshop is
+		required, but Bendar has access to one through membership in the guild.
+	</p>
+</ProjectPhase>
 
 And so, Bendar's project progresses. With a +15 bonus in weaponsmithing, his clock progresses:
 
@@ -150,10 +180,23 @@ crafting skills. Fortunately, Bendar cannot ruin the adamantine blade, so a
 minimum result is not required... which is good, because Bendar doesn't have
 much skill in the other areas. The final phase is established:
 
-> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={12} />
-> Because adamantine is difficult to work with, this phase will have 12-ticks, where any result ticks 1, but DC 5 ticks 2,
-> DC 10 ticks 3, etc. 20 gp must be spent per attempt to purchase embellishments, including fine leather, gemstones, silver
-> for inlays, etc. Use of a workshop is required, but Bendar has access to one through membership in the guild.
+<ProjectPhase
+	advancement={[
+		{
+			check: 'Any',
+			result: '1 tick'
+		},
+		{
+			check: 'Each +5 on result',
+			result: '+1 tick'
+		}
+	]}
+	cost="20 gp must be spent per attempt to purchase embellishments, including fine leather, gemstones, silver for inlays, etc."
+	check="INT + Crafting"
+	goal="Add the finishing touches"
+	totalTicks={12}>
+	<p>Use of a workshop is required, but Bendar has access to one through membership in the guild.</p>
+</ProjectPhase>
 
 Through a series of other rolls, Bendar makes progress:
 
@@ -183,9 +226,25 @@ will be used:
 Knowing that the shield was lost more than an elven generation ago, the first
 phase becomes a difficult task.
 
-> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={8} />
-> Tracking old knowledge is difficult and time consuming, so this phase will have 8-ticks, where DC 15 ticks 1, and DC 25
-> ticks 2. The library is an option, but the characters may use any creative means to track down the information.
+<ProjectPhase
+	advancement={[
+		{
+			check: 'DC 15',
+			result: '1 tick'
+		},
+		{
+			check: 'DC 25',
+			result: '2 ticks'
+		}
+	]}
+	check="Varies"
+	goal="Find information on the final resting place of the Shield"
+	totalTicks={8}>
+	<p>
+		Tracking old knowledge is difficult and time consuming. The library is an option, but the characters may use any
+		creative means to track down the information.
+	</p>
+</ProjectPhase>
 
 - Aenwyn and Tarric both get to work searching the library for information. Between the two of them, they roll a 17 and
   an 8, resulting in only one tick:
@@ -204,9 +263,25 @@ map of the inside of the fortress, and know its location based on several old
 landmarks. The landmarks must be located as well, however, and that will require
 talking with the locals of that area.
 
-> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={6} />
-> The landmarks will still be obvious, but a combination of exploration and talking with people from the villages in the
-> area will make the best progress. A DC 10 on any reasonable tactic will gain 1 tick, and DC 20 will gain 2.
+<ProjectPhase
+	advancement={[
+		{
+			check: 'DC 10',
+			result: '1 tick'
+		},
+		{
+			check: 'DC 20',
+			result: '2 ticks'
+		}
+	]}
+	check="Variable"
+	goal="Locate Elmenor's Last Stand"
+	totalTicks={6}>
+	<p>
+		The landmarks will still be obvious, but a combination of exploration and talking with people from the villages in
+		the area will make the best progress.
+	</p>
+</ProjectPhase>
 
 This time the party's ranger, Thordor, is willing to help out - out of the city is his element. With the whole party
 working together, they are sure to make quick progress.

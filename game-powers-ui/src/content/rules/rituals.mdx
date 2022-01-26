@@ -1,4 +1,5 @@
 import { ClockSvg } from 'components/clock/ClockSvg';
+import { ProjectPhase } from 'components/project/ProjectPhase';
 
 export const frontmatter = {
 	title: 'Rituals'
@@ -25,10 +26,23 @@ Preparing a locale for spellcasting for a single skill is a long-term project on
 the scale of weeks, based on the maximum size for the effect. A typical prepared
 locale for a Medium space (see [Sizes](/rules/basics#Sizes)) is as follows:
 
-> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={8} />
-> 100gp of arcane materials must be purchased, including inlays, gemstones, etc. Each round takes a week. Progress is tracked
-> on an 8-tick clock, where an Intelligence-based DC 15 check for the ritual skill in question ticks 1, and a failure requires
-> replenishing 10% of the cost of materials.
+<ProjectPhase
+	advancement={[
+		{
+			check: 'DC 15',
+			result: '1 tick'
+		},
+		{
+			check: 'Failure',
+			result: '10gp to replenish materials'
+		}
+	]}
+	check="INT + ritual skill"
+	cost="100gp of arcane materials, including precious metals, gemstones, etc."
+	goal="Complete a Summoning Circle"
+	totalTicks={8}>
+	<p>Use arcane materials to create a permanent summoning circle. Each round takes a week.</p>
+</ProjectPhase>
 
 A larger or smaller space modifies the DC by the target size's Standard
 Modifier, the clock ticks and initial cost of materials by the target size's

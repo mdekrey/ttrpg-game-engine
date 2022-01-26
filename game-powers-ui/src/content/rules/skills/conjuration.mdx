@@ -1,5 +1,5 @@
 import { Power } from 'components/mdx/Power';
-import { ClockSvg } from 'components/clock/ClockSvg';
+import { ProjectPhase } from 'components/project/ProjectPhase';
 
 export const frontmatter = {
 	title: 'Conjuration'
@@ -62,9 +62,19 @@ summoner. The summoner must have a special bond with the target for it to fully
 form, which can be developed over the course of a single-phase project. A basic
 project for a common being may be:
 
-> <ClockSvg className="w-16 h-16 float-right mr-2 mb-2" currentTicks={0} totalTicks={8} />
-> Each round takes a week. Progress is tracked on an 8-tick clock, where a Charisma-based DC 20 conjuration check ticks 1.
-> Each round requires 10gp of arcane materials.
+<ProjectPhase
+	advancement={[
+		{
+			check: 'DC 20',
+			result: '1 tick'
+		}
+	]}
+	check="CHA + Conjuration skill"
+	cost="10gp of arcane materials per round."
+	goal="Bond with an Extraplanar Being"
+	totalTicks={8}>
+	<p>Develop a bond with an extraplanar being. Each round takes a week.</p>
+</ProjectPhase>
 
 This project is only an example that may represent a typical small elemental and
 should be modified for larger and more powerful beings. Some may require gifts

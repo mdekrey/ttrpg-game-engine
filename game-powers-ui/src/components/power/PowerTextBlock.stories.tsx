@@ -91,7 +91,7 @@ const contentsMapping = {
 };
 
 export default {
-	title: 'Powers/PowerTextBlock',
+	title: 'Components/Powers/PowerTextBlock',
 	argTypes: {
 		className: {
 			name: 'size',

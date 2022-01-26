@@ -92,7 +92,7 @@ const contentsMapping = {
 };
 
 export default {
-	title: 'Powers/Power',
+	title: 'Components/Powers/Power',
 	component: Power,
 	argTypes: {
 		className: {

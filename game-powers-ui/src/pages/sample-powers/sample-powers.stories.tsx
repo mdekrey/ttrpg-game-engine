@@ -2,7 +2,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { SamplePowers } from './sample-powers';
 
 export default {
-	title: 'Powers/Sample Powers',
+	title: 'Components/Powers/Sample Powers',
 	component: SamplePowers,
 } as ComponentMeta<typeof SamplePowers>;
 
