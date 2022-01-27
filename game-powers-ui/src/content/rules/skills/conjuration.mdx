@@ -50,10 +50,25 @@ otherwise specified.
 
 ### Creation
 
-A typical creation takes an hour of time causes a medium-size amount of raw
-mundane materials to appear.
+A typical creation is a ritual that takes an hour of time and causes a
+medium-size amount of raw mundane materials to appear. More complex creations
+can summon more materials, crafted goods, or even precious metals, crystals, or
+other valuable resources. While creations are permanent, they don't form
+entirely out of nothing - the price is paid for the materials to be transported
+from other planes by arcane materials consumed during the ritual.
 
-TODO: cost? size? workmanship?
+An amount of arcane materials must be expended roughly equivalent to the cost of
+the raw materials to be created. In most cases, it is cost-prohibitive to use
+creation conjurations for recovering raw materials. However, where resources are
+scarce, creation magic is effective. Water may be summoned in a desert, or stone
+in the middle of a jungle.
+
+Crafted materials require prepartion. Conjurers may use their knowledge of the
+craft required or their specialized knowledge in conjuration. Such preparation
+should be structured as a project that would be roughly equivalent to crafting
+the desired shape directly.
+
+Creation rituals require use of a summoning circle.
 
 ### Summoning
 
@@ -89,7 +104,48 @@ summoning circle to avoid the check to get a 10-minute summoning without a
 check.
 
 A summoned creature may choose to break its bond with the summoner at any time.
-As a result, summoners will often continue to send their powerful bound beings gifts.
+As a result, summoners will often continue to send their powerful bonded beings
+gifts.
+
+#### Familiars
+
+Familiars are special creatures that form a lifelong bond with a summoner. The
+bond between summoner and familiar is so strong that the familiar remains in its
+summoned state almost permanently.
+
+Many creatures who become familiars do not have a physical form they would
+normally manifest in the material plane; the process of becoming a familiar
+grants them such a form. As such, the process of finding a familiar depends on
+the form your familiar will take.
+
+A tiny familiar, such as a cat or toad, may require a ritual such as the following:
+
+<ProjectPhase
+	advancement={[
+		{
+			check: 'DC 10',
+			result: '1 tick'
+		}
+	]}
+	check="CHA + Conjuration skill"
+	cost="10gp of arcane materials per round."
+	goal="Bond with a Familiar"
+	totalTicks={8}>
+	<p>Develop a bond with an extraplanar being to become your familiar. Each round takes a week.</p>
+</ProjectPhase>
+
+Like summoned creatures, a familiar may choose to break its bond with the
+summoner at any time.
+
+Further conjuration rituals may be developed to improve the link between
+conjurer and familiar. Such enhancements may create a shared language, a
+telepathic link, the ability to share senses, or much more.
+
+Because most familiars are granted a physical form due to the magic itself, the
+form is somewhat maleable. A short (1 hour) ritual may be performed for minor
+changes (remaining a tiny creature), but some conjurers have been known to have
+temporarily transformed their familiars into great beasts. These rituals require
+arcane materials to be spent for the transformation.
 
 ### Teleportation
 
@@ -120,79 +176,6 @@ Duration can be extended:
 | 1 week   | +5       |
 | 1 month  | +10      |
 | 1 year   | +20      |
-
-# OLD - TODO, remove
-
-Most conjurations are a minor non-combat action - they take too long to be
-effective in combat.
-
-The base DC for any summoning is 10, which last for 1 hour, modified as follows:
-
-| Target Description           | Modifier  |
-| ---------------------------- | --------- |
-| Living Creature              | +level    |
-| Living Creature with control | +5x level |
-| Fine Object                  | +0        |
-| Diminuitive Object           | +1        |
-| Tiny Object                  | +2        |
-| Small Object                 | +4        |
-| Medium Object                | +8        |
-| Large Object                 | +16       |
-| Huge Object                  | +32       |
-| Gargantuan Object            | +64       |
-| Colossal Object              | +128      |
-
-Other modifiers for objects include:
-
-| Object Details    | Modifier                                                 |
-| ----------------- | -------------------------------------------------------- |
-| Raw materials     | +0                                                       |
-| Crafted materials | +DC to create<br/>Or, make an additional crafting check. |
-| Metal             | x2                                                       |
-| Precious Metal    | x5                                                       |
-| Crstaline         | x10                                                      |
-
-Duration can be extended:
-
-| Duration  | Modifier |
-| --------- | -------- |
-| 1 minute  | -5       |
-| 1 hour    | +0       |
-| 1 day     | +2       |
-| 1 week    | +5       |
-| 1 month   | +10      |
-| 1 year    | +20      |
-| Permanent | +50      |
-
-Teleportation depends on the quantity/size of targets, distance, and accuracy.
-Base DCs assume 1 medium-sized creature or equivalent meterials.
-
-| Teleportation       | DC  |
-| ------------------- | --- |
-| 100 miles           | 15  |
-| Anywhere on plane   | 20  |
-| Different plane     | 25  |
-| Unfamiliar location | +5  |
-| General area        | -5  |
-| Double targets      | +2  |
-
-DCs for conjurations can be steep. Summoning a creature or object from elsewhere
-or from nothing is not easy, but the ritual may be made more reliable through
-use of special materials. Spending 100gp per point in the DC in incense, chalk,
-and other specially prepared materials can reduce the DC by 1 point.
-
-<p>
-	For example, conjuring a permanent large bronze statue made to resemble a specific person (crafting DC 20) would be DC
-	192. This can be reduced to a DC 20 check for {new Intl.NumberFormat('en-US').format(192 * (192 - 20) * 100)} gp. If
-	the conjurer also were a master sculptor, the base DC would be 152 with an additional DC 20 crafting check, which
-	could be reduced to a DC 20 check for
-	{' ' + new Intl.NumberFormat('en-US').format(142 * (142 - 20) * 100)} gp. Either way, it would be cheaper for a sculptor
-	to acquire the materials through mundane methods if at all possible.
-</p>
-
-Conjurers can form a special bond with living spirits summoned repeatedly
-without control. Such spirits can take the form of a familiar, special mount, or
-many other forms.
 
 ## Story Concepts
 
