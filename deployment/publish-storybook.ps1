@@ -10,4 +10,14 @@ docker push dekreydotnet.azurecr.io/game-4e-storybook:$tag
 
 Pop-Location
 
-kubectl -n game-engine set image deployment game-storybook-deployment web=dekreydotnet.azurecr.io/game-4e-storybook:$tag
+
+$ns = 'game-engine'
+$name = 'storybook'
+$fullImageName = 'dekreydotnet.azurecr.io/game-4e-storybook'
+$domain = 'storybook.4e.dekrey.net'
+
+helm upgrade --install -n $ns $name --create-namespace mdekrey/single-container `
+     --set-string "image.repository=$($fullImageName)" `
+     --set-string "image.tag=$tag" `
+     --set-string "ingress.annotations.cert-manager\.io/cluster-issuer=letsencrypt" `
+     --set-string "ingress.hosts[0].host=$domain"
