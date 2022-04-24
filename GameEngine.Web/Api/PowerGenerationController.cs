@@ -25,10 +25,10 @@ public class PowerGenerationController : PowerGenerationControllerBase
 
     }
 
-    protected override async Task<TypeSafeBeginPowerGenerationResult> BeginPowerGenerationTypeSafe(PowerHighLevelInfo beginPowerGenerationBody)
+    protected override async Task<BeginPowerGenerationActionResult> BeginPowerGeneration(PowerHighLevelInfo beginPowerGenerationBody)
     {
         await Task.Yield();
-        if (!ModelState.IsValid) return TypeSafeBeginPowerGenerationResult.BadRequest(ModelState.ToApiModelErrors());
+        if (!ModelState.IsValid) return BeginPowerGenerationActionResult.BadRequest(ModelState.ToApiModelErrors());
 
         var state = powerGenerator.GetInitialBuildState(beginPowerGenerationBody.FromApi());
 
@@ -37,13 +37,13 @@ public class PowerGenerationController : PowerGenerationControllerBase
 
         var options = initialOptions.Concat(PowerGenerator.GetPossibleUpgrades(state));
 
-        return TypeSafeBeginPowerGenerationResult.Ok(ToApi(state, options, finalized));
+        return BeginPowerGenerationActionResult.Ok(ToApi(state, options, finalized));
     }
 
-    protected override async Task<TypeSafeContinuePowerGenerationResult> ContinuePowerGenerationTypeSafe(ContinuePowerGenerationRequest continuePowerGenerationBody)
+    protected override async Task<ContinuePowerGenerationActionResult> ContinuePowerGeneration(ContinuePowerGenerationRequest continuePowerGenerationBody)
     {
         await Task.Yield();
-        if (!ModelState.IsValid) return TypeSafeContinuePowerGenerationResult.BadRequest(ModelState.ToApiModelErrors());
+        if (!ModelState.IsValid) return ContinuePowerGenerationActionResult.BadRequest(ModelState.ToApiModelErrors());
 
         Generator.PowerGeneratorState state;
         Generator.PowerProfile profile;
@@ -55,7 +55,7 @@ public class PowerGenerationController : PowerGenerationControllerBase
         }
         catch (JsonSerializationException)
         {
-            return TypeSafeContinuePowerGenerationResult.BadRequest(new());
+            return ContinuePowerGenerationActionResult.BadRequest(new());
         }
         var finalized = Finalize(profile, state.BuildContext);
         var result = continuePowerGenerationBody.Advance
@@ -64,7 +64,7 @@ public class PowerGenerationController : PowerGenerationControllerBase
 
         var options = PowerGenerator.GetPossibleUpgrades(result);
 
-        return TypeSafeContinuePowerGenerationResult.Ok(ToApi(result, options, finalized));
+        return ContinuePowerGenerationActionResult.Ok(ToApi(result, options, finalized));
     }
 
     private Api.PowerGeneratorChoices ToApi(Generator.PowerGeneratorState state, IEnumerable<Generator.PowerProfile> options, Generator.PowerProfile finalizedProfile)

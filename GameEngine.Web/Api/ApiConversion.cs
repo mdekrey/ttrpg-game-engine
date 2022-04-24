@@ -283,7 +283,7 @@ public static class ApiConversion
             Modifiers: profile.Modifiers.Select(a => ToObject<Generator.Modifiers.IPowerModifier>(a)).ToImmutableList(),
             Effects: profile.Effects.Select(a => ToObject<TargetEffect>(a)).ToImmutableList()
         );
-        T ToObject<T>(Newtonsoft.Json.Linq.JObject o) => o.ToObject<T>(serializer)!;
+        T ToObject<T>(Newtonsoft.Json.Linq.JToken o) => o.ToObject<T>(serializer)!;
     }
 
 }

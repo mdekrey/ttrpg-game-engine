@@ -16,21 +16,21 @@ public class PowerController : PowerControllerBase
         this.powerGenerator = new PowerGenerator(new Random().Next, powerGeneratorLogger);
     }
 
-    protected override Task<TypeSafeGenerateSamplePowerResult> GenerateSamplePowerTypeSafe(Api.PowerHighLevelInfo generateSamplePowerBody)
+    protected override Task<GenerateSamplePowerActionResult> GenerateSamplePower(Api.PowerHighLevelInfo generateSamplePowerBody)
     {
-        if (!ModelState.IsValid) return Task.FromResult(TypeSafeGenerateSamplePowerResult.BadRequest(ModelState.ToApiModelErrors()));
+        if (!ModelState.IsValid) return Task.FromResult(GenerateSamplePowerActionResult.BadRequest(ModelState.ToApiModelErrors()));
         var powerInfo = generateSamplePowerBody.FromApi();
         var powerProfile = powerGenerator.GenerateProfile(powerInfo);
 
         if (powerProfile == null)
-            return Task.FromResult(TypeSafeGenerateSamplePowerResult.BadRequest(new() { { "NoPowers", new[] { "Could not generate any powers" } } }));
+            return Task.FromResult(GenerateSamplePowerActionResult.BadRequest(new() { { "NoPowers", new[] { "Could not generate any powers" } } }));
 
         var classPowerProfile = new ClassPowerProfile(powerInfo.ToPowerInfo(), powerProfile);
         var powerToken = powerProfile.GetProfileToken();
 
         var (textBlock, flavor) = classPowerProfile.ToPowerContext().ToPowerTextBlock(FlavorText.Empty);
 
-        return Task.FromResult(TypeSafeGenerateSamplePowerResult.Ok(new GenerateSamplePowerResponse(
+        return Task.FromResult(GenerateSamplePowerActionResult.Ok(new GenerateSamplePowerResponse(
             Power: textBlock.ToApi(),
             PowerJson: powerToken.ToString()
         )));
