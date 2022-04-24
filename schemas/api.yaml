@@ -387,6 +387,32 @@ paths:
                     type: string
         400:
           $ref: "#/components/responses/ModelValidation"
+  /api/class:
+    x-dotnet-mvc-server-controller: Class
+    post:
+      operationId: createClass
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditableClassDescriptor"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - classProfileId
+                properties:
+                  classProfileId:
+                    type: string
+        400:
+          $ref: "#/components/responses/ModelValidation"
+        409:
+          description: Failed to save due to state
   /api/class/{id}:
     x-dotnet-mvc-server-controller: Class
     get:

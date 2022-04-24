@@ -59,3 +59,11 @@ export const classSurveySchemaWithoutEditors: yup.SchemaOf<Omit<EditableClassDes
 		role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
 		powerSource: yup.string().required().label('Power Source'),
 	});
+
+export const classSurveySchemaWithoutDescription: yup.SchemaOf<Omit<EditableClassDescriptor, 'description'>> =
+	yup.object({
+		name: yup.string().required().label('Name'),
+		role: yup.mixed<CharacterRole>().oneOf(roles).required().label('Role'),
+		powerSource: yup.string().required().label('Power Source'),
+		tools: yup.array().required().of(toolSurveySchema).label('Tools'),
+	});

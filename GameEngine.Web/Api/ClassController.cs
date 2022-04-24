@@ -26,6 +26,21 @@ public class ClassController : ClassControllerBase
         this.serializer = options.Value.CreateJsonSerializer();
     }
 
+    protected override async Task<CreateClassActionResult> CreateClass(EditableClassDescriptor createClassBody)
+    {
+        if (!ModelState.IsValid) return CreateClassActionResult.BadRequest(ModelState.ToApiModelErrors());
+
+        var classProfile = createClassBody.FromApi();
+
+        var classDetails = new ClassDetails(createClassBody.Name, createClassBody.Description, classProfile, ProgressState: AsyncServices.ProgressState.Finished);
+        var classId = Guid.NewGuid();
+        var key = ClassDetails.ToTableKey(classId);
+
+        await classStorage.SaveAsync(key, classDetails).ConfigureAwait(false);
+
+        return CreateClassActionResult.Ok(new CreateClassResponse(classId.ToString()));
+    }
+
     protected override async Task<GeneratePowersActionResult> GeneratePowers(EditableClassDescriptor generateClassProfileBody)
     {
         if (!ModelState.IsValid) return GeneratePowersActionResult.BadRequest(ModelState.ToApiModelErrors());
