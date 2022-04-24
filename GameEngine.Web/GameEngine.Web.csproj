@@ -12,12 +12,6 @@
     <ReactFrontend Include="$(NodeReactDir)\src\**\*" Visible="false" />
     <ReactFrontend Include="$(NodeReactDir)\*" Visible="false" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="Api\csharp.config.yaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <OpenApiSchemaCSharpOptions Include="Api\csharp.config.yaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Data.Tables" Version="12.3.0" />
@@ -34,6 +28,8 @@
 
   <ItemGroup>
     <OpenApiSchemaMvcServer Include="..\schemas\api.yaml" Link="Api\api.yaml" />
+    <None Remove="Api\csharp.config.yaml" />
+    <OpenApiSchemaCSharpServerOptions Include="Api\csharp.config.yaml" />
   </ItemGroup>
 
   <Target Name="NodeInstallReactFrontend" BeforeTargets="Build" Condition=" '$(SkipUiBuild)'=='' " Inputs="$(NodeReactDir)\package.json;$(NodeReactDir)\package-lock.json" Outputs="$(NodeReactDir)\node_modules\_._">
