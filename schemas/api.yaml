@@ -1,7 +1,7 @@
-openapi: '3.0.2'
+openapi: "3.0.2"
 info:
   title: Dnd Classes
-  version: '1.0'
+  version: "1.0"
 servers:
   - url: /
 
@@ -63,13 +63,13 @@ components:
         - tools
       properties:
         role:
-          $ref: '#/components/schemas/CharacterRole'
+          $ref: "#/components/schemas/CharacterRole"
         powerSource:
           type: string
         tools:
           type: array
           items:
-            $ref: '#/components/schemas/ToolProfile'
+            $ref: "#/components/schemas/ToolProfile"
     EditableClassDescriptor:
       type: object
       allOf:
@@ -80,7 +80,7 @@ components:
               type: string
             description:
               type: string
-        - $ref: '#/components/schemas/ClassProfile'
+        - $ref: "#/components/schemas/ClassProfile"
     ClassDescriptor:
       type: object
       allOf:
@@ -88,8 +88,8 @@ components:
           required: [state]
           properties:
             state:
-              $ref: '#/components/schemas/ProgressState'
-        - $ref: '#/components/schemas/EditableClassDescriptor'
+              $ref: "#/components/schemas/ProgressState"
+        - $ref: "#/components/schemas/EditableClassDescriptor"
     ToolProfile:
       type: object
       required:
@@ -101,23 +101,23 @@ components:
         - possibleRestrictions
       properties:
         toolType:
-          $ref: '#/components/schemas/ToolType'
+          $ref: "#/components/schemas/ToolType"
         toolRange:
-          $ref: '#/components/schemas/ToolRange'
+          $ref: "#/components/schemas/ToolRange"
         abilities:
           type: array
           items:
-            $ref: '#/components/schemas/Ability'
+            $ref: "#/components/schemas/Ability"
         preferredDamageTypes:
           type: array
           items:
             type: array
             items:
-              $ref: '#/components/schemas/DamageType'
+              $ref: "#/components/schemas/DamageType"
         powerProfileConfigs:
           type: array
           items:
-            $ref: '#/components/schemas/PowerProfileConfig'
+            $ref: "#/components/schemas/PowerProfileConfig"
         possibleRestrictions:
           type: array
           items:
@@ -132,7 +132,7 @@ components:
         powerChances:
           type: array
           items:
-            $ref: '#/components/schemas/PowerChance'
+            $ref: "#/components/schemas/PowerChance"
     PowerChance:
       type: object
       required:
@@ -154,10 +154,10 @@ components:
         id:
           type: string
         level: { type: integer }
-        usage: { $ref: '#/components/schemas/PowerFrequency' }
+        usage: { $ref: "#/components/schemas/PowerFrequency" }
         text:
-          $ref: '#/components/schemas/PowerTextBlock'
-        flavor: { $ref: '#/components/schemas/FlavorText' }
+          $ref: "#/components/schemas/PowerTextBlock"
+        flavor: { $ref: "#/components/schemas/FlavorText" }
     PowerFrequency:
       type: string
       enum:
@@ -206,9 +206,9 @@ components:
         rulesText:
           type: array
           items:
-            $ref: '#/components/schemas/RulesText'
+            $ref: "#/components/schemas/RulesText"
         associatedPower:
-          $ref: '#/components/schemas/PowerTextBlock'
+          $ref: "#/components/schemas/PowerTextBlock"
     RulesText:
       type: object
       required:
@@ -222,18 +222,18 @@ components:
     ClassDetailsReadOnly:
       type: object
       allOf:
-        - $ref: '#/components/schemas/EditableClassDescriptor'
+        - $ref: "#/components/schemas/EditableClassDescriptor"
         - type: object
           required:
             - powers
             - state
           properties:
             state:
-              $ref: '#/components/schemas/ProgressState'
+              $ref: "#/components/schemas/ProgressState"
             powers:
               type: array
               items:
-                $ref: '#/components/schemas/PowerTextProfile'
+                $ref: "#/components/schemas/PowerTextProfile"
     FlavorText:
       type: object
       additionalProperties:
@@ -253,8 +253,8 @@ components:
         - toolIndex
       properties:
         level: { type: integer }
-        usage: { $ref: '#/components/schemas/PowerFrequency' }
-        classProfile: { $ref: '#/components/schemas/ClassProfile' }
+        usage: { $ref: "#/components/schemas/PowerFrequency" }
+        classProfile: { $ref: "#/components/schemas/ClassProfile" }
         toolIndex: { type: integer }
         powerProfileIndex: { type: integer }
     PowerGeneratorState:
@@ -267,10 +267,10 @@ components:
         - flavorText
       properties:
         iteration: { type: integer }
-        buildContext: { $ref: '#/components/schemas/LimitBuildContext' }
-        stage: { $ref: '#/components/schemas/UpgradeStage' }
-        powerProfile: { $ref: '#/components/schemas/PowerProfile' }
-        flavorText: { $ref: '#/components/schemas/FlavorText' }
+        buildContext: { $ref: "#/components/schemas/LimitBuildContext" }
+        stage: { $ref: "#/components/schemas/UpgradeStage" }
+        powerProfile: { $ref: "#/components/schemas/PowerProfile" }
+        flavorText: { $ref: "#/components/schemas/FlavorText" }
     PowerGeneratorChoices:
       type: object
       required:
@@ -278,22 +278,22 @@ components:
         - choices
         - finalizedChoice
       properties:
-        state: { $ref: '#/components/schemas/PowerGeneratorState' }
-        finalizedChoice: { $ref: '#/components/schemas/PowerProfileChoice' }
+        state: { $ref: "#/components/schemas/PowerGeneratorState" }
+        finalizedChoice: { $ref: "#/components/schemas/PowerProfileChoice" }
         choices:
           type: array
-          items: { $ref: '#/components/schemas/PowerProfileChoice' }
+          items: { $ref: "#/components/schemas/PowerProfileChoice" }
     PowerProfileChoice:
       type: object
       required: [profile, level, usage, flavorText, text]
       properties:
         profile:
-          $ref: '#/components/schemas/PowerProfile'
+          $ref: "#/components/schemas/PowerProfile"
         level: { type: integer }
-        usage: { $ref: '#/components/schemas/PowerFrequency' }
-        flavorText: { $ref: '#/components/schemas/FlavorText' }
+        usage: { $ref: "#/components/schemas/PowerFrequency" }
+        flavorText: { $ref: "#/components/schemas/FlavorText" }
         text:
-          $ref: '#/components/schemas/PowerTextBlock'
+          $ref: "#/components/schemas/PowerTextBlock"
     PowerProfile:
       type: object
       required:
@@ -324,7 +324,7 @@ components:
         - minimum
         - maxComplexity
       properties:
-        powerInfo: { $ref: '#/components/schemas/PowerHighLevelInfo' }
+        powerInfo: { $ref: "#/components/schemas/PowerHighLevelInfo" }
         initial: { type: number }
         minimum: { type: number }
         maxComplexity: { type: integer }
@@ -344,7 +344,7 @@ paths:
         required: true
         content:
           application/json:
-            schema: { $ref: '#/components/schemas/PowerHighLevelInfo' }
+            schema: { $ref: "#/components/schemas/PowerHighLevelInfo" }
       responses:
         200:
           description: OK
@@ -358,11 +358,11 @@ paths:
                   - modifierJson
                 properties:
                   power:
-                    $ref: '#/components/schemas/PowerTextBlock'
+                    $ref: "#/components/schemas/PowerTextBlock"
                   powerJson:
                     type: string
         400:
-          $ref: '#/components/responses/ModelValidation'
+          $ref: "#/components/responses/ModelValidation"
   /api/generate-class:
     x-dotnet-mvc-server-controller: Class
     post:
@@ -372,7 +372,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EditableClassDescriptor'
+              $ref: "#/components/schemas/EditableClassDescriptor"
       responses:
         200:
           description: OK
@@ -386,7 +386,7 @@ paths:
                   classProfileId:
                     type: string
         400:
-          $ref: '#/components/responses/ModelValidation'
+          $ref: "#/components/responses/ModelValidation"
   /api/class/{id}:
     x-dotnet-mvc-server-controller: Class
     get:
@@ -409,9 +409,9 @@ paths:
                   - state
                 properties:
                   original:
-                    $ref: '#/components/schemas/ClassDetailsReadOnly'
+                    $ref: "#/components/schemas/ClassDetailsReadOnly"
                   state:
-                    $ref: '#/components/schemas/ProgressState'
+                    $ref: "#/components/schemas/ProgressState"
         404:
           description: Class not found
     delete:
@@ -440,12 +440,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EditableClassDescriptor'
+              $ref: "#/components/schemas/EditableClassDescriptor"
       responses:
         204:
           description: OK
         400:
-          $ref: '#/components/responses/ModelValidation'
+          $ref: "#/components/responses/ModelValidation"
         404:
           description: Class not found
         409:
@@ -487,7 +487,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FlavorText'
+              $ref: "#/components/schemas/FlavorText"
       responses:
         200:
           description: OK
@@ -522,11 +522,11 @@ paths:
                 - powerInfo
               properties:
                 flavorText:
-                  $ref: '#/components/schemas/FlavorText'
+                  $ref: "#/components/schemas/FlavorText"
                 profile:
-                  $ref: '#/components/schemas/PowerProfile'
+                  $ref: "#/components/schemas/PowerProfile"
                 powerInfo:
-                  $ref: '#/components/schemas/PowerHighLevelInfo'
+                  $ref: "#/components/schemas/PowerHighLevelInfo"
       responses:
         200:
           description: Power removed and new one will be added
@@ -563,16 +563,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PowerHighLevelInfo'
+              $ref: "#/components/schemas/PowerHighLevelInfo"
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PowerGeneratorChoices'
+                $ref: "#/components/schemas/PowerGeneratorChoices"
         400:
-          $ref: '#/components/responses/ModelValidation'
+          $ref: "#/components/responses/ModelValidation"
   /api/power/continue-generation:
     x-dotnet-mvc-server-controller: PowerGeneration
     post:
@@ -589,9 +589,9 @@ paths:
                 - advance
               properties:
                 state:
-                  $ref: '#/components/schemas/PowerGeneratorState'
+                  $ref: "#/components/schemas/PowerGeneratorState"
                 profile:
-                  $ref: '#/components/schemas/PowerProfile'
+                  $ref: "#/components/schemas/PowerProfile"
                 advance: { type: boolean }
       responses:
         200:
@@ -599,6 +599,6 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PowerGeneratorChoices'
+                $ref: "#/components/schemas/PowerGeneratorChoices"
         400:
-          $ref: '#/components/responses/ModelValidation'
+          $ref: "#/components/responses/ModelValidation"
