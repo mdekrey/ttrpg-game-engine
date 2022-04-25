@@ -4,22 +4,22 @@ import { useObservable } from 'core/hooks/useObservable';
 import { useMemoizeObservable } from 'core/hooks/useMemoizeObservable';
 import { initial, Loadable, makeError, makeLoaded } from 'core/loadable/loadable';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
-import { StructuredResponses } from 'api/operations/getLegacyClass';
+import { StructuredResponses } from 'api/operations/getLegacyRace';
 import { ReaderLayout } from 'components/reader-layout';
 import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 
 type ReasonCode = 'NotFound';
 
-export function ClassDetails({ data: { classId } }: { data: { classId: string } }) {
+export function RaceDetails({ data: { raceId } }: { data: { raceId: string } }) {
 	const api = useApi();
-	const classId$ = useMemoizeObservable([classId] as const);
+	const raceId$ = useMemoizeObservable([raceId] as const);
 	const data = useObservable(
 		() =>
-			classId$.pipe(
+			raceId$.pipe(
 				map(([id]) =>
 					api
-						.getLegacyClass({ params: { id } })
+						.getLegacyRace({ params: { id } })
 						.pipe(
 							map((response) =>
 								response.statusCode === 404 ? makeError<ReasonCode>('NotFound' as const) : makeLoaded(response.data)

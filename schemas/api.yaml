@@ -664,6 +664,24 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/LegacyRuleSummary" }
+  /api/legacy/race/{id}:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyRace
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        404:
+          description: Race not found
   /api/legacy/classes:
     x-dotnet-mvc-server-controller: Legacy
     get:

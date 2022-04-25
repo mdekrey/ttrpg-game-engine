@@ -28,6 +28,17 @@ public class LegacyController : LegacyControllerBase
         return GetLegacyClassActionResult.Ok(results);
     }
 
+    protected override async Task<GetLegacyRaceActionResult> GetLegacyRace(string id)
+    {
+        var results = await (from rule in context.ImportedRules
+                             where rule.Type == "Race" && rule.WizardsId == id
+                             select ToDetails(rule)).SingleOrDefaultAsync();
+        if (results == null)
+            return GetLegacyRaceActionResult.NotFound();
+
+        return GetLegacyRaceActionResult.Ok(results);
+    }
+
     protected override async Task<GetLegacyClassesActionResult> GetLegacyClasses()
     {
         var results = await (from rule in context.ImportedRules

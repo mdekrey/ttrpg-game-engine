@@ -1,0 +1,6 @@
+﻿@page "/legacy/race/{id}"
+@model GameEngine.Web.Pages.Legacy.Race.RaceModel
+@{
+}
+
+@await Html.React("pages/legacy/race-details/race-details", new { Model.RaceId })
