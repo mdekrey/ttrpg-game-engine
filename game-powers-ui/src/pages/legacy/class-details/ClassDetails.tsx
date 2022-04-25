@@ -2,10 +2,12 @@ import { map, switchAll } from 'rxjs/operators';
 import { useApi } from 'core/hooks/useApi';
 import { useObservable } from 'core/hooks/useObservable';
 import { useMemoizeObservable } from 'core/hooks/useMemoizeObservable';
-import { StructuredResponses } from 'api/operations/getLegacyClass';
 import { initial, Loadable, makeError, makeLoaded } from 'core/loadable/loadable';
-import { ReaderLayout } from 'components/reader-layout';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
+import { StructuredResponses } from 'api/operations/getLegacyClass';
+import { ReaderLayout } from 'components/reader-layout';
+import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
+import { wizardsTextCleanup } from '../wizards-text-cleanup';
 
 type ReasonCode = 'NotFound';
 
@@ -36,8 +38,8 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 			loadedComponent={(loaded) => (
 				<ReaderLayout>
 					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">{loaded.name}</h1>
-					<pre>{loaded.flavorText}</pre>
-					<pre>{loaded.description}</pre>
+					<p className="font-flavor font-bold italic">{loaded.flavorText}</p>
+					<DynamicMarkdown contents={wizardsTextCleanup(loaded.description)} />
 				</ReaderLayout>
 			)}
 			loadingComponent={<>Loading</>}

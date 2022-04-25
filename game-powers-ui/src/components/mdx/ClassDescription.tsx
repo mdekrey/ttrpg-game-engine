@@ -1,7 +1,5 @@
-import { useMDXComponents } from '@mdx-js/react';
-import ReactMarkdown from 'react-markdown';
 import { Position } from 'react-markdown/lib/ast-to-react';
-import { ErrorBoundary } from './ErrorBoundary';
+import { DynamicMarkdown } from './DynamicMarkdown';
 import { Power } from './Power';
 
 type RemarkNode = {
@@ -36,12 +34,5 @@ const rehypePlugin = () => {
 const standardComponents: any = { Power };
 
 export function ClassDescription({ mdx }: { mdx: string }) {
-	const components = useMDXComponents(standardComponents);
-	return (
-		<ErrorBoundary key={mdx}>
-			<ReactMarkdown components={components as any} rehypePlugins={[rehypePlugin]}>
-				{mdx}
-			</ReactMarkdown>
-		</ErrorBoundary>
-	);
+	return <DynamicMarkdown components={standardComponents} rehypePlugins={[rehypePlugin]} contents={mdx} />;
 }
