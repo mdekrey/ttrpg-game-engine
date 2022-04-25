@@ -335,6 +335,28 @@ components:
         - Standard
         - Finalize
         - Finished
+    LegacyRace:
+      type: object
+      required:
+        - wizardsId
+        - name
+        - description
+      properties:
+        wizardsId: { type: string }
+        name: { type: string }
+        flavorText: { type: string }
+        description: { type: string }
+    LegacyClass:
+      type: object
+      required:
+        - wizardsId
+        - name
+        - description
+      properties:
+        wizardsId: { type: string }
+        name: { type: string }
+        flavorText: { type: string }
+        description: { type: string }
 paths:
   /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power
@@ -628,3 +650,27 @@ paths:
                 $ref: "#/components/schemas/PowerGeneratorChoices"
         400:
           $ref: "#/components/responses/ModelValidation"
+  /api/legacy/races:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyRaces
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/LegacyRace" }
+  /api/legacy/classes:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyClasses
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/LegacyClass" }

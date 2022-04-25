@@ -1,4 +1,5 @@
 /GameEngine.Web/wwwroot/react-frontend/
+/GameEngine.Web/4e.db*
 
 ## UI files
 /game-powers-ui/node_modules

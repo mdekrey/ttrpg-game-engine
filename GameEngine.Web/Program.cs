@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-builder.Services.AddOpenApiDndClasses<PowerController, ClassController, PowerGenerationController>();
+builder.Services.AddOpenApiDndClasses<PowerController, ClassController, PowerGenerationController, LegacyController>();
 builder.Services.AddTransient<GameEngine.Web.AsyncServices.AsyncClassGenerator>();
 builder.Services.Configure<GameEngine.Web.Storage.GameStorageOptions>(options =>
 {
@@ -23,6 +23,8 @@ builder.Services.Configure<GameEngine.Web.Storage.GameStorageOptions>(options =>
         return serializer;
     };
 });
+
+builder.Services.AddSqlite<GameEngine.Web.RulesDatabase.RulesDbContext>("Data Source=4e.db;Cache=Shared;Mode=ReadOnly;");
 
 AddTableStorage<ClassDetails, ClassDetails.ClassDetailsTableEntity>("classes", ClassDetails.FromTableEntity);
 AddTableStorage<PowerDetails, PowerDetails.PowerDetailsTableEntity>("powers", PowerDetails.FromTableEntity);
