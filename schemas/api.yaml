@@ -352,6 +352,7 @@ components:
         - wizardsId
         - name
         - type
+        - rules
       properties:
         wizardsId: { type: string }
         name: { type: string }
@@ -359,6 +360,17 @@ components:
         type: { type: string }
         description: { type: string }
         shortDescription: { type: string }
+        rules:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyRuleText" }
+    LegacyRuleText:
+      type: object
+      required:
+        - label
+        - text
+      properties:
+        label: { type: string }
+        text: { type: string }
 paths:
   /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power

@@ -24,14 +24,14 @@ const headerLink: JsxMutator = (el) => {
 	return el;
 };
 
-const headerTemplate = mergeStyles(
+export const headerTemplate = mergeStyles(
 	<i className={classNames('font-header font-bold', 'mt-4 first:mt-0')} style={{ pageBreakAfter: 'avoid' }} />
 );
 
-const rowTemplate = mergeStyles(
+export const rowTemplate = mergeStyles(
 	<tr className="even:bg-gradient-to-r from-tan-fading to-white odd:bg-tan-accent border-b-2 border-white font-info" />
 );
-const infoFontTemplate = mergeStyles(<i className="font-info" />);
+export const infoFontTemplate = mergeStyles(<i className="font-info" />);
 
 export const mdxComponents: Components = {
 	h1: ({ children, className, ...props }) =>

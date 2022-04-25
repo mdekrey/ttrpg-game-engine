@@ -19,9 +19,7 @@ public class LegacyController : LegacyControllerBase
 
     protected override async Task<GetLegacyClassActionResult> GetLegacyClass(string id)
     {
-        var results = await (from rule in context.ImportedRules
-                             where rule.Type == "Class" && rule.WizardsId == id
-                             select ToDetails(rule)).SingleOrDefaultAsync();
+        var results = await GetLegacyRule(id);
         if (results == null)
             return GetLegacyClassActionResult.NotFound();
 
@@ -49,7 +47,7 @@ public class LegacyController : LegacyControllerBase
 
     protected override async Task<GetLegacyRacesActionResult> GetLegacyRaces()
     {
-        var results = await (from rule in context.ImportedRules 
+        var results = await (from rule in context.ImportedRules
                              where rule.Type == "Race"
                              select ToSummary(rule)).ToArrayAsync();
         return GetLegacyRacesActionResult.Ok(results);
@@ -58,11 +56,21 @@ public class LegacyController : LegacyControllerBase
     private static Api.LegacyRuleSummary ToSummary(ImportedRule rule)
     {
         return new Api.LegacyRuleSummary(
-            WizardsId: rule.WizardsId, 
-            Name: rule.Name, 
-            FlavorText: rule.FlavorText, 
+            WizardsId: rule.WizardsId,
+            Name: rule.Name,
+            FlavorText: rule.FlavorText,
             Type: rule.Type
         );
+    }
+
+
+    private async Task<LegacyRuleDetails?> GetLegacyRule(string id)
+    {
+        var result = await (from rule in context.ImportedRules
+                            where rule.Type == "Class" && rule.WizardsId == id
+                            select rule).Include(rule => rule.RulesText.OrderBy(r => r.Order)).SingleOrDefaultAsync();
+
+        return result == null ? null : ToDetails(result);
     }
 
     private static Api.LegacyRuleDetails ToDetails(ImportedRule rule)
@@ -73,7 +81,9 @@ public class LegacyController : LegacyControllerBase
             FlavorText: rule.FlavorText,
             Type: rule.Type,
             Description: rule.Description,
-            ShortDescription: rule.ShortDescription);
+            ShortDescription: rule.ShortDescription,
+            Rules: rule.RulesText.Select(e => new LegacyRuleText(e.Label, e.Text))
+        );
     }
 
 }
