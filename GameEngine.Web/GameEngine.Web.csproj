@@ -69,7 +69,7 @@
     <Exec Command="npm ci" WorkingDirectory="$(NodeReactDir)" Condition=" '$(Configuration)' != 'Debug' " />
   </Target>
 
-  <Target Name="NodeBuildReact" AfterTargets="Compile" Inputs="@(ReactFrontend)" Outputs="$(NodeReactOutDir)/asset-manifest.json" DependsOnTargets="NodeInstallReactFrontend" Condition=" '$(SkipUiBuild)'=='' ">
+  <Target Name="NodeBuildReact" AfterTargets="Compile" Inputs="@(ReactFrontend)" Outputs="$(NodeReactOutDir)/asset-manifest.json" DependsOnTargets="NodeInstallReactFrontend" Condition=" '$(BuildingInsideVisualStudio)' != 'true' and '$(SkipUiBuild)'=='' ">
     <Exec Command="npm run build" WorkingDirectory="$(NodeReactDir)" />
   </Target>
 

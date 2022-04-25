@@ -335,28 +335,17 @@ components:
         - Standard
         - Finalize
         - Finished
-    LegacyRace:
+    LegacyRuleSummary:
       type: object
       required:
         - wizardsId
         - name
-        - description
+        - type
       properties:
         wizardsId: { type: string }
         name: { type: string }
         flavorText: { type: string }
-        description: { type: string }
-    LegacyClass:
-      type: object
-      required:
-        - wizardsId
-        - name
-        - description
-      properties:
-        wizardsId: { type: string }
-        name: { type: string }
-        flavorText: { type: string }
-        description: { type: string }
+        type: { type: string }
 paths:
   /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power
@@ -661,7 +650,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: { $ref: "#/components/schemas/LegacyRace" }
+                items: { $ref: "#/components/schemas/LegacyRuleSummary" }
   /api/legacy/classes:
     x-dotnet-mvc-server-controller: Legacy
     get:
@@ -673,4 +662,4 @@ paths:
             application/json:
               schema:
                 type: array
-                items: { $ref: "#/components/schemas/LegacyClass" }
+                items: { $ref: "#/components/schemas/LegacyRuleSummary" }

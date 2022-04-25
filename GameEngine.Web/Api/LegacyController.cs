@@ -19,15 +19,15 @@ public class LegacyController : LegacyControllerBase
     {
         var results = await (from rule in context.ImportedRules
                              where rule.Type == "Class"
-                             select new Api.LegacyClass(rule.WizardsId, rule.Name, rule.FlavorText, rule.Description)).ToArrayAsync();
+                             select new Api.LegacyRuleSummary(rule.WizardsId, rule.Name, rule.FlavorText, rule.Type)).ToArrayAsync();
         return GetLegacyClassesActionResult.Ok(results);
     }
 
     protected override async Task<GetLegacyRacesActionResult> GetLegacyRaces()
     {
-        var results = await (from rule in context.ImportedRules
+        var results = await (from rule in context.ImportedRules 
                              where rule.Type == "Race"
-                             select new Api.LegacyRace(rule.WizardsId, rule.Name, rule.FlavorText, rule.Description)).ToArrayAsync();
+                             select new Api.LegacyRuleSummary(rule.WizardsId, rule.Name, rule.FlavorText, rule.Type)).ToArrayAsync();
         return GetLegacyRacesActionResult.Ok(results);
     }
 }

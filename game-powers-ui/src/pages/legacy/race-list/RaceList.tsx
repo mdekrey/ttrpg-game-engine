@@ -19,12 +19,13 @@ export function RaceList() {
 			errorComponent={() => <>Not Found</>}
 			loadedComponent={(loaded) => (
 				<ReaderLayout>
-					<h1>Race List</h1>
-					{loaded.map(({ wizardsId, name }) => (
+					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Race List</h1>
+					{loaded.map(({ wizardsId, name, flavorText }) => (
 						<li key={wizardsId} className="my-1">
 							<a href={`/legacy/race/${wizardsId}`} className="underline text-theme">
 								{name}
 							</a>
+							{flavorText ? <>&mdash; {flavorText}</> : null}
 						</li>
 					))}
 				</ReaderLayout>
