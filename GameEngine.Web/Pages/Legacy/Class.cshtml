@@ -1,0 +1,6 @@
+﻿@page "/legacy/class/{id}"
+@model GameEngine.Web.Pages.Legacy.Class.ClassModel
+@{
+}
+
+@await Html.React("pages/legacy/class-details/class-details", new { Model.ClassId })

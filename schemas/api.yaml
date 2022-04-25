@@ -346,6 +346,19 @@ components:
         name: { type: string }
         flavorText: { type: string }
         type: { type: string }
+    LegacyRuleDetails:
+      type: object
+      required:
+        - wizardsId
+        - name
+        - type
+      properties:
+        wizardsId: { type: string }
+        name: { type: string }
+        flavorText: { type: string }
+        type: { type: string }
+        description: { type: string }
+        shortDescription: { type: string }
 paths:
   /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power
@@ -663,3 +676,21 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/LegacyRuleSummary" }
+  /api/legacy/class/{id}:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyClass
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        404:
+          description: Class not found

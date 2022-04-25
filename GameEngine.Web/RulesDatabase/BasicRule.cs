@@ -30,7 +30,7 @@ public class ImportedRule
     public IList<Keyword> Keywords { get; set; } = new List<Keyword>();
     public string ActionType { get; set; }
     public LinkedId Class { get; set; }
-    public LinkedId[] AssociatedFeats { get; set; }
+    public IList<LinkedId> AssociatedFeats { get; set; } = new List<LinkedId>();
     public string Level { get; set; }
     public string PowerType { get; set; }
 }
