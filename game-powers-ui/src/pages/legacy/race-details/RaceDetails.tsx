@@ -62,16 +62,20 @@ export function RaceDetails({ data: { raceId } }: { data: { raceId: string } }) 
 						))}
 						{/* TODO - display the traits */}
 					</Inset>
-					<DynamicMarkdown contents={wizardsTextToMarkdown(loaded.description)} />
+					<DynamicMarkdown contents={wizardsTextToMarkdown(loaded.description, { depth: 2 })} />
 					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Physical Qualities</h2>
 					<DynamicMarkdown
-						contents={wizardsTextToMarkdown(loaded.rules.find((r) => r.label === 'Physical Qualities')?.text)}
+						contents={wizardsTextToMarkdown(loaded.rules.find((r) => r.label === 'Physical Qualities')?.text, {
+							depth: 3,
+						})}
 					/>
 
 					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
 						Playing {getArticle(loaded.name)} {loaded.name}
 					</h2>
-					<DynamicMarkdown contents={wizardsTextToMarkdown(loaded.rules.find((r) => r.label === 'Playing')?.text)} />
+					<DynamicMarkdown
+						contents={wizardsTextToMarkdown(loaded.rules.find((r) => r.label === 'Playing')?.text, { depth: 3 })}
+					/>
 
 					{finalSection.map((trait, traitIndex) => (
 						<p className="my-2" key={traitIndex}>
