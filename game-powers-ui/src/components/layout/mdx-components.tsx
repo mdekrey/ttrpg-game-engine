@@ -105,12 +105,12 @@ export const mdxComponents: Components = {
 		</thead>
 	),
 	tbody: ({ children, ...props }) => <tbody {...props}>{pipeJsx(<>{children}</>, recurse(rowTemplate))}</tbody>,
-	td: ({ children, className, ...props }) => (
+	td: ({ children, className, isHeader, ...props }) => (
 		<td className={classNames(className, 'px-2 font-bold align-top')} {...props}>
 			{children}
 		</td>
 	),
-	th: ({ children, className, ...props }) => (
+	th: ({ children, className, isHeader, ...props }) => (
 		<th className={classNames(className, 'px-2 font-bold align-bottom')} {...props}>
 			{children}
 		</th>

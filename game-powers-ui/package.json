@@ -52,6 +52,7 @@
 		"react-hook-form": "^7.17.5",
 		"react-markdown": "^7.1.1",
 		"react-qr-code": "^2.0.1",
+		"remark-gfm": "^3.0.1",
 		"rxjs": "^6.5.5",
 		"tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.6",
 		"tailwindcss-multi-column": "^1.0.2",

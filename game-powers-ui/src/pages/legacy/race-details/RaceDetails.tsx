@@ -9,6 +9,7 @@ import { ReaderLayout } from 'components/reader-layout';
 import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { Inset } from 'components/reader-layout/inset';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
+import { getArticle } from '../get-article';
 
 type ReasonCode = 'NotFound';
 
@@ -59,15 +60,17 @@ export function RaceDetails({ data: { raceId } }: { data: { raceId: string } }) 
 								))}
 							</section>
 						))}
-						{/* TODO - */}
+						{/* TODO - display the traits */}
 					</Inset>
 					<DynamicMarkdown contents={wizardsTextToMarkdown(loaded.description)} />
 					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Physical Qualities</h2>
 					<DynamicMarkdown
 						contents={wizardsTextToMarkdown(loaded.rules.find((r) => r.label === 'Physical Qualities')?.text)}
 					/>
-					{/* TODO - article a/an */}
-					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Playing a {loaded.name}</h2>
+
+					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
+						Playing {getArticle(loaded.name)} {loaded.name}
+					</h2>
 					<DynamicMarkdown contents={wizardsTextToMarkdown(loaded.rules.find((r) => r.label === 'Playing')?.text)} />
 
 					{finalSection.map((trait, traitIndex) => (

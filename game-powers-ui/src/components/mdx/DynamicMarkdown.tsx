@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 import ReactMarkdown, { Components as ReactMarkdownComponents } from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { ErrorBoundary } from 'components/mdx/ErrorBoundary';
 import { useMDXComponents, Components } from '@mdx-js/react';
 
@@ -14,7 +15,10 @@ export function DynamicMarkdown({ contents, components, rehypePlugins }: Dynamic
 	const finalComponents = useMDXComponents(components);
 	return (
 		<ErrorBoundary key={contents}>
-			<ReactMarkdown components={finalComponents as ReactMarkdownComponents} rehypePlugins={rehypePlugins}>
+			<ReactMarkdown
+				components={finalComponents as ReactMarkdownComponents}
+				remarkPlugins={[remarkGfm as any]}
+				rehypePlugins={rehypePlugins}>
 				{contents}
 			</ReactMarkdown>
 		</ErrorBoundary>
