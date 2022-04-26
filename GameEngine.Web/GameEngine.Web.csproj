@@ -43,13 +43,7 @@
     <OpenApiSchemaCSharpServerOptions Include="Api\csharp.config.yaml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="RulesDatabase\" />
-  </ItemGroup>
-
-
-
-  <Target Name="DownloadContentFiles" BeforeTargets="_GenerateRestoreProjectSpec" Inputs="$(MSBuildProjectFullPath)" Outputs="$(MSBuildProjectDirectory)/4e.db">
+  <Target Name="DownloadContentFiles" BeforeTargets="_GenerateRestoreProjectSpec" Condition=" !Exists('$(MSBuildProjectDirectory)/4e.db') " Inputs="$(MSBuildProjectFullPath)" Outputs="$(MSBuildProjectDirectory)/4e.db">
     <DownloadFile SourceUrl="https://github.com/mdekrey/4e-reverse-engineer/releases/download/0.1/4e.db" DestinationFolder="$(MSBuildProjectDirectory)">
       <Output TaskParameter="DownloadedFile" ItemName="Content" />
     </DownloadFile>

@@ -371,6 +371,18 @@ components:
       properties:
         label: { type: string }
         text: { type: string }
+    LegacyClassDetails:
+      type: object
+      required:
+        - classDetails
+        - classFeatures
+      properties:
+        classDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        classFeatures:
+          {
+            type: array,
+            items: { $ref: "#/components/schemas/LegacyRuleDetails" },
+          }
 paths:
   /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power
@@ -721,6 +733,6 @@ paths:
           description: OK
           content:
             application/json:
-              schema: { $ref: "#/components/schemas/LegacyRuleDetails" }
+              schema: { $ref: "#/components/schemas/LegacyClassDetails" }
         404:
           description: Class not found

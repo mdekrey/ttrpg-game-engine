@@ -19,22 +19,27 @@ public class LegacyController : LegacyControllerBase
 
     protected override async Task<GetLegacyClassActionResult> GetLegacyClass(string id)
     {
-        var results = await GetLegacyRule(id);
-        if (results == null)
+        var result = await GetLegacyRule(id, "Class");
+        if (result == null)
             return GetLegacyClassActionResult.NotFound();
 
-        return GetLegacyClassActionResult.Ok(results);
+        var featureNames = result.Rules.Single(r => r.Label == "_PARSED_CLASS_FEATURE").Text.Split(',').Select(name => name.Trim()).ToArray();
+
+        // No, this isn't a bug with the source data. The original app searches by name.
+        var classFeatures = await (from rule in context.ImportedRules
+                                   where rule.Type == "Class Feature" && featureNames.Contains(rule.Name)
+                                   select ToDetails(rule)).ToArrayAsync();
+
+        return GetLegacyClassActionResult.Ok(new (result, classFeatures));
     }
 
     protected override async Task<GetLegacyRaceActionResult> GetLegacyRace(string id)
     {
-        var results = await (from rule in context.ImportedRules
-                             where rule.Type == "Race" && rule.WizardsId == id
-                             select ToDetails(rule)).SingleOrDefaultAsync();
-        if (results == null)
+        var result = await GetLegacyRule(id, "Race");
+        if (result == null)
             return GetLegacyRaceActionResult.NotFound();
 
-        return GetLegacyRaceActionResult.Ok(results);
+        return GetLegacyRaceActionResult.Ok(result);
     }
 
     protected override async Task<GetLegacyClassesActionResult> GetLegacyClasses()
@@ -64,10 +69,10 @@ public class LegacyController : LegacyControllerBase
     }
 
 
-    private async Task<LegacyRuleDetails?> GetLegacyRule(string id)
+    private async Task<LegacyRuleDetails?> GetLegacyRule(string id, string type)
     {
         var result = await (from rule in context.ImportedRules
-                            where rule.Type == "Class" && rule.WizardsId == id
+                            where rule.Type == type && rule.WizardsId == id
                             select rule).Include(rule => rule.RulesText.OrderBy(r => r.Order)).SingleOrDefaultAsync();
 
         return result == null ? null : ToDetails(result);

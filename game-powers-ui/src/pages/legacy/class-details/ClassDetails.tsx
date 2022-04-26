@@ -11,6 +11,7 @@ import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { LegacyRuleText } from 'api/models/LegacyRuleText';
 import { Fragment } from 'react';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
+import { getArticle } from '../get-article';
 
 type ReasonCode = 'NotFound';
 
@@ -25,6 +26,9 @@ const classTraitSections = [
 function isOther(rule: LegacyRuleText) {
 	if (classTraitSections.flatMap((t) => t).includes(rule.label)) return false;
 	if (rule.label.startsWith('_')) return false;
+	if (rule.label === 'Creating') return false;
+	if (rule.label === 'Class Features') return false;
+	if (rule.label === 'Supplemental') return false;
 	if (rule.label === 'Short Description') return false;
 	if (rule.label === 'Power Name') return false;
 	return true;
@@ -54,32 +58,61 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 		<LoadableComponent
 			data={data}
 			errorComponent={() => <>Not Found</>}
-			loadedComponent={(loaded) => (
+			loadedComponent={({ classDetails, classFeatures }) => (
 				<ReaderLayout>
-					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">{loaded.name}</h1>
-					<p className="font-flavor font-bold italic">{loaded.flavorText}</p>
+					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">{classDetails.name}</h1>
+					<p className="font-flavor font-bold italic">{classDetails.flavorText}</p>
 					<Inset>
-						<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{loaded.name} Traits</h2>
+						<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{classDetails.name} Traits</h2>
 						{classTraitSections.map((section, sectionIndex) => (
 							<section className="mb-2" key={sectionIndex}>
 								{section.map((trait, traitIndex) => (
 									<p key={traitIndex}>
 										<span className="font-bold">{trait}:</span>{' '}
-										{loaded.rules.find((r) => r.label === trait)?.text ?? <span className="italic">Unknown</span>}
+										{classDetails.rules.find((r) => r.label === trait)?.text ?? <span className="italic">Unknown</span>}
 									</p>
 								))}
 							</section>
 						))}
 						{/* TODO - display the traits */}
 					</Inset>
-					<DynamicMarkdown contents={wizardsTextToMarkdown(loaded.description)} />
-					{loaded.rules
+					<DynamicMarkdown contents={wizardsTextToMarkdown(classDetails.description, { depth: 1 })} />
+					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl">
+						Creating {getArticle(classDetails.name)} {classDetails.name}
+					</h2>
+					<DynamicMarkdown
+						contents={wizardsTextToMarkdown(classDetails.rules.find((r) => r.label === 'Creating')?.text, { depth: 2 })}
+					/>
+					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl">
+						{classDetails.name} Class Features
+					</h2>
+					<DynamicMarkdown
+						contents={wizardsTextToMarkdown(classDetails.rules.find((r) => r.label === 'Class Features')?.text, {
+							depth: 2,
+						})}
+					/>
+					{classFeatures.map((classFeature, index) => (
+						<Fragment key={index}>
+							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">{classFeature.name}</h3>
+							<DynamicMarkdown
+								contents={wizardsTextToMarkdown(classFeature.description, {
+									depth: 3,
+								})}
+							/>
+						</Fragment>
+					))}
+					<DynamicMarkdown
+						contents={wizardsTextToMarkdown(classDetails.rules.find((r) => r.label === 'Supplemental')?.text, {
+							depth: 1,
+						})}
+					/>
+					{classDetails.rules
 						.filter(isOther)
 						.filter((rule) => !!rule.text)
 						.map((rule, index) => (
 							<Fragment key={index}>
 								<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">{rule.label}</h2>
-								<DynamicMarkdown contents={wizardsTextToMarkdown(rule.text)} />
+								<DynamicMarkdown contents={wizardsTextToMarkdown(rule.text, { depth: 2 })} />
 							</Fragment>
 						))}
 				</ReaderLayout>

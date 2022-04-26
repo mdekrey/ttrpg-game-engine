@@ -1,9 +1,13 @@
-export function wizardsTextToMarkdown(input: string | null | undefined): string {
+import { titleCase } from './title-case';
+
+export function wizardsTextToMarkdown(input: string | null | undefined, options: { depth: number }): string {
 	if (!input) return '';
+
+	const heading = '#'.repeat(options.depth);
 
 	const final = input
 		.replace(/\r/g, '\n')
-		.replace(/^([A-Z ]+)$/gm, '## $1')
+		.replace(/^([A-Z ]+)$/gm, (_, title) => `${heading} ${titleCase(title)}`)
 		.replace(/<table>([\s\S]*?)<\/table>/gm, (match, tableContents: string) => {
 			const basic = `|${tableContents.replace(/\t/g, '|').replace(/\n/g, '|\n|')}|`;
 			const rows = basic.split('\n');
