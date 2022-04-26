@@ -30,18 +30,17 @@ public class LegacyController : LegacyControllerBase
         var featureNames = result.Rules.Single(r => r.Label == "_PARSED_CLASS_FEATURE").Text.Split(',').Select(name => name.Trim()).ToArray();
 
         // No, this isn't a bug with the source data. The original app searches by name.
-        var classFeatures = await (from rule in context.ImportedRules
-                                   where rule.Type == "Class Feature" && featureNames.Contains(rule.Name)
-                                   select ToDetails(rule)).ToArrayAsync();
+        var classFeatures = await GetLegacyRules(rule => rule.Type == "Class Feature" && featureNames.Contains(rule.Name)).ToArrayAsync();
         var allClassFeatures = await LoadOrderedAsync(classFeatures, LoadClassFeatureAsync(id));
 
         return GetLegacyClassActionResult.Ok(new(result, allClassFeatures));
     }
 
-    private Func<LegacyRuleDetails, Task<LegacyClassFeatureDetails>> LoadClassFeatureAsync(string classId)
+    private Func<ImportedRule, Task<LegacyClassFeatureDetails>> LoadClassFeatureAsync(string classId)
     {
-        return async (arg) =>
+        return async (rule) =>
         {
+            var arg = ToDetails(rule);
             var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "Powers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
             var powerRules = powerIds == null ? Enumerable.Empty<ImportedRule>()
                 : await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId) && rule.Class.WizardsId == classId).ToArrayAsync();
@@ -51,11 +50,26 @@ public class LegacyController : LegacyControllerBase
 
     protected override async Task<GetLegacyRaceActionResult> GetLegacyRace(string id)
     {
-        var result = await GetLegacyRule(id, "Race");
-        if (result == null)
+        var legacyRule = await GetLegacyRule(id, "Race");
+        if (legacyRule == null)
             return GetLegacyRaceActionResult.NotFound();
 
-        return GetLegacyRaceActionResult.Ok(ToDetails(result));
+        var result = ToDetails(legacyRule);
+
+        var traitIds = result.Rules.Single(r => r.Label == "Racial Traits").Text.Split(',').Select(id => id.Trim()).ToArray();
+        var racialTraits = await GetLegacyRules(rule => rule.Type == "Racial Trait" && traitIds.Contains(rule.WizardsId)).ToArrayAsync();
+        var allRacialTraits = await LoadOrderedAsync(racialTraits, LoadRacialTraitAsync);
+
+        return GetLegacyRaceActionResult.Ok(new(result, allRacialTraits));
+    }
+
+    private async Task<LegacyRacialTraitDetails> LoadRacialTraitAsync(ImportedRule rule)
+    {
+        var arg = ToDetails(rule);
+        var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "Powers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
+        var powerRules = powerIds == null ? Enumerable.Empty<ImportedRule>()
+            : await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId)).ToArrayAsync();
+        return new(RacialTraitDetails: arg, Powers: powerRules.Select(ToPower).ToArray());
     }
 
     protected override async Task<GetLegacyClassesActionResult> GetLegacyClasses()

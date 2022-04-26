@@ -29,9 +29,9 @@ declare module '@mdx-js/react' {
 		table?: React.ComponentType<JSX.IntrinsicElements['table']>;
 		thead?: React.ComponentType<JSX.IntrinsicElements['thead']>;
 		tbody?: React.ComponentType<JSX.IntrinsicElements['tbody']>;
-		th?: React.ComponentType<JSX.IntrinsicElements['th'] & { isHeader: boolean }>;
+		th?: React.ComponentType<JSX.IntrinsicElements['th'] & { isHeader?: boolean }>;
 		tr?: React.ComponentType<JSX.IntrinsicElements['tr']>;
-		td?: React.ComponentType<JSX.IntrinsicElements['td'] & { isHeader: boolean }>;
+		td?: React.ComponentType<JSX.IntrinsicElements['td'] & { isHeader?: boolean }>;
 		pre?: React.ComponentType<JSX.IntrinsicElements['pre']>;
 		code?: React.ComponentType<JSX.IntrinsicElements['code']>;
 		em?: React.ComponentType<JSX.IntrinsicElements['em']>;

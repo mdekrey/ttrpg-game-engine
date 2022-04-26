@@ -371,6 +371,16 @@ components:
       properties:
         label: { type: string }
         text: { type: string }
+    LegacyRacialTraitDetails:
+      type: object
+      required:
+        - racialTraitDetails
+        - powers
+      properties:
+        racialTraitDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        powers:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyPowerDetails" }
     LegacyClassFeatureDetails:
       type: object
       required:
@@ -391,6 +401,16 @@ components:
         classFeatures:
           type: array
           items: { $ref: "#/components/schemas/LegacyClassFeatureDetails" }
+    LegacyRaceDetails:
+      type: object
+      required:
+        - raceDetails
+        - racialTraits
+      properties:
+        raceDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        racialTraits:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyRacialTraitDetails" }
     LegacyPowerDetails:
       type: object
       required:
@@ -744,7 +764,7 @@ paths:
           description: OK
           content:
             application/json:
-              schema: { $ref: "#/components/schemas/LegacyRuleDetails" }
+              schema: { $ref: "#/components/schemas/LegacyRaceDetails" }
         404:
           description: Race not found
   /api/legacy/classes:

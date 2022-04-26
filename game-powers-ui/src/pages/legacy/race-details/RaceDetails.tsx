@@ -16,7 +16,7 @@ type ReasonCode = 'NotFound';
 const racialTraitSections = [
 	['Average Height', 'Average Weight'],
 	['Ability Scores', 'Size', 'Speed', 'Vision'],
-	['Languages', 'Skill Bonuses', 'Racial Traits'], // TODO: display the actual traits, not IDs to them
+	['Languages', 'Skill Bonuses'], // TODO: display the actual traits, not IDs to them
 ];
 const finalSection = ['Characteristics', 'Male Names', 'Female Names'];
 
@@ -44,43 +44,51 @@ export function RaceDetails({ data: { raceId } }: { data: { raceId: string } }) 
 		<LoadableComponent
 			data={data}
 			errorComponent={() => <>Not Found</>}
-			loadedComponent={(loaded) => (
+			loadedComponent={({ raceDetails, racialTraits }) => (
 				<ReaderLayout>
-					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">{loaded.name}</h1>
-					<p className="font-flavor font-bold italic">{loaded.flavorText}</p>
+					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">{raceDetails.name}</h1>
+					<p className="font-flavor font-bold italic">{raceDetails.flavorText}</p>
 					<Inset>
-						<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{loaded.name} Traits</h2>
+						<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{raceDetails.name} Traits</h2>
 						{racialTraitSections.map((section, sectionIndex) => (
-							<section className="mb-2" key={sectionIndex}>
+							<section className="mb-4" key={sectionIndex}>
 								{section.map((trait, traitIndex) => (
 									<p key={traitIndex}>
 										<span className="font-bold">{trait}:</span>{' '}
-										{loaded.rules.find((r) => r.label === trait)?.text ?? <span className="italic">Unknown</span>}
+										{raceDetails.rules.find((r) => r.label === trait)?.text ?? <span className="italic">Unknown</span>}
 									</p>
 								))}
 							</section>
 						))}
-						{/* TODO - display the traits */}
+						{racialTraits.map((trait, traitIndex) => (
+							<>
+								<p key={traitIndex}>
+									<span className="font-bold">{trait.racialTraitDetails.name}:</span>{' '}
+									{trait.racialTraitDetails.description}
+								</p>
+								{/* TODO - subtraits and powers */}
+							</>
+						))}
 					</Inset>
-					<DynamicMarkdown contents={wizardsTextToMarkdown(loaded.description, { depth: 2 })} />
+					<DynamicMarkdown contents={wizardsTextToMarkdown(raceDetails.description, { depth: 2 })} />
 					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Physical Qualities</h2>
 					<DynamicMarkdown
-						contents={wizardsTextToMarkdown(loaded.rules.find((r) => r.label === 'Physical Qualities')?.text, {
+						contents={wizardsTextToMarkdown(raceDetails.rules.find((r) => r.label === 'Physical Qualities')?.text, {
 							depth: 3,
 						})}
 					/>
 
 					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
-						Playing {getArticle(loaded.name)} {loaded.name}
+						Playing {getArticle(raceDetails.name)} {raceDetails.name}
 					</h2>
 					<DynamicMarkdown
-						contents={wizardsTextToMarkdown(loaded.rules.find((r) => r.label === 'Playing')?.text, { depth: 3 })}
+						contents={wizardsTextToMarkdown(raceDetails.rules.find((r) => r.label === 'Playing')?.text, { depth: 3 })}
 					/>
 
 					{finalSection.map((trait, traitIndex) => (
 						<p className="my-2" key={traitIndex}>
 							<span className="font-bold">{trait}:</span>{' '}
-							{loaded.rules.find((r) => r.label === trait)?.text ?? <span className="italic">Unknown</span>}
+							{raceDetails.rules.find((r) => r.label === trait)?.text ?? <span className="italic">Unknown</span>}
 						</p>
 					))}
 				</ReaderLayout>
