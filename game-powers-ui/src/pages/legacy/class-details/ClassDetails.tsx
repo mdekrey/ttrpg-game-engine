@@ -10,6 +10,9 @@ import { Inset } from 'components/reader-layout/inset';
 import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { LegacyRuleText } from 'api/models/LegacyRuleText';
 import { Fragment } from 'react';
+import { LegacyPowerDetails } from 'api/models/LegacyPowerDetails';
+import { PowerTextBlock, PowerTextBlockProps } from 'components/power/PowerTextBlock';
+import { PowerType } from 'components/power/Power';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
 
@@ -91,7 +94,7 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 							depth: 2,
 						})}
 					/>
-					{classFeatures.map((classFeature, index) => (
+					{classFeatures.map(({ classFeatureDetails: classFeature, powers }, index) => (
 						<Fragment key={index}>
 							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">{classFeature.name}</h3>
 							<DynamicMarkdown
@@ -99,6 +102,9 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 									depth: 3,
 								})}
 							/>
+							{powers.map((power, powerIndex) => (
+								<DisplayPower power={power} key={powerIndex} />
+							))}
 						</Fragment>
 					))}
 					<DynamicMarkdown
@@ -119,5 +125,39 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 			)}
 			loadingComponent={<>Loading</>}
 		/>
+	);
+}
+
+const knownRules = ['Attack', 'Attack Type', 'Target', 'Trigger', 'Requirement', 'Prerequisite', '_ParentFeature'];
+
+function DisplayPower({ power }: { power: LegacyPowerDetails }) {
+	const attackType = power.rules.find((rule) => rule.label === 'Attack Type')?.text.split(' ', 2) ?? [];
+	const target = power.rules.find((rule) => rule.label === 'Target')?.text;
+	const attack = power.rules.find((rule) => rule.label === 'Attack')?.text;
+	const trigger = power.rules.find((rule) => rule.label === 'Trigger')?.text;
+	const requirement = power.rules.find((rule) => rule.label === 'Requirement')?.text;
+	const prerequisite = power.rules.find((rule) => rule.label === 'Prerequisite')?.text;
+	const otherRules = power.rules.filter((rule) => !knownRules.includes(rule.label));
+	// TODO: associated powers
+	return (
+		<>
+			<PowerTextBlock
+				className="my-4"
+				name={power.name}
+				flavorText={power.flavorText}
+				typeInfo={power.display}
+				powerUsage={power.powerUsage as PowerType}
+				keywords={power.keywords}
+				actionType={power.actionType}
+				attackType={attackType[0] as PowerTextBlockProps['attackType'] | undefined}
+				attackTypeDetails={attackType[1]}
+				prerequisite={requirement}
+				requirement={prerequisite}
+				trigger={trigger}
+				target={target}
+				attack={attack}
+				rulesText={otherRules}
+			/>
+		</>
 	);
 }

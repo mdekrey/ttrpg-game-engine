@@ -62,7 +62,7 @@ export function PowerTextBlock({
 				className={className}
 				name={name}
 				level={typeInfo}
-				type={powerUsage}
+				type={powerUsage.startsWith('Encounter') ? 'Encounter' : (powerUsage as PowerType)}
 				icon={Icon}
 				flavorText={flavorText || undefined}>
 				<div>

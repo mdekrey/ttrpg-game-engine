@@ -371,6 +371,16 @@ components:
       properties:
         label: { type: string }
         text: { type: string }
+    LegacyClassFeatureDetails:
+      type: object
+      required:
+        - classFeatureDetails
+        - powers
+      properties:
+        classFeatureDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        powers:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyPowerDetails" }
     LegacyClassDetails:
       type: object
       required:
@@ -379,10 +389,41 @@ components:
       properties:
         classDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
         classFeatures:
-          {
-            type: array,
-            items: { $ref: "#/components/schemas/LegacyRuleDetails" },
-          }
+          type: array
+          items: { $ref: "#/components/schemas/LegacyClassFeatureDetails" }
+    LegacyPowerDetails:
+      type: object
+      required:
+        - wizardsId
+        - name
+        - type
+        - rules
+        - display
+        - powerUsage
+        - keywords
+        - actionType
+        - encounterUses
+        - powerType
+        - level
+      properties:
+        wizardsId: { type: string }
+        name: { type: string }
+        flavorText: { type: string }
+        type: { type: string }
+        description: { type: string }
+        shortDescription: { type: string }
+        display: { type: string }
+        powerUsage: { type: string }
+        actionType: { type: string }
+        powerType: { type: string }
+        encounterUses: { type: integer }
+        level: { type: string }
+        rules:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyRuleText" }
+        keywords:
+          type: array
+          items: { type: string }
 paths:
   /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power
