@@ -61,14 +61,21 @@ export function RaceDetails({ data: { raceId } }: { data: { raceId: string } }) 
 								))}
 							</section>
 						))}
-						{/* TODO - display the traits */}
 						{racialTraits.map((trait, traitIndex) => (
 							<>
 								<p key={traitIndex}>
 									<span className="font-bold">{trait.racialTraitDetails.name}:</span>{' '}
 									{trait.racialTraitDetails.description}
 								</p>
-								{/* TODO - subtraits */}
+								{trait.subTraits.length > 0 ? (
+									<div className="ml-8">
+										{trait.subTraits.map((subtrait, subtraitIndex) => (
+											<p key={subtraitIndex}>
+												<span className="font-bold">{subtrait.name}:</span> {subtrait.description}
+											</p>
+										))}
+									</div>
+								) : null}
 							</>
 						))}
 					</Inset>

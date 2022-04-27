@@ -376,11 +376,15 @@ components:
       required:
         - racialTraitDetails
         - powers
+        - subTraits
       properties:
         racialTraitDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
         powers:
           type: array
           items: { $ref: "#/components/schemas/LegacyPowerDetails" }
+        subTraits:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyRuleDetails" }
     LegacyClassFeatureDetails:
       type: object
       required:

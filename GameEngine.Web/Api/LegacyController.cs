@@ -69,7 +69,12 @@ public class LegacyController : LegacyControllerBase
         var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "Powers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
         var powerRules = powerIds == null ? Enumerable.Empty<ImportedRule>()
             : await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId)).ToArrayAsync();
-        return new(RacialTraitDetails: arg, Powers: powerRules.Select(ToPower).ToArray());
+        var subfeatureIds = arg.Rules.SingleOrDefault(r => r.Label == "_PARSED_SUB_FEATURES")?.Text.Split(',').Select(id => id.Trim()).ToArray();
+        var subfeatureRules = subfeatureIds == null ? Enumerable.Empty<ImportedRule>()
+            : await GetLegacyRules(rule => rule.Type == "Racial Trait" && subfeatureIds.Contains(rule.WizardsId)).ToArrayAsync();
+        var subfeatures = await LoadOrderedAsync(subfeatureRules, LoadRacialTraitAsync);
+        var powers = powerRules.Select(ToPower).Concat(subfeatures.SelectMany(f => f.Powers)).ToArray();
+        return new(RacialTraitDetails: arg, Powers: powers, SubTraits: subfeatures.Select(f => f.RacialTraitDetails).ToArray());
     }
 
     protected override async Task<GetLegacyClassesActionResult> GetLegacyClasses()
