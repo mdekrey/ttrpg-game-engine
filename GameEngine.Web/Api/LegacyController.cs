@@ -33,7 +33,9 @@ public class LegacyController : LegacyControllerBase
         var classFeatures = await GetLegacyRules(rule => rule.Type == "Class Feature" && featureNames.Contains(rule.Name)).ToArrayAsync();
         var allClassFeatures = await LoadOrderedAsync(classFeatures, LoadClassFeatureAsync(id));
 
-        return GetLegacyClassActionResult.Ok(new(result, allClassFeatures));
+        var builds = await GetLegacyRules(rule => rule.Type == "Build" && rule.Class.WizardsId == id).ToArrayAsync();
+
+        return GetLegacyClassActionResult.Ok(new(result, builds.Select(b => ToDetails(b)).ToArray(), allClassFeatures));
     }
 
     private Func<ImportedRule, Task<LegacyClassFeatureDetails>> LoadClassFeatureAsync(string classId)

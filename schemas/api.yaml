@@ -399,9 +399,13 @@ components:
       type: object
       required:
         - classDetails
+        - builds
         - classFeatures
       properties:
         classDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        builds:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyRuleDetails" }
         classFeatures:
           type: array
           items: { $ref: "#/components/schemas/LegacyClassFeatureDetails" }

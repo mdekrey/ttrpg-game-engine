@@ -59,7 +59,7 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 		<LoadableComponent
 			data={data}
 			errorComponent={() => <>Not Found</>}
-			loadedComponent={({ classDetails, classFeatures }) => (
+			loadedComponent={({ classDetails, classFeatures, builds }) => (
 				<ReaderLayout>
 					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">{classDetails.name}</h1>
 					<p className="font-flavor font-bold italic">{classDetails.flavorText}</p>
@@ -84,6 +84,18 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 					<DynamicMarkdown
 						contents={wizardsTextToMarkdown(classDetails.rules.find((r) => r.label === 'Creating')?.text, { depth: 2 })}
 					/>
+					{builds.map((build, buildIndex) => (
+						<Fragment key={buildIndex}>
+							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">{build.name}</h3>
+							<DynamicMarkdown contents={wizardsTextToMarkdown(build.description, { depth: 3 })} />
+							<DynamicMarkdown
+								contents={wizardsTextToMarkdown(build.rules.find((r) => r.label === 'Suggested')?.text, { depth: 3 })}
+							/>
+							<p className="theme-4e-indent">
+								<span>Key Abilities:</span> {build.rules.find((r) => r.label === 'Key Abilities')?.text}
+							</p>
+						</Fragment>
+					))}
 					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl">
 						{classDetails.name} Class Features
 					</h2>
