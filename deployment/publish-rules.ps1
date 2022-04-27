@@ -24,6 +24,10 @@ $tag = (Get-Date).ToString('yyyy-MM-ddTHH_mm_ss')
 $fullImageName = "$($repository).azurecr.io/$($imageName)"
 
 docker build . -f .\deployment\Dockerfile -t dekreydotnet.azurecr.io/game-4e:$tag
+if (-not $?)
+{
+    throw 'Docker build failed'
+}
 
 az account set --subscription $($subscription)
 
