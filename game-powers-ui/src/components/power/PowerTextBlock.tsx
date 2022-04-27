@@ -67,7 +67,8 @@ export function PowerTextBlock({
 				flavorText={flavorText || undefined}>
 				<div>
 					<p className="font-bold">
-						{powerUsage} ✦ {keywords.join(', ')}
+						{powerUsage}
+						{keywords.length ? <> ✦ {keywords.join(', ')}</> : null}
 					</p>
 					<div className="flex">
 						<p className="font-bold w-40">{actionType}</p>

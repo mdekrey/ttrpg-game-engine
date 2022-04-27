@@ -10,6 +10,7 @@ import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { Inset } from 'components/reader-layout/inset';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
+import { DisplayPower } from '../display-power';
 
 type ReasonCode = 'NotFound';
 
@@ -60,16 +61,22 @@ export function RaceDetails({ data: { raceId } }: { data: { raceId: string } }) 
 								))}
 							</section>
 						))}
+						{/* TODO - display the traits */}
 						{racialTraits.map((trait, traitIndex) => (
 							<>
 								<p key={traitIndex}>
 									<span className="font-bold">{trait.racialTraitDetails.name}:</span>{' '}
 									{trait.racialTraitDetails.description}
 								</p>
-								{/* TODO - subtraits and powers */}
+								{/* TODO - subtraits */}
 							</>
 						))}
 					</Inset>
+					{racialTraits
+						.flatMap((trait) => trait.powers)
+						.map((power, powerIndex) => (
+							<DisplayPower power={power} key={powerIndex} />
+						))}
 					<DynamicMarkdown contents={wizardsTextToMarkdown(raceDetails.description, { depth: 2 })} />
 					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Physical Qualities</h2>
 					<DynamicMarkdown
