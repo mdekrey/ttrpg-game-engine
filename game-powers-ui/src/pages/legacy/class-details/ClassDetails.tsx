@@ -1,15 +1,16 @@
+import { groupBy } from 'lodash/fp';
 import { map, switchAll } from 'rxjs/operators';
 import { useApi } from 'core/hooks/useApi';
 import { useObservable } from 'core/hooks/useObservable';
 import { useMemoizeObservable } from 'core/hooks/useMemoizeObservable';
-import { initial, Loadable, makeError, makeLoaded } from 'core/loadable/loadable';
+import { initial, isLoaded, Loadable, makeError, makeLoaded } from 'core/loadable/loadable';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { StructuredResponses } from 'api/operations/getLegacyClass';
 import { ReaderLayout } from 'components/reader-layout';
 import { Inset } from 'components/reader-layout/inset';
 import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { LegacyRuleText } from 'api/models/LegacyRuleText';
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
 import { DisplayPower } from '../display-power';
@@ -32,8 +33,32 @@ function isOther(rule: LegacyRuleText) {
 	if (rule.label === 'Supplemental') return false;
 	if (rule.label === 'Short Description') return false;
 	if (rule.label === 'Power Name') return false;
+	if (rule.label === 'Powers') return false;
 	return true;
 }
+
+const powerList = [
+	'At-Will 1',
+	'Encounter 1',
+	'Daily 1',
+	'Utility 2',
+	'Encounter 3',
+	'Daily 5',
+	'Utility 6',
+	'Encounter 7',
+	'Daily 9',
+	'Utility 10',
+	'Encounter 13',
+	'Daily 15',
+	'Utility 16',
+	'Encounter 17',
+	'Daily 19',
+	'Utility 22',
+	'Encounter 23',
+	'Daily 25',
+	'Encounter 27',
+	'Daily 29',
+];
 
 export function ClassDetails({ data: { classId } }: { data: { classId: string } }) {
 	const api = useApi();
@@ -54,6 +79,22 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 			),
 		initial as Loadable<StructuredResponses[200]['application/json'], ReasonCode>
 	);
+
+	const powers = useMemo(() => {
+		if (!isLoaded(data)) return {};
+
+		return groupBy(
+			(power) => `${power.powerType === 'Utility' ? 'Utility' : power.powerUsage} ${power.level}`,
+			data.value.powers
+		);
+	}, [data]);
+	console.log(powers);
+
+	const powerName = useMemo(() => {
+		if (!isLoaded(data)) return 'Power';
+
+		return data.value.classDetails.rules.find((r) => r.label === 'Power Name')?.text ?? 'Power';
+	}, [data]);
 
 	return (
 		<LoadableComponent
@@ -104,7 +145,7 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 							depth: 2,
 						})}
 					/>
-					{classFeatures.map(({ classFeatureDetails: classFeature, powers }, index) => (
+					{classFeatures.map(({ classFeatureDetails: classFeature, powers: featurePowers }, index) => (
 						<Fragment key={index}>
 							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">{classFeature.name}</h3>
 							<DynamicMarkdown
@@ -112,7 +153,7 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 									depth: 3,
 								})}
 							/>
-							{powers.map((power, powerIndex) => (
+							{featurePowers.map((power, powerIndex) => (
 								<DisplayPower power={power} key={powerIndex} />
 							))}
 						</Fragment>
@@ -131,6 +172,22 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 								<DynamicMarkdown contents={wizardsTextToMarkdown(rule.text, { depth: 2 })} />
 							</Fragment>
 						))}
+					<h2 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Powers</h2>
+					<DynamicMarkdown
+						contents={wizardsTextToMarkdown(classDetails.rules.find((r) => r.label === 'Powers')?.text, {
+							depth: 2,
+						})}
+					/>
+					{powerList.map((category) => (
+						<Fragment key={category}>
+							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl">
+								{classDetails.name} {category} {powerName}
+							</h3>
+							{(powers[category] ?? []).map((power, powerIndex) => (
+								<DisplayPower power={power} key={powerIndex} />
+							))}
+						</Fragment>
+					))}
 				</ReaderLayout>
 			)}
 			loadingComponent={<>Loading</>}

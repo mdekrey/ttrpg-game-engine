@@ -35,7 +35,10 @@ public class LegacyController : LegacyControllerBase
 
         var builds = await GetLegacyRules(rule => rule.Type == "Build" && rule.Class.WizardsId == id).ToArrayAsync();
 
-        return GetLegacyClassActionResult.Ok(new(result, builds.Select(b => ToDetails(b)).ToArray(), allClassFeatures));
+        var powerRules = await GetLegacyRules(rule => rule.Type == "Power" && rule.Class.WizardsId == id).ToArrayAsync();
+        var powers = await LoadOrderedAsync(powerRules, LoadPowerAsync);
+
+        return GetLegacyClassActionResult.Ok(new(result, builds.Select(b => ToDetails(b)).ToArray(), allClassFeatures, powers));
     }
 
     private Func<ImportedRule, Task<LegacyClassFeatureDetails>> LoadClassFeatureAsync(string classId)
@@ -75,8 +78,13 @@ public class LegacyController : LegacyControllerBase
         var subfeatureRules = subfeatureIds == null ? Enumerable.Empty<ImportedRule>()
             : await GetLegacyRules(rule => rule.Type == "Racial Trait" && subfeatureIds.Contains(rule.WizardsId)).ToArrayAsync();
         var subfeatures = await LoadOrderedAsync(subfeatureRules, LoadRacialTraitAsync);
-        var powers = powerRules.Select(ToPower).Concat(subfeatures.SelectMany(f => f.Powers)).ToArray();
+        var powers = (await LoadOrderedAsync(powerRules, LoadPowerAsync)).Concat(subfeatures.SelectMany(f => f.Powers)).ToArray();
         return new(RacialTraitDetails: arg, Powers: powers, SubTraits: subfeatures.Select(f => f.RacialTraitDetails).ToArray());
+    }
+
+    private Task<LegacyPowerDetails> LoadPowerAsync(ImportedRule rule)
+    {
+        return Task.FromResult(ToPower(rule));
     }
 
     protected override async Task<GetLegacyClassesActionResult> GetLegacyClasses()
@@ -116,7 +124,8 @@ public class LegacyController : LegacyControllerBase
         return context.ImportedRules
             .Where(whereClause)
             .Include(rule => rule.RulesText.OrderBy(r => r.Order))
-            .Include(rule => rule.Keywords);
+            .Include(rule => rule.Keywords)
+            .Include(rule => rule.Sources);
     }
 
     [return: NotNullIfNotNull("rule")]
@@ -130,7 +139,8 @@ public class LegacyController : LegacyControllerBase
                 Type: rule.Type,
                 Description: rule.Description,
                 ShortDescription: rule.ShortDescription,
-                Rules: rule.RulesText.Select(e => new LegacyRuleText(e.Label, e.Text))
+                Rules: rule.RulesText.Select(e => new LegacyRuleText(e.Label, e.Text)),
+                Sources: rule.Sources.Select(e => e.SourceName)
             );
     }
 
@@ -150,7 +160,8 @@ public class LegacyController : LegacyControllerBase
             Level: rule.Level,
             ActionType: rule.ActionType,
             Display: rule.Display,
-            Keywords: rule.Keywords.Select(k => k.KeywordName)
+            Keywords: rule.Keywords.Select(k => k.KeywordName),
+            Sources: rule.Sources.Select(e => e.SourceName)
         );
     }
 

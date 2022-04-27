@@ -353,6 +353,7 @@ components:
         - name
         - type
         - rules
+        - sources
       properties:
         wizardsId: { type: string }
         name: { type: string }
@@ -360,6 +361,7 @@ components:
         type: { type: string }
         description: { type: string }
         shortDescription: { type: string }
+        sources: { type: array, items: { type: string } }
         rules:
           type: array
           items: { $ref: "#/components/schemas/LegacyRuleText" }
@@ -401,6 +403,7 @@ components:
         - classDetails
         - builds
         - classFeatures
+        - powers
       properties:
         classDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
         builds:
@@ -409,6 +412,9 @@ components:
         classFeatures:
           type: array
           items: { $ref: "#/components/schemas/LegacyClassFeatureDetails" }
+        powers:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyPowerDetails" }
     LegacyRaceDetails:
       type: object
       required:
@@ -433,6 +439,7 @@ components:
         - encounterUses
         - powerType
         - level
+        - sources
       properties:
         wizardsId: { type: string }
         name: { type: string }
@@ -446,6 +453,7 @@ components:
         powerType: { type: string }
         encounterUses: { type: integer }
         level: { type: string }
+        sources: { type: array, items: { type: string } }
         rules:
           type: array
           items: { $ref: "#/components/schemas/LegacyRuleText" }
