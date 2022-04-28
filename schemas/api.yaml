@@ -392,11 +392,15 @@ components:
       required:
         - classFeatureDetails
         - powers
+        - subFeatures
       properties:
         classFeatureDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
         powers:
           type: array
           items: { $ref: "#/components/schemas/LegacyPowerDetails" }
+        subFeatures:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyClassFeatureDetails" }
     LegacyClassDetails:
       type: object
       required:

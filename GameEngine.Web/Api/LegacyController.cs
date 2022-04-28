@@ -46,10 +46,16 @@ public class LegacyController : LegacyControllerBase
         return async (rule) =>
         {
             var arg = ToDetails(rule);
-            var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "Powers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
+            var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "_DisplayPowers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
             var powerRules = powerIds == null ? Enumerable.Empty<ImportedRule>()
                 : await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId) && (rule.Class.WizardsId == classId || rule.Class.WizardsId == "")).ToArrayAsync();
-            return new(ClassFeatureDetails: arg, Powers: powerRules.Select(ToPower).ToArray());
+
+            var subfeatureIds = arg.Rules.SingleOrDefault(r => r.Label == "_PARSED_SUB_FEATURES")?.Text.Split(',').Select(id => id.Trim()).ToArray();
+            var subfeatureRules = subfeatureIds == null ? Enumerable.Empty<ImportedRule>()
+                : await GetLegacyRules(rule => rule.Type == "Class Feature" && subfeatureIds.Contains(rule.WizardsId)).ToArrayAsync();
+            var subfeatures = await LoadOrderedAsync(subfeatureRules, LoadClassFeatureAsync(classId));
+
+            return new(ClassFeatureDetails: arg, Powers: powerRules.Select(ToPower).ToArray(), SubFeatures: subfeatures);
         };
     }
 
@@ -74,10 +80,12 @@ public class LegacyController : LegacyControllerBase
         var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "Powers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
         var powerRules = powerIds == null ? Enumerable.Empty<ImportedRule>()
             : await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId)).ToArrayAsync();
+
         var subfeatureIds = arg.Rules.SingleOrDefault(r => r.Label == "_PARSED_SUB_FEATURES")?.Text.Split(',').Select(id => id.Trim()).ToArray();
         var subfeatureRules = subfeatureIds == null ? Enumerable.Empty<ImportedRule>()
             : await GetLegacyRules(rule => rule.Type == "Racial Trait" && subfeatureIds.Contains(rule.WizardsId)).ToArrayAsync();
         var subfeatures = await LoadOrderedAsync(subfeatureRules, LoadRacialTraitAsync);
+
         var powers = (await LoadOrderedAsync(powerRules, LoadPowerAsync)).Concat(subfeatures.SelectMany(f => f.Powers)).ToArray();
         return new(RacialTraitDetails: arg, Powers: powers, SubTraits: subfeatures.Select(f => f.RacialTraitDetails).ToArray());
     }
