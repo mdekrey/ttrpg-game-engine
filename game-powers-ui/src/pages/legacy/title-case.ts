@@ -1,6 +1,8 @@
 export function titleCase(title: string) {
+	if (!title) return title;
 	return title
 		.split(' ')
+		.filter((word) => !!word)
 		.map((word, index) =>
 			index > 0 && isInsignificant(word) ? word.toLowerCase() : word[0].toUpperCase() + word.substring(1).toLowerCase()
 		)

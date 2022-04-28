@@ -12,6 +12,10 @@ body {
     @apply theme-blue-dark;
 }
 
+.indent-4 {
+    text-indent: 1rem;
+}
+
 .theme-4e-indent + .theme-4e-indent {
     text-indent: 1rem;
 }

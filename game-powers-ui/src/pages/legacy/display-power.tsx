@@ -1,6 +1,7 @@
 import { LegacyPowerDetails } from 'api/models/LegacyPowerDetails';
 import { PowerTextBlock, PowerTextBlockProps } from 'components/power';
 import { PowerType } from 'components/power/Power';
+import { Sources } from './sources';
 
 const knownRules = ['Attack', 'Attack Type', 'Target', 'Trigger', 'Requirement', 'Prerequisite', '_ParentFeature'];
 
@@ -15,6 +16,7 @@ export function DisplayPower({ power }: { power: LegacyPowerDetails }) {
 	// TODO: associated powers
 	return (
 		<>
+			<Sources className="-mb-4 mt-4" sources={power.sources} asBlock />
 			<PowerTextBlock
 				className="my-4"
 				name={power.name}

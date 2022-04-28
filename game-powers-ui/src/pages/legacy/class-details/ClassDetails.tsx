@@ -14,6 +14,7 @@ import { Fragment, useMemo } from 'react';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
 import { DisplayPower } from '../display-power';
+import { Sources } from '../sources';
 
 type ReasonCode = 'NotFound';
 
@@ -88,7 +89,6 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 			data.value.powers
 		);
 	}, [data]);
-	console.log(powers);
 
 	const powerName = useMemo(() => {
 		if (!isLoaded(data)) return 'Power';
@@ -102,7 +102,9 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 			errorComponent={() => <>Not Found</>}
 			loadedComponent={({ classDetails, classFeatures, builds }) => (
 				<ReaderLayout>
-					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">{classDetails.name}</h1>
+					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
+						{classDetails.name} <Sources sources={classDetails.sources} />
+					</h1>
 					<p className="font-flavor font-bold italic">{classDetails.flavorText}</p>
 					<Inset>
 						<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{classDetails.name} Traits</h2>
@@ -127,7 +129,9 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 					/>
 					{builds.map((build, buildIndex) => (
 						<Fragment key={buildIndex}>
-							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">{build.name}</h3>
+							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">
+								{build.name} <Sources sources={build.sources} />
+							</h3>
 							<DynamicMarkdown contents={wizardsTextToMarkdown(build.description, { depth: 3 })} />
 							<DynamicMarkdown
 								contents={wizardsTextToMarkdown(build.rules.find((r) => r.label === 'Suggested')?.text, { depth: 3 })}
@@ -147,7 +151,9 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 					/>
 					{classFeatures.map(({ classFeatureDetails: classFeature, powers: featurePowers }, index) => (
 						<Fragment key={index}>
-							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">{classFeature.name}</h3>
+							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">
+								{classFeature.name} <Sources sources={classFeature.sources} />
+							</h3>
 							<DynamicMarkdown
 								contents={wizardsTextToMarkdown(classFeature.description, {
 									depth: 3,
