@@ -13,6 +13,7 @@ namespace GameEngine.Web.Api;
 public class LegacyController : LegacyControllerBase
 {
     private readonly RulesDbContext context;
+    private static readonly IReadOnlyList<string> allowedClassPowerTypes = new[] { "Attack", "Utility" };
 
     public LegacyController(RulesDatabase.RulesDbContext context)
     {
@@ -35,7 +36,7 @@ public class LegacyController : LegacyControllerBase
 
         var builds = await GetLegacyRules(rule => rule.Type == "Build" && rule.Class.WizardsId == id).ToArrayAsync();
 
-        var powerRules = await GetLegacyRules(rule => rule.Type == "Power" && rule.Class.WizardsId == id).ToArrayAsync();
+        var powerRules = await GetLegacyRules(rule => rule.Type == "Power" && rule.Class.WizardsId == id && allowedClassPowerTypes.Contains(rule.PowerType)).ToArrayAsync();
         var powers = await LoadOrderedAsync(powerRules, LoadPowerAsync);
 
         return GetLegacyClassActionResult.Ok(new(result, builds.Select(b => ToDetails(b)).ToArray(), allClassFeatures, powers));
