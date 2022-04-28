@@ -48,7 +48,7 @@ public class LegacyController : LegacyControllerBase
             var arg = ToDetails(rule);
             var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "Powers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
             var powerRules = powerIds == null ? Enumerable.Empty<ImportedRule>()
-                : await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId) && rule.Class.WizardsId == classId).ToArrayAsync();
+                : await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId) && (rule.Class.WizardsId == classId || rule.Class.WizardsId == "")).ToArrayAsync();
             return new(ClassFeatureDetails: arg, Powers: powerRules.Select(ToPower).ToArray());
         };
     }
