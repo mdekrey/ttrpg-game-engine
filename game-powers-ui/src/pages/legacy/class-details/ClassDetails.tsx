@@ -146,19 +146,17 @@ export function ClassDetails({ data: { classId } }: { data: { classId: string } 
 								{featurePowers.map((power, powerIndex) => (
 									<DisplayPower power={power} key={powerIndex} />
 								))}
-								{subFeatures.map(
-									({ classFeatureDetails: classSubFeature, powers: subfeaturePowers }, subfeatureIndex) => (
-										<Fragment key={subfeatureIndex}>
-											<h4 className="font-header font-bold mt-4 first:mt-0 text-black text-lg">
-												{classSubFeature.name} <Sources sources={classSubFeature.sources} />
-											</h4>
-											<WizardsMarkdown text={classSubFeature.description} depth={4} />
-											{subfeaturePowers.map((power, powerIndex) => (
-												<DisplayPower power={power} key={powerIndex} />
-											))}
-										</Fragment>
-									)
-								)}
+								{subFeatures.map(({ subFeatureDetails, powers: subfeaturePowers }, subfeatureIndex) => (
+									<Fragment key={subfeatureIndex}>
+										<h4 className="font-header font-bold mt-4 first:mt-0 text-black text-lg">
+											{subFeatureDetails.name} <Sources sources={subFeatureDetails.sources} />
+										</h4>
+										<WizardsMarkdown text={subFeatureDetails.description} depth={4} />
+										{subfeaturePowers.map((power, powerIndex) => (
+											<DisplayPower power={power} key={powerIndex} />
+										))}
+									</Fragment>
+								))}
 							</Fragment>
 						))}
 						<WizardsMarkdown text={classDetails.rules.find((r) => r.label === 'Supplemental')?.text} depth={1} />

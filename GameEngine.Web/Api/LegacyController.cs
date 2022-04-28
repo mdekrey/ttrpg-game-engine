@@ -56,7 +56,11 @@ public class LegacyController : LegacyControllerBase
                 : await GetLegacyRules(rule => rule.Type == "Class Feature" && subfeatureIds.Contains(rule.WizardsId)).ToArrayAsync();
             var subfeatures = await LoadOrderedAsync(subfeatureRules, LoadClassFeatureAsync(classId));
 
-            return new(ClassFeatureDetails: arg, Powers: powerRules.Select(ToPower).ToArray(), SubFeatures: subfeatures);
+            return new(
+                ClassFeatureDetails: arg, 
+                Powers: powerRules.Select(ToPower).ToArray(), 
+                SubFeatures: subfeatures.Select(subfeature => new LegacyClassSubFeatureDetails(subfeature.ClassFeatureDetails, subfeature.Powers)).ToArray()
+            );
         };
     }
 
