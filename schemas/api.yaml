@@ -400,17 +400,7 @@ components:
           items: { $ref: "#/components/schemas/LegacyPowerDetails" }
         subFeatures:
           type: array
-          items: { $ref: "#/components/schemas/LegacyClassSubFeatureDetails" }
-    LegacyClassSubFeatureDetails:
-      type: object
-      required:
-        - subFeatureDetails
-        - powers
-      properties:
-        subFeatureDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
-        powers:
-          type: array
-          items: { $ref: "#/components/schemas/LegacyPowerDetails" }
+          items: { $ref: "#/components/schemas/LegacyClassFeatureDetails" }
     LegacyClassDetails:
       type: object
       required:
@@ -474,6 +464,7 @@ components:
         keywords:
           type: array
           items: { type: string }
+        childPower: { $ref: "#/components/schemas/LegacyPowerDetails" }
 paths:
   /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power

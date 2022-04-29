@@ -50,6 +50,7 @@ public class LegacyController : LegacyControllerBase
             var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "_DisplayPowers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
             var powerRules = powerIds == null ? Enumerable.Empty<ImportedRule>()
                 : await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId) && (rule.Class.WizardsId == classId || rule.Class.WizardsId == "")).ToArrayAsync();
+            var powers = await LoadOrderedAsync(powerRules, LoadPowerAsync);
 
             var subfeatureIds = arg.Rules.SingleOrDefault(r => r.Label == "_PARSED_SUB_FEATURES")?.Text.Split(',').Select(id => id.Trim()).ToArray();
             var subfeatureRules = subfeatureIds == null ? Enumerable.Empty<ImportedRule>()
@@ -58,8 +59,8 @@ public class LegacyController : LegacyControllerBase
 
             return new(
                 ClassFeatureDetails: arg, 
-                Powers: powerRules.Select(ToPower).ToArray(), 
-                SubFeatures: subfeatures.Select(subfeature => new LegacyClassSubFeatureDetails(subfeature.ClassFeatureDetails, subfeature.Powers)).ToArray()
+                Powers: powers.ToArray(),
+                SubFeatures: subfeatures.ToArray()
             );
         };
     }
@@ -95,9 +96,30 @@ public class LegacyController : LegacyControllerBase
         return new(RacialTraitDetails: arg, Powers: powers, SubTraits: subfeatures.Select(f => f.RacialTraitDetails).ToArray());
     }
 
-    private Task<LegacyPowerDetails> LoadPowerAsync(ImportedRule rule)
+    private async Task<LegacyPowerDetails> LoadPowerAsync(ImportedRule rule)
     {
-        return Task.FromResult(ToPower(rule));
+        var childPowerId = rule.RulesText.SingleOrDefault(r => r.Label == "_ChildPower")?.Text;
+        var childPower = childPowerId != null && await GetLegacyRule(childPowerId, "Power")  is ImportedRule childPowerRule 
+            ? await LoadPowerAsync(childPowerRule)
+            : null;
+        return new(
+            WizardsId: rule.WizardsId,
+            Name: rule.Name,
+            FlavorText: rule.FlavorText,
+            Type: rule.Type,
+            Description: rule.Description,
+            ShortDescription: rule.ShortDescription,
+            Rules: rule.RulesText.Select(e => new LegacyRuleText(e.Label, e.Text)),
+            PowerUsage: rule.PowerUsage,
+            EncounterUses: rule.EncounterUses,
+            PowerType: rule.PowerType,
+            Level: rule.Level,
+            ActionType: rule.ActionType,
+            Display: rule.Display,
+            Keywords: rule.Keywords.Select(k => k.KeywordName),
+            Sources: rule.Sources.Select(e => e.SourceName),
+            ChildPower: childPower
+        );
     }
 
     protected override async Task<GetLegacyClassesActionResult> GetLegacyClasses()
@@ -155,27 +177,6 @@ public class LegacyController : LegacyControllerBase
                 Rules: rule.RulesText.Select(e => new LegacyRuleText(e.Label, e.Text)),
                 Sources: rule.Sources.Select(e => e.SourceName)
             );
-    }
-
-    private static Api.LegacyPowerDetails ToPower(ImportedRule rule)
-    {
-        return new (
-            WizardsId: rule.WizardsId,
-            Name: rule.Name,
-            FlavorText: rule.FlavorText,
-            Type: rule.Type,
-            Description: rule.Description,
-            ShortDescription: rule.ShortDescription,
-            Rules: rule.RulesText.Select(e => new LegacyRuleText(e.Label, e.Text)),
-            PowerUsage: rule.PowerUsage,
-            EncounterUses: rule.EncounterUses,
-            PowerType: rule.PowerType,
-            Level: rule.Level,
-            ActionType: rule.ActionType,
-            Display: rule.Display,
-            Keywords: rule.Keywords.Select(k => k.KeywordName),
-            Sources: rule.Sources.Select(e => e.SourceName)
-        );
     }
 
     private static Task<IEnumerable<TResult>> LoadOrderedAsync<TInput, TResult>(IEnumerable<TInput> input, Func<TInput, Task<TResult>> mapAsync)

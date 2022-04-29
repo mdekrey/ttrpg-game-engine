@@ -3,9 +3,20 @@ import { PowerTextBlock, PowerTextBlockProps } from 'components/power';
 import { PowerType } from 'components/power/Power';
 import { Sources } from './sources';
 
-const knownRules = ['Attack', 'Attack Type', 'Target', 'Trigger', 'Requirement', 'Prerequisite', '_ParentFeature'];
+const knownRules = [
+	'Attack',
+	'Attack Type',
+	'Target',
+	'Trigger',
+	'Requirement',
+	'Prerequisite',
+	'_ParentFeature',
+	'_ChildPower',
+	'_ParentPower',
+	'_BasicAttack', // TODO - pass to PowerTextBlock to display as a basic attack
+];
 
-export function DisplayPower({ power }: { power: LegacyPowerDetails }) {
+export function DisplayPower({ power, noSources }: { power: LegacyPowerDetails; noSources?: boolean }) {
 	const attackType = power.rules.find((rule) => rule.label === 'Attack Type')?.text.split(' ', 2) ?? [];
 	const target = power.rules.find((rule) => rule.label === 'Target')?.text;
 	const attack = power.rules.find((rule) => rule.label === 'Attack')?.text;
@@ -16,7 +27,7 @@ export function DisplayPower({ power }: { power: LegacyPowerDetails }) {
 	// TODO: associated powers
 	return (
 		<>
-			<Sources className="-mb-4 mt-4" sources={power.sources} asBlock />
+			{noSources ? null : <Sources className="-mb-4 mt-4" sources={power.sources} asBlock />}
 			<PowerTextBlock
 				className="my-4"
 				name={power.name}
@@ -34,6 +45,11 @@ export function DisplayPower({ power }: { power: LegacyPowerDetails }) {
 				attack={attack}
 				rulesText={otherRules}
 			/>
+			{power.childPower ? (
+				<div className="-mt-4 ml-6 mb-4">
+					<DisplayPower power={power.childPower} noSources />
+				</div>
+			) : null}
 		</>
 	);
 }
