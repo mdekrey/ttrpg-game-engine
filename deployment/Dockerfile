@@ -25,7 +25,7 @@ RUN wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-p
   && dpkg -i packages-microsoft-prod.deb \
   && rm packages-microsoft-prod.deb \
   && apt-get update \
-  && apt-get install -y apt-transport-https aspnetcore-runtime-3.1 \
+  && apt-get install -y apt-transport-https aspnetcore-runtime-6.0 \
   && apt-get clean
 
 COPY ["./game-powers-ui/package.json", "./game-powers-ui/"]

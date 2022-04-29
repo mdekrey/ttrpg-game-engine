@@ -1,6 +1,13 @@
 ﻿@page "/legacy/class/{id}"
 @model GameEngine.Web.Pages.Legacy.Class.ClassModel
+@inject GameEngine.Web.Legacy.LegacyData legacyData
 @{
+    var data = await legacyData.GetLegacyClassAsync(Model.ClassId);
+}
+@section head
+{
+    <title>@data.ClassDetails.Name - 4e</title>
+    <meta name="robots" content="noindex" />
 }
 
-@await Html.React("pages/legacy/class-details/class-details", new { Model.ClassId })
+@await Html.React("pages/legacy/class-details/class-details", new { Model.ClassId, ClassDetails = data })

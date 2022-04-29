@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddOpenApiDndClasses<PowerController, ClassController, PowerGenerationController, LegacyController>();
 builder.Services.AddTransient<GameEngine.Web.AsyncServices.AsyncClassGenerator>();
+builder.Services.AddTransient<GameEngine.Web.Legacy.LegacyData>();
 builder.Services.Configure<GameEngine.Web.Storage.GameStorageOptions>(options =>
 {
     options.ApplyJsonSerializerSettings = serializer =>

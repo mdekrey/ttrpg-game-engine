@@ -1,0 +1,18 @@
+﻿@page "/legacy/rule/{id}"
+@model GameEngine.Web.Pages.Legacy.OtherModel
+@inject GameEngine.Web.Legacy.LegacyData legacyData
+@{
+    var data = await legacyData.GetLegacyRule(Model.Id);
+}
+@section head
+{
+    <meta name="robots" content="noindex" />
+}
+
+@(data switch 
+{
+    Api.LegacyClassDetails classDetails => await Html.React("pages/legacy/class-details/class-details", new { ClassId = classDetails.ClassDetails.WizardsId, classDetails }),
+    Api.LegacyRaceDetails raceDetails => await Html.React("pages/legacy/race-details/race-details", new { RaceId = raceDetails.RaceDetails.WizardsId, raceDetails }),
+    Api.LegacyPowerDetails powerDetails => await Html.React("pages/legacy/power-details/power-details", new { Power = powerDetails }),
+    _ => ""
+})

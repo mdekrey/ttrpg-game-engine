@@ -1,4 +1,5 @@
 import { groupBy } from 'lodash/fp';
+import { of } from 'rxjs';
 import { map, switchAll } from 'rxjs/operators';
 import { useApi } from 'core/hooks/useApi';
 import { useObservable } from 'core/hooks/useObservable';
@@ -11,6 +12,7 @@ import { Inset } from 'components/reader-layout/inset';
 import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { LegacyRuleText } from 'api/models/LegacyRuleText';
 import { Fragment, useMemo } from 'react';
+import { LegacyClassDetails } from 'api/models/LegacyClassDetails';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
 import { DisplayPower } from '../display-power';
@@ -64,20 +66,26 @@ const powerList = [
 	'Daily 29',
 ];
 
-export function ClassDetails({ data: { classId } }: { data: { classId: string } }) {
+export function ClassDetails({
+	data: { classId, classDetails: preloadedClassDetails },
+}: {
+	data: { classId: string; classDetails?: LegacyClassDetails };
+}) {
 	const api = useApi();
-	const classId$ = useMemoizeObservable([classId] as const);
+	const classId$ = useMemoizeObservable([classId, preloadedClassDetails] as const);
 	const data = useObservable(
 		() =>
 			classId$.pipe(
-				map(([id]) =>
-					api
-						.getLegacyClass({ params: { id } })
-						.pipe(
-							map((response) =>
-								response.statusCode === 404 ? makeError<ReasonCode>('NotFound' as const) : makeLoaded(response.data)
-							)
-						)
+				map(([id, classDetails]) =>
+					classDetails
+						? of(makeLoaded(classDetails))
+						: api
+								.getLegacyClass({ params: { id } })
+								.pipe(
+									map((response) =>
+										response.statusCode === 404 ? makeError<ReasonCode>('NotFound' as const) : makeLoaded(response.data)
+									)
+								)
 				),
 				switchAll()
 			),

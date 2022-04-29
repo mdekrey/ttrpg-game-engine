@@ -24,7 +24,6 @@ export function DisplayPower({ power, noSources }: { power: LegacyPowerDetails; 
 	const requirement = power.rules.find((rule) => rule.label === 'Requirement')?.text;
 	const prerequisite = power.rules.find((rule) => rule.label === 'Prerequisite')?.text;
 	const otherRules = power.rules.filter((rule) => !knownRules.includes(rule.label));
-	// TODO: associated powers
 	return (
 		<>
 			{noSources ? null : <Sources className="-mb-4 mt-4" sources={power.sources} asBlock />}
