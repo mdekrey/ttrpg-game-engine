@@ -1,7 +1,11 @@
 import { LegacyPowerDetails } from 'api/models/LegacyPowerDetails';
+import { LegacyRuleText } from 'api/models/LegacyRuleText';
+import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { PowerTextBlock, PowerTextBlockProps } from 'components/power';
 import { PowerType } from 'components/power/Power';
+import { ComponentProps } from 'react';
 import { Sources } from './sources';
+import { wizardsTextToMarkdown } from './wizards-text-to-markdown';
 
 const knownRules = [
 	'Attack',
@@ -23,7 +27,8 @@ export function DisplayPower({ power, noSources }: { power: LegacyPowerDetails; 
 	const trigger = power.rules.find((rule) => rule.label === 'Trigger')?.text;
 	const requirement = power.rules.find((rule) => rule.label === 'Requirement')?.text;
 	const prerequisite = power.rules.find((rule) => rule.label === 'Prerequisite')?.text;
-	const otherRules = power.rules.filter((rule) => !knownRules.includes(rule.label));
+	const basic = power.rules.find((rule) => rule.label === '_BasicAttack')?.text;
+	const otherRules = power.rules.reduce(reduceWizardsRules, []);
 	return (
 		<>
 			{noSources ? null : <Sources className="-mb-4 mt-4" sources={power.sources} asBlock />}
@@ -43,6 +48,7 @@ export function DisplayPower({ power, noSources }: { power: LegacyPowerDetails; 
 				target={target}
 				attack={attack}
 				rulesText={otherRules}
+				isBasic={!!basic}
 			/>
 			{power.childPower ? (
 				<div className="-mt-4 ml-6 mb-4">
@@ -51,4 +57,16 @@ export function DisplayPower({ power, noSources }: { power: LegacyPowerDetails; 
 			) : null}
 		</>
 	);
+}
+
+function reduceWizardsRules(previous: ComponentProps<typeof PowerTextBlock>['rulesText'], rule: LegacyRuleText) {
+	if (knownRules.includes(rule.label)) return previous;
+	const markdown = wizardsTextToMarkdown(rule.text, { depth: 4 })
+		.split('\n\n')
+		.filter((md) => md !== '');
+	return [
+		...previous,
+		{ label: rule.label, text: markdown[0] },
+		...markdown.slice(1).map((md) => ({ label: '', text: <DynamicMarkdown contents={md} /> })),
+	];
 }

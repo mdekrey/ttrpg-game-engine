@@ -1,6 +1,7 @@
+import { ReactNode } from 'react';
 import { PowerTextBlock as ApiPowerTextBlock } from 'api/models/PowerTextBlock';
 import { Power, PowerType } from './Power';
-import { MeleeIcon, RangedIcon, AreaIcon, CloseIcon } from './icons';
+import { MeleeIcon, RangedIcon, AreaIcon, CloseIcon, BasicMeleeIcon, BasicRangedIcon } from './icons';
 import { RulesText } from './RulesText';
 
 const iconMapping: Record<string, typeof MeleeIcon | undefined> = {
@@ -8,6 +9,11 @@ const iconMapping: Record<string, typeof MeleeIcon | undefined> = {
 	Ranged: RangedIcon,
 	Close: CloseIcon,
 	Area: AreaIcon,
+};
+
+const basicIconMapping: Record<string, typeof MeleeIcon | undefined> = {
+	Melee: BasicMeleeIcon,
+	Ranged: BasicRangedIcon,
 };
 
 export function powerTextBlockToProps(powerTextBlock: ApiPowerTextBlock): PowerTextBlockProps {
@@ -33,8 +39,9 @@ export type PowerTextBlockProps = {
 	trigger?: string | null;
 	target?: string | null;
 	attack?: string | null;
-	rulesText: { label?: string | null; text: string }[];
+	rulesText: { label?: string | null; text: ReactNode }[];
 	associatedPower?: PowerTextBlockProps | null;
+	isBasic?: boolean;
 };
 
 export function PowerTextBlock({
@@ -54,8 +61,9 @@ export function PowerTextBlock({
 	attack,
 	rulesText,
 	associatedPower,
+	isBasic,
 }: PowerTextBlockProps & { className?: string }) {
-	const Icon = iconMapping[attackType || ''];
+	const Icon = (isBasic ? basicIconMapping[attackType || ''] : null) ?? iconMapping[attackType || ''];
 	return (
 		<>
 			<Power

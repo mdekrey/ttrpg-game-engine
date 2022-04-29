@@ -10,12 +10,12 @@ export function RulesText({
 	className?: string;
 }) {
 	return label && children ? (
-		<p className={className}>
+		<div className={className}>
 			<span className="font-bold">{label}:</span> {children}
-		</p>
+		</div>
 	) : label ? (
-		<p className={classNames('font-bold', className)}>{label}</p>
+		<div className={classNames('font-bold', className)}>{label}</div>
 	) : (
-		<p className={className}>{children}</p>
+		<div className={className}>{children}</div>
 	);
 }
