@@ -66,7 +66,10 @@ function reduceWizardsRules(previous: ComponentProps<typeof PowerTextBlock>['rul
 	const markdown = wizardsTextToMarkdown(rule.text, { depth: 4, sections: true }).filter((md) => md !== '');
 	return [
 		...previous,
-		{ label: '', text: <DynamicMarkdown contents={`**${rule.label}:** ${markdown[0]}`} /> },
+		{
+			label: rule.label,
+			text: <DynamicMarkdown contents={markdown[0]} />,
+		},
 		...markdown.slice(1).map((md) => ({ label: '', text: <DynamicMarkdown contents={md} /> })),
 	];
 }

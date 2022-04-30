@@ -12,12 +12,12 @@ export function RulesText({
 	return label && children ? (
 		<div className={className}>
 			<span
-				className={classNames('font-bold', {
+				className={classNames('font-bold float-left pr-1', {
 					'pl-8': label.startsWith('\t\t'),
 					'pl-4': label.startsWith('\t') && !label.startsWith('\t\t'),
 				})}>
 				{label.trimStart()}:
-			</span>{' '}
+			</span>
 			{children}
 		</div>
 	) : label ? (

@@ -46,6 +46,5 @@ export function wizardsTextToMarkdown(input: Input, options: { depth: number; se
 				return [...prev, next];
 		  }, [])
 		: preSection.replace(/\r/g, '\n\n').replace(/\t/g, '');
-	console.log({ input }, final);
 	return final;
 }
