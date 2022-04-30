@@ -11,7 +11,14 @@ export function RulesText({
 }) {
 	return label && children ? (
 		<div className={className}>
-			<span className="font-bold">{label}:</span> {children}
+			<span
+				className={classNames('font-bold', {
+					'pl-8': label.startsWith('\t\t'),
+					'pl-4': label.startsWith('\t') && !label.startsWith('\t\t'),
+				})}>
+				{label.trimStart()}:
+			</span>{' '}
+			{children}
 		</div>
 	) : label ? (
 		<div className={classNames('font-bold', className)}>{label}</div>

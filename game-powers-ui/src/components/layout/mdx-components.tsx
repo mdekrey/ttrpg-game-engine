@@ -115,17 +115,17 @@ export const mdxComponents: Components = {
 			{children}
 		</th>
 	),
-	ul: ({ children, className, ...props }) => (
+	ul: ({ children, className, ordered, ...props }) => (
 		<ul className={classNames(className, 'list-disc ml-6 theme-4e-list')} {...props}>
 			{children}
 		</ul>
 	),
-	ol: ({ children, className, ...props }) => (
+	ol: ({ children, className, ordered, ...props }) => (
 		<ul className={classNames(className, 'list-decimal ml-6')} {...props}>
 			{children}
 		</ul>
 	),
-	li: ({ children, className, ...props }) => (
+	li: ({ children, className, ordered, ...props }) => (
 		<li className={classNames(className, 'my-1')} {...props}>
 			{children}
 		</li>

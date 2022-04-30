@@ -1,11 +1,15 @@
 import { titleCase } from './title-case';
 
-export function wizardsTextToMarkdown(input: string | null | undefined, options: { depth: number }): string {
+type Input = string | null | undefined;
+
+export function wizardsTextToMarkdown(input: Input, options: { depth: number; sections: true }): string[];
+export function wizardsTextToMarkdown(input: Input, options: { depth: number; sections?: false }): string;
+export function wizardsTextToMarkdown(input: Input, options: { depth: number; sections?: boolean }): string | string[] {
 	if (!input) return '';
 
 	const heading = '#'.repeat(options.depth);
 
-	const final = input
+	const preSection = input
 		.replace(/^([A-Z ]+)$/gm, (_, title) => `${heading} ${titleCase(title)}`)
 		.replace(/<table>([\s\S]*?)<\/table>/gm, (match, tableContents: string) => {
 			const basic = `|${tableContents.replace(/\t/g, '|').replace(/\r/g, '|\n|')}|`;
@@ -28,8 +32,20 @@ export function wizardsTextToMarkdown(input: string | null | undefined, options:
 
 			return result;
 		})
-		.replace(/\r/g, '\n\n')
-		.replace(/\t/g, '')
-		.replace(/•/g, '* ');
+		.replace(/•/g, '* ')
+		.replace(/\r\t\*/g, '\n*')
+		.replace(/\r\t/g, '\n\n');
+
+	const final = options.sections
+		? preSection.split('\r').reduce<string[]>((prev, next) => {
+				const len = prev.length;
+				if (next.startsWith('\t') || next.startsWith('|'))
+					return [...prev.slice(0, len - 1), `${prev[len - 1]}\n\n${next}`];
+				if (len >= 2 && prev[len - 1] === '')
+					return [...prev.slice(0, len - 2), `${prev[len - 2]}\n\n-----\n\n${next}`];
+				return [...prev, next];
+		  }, [])
+		: preSection.replace(/\r/g, '\n\n').replace(/\t/g, '');
+	console.log({ input }, final);
 	return final;
 }

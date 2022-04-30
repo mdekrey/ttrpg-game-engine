@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Fragment, ReactNode, useCallback, useMemo } from 'react';
 import { PowerTextBlock as ApiPowerTextBlock } from 'api/models/PowerTextBlock';
 import { Power, PowerType } from './Power';
 import { MeleeIcon, RangedIcon, AreaIcon, CloseIcon, BasicMeleeIcon, BasicRangedIcon } from './icons';
@@ -25,6 +25,21 @@ export function powerTextBlockToProps(powerTextBlock: ApiPowerTextBlock): PowerT
 	};
 }
 
+export type AttackType = 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area';
+
+function AttackTypeIcon({
+	attackType,
+	isBasic,
+	...props
+}: {
+	attackType: AttackType;
+	isBasic?: boolean;
+} & JSX.IntrinsicElements['svg']) {
+	const Icon = (isBasic ? basicIconMapping[attackType || ''] : null) ?? iconMapping[attackType || ''];
+	if (!Icon) return null;
+	return <Icon {...props} />;
+}
+
 export type PowerTextBlockProps = {
 	name: string;
 	typeInfo: string;
@@ -32,7 +47,7 @@ export type PowerTextBlockProps = {
 	powerUsage: PowerType;
 	keywords: string[];
 	actionType?: string | null;
-	attackType?: 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area' | null;
+	attackType?: AttackType | null | readonly AttackType[];
 	attackTypeDetails?: string | null;
 	prerequisite?: string | null;
 	requirement?: string | null;
@@ -63,7 +78,20 @@ export function PowerTextBlock({
 	associatedPower,
 	isBasic,
 }: PowerTextBlockProps & { className?: string }) {
-	const Icon = (isBasic ? basicIconMapping[attackType || ''] : null) ?? iconMapping[attackType || ''];
+	const types = useMemo(() => (!attackType ? [] : Array.isArray(attackType) ? attackType : [attackType]), [attackType]);
+
+	const Icons = useCallback(
+		(props: JSX.IntrinsicElements['svg']) => {
+			return (
+				<>
+					{types.map((t) => (
+						<AttackTypeIcon {...props} isBasic={isBasic} key={t} attackType={t} />
+					))}
+				</>
+			);
+		},
+		[isBasic, types]
+	);
 	return (
 		<>
 			<Power
@@ -71,7 +99,7 @@ export function PowerTextBlock({
 				name={name}
 				level={typeInfo}
 				type={powerUsage.startsWith('Encounter') ? 'Encounter' : (powerUsage as PowerType)}
-				icon={Icon}
+				icon={Icons}
 				flavorText={flavorText || undefined}>
 				<div>
 					<p className="font-bold">
@@ -80,14 +108,19 @@ export function PowerTextBlock({
 					</p>
 					<div className="flex">
 						<p className="font-bold w-40">{actionType}</p>
-						{attackType && (
+						{types.length > 0 && (
 							<p>
-								{Icon && (
-									<>
-										<Icon className="mt-1 h-4 align-top inline-block" />{' '}
-									</>
-								)}
-								<span className="font-bold">{attackType}</span>
+								{types.map((type, index) => (
+									<Fragment key={type}>
+										{index > 0 ? <> or </> : null}
+										<AttackTypeIcon
+											attackType={type}
+											isBasic={isBasic}
+											className="mt-1 h-4 align-top inline-block"
+										/>{' '}
+										<span className="font-bold">{type}</span>
+									</Fragment>
+								))}
 								{attackTypeDetails && <> {attackTypeDetails}</>}
 							</p>
 						)}

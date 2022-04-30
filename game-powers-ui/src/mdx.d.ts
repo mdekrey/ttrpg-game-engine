@@ -23,9 +23,9 @@ declare module '@mdx-js/react' {
 		h6?: React.ComponentType<JSX.IntrinsicElements['h6']>;
 		thematicBreak?: React.ComponentType<{ className?: string; children: React.ReactNode }>;
 		blockquote?: React.ComponentType<JSX.IntrinsicElements['blockquote']>;
-		ul?: React.ComponentType<JSX.IntrinsicElements['ul']>;
-		ol?: React.ComponentType<JSX.IntrinsicElements['ol']>;
-		li?: React.ComponentType<JSX.IntrinsicElements['li']>;
+		ul?: React.ComponentType<JSX.IntrinsicElements['ul'] & { ordered?: boolean }>;
+		ol?: React.ComponentType<JSX.IntrinsicElements['ol'] & { ordered?: boolean }>;
+		li?: React.ComponentType<JSX.IntrinsicElements['li'] & { ordered?: boolean }>;
 		table?: React.ComponentType<JSX.IntrinsicElements['table']>;
 		thead?: React.ComponentType<JSX.IntrinsicElements['thead']>;
 		tbody?: React.ComponentType<JSX.IntrinsicElements['tbody']>;
