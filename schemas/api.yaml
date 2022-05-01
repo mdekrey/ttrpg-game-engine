@@ -346,6 +346,24 @@ components:
         name: { type: string }
         flavorText: { type: string }
         type: { type: string }
+    LegacyClassSummary:
+      allOf:
+        - { $ref: "#/components/schemas/LegacyRuleSummary" }
+        - type: object
+          required:
+            - powerSource
+            - role
+          properties:
+            powerSource: { type: string }
+            role: { type: string }
+    LegacyFeatSummary:
+      allOf:
+        - { $ref: "#/components/schemas/LegacyRuleSummary" }
+        - type: object
+          required:
+            - prerequisites
+          properties:
+            prerequisites: { type: string }
     LegacyRuleDetails:
       type: object
       required:
@@ -401,6 +419,18 @@ components:
         subFeatures:
           type: array
           items: { $ref: "#/components/schemas/LegacyClassFeatureDetails" }
+    LegacyFeatDetails:
+      type: object
+      required:
+        - featDetails
+        - prerequisites
+        - powers
+      properties:
+        featDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        prerequisites: { type: string }
+        powers:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyPowerDetails" }
     LegacyClassDetails:
       type: object
       required:
@@ -799,7 +829,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: { $ref: "#/components/schemas/LegacyRuleSummary" }
+                items: { $ref: "#/components/schemas/LegacyClassSummary" }
   /api/legacy/class/{id}:
     x-dotnet-mvc-server-controller: Legacy
     get:
@@ -818,3 +848,33 @@ paths:
               schema: { $ref: "#/components/schemas/LegacyClassDetails" }
         404:
           description: Class not found
+  /api/legacy/feat/{id}:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyFeat
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LegacyFeatDetails" }
+        404:
+          description: Feat not found
+  /api/legacy/feats:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyFeats
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/LegacyFeatSummary" }

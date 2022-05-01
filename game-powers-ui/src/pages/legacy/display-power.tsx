@@ -34,6 +34,7 @@ export function DisplayPower({ power, noSources }: { power: LegacyPowerDetails; 
 	return (
 		<>
 			{noSources ? null : <Sources className="-mb-4 mt-4" sources={power.sources} asBlock />}
+			<div id={power.wizardsId} />
 			<PowerTextBlock
 				className="my-4"
 				name={power.name}

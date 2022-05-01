@@ -2,20 +2,18 @@ import { sortBy } from 'lodash/fp';
 import { map } from 'rxjs/operators';
 import { useApi } from 'core/hooks/useApi';
 import { useObservable } from 'core/hooks/useObservable';
-import { StructuredResponses } from 'api/operations/getLegacyClasses';
+import { StructuredResponses } from 'api/operations/getLegacyFeats';
 import { initial, Loadable, makeLoaded } from 'core/loadable/loadable';
 import { ReaderLayout } from 'components/reader-layout';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
-import { LegacyClassSummary } from 'api/models/LegacyClassSummary';
+import { LegacyFeatSummary } from 'api/models/LegacyFeatSummary';
 import { wizardsSort } from '../wizards-sort';
 
-export function ClassList() {
+export function FeatList() {
 	const api = useApi();
 	const data = useObservable(
 		() =>
-			api
-				.getLegacyClasses()
-				.pipe(map((response) => makeLoaded(sortBy<LegacyClassSummary>(wizardsSort, response.data)))),
+			api.getLegacyFeats().pipe(map((response) => makeLoaded(sortBy<LegacyFeatSummary>(wizardsSort, response.data)))),
 		initial as Loadable<StructuredResponses[200]['application/json'], never>
 	);
 
@@ -25,14 +23,15 @@ export function ClassList() {
 			errorComponent={() => <>Not Found</>}
 			loadedComponent={(loaded) => (
 				<ReaderLayout>
-					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Class List</h1>
+					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Feat List</h1>
 					<ul className="list-disc ml-6 theme-4e-list">
-						{loaded.map(({ wizardsId, name, flavorText, powerSource, role }) => (
+						{sortBy((r) => r.prerequisites, loaded).map(({ wizardsId, name, flavorText, prerequisites }) => (
 							<li key={wizardsId} className="my-1">
-								<a href={`/legacy/class/${wizardsId}`} className="underline text-theme">
+								<a href={`/legacy/rule/${wizardsId}`} className="underline text-theme">
 									{name}
 								</a>{' '}
-								({[powerSource, role].filter(Boolean).join(', ')}) {flavorText ? <>&mdash; {flavorText}</> : null}
+								{prerequisites ? `(${prerequisites}) ` : ''}
+								{flavorText ? <>&mdash; {flavorText}</> : null}
 							</li>
 						))}
 					</ul>

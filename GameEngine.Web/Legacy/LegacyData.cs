@@ -30,7 +30,8 @@ public class LegacyData
             "Class" => await LoadLegacyClassAsync(legacyRule),
             "Race" => await LoadLegacyRaceAsync(legacyRule),
             "Power" => await LoadPowerAsync(legacyRule),
-            _ => throw new NotSupportedException($"Cannot load rule type: {legacyRule.Type}"),
+            "Feat" => await LoadLegacyFeatAsync(legacyRule),
+            _ => ToDetails(legacyRule),
         };
     }
 
@@ -49,6 +50,51 @@ public class LegacyData
             return null;
         return await LoadLegacyRaceAsync(legacyRule);
     }
+
+    public async Task<LegacyFeatDetails?> GetLegacyFeatAsync(string id)
+    {
+        var legacyRule = await GetLegacyRule(id, "Feat");
+        if (legacyRule == null)
+            return null;
+        return await LoadLegacyFeatAsync(legacyRule);
+    }
+
+    internal async Task<IEnumerable<LegacyClassSummary>> GetLegacyClassesAsync()
+    {
+        var results = await GetLegacyRules(rule => rule.Type == "Class").ToArrayAsync();
+        return results.Select(rule => new LegacyClassSummary(
+            WizardsId: rule.WizardsId, 
+            Name: rule.Name, 
+            FlavorText: rule.FlavorText, 
+            Type: rule.Type, 
+            PowerSource: rule.RulesText.SingleOrDefault(r => r.Label == "Power Source")?.Text.Split('.')[0] ?? "",
+            Role: rule.RulesText.SingleOrDefault(r => r.Label == "Role")?.Text.Split('.')[0] ?? ""
+        )).ToArray();
+    }
+
+    internal async Task<IEnumerable<LegacyRuleSummary>> GetLegacyRacesAsync()
+    {
+        var results = await GetLegacyRules(rule => rule.Type == "Race").ToArrayAsync();
+        return results.Select(rule => new Api.LegacyRuleSummary(
+            WizardsId: rule.WizardsId,
+            Name: rule.Name,
+            FlavorText: rule.FlavorText,
+            Type: rule.Type
+        )).ToArray();
+    }
+
+    internal async Task<IEnumerable<LegacyFeatSummary>> GetLegacyFeatsAsync()
+    {
+        var results = await GetLegacyRules(rule => rule.Type == "Feat").ToArrayAsync();
+        return results.Select(rule => new LegacyFeatSummary(
+            WizardsId: rule.WizardsId,
+            Name: rule.Name,
+            FlavorText: rule.RulesText.SingleOrDefault(r => r.Label == "Short Description")?.Text ?? "",
+            Type: rule.Type,
+            Prerequisites: rule.Prereqs
+        )).ToArray();
+    }
+
 
     private async Task<LegacyClassDetails> LoadLegacyClassAsync(ImportedRule legacyRule)
     {
@@ -115,6 +161,16 @@ public class LegacyData
         return new(RacialTraitDetails: arg, Powers: powers, SubTraits: subfeatures.Select(f => f.RacialTraitDetails).ToArray());
     }
 
+    private async Task<LegacyFeatDetails> LoadLegacyFeatAsync(ImportedRule rule)
+    {
+        var arg = ToDetails(rule);
+        var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "_DisplayPowers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
+        var powerRules = powerIds == null ? Enumerable.Empty<ImportedRule>()
+            : await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId)).ToArrayAsync();
+
+        var powers = (await LoadOrderedAsync(powerRules, LoadPowerAsync)).ToArray();
+        return new(FeatDetails: arg, Prerequisites: rule.Prereqs, Powers: powers);
+    }
 
     private async Task<LegacyPowerDetails> LoadPowerAsync(ImportedRule rule)
     {

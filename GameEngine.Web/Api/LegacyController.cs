@@ -36,30 +36,25 @@ public class LegacyController : LegacyControllerBase
             : GetLegacyRaceActionResult.NotFound();
     }
 
+    protected override async Task<GetLegacyFeatActionResult> GetLegacyFeat(string id)
+    {
+        return await legacyData.GetLegacyFeatAsync(id) is LegacyFeatDetails result
+            ? GetLegacyFeatActionResult.Ok(result)
+            : GetLegacyFeatActionResult.NotFound();
+    }
+
     protected override async Task<GetLegacyClassesActionResult> GetLegacyClasses()
     {
-        var results = await (from rule in context.ImportedRules
-                             where rule.Type == "Class"
-                             select ToSummary(rule)).ToArrayAsync();
-        return GetLegacyClassesActionResult.Ok(results);
+        return GetLegacyClassesActionResult.Ok(await legacyData.GetLegacyClassesAsync());
     }
 
     protected override async Task<GetLegacyRacesActionResult> GetLegacyRaces()
     {
-        var results = await (from rule in context.ImportedRules
-                             where rule.Type == "Race"
-                             select ToSummary(rule)).ToArrayAsync();
-        return GetLegacyRacesActionResult.Ok(results);
+        return GetLegacyRacesActionResult.Ok(await legacyData.GetLegacyRacesAsync());
     }
 
-    private static Api.LegacyRuleSummary ToSummary(ImportedRule rule)
+    protected override async Task<GetLegacyFeatsActionResult> GetLegacyFeats()
     {
-        return new Api.LegacyRuleSummary(
-            WizardsId: rule.WizardsId,
-            Name: rule.Name,
-            FlavorText: rule.FlavorText,
-            Type: rule.Type
-        );
+        return GetLegacyFeatsActionResult.Ok(await legacyData.GetLegacyFeatsAsync());
     }
-
 }
