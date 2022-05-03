@@ -5,11 +5,6 @@ import { LoaderSelector } from '../loader-selector';
 
 export default createEntry(({ data }) => (
 	<ReaderLayout>
-		<LoaderSelector
-			id={data.id}
-			details={data.details}
-			loader="getLegacyPower"
-			display={({ details }) => <DisplayPower details={details} />}
-		/>
+		<LoaderSelector id={data.id} details={data.details} loader="getLegacyPower" display={DisplayPower} />
 	</ReaderLayout>
 ));

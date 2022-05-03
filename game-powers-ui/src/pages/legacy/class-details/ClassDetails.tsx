@@ -1,13 +1,4 @@
 import { groupBy } from 'lodash/fp';
-import { of } from 'rxjs';
-import { map, switchAll } from 'rxjs/operators';
-import { useApi } from 'core/hooks/useApi';
-import { useObservable } from 'core/hooks/useObservable';
-import { useMemoizeObservable } from 'core/hooks/useMemoizeObservable';
-import { initial, isLoaded, Loadable, makeError, makeLoaded } from 'core/loadable/loadable';
-import { LoadableComponent } from 'core/loadable/LoadableComponent';
-import { StructuredResponses } from 'api/operations/getLegacyClass';
-import { ReaderLayout } from 'components/reader-layout';
 import { Inset } from 'components/reader-layout/inset';
 import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { LegacyRuleText } from 'api/models/LegacyRuleText';
@@ -20,8 +11,6 @@ import { Sources } from '../sources';
 import { RuleSectionDisplay } from '../rule-section-display';
 import { WizardsMarkdown } from '../wizards-markdown';
 import { RuleListDisplay } from '../rule-list-display';
-
-type ReasonCode = 'NotFound';
 
 const classTraitSections = [
 	['Role', 'Power Source', 'Key Abilities'],
@@ -66,137 +55,98 @@ const powerList = [
 	'Daily 29',
 ];
 
-export function ClassDetails({
-	data: { id: classId, details: preloadedClassDetails },
-}: {
-	data: { id: string; details?: LegacyClassDetails };
-}) {
-	const api = useApi();
-	const classId$ = useMemoizeObservable([classId, preloadedClassDetails] as const);
-	const data = useObservable(
-		() =>
-			classId$.pipe(
-				map(([id, classDetails]) =>
-					classDetails
-						? of(makeLoaded(classDetails))
-						: api
-								.getLegacyClass({ params: { id } })
-								.pipe(
-									map((response) =>
-										response.statusCode === 404 ? makeError<ReasonCode>('NotFound' as const) : makeLoaded(response.data)
-									)
-								)
-				),
-				switchAll()
-			),
-		initial as Loadable<StructuredResponses[200]['application/json'], ReasonCode>
-	);
-
+export function ClassDetails({ details: fullDetails }: { details: LegacyClassDetails }) {
 	const powers = useMemo(() => {
-		if (!isLoaded(data)) return {};
-
 		return groupBy(
 			(power) => `${power.powerType === 'Utility' ? 'Utility' : power.powerUsage} ${power.level}`,
-			data.value.powers
+			fullDetails.powers
 		);
-	}, [data]);
+	}, [fullDetails]);
 
 	const powerName = useMemo(() => {
-		if (!isLoaded(data)) return 'Power';
+		return fullDetails.details.rules.find((r) => r.label === 'Power Name')?.text ?? 'Power';
+	}, [fullDetails]);
 
-		return data.value.details.rules.find((r) => r.label === 'Power Name')?.text ?? 'Power';
-	}, [data]);
-
+	const { details, builds, classFeatures } = fullDetails;
 	return (
-		<ReaderLayout>
-			<LoadableComponent
-				data={data}
-				errorComponent={() => <>Not Found</>}
-				loadedComponent={({ details, classFeatures, builds }) => (
-					<>
-						<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
-							{details.name} <Sources sources={details.sources} />
-						</h1>
-						<p className="font-flavor font-bold italic">{details.flavorText}</p>
-						<Inset>
-							<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{details.name} Traits</h2>
-							{classTraitSections.map((section, sectionIndex) => (
-								<section className="mb-2" key={sectionIndex}>
-									<RuleListDisplay labels={section} rules={details.rules} />
-								</section>
-							))}
-						</Inset>
-						<DynamicMarkdown contents={wizardsTextToMarkdown(details.description, { depth: 1 })} />
-						<WizardsMarkdown text={details.description} depth={1} />
-						<RuleSectionDisplay
-							rule={details.rules.find((r) => r.label === 'Creating')}
-							title={`Creating ${getArticle(details.name)} ${details.name}`}
-						/>
-						{builds.map((build, buildIndex) => (
-							<Fragment key={buildIndex}>
-								<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">
-									{build.name} <Sources sources={build.sources} />
-								</h3>
-								<WizardsMarkdown text={build.description} depth={3} />
-								<WizardsMarkdown text={build.rules.find((r) => r.label === 'Suggested')?.text} depth={3} />
-								<p className="theme-4e-indent">
-									<span>Key Abilities:</span> {build.rules.find((r) => r.label === 'Key Abilities')?.text}
-								</p>
-							</Fragment>
-						))}
-						<RuleSectionDisplay rule={details.rules.find((r) => r.label === 'Class Features')} />
-						{classFeatures.map(({ details: classFeature, powers: featurePowers, subFeatures }, index) => (
-							<Fragment key={index}>
-								<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">
-									{classFeature.name} <Sources sources={classFeature.sources} />
-								</h3>
-								<WizardsMarkdown text={classFeature.description} depth={3} />
-								{featurePowers.map((power, powerIndex) => (
-									<DisplayPower details={power} key={powerIndex} />
-								))}
-								{subFeatures.map(({ details: subFeatureDetails, powers: subfeaturePowers }, subfeatureIndex) => (
-									<Fragment key={subfeatureIndex}>
-										<h4 className="font-header font-bold mt-4 first:mt-0 text-black text-lg">
-											{subFeatureDetails.name} <Sources sources={subFeatureDetails.sources} />
-										</h4>
-										<WizardsMarkdown text={subFeatureDetails.description} depth={4} />
-										{subfeaturePowers.map((power, powerIndex) => (
-											<DisplayPower details={power} key={powerIndex} />
-										))}
-									</Fragment>
-								))}
-							</Fragment>
-						))}
-						<WizardsMarkdown text={details.rules.find((r) => r.label === 'Supplemental')?.text} depth={1} />
-						{details.rules
-							.filter(isOther)
-							.filter((rule) => !!rule.text)
-							.map((rule, index) => (
-								<RuleSectionDisplay rule={rule} key={index} />
-							))}
-						<RuleSectionDisplay rule={details.rules.find((r) => r.label === 'Powers')} />
-						{powerList
-							.filter((category) => !!powers[category] && powers[category].length > 0)
-							.map((category) => (
-								<Fragment key={category}>
-									<div style={{ breakInside: 'avoid' }}>
-										{/* This div around the first power and the header helps the page layout in Chrome */}
-										<h3
-											className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl"
-											style={{ breakAfter: 'avoid' }}>
-											{details.name} {category} {powerName}
-										</h3>
-										<DisplayPower details={powers[category][0]} />
-									</div>
-									{powers[category].slice(1).map((power, powerIndex) => (
-										<DisplayPower details={power} key={powerIndex} />
-									))}
-								</Fragment>
-							))}
-					</>
-				)}
-				loadingComponent={<>Loading</>}
+		<>
+			<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
+				{details.name} <Sources sources={details.sources} />
+			</h1>
+			<p className="font-flavor font-bold italic">{details.flavorText}</p>
+			<Inset>
+				<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{details.name} Traits</h2>
+				{classTraitSections.map((section, sectionIndex) => (
+					<section className="mb-2" key={sectionIndex}>
+						<RuleListDisplay labels={section} rules={details.rules} />
+					</section>
+				))}
+			</Inset>
+			<DynamicMarkdown contents={wizardsTextToMarkdown(details.description, { depth: 1 })} />
+			<WizardsMarkdown text={details.description} depth={1} />
+			<RuleSectionDisplay
+				rule={details.rules.find((r) => r.label === 'Creating')}
+				title={`Creating ${getArticle(details.name)} ${details.name}`}
 			/>
-		</ReaderLayout>
+			{builds.map((build, buildIndex) => (
+				<Fragment key={buildIndex}>
+					<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">
+						{build.name} <Sources sources={build.sources} />
+					</h3>
+					<WizardsMarkdown text={build.description} depth={3} />
+					<WizardsMarkdown text={build.rules.find((r) => r.label === 'Suggested')?.text} depth={3} />
+					<p className="theme-4e-indent">
+						<span>Key Abilities:</span> {build.rules.find((r) => r.label === 'Key Abilities')?.text}
+					</p>
+				</Fragment>
+			))}
+			<RuleSectionDisplay rule={details.rules.find((r) => r.label === 'Class Features')} />
+			{classFeatures.map(({ details: classFeature, powers: featurePowers, subFeatures }, index) => (
+				<Fragment key={index}>
+					<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">
+						{classFeature.name} <Sources sources={classFeature.sources} />
+					</h3>
+					<WizardsMarkdown text={classFeature.description} depth={3} />
+					{featurePowers.map((power, powerIndex) => (
+						<DisplayPower details={power} key={powerIndex} />
+					))}
+					{subFeatures.map(({ details: subFeatureDetails, powers: subfeaturePowers }, subfeatureIndex) => (
+						<Fragment key={subfeatureIndex}>
+							<h4 className="font-header font-bold mt-4 first:mt-0 text-black text-lg">
+								{subFeatureDetails.name} <Sources sources={subFeatureDetails.sources} />
+							</h4>
+							<WizardsMarkdown text={subFeatureDetails.description} depth={4} />
+							{subfeaturePowers.map((power, powerIndex) => (
+								<DisplayPower details={power} key={powerIndex} />
+							))}
+						</Fragment>
+					))}
+				</Fragment>
+			))}
+			<WizardsMarkdown text={details.rules.find((r) => r.label === 'Supplemental')?.text} depth={1} />
+			{details.rules
+				.filter(isOther)
+				.filter((rule) => !!rule.text)
+				.map((rule, index) => (
+					<RuleSectionDisplay rule={rule} key={index} />
+				))}
+			<RuleSectionDisplay rule={details.rules.find((r) => r.label === 'Powers')} />
+			{powerList
+				.filter((category) => !!powers[category] && powers[category].length > 0)
+				.map((category) => (
+					<Fragment key={category}>
+						<div style={{ breakInside: 'avoid' }}>
+							{/* This div around the first power and the header helps the page layout in Chrome */}
+							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl" style={{ breakAfter: 'avoid' }}>
+								{details.name} {category} {powerName}
+							</h3>
+							<DisplayPower details={powers[category][0]} />
+						</div>
+						{powers[category].slice(1).map((power, powerIndex) => (
+							<DisplayPower details={power} key={powerIndex} />
+						))}
+					</Fragment>
+				))}
+		</>
 	);
 }
