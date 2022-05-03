@@ -14,6 +14,8 @@ const headerLink: JsxMutator = (el) => {
 	})
 		?.filter((v) => v)
 		?.join(' ')
+		.trim()
+		.replaceAll(/[']/g, '')
 		.replaceAll(/[^a-zA-Z0-9]/g, '-')
 		.replaceAll(/-+/g, '-');
 	if (id)

@@ -65,7 +65,7 @@ declare module '@mdx-js/react' {
 declare module '@mdx-js/runtime' {
 	export interface MDXProps {
 		components?: Record<string, React.ComponentType<any>>;
-		scope?: Record<string, unknown>;
+		scope?: Record<string, React.ComponentType<any>>;
 		remarkPlugins?: unknown[];
 		children?: string;
 	}
