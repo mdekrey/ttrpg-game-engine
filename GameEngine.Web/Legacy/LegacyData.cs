@@ -147,7 +147,7 @@ public class LegacyData
         var subfeatures = await LoadOrderedAsync(subfeatureRules, rule => LoadClassFeatureAsync(rule, classId: classId));
 
         return new(
-            ClassFeatureDetails: arg,
+            Details: arg,
             Powers: powers.ToArray(),
             SubFeatures: subfeatures.ToArray()
         );
@@ -166,7 +166,7 @@ public class LegacyData
         var subfeatures = await LoadOrderedAsync(subfeatureRules, LoadRacialTraitAsync);
 
         var powers = (await LoadOrderedAsync(powerRules, LoadLegacyPowerAsync)).Concat(subfeatures.SelectMany(f => f.Powers)).ToArray();
-        return new(RacialTraitDetails: arg, Powers: powers, SubTraits: subfeatures.Select(f => f.RacialTraitDetails).ToArray());
+        return new(Details: arg, Powers: powers, SubTraits: subfeatures.Select(f => f.Details).ToArray());
     }
 
     private async Task<LegacyFeatDetails> LoadLegacyFeatAsync(ImportedRule rule)

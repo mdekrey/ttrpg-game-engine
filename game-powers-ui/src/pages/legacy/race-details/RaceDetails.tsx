@@ -28,9 +28,9 @@ const racialTraitSections = [
 const finalSection = ['Characteristics', 'Male Names', 'Female Names'];
 
 export function RaceDetails({
-	data: { raceId, raceDetails: preloaded },
+	data: { id: raceId, details: preloaded },
 }: {
-	data: { raceId: string; raceDetails?: LegacyRaceDetails };
+	data: { id: string; details?: LegacyRaceDetails };
 }) {
 	const api = useApi();
 	const raceId$ = useMemoizeObservable([raceId, preloaded] as const);
@@ -74,7 +74,7 @@ export function RaceDetails({
 							{racialTraits.map((trait, traitIndex) => {
 								return (
 									<Fragment key={traitIndex}>
-										<DisplayRacialTrait trait={trait.racialTraitDetails} />
+										<DisplayRacialTrait trait={trait.details} />
 										{trait.subTraits.length > 0 ? (
 											<div className="ml-8">
 												{trait.subTraits.map((subtrait, subtraitIndex) => (
@@ -89,7 +89,7 @@ export function RaceDetails({
 						{racialTraits
 							.flatMap((trait) => trait.powers)
 							.map((power, powerIndex) => (
-								<DisplayPower power={power} key={powerIndex} />
+								<DisplayPower details={power} key={powerIndex} />
 							))}
 						{!details.description || details.description.endsWith('if you want ...') ? null : (
 							<WizardsMarkdown text={details.description} depth={2} />

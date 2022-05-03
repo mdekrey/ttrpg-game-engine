@@ -394,11 +394,11 @@ components:
     LegacyRacialTraitDetails:
       type: object
       required:
-        - racialTraitDetails
+        - details
         - powers
         - subTraits
       properties:
-        racialTraitDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        details: { $ref: "#/components/schemas/LegacyRuleDetails" }
         powers:
           type: array
           items: { $ref: "#/components/schemas/LegacyPowerDetails" }
@@ -408,11 +408,11 @@ components:
     LegacyClassFeatureDetails:
       type: object
       required:
-        - classFeatureDetails
+        - details
         - powers
         - subFeatures
       properties:
-        classFeatureDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        details: { $ref: "#/components/schemas/LegacyRuleDetails" }
         powers:
           type: array
           items: { $ref: "#/components/schemas/LegacyPowerDetails" }

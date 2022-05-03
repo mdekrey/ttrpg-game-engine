@@ -67,9 +67,9 @@ const powerList = [
 ];
 
 export function ClassDetails({
-	data: { classId, classDetails: preloadedClassDetails },
+	data: { id: classId, details: preloadedClassDetails },
 }: {
-	data: { classId: string; classDetails?: LegacyClassDetails };
+	data: { id: string; details?: LegacyClassDetails };
 }) {
 	const api = useApi();
 	const classId$ = useMemoizeObservable([classId, preloadedClassDetails] as const);
@@ -145,28 +145,26 @@ export function ClassDetails({
 							</Fragment>
 						))}
 						<RuleSectionDisplay rule={details.rules.find((r) => r.label === 'Class Features')} />
-						{classFeatures.map(({ classFeatureDetails: classFeature, powers: featurePowers, subFeatures }, index) => (
+						{classFeatures.map(({ details: classFeature, powers: featurePowers, subFeatures }, index) => (
 							<Fragment key={index}>
 								<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">
 									{classFeature.name} <Sources sources={classFeature.sources} />
 								</h3>
 								<WizardsMarkdown text={classFeature.description} depth={3} />
 								{featurePowers.map((power, powerIndex) => (
-									<DisplayPower power={power} key={powerIndex} />
+									<DisplayPower details={power} key={powerIndex} />
 								))}
-								{subFeatures.map(
-									({ classFeatureDetails: subFeatureDetails, powers: subfeaturePowers }, subfeatureIndex) => (
-										<Fragment key={subfeatureIndex}>
-											<h4 className="font-header font-bold mt-4 first:mt-0 text-black text-lg">
-												{subFeatureDetails.name} <Sources sources={subFeatureDetails.sources} />
-											</h4>
-											<WizardsMarkdown text={subFeatureDetails.description} depth={4} />
-											{subfeaturePowers.map((power, powerIndex) => (
-												<DisplayPower power={power} key={powerIndex} />
-											))}
-										</Fragment>
-									)
-								)}
+								{subFeatures.map(({ details: subFeatureDetails, powers: subfeaturePowers }, subfeatureIndex) => (
+									<Fragment key={subfeatureIndex}>
+										<h4 className="font-header font-bold mt-4 first:mt-0 text-black text-lg">
+											{subFeatureDetails.name} <Sources sources={subFeatureDetails.sources} />
+										</h4>
+										<WizardsMarkdown text={subFeatureDetails.description} depth={4} />
+										{subfeaturePowers.map((power, powerIndex) => (
+											<DisplayPower details={power} key={powerIndex} />
+										))}
+									</Fragment>
+								))}
 							</Fragment>
 						))}
 						<WizardsMarkdown text={details.rules.find((r) => r.label === 'Supplemental')?.text} depth={1} />
@@ -188,10 +186,10 @@ export function ClassDetails({
 											style={{ breakAfter: 'avoid' }}>
 											{details.name} {category} {powerName}
 										</h3>
-										<DisplayPower power={powers[category][0]} />
+										<DisplayPower details={powers[category][0]} />
 									</div>
 									{powers[category].slice(1).map((power, powerIndex) => (
-										<DisplayPower power={power} key={powerIndex} />
+										<DisplayPower details={power} key={powerIndex} />
 									))}
 								</Fragment>
 							))}

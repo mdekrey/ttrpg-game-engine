@@ -21,7 +21,7 @@ const knownRules = [
 	'_BasicAttack',
 ];
 
-export function DisplayPower({ power, noSources }: { power: LegacyPowerDetails; noSources?: boolean }) {
+export function DisplayPower({ details: power, noSources }: { details: LegacyPowerDetails; noSources?: boolean }) {
 	const attackType = power.rules.find((rule) => rule.label === 'Attack Type')?.text ?? '';
 	const target = power.rules.find((rule) => rule.label === 'Target')?.text;
 	const attack = power.rules.find((rule) => rule.label === 'Attack')?.text;
@@ -56,7 +56,7 @@ export function DisplayPower({ power, noSources }: { power: LegacyPowerDetails; 
 				/>
 				{power.childPower ? (
 					<div className="-mt-4 ml-6 mb-4">
-						<DisplayPower power={power.childPower} noSources />
+						<DisplayPower details={power.childPower} noSources />
 					</div>
 				) : null}
 			</div>

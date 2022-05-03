@@ -16,15 +16,16 @@ import { Sources } from '../sources';
 type ReasonCode = 'NotFound';
 
 export function FeatDetails({
-	data: { featId, featDetails: preloadedFeatDetails },
+	data: { id, details: preloadedFeatDetails },
 }: {
-	data: { featId: string; featDetails?: LegacyFeatDetails };
+	data: { id: string; details?: LegacyFeatDetails };
 }) {
 	const api = useApi();
-	const featId$ = useMemoizeObservable([featId, preloadedFeatDetails] as const);
+	const featId$ = useMemoizeObservable([id, preloadedFeatDetails] as const);
 	const data = useObservable(
 		() =>
 			featId$.pipe(
+				// eslint-disable-next-line @typescript-eslint/no-shadow
 				map(([id, featDetails]) =>
 					featDetails
 						? of(makeLoaded(featDetails))
@@ -54,7 +55,7 @@ export function FeatDetails({
 						<DynamicMarkdown contents={wizardsTextToMarkdown(details.description, { depth: 1 })} />
 						{prerequisites && <DynamicMarkdown contents={`**Prerequisites:** ${prerequisites}`} />}
 						{powers.map((power, powerIndex) => (
-							<DisplayPower power={power} key={powerIndex} />
+							<DisplayPower details={power} key={powerIndex} />
 						))}
 					</>
 				)}

@@ -1,19 +1,21 @@
-﻿@page "/legacy/rule/{id}"
+﻿@page "/legacy/{type}/{id}"
 @model GameEngine.Web.Pages.Legacy.OtherModel
 @inject GameEngine.Web.Legacy.LegacyData legacyData
 @{
-    var data = await legacyData.GetLegacyRule(Model.Id);
+    var data = await legacyData.GetLegacyRule(Model.Id) ?? throw new Exception("Unknown rule");
 }
 @section head
 {
+    <title>@data.Name - 4e</title>
+    <meta property="og:title" content="@data.Name - 4e" />
     <meta name="robots" content="noindex" />
 }
 
-@(data switch 
+@(await Html.React(data switch 
 {
-    Api.LegacyClassDetails classDetails => await Html.React("pages/legacy/class-details/class-details", new { ClassId = classDetails.Details.WizardsId, classDetails }),
-    Api.LegacyRaceDetails raceDetails => await Html.React("pages/legacy/race-details/race-details", new { RaceId = raceDetails.Details.WizardsId, raceDetails }),
-    Api.LegacyPowerDetails powerDetails => await Html.React("pages/legacy/power-details/power-details", new { Power = powerDetails }),
-    Api.LegacyFeatDetails featDetails => await Html.React("pages/legacy/feat-details/feat-details", new { FeatId = featDetails.Details.WizardsId, Feat = featDetails }),
-    _ => await Html.React("pages/legacy/unknown-details/unknown-details", new { Rule = data }),
-})
+    Api.LegacyClassDetails classDetails => "pages/legacy/class-details/class-details",
+    Api.LegacyRaceDetails raceDetails => "pages/legacy/race-details/race-details",
+    Api.LegacyPowerDetails powerDetails => "pages/legacy/power-details/power-details",
+    Api.LegacyFeatDetails featDetails => "pages/legacy/feat-details/feat-details",
+    _ => "pages/legacy/unknown-details/unknown-details",
+}, new { Id = data.WizardsId, Details = data }))

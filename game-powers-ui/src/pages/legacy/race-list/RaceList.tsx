@@ -27,7 +27,7 @@ export function RaceList() {
 					<ul className="list-disc ml-6 theme-4e-list">
 						{loaded.map(({ wizardsId, name, flavorText }) => (
 							<li key={wizardsId} className="my-1">
-								<a href={`/legacy/race/${wizardsId}`} className="underline text-theme">
+								<a href={`/legacy/rule/${wizardsId}`} className="underline text-theme">
 									{name}
 								</a>
 								{flavorText ? <>&mdash; {flavorText}</> : null}

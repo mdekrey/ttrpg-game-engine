@@ -29,7 +29,7 @@ export function ClassList() {
 					<ul className="list-disc ml-6 theme-4e-list">
 						{loaded.map(({ wizardsId, name, flavorText, powerSource, role }) => (
 							<li key={wizardsId} className="my-1">
-								<a href={`/legacy/class/${wizardsId}`} className="underline text-theme">
+								<a href={`/legacy/rule/${wizardsId}`} className="underline text-theme">
 									{name}
 								</a>{' '}
 								({[powerSource, role].filter(Boolean).join(', ')}) {flavorText ? <>&mdash; {flavorText}</> : null}

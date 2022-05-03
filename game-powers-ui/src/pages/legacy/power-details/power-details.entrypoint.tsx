@@ -7,9 +7,9 @@ export default createEntry(({ data }) => (
 	<ReaderLayout>
 		<LoaderSelector
 			id={data.id}
-			details={data.power}
+			details={data.details}
 			loader="getLegacyPower"
-			display={({ details }) => <DisplayPower power={details} />}
+			display={({ details }) => <DisplayPower details={details} />}
 		/>
 	</ReaderLayout>
 ));
