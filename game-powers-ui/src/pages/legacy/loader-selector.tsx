@@ -58,12 +58,12 @@ export function LoaderSelector<TOperation extends LegacyFunctionsInApi>({
 	display: Display,
 	...props
 }: LoaderSelectorProps<TOperation>) {
-	const classId$ = useMemoizeObservable([props] as const);
+	const classId$ = useMemoizeObservable(['details' in props ? props.details : undefined, props.id] as const);
 	const loaderFunc = useLoader(loader);
 	const data = useObservable(
 		() =>
 			classId$.pipe(
-				map(([p]) => ('details' in p ? of(makeLoaded(p.details)) : loaderFunc(p.id))),
+				map(([details, id]) => (details ? of(makeLoaded(details)) : loaderFunc(id!))),
 				switchAll()
 			),
 		initial as Loadable<LegacyApiReturnType<TOperation>, StandardResponse>
