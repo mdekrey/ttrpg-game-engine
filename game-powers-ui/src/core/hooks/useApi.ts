@@ -14,3 +14,5 @@ export const ApiProvider = ApiContext.Provider;
 export function useApi() {
 	return useContext(ApiContext);
 }
+
+export type Api = ReturnType<typeof useApi>;

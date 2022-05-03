@@ -58,17 +58,17 @@ export function RaceDetails({
 			<LoadableComponent
 				data={data}
 				errorComponent={() => <>Not Found</>}
-				loadedComponent={({ raceDetails, racialTraits }) => (
+				loadedComponent={({ details, racialTraits }) => (
 					<>
 						<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
-							{raceDetails.name} <Sources sources={raceDetails.sources} />
+							{details.name} <Sources sources={details.sources} />
 						</h1>
-						<p className="font-flavor font-bold italic">{raceDetails.flavorText}</p>
+						<p className="font-flavor font-bold italic">{details.flavorText}</p>
 						<Inset>
-							<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{raceDetails.name} Traits</h2>
+							<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{details.name} Traits</h2>
 							{racialTraitSections.map((section, sectionIndex) => (
 								<section className="mb-4" key={sectionIndex}>
-									<RuleListDisplay rules={raceDetails.rules} labels={section} />
+									<RuleListDisplay rules={details.rules} labels={section} />
 								</section>
 							))}
 							{racialTraits.map((trait, traitIndex) => {
@@ -91,17 +91,17 @@ export function RaceDetails({
 							.map((power, powerIndex) => (
 								<DisplayPower power={power} key={powerIndex} />
 							))}
-						{!raceDetails.description || raceDetails.description.endsWith('if you want ...') ? null : (
-							<WizardsMarkdown text={raceDetails.description} depth={2} />
+						{!details.description || details.description.endsWith('if you want ...') ? null : (
+							<WizardsMarkdown text={details.description} depth={2} />
 						)}
-						<RuleSectionDisplay rule={raceDetails.rules.find((r) => r.label === 'Physical Qualities')} />
+						<RuleSectionDisplay rule={details.rules.find((r) => r.label === 'Physical Qualities')} />
 
 						<RuleSectionDisplay
-							rule={raceDetails.rules.find((r) => r.label === 'Playing')}
-							title={`Playing ${getArticle(raceDetails.name)} ${raceDetails.name}`}
+							rule={details.rules.find((r) => r.label === 'Playing')}
+							title={`Playing ${getArticle(details.name)} ${details.name}`}
 						/>
 
-						<RuleListDisplay labels={finalSection} rules={raceDetails.rules} className="my-2" />
+						<RuleListDisplay labels={finalSection} rules={details.rules} className="my-2" />
 					</>
 				)}
 				loadingComponent={<>Loading</>}

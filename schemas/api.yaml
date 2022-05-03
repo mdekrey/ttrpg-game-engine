@@ -422,11 +422,11 @@ components:
     LegacyFeatDetails:
       type: object
       required:
-        - featDetails
+        - details
         - prerequisites
         - powers
       properties:
-        featDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        details: { $ref: "#/components/schemas/LegacyRuleDetails" }
         prerequisites: { type: string }
         powers:
           type: array
@@ -434,12 +434,12 @@ components:
     LegacyClassDetails:
       type: object
       required:
-        - classDetails
+        - details
         - builds
         - classFeatures
         - powers
       properties:
-        classDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        details: { $ref: "#/components/schemas/LegacyRuleDetails" }
         builds:
           type: array
           items: { $ref: "#/components/schemas/LegacyRuleDetails" }
@@ -452,10 +452,10 @@ components:
     LegacyRaceDetails:
       type: object
       required:
-        - raceDetails
+        - details
         - racialTraits
       properties:
-        raceDetails: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        details: { $ref: "#/components/schemas/LegacyRuleDetails" }
         racialTraits:
           type: array
           items: { $ref: "#/components/schemas/LegacyRacialTraitDetails" }
@@ -878,3 +878,21 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/LegacyFeatSummary" }
+  /api/legacy/power/{id}:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyPower
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LegacyPowerDetails" }
+        404:
+          description: Power not found

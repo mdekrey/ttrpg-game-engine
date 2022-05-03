@@ -104,7 +104,7 @@ export function ClassDetails({
 	const powerName = useMemo(() => {
 		if (!isLoaded(data)) return 'Power';
 
-		return data.value.classDetails.rules.find((r) => r.label === 'Power Name')?.text ?? 'Power';
+		return data.value.details.rules.find((r) => r.label === 'Power Name')?.text ?? 'Power';
 	}, [data]);
 
 	return (
@@ -112,25 +112,25 @@ export function ClassDetails({
 			<LoadableComponent
 				data={data}
 				errorComponent={() => <>Not Found</>}
-				loadedComponent={({ classDetails, classFeatures, builds }) => (
+				loadedComponent={({ details, classFeatures, builds }) => (
 					<>
 						<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
-							{classDetails.name} <Sources sources={classDetails.sources} />
+							{details.name} <Sources sources={details.sources} />
 						</h1>
-						<p className="font-flavor font-bold italic">{classDetails.flavorText}</p>
+						<p className="font-flavor font-bold italic">{details.flavorText}</p>
 						<Inset>
-							<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{classDetails.name} Traits</h2>
+							<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{details.name} Traits</h2>
 							{classTraitSections.map((section, sectionIndex) => (
 								<section className="mb-2" key={sectionIndex}>
-									<RuleListDisplay labels={section} rules={classDetails.rules} />
+									<RuleListDisplay labels={section} rules={details.rules} />
 								</section>
 							))}
 						</Inset>
-						<DynamicMarkdown contents={wizardsTextToMarkdown(classDetails.description, { depth: 1 })} />
-						<WizardsMarkdown text={classDetails.description} depth={1} />
+						<DynamicMarkdown contents={wizardsTextToMarkdown(details.description, { depth: 1 })} />
+						<WizardsMarkdown text={details.description} depth={1} />
 						<RuleSectionDisplay
-							rule={classDetails.rules.find((r) => r.label === 'Creating')}
-							title={`Creating ${getArticle(classDetails.name)} ${classDetails.name}`}
+							rule={details.rules.find((r) => r.label === 'Creating')}
+							title={`Creating ${getArticle(details.name)} ${details.name}`}
 						/>
 						{builds.map((build, buildIndex) => (
 							<Fragment key={buildIndex}>
@@ -144,7 +144,7 @@ export function ClassDetails({
 								</p>
 							</Fragment>
 						))}
-						<RuleSectionDisplay rule={classDetails.rules.find((r) => r.label === 'Class Features')} />
+						<RuleSectionDisplay rule={details.rules.find((r) => r.label === 'Class Features')} />
 						{classFeatures.map(({ classFeatureDetails: classFeature, powers: featurePowers, subFeatures }, index) => (
 							<Fragment key={index}>
 								<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">
@@ -169,22 +169,28 @@ export function ClassDetails({
 								)}
 							</Fragment>
 						))}
-						<WizardsMarkdown text={classDetails.rules.find((r) => r.label === 'Supplemental')?.text} depth={1} />
-						{classDetails.rules
+						<WizardsMarkdown text={details.rules.find((r) => r.label === 'Supplemental')?.text} depth={1} />
+						{details.rules
 							.filter(isOther)
 							.filter((rule) => !!rule.text)
 							.map((rule, index) => (
 								<RuleSectionDisplay rule={rule} key={index} />
 							))}
-						<RuleSectionDisplay rule={classDetails.rules.find((r) => r.label === 'Powers')} />
+						<RuleSectionDisplay rule={details.rules.find((r) => r.label === 'Powers')} />
 						{powerList
-							.filter((category) => !!powers[category])
+							.filter((category) => !!powers[category] && powers[category].length > 0)
 							.map((category) => (
 								<Fragment key={category}>
-									<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl">
-										{classDetails.name} {category} {powerName}
-									</h3>
-									{powers[category].map((power, powerIndex) => (
+									<div style={{ breakInside: 'avoid' }}>
+										{/* This div around the first power and the header helps the page layout in Chrome */}
+										<h3
+											className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl"
+											style={{ breakAfter: 'avoid' }}>
+											{details.name} {category} {powerName}
+										</h3>
+										<DisplayPower power={powers[category][0]} />
+									</div>
+									{powers[category].slice(1).map((power, powerIndex) => (
 										<DisplayPower power={power} key={powerIndex} />
 									))}
 								</Fragment>

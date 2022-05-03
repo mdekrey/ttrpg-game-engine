@@ -43,6 +43,13 @@ public class LegacyController : LegacyControllerBase
             : GetLegacyFeatActionResult.NotFound();
     }
 
+    protected override async Task<GetLegacyPowerActionResult> GetLegacyPower(string id)
+    {
+        return await legacyData.GetLegacyPowerAsync(id) is LegacyPowerDetails result
+            ? GetLegacyPowerActionResult.Ok(result)
+            : GetLegacyPowerActionResult.NotFound();
+    }
+
     protected override async Task<GetLegacyClassesActionResult> GetLegacyClasses()
     {
         return GetLegacyClassesActionResult.Ok(await legacyData.GetLegacyClassesAsync());

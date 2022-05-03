@@ -11,9 +11,9 @@
 
 @(data switch 
 {
-    Api.LegacyClassDetails classDetails => await Html.React("pages/legacy/class-details/class-details", new { ClassId = classDetails.ClassDetails.WizardsId, classDetails }),
-    Api.LegacyRaceDetails raceDetails => await Html.React("pages/legacy/race-details/race-details", new { RaceId = raceDetails.RaceDetails.WizardsId, raceDetails }),
+    Api.LegacyClassDetails classDetails => await Html.React("pages/legacy/class-details/class-details", new { ClassId = classDetails.Details.WizardsId, classDetails }),
+    Api.LegacyRaceDetails raceDetails => await Html.React("pages/legacy/race-details/race-details", new { RaceId = raceDetails.Details.WizardsId, raceDetails }),
     Api.LegacyPowerDetails powerDetails => await Html.React("pages/legacy/power-details/power-details", new { Power = powerDetails }),
-    Api.LegacyFeatDetails featDetails => await Html.React("pages/legacy/feat-details/feat-details", new { FeatId = featDetails.FeatDetails.WizardsId, Feat = featDetails }),
+    Api.LegacyFeatDetails featDetails => await Html.React("pages/legacy/feat-details/feat-details", new { FeatId = featDetails.Details.WizardsId, Feat = featDetails }),
     _ => await Html.React("pages/legacy/unknown-details/unknown-details", new { Rule = data }),
 })

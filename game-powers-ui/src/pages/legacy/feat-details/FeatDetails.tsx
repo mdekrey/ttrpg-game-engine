@@ -12,7 +12,6 @@ import { LegacyFeatDetails } from 'api/models/LegacyFeatDetails';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { DisplayPower } from '../display-power';
 import { Sources } from '../sources';
-import { WizardsMarkdown } from '../wizards-markdown';
 
 type ReasonCode = 'NotFound';
 
@@ -47,12 +46,12 @@ export function FeatDetails({
 			<LoadableComponent
 				data={data}
 				errorComponent={() => <>Not Found</>}
-				loadedComponent={({ featDetails, prerequisites, powers }) => (
+				loadedComponent={({ details, prerequisites, powers }) => (
 					<>
 						<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
-							{featDetails.name} <Sources sources={featDetails.sources} />
+							{details.name} <Sources sources={details.sources} />
 						</h1>
-						<DynamicMarkdown contents={wizardsTextToMarkdown(featDetails.description, { depth: 1 })} />
+						<DynamicMarkdown contents={wizardsTextToMarkdown(details.description, { depth: 1 })} />
 						{prerequisites && <DynamicMarkdown contents={`**Prerequisites:** ${prerequisites}`} />}
 						{powers.map((power, powerIndex) => (
 							<DisplayPower power={power} key={powerIndex} />
