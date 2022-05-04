@@ -19,7 +19,7 @@ export function FullReferenceMdx({
 		<div className="relative">
 			<button
 				type="button"
-				className="absolute left-full print:hidden border border-black rounded-sm p-1 text-xs whitespace-nowrap font-info"
+				className="absolute left-full ml-4 hidden md:inline-block print:hidden border border-black rounded-sm p-1 text-xs whitespace-nowrap font-info"
 				onClick={displayMarkdown}>
 				View MD
 			</button>
@@ -33,7 +33,7 @@ export function FullReferenceMdx({
 			title: 'View Markdown',
 			cancellationValue: null,
 			renderer: () => {
-				return <textarea value={contents} readOnly className="w-full h-full" />;
+				return <textarea value={contents} readOnly className="w-full h-full border border-black p-1" />;
 			},
 		});
 	}

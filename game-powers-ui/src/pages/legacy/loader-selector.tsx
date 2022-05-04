@@ -46,6 +46,7 @@ function useLoader<TFunc extends LegacyFunctionsInApi>(func: TFunc) {
 export type LoaderSelectorProps<TOperation extends LegacyFunctionsInApi> = (
 	| {
 			id: string;
+			details?: LegacyApiReturnType<TOperation>;
 	  }
 	| { id?: string; details: LegacyApiReturnType<TOperation> }
 ) & {
@@ -53,12 +54,21 @@ export type LoaderSelectorProps<TOperation extends LegacyFunctionsInApi> = (
 	display: (props: { details: LegacyApiReturnType<TOperation> }) => JSX.Element | null;
 };
 
+export function buildSelector<TOperation extends LegacyFunctionsInApi>(
+	loader: TOperation,
+	display: (props: { details: LegacyApiReturnType<TOperation> }) => JSX.Element | null
+) {
+	return ({ id, details }: Pick<LoaderSelectorProps<TOperation>, 'id' | 'details'>) => {
+		return <LoaderSelector id={id!} details={details!} loader={loader} display={display} />;
+	};
+}
+
 export function LoaderSelector<TOperation extends LegacyFunctionsInApi>({
 	loader,
 	display: Display,
 	...props
 }: LoaderSelectorProps<TOperation>) {
-	const classId$ = useMemoizeObservable(['details' in props ? props.details : undefined, props.id] as const);
+	const classId$ = useMemoizeObservable([props.details, props.id] as const);
 	const loaderFunc = useLoader(loader);
 	const data = useObservable(
 		() =>

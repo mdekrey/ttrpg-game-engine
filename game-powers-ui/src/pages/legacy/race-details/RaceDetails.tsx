@@ -4,12 +4,12 @@ import { LegacyRacialTraitDetails } from 'api/models/LegacyRacialTraitDetails';
 import { MainHeader } from 'components/reader-layout/MainHeader';
 import { FlavorText } from 'components/reader-layout/FlavorText';
 import { getArticle } from '../get-article';
-import { DisplayPower } from '../display-power';
 import { Sources } from '../sources';
 import { sectionMarkdown } from '../rule-section-display';
 import { ruleListMarkdown, ruleMarkdown } from '../rule-list-display';
 import { FullReferenceMdx, inlineObject } from '../full-reference-mdx';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
+import { displayPowerMarkdown, PowerDetailsSelector } from '../power-details/power.selector';
 
 const racialTraitSections = [
 	['Average Height', 'Average Weight'],
@@ -38,7 +38,7 @@ export function RaceDetails({ details: { details, racialTraits } }: { details: L
 	return (
 		<>
 			<FullReferenceMdx
-				components={{ Inset, Sources, DisplayPower, MainHeader, FlavorText }}
+				components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
 				contents={`
 <MainHeader>${details.name} <Sources sources={${inlineObject(details.sources)}} /></MainHeader>
 
@@ -68,7 +68,7 @@ ${racialTraits
 </Inset>
 ${racialTraits
 	.flatMap((trait) => trait.powers)
-	.map((power) => `<DisplayPower details={${inlineObject(power)}} />`)
+	.map(displayPowerMarkdown)
 	.join('\n')}
 
 ${

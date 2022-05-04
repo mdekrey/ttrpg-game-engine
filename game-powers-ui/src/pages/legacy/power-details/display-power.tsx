@@ -4,8 +4,8 @@ import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { PowerTextBlock, PowerTextBlockProps } from 'components/power';
 import { PowerType } from 'components/power/Power';
 import { ComponentProps } from 'react';
-import { Sources } from './sources';
-import { wizardsTextToMarkdown } from './wizards-text-to-markdown';
+import { Sources } from '../sources';
+import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 
 const knownRules = [
 	'Attack',

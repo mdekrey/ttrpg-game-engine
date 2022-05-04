@@ -7,11 +7,11 @@ import { MainHeader } from 'components/reader-layout/MainHeader';
 import { FlavorText } from 'components/reader-layout/FlavorText';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
-import { DisplayPower } from '../display-power';
 import { Sources } from '../sources';
 import { sectionMarkdown } from '../rule-section-display';
 import { ruleListMarkdown } from '../rule-list-display';
 import { FullReferenceMdx, inlineObject } from '../full-reference-mdx';
+import { displayPowerMarkdown, PowerDetailsSelector } from '../power-details/power.selector';
 
 const classTraitSections = [
 	['Role', 'Power Source', 'Key Abilities'],
@@ -72,7 +72,7 @@ export function ClassDetails({ details: fullDetails }: { details: LegacyClassDet
 	return (
 		<>
 			<FullReferenceMdx
-				components={{ Inset, Sources, DisplayPower, MainHeader, FlavorText }}
+				components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
 				contents={`
 <MainHeader>${details.name} <Sources sources={${inlineObject(details.sources)}} /></MainHeader>
 
@@ -130,7 +130,7 @@ ${classFeatures
 
 ${wizardsTextToMarkdown(classFeature.description, { depth: 3 })}
 
-${featurePowers.map((power) => `<DisplayPower details={${inlineObject(power)}} />`).join('\n')}
+${featurePowers.map(displayPowerMarkdown).join('\n')}
 
 ${subFeatures
 	.map(
@@ -139,7 +139,7 @@ ${subFeatures
 
 ${wizardsTextToMarkdown(subFeatureDetails.description, { depth: 4 })}
 
-${subfeaturePowers.map((power) => `<DisplayPower details={${inlineObject(power)}} />`).join('\n')}
+${subfeaturePowers.map(displayPowerMarkdown).join('\n')}
 
 `
 	)
@@ -173,10 +173,17 @@ ${sectionMarkdown(
 							<h3 className="font-header font-bold mt-4 text-theme text-2xl" style={{ breakAfter: 'avoid' }}>
 								{details.name} {category} {powerName}
 							</h3>
-							<DisplayPower details={powers[category][0]} />
+							<FullReferenceMdx
+								components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
+								contents={displayPowerMarkdown(powers[category][0])}
+							/>
 						</div>
 						{powers[category].slice(1).map((power, powerIndex) => (
-							<DisplayPower details={power} key={powerIndex} />
+							<FullReferenceMdx
+								components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
+								contents={displayPowerMarkdown(power)}
+								key={powerIndex}
+							/>
 						))}
 					</Fragment>
 				))}
