@@ -1,23 +1,17 @@
 import { LegacyRuleText } from 'api/models/LegacyRuleText';
-import { inlineObject } from './full-reference-mdx';
+import { wizardsTextToMarkdown } from './wizards-text-to-markdown';
 
 type LabelOverride = { label: string; key: string };
 
-export function DisplayRule({ name, description }: { name: string; description?: string | null }) {
-	if (!description) return null;
-	const lines = description?.split('\r\t');
-	return (
-		<>
-			<p>
-				<span className="font-bold">{name}:</span> {lines[0]}
-			</p>
-			{lines.slice(1).map((line, lineIndex) => (
-				<p className="indent-4" key={lineIndex}>
-					{line}
-				</p>
-			))}
-		</>
-	);
+export function ruleMarkdown(name: string, description?: string | null) {
+	if (!description) return '';
+	return `
+<div>
+
+**${name}:** ${wizardsTextToMarkdown(description, { depth: 3 })}
+
+</div>
+`;
 }
 
 export function RuleListDisplay({
@@ -57,6 +51,6 @@ export function ruleListMarkdown(rules: LegacyRuleText[], labels: (string | Labe
 			return found && { text: found.text, label: trait.label };
 		})
 		.filter((trait): trait is LegacyRuleText => !!trait?.text)
-		.map((trait) => `<DisplayRule name={${inlineObject(trait.label)}} description={${inlineObject(trait.text)}} />`)
+		.map((trait) => ruleMarkdown(trait.label, trait.text))
 		.join('\n');
 }

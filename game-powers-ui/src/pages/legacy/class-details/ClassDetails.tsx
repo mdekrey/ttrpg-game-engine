@@ -4,6 +4,8 @@ import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { LegacyRuleText } from 'api/models/LegacyRuleText';
 import { Fragment, useMemo } from 'react';
 import { LegacyClassDetails } from 'api/models/LegacyClassDetails';
+import { MainHeader } from 'components/reader-layout/MainHeader';
+import { FlavorText } from 'components/reader-layout/FlavorText';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
 import { DisplayPower } from '../display-power';
@@ -70,10 +72,10 @@ export function ClassDetails({ details: fullDetails }: { details: LegacyClassDet
 	const { details, builds, classFeatures } = fullDetails;
 	return (
 		<>
-			<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">
+			<MainHeader>
 				{details.name} <Sources sources={details.sources} />
-			</h1>
-			<p className="font-flavor font-bold italic">{details.flavorText}</p>
+			</MainHeader>
+			<FlavorText>{details.flavorText}</FlavorText>
 			<Inset>
 				<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{details.name} Traits</h2>
 				{classTraitSections.map((section, sectionIndex) => (

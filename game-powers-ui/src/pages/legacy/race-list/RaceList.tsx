@@ -7,6 +7,7 @@ import { initial, Loadable, makeLoaded } from 'core/loadable/loadable';
 import { ReaderLayout } from 'components/reader-layout';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { LegacyRuleSummary } from 'api/models/LegacyRuleSummary';
+import { MainHeader } from 'components/reader-layout/MainHeader';
 import { wizardsSort } from '../wizards-sort';
 
 export function RaceList() {
@@ -23,7 +24,7 @@ export function RaceList() {
 			errorComponent={() => <>Not Found</>}
 			loadedComponent={(loaded) => (
 				<ReaderLayout>
-					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Race List</h1>
+					<MainHeader>Race List</MainHeader>
 					<ul className="list-disc ml-6 theme-4e-list">
 						{loaded.map(({ wizardsId, name, flavorText }) => (
 							<li key={wizardsId} className="my-1">

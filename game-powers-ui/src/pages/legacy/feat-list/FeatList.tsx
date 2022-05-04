@@ -7,6 +7,7 @@ import { initial, Loadable, makeLoaded } from 'core/loadable/loadable';
 import { ReaderLayout } from 'components/reader-layout';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { LegacyFeatSummary } from 'api/models/LegacyFeatSummary';
+import { MainHeader } from 'components/reader-layout/MainHeader';
 import { wizardsSort } from '../wizards-sort';
 
 export function FeatList() {
@@ -23,7 +24,7 @@ export function FeatList() {
 			errorComponent={() => <>Not Found</>}
 			loadedComponent={(loaded) => (
 				<ReaderLayout>
-					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Feat List</h1>
+					<MainHeader>Feat List</MainHeader>
 					<ul className="list-disc ml-6 theme-4e-list">
 						{sortBy((r) => r.prerequisites, loaded).map(({ wizardsId, name, flavorText, prerequisites }) => (
 							<li key={wizardsId} className="my-1">

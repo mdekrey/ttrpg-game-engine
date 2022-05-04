@@ -7,6 +7,7 @@ import { initial, Loadable, makeLoaded } from 'core/loadable/loadable';
 import { ReaderLayout } from 'components/reader-layout';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { LegacyClassSummary } from 'api/models/LegacyClassSummary';
+import { MainHeader } from 'components/reader-layout/MainHeader';
 import { wizardsSort } from '../wizards-sort';
 
 export function ClassList() {
@@ -25,7 +26,7 @@ export function ClassList() {
 			errorComponent={() => <>Not Found</>}
 			loadedComponent={(loaded) => (
 				<ReaderLayout>
-					<h1 className="font-header font-bold mt-4 first:mt-0 text-theme text-3xl">Class List</h1>
+					<MainHeader>Class List</MainHeader>
 					<ul className="list-disc ml-6 theme-4e-list">
 						{loaded.map(({ wizardsId, name, flavorText, powerSource, role }) => (
 							<li key={wizardsId} className="my-1">

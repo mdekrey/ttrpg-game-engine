@@ -1,14 +1,15 @@
 import { LegacyRaceDetails } from 'api/models/LegacyRaceDetails';
 import { Inset } from 'components/reader-layout/inset';
 import { LegacyRacialTraitDetails } from 'api/models/LegacyRacialTraitDetails';
+import { MainHeader } from 'components/reader-layout/MainHeader';
+import { FlavorText } from 'components/reader-layout/FlavorText';
 import { getArticle } from '../get-article';
 import { DisplayPower } from '../display-power';
 import { Sources } from '../sources';
 import { sectionMarkdown } from '../rule-section-display';
-import { DisplayRule, ruleListMarkdown } from '../rule-list-display';
+import { ruleListMarkdown, ruleMarkdown } from '../rule-list-display';
 import { FullReferenceMdx, inlineObject } from '../full-reference-mdx';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
-import { DisplayRacialTrait } from './DisplayRacialTrait';
 
 const racialTraitSections = [
 	['Average Height', 'Average Weight'],
@@ -19,17 +20,14 @@ const finalSection = ['Characteristics', 'Male Names', 'Female Names'];
 
 function traitToMarkdown(trait: LegacyRacialTraitDetails) {
 	return `
-<DisplayRacialTrait trait={${inlineObject(trait.details)}} />
+${ruleMarkdown(trait.details.name, trait.details.description)}
 ${
 	trait.subTraits.length > 0
 		? `
 <div className="ml-8">
 ${trait.subTraits
 	.filter((subtrait) => subtrait.description)
-	.map(
-		(subtrait) => `
-<DisplayRacialTrait trait={${inlineObject(subtrait)}} />`
-	)
+	.map((subtrait) => ruleMarkdown(subtrait.name, subtrait.description))
 	.join('\n')}
 </div>`
 		: ''
@@ -40,11 +38,11 @@ export function RaceDetails({ details: { details, racialTraits } }: { details: L
 	return (
 		<>
 			<FullReferenceMdx
-				components={{ Inset, Sources, DisplayPower, DisplayRule, DisplayRacialTrait }}
+				components={{ Inset, Sources, DisplayPower, MainHeader, FlavorText }}
 				contents={`
-# ${details.name} <Sources sources={${inlineObject(details.sources)}} />
+<MainHeader>${details.name} <Sources sources={${inlineObject(details.sources)}} /></MainHeader>
 
-<p className="font-flavor font-bold italic">${details.flavorText}</p>
+<FlavorText>${details.flavorText}</FlavorText>
 
 <Inset>
 
