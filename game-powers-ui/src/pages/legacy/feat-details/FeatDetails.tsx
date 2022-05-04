@@ -16,7 +16,8 @@ ${wizardsTextToMarkdown(details.description, { depth: 2 })}
 
 ${prerequisites ? `**Prerequisites:** ${wizardsTextToMarkdown(prerequisites, { depth: 2 })}` : ''}
 
-${powers.map((power) => `<DisplayPower details={${inlineObject(power)}} />`).join('\n')}`}
+${powers.map((power) => `<DisplayPower details={${inlineObject(power)}} />`).join('\n')}
+`}
 			/>
 		</>
 	);

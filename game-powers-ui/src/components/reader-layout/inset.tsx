@@ -11,7 +11,7 @@ export function Inset({
 }: DetailedHTMLProps<BlockquoteHTMLAttributes<HTMLQuoteElement>, HTMLQuoteElement>) {
 	return (
 		<blockquote
-			className={classNames(className, 'bg-gradient-to-r from-tan-fading p-2 my-4')}
+			className={classNames(className, 'bg-gradient-to-r from-tan-fading p-2 my-4 font-info')}
 			style={{ pageBreakInside: 'avoid' }}
 			{...props}>
 			{pipeJsx(<>{children}</>, recurse(infoFontTemplate))}
