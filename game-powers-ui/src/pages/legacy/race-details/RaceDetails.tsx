@@ -9,7 +9,8 @@ import { sectionMarkdown } from '../rule-section-display';
 import { ruleListMarkdown, ruleMarkdown } from '../rule-list-display';
 import { FullReferenceMdx, inlineObject } from '../full-reference-mdx';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
-import { displayPowerMarkdown, PowerDetailsSelector } from '../power-details/power.selector';
+import { PowerDetailsSelector } from '../power-details/power.selector';
+import { powerMarkdown } from '../power-details/powerMarkdown';
 
 const racialTraitSections = [
 	['Average Height', 'Average Weight'],
@@ -68,7 +69,7 @@ ${racialTraits
 </Inset>
 ${racialTraits
 	.flatMap((trait) => trait.powers)
-	.map(displayPowerMarkdown)
+	.map(powerMarkdown)
 	.join('\n')}
 
 ${

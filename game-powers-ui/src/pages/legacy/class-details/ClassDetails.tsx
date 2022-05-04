@@ -11,7 +11,8 @@ import { Sources } from '../sources';
 import { sectionMarkdown } from '../rule-section-display';
 import { ruleListMarkdown } from '../rule-list-display';
 import { FullReferenceMdx, inlineObject } from '../full-reference-mdx';
-import { displayPowerMarkdown, PowerDetailsSelector } from '../power-details/power.selector';
+import { PowerDetailsSelector } from '../power-details/power.selector';
+import { powerMarkdown } from '../power-details/powerMarkdown';
 
 const classTraitSections = [
 	['Role', 'Power Source', 'Key Abilities'],
@@ -130,7 +131,7 @@ ${classFeatures
 
 ${wizardsTextToMarkdown(classFeature.description, { depth: 3 })}
 
-${featurePowers.map(displayPowerMarkdown).join('\n')}
+${featurePowers.map(powerMarkdown).join('\n')}
 
 ${subFeatures
 	.map(
@@ -139,7 +140,7 @@ ${subFeatures
 
 ${wizardsTextToMarkdown(subFeatureDetails.description, { depth: 4 })}
 
-${subfeaturePowers.map(displayPowerMarkdown).join('\n')}
+${subfeaturePowers.map(powerMarkdown).join('\n')}
 
 `
 	)
@@ -173,17 +174,10 @@ ${sectionMarkdown(
 							<h3 className="font-header font-bold mt-4 text-theme text-2xl" style={{ breakAfter: 'avoid' }}>
 								{details.name} {category} {powerName}
 							</h3>
-							<FullReferenceMdx
-								components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
-								contents={displayPowerMarkdown(powers[category][0])}
-							/>
+							<PowerDetailsSelector id={powers[category][0].wizardsId} details={powers[category][0]} />
 						</div>
 						{powers[category].slice(1).map((power, powerIndex) => (
-							<FullReferenceMdx
-								components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
-								contents={displayPowerMarkdown(power)}
-								key={powerIndex}
-							/>
+							<PowerDetailsSelector id={power.wizardsId} details={power} key={powerIndex} />
 						))}
 					</Fragment>
 				))}
