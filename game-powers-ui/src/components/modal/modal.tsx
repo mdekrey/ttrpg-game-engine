@@ -8,7 +8,7 @@ const sizes = {
 	full: <div className="w-full max-w-screen-xl" />,
 };
 
-type ModalProps = {
+export type ModalProps = {
 	show: boolean;
 	size: keyof typeof sizes;
 	title: React.ReactChild;

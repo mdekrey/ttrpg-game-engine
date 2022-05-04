@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'lib/index.css';
 import reportWebVitals from 'lib/reportWebVitals';
+import { DisplayDialogs } from 'components/dialog';
 
 type ReactStandardProps = {
 	data: any;
@@ -18,6 +19,7 @@ export function createEntry(Component: React.ComponentType<any>) {
 			ReactDOM.render(
 				<React.StrictMode>
 					{actualData !== undefined ? <Component data={actualData.data} /> : <Component />}
+					<DisplayDialogs />
 				</React.StrictMode>,
 				element
 			);
