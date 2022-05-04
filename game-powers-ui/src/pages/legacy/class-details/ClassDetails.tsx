@@ -1,6 +1,5 @@
 import { groupBy } from 'lodash/fp';
 import { Inset } from 'components/reader-layout/inset';
-import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
 import { LegacyRuleText } from 'api/models/LegacyRuleText';
 import { Fragment, useMemo } from 'react';
 import { LegacyClassDetails } from 'api/models/LegacyClassDetails';
@@ -10,9 +9,9 @@ import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
 import { DisplayPower } from '../display-power';
 import { Sources } from '../sources';
-import { RuleSectionDisplay } from '../rule-section-display';
-import { WizardsMarkdown } from '../wizards-markdown';
-import { RuleListDisplay } from '../rule-list-display';
+import { sectionMarkdown } from '../rule-section-display';
+import { ruleListMarkdown } from '../rule-list-display';
+import { FullReferenceMdx, inlineObject } from '../full-reference-mdx';
 
 const classTraitSections = [
 	['Role', 'Power Source', 'Key Abilities'],
@@ -72,74 +71,106 @@ export function ClassDetails({ details: fullDetails }: { details: LegacyClassDet
 	const { details, builds, classFeatures } = fullDetails;
 	return (
 		<>
-			<MainHeader>
-				{details.name} <Sources sources={details.sources} />
-			</MainHeader>
-			<FlavorText>{details.flavorText}</FlavorText>
-			<Inset>
-				<h2 className="font-header font-bold mt-4 first:mt-0 uppercase">{details.name} Traits</h2>
-				{classTraitSections.map((section, sectionIndex) => (
-					<section className="mb-2" key={sectionIndex}>
-						<RuleListDisplay labels={section} rules={details.rules} />
-					</section>
-				))}
-			</Inset>
-			<DynamicMarkdown contents={wizardsTextToMarkdown(details.description, { depth: 1 })} />
-			<WizardsMarkdown text={details.description} depth={1} />
-			<RuleSectionDisplay
-				rule={details.rules.find((r) => r.label === 'Creating')}
-				title={`Creating ${getArticle(details.name)} ${details.name}`}
+			<FullReferenceMdx
+				components={{ Inset, Sources, DisplayPower, MainHeader, FlavorText }}
+				contents={`
+<MainHeader>${details.name} <Sources sources={${inlineObject(details.sources)}} /></MainHeader>
+
+<FlavorText>${details.flavorText}</FlavorText>
+
+<Inset>
+
+### ${details.name.toUpperCase()} TRAITS
+
+${classTraitSections
+	.map(
+		(section) => `
+<section className="mb-4">
+
+${ruleListMarkdown(details.rules, section)}
+
+</section>
+`
+	)
+	.join('\n')}
+
+</Inset>
+
+${wizardsTextToMarkdown(details.description, { depth: 1 })}
+
+${sectionMarkdown(
+	details.rules.find((r) => r.label === 'Creating'),
+	`Creating ${getArticle(details.name)} ${details.name}`
+)}
+
+${builds
+	.map(
+		(build) => `
+### ${build.name} <Sources sources={${inlineObject(build.sources)}} />
+
+${wizardsTextToMarkdown(build.description, { depth: 4 })}
+
+${wizardsTextToMarkdown(build.rules.find((r) => r.label === 'Suggested')?.text, { depth: 4 })}
+
+Key Abilities: ${build.rules.find((r) => r.label === 'Key Abilities')?.text}
+`
+	)
+	.join('\n')}
+
+${sectionMarkdown(
+	details.rules.find((r) => r.label === 'Class Features'),
+	undefined,
+	1
+)}
+
+${classFeatures
+	.map(
+		({ details: classFeature, powers: featurePowers, subFeatures }) => `
+## ${classFeature.name}  <Sources sources={${inlineObject(classFeature.sources)}} />
+
+${wizardsTextToMarkdown(classFeature.description, { depth: 3 })}
+
+${featurePowers.map((power) => `<DisplayPower details={${inlineObject(power)}} />`).join('\n')}
+
+${subFeatures
+	.map(
+		({ details: subFeatureDetails, powers: subfeaturePowers }) => `
+### ${subFeatureDetails.name} <Sources sources={${inlineObject(subFeatureDetails.sources)}} />
+
+${wizardsTextToMarkdown(subFeatureDetails.description, { depth: 4 })}
+
+${subfeaturePowers.map((power) => `<DisplayPower details={${inlineObject(power)}} />`).join('\n')}
+
+`
+	)
+	.join('\n')}
+`
+	)
+	.join('\n')}
+
+${wizardsTextToMarkdown(details.rules.find((r) => r.label === 'Supplemental')?.text, { depth: 1 })}
+
+${details.rules
+	.filter(isOther)
+	.filter((rule) => !!rule.text)
+	.map((rule) => sectionMarkdown(rule, undefined, 1))
+	.join('\n')}
+
+${sectionMarkdown(
+	details.rules.find((r) => r.label === 'Powers'),
+	undefined,
+	1
+)}
+`}
 			/>
-			{builds.map((build, buildIndex) => (
-				<Fragment key={buildIndex}>
-					<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">
-						{build.name} <Sources sources={build.sources} />
-					</h3>
-					<WizardsMarkdown text={build.description} depth={3} />
-					<WizardsMarkdown text={build.rules.find((r) => r.label === 'Suggested')?.text} depth={3} />
-					<p className="theme-4e-indent">
-						<span>Key Abilities:</span> {build.rules.find((r) => r.label === 'Key Abilities')?.text}
-					</p>
-				</Fragment>
-			))}
-			<RuleSectionDisplay rule={details.rules.find((r) => r.label === 'Class Features')} />
-			{classFeatures.map(({ details: classFeature, powers: featurePowers, subFeatures }, index) => (
-				<Fragment key={index}>
-					<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-xl">
-						{classFeature.name} <Sources sources={classFeature.sources} />
-					</h3>
-					<WizardsMarkdown text={classFeature.description} depth={3} />
-					{featurePowers.map((power, powerIndex) => (
-						<DisplayPower details={power} key={powerIndex} />
-					))}
-					{subFeatures.map(({ details: subFeatureDetails, powers: subfeaturePowers }, subfeatureIndex) => (
-						<Fragment key={subfeatureIndex}>
-							<h4 className="font-header font-bold mt-4 first:mt-0 text-black text-lg">
-								{subFeatureDetails.name} <Sources sources={subFeatureDetails.sources} />
-							</h4>
-							<WizardsMarkdown text={subFeatureDetails.description} depth={4} />
-							{subfeaturePowers.map((power, powerIndex) => (
-								<DisplayPower details={power} key={powerIndex} />
-							))}
-						</Fragment>
-					))}
-				</Fragment>
-			))}
-			<WizardsMarkdown text={details.rules.find((r) => r.label === 'Supplemental')?.text} depth={1} />
-			{details.rules
-				.filter(isOther)
-				.filter((rule) => !!rule.text)
-				.map((rule, index) => (
-					<RuleSectionDisplay rule={rule} key={index} />
-				))}
-			<RuleSectionDisplay rule={details.rules.find((r) => r.label === 'Powers')} />
+
 			{powerList
 				.filter((category) => !!powers[category] && powers[category].length > 0)
 				.map((category) => (
 					<Fragment key={category}>
 						<div style={{ breakInside: 'avoid' }}>
 							{/* This div around the first power and the header helps the page layout in Chrome */}
-							<h3 className="font-header font-bold mt-4 first:mt-0 text-theme text-2xl" style={{ breakAfter: 'avoid' }}>
+							<h3 className="font-header font-bold mt-4 text-theme text-2xl" style={{ breakAfter: 'avoid' }}>
 								{details.name} {category} {powerName}
 							</h3>
 							<DisplayPower details={powers[category][0]} />
