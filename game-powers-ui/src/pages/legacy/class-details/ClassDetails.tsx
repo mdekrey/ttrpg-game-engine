@@ -5,12 +5,12 @@ import { Fragment, useMemo } from 'react';
 import { LegacyClassDetails } from 'api/models/LegacyClassDetails';
 import { MainHeader } from 'components/reader-layout/MainHeader';
 import { FlavorText } from 'components/reader-layout/FlavorText';
+import { FullReferenceMdx, inlineObject } from 'components/mdx/FullReferenceMdx';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
 import { Sources } from '../sources';
 import { sectionMarkdown } from '../rule-section-display';
 import { ruleListMarkdown } from '../rule-list-display';
-import { FullReferenceMdx, inlineObject } from '../full-reference-mdx';
 import { PowerDetailsSelector } from '../power-details/power.selector';
 import { powerMarkdown } from '../power-details/powerMarkdown';
 

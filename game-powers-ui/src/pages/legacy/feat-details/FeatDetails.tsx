@@ -1,7 +1,7 @@
 import { LegacyFeatDetails } from 'api/models/LegacyFeatDetails';
+import { FullReferenceMdx, inlineObject } from 'components/mdx/FullReferenceMdx';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { Sources } from '../sources';
-import { FullReferenceMdx, inlineObject } from '../full-reference-mdx';
 import { PowerDetailsSelector } from '../power-details/power.selector';
 import { powerMarkdown } from '../power-details/powerMarkdown';
 

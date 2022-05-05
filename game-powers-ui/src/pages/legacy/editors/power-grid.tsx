@@ -5,7 +5,7 @@ import { FlavorText } from 'components/reader-layout/FlavorText';
 import { Inset } from 'components/reader-layout/inset';
 import { MainHeader } from 'components/reader-layout/MainHeader';
 import { Sidebar } from 'components/sidebar';
-import { FullReferenceMdx } from '../full-reference-mdx';
+import { FullReferenceMdx } from 'components/mdx/FullReferenceMdx';
 import { PowerDetailsSelector } from '../power-details/power.selector';
 import { Sources } from '../sources';
 import styles from './power-grid.module.css';
