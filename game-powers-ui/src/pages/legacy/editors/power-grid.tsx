@@ -1,4 +1,4 @@
-import { ErrorBoundary } from 'components/mdx/ErrorBoundary';
+import { MdxComponents } from 'components/layout/mdx-components';
 import { MdxEditor } from 'components/monaco/MdxEditor';
 import { FlavorText } from 'components/reader-layout/FlavorText';
 import { Inset } from 'components/reader-layout/inset';
@@ -18,14 +18,14 @@ export function PowerGrid() {
 				<MdxEditor value={mdx} onChange={setMdx} />
 			</div>
 			<div className={styles.powerGrid}>
-				<SidebarTools.Display value={false}>
-					<ErrorBoundary key={mdx}>
+				<MdxComponents>
+					<SidebarTools.Display value={false}>
 						<FullReferenceMdx
 							components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
 							contents={mdx}
 						/>
-					</ErrorBoundary>
-				</SidebarTools.Display>
+					</SidebarTools.Display>
+				</MdxComponents>
 			</div>
 		</>
 	);

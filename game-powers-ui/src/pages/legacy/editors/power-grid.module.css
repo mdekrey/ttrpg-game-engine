@@ -29,3 +29,7 @@ html {
     padding: 0.125in;
     @apply border border-gray-300;
 }
+
+.powerGrid :global(.print\:hidden) {
+    display: none;
+}

@@ -1,4 +1,3 @@
-import { ErrorBoundary } from 'components/mdx/ErrorBoundary';
 import { MdxEditor } from 'components/monaco/MdxEditor';
 import { ReaderLayout } from 'components/reader-layout';
 import { FlavorText } from 'components/reader-layout/FlavorText';
@@ -19,12 +18,10 @@ export function Markdown() {
 			</div>
 			<ReaderLayout>
 				<SidebarTools.Display value={false}>
-					<ErrorBoundary key={mdx}>
-						<FullReferenceMdx
-							components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
-							contents={mdx}
-						/>
-					</ErrorBoundary>
+					<FullReferenceMdx
+						components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
+						contents={mdx}
+					/>
 				</SidebarTools.Display>
 			</ReaderLayout>
 		</>
