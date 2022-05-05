@@ -1,0 +1,31 @@
+html {
+    font-size: 65%;
+}
+
+@media not print {
+    html {
+        margin: 0.125in;
+    }
+
+    .powerGrid {
+        max-width: 8in;
+        margin: auto;
+    }
+}
+
+/*.powerGrid :global .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 0.25in;
+    padding: 0.125in 0;
+    break-inside: avoid;
+}*/
+
+.powerGrid > * {
+    float: left;
+    min-width: 2.5in;
+    max-width: 2.5in;
+    min-height: 3.5in;
+    padding: 0.125in;
+    @apply border border-gray-300;
+}

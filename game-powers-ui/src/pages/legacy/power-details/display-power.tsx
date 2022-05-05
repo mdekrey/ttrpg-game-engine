@@ -32,35 +32,33 @@ export function DisplayPower({ details: power, noSources }: { details: LegacyPow
 	const otherRules = power.rules.reduce(reduceWizardsRules, []);
 	const { text: attackTypeText, details: attackTypeDetails } = toAttackType(attackType);
 	return (
-		<>
+		<div style={{ breakInside: 'avoid' }}>
 			{noSources ? null : <Sources className="-mb-4 mt-4" sources={power.sources} asBlock />}
-			<div style={{ breakInside: 'avoid' }}>
-				<div id={power.wizardsId} />
-				<PowerTextBlock
-					className="my-4"
-					name={power.name}
-					flavorText={power.flavorText}
-					typeInfo={power.display}
-					powerUsage={power.powerUsage as PowerType}
-					keywords={power.keywords}
-					actionType={power.actionType}
-					attackType={attackTypeText}
-					attackTypeDetails={attackTypeDetails}
-					prerequisite={requirement}
-					requirement={prerequisite}
-					trigger={trigger}
-					target={target}
-					attack={attack}
-					rulesText={otherRules}
-					isBasic={!!basic}
-				/>
-				{power.childPower ? (
-					<div className="-mt-4 ml-6 mb-4">
-						<DisplayPower details={power.childPower} noSources />
-					</div>
-				) : null}
-			</div>
-		</>
+			<div id={power.wizardsId} />
+			<PowerTextBlock
+				className="my-4"
+				name={power.name}
+				flavorText={power.flavorText}
+				typeInfo={power.display}
+				powerUsage={power.powerUsage as PowerType}
+				keywords={power.keywords}
+				actionType={power.actionType}
+				attackType={attackTypeText}
+				attackTypeDetails={attackTypeDetails}
+				prerequisite={requirement}
+				requirement={prerequisite}
+				trigger={trigger}
+				target={target}
+				attack={attack}
+				rulesText={otherRules}
+				isBasic={!!basic}
+			/>
+			{power.childPower ? (
+				<div className="-mt-4 ml-6 mb-4">
+					<DisplayPower details={power.childPower} noSources />
+				</div>
+			) : null}
+		</div>
 	);
 }
 

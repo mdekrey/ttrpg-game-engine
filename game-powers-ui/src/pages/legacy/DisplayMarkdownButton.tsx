@@ -7,8 +7,8 @@ export function DisplayMarkdownButton({ markdown }: { markdown: string }) {
 
 	return (
 		<SidebarButton onClick={displayMarkdown}>
-			<EyeIcon className="w-em h-em pr-1" />
-			View MD
+			<EyeIcon className="w-5 h-5 pr-1" />
+			View MDX
 		</SidebarButton>
 	);
 

@@ -1,9 +1,9 @@
-import { ClipboardIcon, CodeIcon } from '@heroicons/react/outline';
+import { ClipboardIcon, CodeIcon, ClipboardCheckIcon } from '@heroicons/react/outline';
 import { LegacyPowerDetails } from 'api/models/LegacyPowerDetails';
-import { ReactNode } from 'react';
+import { ComponentType, ReactNode, useState } from 'react';
 import { DisplayPower } from './display-power';
 import { buildSelector } from '../loader-selector';
-import { SidebarTools } from '../SidebarTools';
+import SidebarTools from '../SidebarTools';
 import { DisplayMarkdownButton } from '../DisplayMarkdownButton';
 import { powerMarkdown } from './powerMarkdown';
 import { SidebarButton } from '../SidebarButton';
@@ -16,12 +16,10 @@ export function PowerDetailsSelector({ id, details }: { id: string; details?: Le
 			sidebar={
 				<>
 					<DisplayMarkdownButton markdown={powerMarkdown(details ?? id)} />
-					<CopyTextClipboard toCopy={powerMarkdown(details ?? id)}>
-						<CodeIcon className="h-em w-em pr-1" />
-						Copy MD
+					<CopyTextClipboard icon={CodeIcon} toCopy={`${powerMarkdown(details ?? id)}\n`}>
+						Copy MDX
 					</CopyTextClipboard>
-					<CopyTextClipboard toCopy={id}>
-						<ClipboardIcon className="h-em w-em pr-1" />
+					<CopyTextClipboard icon={ClipboardIcon} toCopy={id}>
 						Copy ID
 					</CopyTextClipboard>
 				</>
@@ -31,10 +29,26 @@ export function PowerDetailsSelector({ id, details }: { id: string; details?: Le
 	);
 }
 
-export function CopyTextClipboard({ toCopy, children }: { toCopy: string; children?: ReactNode }) {
-	return <SidebarButton onClick={copyContents}>{children}</SidebarButton>;
+export function CopyTextClipboard({
+	toCopy,
+	children,
+	icon: Icon,
+}: {
+	toCopy: string;
+	children?: ReactNode;
+	icon: ComponentType<JSX.IntrinsicElements['svg']>;
+}) {
+	const [isCopied, setIsCopied] = useState(false);
+
+	return (
+		<SidebarButton onClick={copyContents}>
+			{!isCopied ? <Icon className="h-5 w-5 pr-1" /> : <ClipboardCheckIcon className="h-5 w-5 pr-1" />} {children}
+		</SidebarButton>
+	);
 
 	async function copyContents() {
 		await navigator.clipboard.writeText(toCopy);
+		setIsCopied(true);
+		setTimeout(() => setIsCopied(false), 1000);
 	}
 }

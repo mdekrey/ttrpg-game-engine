@@ -1,7 +1,9 @@
 import classNames from 'classnames';
-import { ReactNode } from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 
-export function SidebarTools({
+const sidebarDisplayContext = createContext(true);
+
+function SidebarTools({
 	children,
 	sidebar,
 	className,
@@ -9,7 +11,9 @@ export function SidebarTools({
 	children?: ReactNode;
 	sidebar: ReactNode;
 	className?: string;
-}) {
+}): JSX.Element | null {
+	const display = useContext(sidebarDisplayContext);
+	if (!display) return <>{children}</> ?? null;
 	return (
 		<div className={classNames(className, 'relative')}>
 			<div className="absolute left-full ml-4 hidden md:inline-flex print:hidden flex-col gap-2">{sidebar}</div>
@@ -17,3 +21,5 @@ export function SidebarTools({
 		</div>
 	);
 }
+
+export default Object.assign(SidebarTools, { Display: sidebarDisplayContext.Provider });

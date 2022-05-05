@@ -1,7 +1,7 @@
 import MDX from '@mdx-js/runtime';
 import { ComponentType } from 'react';
 import { DisplayMarkdownButton } from './DisplayMarkdownButton';
-import { SidebarTools } from './SidebarTools';
+import SidebarTools from './SidebarTools';
 
 export function inlineObject(contents: any) {
 	return JSON.stringify(contents);

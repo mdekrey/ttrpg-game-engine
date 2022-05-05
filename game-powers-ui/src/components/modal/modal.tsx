@@ -53,7 +53,7 @@ export const Modal = ({ show, size, title, children, onClose }: ModalProps) => {
 											type="button"
 											className="float-right flex items-center text-sm whitespace-nowrap"
 											onClick={onClose}>
-											<XIcon className="w-em h-em" /> Close
+											<XIcon className="w-5 h-5" /> Close
 										</button>
 									)}
 									{title}
