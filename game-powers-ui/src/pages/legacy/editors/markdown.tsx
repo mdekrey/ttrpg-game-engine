@@ -13,7 +13,7 @@ export function Markdown() {
 	const [mdx, setMdx] = useState('');
 	return (
 		<>
-			<div className="h-screen print:hidden">
+			<div className="h-screen print:hidden p-16">
 				<MdxEditor value={mdx} onChange={setMdx} />
 			</div>
 			<ReaderLayout>

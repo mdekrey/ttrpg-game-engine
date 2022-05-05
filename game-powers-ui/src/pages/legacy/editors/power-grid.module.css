@@ -3,10 +3,6 @@ html {
 }
 
 @media not print {
-    html {
-        margin: 0.125in;
-    }
-
     .powerGrid {
         max-width: 8in;
         margin: auto;
@@ -26,7 +22,7 @@ html {
     min-width: 2.5in;
     max-width: 2.5in;
     min-height: 3.5in;
-    padding: 0.125in;
+    padding: calc(0.125in - 1rem) 0.125in;
     @apply border border-gray-300;
 }
 
