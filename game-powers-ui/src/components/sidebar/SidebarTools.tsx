@@ -1,9 +1,8 @@
 import classNames from 'classnames';
-import { createContext, ReactNode, useContext } from 'react';
+import { ReactNode, useContext } from 'react';
+import { sidebarDisplayContext } from './context';
 
-const sidebarDisplayContext = createContext(true);
-
-function SidebarTools({
+export function SidebarTools({
 	children,
 	sidebar,
 	className,
@@ -21,5 +20,3 @@ function SidebarTools({
 		</div>
 	);
 }
-
-export default Object.assign(SidebarTools, { Display: sidebarDisplayContext.Provider });

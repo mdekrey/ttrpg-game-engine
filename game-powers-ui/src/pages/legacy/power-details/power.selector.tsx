@@ -1,18 +1,17 @@
 import { ClipboardIcon, CodeIcon, ClipboardCheckIcon } from '@heroicons/react/outline';
 import { LegacyPowerDetails } from 'api/models/LegacyPowerDetails';
 import { ComponentType, ReactNode, useState } from 'react';
+import { Sidebar } from 'components/sidebar';
 import { DisplayPower } from './display-power';
 import { buildSelector } from '../loader-selector';
-import SidebarTools from '../SidebarTools';
 import { DisplayMarkdownButton } from '../DisplayMarkdownButton';
 import { powerMarkdown } from './powerMarkdown';
-import { SidebarButton } from '../SidebarButton';
 
 const Selector = buildSelector('getLegacyPower', DisplayPower);
 
 export function PowerDetailsSelector({ id, details }: { id: string; details?: LegacyPowerDetails }) {
 	return (
-		<SidebarTools
+		<Sidebar
 			sidebar={
 				<>
 					<DisplayMarkdownButton markdown={powerMarkdown(details ?? id)} />
@@ -25,7 +24,7 @@ export function PowerDetailsSelector({ id, details }: { id: string; details?: Le
 				</>
 			}>
 			<Selector id={id} details={details} />
-		</SidebarTools>
+		</Sidebar>
 	);
 }
 
@@ -41,9 +40,9 @@ export function CopyTextClipboard({
 	const [isCopied, setIsCopied] = useState(false);
 
 	return (
-		<SidebarButton onClick={copyContents}>
+		<Sidebar.Button onClick={copyContents}>
 			{!isCopied ? <Icon className="h-5 w-5 pr-1" /> : <ClipboardCheckIcon className="h-5 w-5 pr-1" />} {children}
-		</SidebarButton>
+		</Sidebar.Button>
 	);
 
 	async function copyContents() {

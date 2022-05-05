@@ -1,12 +1,12 @@
+import { useState } from 'react';
 import { MdxEditor } from 'components/monaco/MdxEditor';
 import { ReaderLayout } from 'components/reader-layout';
 import { FlavorText } from 'components/reader-layout/FlavorText';
 import { Inset } from 'components/reader-layout/inset';
 import { MainHeader } from 'components/reader-layout/MainHeader';
-import { useState } from 'react';
+import { Sidebar } from 'components/sidebar';
 import { FullReferenceMdx } from '../full-reference-mdx';
 import { PowerDetailsSelector } from '../power-details/power.selector';
-import SidebarTools from '../SidebarTools';
 import { Sources } from '../sources';
 
 export function Markdown() {
@@ -17,12 +17,12 @@ export function Markdown() {
 				<MdxEditor value={mdx} onChange={setMdx} />
 			</div>
 			<ReaderLayout>
-				<SidebarTools.Display value={false}>
+				<Sidebar.Display value={false}>
 					<FullReferenceMdx
 						components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
 						contents={mdx}
 					/>
-				</SidebarTools.Display>
+				</Sidebar.Display>
 			</ReaderLayout>
 		</>
 	);

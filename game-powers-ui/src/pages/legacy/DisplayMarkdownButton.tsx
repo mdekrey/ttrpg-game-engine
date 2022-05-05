@@ -1,15 +1,15 @@
 import { EyeIcon } from '@heroicons/react/outline';
 import { useDialog } from 'components/dialog';
-import { SidebarButton } from './SidebarButton';
+import { Sidebar } from 'components/sidebar';
 
 export function DisplayMarkdownButton({ markdown }: { markdown: string }) {
 	const dialog = useDialog();
 
 	return (
-		<SidebarButton onClick={displayMarkdown}>
+		<Sidebar.Button onClick={displayMarkdown}>
 			<EyeIcon className="w-5 h-5 pr-1" />
 			View MDX
-		</SidebarButton>
+		</Sidebar.Button>
 	);
 
 	async function displayMarkdown() {

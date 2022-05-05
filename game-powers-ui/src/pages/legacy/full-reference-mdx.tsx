@@ -1,8 +1,8 @@
 import MDX from '@mdx-js/runtime';
 import { ErrorBoundary } from 'components/mdx/ErrorBoundary';
 import { ComponentType } from 'react';
+import { Sidebar } from 'components/sidebar';
 import { DisplayMarkdownButton } from './DisplayMarkdownButton';
-import SidebarTools from './SidebarTools';
 
 export function inlineObject(contents: any) {
 	return JSON.stringify(contents);
@@ -16,13 +16,13 @@ export function FullReferenceMdx({
 	components: Record<string, ComponentType<any>>;
 }) {
 	return (
-		<SidebarTools
+		<Sidebar
 			sidebar={
 				<ErrorBoundary key={contents}>
 					<DisplayMarkdownButton markdown={contents} />
 				</ErrorBoundary>
 			}>
 			<MDX components={components}>{contents}</MDX>
-		</SidebarTools>
+		</Sidebar>
 	);
 }
