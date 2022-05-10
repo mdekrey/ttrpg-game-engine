@@ -378,6 +378,48 @@ components:
             category: { type: string }
             weight: { type: number }
             count: { type: number }
+    LegacyArmorSummary:
+      allOf:
+        - { $ref: "#/components/schemas/LegacyRuleSummary" }
+        - type: object
+          required:
+            - gold
+            - armorType
+            - armorCategory
+            - armorBonus
+            - itemSlot
+            - weight
+          properties:
+            gold: { type: integer }
+            armorType: { type: string }
+            armorCategory: { type: string }
+            armorBonus: { type: integer }
+            speed: { type: integer }
+            check: { type: integer }
+            weight: { type: number }
+            minimumEnhancementBonus: { type: integer }
+    LegacyWeaponSummary:
+      allOf:
+        - { $ref: "#/components/schemas/LegacyRuleSummary" }
+        - type: object
+          required:
+            - weaponCategory
+            - handsRequired
+            - damage
+            - group
+            - properties
+            - size
+          properties:
+            weaponCategory: { type: string }
+            handsRequired: { type: string }
+            proficiencyBonus: { type: integer }
+            damage: { type: string }
+            range: { type: string }
+            gold: { type: integer }
+            weight: { type: number }
+            group: { type: string }
+            properties: { type: string }
+            size: { type: string }
     LegacyRuleDetails:
       type: object
       required:
@@ -905,12 +947,26 @@ paths:
                 type: object
                 required:
                   - gear
+                  - armor
+                  - weapons
                   - others
                 properties:
                   gear:
                     {
                       type: array,
                       items: { $ref: "#/components/schemas/LegacyGearSummary" },
+                    }
+                  armor:
+                    {
+                      type: array,
+                      items:
+                        { $ref: "#/components/schemas/LegacyArmorSummary" },
+                    }
+                  weapons:
+                    {
+                      type: array,
+                      items:
+                        { $ref: "#/components/schemas/LegacyWeaponSummary" },
                     }
                   others:
                     {

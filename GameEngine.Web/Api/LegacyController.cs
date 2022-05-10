@@ -67,6 +67,10 @@ public class LegacyController : LegacyControllerBase
 
     protected override async Task<GetLegacyItemsActionResult> GetLegacyItems()
     {
-        return GetLegacyItemsActionResult.Ok(new(await legacyData.GetAllLegacyGearAsync(), await legacyData.GetLegacyItemsAsync()));
+        return GetLegacyItemsActionResult.Ok(new(
+            Gear: await legacyData.GetAllLegacyGearAsync(), 
+            Armor: await legacyData.GetAllLegacyArmorAsync(),
+            Weapons: await legacyData.GetAllLegacyWeaponsAsync(),
+            Others: await legacyData.GetLegacyItemsAsync()));
     }
 }
