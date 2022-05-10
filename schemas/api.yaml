@@ -364,6 +364,20 @@ components:
             - prerequisites
           properties:
             prerequisites: { type: string }
+    LegacyGearSummary:
+      allOf:
+        - { $ref: "#/components/schemas/LegacyRuleSummary" }
+        - type: object
+          required:
+            - category
+            - count
+          properties:
+            gold: { type: integer }
+            silver: { type: integer }
+            copper: { type: integer }
+            category: { type: string }
+            weight: { type: number }
+            count: { type: number }
     LegacyRuleDetails:
       type: object
       required:
@@ -878,6 +892,31 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/LegacyFeatSummary" }
+  /api/legacy/items:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyItems
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - gear
+                  - others
+                properties:
+                  gear:
+                    {
+                      type: array,
+                      items: { $ref: "#/components/schemas/LegacyGearSummary" },
+                    }
+                  others:
+                    {
+                      type: array,
+                      items: { $ref: "#/components/schemas/LegacyRuleSummary" },
+                    }
   /api/legacy/power/{id}:
     x-dotnet-mvc-server-controller: Legacy
     get:

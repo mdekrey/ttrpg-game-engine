@@ -64,4 +64,9 @@ public class LegacyController : LegacyControllerBase
     {
         return GetLegacyFeatsActionResult.Ok(await legacyData.GetLegacyFeatsAsync());
     }
+
+    protected override async Task<GetLegacyItemsActionResult> GetLegacyItems()
+    {
+        return GetLegacyItemsActionResult.Ok(new(await legacyData.GetAllLegacyGearAsync(), await legacyData.GetLegacyItemsAsync()));
+    }
 }

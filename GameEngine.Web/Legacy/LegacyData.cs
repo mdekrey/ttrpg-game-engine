@@ -80,6 +80,34 @@ public class LegacyData
         )).ToArray();
     }
 
+    internal async Task<IEnumerable<LegacyGearSummary>> GetAllLegacyGearAsync()
+    {
+        var results = await GetLegacyRules(rule => rule.Type == "Gear").ToArrayAsync();
+        return results.Select(rule => new Api.LegacyGearSummary(
+            WizardsId: rule.WizardsId,
+            Name: rule.Name,
+            FlavorText: rule.Description,
+            Type: rule.Type,
+            Gold: rule.RulesText.SingleOrDefault(r => r.Label == "Gold")?.Text is string goldText && int.TryParse(goldText, out var gold) ? gold : null,
+            Silver: rule.RulesText.SingleOrDefault(r => r.Label == "Silver")?.Text is string silverText && int.TryParse(silverText, out var silver) ? silver : null,
+            Copper: rule.RulesText.SingleOrDefault(r => r.Label == "Copper")?.Text is string copperText && int.TryParse(copperText, out var copper) ? copper : null,
+            Category: rule.RulesText.SingleOrDefault(r => r.Label == "Category")?.Text ?? throw new InvalidOperationException("Category not found"),
+            Weight: rule.RulesText.SingleOrDefault(r => r.Label == "Weight")?.Text is string weightText && int.TryParse(weightText, out var weight) ? weight : null,
+            Count: rule.RulesText.SingleOrDefault(r => r.Label == "count")?.Text is string countText && int.TryParse(countText, out var count) ? count : 1
+        )).ToArray();
+    }
+
+    internal async Task<IEnumerable<LegacyRuleSummary>> GetLegacyItemsAsync()
+    {
+        var results = await GetLegacyRules(rule => rule.Type == "Armor" || rule.Type == "Magic Item" || rule.Type == "Weapon").ToArrayAsync();
+        return results.Select(rule => new Api.LegacyRuleSummary(
+            WizardsId: rule.WizardsId,
+            Name: rule.Name,
+            FlavorText: rule.FlavorText,
+            Type: rule.Type
+        )).ToArray();
+    }
+
     internal async Task<IEnumerable<LegacyRuleSummary>> GetLegacyRacesAsync()
     {
         var results = await GetLegacyRules(rule => rule.Type == "Race").ToArrayAsync();
