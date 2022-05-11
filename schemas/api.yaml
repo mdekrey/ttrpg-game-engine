@@ -949,7 +949,7 @@ paths:
                   - gear
                   - armor
                   - weapons
-                  - others
+                  # - others
                 properties:
                   gear:
                     {
@@ -968,11 +968,18 @@ paths:
                       items:
                         { $ref: "#/components/schemas/LegacyWeaponSummary" },
                     }
-                  others:
-                    {
-                      type: array,
-                      items: { $ref: "#/components/schemas/LegacyRuleSummary" },
-                    }
+  /api/legacy/magic-items:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyMagicItems
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/LegacyRuleSummary" }
   /api/legacy/power/{id}:
     x-dotnet-mvc-server-controller: Legacy
     get:

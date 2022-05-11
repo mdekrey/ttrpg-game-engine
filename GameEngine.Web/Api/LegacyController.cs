@@ -70,7 +70,11 @@ public class LegacyController : LegacyControllerBase
         return GetLegacyItemsActionResult.Ok(new(
             Gear: await legacyData.GetAllLegacyGearAsync(), 
             Armor: await legacyData.GetAllLegacyArmorAsync(),
-            Weapons: await legacyData.GetAllLegacyWeaponsAsync(),
-            Others: await legacyData.GetLegacyItemsAsync()));
+            Weapons: await legacyData.GetAllLegacyWeaponsAsync()));
+    }
+
+    protected override async Task<GetLegacyMagicItemsActionResult> GetLegacyMagicItems()
+    {
+        return GetLegacyMagicItemsActionResult.Ok(await legacyData.GetLegacyMagicItemsAsync());
     }
 }

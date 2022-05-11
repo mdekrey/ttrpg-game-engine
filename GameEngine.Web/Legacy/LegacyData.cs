@@ -137,7 +137,7 @@ public class LegacyData
         )).ToArray();
     }
 
-    internal async Task<IEnumerable<LegacyRuleSummary>> GetLegacyItemsAsync()
+    internal async Task<IEnumerable<LegacyRuleSummary>> GetLegacyMagicItemsAsync()
     {
         var results = await GetLegacyRules(rule => rule.Type == "Magic Item").ToArrayAsync();
         return results.Select(rule => new Api.LegacyRuleSummary(
