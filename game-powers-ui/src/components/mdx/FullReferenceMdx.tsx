@@ -15,13 +15,10 @@ export function FullReferenceMdx({
 	components: Record<string, ComponentType<any>>;
 }) {
 	return (
-		<Sidebar
-			sidebar={
-				<ErrorBoundary key={contents}>
-					<Sidebar.Buttons.DisplayMdx markdown={contents} />
-				</ErrorBoundary>
-			}>
-			<MDX components={components}>{contents}</MDX>
-		</Sidebar>
+		<ErrorBoundary key={contents}>
+			<Sidebar sidebar={<Sidebar.Buttons.DisplayMdx markdown={contents} />}>
+				<MDX components={components}>{contents}</MDX>
+			</Sidebar>
+		</ErrorBoundary>
 	);
 }
