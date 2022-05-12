@@ -420,6 +420,16 @@ components:
             group: { type: string }
             properties: { type: string }
             size: { type: string }
+    LegacyMagicItemSummary:
+      allOf:
+        - { $ref: "#/components/schemas/LegacyRuleSummary" }
+        - type: object
+          required:
+            - magicItemType
+          properties:
+            gold: { type: integer }
+            level: { type: integer }
+            magicItemType: { type: string }
     LegacyRuleDetails:
       type: object
       required:
@@ -979,7 +989,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: { $ref: "#/components/schemas/LegacyRuleSummary" }
+                items: { $ref: "#/components/schemas/LegacyMagicItemSummary" }
   /api/legacy/power/{id}:
     x-dotnet-mvc-server-controller: Legacy
     get:

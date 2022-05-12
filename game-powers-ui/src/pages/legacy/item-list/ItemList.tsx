@@ -1,4 +1,4 @@
-import { sortBy } from 'lodash/fp';
+import { sortBy, groupBy } from 'lodash/fp';
 import { map } from 'rxjs/operators';
 import { useApi } from 'core/hooks/useApi';
 import { useObservable } from 'core/hooks/useObservable';
@@ -9,7 +9,6 @@ import { ReaderLayout } from 'components/reader-layout';
 import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { MainHeader } from 'components/reader-layout/MainHeader';
 import { Fragment, useMemo } from 'react';
-import { groupBy } from 'lodash';
 import { LegacyArmorSummary } from 'api/models/LegacyArmorSummary';
 import { LegacyWeaponSummary } from 'api/models/LegacyWeaponSummary';
 
@@ -40,23 +39,12 @@ function LoadedItemList({ loaded }: { loaded: StructuredResponses[200]['applicat
 			<GearList gear={loaded.gear} />
 			<ArmorList armor={loaded.armor} />
 			<WeaponList weapons={loaded.weapons} />
-			{/* <MainHeader>Other Item List</MainHeader>
-			<ul className="list-disc ml-6 theme-4e-list">
-				{sortBy<LegacyRuleSummary>(wizardsSort, loaded.others).map(({ wizardsId, name, flavorText }) => (
-					<li key={wizardsId} className="my-1">
-						<a href={`/legacy/rule/${wizardsId}`} className="underline text-theme">
-							{name}
-						</a>
-						{flavorText ? <>&mdash; {flavorText}</> : null}
-					</li>
-				))}
-			</ul> */}
 		</>
 	);
 }
 
 function GearList({ gear: gearList }: { gear: LegacyGearSummary[] }) {
-	const gear = useMemo(() => groupBy(gearList, (c) => c.category), [gearList]);
+	const gear = useMemo(() => groupBy((c) => c.category, gearList), [gearList]);
 
 	return (
 		<>
@@ -102,8 +90,10 @@ function GearList({ gear: gearList }: { gear: LegacyGearSummary[] }) {
 function ArmorList({ armor: armorList }: { armor: LegacyArmorSummary[] }) {
 	const armorGroups = useMemo(
 		() =>
-			groupBy(armorList, ({ armorCategory, armorType }) =>
-				armorCategory === '' ? 'Barding' : armorType === 'Shield' ? 'Shield' : 'Armor'
+			groupBy(
+				({ armorCategory, armorType }) =>
+					armorCategory === '' ? 'Barding' : armorType === 'Shield' ? 'Shield' : 'Armor',
+				armorList
 			),
 		[armorList]
 	);
@@ -194,9 +184,9 @@ function WeaponList({ weapons: weaponList }: { weapons: LegacyWeaponSummary[] })
 	const weaponGroups = useMemo(
 		() =>
 			groupBy(
-				weaponList,
 				({ weaponCategory, handsRequired, size }) =>
-					`${weaponCategory} ${handsRequired}${size === 'Medium' ? '' : ` (${size})`}`
+					`${weaponCategory} ${handsRequired}${size === 'Medium' ? '' : ` (${size})`}`,
+				weaponList
 			),
 		[weaponList]
 	);

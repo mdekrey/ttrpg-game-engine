@@ -137,14 +137,17 @@ public class LegacyData
         )).ToArray();
     }
 
-    internal async Task<IEnumerable<LegacyRuleSummary>> GetLegacyMagicItemsAsync()
+    internal async Task<IEnumerable<LegacyMagicItemSummary>> GetLegacyMagicItemsAsync()
     {
         var results = await GetLegacyRules(rule => rule.Type == "Magic Item").ToArrayAsync();
-        return results.Select(rule => new Api.LegacyRuleSummary(
+        return results.Select(rule => new Api.LegacyMagicItemSummary(
             WizardsId: rule.WizardsId,
             Name: rule.Name,
             FlavorText: rule.FlavorText,
-            Type: rule.Type
+            Type: rule.Type,
+            Level: int.TryParse(rule.Level, out var level) ? level : null,
+            Gold: rule.RulesText.SingleOrDefault(r => r.Label == "Gold")?.Text is string goldText && int.TryParse(goldText, out var gold) ? gold : null,
+            MagicItemType: rule.RulesText.SingleOrDefault(r => r.Label == "Magic Item Type")?.Text ?? throw new InvalidOperationException($"Magic Item Type not found at {rule.WizardsId}")
         )).ToArray();
     }
 
@@ -284,7 +287,7 @@ public class LegacyData
     {
         return context.ImportedRules
             .Where(whereClause)
-            .Where(rule => !rule.Sources.All(s => s.SourceName.StartsWith("Dragon Magazine")))
+            .Where(rule => !rule.Sources.All(s => s.SourceName.StartsWith("Dragon Magazine") || s.SourceName.StartsWith("Dungeon Magazine")))
             .Include(rule => rule.RulesText.OrderBy(r => r.Order))
             .Include(rule => rule.Keywords)
             .Include(rule => rule.Sources);
