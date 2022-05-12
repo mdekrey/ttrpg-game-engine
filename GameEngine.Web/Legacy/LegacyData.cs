@@ -287,7 +287,7 @@ public class LegacyData
     {
         return context.ImportedRules
             .Where(whereClause)
-            .Where(rule => !rule.Sources.All(s => s.SourceName.StartsWith("Dragon Magazine") || s.SourceName.StartsWith("Dungeon Magazine")))
+            .Where(rule => !rule.Sources.All(s => s.SourceName.StartsWith("Dragon Magazine") || s.SourceName.StartsWith("Dungeon Magazine") || s.SourceName.StartsWith("Vor Rukoth")))
             .Include(rule => rule.RulesText.OrderBy(r => r.Order))
             .Include(rule => rule.Keywords)
             .Include(rule => rule.Sources);
