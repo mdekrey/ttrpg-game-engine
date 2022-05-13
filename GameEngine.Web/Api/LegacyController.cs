@@ -50,6 +50,34 @@ public class LegacyController : LegacyControllerBase
             : GetLegacyPowerActionResult.NotFound();
     }
 
+    protected override async Task<GetLegacyGearActionResult> GetLegacyGear(string id)
+    {
+        return await legacyData.GetLegacyGearAsync(id) is LegacyGearDetails result
+            ? GetLegacyGearActionResult.Ok(result)
+            : GetLegacyGearActionResult.NotFound();
+    }
+
+    protected override async Task<GetLegacyArmorActionResult> GetLegacyArmor(string id)
+    {
+        return await legacyData.GetLegacyArmorAsync(id) is LegacyArmorDetails result
+            ? GetLegacyArmorActionResult.Ok(result)
+            : GetLegacyArmorActionResult.NotFound();
+    }
+
+    protected override async Task<GetLegacyWeaponActionResult> GetLegacyWeapon(string id)
+    {
+        return await legacyData.GetLegacyWeaponAsync(id) is LegacyWeaponDetails result
+            ? GetLegacyWeaponActionResult.Ok(result)
+            : GetLegacyWeaponActionResult.NotFound();
+    }
+
+    protected override async Task<GetLegacyMagicItemActionResult> GetLegacyMagicItem(string id)
+    {
+        return await legacyData.GetLegacyMagicItemAsync(id) is LegacyMagicItemDetails result
+            ? GetLegacyMagicItemActionResult.Ok(result)
+            : GetLegacyMagicItemActionResult.NotFound();
+    }
+
     protected override async Task<GetLegacyClassesActionResult> GetLegacyClasses()
     {
         return GetLegacyClassesActionResult.Ok(await legacyData.GetLegacyClassesAsync());

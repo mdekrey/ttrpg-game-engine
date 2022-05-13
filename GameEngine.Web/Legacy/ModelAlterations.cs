@@ -36,3 +36,23 @@ public partial class LegacyFeatDetails : ILegacyRule
     string ILegacyRule.WizardsId => Details.WizardsId;
     string ILegacyRule.Name => Details.Name;
 }
+public partial class LegacyGearDetails : ILegacyRule
+{
+    string ILegacyRule.WizardsId => Details.WizardsId;
+    string ILegacyRule.Name => Details.Name;
+}
+public partial class LegacyArmorDetails : ILegacyRule
+{
+    string ILegacyRule.WizardsId => Details.WizardsId;
+    string ILegacyRule.Name => Details.Name;
+}
+public partial class LegacyWeaponDetails : ILegacyRule
+{
+    string ILegacyRule.WizardsId => Details.WizardsId;
+    string ILegacyRule.Name => Details.Name;
+}
+public partial class LegacyMagicItemDetails : ILegacyRule
+{
+    string ILegacyRule.WizardsId => Details.WizardsId;
+    string ILegacyRule.Name => Details.Name;
+}

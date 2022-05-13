@@ -31,6 +31,10 @@ public class LegacyData
             "Race" => await LoadLegacyRaceAsync(legacyRule),
             "Power" => await LoadLegacyPowerAsync(legacyRule),
             "Feat" => await LoadLegacyFeatAsync(legacyRule),
+            "Gear" => await LoadLegacyGearAsync(legacyRule),
+            "Armor" => await LoadLegacyArmorAsync(legacyRule),
+            "Weapon" => await LoadLegacyWeaponAsync(legacyRule),
+            "Magic Item" => await LoadLegacyMagicItemAsync(legacyRule),
             _ => ToDetails(legacyRule),
         };
     }
@@ -65,6 +69,38 @@ public class LegacyData
         if (legacyRule == null)
             return null;
         return await LoadLegacyPowerAsync(legacyRule);
+    }
+
+    public async Task<LegacyGearDetails?> GetLegacyGearAsync(string id)
+    {
+        var legacyRule = await GetLegacyRule(id, "Gear");
+        if (legacyRule == null)
+            return null;
+        return await LoadLegacyGearAsync(legacyRule);
+    }
+
+    public async Task<LegacyArmorDetails?> GetLegacyArmorAsync(string id)
+    {
+        var legacyRule = await GetLegacyRule(id, "Armor");
+        if (legacyRule == null)
+            return null;
+        return await LoadLegacyArmorAsync(legacyRule);
+    }
+
+    public async Task<LegacyWeaponDetails?> GetLegacyWeaponAsync(string id)
+    {
+        var legacyRule = await GetLegacyRule(id, "Weapon");
+        if (legacyRule == null)
+            return null;
+        return await LoadLegacyWeaponAsync(legacyRule);
+    }
+
+    public async Task<LegacyMagicItemDetails?> GetLegacyMagicItemAsync(string id)
+    {
+        var legacyRule = await GetLegacyRule(id, "Magic Item");
+        if (legacyRule == null)
+            return null;
+        return await LoadLegacyMagicItemAsync(legacyRule);
     }
 
     internal async Task<IEnumerable<LegacyClassSummary>> GetLegacyClassesAsync()
@@ -202,6 +238,34 @@ public class LegacyData
         var allRacialTraits = await LoadOrderedAsync(racialTraits, LoadRacialTraitAsync);
 
         return new(result, allRacialTraits);
+    }
+
+    private async Task<LegacyGearDetails?> LoadLegacyGearAsync(ImportedRule legacyRule)
+    {
+        await Task.Yield();
+        var result = ToDetails(legacyRule);
+        return new(result);
+    }
+
+    private async Task<LegacyWeaponDetails?> LoadLegacyWeaponAsync(ImportedRule legacyRule)
+    {
+        await Task.Yield();
+        var result = ToDetails(legacyRule);
+        return new(result);
+    }
+
+    private async Task<LegacyArmorDetails?> LoadLegacyArmorAsync(ImportedRule legacyRule)
+    {
+        await Task.Yield();
+        var result = ToDetails(legacyRule);
+        return new(result);
+    }
+
+    private async Task<LegacyMagicItemDetails?> LoadLegacyMagicItemAsync(ImportedRule legacyRule)
+    {
+        await Task.Yield();
+        var result = ToDetails(legacyRule);
+        return new(result);
     }
 
     private async Task<LegacyClassFeatureDetails> LoadClassFeatureAsync(ImportedRule rule, string classId)

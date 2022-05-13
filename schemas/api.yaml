@@ -525,6 +525,30 @@ components:
         racialTraits:
           type: array
           items: { $ref: "#/components/schemas/LegacyRacialTraitDetails" }
+    LegacyGearDetails:
+      type: object
+      required:
+        - details
+      properties:
+        details: { $ref: "#/components/schemas/LegacyRuleDetails" }
+    LegacyArmorDetails:
+      type: object
+      required:
+        - details
+      properties:
+        details: { $ref: "#/components/schemas/LegacyRuleDetails" }
+    LegacyWeaponDetails:
+      type: object
+      required:
+        - details
+      properties:
+        details: { $ref: "#/components/schemas/LegacyRuleDetails" }
+    LegacyMagicItemDetails:
+      type: object
+      required:
+        - details
+      properties:
+        details: { $ref: "#/components/schemas/LegacyRuleDetails" }
     LegacyPowerDetails:
       type: object
       required:
@@ -978,6 +1002,60 @@ paths:
                       items:
                         { $ref: "#/components/schemas/LegacyWeaponSummary" },
                     }
+  /api/legacy/gear/{id}:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyGear
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LegacyGearDetails" }
+        404:
+          description: Gear not found
+  /api/legacy/armor/{id}:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyArmor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LegacyArmorDetails" }
+        404:
+          description: Armor not found
+  /api/legacy/weapon/{id}:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyWeapon
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LegacyWeaponDetails" }
+        404:
+          description: Weapon not found
   /api/legacy/magic-items:
     x-dotnet-mvc-server-controller: Legacy
     get:
@@ -990,6 +1068,24 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/LegacyMagicItemSummary" }
+  /api/legacy/magic-item/{id}:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyMagicItem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/LegacyMagicItemDetails" }
+        404:
+          description: Magic Item not found
   /api/legacy/power/{id}:
     x-dotnet-mvc-server-controller: Legacy
     get:
