@@ -550,6 +550,7 @@ components:
         - details
       properties:
         details: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        level: { type: integer }
     LegacyPowerDetails:
       type: object
       required:

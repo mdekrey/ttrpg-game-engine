@@ -268,7 +268,7 @@ public class LegacyData
     {
         await Task.Yield();
         var result = ToDetails(legacyRule);
-        return new(result);
+        return new(result, Level: int.TryParse(legacyRule.Level, out var level) ? level : null);
     }
 
     private async Task<LegacyClassFeatureDetails> LoadClassFeatureAsync(ImportedRule rule, string classId)
