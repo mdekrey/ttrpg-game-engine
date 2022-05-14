@@ -548,9 +548,13 @@ components:
       type: object
       required:
         - details
+        - powers
       properties:
         details: { $ref: "#/components/schemas/LegacyRuleDetails" }
         level: { type: integer }
+        powers:
+          type: array
+          items: { $ref: "#/components/schemas/LegacyPowerDetails" }
     LegacyPowerDetails:
       type: object
       required:

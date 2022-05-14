@@ -4,8 +4,9 @@ import { Power, RulesText } from 'components/power';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { Sources } from '../sources';
 import { PowerDetailsSelector } from '../power-details/power.selector';
+import { powerMarkdown } from '../power-details/powerMarkdown';
 
-export function MagicItemDetails({ details: { details, level } }: { details: LegacyMagicItemDetails }) {
+export function MagicItemDetails({ details: { details, level, powers } }: { details: LegacyMagicItemDetails }) {
 	// const itemType = details.rules.find((r) => r.label === 'Magic Item Type')?.text;
 	const armor = details.rules.find((r) => r.label === 'Armor')?.text;
 	const weapon = details.rules.find((r) => r.label === 'Weapon')?.text;
@@ -25,7 +26,8 @@ export function MagicItemDetails({ details: { details, level } }: { details: Leg
 	flavorText={${inlineObject(details.flavorText ?? undefined)}}
 	name={${inlineObject(details.name)}}
 	type="Item"
-	level={${inlineObject(level ? `Level ${level}` : '')}}>
+	level={${inlineObject(level ? `Level ${level}` : '')}}
+	style={{ breakInside: 'avoid' }}>
 	<div>
 		<Sources sources={${inlineObject(details.sources)}} />
 		${armor ? `<RulesText label="Armor">${armor}</RulesText>` : ''}
@@ -39,7 +41,11 @@ export function MagicItemDetails({ details: { details, level } }: { details: Leg
 		power
 			? `<RulesText label={${inlineObject(power.split(':')[0])}}>
 ${wizardsTextToMarkdown(power.substring(power.split(':')[0].length + 2), { depth: 2 })}
-</RulesText>`
+</RulesText>
+${powers.map(
+	(p) => `${powerMarkdown(p)}
+`
+)}`
 			: ''
 	}
 	${special ? `<RulesText label="Special">${wizardsTextToMarkdown(special, { depth: 2 })}</RulesText>` : ''}

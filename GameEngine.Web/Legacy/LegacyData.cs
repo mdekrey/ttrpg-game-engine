@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace GameEngine.Web.Legacy;
 
@@ -264,11 +265,41 @@ public class LegacyData
         return new(result);
     }
 
+    private static readonly Regex displayPowerWithUsage = new Regex(@"(?<id>[^\(]+)(\((?<usage>[^\)]+)\))?");
     private async Task<LegacyMagicItemDetails?> LoadLegacyMagicItemAsync(ImportedRule legacyRule)
     {
-        await Task.Yield();
+        var powerIdAndUsages = legacyRule.RulesText.SingleOrDefault(r => r.Label == "_DisplayPowers")?.Text.Split(',')
+            .Select(part =>
+            {
+                var match = displayPowerWithUsage.Match(part.Trim());
+                var id = match.Groups["id"].Value;
+                var usage = match.Groups["usage"]?.Value;
+                return (id, usage);
+            }).ToArray();
+        var powerIds = powerIdAndUsages?.Select(tuple => tuple.id).ToArray();
         var result = ToDetails(legacyRule);
-        return new(result, Level: int.TryParse(legacyRule.Level, out var level) ? level : null);
+        var powerRules = powerIds == null ? Enumerable.Empty<LegacyPowerDetails>()
+            : Enumerable.Zip(powerIdAndUsages!.Select(tuple => tuple.usage), await LoadOrderedAsync(await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId)).ToArrayAsync(), LoadLegacyPowerAsync))
+                .Select(zipped => new LegacyPowerDetails(
+                    WizardsId: zipped.Second.WizardsId,
+                    Name: zipped.Second.Name,
+                    FlavorText: zipped.Second.FlavorText,
+                    Type: zipped.Second.Type,
+                    Description: zipped.Second.Description,
+                    ShortDescription: zipped.Second.ShortDescription,
+                    Display: zipped.Second.Display,
+                    PowerUsage: zipped.First ?? zipped.Second.PowerUsage,
+                    ActionType: zipped.Second.ActionType,
+                    PowerType: zipped.Second.PowerType,
+                    EncounterUses: zipped.Second.EncounterUses,
+                    Level: zipped.Second.Level,
+                    Sources: zipped.Second.Sources,
+                    Rules: zipped.Second.Rules,
+                    Keywords: zipped.Second.Keywords,
+                    ChildPower: zipped.Second.ChildPower
+                ));
+
+        return new(result, Level: int.TryParse(legacyRule.Level, out var level) ? level : null, Powers: powerRules);
     }
 
     private async Task<LegacyClassFeatureDetails> LoadClassFeatureAsync(ImportedRule rule, string classId)
