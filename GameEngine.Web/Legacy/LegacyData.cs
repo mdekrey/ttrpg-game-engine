@@ -138,22 +138,24 @@ public class LegacyData
     internal async Task<IEnumerable<LegacyWeaponSummary>> GetAllLegacyWeaponsAsync()
     {
         var results = await GetLegacyRules(rule => rule.Type == "Weapon").ToArrayAsync();
-        return results.Select(rule => new Api.LegacyWeaponSummary(
-            WizardsId: rule.WizardsId,
-            Name: rule.Name,
-            FlavorText: rule.Description,
-            Type: rule.Type,
-            Gold: rule.RulesText.SingleOrDefault(r => r.Label == "Gold")?.Text is string goldText && int.TryParse(goldText, out var gold) ? gold : null,
-            WeaponCategory: rule.RulesText.SingleOrDefault(r => r.Label == "Weapon Category")?.Text ?? throw new InvalidOperationException($"Weapon Category not found at {rule.WizardsId}"),
-            HandsRequired: rule.RulesText.SingleOrDefault(r => r.Label == "Hands Required")?.Text ?? throw new InvalidOperationException($"Hands Required not found at {rule.WizardsId}"),
-            Weight: rule.RulesText.SingleOrDefault(r => r.Label == "Weight")?.Text is string weightText && int.TryParse(weightText, out var weight) ? weight : null,
-            ProficiencyBonus: rule.RulesText.SingleOrDefault(r => r.Label == "Proficiency Bonus")?.Text is string profText && int.TryParse(profText, out var prof) ? prof : null,
-            Range: rule.RulesText.SingleOrDefault(r => r.Label == "Range")?.Text,
-            Damage: rule.RulesText.SingleOrDefault(r => r.Label == "Damage")?.Text ?? throw new InvalidOperationException($"Damage not found at {rule.WizardsId}"),
-            Group: rule.RulesText.SingleOrDefault(r => r.Label == "Group")?.Text ?? throw new InvalidOperationException($"Group not found at {rule.WizardsId}"),
-            Properties: rule.RulesText.SingleOrDefault(r => r.Label == "Properties")?.Text ?? "",
-            Size: rule.RulesText.SingleOrDefault(r => r.Label == "Size")?.Text ?? "Medium"
-        )).ToArray();
+        return results
+            .Where(rule => rule.RulesText.All(rt => rt is { Label: not "_Primary End" } or { Text: { Length: 0 } }))
+            .Select(rule => new Api.LegacyWeaponSummary(
+                WizardsId: rule.WizardsId,
+                Name: rule.Name,
+                FlavorText: rule.Description,
+                Type: rule.Type,
+                Gold: rule.RulesText.SingleOrDefault(r => r.Label == "Gold")?.Text is string goldText && int.TryParse(goldText, out var gold) ? gold : null,
+                WeaponCategory: rule.RulesText.SingleOrDefault(r => r.Label == "Weapon Category")?.Text ?? throw new InvalidOperationException($"Weapon Category not found at {rule.WizardsId}"),
+                HandsRequired: rule.RulesText.SingleOrDefault(r => r.Label == "Hands Required")?.Text ?? throw new InvalidOperationException($"Hands Required not found at {rule.WizardsId}"),
+                Weight: rule.RulesText.SingleOrDefault(r => r.Label == "Weight")?.Text is string weightText && int.TryParse(weightText, out var weight) ? weight : null,
+                ProficiencyBonus: rule.RulesText.SingleOrDefault(r => r.Label == "Proficiency Bonus")?.Text is string profText && int.TryParse(profText, out var prof) ? prof : null,
+                Range: rule.RulesText.SingleOrDefault(r => r.Label == "Range")?.Text,
+                Damage: rule.RulesText.SingleOrDefault(r => r.Label == "Damage")?.Text ?? throw new InvalidOperationException($"Damage not found at {rule.WizardsId}"),
+                Group: rule.RulesText.SingleOrDefault(r => r.Label == "Group")?.Text ?? throw new InvalidOperationException($"Group not found at {rule.WizardsId}"),
+                Properties: rule.RulesText.SingleOrDefault(r => r.Label == "Properties")?.Text ?? "",
+                Size: rule.RulesText.SingleOrDefault(r => r.Label == "Size")?.Text ?? "Medium"
+            )).ToArray();
     }
 
     internal async Task<IEnumerable<LegacyGearSummary>> GetAllLegacyGearAsync()
@@ -249,9 +251,10 @@ public class LegacyData
 
     private async Task<LegacyWeaponDetails?> LoadLegacyWeaponAsync(ImportedRule legacyRule)
     {
-        await Task.Yield();
+        var secondaryEndId = legacyRule.RulesText.Single(r => r.Label == "_Secondary End").Text;
+        var secondaryEnd = secondaryEndId is { Length: > 0 } ? await GetLegacyRules(rule => rule.Type == "Weapon" && rule.WizardsId == secondaryEndId).SingleOrDefaultAsync() : null;
         var result = ToDetails(legacyRule);
-        return new(result);
+        return new(result, SecondaryEnd: ToDetails(secondaryEnd));
     }
 
     private async Task<LegacyArmorDetails?> LoadLegacyArmorAsync(ImportedRule legacyRule)

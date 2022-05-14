@@ -543,6 +543,7 @@ components:
         - details
       properties:
         details: { $ref: "#/components/schemas/LegacyRuleDetails" }
+        secondaryEnd: { $ref: "#/components/schemas/LegacyRuleDetails" }
     LegacyMagicItemDetails:
       type: object
       required:

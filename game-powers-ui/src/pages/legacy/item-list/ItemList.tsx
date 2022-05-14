@@ -11,6 +11,7 @@ import { MainHeader } from 'components/reader-layout/MainHeader';
 import { Fragment, useMemo } from 'react';
 import { LegacyArmorSummary } from 'api/models/LegacyArmorSummary';
 import { LegacyWeaponSummary } from 'api/models/LegacyWeaponSummary';
+import { integerFormatting } from '../integer-formatting';
 
 export function ItemList() {
 	const api = useApi();
@@ -30,8 +31,6 @@ export function ItemList() {
 		</ReaderLayout>
 	);
 }
-
-const integerFormatting = new Intl.NumberFormat('en-US', {});
 
 function LoadedItemList({ loaded }: { loaded: StructuredResponses[200]['application/json'] }) {
 	return (

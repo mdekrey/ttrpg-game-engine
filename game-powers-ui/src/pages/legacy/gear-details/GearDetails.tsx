@@ -3,10 +3,18 @@ import { FullReferenceMdx, inlineObject } from 'components/mdx/FullReferenceMdx'
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { Sources } from '../sources';
 import { PowerDetailsSelector } from '../power-details/power.selector';
+import { integerFormatting, toNumber } from '../integer-formatting';
 
 export function GearDetails({ details: { details } }: { details: LegacyGearDetails }) {
-	const fullText = details.rules.find((r) => r.label === 'Full Text')?.text ?? '';
-	// TODO: This could be better without using "Full Text"
+	const weight = toNumber(details.rules.find((r) => r.label === 'Weight')?.text);
+	const gold = toNumber(details.rules.find((r) => r.label === 'Gold')?.text);
+	const silver = toNumber(details.rules.find((r) => r.label === 'Silver')?.text);
+	const copper = toNumber(details.rules.find((r) => r.label === 'Copper')?.text);
+
+	const price = `${gold ? `${integerFormatting.format(gold)} gp` : ''} ${
+		silver ? `${integerFormatting.format(silver)} sp` : ''
+	} ${copper ? `${integerFormatting.format(copper)} cp` : ''}`;
+
 	return (
 		<>
 			<FullReferenceMdx
@@ -14,7 +22,11 @@ export function GearDetails({ details: { details } }: { details: LegacyGearDetai
 				contents={`
 # ${details.name} <Sources sources={${inlineObject(details.sources)}} />
 
-${wizardsTextToMarkdown(fullText.substring(fullText.indexOf('\r') + 1), { depth: 2 })}
+${wizardsTextToMarkdown(details.description, { depth: 2 })}
+
+**Weight**: ${weight === 0 ? '&mdash;' : weight === 1 ? '1 lb.' : `${weight} lbs.`}
+
+**Price**: ${price}
 `}
 			/>
 		</>

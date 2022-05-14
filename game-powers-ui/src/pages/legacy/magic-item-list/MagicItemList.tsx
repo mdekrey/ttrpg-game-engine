@@ -9,6 +9,7 @@ import { LoadableComponent } from 'core/loadable/LoadableComponent';
 import { MainHeader } from 'components/reader-layout/MainHeader';
 import { Fragment, useMemo } from 'react';
 import { LegacyMagicItemSummary } from 'api/models/LegacyMagicItemSummary';
+import { integerFormatting } from '../integer-formatting';
 
 export function MagicItemList() {
 	const api = useApi();
@@ -28,8 +29,6 @@ export function MagicItemList() {
 		</ReaderLayout>
 	);
 }
-
-const integerFormatting = new Intl.NumberFormat('en-US', {});
 
 function LoadedItemList({ loaded }: { loaded: StructuredResponses[200]['application/json'] }) {
 	const itemGroups = useMemo(() => groupBy(({ magicItemType }) => magicItemType, loaded), [loaded]);
