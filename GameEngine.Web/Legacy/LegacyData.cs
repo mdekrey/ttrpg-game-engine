@@ -252,7 +252,7 @@ public class LegacyData
 
     private async Task<LegacyWeaponDetails?> LoadLegacyWeaponAsync(ImportedRule legacyRule)
     {
-        var secondaryEndId = legacyRule.RulesText.Single(r => r.Label == "_Secondary End").Text;
+        var secondaryEndId = legacyRule.RulesText.SingleOrDefault(r => r.Label == "_Secondary End")?.Text;
         var secondaryEnd = secondaryEndId is { Length: > 0 } ? await GetLegacyRules(rule => rule.Type == "Weapon" && rule.WizardsId == secondaryEndId).SingleOrDefaultAsync() : null;
         var result = ToDetails(legacyRule);
         return new(result, SecondaryEnd: ToDetails(secondaryEnd));
