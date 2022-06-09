@@ -45,8 +45,8 @@ export function DisplayPower({ details: power, noSources }: { details: LegacyPow
 				actionType={power.actionType}
 				attackType={attackTypeText}
 				attackTypeDetails={attackTypeDetails}
-				prerequisite={requirement}
-				requirement={prerequisite}
+				prerequisite={prerequisite}
+				requirement={requirement}
 				trigger={trigger}
 				target={target}
 				attack={attack}
