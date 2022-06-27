@@ -1,0 +1,47 @@
+import { Power } from 'components/mdx/Power';
+
+export const frontmatter = {
+	title: 'Skill type: Movement'
+};
+{
+	MDXContent.frontmatter = frontmatter;
+}
+
+# Skill Type
+
+_Examples: Athletics, Acrobatics, Flying, Mounts, Swimming, Vehicles_
+
+You are an expert in a single method of movement. If that method includes
+special equipment or trained animals, this skill includes maintenance of that
+equipment and training of animals for use of this skill.
+
+If moving under your own power, you may use your move action to move up your
+speed using that movement style. (For example, you may swim your full speed, or
+climb your full speed.) If directing a vehicle or animal, you may use your move
+action to control the vehicle's move action and standard action, otherwise the
+vehicle will move up to the DM's discretion. (For example, when riding a horse,
+you may spend your move action to direct it to run full speed. If you do not use
+your move action, the horse may slow down or turn as it desires.)
+
+## Special rules
+
+When selecting Movement, choose which movement style. You may select Movement
+multiple times for each additional movement style you wish to learn; your skill
+does not stack.
+
+## Powers
+
+<Power>{`
+name: Absetminded Driving
+typeInfo: Movement Power
+flavorText: "You ready yourself to drive absentmindedly, focusing instead on the battle around you."
+powerUsage: Encounter
+keywords: ['Stance']
+actionType: Bonus Action
+prerequisite: You must have at least 5 skill points in Movement for either vehicles or mounts.
+rulesText:
+- label: Effect
+  text: >-
+    Mounts and vehicles under your direction maintain speed and automatically follow a path that
+    they're on or maintain a straight course, as you choose.
+`}</Power>
