@@ -28,22 +28,12 @@ function mashupUsage(powerUsage: string) {
 }
 
 export function foundryMashup(power: LegacyPowerDetails) {
-	const attackType = power.rules.find((rule) => rule.label === 'Attack Type')?.text ?? '';
+	// const attackType = power.rules.find((rule) => rule.label === 'Attack Type')?.text ?? '';
 	const actionType = power.actionType.split(' ')[0].toLowerCase();
 	const result = {
 		name: power.name,
 		type: 'power',
-		img: attackType.includes('Melee')
-			? 'icons/skills/melee/hand-grip-sword-white-brown.webp'
-			: attackType.includes('Ranged')
-			? 'icons/skills/ranged/arrow-flying-white-blue.webp'
-			: attackType.includes('burst')
-			? 'icons/magic/fire/barrier-wall-flame-ring-blue.webp'
-			: attackType.includes('blast')
-			? 'icons/magic/fire/projectile-meteor-salvo-light-pink.webp'
-			: attackType.includes('wall')
-			? 'icons/magic/fire/flame-burning-fence.webp'
-			: 'icons/magic/movement/trail-streak-pink.webp',
+		img: 'icons/svg/item-bag.svg',
 		data: {
 			sourceId: power.wizardsId,
 			type: power.display,
