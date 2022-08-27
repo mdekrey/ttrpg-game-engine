@@ -305,12 +305,14 @@ public class LegacyData
     private async Task<LegacyClassFeatureDetails> LoadClassFeatureAsync(ImportedRule rule, string classId)
     {
         var arg = ToDetails(rule);
-        var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "Powers" || r.Label == "_DisplayPowers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
+        var powerIds = arg.Rules.SingleOrDefault(r => r.Label == "Powers")?.Text.Split(',').Select(id => id.Trim()).ToArray()
+            ?? arg.Rules.SingleOrDefault(r => r.Label == "_DisplayPowers")?.Text.Split(',').Select(id => id.Trim()).ToArray();
         var powerRules = powerIds == null ? Enumerable.Empty<ImportedRule>()
             : await GetLegacyRules(rule => rule.Type == "Power" && powerIds.Contains(rule.WizardsId) && (rule.Class.WizardsId == classId || rule.Class.WizardsId == "")).ToArrayAsync();
         var powers = await LoadOrderedAsync(powerRules, LoadLegacyPowerAsync);
 
-        var subfeatureIds = arg.Rules.SingleOrDefault(r => r.Label == "_PARSED_SUB_FEATURES" || r.Label == "_PARSED_CHILD_FEATURES")?.Text.Split(',').Select(id => id.Trim()).ToArray();
+        var subfeatureIds = arg.Rules.SingleOrDefault(r => r.Label == "_PARSED_SUB_FEATURES")?.Text.Split(',').Select(id => id.Trim()).ToArray()
+            ?? arg.Rules.SingleOrDefault(r => r.Label == "_PARSED_CHILD_FEATURES")?.Text.Split(',').Select(id => id.Trim()).ToArray();
         var subfeatureRules = subfeatureIds == null ? Enumerable.Empty<ImportedRule>()
             : await GetLegacyRules(rule => rule.Type == "Class Feature" && subfeatureIds.Contains(rule.WizardsId)).ToArrayAsync();
         var subfeatures = await LoadOrderedAsync(subfeatureRules, rule => LoadClassFeatureAsync(rule, classId: classId));
