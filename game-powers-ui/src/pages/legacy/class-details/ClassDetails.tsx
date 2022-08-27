@@ -34,28 +34,11 @@ function isOther(rule: LegacyRuleText) {
 	return true;
 }
 
-const powerList = [
-	'At-Will 1',
-	'Encounter 1',
-	'Daily 1',
-	'Utility 2',
-	'Encounter 3',
-	'Daily 5',
-	'Utility 6',
-	'Encounter 7',
-	'Daily 9',
-	'Utility 10',
-	'Encounter 13',
-	'Daily 15',
-	'Utility 16',
-	'Encounter 17',
-	'Daily 19',
-	'Utility 22',
-	'Encounter 23',
-	'Daily 25',
-	'Encounter 27',
-	'Daily 29',
-];
+const typeOrder = ['At-Will', 'Encounter', 'Daily', 'Utility'];
+const powerList = Array(30)
+	.fill(0)
+	.map((_, index) => index + 1)
+	.flatMap((level) => typeOrder.map((type) => `${type} ${level}`));
 
 export function ClassDetails({ details: fullDetails }: { details: LegacyClassDetails }) {
 	const powers = useMemo(() => {
