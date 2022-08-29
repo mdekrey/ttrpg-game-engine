@@ -19,7 +19,7 @@ RUN dotnet build "GameEngine.Web.csproj" -c Release -o /app/build /p:SkipUiBuild
 FROM build AS publish
 RUN dotnet publish "GameEngine.Web.csproj" -c Release -o /app/publish /p:SkipUiBuild=true
 
-FROM node:16 AS build-ui
+FROM node:16.14 AS build-ui
 WORKDIR /src
 RUN wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
   && dpkg -i packages-microsoft-prod.deb \
