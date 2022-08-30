@@ -174,12 +174,3 @@ async function canvasPreview(
 
 	ctx.restore();
 }
-
-// Returns an image source you should set to state and pass
-// `{previewSrc && <img alt="Crop preview" src={previewSrc} />}`
-async function imgPreview(image: HTMLImageElement, crop: PixelCrop, rotate = 0, color = 'rebeccapurple') {
-	const canvas = document.createElement('canvas');
-	canvasPreview(image, canvas, crop, rotate, color);
-
-	return canvas.toDataURL();
-}
