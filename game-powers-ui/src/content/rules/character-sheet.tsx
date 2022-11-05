@@ -447,10 +447,10 @@ export const CharacterSheet = forwardRef(
 					<MiniBanner width={498} height={34} label="Ability Scores" />
 					<g transform="translate(16 50)">
 						<text className="stat-label" y="1" x="2" {...text.y.base}>
-							Score
+							Mod
 						</text>
 						<text className="stat-label" y="1" x="388" {...text.x.center} {...text.y.base}>
-							Score + 1 / 2 LVL
+							Mod + 1 / 2 LVL
 						</text>
 					</g>
 					<g transform="translate(16 50)">
@@ -754,12 +754,12 @@ export const CharacterSheet = forwardRef(
 							y={0}
 							width={498}
 							height={50}
-							modifiers={['Abil', 'Points', 'Misc', 'Misc']}
+							modifiers={['Ranks', 'Misc', 'Misc']}
 						/>
 					</g>
 				</RepeatingSection>
 
-				<TextSection label="Feats" x={507} y={883} width={498} height={1603 - 883} />
+				<TextSection label="Feats" x={507} y={955} width={498} height={1603 - 955} />
 				<TextSection label="Weapon &amp; Armor Proficiencies" x={507} y={1603} width={498} height={1819 - 1603} />
 				<TextSection label="Languages Known" x={507} y={1819} width={498} height={2016 - 1819} />
 			</svg>
