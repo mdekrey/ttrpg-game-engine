@@ -1,4 +1,6 @@
-import { ForwardedRef, forwardRef, Fragment, ReactNode } from 'react';
+import { ForwardedRef, forwardRef, Fragment, ReactNode, useEffect, useRef, useState } from 'react';
+import { ensureSign } from './ensureSign';
+import { splitText, svgTextElementToMeasure } from './splitText';
 
 const black = '#333333';
 const sharedCss = `
@@ -63,6 +65,21 @@ const sharedCss = `
 	font-size: 14px;
 	font-weight: bold;
     fill:  ${black};
+}
+.handwriting {
+	font-size: 28px;
+	font-family: Segoe Print, Lucida Grande, sans-serif;
+}
+.handwriting-detail {
+	font-size: 20px;
+	font-family: Segoe Print, Lucida Grande, sans-serif;
+}
+.handwriting-tiny {
+	font-size: 16px;
+	font-family: Segoe Print, Lucida Grande, sans-serif;
+}
+.text-measure-hidden {
+	fill: transparent;
 }
 `;
 const handwritingHeight = 36;
@@ -145,7 +162,7 @@ function HiddenBox({ ...props }: BoxProps) {
 	return <Box fill="transparent" stroke="transparent" {...props} />;
 }
 
-function UnderlineBox({ children, label, ...props }: BoxProps & { label: string }) {
+function UnderlineBox({ children, label, value, ...props }: BoxProps & { label: string; value?: string }) {
 	return (
 		<HiddenBox {...props} strokeWidth={2}>
 			{({ width, height }) => (
@@ -154,6 +171,11 @@ function UnderlineBox({ children, label, ...props }: BoxProps & { label: string 
 					<text className="label" y={height + 7} {...text.y.hanging} fill={black}>
 						{label}
 					</text>
+					{value && (
+						<text className="handwriting" y={height - 3} x={2}>
+							{value}
+						</text>
+					)}
 					{typeof children === 'function' ? children({ width, height }) : children}
 				</>
 			)}
@@ -161,7 +183,7 @@ function UnderlineBox({ children, label, ...props }: BoxProps & { label: string 
 	);
 }
 
-function LabelledBox({ children, label, ...props }: BoxProps & { label: string }) {
+function LabelledBox({ children, label, value, ...props }: BoxProps & { label: string; value?: string }) {
 	return (
 		<HiddenBox {...props} strokeWidth={2}>
 			{({ width, height }) => (
@@ -178,6 +200,11 @@ function LabelledBox({ children, label, ...props }: BoxProps & { label: string }
 					<text className="label" x={width / 2} y={height + 7} {...text.x.center} {...text.y.hanging}>
 						{label}
 					</text>
+					{value && (
+						<text className="handwriting" y={height - 3} x={width / 2} {...text.x.center}>
+							{value}
+						</text>
+					)}
 					{typeof children === 'function' ? children({ width, height }) : children}
 				</>
 			)}
@@ -205,6 +232,8 @@ function ModifierBar({
 	modifiers,
 	children,
 	mode = 'box',
+	total,
+	modifierValues,
 }: {
 	firstLabel: string;
 	x: number;
@@ -215,6 +244,8 @@ function ModifierBar({
 	modifiers: Array<string | string[]>;
 	children?: BoxProps['children'];
 	mode?: 'box' | 'circle';
+	total?: string;
+	modifierValues?: Array<string | undefined | null>;
 } & ({ firstBoxWidth: number; mode?: 'box' } | { firstBoxWidth?: undefined; mode: 'circle' })) {
 	const modWidth = 54 - Math.max(0, modifiers.length - 4);
 	return (
@@ -224,9 +255,28 @@ function ModifierBar({
 				{firstLabel}
 			</text>
 			{mode === 'box' && firstBoxWidth ? (
-				<rect x="1" y="5" width={firstBoxWidth - 2} height="40" fill="white" strokeWidth="2" stroke={black} />
+				<>
+					<rect x="1" y="5" width={firstBoxWidth - 2} height="40" fill="white" strokeWidth="2" stroke={black} />
+					{total !== undefined && (
+						<text
+							className="handwriting"
+							y={5 + 40 / 2}
+							x={(firstBoxWidth - 3) / 2 + 1}
+							{...text.x.center}
+							{...text.y.middle}>
+							{total}
+						</text>
+					)}
+				</>
 			) : (
-				<circle cy="25" cx="28" r="28" fill="white" strokeWidth="2" stroke={black} />
+				<>
+					<circle cy="25" cx="28" r="28" fill="white" strokeWidth="2" stroke={black} />
+					{total !== undefined && (
+						<text className="handwriting" y="25" x="28" {...text.x.center} {...text.y.middle}>
+							{total}
+						</text>
+					)}
+				</>
 			)}
 			{modifiers.map((modifier, index) => {
 				const mx = width - (modifiers.length - index) * modWidth;
@@ -249,6 +299,17 @@ function ModifierBar({
 							</text>
 						))}
 						<rect x={mx - 1} y="6" width="49" height="38" fill="white" strokeWidth="2" stroke={black} />
+						{modifierValues && typeof modifierValues[index] === 'string' && (
+							<text
+								className="handwriting-detail"
+								y={6 + 38 / 2}
+								x={mx}
+								dx={49 / 2}
+								{...text.x.center}
+								{...text.y.middle}>
+								{modifierValues[index]}
+							</text>
+						)}
 					</Fragment>
 				);
 			})}
@@ -270,6 +331,8 @@ function AttributeBar({
 	height,
 	abbreviation,
 	name,
+	modifier,
+	modifierWithLevel,
 }: {
 	x: number;
 	y: number;
@@ -277,6 +340,8 @@ function AttributeBar({
 	height: number;
 	abbreviation: string;
 	name: string;
+	modifier?: number;
+	modifierWithLevel?: number;
 }) {
 	return (
 		<HiddenBox left={x} top={y} outerWidth={width} outerHeight={height}>
@@ -293,18 +358,130 @@ function AttributeBar({
 
 			<rect x="350" width="43" height="48" fill={black} />
 			<rect x="353" y="4" width="69" height="40" fill="white" strokeWidth="2" stroke={black} />
+
+			{typeof modifier === 'number' && (
+				<text className="handwriting" x={65 / 2} y={24} {...text.x.center} {...text.y.middle}>
+					{ensureSign(modifier)}
+				</text>
+			)}
+			{typeof modifierWithLevel === 'number' && (
+				<text className="handwriting" x={353 + 69 / 2} y={24} {...text.x.center} {...text.y.middle}>
+					{ensureSign(modifierWithLevel)}
+				</text>
+			)}
 		</HiddenBox>
+	);
+}
+
+function FreeText({
+	x,
+	y,
+	width,
+	height,
+	contents,
+	maxCols,
+}: {
+	maxCols: number;
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	contents: string[];
+}) {
+	const [actualTextArrays, updateActualTextArrays] = useState<{ line: string; dx: number; dy: number }[]>(
+		contents.map((line) => ({ line, dx: 0, dy: 0 }))
+	);
+	const measureTextRefRef = useRef<SVGTextElement | null>(null);
+
+	useEffect(() => {
+		const elem = measureTextRefRef.current;
+		if (!elem) return;
+		const measure = svgTextElementToMeasure(elem);
+		const contentLines = contents.flatMap((v) => splitText(measure, v, width));
+		if (contentLines.length === 0) return;
+		const maxWidth = Math.max(...contentLines.map(measure));
+		const cols = Math.max(1, Math.min(maxCols, Math.floor(width / maxWidth), contentLines.length));
+		const rows = Math.ceil(contentLines.length / cols);
+		const rowHeight = height / rows;
+		updateActualTextArrays(
+			contentLines.map((line, index) => ({
+				line,
+				dx: (width / cols) * (index % cols),
+				dy: (Math.floor(index / cols) + 0.5) * rowHeight,
+			}))
+		);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	return (
+		<g transform={`translate(${x} ${y})`}>
+			<text className="handwriting-tiny text-measure-hidden" ref={measureTextRefRef} />
+			{actualTextArrays.map(({ line, dx, dy }, index) => (
+				<text className="handwriting-tiny" x={dx} y={dy} key={index} {...text.y.middle}>
+					{line}
+				</text>
+			))}
+		</g>
 	);
 }
 
 function TextSection({
 	width,
+	contents,
+	x,
+	y,
+	height,
 	...props
-}: JSX.IntrinsicElements['g'] & { x: number; y: number; width: number; height: number; label: string }) {
+}: JSX.IntrinsicElements['g'] & {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	label: string;
+	contents?: string | string[];
+}) {
+	const textArray = contents === undefined ? [] : typeof contents === 'string' ? [contents] : contents;
+	const linePositions = useRef<number[]>([]);
+	const [actualTextArrays, updateActualTextArrays] = useState<string[]>([]);
+	const measureTextRefRef = useRef<SVGTextElement | null>(null);
+
+	useEffect(() => {
+		const elem = measureTextRefRef.current;
+		if (!elem) return;
+		updateActualTextArrays(textArray.flatMap((v) => splitText(svgTextElementToMeasure(elem), v, width)));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	return (
-		<RepeatingSection width={width} {...props} heightPerItem={handwritingHeight} align={17}>
-			<line x1={0} x2={width} y1={handwritingHeight} y2={handwritingHeight} strokeWidth="2" stroke={black} />
-		</RepeatingSection>
+		<g>
+			<text className="handwriting-detail text-measure-hidden" ref={measureTextRefRef} />
+			<RepeatingSection
+				x={x}
+				y={y}
+				width={width}
+				height={height}
+				{...props}
+				heightPerItem={handwritingHeight}
+				align={17}
+				setLinePositions={(v) => {
+					linePositions.current = v;
+				}}>
+				<line x1={0} x2={width} y1={handwritingHeight} y2={handwritingHeight} strokeWidth="2" stroke={black} />
+			</RepeatingSection>
+			{actualTextArrays.map(
+				(line, index) =>
+					linePositions.current.length > index && (
+						<text
+							className="handwriting-detail"
+							x={x}
+							y={y + linePositions.current[index]}
+							dy={handwritingHeight - 4}
+							key={index}>
+							{line}
+						</text>
+					)
+			)}
+		</g>
 	);
 }
 
@@ -319,8 +496,10 @@ function RepeatingSection({
 	label,
 	extraRow,
 	extraRowHeight = 0,
+	setLinePositions,
 	...props
-}: JSX.IntrinsicElements['g'] & {
+}: Omit<JSX.IntrinsicElements['g'], 'children'> & {
+	children: React.ReactNode | ((index: number) => React.ReactNode);
 	x: number;
 	y: number;
 	width: number;
@@ -330,6 +509,7 @@ function RepeatingSection({
 	heightPerItem: number;
 	extraRowHeight?: number;
 	extraRow?: JSX.Element;
+	setLinePositions?: (yValues: number[]) => void;
 }) {
 	const bannerHeight = 34;
 	const innerPadding = 2;
@@ -340,18 +520,21 @@ function RepeatingSection({
 			  (y + align);
 	const bodyHeight = height - base;
 	const repeating = Math.floor(bodyHeight / heightPerItem);
+	// eslint-disable-next-line no-param-reassign
+	const linePositions = Array(repeating)
+		.fill(0)
+		.map((_, i) => i)
+		.map((index) => base + heightPerItem * index);
+	setLinePositions?.(linePositions);
 	return (
 		<g transform={`translate(${x} ${y})`} {...props}>
 			<MiniBanner width={width} height={bannerHeight} label={label} />
 			{extraRow && <g transform={`translate(0 ${base - extraRowHeight})`}>{extraRow}</g>}
-			{Array(repeating)
-				.fill(0)
-				.map((_, i) => i)
-				.map((index) => (
-					<g transform={`translate(0 ${base + heightPerItem * index})`} key={index}>
-						{children}
-					</g>
-				))}
+			{linePositions.map((yValue, index) => (
+				<g transform={`translate(0 ${yValue})`} key={yValue}>
+					{typeof children === 'function' ? children(index) : children}
+				</g>
+			))}
 		</g>
 	);
 }
@@ -379,7 +562,6 @@ export const CharacterSheet = forwardRef(
 					</text>
 					<BorderBox right={1487} top={52} innerWidth={462} innerHeight={handwritingHeight}>
 						{({ height }) => (
-							// {/* <rect x="1025" y="52" width="462" height="38" strokeWidth="2" stroke={black} fill="white" /> */}
 							<text className="label" x="2" y={height - 2} {...text.y.base}>
 								Player Name
 							</text>
@@ -421,13 +603,15 @@ export const CharacterSheet = forwardRef(
 					<MiniBanner width={498} height={34} label="Movement" />
 					<HiddenBox left={0} top={34} outerWidth={498} outerHeight={68}>
 						<ModifierBar
-							firstLabel="Score"
+							firstLabel="Total"
 							firstBoxWidth={65}
 							x={0}
 							y={0}
 							width={498}
 							height={68}
-							modifiers={['Base', 'Armor', 'Item', 'Misc']}>
+							modifiers={['Base', 'Armor', 'Item', 'Misc']}
+							total={undefined}
+							modifierValues={[]}>
 							<text className="stat-word" y="31" x="17" fill="white">
 								Speed
 							</text>
@@ -455,18 +639,72 @@ export const CharacterSheet = forwardRef(
 					</g>
 					<g transform="translate(16 50)">
 						<path transform="translate(0 23)" d="M190 0v53H424L539 0z" fill="#888888" />
-						<AttributeBar width={482} height={48} x={0} y={0} abbreviation="STR" name="Strength" />
-						<AttributeBar width={482} height={48} x={0} y={51} abbreviation="CON" name="Constitution" />
+						<AttributeBar
+							width={482}
+							height={48}
+							x={0}
+							y={0}
+							abbreviation="STR"
+							name="Strength"
+							modifier={undefined}
+							modifierWithLevel={undefined}
+						/>
+						<AttributeBar
+							width={482}
+							height={48}
+							x={0}
+							y={51}
+							abbreviation="CON"
+							name="Constitution"
+							modifier={undefined}
+							modifierWithLevel={undefined}
+						/>
 					</g>
 					<g transform="translate(16 170)">
 						<path transform="translate(0 23)" d="M190 0v53H424L539 0z" fill="#888888" />
-						<AttributeBar width={482} height={48} x={0} y={0} abbreviation="DEX" name="Dexterity" />
-						<AttributeBar width={482} height={48} x={0} y={51} abbreviation="INT" name="Intelligence" />
+						<AttributeBar
+							width={482}
+							height={48}
+							x={0}
+							y={0}
+							abbreviation="DEX"
+							name="Dexterity"
+							modifier={undefined}
+							modifierWithLevel={undefined}
+						/>
+						<AttributeBar
+							width={482}
+							height={48}
+							x={0}
+							y={51}
+							abbreviation="INT"
+							name="Intelligence"
+							modifier={undefined}
+							modifierWithLevel={undefined}
+						/>
 					</g>
 					<g transform="translate(16 290)">
 						<path transform="translate(0 23)" d="M190 0v53H424L539 0z" fill="#888888" />
-						<AttributeBar width={482} height={48} x={0} y={0} abbreviation="WIS" name="Wisdom" />
-						<AttributeBar width={482} height={48} x={0} y={51} abbreviation="CHA" name="Charisma" />
+						<AttributeBar
+							width={482}
+							height={48}
+							x={0}
+							y={0}
+							abbreviation="WIS"
+							name="Wisdom"
+							modifier={undefined}
+							modifierWithLevel={undefined}
+						/>
+						<AttributeBar
+							width={482}
+							height={48}
+							x={0}
+							y={51}
+							abbreviation="CHA"
+							name="Charisma"
+							modifier={undefined}
+							modifierWithLevel={undefined}
+						/>
 					</g>
 				</HiddenBox>
 
@@ -478,7 +716,16 @@ export const CharacterSheet = forwardRef(
 						</text>
 					</g>
 					<g transform="translate(0 67)">
-						<ModifierBar mode="circle" firstLabel="" x={0} y={0} height={50} width={498} modifiers={acModifiers}>
+						<ModifierBar
+							mode="circle"
+							firstLabel=""
+							x={0}
+							y={0}
+							height={50}
+							width={498}
+							modifiers={acModifiers}
+							total={undefined}
+							modifierValues={[]}>
 							{({ width }) => (
 								<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
 									AC
@@ -612,14 +859,24 @@ export const CharacterSheet = forwardRef(
 						<rect x="427" y="3" width="20" height="20" fill="white" strokeWidth="2" stroke={black} />
 					</g>
 					<BorderBox left={0} outerWidth={498} top={370} innerHeight={50}>
-						<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
-							Saving Throw Mods
-						</text>
+						{({ width, height }) => (
+							<>
+								<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
+									Saving Throw Mods
+								</text>
+								<FreeText maxCols={3} x={10} y={10} width={width - 20} height={height - 10} contents={[]} />
+							</>
+						)}
 					</BorderBox>
 					<BorderBox left={0} outerWidth={498} top={420} innerHeight={62}>
-						<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
-							Resistances
-						</text>
+						{({ width, height }) => (
+							<>
+								<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
+									Resistances
+								</text>
+								<FreeText maxCols={3} x={10} y={10} width={width - 20} height={height - 10} contents={[]} />
+							</>
+						)}
 					</BorderBox>
 					<BorderBox left={0} outerWidth={498} top={482} innerHeight={62}>
 						<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
@@ -739,29 +996,43 @@ export const CharacterSheet = forwardRef(
 					<line x1="382" x2="498" y1="42" y2="42" strokeWidth="2" stroke={black} />
 				</RepeatingSection>
 
-				<TextSection label="Race Features" x={0} y={1315} width={498} height={288} />
+				<TextSection key="Race Features" label="Race Features" x={0} y={1315} width={498} height={288} />
 				<TextSection label="Class / Path / Destiny Features" x={0} y={1603} width={498} height={396} />
 
 				<RepeatingSection x={1014} y={1027} width={498} height={972} label="Skills" heightPerItem={104}>
-					<text className="stat-label" y="1" x="2" {...text.y.hanging}>
-						Skill Name:
-					</text>
-					<g transform="translate(0 52)">
-						<ModifierBar
-							firstLabel="Skill Bonus"
-							firstBoxWidth={65}
-							x={0}
-							y={0}
-							width={498}
-							height={50}
-							modifiers={['Ranks', 'Misc', 'Misc']}
-						/>
-					</g>
+					{(i) => (
+						<>
+							<text className="stat-label" y="1" x="2" {...text.y.hanging}>
+								Skill Name:
+							</text>
+							<text className="handwriting" y="1" dy={4} x="2" dx={14} {...text.y.hanging}>
+								{undefined}
+							</text>
+							<g transform="translate(0 52)">
+								<ModifierBar
+									firstLabel="Skill Bonus"
+									firstBoxWidth={65}
+									x={0}
+									y={0}
+									width={498}
+									height={50}
+									modifiers={['Ranks', 'Misc', 'Misc']}
+								/>
+							</g>
+						</>
+					)}
 				</RepeatingSection>
 
-				<TextSection label="Feats" x={507} y={955} width={498} height={1603 - 955} />
-				<TextSection label="Weapon &amp; Armor Proficiencies" x={507} y={1603} width={498} height={1819 - 1603} />
-				<TextSection label="Languages Known" x={507} y={1819} width={498} height={2016 - 1819} />
+				<TextSection label="Feats" x={507} y={955} width={498} height={1603 - 955} contents={[]} />
+				<TextSection
+					label="Weapon &amp; Armor Proficiencies"
+					x={507}
+					y={1603}
+					width={498}
+					height={1819 - 1603}
+					contents={[]}
+				/>
+				<TextSection label="Languages Known" x={507} y={1819} width={498} height={2016 - 1819} contents={[]} />
 			</svg>
 		);
 	}
