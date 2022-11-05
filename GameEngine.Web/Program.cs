@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+const string MyAllowSpecificOrigins = "Foundry Origins";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -26,6 +28,18 @@ builder.Services.Configure<GameEngine.Web.Storage.GameStorageOptions>(options =>
 });
 
 builder.Services.AddSqlite<GameEngine.Web.RulesDatabase.RulesDbContext>("Data Source=4e.db;Cache=Shared;Mode=ReadOnly;");
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:30000",
+                                              "https://drinksdew.forge-vtt.com")
+                                                  .AllowAnyHeader()
+                                                  .AllowAnyMethod();
+                      });
+});
 
 AddTableStorage<ClassDetails, ClassDetails.ClassDetailsTableEntity>("classes", ClassDetails.FromTableEntity);
 AddTableStorage<PowerDetails, PowerDetails.PowerDetailsTableEntity>("powers", PowerDetails.FromTableEntity);
@@ -96,6 +110,8 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseRouting();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 

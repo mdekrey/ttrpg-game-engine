@@ -8,6 +8,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using PrincipleStudios.OpenApiCodegen.Json.Extensions;
 
 namespace GameEngine.Web.Legacy;
 
@@ -178,7 +179,8 @@ public class LegacyData
 
     internal async Task<IEnumerable<LegacyMagicItemSummary>> GetLegacyMagicItemsAsync()
     {
-        var results = await GetLegacyRules(rule => rule.Type == "Magic Item").ToArrayAsync();
+        var levels = new[] { "1", "2", "3", "4", "5", "6", "7" };
+        var results = await GetLegacyRules(rule => rule.Type == "Magic Item" && levels.Contains(rule.Level)).ToArrayAsync();
         return results.Select(rule => new Api.LegacyMagicItemSummary(
             WizardsId: rule.WizardsId,
             Name: rule.Name,
@@ -204,7 +206,7 @@ public class LegacyData
     internal async Task<IEnumerable<LegacyFeatSummary>> GetLegacyFeatsAsync()
     {
         var results = await GetLegacyRules(rule => rule.Type == "Feat").ToArrayAsync();
-        return results.Select(rule => new LegacyFeatSummary(
+        return results.Where(rule => !rule.RulesText.Any(t => t.Label == "Tier" && t.Text != "Heroic")).Select(rule => new LegacyFeatSummary(
             WizardsId: rule.WizardsId,
             Name: rule.Name,
             FlavorText: rule.RulesText.SingleOrDefault(r => r.Label == "Short Description")?.Text ?? "",
@@ -255,7 +257,8 @@ public class LegacyData
         var secondaryEndId = legacyRule.RulesText.SingleOrDefault(r => r.Label == "_Secondary End")?.Text;
         var secondaryEnd = secondaryEndId is { Length: > 0 } ? await GetLegacyRules(rule => rule.Type == "Weapon" && rule.WizardsId == secondaryEndId).SingleOrDefaultAsync() : null;
         var result = ToDetails(legacyRule);
-        return new(result, SecondaryEnd: ToDetails(secondaryEnd));
+        var secondary = ToDetails(secondaryEnd);
+        return new(result, SecondaryEnd: secondary == null ? null : Optional.Create(secondary));
     }
 
     private async Task<LegacyArmorDetails?> LoadLegacyArmorAsync(ImportedRule legacyRule)
@@ -355,7 +358,7 @@ public class LegacyData
     {
         var childPowerId = rule.RulesText.SingleOrDefault(r => r.Label == "_ChildPower")?.Text;
         var childPower = childPowerId != null && await GetLegacyRule(childPowerId, "Power") is ImportedRule childPowerRule
-            ? await LoadLegacyPowerAsync(childPowerRule)
+            ? Optional.Create(await LoadLegacyPowerAsync(childPowerRule))
             : null;
         return new(
             WizardsId: rule.WizardsId,

@@ -1,0 +1,156 @@
+openapi: "3.0.2"
+info:
+  title: Mashup Web Bridge
+  version: "1.0"
+servers:
+  - url: /
+paths:
+  /foundry/actor:
+    post:
+      operationId: submitActor
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema: { $ref: "#/components/schemas/Actor" }
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    Actor:
+      type: object
+      required:
+        - name
+        - bonuses
+        - dynamicList
+        - items
+      properties:
+        name: { type: string }
+        bonuses:
+          type: array
+          items: { $ref: "#/components/schemas/GrantedBonus" }
+        dynamicList:
+          type: array
+          items: { $ref: "#/components/schemas/DynamicListEntry" }
+        class: { type: string }
+        race: { type: string }
+        paragonPath: { type: string }
+        epicDestiny: { type: string }
+        equipment:
+          type: array
+          items: { $ref: "#/components/schemas/EquipmentEntry" }
+        features:
+          type: array
+          items: { $ref: "#/components/schemas/Feature" }
+        powers:
+          type: array
+          items: { $ref: "#/components/schemas/Power" }
+        skills:
+          type: array
+          items: { $ref: "#/components/schemas/Skill" }
+        health: { $ref: "#/components/schemas/Health" }
+        details: { $ref: "#/components/schemas/ActorDetails" }
+        abilities: { $ref: "#/components/schemas/AbilityScores" }
+        currency: { $ref: "#/components/schemas/Currency" }
+    Health:
+      type: object
+      required: [maxHp, surges-value, surges-max]
+      properties:
+        maxHp: { type: integer }
+        surges-value: { type: integer }
+        surges-max: { type: integer }
+    ActorDetails:
+      type: object
+      required:
+        - level
+        - exp
+        - size
+        - age
+        - pronouns
+        - height
+        - width
+        - deity
+        - adventuringCompany
+        - biography
+      properties:
+        level: { type: integer }
+        exp: { type: integer }
+        size: { type: string }
+        age: { type: string }
+        pronouns: { type: string }
+        height: { type: string }
+        width: { type: string }
+        deity: { type: string }
+        adventuringCompany: { type: string }
+        biography: { type: string }
+    AbilityScores:
+      type: object
+      required: [str, con, dex, int, wis, cha]
+      properties:
+        str: { type: integer }
+        con: { type: integer }
+        dex: { type: integer }
+        int: { type: integer }
+        wis: { type: integer }
+        cha: { type: integer }
+    Currency:
+      type: object
+      required: [cp, sp, gp, pp, ad]
+      properties:
+        cp: { type: integer }
+        sp: { type: integer }
+        gp: { type: integer }
+        pp: { type: integer }
+        ad: { type: integer }
+
+    EquipmentEntry:
+      type: object
+      required:
+        - name
+      properties:
+        name: { type: string }
+    Feature:
+      type: object
+      required:
+        - name
+      properties:
+        name: { type: string }
+    Power:
+      type: object
+      required:
+        - name
+      properties:
+        name: { type: string }
+    Skill:
+      type: object
+      required:
+        - name
+        - ranks
+      properties:
+        name: { type: string }
+        ranks: { type: integer }
+    GrantedBonus:
+      type: object
+      required:
+        - amount
+        - target
+        - type
+      properties:
+        amount: { type: string }
+        target:
+          type: string
+          enum:
+            - defense-refl
+            - defense-will
+    DynamicListEntry:
+      type: object
+      required:
+        - target
+        - entry
+      properties:
+        entry: { type: string }
+        target:
+          type: string
+          enum:
+            - proficiencies

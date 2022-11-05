@@ -6,52 +6,52 @@ public interface ILegacyRule
     string Name { get; }
 }
 
-public partial class LegacyClassDetails : ILegacyRule
+public partial record LegacyClassDetails : ILegacyRule
 {
     string ILegacyRule.WizardsId => Details.WizardsId;
     string ILegacyRule.Name => Details.Name;
 }
-public partial class LegacyRaceDetails : ILegacyRule
+public partial record LegacyRaceDetails : ILegacyRule
 {
     string ILegacyRule.WizardsId => Details.WizardsId;
     string ILegacyRule.Name => Details.Name;
 }
-public partial class LegacyClassFeatureDetails : ILegacyRule
+public partial record LegacyClassFeatureDetails : ILegacyRule
 {
     string ILegacyRule.WizardsId => Details.WizardsId;
     string ILegacyRule.Name => Details.Name;
 }
-public partial class LegacyRacialTraitDetails : ILegacyRule
+public partial record LegacyRacialTraitDetails : ILegacyRule
 {
     string ILegacyRule.WizardsId => Details.WizardsId;
     string ILegacyRule.Name => Details.Name;
 }
-public partial class LegacyPowerDetails : ILegacyRule
+public partial record LegacyPowerDetails : ILegacyRule
 {
     string ILegacyRule.WizardsId => WizardsId;
 }
-public partial class LegacyRuleDetails : ILegacyRule { }
-public partial class LegacyFeatDetails : ILegacyRule
+public partial record LegacyRuleDetails : ILegacyRule { }
+public partial record LegacyFeatDetails : ILegacyRule
 {
     string ILegacyRule.WizardsId => Details.WizardsId;
     string ILegacyRule.Name => Details.Name;
 }
-public partial class LegacyGearDetails : ILegacyRule
+public partial record LegacyGearDetails : ILegacyRule
 {
     string ILegacyRule.WizardsId => Details.WizardsId;
     string ILegacyRule.Name => Details.Name;
 }
-public partial class LegacyArmorDetails : ILegacyRule
+public partial record LegacyArmorDetails : ILegacyRule
 {
     string ILegacyRule.WizardsId => Details.WizardsId;
     string ILegacyRule.Name => Details.Name;
 }
-public partial class LegacyWeaponDetails : ILegacyRule
+public partial record LegacyWeaponDetails : ILegacyRule
 {
     string ILegacyRule.WizardsId => Details.WizardsId;
     string ILegacyRule.Name => Details.Name;
 }
-public partial class LegacyMagicItemDetails : ILegacyRule
+public partial record LegacyMagicItemDetails : ILegacyRule
 {
     string ILegacyRule.WizardsId => Details.WizardsId;
     string ILegacyRule.Name => Details.Name;

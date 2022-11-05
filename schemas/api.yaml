@@ -125,10 +125,12 @@ components:
     PowerProfileConfig:
       type: object
       required:
+        - name
         - powerChances
       properties:
         name:
           type: string
+          nullable: true
         powerChances:
           type: array
           items:
@@ -150,10 +152,11 @@ components:
         - usage
         - text
         - flavor
+        - level
       properties:
         id:
           type: string
-        level: { type: integer }
+        level: { type: integer, nullable: true }
         usage: { $ref: "#/components/schemas/PowerFrequency" }
         text:
           $ref: "#/components/schemas/PowerTextBlock"
@@ -251,12 +254,13 @@ components:
         - usage
         - classProfile
         - toolIndex
+        - powerProfileIndex
       properties:
         level: { type: integer }
         usage: { $ref: "#/components/schemas/PowerFrequency" }
         classProfile: { $ref: "#/components/schemas/ClassProfile" }
         toolIndex: { type: integer }
-        powerProfileIndex: { type: integer }
+        powerProfileIndex: { type: integer, nullable: true }
     PowerGeneratorState:
       type: object
       required:
@@ -341,10 +345,11 @@ components:
         - wizardsId
         - name
         - type
+        - flavorText
       properties:
         wizardsId: { type: string }
         name: { type: string }
-        flavorText: { type: string }
+        flavorText: { type: string, nullable: true }
         type: { type: string }
     LegacyClassSummary:
       allOf:
@@ -371,12 +376,16 @@ components:
           required:
             - category
             - count
+            - gold
+            - silver
+            - copper
+            - weight
           properties:
-            gold: { type: integer }
-            silver: { type: integer }
-            copper: { type: integer }
+            gold: { type: integer, nullable: true }
+            silver: { type: integer, nullable: true }
+            copper: { type: integer, nullable: true }
             category: { type: string }
-            weight: { type: number }
+            weight: { type: number, nullable: true }
             count: { type: number }
     LegacyArmorSummary:
       allOf:
@@ -389,15 +398,18 @@ components:
             - armorBonus
             - itemSlot
             - weight
+            - speed
+            - check
+            - minimumEnhancementBonus
           properties:
             gold: { type: integer }
             armorType: { type: string }
             armorCategory: { type: string }
             armorBonus: { type: integer }
-            speed: { type: integer }
-            check: { type: integer }
+            speed: { type: integer, nullable: true }
+            check: { type: integer, nullable: true }
             weight: { type: number }
-            minimumEnhancementBonus: { type: integer }
+            minimumEnhancementBonus: { type: integer, nullable: true }
     LegacyWeaponSummary:
       allOf:
         - { $ref: "#/components/schemas/LegacyRuleSummary" }
@@ -409,14 +421,18 @@ components:
             - group
             - properties
             - size
+            - proficiencyBonus
+            - range
+            - gold
+            - weight
           properties:
             weaponCategory: { type: string }
             handsRequired: { type: string }
-            proficiencyBonus: { type: integer }
+            proficiencyBonus: { type: integer, nullable: true }
             damage: { type: string }
-            range: { type: string }
-            gold: { type: integer }
-            weight: { type: number }
+            range: { type: string, nullable: true }
+            gold: { type: integer, nullable: true }
+            weight: { type: number, nullable: true }
             group: { type: string }
             properties: { type: string }
             size: { type: string }
@@ -426,9 +442,11 @@ components:
         - type: object
           required:
             - magicItemType
+            - gold
+            - level
           properties:
-            gold: { type: integer }
-            level: { type: integer }
+            gold: { type: integer, nullable: true }
+            level: { type: integer, nullable: true }
             magicItemType: { type: string }
     LegacyRuleDetails:
       type: object
@@ -438,13 +456,16 @@ components:
         - type
         - rules
         - sources
+        - flavorText
+        - description
+        - shortDescription
       properties:
         wizardsId: { type: string }
         name: { type: string }
-        flavorText: { type: string }
+        flavorText: { type: string, nullable: true }
         type: { type: string }
-        description: { type: string }
-        shortDescription: { type: string }
+        description: { type: string, nullable: true }
+        shortDescription: { type: string, nullable: true }
         sources: { type: array, items: { type: string } }
         rules:
           type: array
@@ -549,9 +570,10 @@ components:
       required:
         - details
         - powers
+        - level
       properties:
         details: { $ref: "#/components/schemas/LegacyRuleDetails" }
-        level: { type: integer }
+        level: { type: integer, nullable: true }
         powers:
           type: array
           items: { $ref: "#/components/schemas/LegacyPowerDetails" }
@@ -570,13 +592,16 @@ components:
         - powerType
         - level
         - sources
+        - flavorText
+        - description
+        - shortDescription
       properties:
         wizardsId: { type: string }
         name: { type: string }
-        flavorText: { type: string }
+        flavorText: { type: string, nullable: true }
         type: { type: string }
-        description: { type: string }
-        shortDescription: { type: string }
+        description: { type: string, nullable: true }
+        shortDescription: { type: string, nullable: true }
         display: { type: string }
         powerUsage: { type: string }
         actionType: { type: string }
