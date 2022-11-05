@@ -1,4 +1,5 @@
 import { ForwardedRef, forwardRef, Fragment, ReactNode, useEffect, useRef, useState } from 'react';
+import { CharacterInfo, Modifiers } from './CharacterInfo';
 import { ensureSign } from './ensureSign';
 import { splitText, svgTextElementToMeasure } from './splitText';
 
@@ -201,7 +202,12 @@ function LabelledBox({ children, label, value, ...props }: BoxProps & { label: s
 						{label}
 					</text>
 					{value && (
-						<text className="handwriting" y={height - 3} x={width / 2} {...text.x.center}>
+						<text
+							className="handwriting-detail"
+							y={height - handwritingHeight / 2}
+							x={width / 2}
+							{...text.x.center}
+							{...text.y.middle}>
 							{value}
 						</text>
 					)}
@@ -386,10 +392,10 @@ function FreeText({
 	y: number;
 	width: number;
 	height: number;
-	contents: string[];
+	contents?: string[];
 }) {
 	const [actualTextArrays, updateActualTextArrays] = useState<{ line: string; dx: number; dy: number }[]>(
-		contents.map((line) => ({ line, dx: 0, dy: 0 }))
+		contents?.map((line) => ({ line, dx: 0, dy: 0 })) ?? []
 	);
 	const measureTextRefRef = useRef<SVGTextElement | null>(null);
 
@@ -397,7 +403,7 @@ function FreeText({
 		const elem = measureTextRefRef.current;
 		if (!elem) return;
 		const measure = svgTextElementToMeasure(elem);
-		const contentLines = contents.flatMap((v) => splitText(measure, v, width));
+		const contentLines = contents?.flatMap((v) => splitText(measure, v, width)) ?? [];
 		if (contentLines.length === 0) return;
 		const maxWidth = Math.max(...contentLines.map(measure));
 		const cols = Math.max(1, Math.min(maxCols, Math.floor(width / maxWidth), contentLines.length));
@@ -415,6 +421,7 @@ function FreeText({
 
 	return (
 		<g transform={`translate(${x} ${y})`}>
+			<rect width={width} height={height} fill="transparent" />
 			<text className="handwriting-tiny text-measure-hidden" ref={measureTextRefRef} />
 			{actualTextArrays.map(({ line, dx, dy }, index) => (
 				<text className="handwriting-tiny" x={dx} y={dy} key={index} {...text.y.middle}>
@@ -539,11 +546,58 @@ function RepeatingSection({
 	);
 }
 
-const acModifiers = [['10 +', '1/2 LVL'], ['Armor /', 'Abil'], 'Class', 'Feat', 'ENH', 'Misc', 'Misc'];
-const defenseModifiers = [['10'], ['Abil +', '1/2 LVL'], 'Class', 'Feat', 'ENH', 'Misc', 'Misc'];
+const acModifierLabels = [['10 +', '½ LVL'], ['Armor /', 'Abil'], 'Class', 'Feat', 'ENH', 'Misc', 'Misc'];
+const acModifierTypes = ['', ['armor', 'ability'], 'class', 'feat', 'enhancement'];
+const defenseModifierLabels = [['10 +', '½ LVL'], 'Abil', 'Class', 'Feat', 'ENH', 'Misc', 'Misc'];
+const defenseModifierTypes = ['', 'ability', 'class', 'feat', 'enhancement'];
+
+const integerFormat = new Intl.NumberFormat('en-US', { signDisplay: 'never', maximumFractionDigits: 0 });
+function formatInteger(value?: number) {
+	return value === undefined ? undefined : integerFormat.format(value);
+}
+function formatMod(value?: number) {
+	return value === undefined ? undefined : ensureSign(value);
+}
+const sumModifiers = (mods: Modifiers | undefined) =>
+	mods && Object.values(mods).reduce((prev, next) => prev + next, 0);
+const toModifierList = (
+	mods: Modifiers | undefined,
+	type: Array<number | string | Array<string | number>>,
+	miscSlots = 0
+) => {
+	if (!mods) return undefined;
+	const configured: Array<number | undefined> = type.map((entry) =>
+		typeof entry === 'number'
+			? entry
+			: typeof entry === 'string'
+			? mods[entry]
+			: entry
+					.map((e) => (typeof e === 'number' ? e : mods[e]))
+					.filter(Boolean)
+					.reduce((prev, next) => prev + next, 0)
+	);
+	const justTypes = type.flat().filter((t): t is string => typeof t === 'string');
+	const otherMods = Object.keys(mods)
+		.filter((m) => typeof mods[m] === 'number' && !justTypes.includes(m))
+		.map((m) => mods[m]);
+	const misc =
+		otherMods.length < miscSlots
+			? otherMods
+			: miscSlots === 0
+			? []
+			: [...otherMods.slice(0, miscSlots - 1), otherMods.slice(miscSlots - 1).reduce((prev, next) => prev + next, 0)];
+	return [...configured, ...misc];
+};
+const numberToModMapper =
+	(unsignedCount = 0) =>
+	(mod: number | undefined, index: number) =>
+		index < unsignedCount ? formatInteger(mod) : formatMod(mod);
 
 export const CharacterSheet = forwardRef(
-	({ ...props }: JSX.IntrinsicElements['svg'], ref: ForwardedRef<SVGSVGElement>) => {
+	(
+		{ character, ...props }: JSX.IntrinsicElements['svg'] & { character?: CharacterInfo },
+		ref: ForwardedRef<SVGSVGElement>
+	) => {
 		return (
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1512 2016" {...props} ref={ref}>
 				<defs>
@@ -573,29 +627,79 @@ export const CharacterSheet = forwardRef(
 				</BlackBox>
 
 				<HiddenBox left={0} top={94} outerWidth={1512} outerHeight={46} id="character-name-bar">
-					<UnderlineBox left={0} top={0} outerWidth={490} outerHeight={46} label="Character Name" />
-					<LabelledBox left={509} top={0} outerWidth={88} outerHeight={46} label="Level" />
-					<UnderlineBox left={613} top={0} outerWidth={230} outerHeight={46} label="Class" />
-					<UnderlineBox left={852} top={0} outerWidth={236} outerHeight={46} label="Paragon Path" />
-					<UnderlineBox left={1099} top={0} outerWidth={244} outerHeight={46} label="Epic Destiny" />
-					<LabelledBox left={1348} top={0} outerWidth={154} outerHeight={46} label="Total XP" />
+					<UnderlineBox
+						left={0}
+						top={0}
+						outerWidth={490}
+						outerHeight={46}
+						label="Character Name"
+						value={character?.name}
+					/>
+					<LabelledBox
+						left={509}
+						top={0}
+						outerWidth={88}
+						outerHeight={46}
+						label="Level"
+						value={formatInteger(character?.level)}
+					/>
+					<UnderlineBox left={613} top={0} outerWidth={230} outerHeight={46} label="Class" value={character?.class} />
+					<UnderlineBox
+						left={852}
+						top={0}
+						outerWidth={236}
+						outerHeight={46}
+						label="Paragon Path"
+						value={character?.paragonPath}
+					/>
+					<UnderlineBox
+						left={1099}
+						top={0}
+						outerWidth={244}
+						outerHeight={46}
+						label="Epic Destiny"
+						value={character?.epicDestiny}
+					/>
+					<LabelledBox
+						left={1348}
+						top={0}
+						outerWidth={154}
+						outerHeight={46}
+						label="Total XP"
+						value={formatInteger(character?.totalXp)}
+					/>
 				</HiddenBox>
 
 				<HiddenBox left={0} top={143} outerWidth={1512} outerHeight={46} id="aesthetics-bar">
-					<UnderlineBox left={0} top={0} outerWidth={293} outerHeight={46} label="Race" />
-					<UnderlineBox left={306} top={0} outerWidth={79} outerHeight={46} label="Size" />
-					<UnderlineBox left={398} top={0} outerWidth={60} outerHeight={46} label="Age" />
-					<UnderlineBox left={473} top={0} outerWidth={71} outerHeight={46} label="Height" />
-					<UnderlineBox left={558} top={0} outerWidth={71} outerHeight={46} label="Weight" />
-					<UnderlineBox left={643} top={0} outerWidth={76} outerHeight={46} label="Alignment" />
-					<UnderlineBox left={733} top={0} outerWidth={155} outerHeight={46} label="Pronouns" />
-					<UnderlineBox left={901} top={0} outerWidth={158} outerHeight={46} label="Deity" />
+					<UnderlineBox left={0} top={0} outerWidth={293} outerHeight={46} label="Race" value={character?.race} />
+					<UnderlineBox left={306} top={0} outerWidth={79} outerHeight={46} label="Size" value={character?.size} />
+					<UnderlineBox left={398} top={0} outerWidth={60} outerHeight={46} label="Age" value={character?.age} />
+					<UnderlineBox left={473} top={0} outerWidth={71} outerHeight={46} label="Height" value={character?.height} />
+					<UnderlineBox left={558} top={0} outerWidth={71} outerHeight={46} label="Weight" value={character?.weight} />
+					<UnderlineBox
+						left={643}
+						top={0}
+						outerWidth={76}
+						outerHeight={46}
+						label="Alignment"
+						value={character?.alignment}
+					/>
+					<UnderlineBox
+						left={733}
+						top={0}
+						outerWidth={155}
+						outerHeight={46}
+						label="Pronouns"
+						value={character?.pronouns}
+					/>
+					<UnderlineBox left={901} top={0} outerWidth={158} outerHeight={46} label="Deity" value={character?.deity} />
 					<UnderlineBox
 						left={1071}
 						top={0}
 						outerWidth={435}
 						outerHeight={46}
 						label="Adventuring Company or Other Affiliations"
+						value={character?.adventuringCompany}
 					/>
 				</HiddenBox>
 
@@ -610,8 +714,10 @@ export const CharacterSheet = forwardRef(
 							width={498}
 							height={68}
 							modifiers={['Base', 'Armor', 'Item', 'Misc']}
-							total={undefined}
-							modifierValues={[]}>
+							total={formatInteger(sumModifiers(character?.speed))}
+							modifierValues={toModifierList(character?.speed, ['racial', 'armor', 'item'], 1)?.map(
+								numberToModMapper(1)
+							)}>
 							<text className="stat-word" y="31" x="17" fill="white">
 								Speed
 							</text>
@@ -634,7 +740,7 @@ export const CharacterSheet = forwardRef(
 							Mod
 						</text>
 						<text className="stat-label" y="1" x="388" {...text.x.center} {...text.y.base}>
-							Mod + 1 / 2 LVL
+							Mod + ½ LVL
 						</text>
 					</g>
 					<g transform="translate(16 50)">
@@ -646,8 +752,8 @@ export const CharacterSheet = forwardRef(
 							y={0}
 							abbreviation="STR"
 							name="Strength"
-							modifier={undefined}
-							modifierWithLevel={undefined}
+							modifier={character?.abilities.str}
+							modifierWithLevel={character && character.abilities.str + Math.floor(character.level / 2)}
 						/>
 						<AttributeBar
 							width={482}
@@ -656,8 +762,8 @@ export const CharacterSheet = forwardRef(
 							y={51}
 							abbreviation="CON"
 							name="Constitution"
-							modifier={undefined}
-							modifierWithLevel={undefined}
+							modifier={character?.abilities.con}
+							modifierWithLevel={character && character.abilities.con + Math.floor(character.level / 2)}
 						/>
 					</g>
 					<g transform="translate(16 170)">
@@ -669,8 +775,8 @@ export const CharacterSheet = forwardRef(
 							y={0}
 							abbreviation="DEX"
 							name="Dexterity"
-							modifier={undefined}
-							modifierWithLevel={undefined}
+							modifier={character?.abilities.dex}
+							modifierWithLevel={character && character.abilities.dex + Math.floor(character.level / 2)}
 						/>
 						<AttributeBar
 							width={482}
@@ -679,8 +785,8 @@ export const CharacterSheet = forwardRef(
 							y={51}
 							abbreviation="INT"
 							name="Intelligence"
-							modifier={undefined}
-							modifierWithLevel={undefined}
+							modifier={character?.abilities.int}
+							modifierWithLevel={character && character.abilities.int + Math.floor(character.level / 2)}
 						/>
 					</g>
 					<g transform="translate(16 290)">
@@ -692,8 +798,8 @@ export const CharacterSheet = forwardRef(
 							y={0}
 							abbreviation="WIS"
 							name="Wisdom"
-							modifier={undefined}
-							modifierWithLevel={undefined}
+							modifier={character?.abilities.wis}
+							modifierWithLevel={character && character.abilities.wis + Math.floor(character.level / 2)}
 						/>
 						<AttributeBar
 							width={482}
@@ -702,8 +808,8 @@ export const CharacterSheet = forwardRef(
 							y={51}
 							abbreviation="CHA"
 							name="Charisma"
-							modifier={undefined}
-							modifierWithLevel={undefined}
+							modifier={character?.abilities.cha}
+							modifierWithLevel={character && character.abilities.cha + Math.floor(character.level / 2)}
 						/>
 					</g>
 				</HiddenBox>
@@ -723,72 +829,121 @@ export const CharacterSheet = forwardRef(
 							y={0}
 							height={50}
 							width={498}
-							modifiers={acModifiers}
-							total={undefined}
-							modifierValues={[]}>
+							modifiers={acModifierLabels}
+							total={formatInteger(sumModifiers(character?.defenses.ac))}
+							modifierValues={toModifierList(character?.defenses.ac, acModifierTypes, 2)?.map(numberToModMapper(1))}>
 							{({ width }) => (
 								<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
 									AC
 								</text>
 							)}
 						</ModifierBar>
-						<text className="stat-label" y="74" x="2" {...text.y.base}>
+						<text className="stat-label" y="68" x="2" {...text.y.base}>
 							Conditional Bonuses
 						</text>
+						<FreeText x={10} y={63} width={488} height={45} maxCols={3} contents={character?.defenses.acConditional} />
 					</g>
 
 					<g transform="translate(0 203)">
-						<ModifierBar mode="circle" firstLabel="" x={0} y={0} height={50} width={498} modifiers={defenseModifiers}>
+						<ModifierBar
+							mode="circle"
+							firstLabel=""
+							x={0}
+							y={0}
+							height={50}
+							width={498}
+							modifiers={defenseModifierLabels}
+							total={formatInteger(sumModifiers(character?.defenses.fort))}
+							modifierValues={toModifierList(character?.defenses.fort, defenseModifierTypes, 2)?.map(
+								numberToModMapper(1)
+							)}>
 							{({ width }) => (
 								<>
 									<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
 										FORT
 									</text>
-									<text className="stat-abbreviation black" y="31" x={width + 47 / 2} {...text.x.center}>
-										10
-									</text>
 								</>
 							)}
 						</ModifierBar>
-						<text className="stat-label" y="74" x="2" {...text.y.base}>
+						<text className="stat-label" y="68" x="2" {...text.y.base}>
 							Conditional Bonuses
 						</text>
+						<FreeText
+							x={10}
+							y={63}
+							width={488}
+							height={41}
+							maxCols={3}
+							contents={character?.defenses.fortConditional}
+						/>
 					</g>
 
 					<g transform="translate(0 323)">
-						<ModifierBar mode="circle" firstLabel="" x={0} y={0} height={50} width={498} modifiers={defenseModifiers}>
+						<ModifierBar
+							mode="circle"
+							firstLabel=""
+							x={0}
+							y={0}
+							height={50}
+							width={498}
+							modifiers={defenseModifierLabels}
+							total={formatInteger(sumModifiers(character?.defenses.fort))}
+							modifierValues={toModifierList(character?.defenses.fort, defenseModifierTypes, 2)?.map(
+								numberToModMapper(1)
+							)}>
 							{({ width }) => (
 								<>
 									<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
 										REFL
 									</text>
-									<text className="stat-abbreviation black" y="31" x={width + 47 / 2} {...text.x.center}>
-										10
-									</text>
 								</>
 							)}
 						</ModifierBar>
-						<text className="stat-label" y="74" x="2" {...text.y.base}>
+						<text className="stat-label" y="68" x="2" {...text.y.base}>
 							Conditional Bonuses
 						</text>
+						<FreeText
+							x={10}
+							y={63}
+							width={488}
+							height={41}
+							maxCols={3}
+							contents={character?.defenses.reflConditional}
+						/>
 					</g>
 
 					<g transform="translate(0 443)">
-						<ModifierBar mode="circle" firstLabel="" x={0} y={0} height={50} width={498} modifiers={defenseModifiers}>
+						<ModifierBar
+							mode="circle"
+							firstLabel=""
+							x={0}
+							y={0}
+							height={50}
+							width={498}
+							modifiers={defenseModifierLabels}
+							total={formatInteger(sumModifiers(character?.defenses.fort))}
+							modifierValues={toModifierList(character?.defenses.fort, defenseModifierTypes, 2)?.map(
+								numberToModMapper(1)
+							)}>
 							{({ width }) => (
 								<>
 									<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
 										WILL
 									</text>
-									<text className="stat-abbreviation black" y="31" x={width + 47 / 2} {...text.x.center}>
-										10
-									</text>
 								</>
 							)}
 						</ModifierBar>
-						<text className="stat-label" y="74" x="2" {...text.y.base}>
+						<text className="stat-label" y="68" x="2" {...text.y.base}>
 							Conditional Bonuses
 						</text>
+						<FreeText
+							x={10}
+							y={63}
+							width={488}
+							height={41}
+							maxCols={3}
+							contents={character?.defenses.willConditional}
+						/>
 					</g>
 				</g>
 
@@ -799,12 +954,22 @@ export const CharacterSheet = forwardRef(
 							Max HP
 						</text>
 						<rect x="2" y="33" width="106" height="59" fill="white" strokeWidth="2" stroke={black} />
+						{character && (
+							<text className="handwriting" x={55} y={63} {...text.y.middle} {...text.x.center}>
+								{formatInteger(character.maxHp)}
+							</text>
+						)}
 						<text className="stat-label" y="45" x="180" {...text.x.center} {...text.y.base}>
 							Bloodied
 						</text>
 						<rect x="122" y="47" width="116" height="40" fill="white" strokeWidth="2" stroke={black} />
+						{character && (
+							<text className="handwriting" x={180} y={67} {...text.y.middle} {...text.x.center}>
+								{formatInteger(Math.floor(character.maxHp / 2))}
+							</text>
+						)}
 						<text className="stat-label" y="89" x="180" {...text.x.center} {...text.y.hanging}>
-							1/2 HP
+							½ HP
 						</text>
 
 						<text className="stat-label large" y="28" x="383" {...text.x.center} {...text.y.base}>
@@ -814,6 +979,11 @@ export const CharacterSheet = forwardRef(
 							Surge Value
 						</text>
 						<rect x="267" y="47" width="116" height="40" fill="white" strokeWidth="2" stroke={black} />
+						{character && (
+							<text className="handwriting" x={267 + 58} y={67} {...text.y.middle} {...text.x.center}>
+								{formatInteger(Math.floor(character.maxHp / 4))}
+							</text>
+						)}
 						<text className="stat-label" y="89" x="325" {...text.x.center} {...text.y.hanging}>
 							1/4 HP
 						</text>
@@ -821,6 +991,9 @@ export const CharacterSheet = forwardRef(
 							Surges/Day
 						</text>
 						<rect x="394" y="47" width="104" height="40" fill="white" strokeWidth="2" stroke={black} />
+						<text className="handwriting" x={394 + 52} y={67} {...text.y.middle} {...text.x.center}>
+							{formatInteger(character?.surgesPerDay)}
+						</text>
 					</g>
 					<BorderBox left={0} outerWidth={498} top={140} innerHeight={111}>
 						{({ width }) => (
@@ -846,7 +1019,7 @@ export const CharacterSheet = forwardRef(
 					</g>
 					<BorderBox left={0} outerWidth={498} top={277} innerHeight={67}>
 						<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
-							Temporary Points
+							Temporary HP
 						</text>
 					</BorderBox>
 					<g transform="translate(0 344)">
@@ -864,7 +1037,14 @@ export const CharacterSheet = forwardRef(
 								<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
 									Saving Throw Mods
 								</text>
-								<FreeText maxCols={3} x={10} y={10} width={width - 20} height={height - 10} contents={[]} />
+								<FreeText
+									maxCols={3}
+									x={10}
+									y={10}
+									width={width - 20}
+									height={height - 10}
+									contents={character?.savingThrowModifiers}
+								/>
 							</>
 						)}
 					</BorderBox>
@@ -874,7 +1054,14 @@ export const CharacterSheet = forwardRef(
 								<text className="stat-label" y="2" x="2" textAnchor="start" {...text.y.hanging}>
 									Resistances
 								</text>
-								<FreeText maxCols={3} x={10} y={10} width={width - 20} height={height - 10} contents={[]} />
+								<FreeText
+									maxCols={3}
+									x={10}
+									y={10}
+									width={width - 20}
+									height={height - 10}
+									contents={character?.resistances}
+								/>
 							</>
 						)}
 					</BorderBox>
@@ -946,7 +1133,7 @@ export const CharacterSheet = forwardRef(
 							width={498}
 							firstLabel="ATK Bonus"
 							firstBoxWidth={65}
-							modifiers={['1/2 LVL', 'ABIL', 'Class', 'Prof', 'Feat', 'Enh', 'Misc']}
+							modifiers={['½ LVL', 'ABIL', 'Class', 'Prof', 'Feat', 'Enh', 'Misc']}
 						/>
 					</g>
 					<g transform="translate(0 118)">
@@ -996,8 +1183,23 @@ export const CharacterSheet = forwardRef(
 					<line x1="382" x2="498" y1="42" y2="42" strokeWidth="2" stroke={black} />
 				</RepeatingSection>
 
-				<TextSection key="Race Features" label="Race Features" x={0} y={1315} width={498} height={288} />
-				<TextSection label="Class / Path / Destiny Features" x={0} y={1603} width={498} height={396} />
+				<TextSection
+					key="Race Features"
+					label="Race Features"
+					x={0}
+					y={1315}
+					width={498}
+					height={288}
+					contents={character?.raceFeatures}
+				/>
+				<TextSection
+					label="Class / Path / Destiny Features"
+					x={0}
+					y={1603}
+					width={498}
+					height={396}
+					contents={character?.classFeatures}
+				/>
 
 				<RepeatingSection x={1014} y={1027} width={498} height={972} label="Skills" heightPerItem={104}>
 					{(i) => (
@@ -1006,7 +1208,7 @@ export const CharacterSheet = forwardRef(
 								Skill Name:
 							</text>
 							<text className="handwriting" y="1" dy={4} x="2" dx={14} {...text.y.hanging}>
-								{undefined}
+								{character?.skills[i]?.name}
 							</text>
 							<g transform="translate(0 52)">
 								<ModifierBar
@@ -1017,22 +1219,33 @@ export const CharacterSheet = forwardRef(
 									width={498}
 									height={50}
 									modifiers={['Ranks', 'Misc', 'Misc']}
+									total={formatInteger(sumModifiers(character?.skills[i]?.modifiers))}
+									modifierValues={toModifierList(character?.skills[i]?.modifiers, ['ranks'], 2)?.map(
+										numberToModMapper()
+									)}
 								/>
 							</g>
 						</>
 					)}
 				</RepeatingSection>
 
-				<TextSection label="Feats" x={507} y={955} width={498} height={1603 - 955} contents={[]} />
+				<TextSection label="Feats" x={507} y={955} width={498} height={1603 - 955} contents={character?.feats} />
 				<TextSection
 					label="Weapon &amp; Armor Proficiencies"
 					x={507}
 					y={1603}
 					width={498}
 					height={1819 - 1603}
-					contents={[]}
+					contents={character?.weaponArmorProficiencies}
 				/>
-				<TextSection label="Languages Known" x={507} y={1819} width={498} height={2016 - 1819} contents={[]} />
+				<TextSection
+					label="Languages Known"
+					x={507}
+					y={1819}
+					width={498}
+					height={2016 - 1819}
+					contents={character?.languages}
+				/>
 			</svg>
 		);
 	}

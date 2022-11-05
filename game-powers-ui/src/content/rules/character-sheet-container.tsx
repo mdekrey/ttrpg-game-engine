@@ -19,6 +19,7 @@ export const CharacterSheetContainer = () => {
 					}
 				}
 				className="print:m-0 border border-black print:border-0"
+				character={undefined}
 			/>
 		</div>
 	);
