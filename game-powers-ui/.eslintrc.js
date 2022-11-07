@@ -15,7 +15,8 @@ module.exports = {
 		'package*.json',
 		'config/',
 		'scripts/',
-		'src/api/'
+		'src/api/',
+		'src/foundry-bridge/'
 	],
 	settings: {
 		react: {

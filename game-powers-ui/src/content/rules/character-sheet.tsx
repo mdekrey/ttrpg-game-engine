@@ -1,5 +1,6 @@
 import { ForwardedRef, forwardRef, Fragment, ReactNode, useEffect, useRef, useState } from 'react';
-import { CharacterInfo, Modifiers } from './CharacterInfo';
+import { Actor } from '../../foundry-bridge/models/Actor';
+import { Modifiers } from '../../foundry-bridge/models/Modifiers';
 import { ensureSign } from './ensureSign';
 import { splitText, svgTextElementToMeasure } from './splitText';
 
@@ -189,25 +190,12 @@ function LabelledBox({ children, label, value, ...props }: BoxProps & { label: s
 		<HiddenBox {...props} strokeWidth={2}>
 			{({ width, height }) => (
 				<>
-					<rect
-						x={-1}
-						width={width + 2}
-						y={height - handwritingHeight - 1}
-						height={handwritingHeight + 2}
-						strokeWidth={2}
-						stroke={black}
-						fill="white"
-					/>
+					<rect x={-1} width={width + 2} y={-1} height={height + 2} strokeWidth={2} stroke={black} fill="white" />
 					<text className="label" x={width / 2} y={height + 7} {...text.x.center} {...text.y.hanging}>
 						{label}
 					</text>
 					{value && (
-						<text
-							className="handwriting-detail"
-							y={height - handwritingHeight / 2}
-							x={width / 2}
-							{...text.x.center}
-							{...text.y.middle}>
+						<text className="handwriting-detail" y={height / 2} x={width / 2} {...text.x.center} {...text.y.middle}>
 							{value}
 						</text>
 					)}
@@ -559,7 +547,8 @@ function formatMod(value?: number) {
 	return value === undefined ? undefined : ensureSign(value);
 }
 const sumModifiers = (mods: Modifiers | undefined) =>
-	mods && Object.values(mods).reduce((prev, next) => prev + next, 0);
+	mods && Object.values(mods).reduce((prev, next) => prev + next.amount, 0);
+const getModOfType = (mods: Modifiers | undefined, type: string) => mods?.find((m) => m.type === type)?.amount;
 const toModifierList = (
 	mods: Modifiers | undefined,
 	type: Array<number | string | Array<string | number>>,
@@ -570,16 +559,15 @@ const toModifierList = (
 		typeof entry === 'number'
 			? entry
 			: typeof entry === 'string'
-			? mods[entry]
+			? getModOfType(mods, entry)
 			: entry
-					.map((e) => (typeof e === 'number' ? e : mods[e]))
-					.filter(Boolean)
-					.reduce((prev, next) => prev + next, 0)
+					.map((e) => (typeof e === 'number' ? e : getModOfType(mods, e)))
+					.reduce<number>((prev, next) => prev + (next ?? 0), 0)
 	);
 	const justTypes = type.flat().filter((t): t is string => typeof t === 'string');
 	const otherMods = Object.keys(mods)
-		.filter((m) => typeof mods[m] === 'number' && !justTypes.includes(m))
-		.map((m) => mods[m]);
+		.filter((m) => typeof getModOfType(mods, m) === 'number' && !justTypes.includes(m))
+		.map((m) => getModOfType(mods, m)!);
 	const misc =
 		otherMods.length < miscSlots
 			? otherMods
@@ -594,10 +582,8 @@ const numberToModMapper =
 		index < unsignedCount ? formatInteger(mod) : formatMod(mod);
 
 export const CharacterSheet = forwardRef(
-	(
-		{ character, ...props }: JSX.IntrinsicElements['svg'] & { character?: CharacterInfo },
-		ref: ForwardedRef<SVGSVGElement>
-	) => {
+	({ character, ...props }: JSX.IntrinsicElements['svg'] & { character?: Actor }, ref: ForwardedRef<SVGSVGElement>) => {
+		const attackWorkspace = false;
 		return (
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1512 2016" {...props} ref={ref}>
 				<defs>
@@ -637,9 +623,9 @@ export const CharacterSheet = forwardRef(
 					/>
 					<LabelledBox
 						left={509}
-						top={0}
+						top={6}
 						outerWidth={88}
-						outerHeight={46}
+						outerHeight={40}
 						label="Level"
 						value={formatInteger(character?.level)}
 					/>
@@ -662,9 +648,9 @@ export const CharacterSheet = forwardRef(
 					/>
 					<LabelledBox
 						left={1348}
-						top={0}
+						top={6}
 						outerWidth={154}
-						outerHeight={46}
+						outerHeight={40}
 						label="Total XP"
 						value={formatInteger(character?.totalXp)}
 					/>
@@ -1114,84 +1100,131 @@ export const CharacterSheet = forwardRef(
 					</g>
 				</g>
 
-				<RepeatingSection
-					id="attack-workspace"
-					x={1014}
-					y={215}
-					width={498}
-					label="Attack Workspace"
-					height={547}
-					heightPerItem={170}>
-					<text className="stat-label" y="1" x="2" {...text.y.hanging}>
-						Ability:
-					</text>
-					<g transform="translate(0 52)">
-						<ModifierBar
-							x={0}
-							y={0}
-							height={50}
+				{attackWorkspace ? (
+					<>
+						<RepeatingSection
+							id="attack-workspace"
+							x={1014}
+							y={215}
 							width={498}
-							firstLabel="ATK Bonus"
-							firstBoxWidth={65}
-							modifiers={['½ LVL', 'ABIL', 'Class', 'Prof', 'Feat', 'Enh', 'Misc']}
-						/>
-					</g>
-					<g transform="translate(0 118)">
-						<ModifierBar
-							x={0}
-							y={0}
-							height={50}
+							label="Attack Workspace"
+							height={547}
+							heightPerItem={170}>
+							<text className="stat-label" y="1" x="2" {...text.y.hanging}>
+								Ability:
+							</text>
+							<g transform="translate(0 52)">
+								<ModifierBar
+									x={0}
+									y={0}
+									height={50}
+									width={498}
+									firstLabel="ATK Bonus"
+									firstBoxWidth={65}
+									modifiers={['½ LVL', 'ABIL', 'Class', 'Prof', 'Feat', 'Enh', 'Misc']}
+								/>
+							</g>
+							<g transform="translate(0 118)">
+								<ModifierBar
+									x={0}
+									y={0}
+									height={50}
+									width={498}
+									firstLabel="Damage"
+									firstBoxWidth={165}
+									modifiers={['ABIL', 'Feat', 'Enh', 'Misc', 'Misc']}
+								/>
+							</g>
+						</RepeatingSection>
+
+						<RepeatingSection
+							id="basic-attacks"
+							x={1014}
+							y={762}
 							width={498}
-							firstLabel="Damage"
-							firstBoxWidth={165}
-							modifiers={['ABIL', 'Feat', 'Enh', 'Misc', 'Misc']}
+							label="Basic Attacks"
+							height={265}
+							heightPerItem={50}
+							extraRowHeight={16}
+							extraRow={
+								<>
+									<text className="stat-label" y="1" x="31" {...text.x.center} {...text.y.hanging}>
+										Attack
+									</text>
+									<text className="stat-label" y="1" x="128" {...text.x.center} {...text.y.hanging}>
+										Defense
+									</text>
+									<text className="stat-label" y="1" x="269" {...text.x.center} {...text.y.hanging}>
+										Weapon or Power
+									</text>
+									<text className="stat-label" y="1" x="440" {...text.x.center} {...text.y.hanging}>
+										Damage
+									</text>
+								</>
+							}>
+							<rect y="0" width="62" height="42" fill="white" strokeWidth="2" stroke={black} />
+							<rect y="0" x="97" width="62" height="42" fill="white" strokeWidth="2" stroke={black} />
+							<text className="label" y="32" x="79" {...text.x.center} {...text.y.base}>
+								vs
+							</text>
+							<line x1="171" x2="368" y1="42" y2="42" strokeWidth="2" stroke={black} />
+							<line x1="382" x2="498" y1="42" y2="42" strokeWidth="2" stroke={black} />
+						</RepeatingSection>
+					</>
+				) : (
+					<>
+						<LabelledBox
+							left={1014}
+							top={215}
+							outerWidth={90}
+							outerHeight={34}
+							label="CP"
+							value={character?.currency.cp ? formatInteger(character.currency.cp) : undefined}
 						/>
-					</g>
-				</RepeatingSection>
+						<LabelledBox
+							left={1116}
+							top={215}
+							outerWidth={90}
+							outerHeight={34}
+							label="SP"
+							value={character?.currency.sp ? formatInteger(character.currency.sp) : undefined}
+						/>
+						<LabelledBox
+							left={1218}
+							top={215}
+							outerWidth={90}
+							outerHeight={34}
+							label="GP"
+							value={character?.currency.gp ? formatInteger(character.currency.gp) : undefined}
+						/>
+						<LabelledBox
+							left={1320}
+							top={215}
+							outerWidth={90}
+							outerHeight={34}
+							label="PP"
+							value={character?.currency.pp ? formatInteger(character.currency.pp) : undefined}
+						/>
+						<LabelledBox
+							left={1422}
+							top={215}
+							outerWidth={90}
+							outerHeight={34}
+							label="AD"
+							value={character?.currency.ad ? formatInteger(character.currency.ad) : undefined}
+						/>
+						<TextSection
+							x={1014}
+							width={498}
+							y={271}
+							height={1027 - 271}
+							label="Equipment"
+							contents={character?.equipment}
+						/>
+					</>
+				)}
 
-				<RepeatingSection
-					id="basic-attacks"
-					x={1014}
-					y={762}
-					width={498}
-					label="Basic Attacks"
-					height={265}
-					heightPerItem={50}
-					extraRowHeight={16}
-					extraRow={
-						<>
-							<text className="stat-label" y="1" x="31" {...text.x.center} {...text.y.hanging}>
-								Attack
-							</text>
-							<text className="stat-label" y="1" x="128" {...text.x.center} {...text.y.hanging}>
-								Defense
-							</text>
-							<text className="stat-label" y="1" x="269" {...text.x.center} {...text.y.hanging}>
-								Weapon or Power
-							</text>
-							<text className="stat-label" y="1" x="440" {...text.x.center} {...text.y.hanging}>
-								Damage
-							</text>
-						</>
-					}>
-					<rect y="0" width="62" height="42" fill="white" strokeWidth="2" stroke={black} />
-					<rect y="0" x="97" width="62" height="42" fill="white" strokeWidth="2" stroke={black} />
-					<text className="label" y="32" x="79" {...text.x.center} {...text.y.base}>
-						vs
-					</text>
-					<line x1="171" x2="368" y1="42" y2="42" strokeWidth="2" stroke={black} />
-					<line x1="382" x2="498" y1="42" y2="42" strokeWidth="2" stroke={black} />
-				</RepeatingSection>
-
-				<TextSection
-					key="Race Features"
-					label="Race Features"
-					x={0}
-					y={1315}
-					width={498}
-					height={288}
-					contents={character?.raceFeatures}
-				/>
+				<TextSection label="Race Features" x={0} y={1315} width={498} height={288} contents={character?.raceFeatures} />
 				<TextSection
 					label="Class / Path / Destiny Features"
 					x={0}

@@ -22,44 +22,112 @@ components:
       type: object
       required:
         - name
-        - bonuses
-        - dynamicList
-        - items
+        - level
+        - class
+        - totalXp
+        - race
+        - size
+        - speed
+        - abilities
+        - defenses
+        - maxHp
+        - surgesPerDay
+        - savingThrowModifiers
+        - resistances
+        - raceFeatures
+        - classFeatures
+        - feats
+        - weaponArmorProficiencies
+        - languages
+        - skills
+        - currency
+        - equipment
       properties:
         name: { type: string }
-        bonuses:
-          type: array
-          items: { $ref: "#/components/schemas/GrantedBonus" }
-        dynamicList:
-          type: array
-          items: { $ref: "#/components/schemas/DynamicListEntry" }
+        level: { type: integer }
         class: { type: string }
-        race: { type: string }
         paragonPath: { type: string }
         epicDestiny: { type: string }
-        equipment:
+        totalXp: { type: integer }
+
+        race: { type: string }
+        size: { type: string }
+        age: { type: string }
+        height: { type: string }
+        weight: { type: string }
+        alignment: { type: string }
+        pronouns: { type: string }
+        deity: { type: string }
+        adventuringCompany: { type: string }
+
+        speed: { $ref: "#/components/schemas/Modifiers" }
+
+        abilities: { $ref: "#/components/schemas/AbilityScores" }
+
+        defenses:
+          type: object
+          required:
+            - ac
+            - acConditional
+            - fort
+            - fortConditional
+            - refl
+            - reflConditional
+            - will
+            - willConditional
+          properties:
+            ac: { $ref: "#/components/schemas/Modifiers" }
+            acConditional:
+              type: array
+              items: { type: string }
+            fort: { $ref: "#/components/schemas/Modifiers" }
+            fortConditional:
+              type: array
+              items: { type: string }
+            refl: { $ref: "#/components/schemas/Modifiers" }
+            reflConditional:
+              type: array
+              items: { type: string }
+            will: { $ref: "#/components/schemas/Modifiers" }
+            willConditional:
+              type: array
+              items: { type: string }
+
+        maxHp: { type: integer }
+        surgesPerDay: { type: integer }
+
+        savingThrowModifiers:
           type: array
-          items: { $ref: "#/components/schemas/EquipmentEntry" }
-        features:
+          items: { type: string }
+        resistances:
           type: array
-          items: { $ref: "#/components/schemas/Feature" }
-        powers:
+          items: { type: string }
+
+        raceFeatures:
           type: array
-          items: { $ref: "#/components/schemas/Power" }
+          items: { type: string }
+        classFeatures:
+          type: array
+          items: { type: string }
+        feats:
+          type: array
+          items: { type: string }
+        weaponArmorProficiencies:
+          type: array
+          items: { type: string }
+        languages:
+          type: array
+          items: { type: string }
+
         skills:
           type: array
           items: { $ref: "#/components/schemas/Skill" }
-        health: { $ref: "#/components/schemas/Health" }
-        details: { $ref: "#/components/schemas/ActorDetails" }
-        abilities: { $ref: "#/components/schemas/AbilityScores" }
+
         currency: { $ref: "#/components/schemas/Currency" }
-    Health:
-      type: object
-      required: [maxHp, surges-value, surges-max]
-      properties:
-        maxHp: { type: integer }
-        surges-value: { type: integer }
-        surges-max: { type: integer }
+
+        equipment:
+          type: array
+          items: { type: string }
     ActorDetails:
       type: object
       required:
@@ -104,18 +172,6 @@ components:
         pp: { type: integer }
         ad: { type: integer }
 
-    EquipmentEntry:
-      type: object
-      required:
-        - name
-      properties:
-        name: { type: string }
-    Feature:
-      type: object
-      required:
-        - name
-      properties:
-        name: { type: string }
     Power:
       type: object
       required:
@@ -126,31 +182,18 @@ components:
       type: object
       required:
         - name
-        - ranks
+        - modifiers
       properties:
         name: { type: string }
-        ranks: { type: integer }
-    GrantedBonus:
+        modifiers: { $ref: "#/components/schemas/Modifiers" }
+    Modifiers:
+      type: array
+      items: { $ref: "#/components/schemas/Modifier" }
+    Modifier:
       type: object
       required:
-        - amount
-        - target
         - type
+        - amount
       properties:
-        amount: { type: string }
-        target:
-          type: string
-          enum:
-            - defense-refl
-            - defense-will
-    DynamicListEntry:
-      type: object
-      required:
-        - target
-        - entry
-      properties:
-        entry: { type: string }
-        target:
-          type: string
-          enum:
-            - proficiencies
+        type: { type: string }
+        amount: { type: integer }
