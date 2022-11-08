@@ -37,7 +37,7 @@ public class ReactFrontendService
         this.env = env;
         this.logger = logger;
 #if !DEBUG
-            this.manifest = new Lazy<JObject>(LoadManifest);
+            this.manifest = new Lazy<JsonObject>(LoadManifest);
 #endif
     }
 
