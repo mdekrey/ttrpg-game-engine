@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import 'lib/index.css';
 import reportWebVitals from 'lib/reportWebVitals';
 import { DisplayDialogs } from 'components/dialog';
+import { parseContextFromHtml } from './parseContextFromHtml';
 
 type ReactStandardProps = {
 	data: any;
@@ -15,10 +16,11 @@ type ReactStandardProps = {
  */
 export function createEntry(Component: React.ComponentType<any>) {
 	return (element: HTMLElement, context: ReactStandardProps) => {
-		function render(actualData: ReactStandardProps) {
+		const baseContext: ReactStandardProps = parseContextFromHtml(element);
+		function render(actualData?: ReactStandardProps) {
 			ReactDOM.render(
 				<React.StrictMode>
-					{actualData !== undefined ? <Component data={actualData.data} /> : <Component />}
+					<Component {...baseContext} {...actualData} />
 					<DisplayDialogs />
 				</React.StrictMode>,
 				element

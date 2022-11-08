@@ -1,7 +1,8 @@
+import { Actor } from 'foundry-bridge/models/Actor';
 import { useRef } from 'react';
 import { CharacterSheet } from './character-sheet';
 
-export const CharacterSheetContainer = () => {
+export const CharacterSheetContainer = ({ data }: { data?: Actor }) => {
 	const svgRef = useRef<SVGSVGElement | null>(null);
 	return (
 		<div className="m-4">
@@ -19,7 +20,7 @@ export const CharacterSheetContainer = () => {
 					}
 				}
 				className="print:m-0 border border-black print:border-0"
-				character={undefined}
+				character={data}
 			/>
 		</div>
 	);

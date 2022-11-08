@@ -39,7 +39,7 @@ export const modifierChanceSchema: yup.SchemaOf<PowerChance> = yup.object({
 		}),
 });
 export const powerProfileConfigSchema: yup.SchemaOf<PowerProfileConfig> = yup.object({
-	name: yup.string().label('Name'),
+	name: yup.string().label('Name').nullable().required(),
 	powerChances: yup.array(modifierChanceSchema).min(1).label('Power Chances'),
 });
 export const toolSurveySchema: yup.SchemaOf<ToolProfile> = yup.object({

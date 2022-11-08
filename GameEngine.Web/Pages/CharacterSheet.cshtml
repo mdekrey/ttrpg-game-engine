@@ -1,0 +1,3 @@
+﻿@page "/character-sheet/{id?}"
+@model GameEngine.Web.Pages.CharacterSheetModel
+@await Html.React($"pages/rules/character-sheet", Model.GetCharcterData())

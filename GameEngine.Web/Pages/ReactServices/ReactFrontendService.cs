@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -17,33 +16,19 @@ public class ReactFrontendService
 {
     private readonly IWebHostEnvironment env;
     private readonly ILogger<ReactFrontendService> logger;
-    private readonly JsonSerializerSettings serializerSettings = new JsonSerializerSettings()
-    {
-        ContractResolver = new IgnorePageModelPropertiesContractResolver(new DefaultContractResolver()
-        {
-            NamingStrategy = new CamelCaseNamingStrategy(),
-        }),
-        Converters =
-        {
-            new Newtonsoft.Json.Converters.StringEnumConverter(),
-        }
-    };
 
 #if DEBUG
     // Do not cache for dev experience only
-    private JObject GetManifest() => LoadManifest();
+    private JsonObject GetManifest() => LoadManifest();
 #else
-        private readonly Lazy<JObject> manifest;
-        private JObject GetManifest() => manifest.Value;
+        private readonly Lazy<JsonObject> manifest;
+        private JsonObject GetManifest() => manifest.Value;
 #endif
-    private JObject LoadManifest()
+    private JsonObject LoadManifest()
     {
         logger.LogInformation("Loading asset-manifest.json from {path}", env.WebRootFileProvider.GetFileInfo("react-frontend/build/asset-manifest.json").PhysicalPath);
         using var contentStream = env.WebRootFileProvider.GetFileInfo("react-frontend/build/asset-manifest.json").CreateReadStream();
-        using var textReader = new System.IO.StreamReader(contentStream);
-        using var reader = new Newtonsoft.Json.JsonTextReader(textReader);
-        var serializer = new Newtonsoft.Json.JsonSerializer();
-        return serializer.Deserialize<JObject>(reader)!;
+        return JsonSerializer.Deserialize<JsonObject>(contentStream)!;
     }
 
 
@@ -56,6 +41,10 @@ public class ReactFrontendService
 #endif
     }
 
+    public string ReactJsonParam(object context)
+    {
+        return $@"data-react-json=""{Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(context)))}""";
+    }
 
     public async Task<IHtmlContent> React(IHtmlHelper htmlHelper, string entrypoint, object? data = null)
     {
@@ -83,11 +72,11 @@ public class ReactFrontendService
         {
             props.Add(autoProperty.Key, await autoProperty.GetValue(context).ConfigureAwait(false));
         }
-        var json = Newtonsoft.Json.JsonConvert.SerializeObject(props, settings: serializerSettings);
+        var reactProp = ReactJsonParam(props);
 
-        reactScripts.Add(new ReactScript(Content: $"react_{entrypoint}.default(document.getElementById('{id}'), {json})"));
+        reactScripts.Add(new ReactScript(Content: $"react_{entrypoint}.default(document.getElementById('{id}'))"));
 
-        return htmlHelper.Raw($@"<div id=""{id}""></div>");
+        return htmlHelper.Raw($@"<div id=""{id}"" {reactProp}></div>");
     }
 
     public void AddReactLibrary(IHtmlHelper htmlHelper, string entrypoint)
@@ -106,7 +95,7 @@ public class ReactFrontendService
         if (manifest is null)
             return; // Probably in the middle of a rebuild
 #endif
-        var scripts = manifest["entrypoints"]![entrypoint]?.ToObject<string[]>();
+        var scripts = JsonSerializer.Deserialize<string[]>(manifest["entrypoints"]![entrypoint]);
         if (scripts == null)
             throw new InvalidOperationException($"No such React Frontend entrypoint '{entrypoint}'");
         var reactScripts = GetReactScripts(htmlHelper);

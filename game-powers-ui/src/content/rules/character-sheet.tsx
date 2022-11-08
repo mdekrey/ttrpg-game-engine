@@ -1,3 +1,4 @@
+import { uniq } from 'lodash/fp';
 import { ForwardedRef, forwardRef, Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import { Actor } from '../../foundry-bridge/models/Actor';
 import { Modifiers } from '../../foundry-bridge/models/Modifiers';
@@ -547,8 +548,16 @@ function formatMod(value?: number) {
 	return value === undefined ? undefined : ensureSign(value);
 }
 const sumModifiers = (mods: Modifiers | undefined) =>
-	mods && Object.values(mods).reduce((prev, next) => prev + next.amount, 0);
-const getModOfType = (mods: Modifiers | undefined, type: string) => mods?.find((m) => m.type === type)?.amount;
+	mods &&
+	uniq(mods.map((m) => m.type))
+		.map((m) => getModOfType(mods, m))
+		.filter((v): v is number => v !== undefined)
+		.reduce((prev, next) => prev + next, 0);
+const getModOfType = (mods: Modifiers | undefined, type: string) => {
+	const filtered: number[] | undefined = mods?.filter((m) => m.type === type)?.map((m) => m.amount);
+	if (!filtered || filtered.length === 0 || !filtered.some((v) => v !== 0)) return undefined;
+	return type === '' ? filtered.reduce((a, b) => a + b, 0) : Math.max(...filtered);
+};
 const toModifierList = (
 	mods: Modifiers | undefined,
 	type: Array<number | string | Array<string | number>>,
@@ -565,9 +574,8 @@ const toModifierList = (
 					.reduce<number>((prev, next) => prev + (next ?? 0), 0)
 	);
 	const justTypes = type.flat().filter((t): t is string => typeof t === 'string');
-	const otherMods = Object.keys(mods)
-		.filter((m) => typeof getModOfType(mods, m) === 'number' && !justTypes.includes(m))
-		.map((m) => getModOfType(mods, m)!);
+	const otherModTypes = mods.map((m) => m.type).filter((m) => !justTypes.includes(m));
+	const otherMods = otherModTypes.map((m) => getModOfType(mods, m)!);
 	const misc =
 		otherMods.length < miscSlots
 			? otherMods
@@ -738,8 +746,13 @@ export const CharacterSheet = forwardRef(
 							y={0}
 							abbreviation="STR"
 							name="Strength"
-							modifier={character?.abilities.str}
-							modifierWithLevel={character && character.abilities.str + Math.floor(character.level / 2)}
+							modifier={character?.abilities?.str}
+							modifierWithLevel={
+								character &&
+								character.abilities &&
+								character.level &&
+								character.abilities.str + Math.floor(character.level / 2)
+							}
 						/>
 						<AttributeBar
 							width={482}
@@ -748,8 +761,13 @@ export const CharacterSheet = forwardRef(
 							y={51}
 							abbreviation="CON"
 							name="Constitution"
-							modifier={character?.abilities.con}
-							modifierWithLevel={character && character.abilities.con + Math.floor(character.level / 2)}
+							modifier={character?.abilities?.con}
+							modifierWithLevel={
+								character &&
+								character.abilities &&
+								character.level &&
+								character.abilities.con + Math.floor(character.level / 2)
+							}
 						/>
 					</g>
 					<g transform="translate(16 170)">
@@ -761,8 +779,13 @@ export const CharacterSheet = forwardRef(
 							y={0}
 							abbreviation="DEX"
 							name="Dexterity"
-							modifier={character?.abilities.dex}
-							modifierWithLevel={character && character.abilities.dex + Math.floor(character.level / 2)}
+							modifier={character?.abilities?.dex}
+							modifierWithLevel={
+								character &&
+								character.abilities &&
+								character.level &&
+								character.abilities.dex + Math.floor(character.level / 2)
+							}
 						/>
 						<AttributeBar
 							width={482}
@@ -771,8 +794,13 @@ export const CharacterSheet = forwardRef(
 							y={51}
 							abbreviation="INT"
 							name="Intelligence"
-							modifier={character?.abilities.int}
-							modifierWithLevel={character && character.abilities.int + Math.floor(character.level / 2)}
+							modifier={character?.abilities?.int}
+							modifierWithLevel={
+								character &&
+								character.abilities &&
+								character.level &&
+								character.abilities.int + Math.floor(character.level / 2)
+							}
 						/>
 					</g>
 					<g transform="translate(16 290)">
@@ -784,8 +812,13 @@ export const CharacterSheet = forwardRef(
 							y={0}
 							abbreviation="WIS"
 							name="Wisdom"
-							modifier={character?.abilities.wis}
-							modifierWithLevel={character && character.abilities.wis + Math.floor(character.level / 2)}
+							modifier={character?.abilities?.wis}
+							modifierWithLevel={
+								character &&
+								character.abilities &&
+								character.level &&
+								character.abilities.wis + Math.floor(character.level / 2)
+							}
 						/>
 						<AttributeBar
 							width={482}
@@ -794,8 +827,13 @@ export const CharacterSheet = forwardRef(
 							y={51}
 							abbreviation="CHA"
 							name="Charisma"
-							modifier={character?.abilities.cha}
-							modifierWithLevel={character && character.abilities.cha + Math.floor(character.level / 2)}
+							modifier={character?.abilities?.cha}
+							modifierWithLevel={
+								character &&
+								character.abilities &&
+								character.level &&
+								character.abilities.cha + Math.floor(character.level / 2)
+							}
 						/>
 					</g>
 				</HiddenBox>
@@ -816,8 +854,8 @@ export const CharacterSheet = forwardRef(
 							height={50}
 							width={498}
 							modifiers={acModifierLabels}
-							total={formatInteger(sumModifiers(character?.defenses.ac))}
-							modifierValues={toModifierList(character?.defenses.ac, acModifierTypes, 2)?.map(numberToModMapper(1))}>
+							total={formatInteger(sumModifiers(character?.defenses?.ac))}
+							modifierValues={toModifierList(character?.defenses?.ac, acModifierTypes, 2)?.map(numberToModMapper(1))}>
 							{({ width }) => (
 								<text className="stat-abbreviation" y="31" x={width / 2} {...text.x.center} fill="white">
 									AC
@@ -827,7 +865,7 @@ export const CharacterSheet = forwardRef(
 						<text className="stat-label" y="68" x="2" {...text.y.base}>
 							Conditional Bonuses
 						</text>
-						<FreeText x={10} y={63} width={488} height={45} maxCols={3} contents={character?.defenses.acConditional} />
+						<FreeText x={10} y={63} width={488} height={45} maxCols={3} contents={character?.defenses?.acConditional} />
 					</g>
 
 					<g transform="translate(0 203)">
@@ -839,8 +877,8 @@ export const CharacterSheet = forwardRef(
 							height={50}
 							width={498}
 							modifiers={defenseModifierLabels}
-							total={formatInteger(sumModifiers(character?.defenses.fort))}
-							modifierValues={toModifierList(character?.defenses.fort, defenseModifierTypes, 2)?.map(
+							total={formatInteger(sumModifiers(character?.defenses?.fort))}
+							modifierValues={toModifierList(character?.defenses?.fort, defenseModifierTypes, 2)?.map(
 								numberToModMapper(1)
 							)}>
 							{({ width }) => (
@@ -860,7 +898,7 @@ export const CharacterSheet = forwardRef(
 							width={488}
 							height={41}
 							maxCols={3}
-							contents={character?.defenses.fortConditional}
+							contents={character?.defenses?.fortConditional}
 						/>
 					</g>
 
@@ -873,8 +911,8 @@ export const CharacterSheet = forwardRef(
 							height={50}
 							width={498}
 							modifiers={defenseModifierLabels}
-							total={formatInteger(sumModifiers(character?.defenses.fort))}
-							modifierValues={toModifierList(character?.defenses.fort, defenseModifierTypes, 2)?.map(
+							total={formatInteger(sumModifiers(character?.defenses?.refl))}
+							modifierValues={toModifierList(character?.defenses?.refl, defenseModifierTypes, 2)?.map(
 								numberToModMapper(1)
 							)}>
 							{({ width }) => (
@@ -894,7 +932,7 @@ export const CharacterSheet = forwardRef(
 							width={488}
 							height={41}
 							maxCols={3}
-							contents={character?.defenses.reflConditional}
+							contents={character?.defenses?.reflConditional}
 						/>
 					</g>
 
@@ -907,8 +945,8 @@ export const CharacterSheet = forwardRef(
 							height={50}
 							width={498}
 							modifiers={defenseModifierLabels}
-							total={formatInteger(sumModifiers(character?.defenses.fort))}
-							modifierValues={toModifierList(character?.defenses.fort, defenseModifierTypes, 2)?.map(
+							total={formatInteger(sumModifiers(character?.defenses?.will))}
+							modifierValues={toModifierList(character?.defenses?.will, defenseModifierTypes, 2)?.map(
 								numberToModMapper(1)
 							)}>
 							{({ width }) => (
@@ -928,7 +966,7 @@ export const CharacterSheet = forwardRef(
 							width={488}
 							height={41}
 							maxCols={3}
-							contents={character?.defenses.willConditional}
+							contents={character?.defenses?.willConditional}
 						/>
 					</g>
 				</g>
@@ -951,7 +989,7 @@ export const CharacterSheet = forwardRef(
 						<rect x="122" y="47" width="116" height="40" fill="white" strokeWidth="2" stroke={black} />
 						{character && (
 							<text className="handwriting" x={180} y={67} {...text.y.middle} {...text.x.center}>
-								{formatInteger(Math.floor(character.maxHp / 2))}
+								{character.maxHp && formatInteger(Math.floor(character.maxHp / 2))}
 							</text>
 						)}
 						<text className="stat-label" y="89" x="180" {...text.x.center} {...text.y.hanging}>
@@ -967,7 +1005,7 @@ export const CharacterSheet = forwardRef(
 						<rect x="267" y="47" width="116" height="40" fill="white" strokeWidth="2" stroke={black} />
 						{character && (
 							<text className="handwriting" x={267 + 58} y={67} {...text.y.middle} {...text.x.center}>
-								{formatInteger(Math.floor(character.maxHp / 4))}
+								{formatInteger(character?.healingSurgeValue)}
 							</text>
 						)}
 						<text className="stat-label" y="89" x="325" {...text.x.center} {...text.y.hanging}>
@@ -1179,7 +1217,7 @@ export const CharacterSheet = forwardRef(
 							outerWidth={90}
 							outerHeight={34}
 							label="CP"
-							value={character?.currency.cp ? formatInteger(character.currency.cp) : undefined}
+							value={character?.currency?.cp ? formatInteger(character.currency?.cp) : undefined}
 						/>
 						<LabelledBox
 							left={1116}
@@ -1187,7 +1225,7 @@ export const CharacterSheet = forwardRef(
 							outerWidth={90}
 							outerHeight={34}
 							label="SP"
-							value={character?.currency.sp ? formatInteger(character.currency.sp) : undefined}
+							value={character?.currency?.sp ? formatInteger(character.currency?.sp) : undefined}
 						/>
 						<LabelledBox
 							left={1218}
@@ -1195,7 +1233,7 @@ export const CharacterSheet = forwardRef(
 							outerWidth={90}
 							outerHeight={34}
 							label="GP"
-							value={character?.currency.gp ? formatInteger(character.currency.gp) : undefined}
+							value={character?.currency?.gp ? formatInteger(character.currency?.gp) : undefined}
 						/>
 						<LabelledBox
 							left={1320}
@@ -1203,7 +1241,7 @@ export const CharacterSheet = forwardRef(
 							outerWidth={90}
 							outerHeight={34}
 							label="PP"
-							value={character?.currency.pp ? formatInteger(character.currency.pp) : undefined}
+							value={character?.currency?.pp ? formatInteger(character.currency?.pp) : undefined}
 						/>
 						<LabelledBox
 							left={1422}
@@ -1211,7 +1249,7 @@ export const CharacterSheet = forwardRef(
 							outerWidth={90}
 							outerHeight={34}
 							label="AD"
-							value={character?.currency.ad ? formatInteger(character.currency.ad) : undefined}
+							value={character?.currency?.ad ? formatInteger(character.currency?.ad) : undefined}
 						/>
 						<TextSection
 							x={1014}
@@ -1241,7 +1279,7 @@ export const CharacterSheet = forwardRef(
 								Skill Name:
 							</text>
 							<text className="handwriting" y="1" dy={4} x="2" dx={14} {...text.y.hanging}>
-								{character?.skills[i]?.name}
+								{character?.skills && character?.skills[i]?.name}
 							</text>
 							<g transform="translate(0 52)">
 								<ModifierBar
@@ -1252,10 +1290,12 @@ export const CharacterSheet = forwardRef(
 									width={498}
 									height={50}
 									modifiers={['Ranks', 'Misc', 'Misc']}
-									total={formatInteger(sumModifiers(character?.skills[i]?.modifiers))}
-									modifierValues={toModifierList(character?.skills[i]?.modifiers, ['ranks'], 2)?.map(
-										numberToModMapper()
-									)}
+									total={formatMod(sumModifiers(character?.skills && character?.skills[i]?.modifiers))}
+									modifierValues={toModifierList(
+										character?.skills && character?.skills[i]?.modifiers,
+										['ranks'],
+										2
+									)?.map(numberToModMapper())}
 								/>
 							</g>
 						</>

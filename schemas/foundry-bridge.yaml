@@ -16,32 +16,17 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            "application/json":
+              schema: { type: string }
+        "400":
+          description: Bad Request
+        "409":
+          description: An error occurred, try again later.
 components:
   schemas:
     Actor:
       type: object
-      required:
-        - name
-        - level
-        - class
-        - totalXp
-        - race
-        - size
-        - speed
-        - abilities
-        - defenses
-        - maxHp
-        - surgesPerDay
-        - savingThrowModifiers
-        - resistances
-        - raceFeatures
-        - classFeatures
-        - feats
-        - weaponArmorProficiencies
-        - languages
-        - skills
-        - currency
-        - equipment
       properties:
         name: { type: string }
         level: { type: integer }
@@ -94,6 +79,7 @@ components:
               items: { type: string }
 
         maxHp: { type: integer }
+        healingSurgeValue: { type: integer }
         surgesPerDay: { type: integer }
 
         savingThrowModifiers:
@@ -130,17 +116,6 @@ components:
           items: { type: string }
     ActorDetails:
       type: object
-      required:
-        - level
-        - exp
-        - size
-        - age
-        - pronouns
-        - height
-        - width
-        - deity
-        - adventuringCompany
-        - biography
       properties:
         level: { type: integer }
         exp: { type: integer }
