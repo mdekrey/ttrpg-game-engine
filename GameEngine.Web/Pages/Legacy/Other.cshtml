@@ -22,4 +22,4 @@
     Api.LegacyWeaponDetails weaponDetails => "pages/legacy/weapon-details/weapon-details",
     Api.LegacyMagicItemDetails magicItemDetails => "pages/legacy/magic-item-details/magic-item-details",
     _ => "pages/legacy/unknown-details/unknown-details",
-}, new { Id = data.WizardsId, Details = data }))
+}, new { id = data.WizardsId, details = (object)data }))
