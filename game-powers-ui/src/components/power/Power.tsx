@@ -29,7 +29,7 @@ export const Power = ({
 						'bg-green-dark': type === 'At-Will',
 						'bg-red-dark': type === 'Encounter',
 						'bg-gray-dark': type === 'Daily',
-						'bg-orange-dark': type === 'Item',
+						'bg-orange-dark': type === 'Item' || type.startsWith('Item'),
 						'bg-blue-dark': type !== 'At-Will' && type !== 'Encounter' && type !== 'Daily' && type !== 'Item',
 					},
 					'font-header text-white',
