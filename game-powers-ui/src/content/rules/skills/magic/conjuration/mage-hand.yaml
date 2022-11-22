@@ -1,0 +1,31 @@
+name: Mage Hand
+typeInfo: Conjuration Power
+powerUsage: At-Will
+keywords: ["Conjuration", "Arcane"]
+actionType: Minor Action
+attackType: Ranged
+attackTypeDetails: 5
+prerequisite: You must have at least 5 skill points in Conjuration.
+rulesText:
+  - label: Effect
+    text: >-
+      You conjure a spectral, floating hand in an unoccupied square within range.
+      The hand lasts until the end of your next turn or until you use this power
+      again. If you are holding an object when you use this power, the hand can
+      move the object into a pack, a pouch, a sheath, or a similar container and
+      simultaneously move any one object carried or worn anywhere on your body
+      into your hand. While the hand persists, you can take the following actions.
+  - label: Minor Action
+    text: >-
+      The hand picks up or manipulates an object weighing 20 pounds or less. It
+      can hold only one object at a time.
+  - label: Move Action
+    text: >-
+      The hand moves up to 5 squares in any direction, carrying the object it
+      holds.
+  - label: Free Action
+    text: >-
+      The hand drops the object it is holding.
+  - label: Sustain Bonus
+    text: >-
+      The hand persists until the end of your next turn.

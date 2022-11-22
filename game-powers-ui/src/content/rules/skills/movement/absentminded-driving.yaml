@@ -1,0 +1,12 @@
+name: Absentminded Driving
+typeInfo: Movement Power
+flavorText: "You ready yourself to drive absentmindedly, focusing instead on the battle around you."
+powerUsage: Encounter
+keywords: ["Stance"]
+actionType: Bonus Action
+prerequisite: You must have at least 5 skill points in Movement for either vehicles or mounts.
+rulesText:
+  - label: Effect
+    text: >-
+      Mounts and vehicles under your direction maintain speed and automatically follow a path that
+      they're on or maintain a straight course, as you choose.

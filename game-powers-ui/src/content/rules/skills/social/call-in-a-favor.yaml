@@ -1,0 +1,21 @@
+name: Call in a Favor
+typeInfo: Social Power
+powerUsage: Special
+keywords: ["Non-Combat", "Social"]
+actionType: Major Action
+attack: CHA vs. Will, adjusted for favorability
+target: One NPC within your social type
+prerequisite: You must have at least 5 skill points in Social.
+rulesText:
+  - label: Effect
+    text: >-
+      Name the NPC and what favor they can grant you. You trade favors you've
+      earned to get the benefit you desire. The favor you ask must be relatively
+      similar in magnitude to the one you are owed.
+  - label: Miss
+    text: >-
+      Failure by less than 5 gets you a lesser version of the favor.
+  - label: Recharge
+    text: >-
+      You may use this again after earning a favor from someone within your
+      circles.

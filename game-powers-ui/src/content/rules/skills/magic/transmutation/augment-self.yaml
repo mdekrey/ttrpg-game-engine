@@ -1,0 +1,11 @@
+name: Augment Self
+typeInfo: Transmutation Power
+flavorText: "You activate the latent magic within your body, growing stronger."
+powerUsage: Daily
+keywords: ["Arcane", "Stance", "Transmutation"]
+actionType: Bonus Action
+prerequisite: You must have at least 5 skill points in Transmutation.
+rulesText:
+  - label: Effect
+    text: >-
+      Choose one of your ability scores. You gain +1 to that ability score until this stance ends or the end of combat.

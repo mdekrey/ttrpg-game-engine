@@ -1,0 +1,10 @@
+name: Dimension Door
+typeInfo: Conjuration Power
+powerUsage: Daily
+keywords: ["Conjuration", "Arcane"]
+actionType: Move Action
+prerequisite: You must have at least 5 skill points in Conjuration.
+rulesText:
+  - label: Effect
+    text: >-
+      Teleport 10 squares. You can't take other creatures with you.

@@ -1,12 +1,11 @@
 import { Power } from 'src/components/mdx/Power';
 import { ProjectPhase } from 'src/components/project/ProjectPhase';
 
+import augmentSelf from './transmutation/augment-self.yaml';
+import fly from './transmutation/fly.yaml';
 export const frontmatter = {
-	title: 'Transmutation',
+	title: 'Transmutation'
 };
-{
-	MDXContent.frontmatter = frontmatter;
-}
 
 # Transmutation
 
@@ -37,33 +36,6 @@ TODO
 
 ## Powers
 
-<Power>{`
-name: Augment Self
-typeInfo: Transmutation Power
-flavorText: "You activate the latent magic within your body, growing stronger."
-powerUsage: Daily
-keywords: ['Arcane', 'Stance', 'Transmutation']
-actionType: Bonus Action
-prerequisite: You must have at least 5 skill points in Transmutation.
-rulesText:
-- label: Effect
-  text: >-
-    Choose one of your ability scores. You gain +1 to that ability score until this stance ends or the end of combat.
-`}</Power>
+<Power>{augmentSelf}</Power>
 
-<Power>{`
-name: Fly
-typeInfo: Transmutation Power
-flavorText: "You leap into the air and don't look back."
-powerUsage: Daily
-keywords: ['Arcane', 'Transmutation']
-actionType: Standard Action
-prerequisite: You must have at least 12 skill points in Transmutation.
-rulesText:
-- label: Effect
-  text: >-
-    You gain a speed of fly 8 until the end of your next turn.
-- label: Sustain Bonus
-  text: >-
-    You can sustain this power until the end of the encounter or for 5 minutes. If you don't sustain it, you float to the ground without taking falling damage.
-`}</Power>
+<Power>{fly}</Power>

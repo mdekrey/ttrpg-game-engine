@@ -1,0 +1,14 @@
+name: Fly
+typeInfo: Transmutation Power
+flavorText: "You leap into the air and don't look back."
+powerUsage: Daily
+keywords: ["Arcane", "Transmutation"]
+actionType: Standard Action
+prerequisite: You must have at least 12 skill points in Transmutation.
+rulesText:
+  - label: Effect
+    text: >-
+      You gain a speed of fly 8 until the end of your next turn.
+  - label: Sustain Bonus
+    text: >-
+      You can sustain this power until the end of the encounter or for 5 minutes. If you don't sustain it, you float to the ground without taking falling damage.

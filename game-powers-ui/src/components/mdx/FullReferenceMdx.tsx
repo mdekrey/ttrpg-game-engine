@@ -1,4 +1,4 @@
-import MDX from '@mdx-js/runtime';
+import { MDXProvider as MDX } from '@mdx-js/react';
 import { ErrorBoundary } from 'src/components/mdx/ErrorBoundary';
 import { ComponentType } from 'react';
 import { Sidebar } from 'src/components/sidebar';

@@ -1,0 +1,106 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "packages/react/src",
+	"projectType": "application",
+	"implicitDependencies": ["original"],
+	"targets": {
+		"build": {
+			"executor": "@nrwl/web:webpack",
+			"inputs": ["{workspaceRoot}/{packages,src}/**/*.{ts,tsx,js,jsx,css,svg,gif,png,jpg}"],
+			"outputs": ["{options.outputPath}"],
+			"defaultConfiguration": "production",
+			"options": {
+				"compiler": "babel",
+				"outputPath": "../GameEngine.Web/wwwroot/react-frontend/build",
+				"index": "",
+				"generateIndexHtml": false,
+				"baseHref": "/",
+				"main": "packages/react/placeholders/main.ts",
+				"polyfills": "packages/react/placeholders/polyfills.ts",
+				"tsConfig": "packages/react/tsconfig.json",
+				"assets": [],
+				"styles": [],
+				"scripts": [],
+				"webpackConfig": "packages/react/webpack-common.config.js"
+			},
+			"configurations": {
+				"development": {
+					"extractLicenses": false,
+					"optimization": false,
+					"sourceMap": true,
+					"vendorChunk": true
+				},
+				"production": {
+					"fileReplacements": [],
+					"optimization": true,
+					"outputHashing": "all",
+					"sourceMap": false,
+					"namedChunks": false,
+					"extractLicenses": false,
+					"vendorChunk": false
+				}
+			}
+		},
+		"tsc": {
+			"executor": "nx:run-commands",
+			"dependsOn": ["^tsc"],
+			"options": {
+				"commands": [
+					{
+						"command": "tsc --noEmit -p packages/react/tsconfig.json"
+					}
+				]
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"dependsOn": ["^lint"],
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["packages/react/**/*.{ts,tsx,js,jsx}"]
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"dependsOn": ["^test"],
+			"outputs": ["coverage/react"],
+			"options": {
+				"jestConfig": "packages/react/jest.config.ts",
+				"passWithNoTests": true
+			}
+		},
+		"storybook": {
+			"executor": "@nrwl/storybook:storybook",
+			"options": {
+				"uiFramework": "@storybook/react",
+				"port": 6006,
+				"config": {
+					"configFolder": "packages/react/.storybook"
+				}
+			},
+			"configurations": {
+				"ci": {
+					"quiet": true
+				}
+			}
+		},
+		"build-storybook": {
+			"executor": "@nrwl/storybook:build",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"uiFramework": "@storybook/react",
+				"outputPath": "dist/storybook/react",
+				"config": {
+					"configFolder": "packages/react/.storybook",
+					"srcRoot": "src"
+				}
+			},
+			"configurations": {
+				"ci": {
+					"quiet": true
+				}
+			}
+		}
+	},
+	"tags": ["result"]
+}

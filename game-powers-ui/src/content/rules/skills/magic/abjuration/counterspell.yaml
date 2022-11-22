@@ -1,0 +1,15 @@
+name: Counterspell
+typeInfo: Abjuration Power
+powerUsage: Special
+keywords: ["Abjuration", "Arcane"]
+actionType: Opportunity Action
+trigger: Any creature within 10 squares of you uses a non-basic power with a power source
+target: The creature activating the power
+prerequisite: You must have at least 10 skill points in Abjuration.
+attack: INT vs. Will. To make this attack, you must expend an unused power of the same usage type.
+rulesText:
+  - label: Effect
+    text: >-
+      The power and all of its effects are cancelled. If the power had a martial
+      power source, the target may make a basic attack with the same weapon, if
+      any.

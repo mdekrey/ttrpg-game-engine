@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'lib/index.css';
+import 'src/lib/index.css';
 import reportWebVitals from 'src/lib/reportWebVitals';
 import { DisplayDialogs } from 'src/components/dialog';
 import { parseContextFromHtml } from './parseContextFromHtml';
