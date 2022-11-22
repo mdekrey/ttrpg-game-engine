@@ -1,4 +1,4 @@
-import { neverEver } from 'lib/neverEver';
+import { neverEver } from 'src/lib/neverEver';
 import { ReactNode } from 'react';
 import { isError, isInitial, isLoaded, isLoading, isLoadingWithPrevious, Loadable } from './loadable';
 

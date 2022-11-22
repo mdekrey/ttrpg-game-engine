@@ -1,4 +1,4 @@
-import { LegacyPowerDetails } from 'api/models/LegacyPowerDetails';
+import { LegacyPowerDetails } from 'src/api/models/LegacyPowerDetails';
 
 const defenses: Record<string, string> = {
 	AC: 'ac',

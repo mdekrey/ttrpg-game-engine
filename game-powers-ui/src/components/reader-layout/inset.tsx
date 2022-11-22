@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import { recurse } from 'core/jsx/recurse';
-import { pipeJsx } from 'core/jsx/pipeJsx';
-import { infoFontTemplate } from 'components/layout/mdx-components';
+import { recurse } from 'src/core/jsx/recurse';
+import { pipeJsx } from 'src/core/jsx/pipeJsx';
+import { infoFontTemplate } from 'src/components/layout/mdx-components';
 
 export function Inset({ children, className, style, ...props }: JSX.IntrinsicElements['blockquote']) {
 	return (

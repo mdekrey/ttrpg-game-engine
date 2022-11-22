@@ -1,7 +1,7 @@
 import MDX from '@mdx-js/runtime';
-import { ErrorBoundary } from 'components/mdx/ErrorBoundary';
+import { ErrorBoundary } from 'src/components/mdx/ErrorBoundary';
 import { ComponentType } from 'react';
-import { Sidebar } from 'components/sidebar';
+import { Sidebar } from 'src/components/sidebar';
 
 export function inlineObject(contents: any) {
 	return JSON.stringify(contents);

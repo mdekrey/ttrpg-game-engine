@@ -1,6 +1,6 @@
 import { sortBy } from 'lodash/fp';
-import { ClassDescriptor } from 'api/models/ClassDescriptor';
-import { ReaderLayout } from 'components/reader-layout';
+import { ClassDescriptor } from 'src/api/models/ClassDescriptor';
+import { ReaderLayout } from 'src/components/reader-layout';
 import { LockClosedIcon, PencilIcon } from '@heroicons/react/solid';
 
 export function ClassList({ data: { classes } }: { data: { classes: Record<string, ClassDescriptor> } }) {

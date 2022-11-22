@@ -1,14 +1,14 @@
 import { groupBy, sortBy } from 'lodash/fp';
 import { map } from 'rxjs/operators';
-import { useApi } from 'core/hooks/useApi';
-import { useObservable } from 'core/hooks/useObservable';
-import { StructuredResponses } from 'api/operations/getLegacyMagicItems';
-import { initial, Loadable, makeLoaded } from 'core/loadable/loadable';
-import { ReaderLayout } from 'components/reader-layout';
-import { LoadableComponent } from 'core/loadable/LoadableComponent';
-import { MainHeader } from 'components/reader-layout/MainHeader';
+import { useApi } from 'src/core/hooks/useApi';
+import { useObservable } from 'src/core/hooks/useObservable';
+import { StructuredResponses } from 'src/api/operations/getLegacyMagicItems';
+import { initial, Loadable, makeLoaded } from 'src/core/loadable/loadable';
+import { ReaderLayout } from 'src/components/reader-layout';
+import { LoadableComponent } from 'src/core/loadable/LoadableComponent';
+import { MainHeader } from 'src/components/reader-layout/MainHeader';
 import { Fragment, useMemo } from 'react';
-import { LegacyMagicItemSummary } from 'api/models/LegacyMagicItemSummary';
+import { LegacyMagicItemSummary } from 'src/api/models/LegacyMagicItemSummary';
 import { integerFormatting } from '../integer-formatting';
 
 export function MagicItemList() {

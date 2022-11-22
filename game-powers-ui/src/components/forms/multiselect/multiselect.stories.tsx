@@ -1,7 +1,7 @@
 import { Meta, Story } from '@storybook/react';
 import * as yup from 'yup';
 
-import { useGameForm } from 'core/hooks/useGameForm';
+import { useGameForm } from 'src/core/hooks/useGameForm';
 import { Multiselect, MultiselectProps } from './multiselect';
 import { MultiselectField } from './MultiselectField';
 

@@ -1,6 +1,6 @@
 import { cloneElement } from 'react';
 import classnames from 'classnames';
-import { JsxMutator, pipeJsxChildren } from 'core/jsx/pipeJsx';
+import { JsxMutator, pipeJsxChildren } from 'src/core/jsx/pipeJsx';
 
 export type ButtonStyleType = 'primary' | 'cancel';
 export type ButtonContentsType = 'text' | 'icon';

@@ -1,13 +1,13 @@
 import * as yup from 'yup';
-import { Ability } from 'api/models/Ability';
-import { CharacterRole } from 'api/models/CharacterRole';
-import { EditableClassDescriptor } from 'api/models/EditableClassDescriptor';
-import { DamageType } from 'api/models/DamageType';
-import { PowerChance } from 'api/models/PowerChance';
-import { PowerProfileConfig } from 'api/models/PowerProfileConfig';
-import { ToolProfile } from 'api/models/ToolProfile';
-import { ToolRange } from 'api/models/ToolRange';
-import { ToolType } from 'api/models/ToolType';
+import { Ability } from 'src/api/models/Ability';
+import { CharacterRole } from 'src/api/models/CharacterRole';
+import { EditableClassDescriptor } from 'src/api/models/EditableClassDescriptor';
+import { DamageType } from 'src/api/models/DamageType';
+import { PowerChance } from 'src/api/models/PowerChance';
+import { PowerProfileConfig } from 'src/api/models/PowerProfileConfig';
+import { ToolProfile } from 'src/api/models/ToolProfile';
+import { ToolRange } from 'src/api/models/ToolRange';
+import { ToolType } from 'src/api/models/ToolType';
 
 export const roles: CharacterRole[] = ['Controller', 'Defender', 'Leader', 'Striker'];
 export const toolTypes: ToolType[] = ['Weapon', 'Implement'];

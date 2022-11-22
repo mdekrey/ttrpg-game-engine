@@ -1,6 +1,6 @@
 import { ReactNode, useMemo } from 'react';
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form';
-import { useId } from 'core/hooks/useId';
+import { useId } from 'src/core/hooks/useId';
 import { FieldContextInfo, FieldProvider } from './field.context';
 
 export type FieldProps<

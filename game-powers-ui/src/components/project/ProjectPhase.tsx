@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 import classNames from 'classnames';
-import { recurse } from 'core/jsx/recurse';
-import { pipeJsx } from 'core/jsx/pipeJsx';
-import { mergeStyles } from 'core/jsx/mergeStyles';
-import { ClockSvg } from 'components/clock/ClockSvg';
+import { recurse } from 'src/core/jsx/recurse';
+import { pipeJsx } from 'src/core/jsx/pipeJsx';
+import { mergeStyles } from 'src/core/jsx/mergeStyles';
+import { ClockSvg } from 'src/components/clock/ClockSvg';
 
 export type CheckDifficulty = {
 	check: string;

@@ -1,6 +1,6 @@
 import { DownloadIcon } from '@heroicons/react/outline';
 import { ComponentType, ReactNode } from 'react';
-import { Sidebar } from 'components/sidebar';
+import { Sidebar } from 'src/components/sidebar';
 
 export function DownloadTextButton({
 	toDownload,

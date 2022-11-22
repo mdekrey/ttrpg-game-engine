@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { MdxComponents } from 'components/layout/mdx-components';
+import { MdxComponents } from 'src/components/layout/mdx-components';
 import { ReactNode } from 'react';
 
 export const ReaderLayout = ({ children, className }: { children?: ReactNode; className?: string }) => (

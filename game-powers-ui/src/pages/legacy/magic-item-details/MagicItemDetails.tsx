@@ -1,6 +1,6 @@
-import { LegacyMagicItemDetails } from 'api/models/LegacyMagicItemDetails';
-import { FullReferenceMdx, inlineObject } from 'components/mdx/FullReferenceMdx';
-import { Power, RulesText } from 'components/power';
+import { LegacyMagicItemDetails } from 'src/api/models/LegacyMagicItemDetails';
+import { FullReferenceMdx, inlineObject } from 'src/components/mdx/FullReferenceMdx';
+import { Power, RulesText } from 'src/components/power';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { Sources } from '../sources';
 import { PowerDetailsSelector } from '../power-details/power.selector';

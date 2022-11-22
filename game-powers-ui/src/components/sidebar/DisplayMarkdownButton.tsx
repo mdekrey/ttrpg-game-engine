@@ -1,6 +1,6 @@
 import { EyeIcon } from '@heroicons/react/outline';
-import { useDialog } from 'components/dialog';
-import { Sidebar } from 'components/sidebar';
+import { useDialog } from 'src/components/dialog';
+import { Sidebar } from 'src/components/sidebar';
 
 export function DisplayMarkdownButton({ markdown }: { markdown: string }) {
 	const dialog = useDialog();

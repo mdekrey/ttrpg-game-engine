@@ -1,5 +1,5 @@
-import { ClassProfile } from 'api/models/ClassProfile';
-import { PowerTextProfile } from 'api/models/PowerTextProfile';
+import { ClassProfile } from 'src/api/models/ClassProfile';
+import { PowerTextProfile } from 'src/api/models/PowerTextProfile';
 import classNames from 'classnames';
 import { PowerEdit } from './PowerEdit';
 

@@ -1,6 +1,6 @@
 import { PlusIcon } from '@heroicons/react/solid';
-import { Button } from 'components/button/Button';
-import { ButtonRow } from 'components/ButtonRow';
+import { Button } from 'src/components/button/Button';
+import { ButtonRow } from 'src/components/ButtonRow';
 import { Fragment, ReactNode } from 'react';
 import { FieldValues, Path, PathValue } from 'react-hook-form';
 import { FieldPropsBase } from '../FieldProps';

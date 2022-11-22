@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 import ReactMarkdown, { Components as ReactMarkdownComponents } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ErrorBoundary } from 'components/mdx/ErrorBoundary';
+import { ErrorBoundary } from 'src/components/mdx/ErrorBoundary';
 import { useMDXComponents, Components } from '@mdx-js/react';
 
 type ReactMarkdownOptions = ComponentProps<typeof ReactMarkdown>;

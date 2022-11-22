@@ -1,4 +1,4 @@
-import { ModalProps } from 'components/modal/modal';
+import { ModalProps } from 'src/components/modal/modal';
 import { ReactNode } from 'react';
 
 export type DialogOptions<T = any> = {

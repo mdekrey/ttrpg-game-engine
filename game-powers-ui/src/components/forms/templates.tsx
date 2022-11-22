@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { mergeStyles } from 'core/jsx/mergeStyles';
+import { mergeStyles } from 'src/core/jsx/mergeStyles';
 
 export const label = () =>
 	mergeStyles(<p className={classNames('block text-xs font-medium text-gray-500 font-sans')} />);

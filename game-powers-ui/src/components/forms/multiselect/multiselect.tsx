@@ -1,7 +1,7 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon, XIcon } from '@heroicons/react/solid';
 import classNames from 'classnames';
-import { pipeJsx } from 'core/jsx/pipeJsx';
+import { pipeJsx } from 'src/core/jsx/pipeJsx';
 import { ReactNode, Fragment, forwardRef, ForwardedRef } from 'react';
 import { FieldValues, Path, PathValue, UseControllerProps } from 'react-hook-form';
 import { Controlled } from '../Controlled';

@@ -3,22 +3,32 @@
 	"version": "0.1.0",
 	"private": true,
 	"homepage": "/react-frontend/build/",
-	"dependencies": {
+	"devDependencies": {
 		"@babel/preset-react": "^7.14.5",
-		"@craco/craco": "^6.2.0",
 		"@headlessui/react": "^1.4.1",
 		"@heroicons/react": "^1.0.4",
 		"@hookform/resolvers": "^2.8.0",
 		"@mdx-js/loader": "^1.6.22",
 		"@mdx-js/react": "^1.6.22",
 		"@mdx-js/runtime": "^1.6.22",
+		"@nrwl/cli": "^14.5.4",
+		"@nrwl/eslint-plugin-nx": "^14.5.4",
+		"@nrwl/jest": "14.5.4",
+		"@nrwl/js": "^14.5.4",
+		"@nrwl/linter": "^14.5.4",
+		"@nrwl/nx-cloud": "^14.3.0",
+		"@nrwl/react": "^14.5.4",
+		"@nrwl/web": "^14.5.4",
+		"@nrwl/workspace": "^14.5.4",
 		"@principlestudios/openapi-codegen-typescript": "0.4.0",
-		"@principlestudios/react-scripts-lib": "4.0.5",
 		"@storybook/addon-actions": "^6.3.5",
 		"@storybook/addon-essentials": "^6.3.5",
 		"@storybook/addon-links": "^6.3.5",
+		"@storybook/addon-postcss": "^2.0.0",
+		"@storybook/builder-webpack5": "^6.3.5",
+		"@storybook/core-server": "^6.3.5",
+		"@storybook/manager-webpack5": "^6.3.5",
 		"@storybook/node-logger": "^6.3.5",
-		"@storybook/preset-create-react-app": "^3.2.0",
 		"@storybook/react": "^6.3.5",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
@@ -31,12 +41,16 @@
 		"@types/node": "^12.0.0",
 		"@types/react": "^17.0.0",
 		"@types/react-dom": "^17.0.0",
+		"@types/uuid": "^8.3.4",
 		"autoprefixer": "^9.8.6",
 		"classnames": "^2.3.1",
 		"d3-shape": "^3.1.0",
-		"eslint-config-airbnb-typescript": "^12.3.1",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-prettier": "^3.4.0",
+		"eslint": "^8.26.0",
+		"eslint-config-airbnb": "^19.0.4",
+		"eslint-config-airbnb-typescript": "^17.0.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"eslint-plugin-react-hooks": "^4.6.0",
 		"immer": "^9.0.6",
 		"js-yaml": "^4.1.0",
 		"js-yaml-loader": "^1.2.2",
@@ -56,6 +70,7 @@
 		"react-qr-code": "^2.0.1",
 		"remark-gfm": "^3.0.1",
 		"rxjs": "^6.5.5",
+		"shx": "^0.3.3",
 		"tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.6",
 		"tailwindcss-multi-column": "^1.0.2",
 		"touch-cli": "^0.0.1",
@@ -68,34 +83,17 @@
 	},
 	"scripts": {
 		"postinstall": "touch node_modules/_._",
-		"start": "craco start",
-		"build": "craco build",
-		"test": "craco test",
-		"test:update": "craco test -u",
-		"eject": "react-scripts eject",
+		"start": "",
+		"build": "",
+		"test": "",
+		"test:update": "",
 		"storybook": "start-storybook -p 6006",
 		"build-storybook": "build-storybook",
-		"lint": "eslint src/ --ext .jsx,.js,.ts,.tsx",
+		"lint": "nx run-many --all --target=lint",
 		"generate-openapi": "npm run generate-openapi-api && npm run generate-openapi-foundry-bridge",
 		"generate-openapi-api": "openapi-codegen-typescript ../schemas/api.yaml src/api/ -c && shx cp ../schemas/api.yaml src/api/",
 		"generate-openapi-foundry-bridge": "openapi-codegen-typescript ../schemas/foundry-bridge.yaml src/foundry-bridge/",
 		"typecheck": "tsc --noEmit"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		],
-		"overrides": [
-			{
-				"files": [
-					"**/*.stories.*"
-				],
-				"rules": {
-					"import/no-anonymous-default-export": "off"
-				}
-			}
-		]
 	},
 	"browserslist": {
 		"production": [
@@ -108,9 +106,5 @@
 			"last 1 firefox version",
 			"last 1 safari version"
 		]
-	},
-	"devDependencies": {
-		"@types/uuid": "^8.3.4",
-		"shx": "^0.3.3"
 	}
 }

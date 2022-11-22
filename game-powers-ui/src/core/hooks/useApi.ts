@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import operations from 'api/operations';
+import operations from 'src/api/operations';
 import { ajax } from 'rxjs/ajax';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';

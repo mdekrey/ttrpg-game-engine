@@ -1,11 +1,11 @@
 import { groupBy } from 'lodash/fp';
-import { Inset } from 'components/reader-layout/inset';
-import { LegacyRuleText } from 'api/models/LegacyRuleText';
+import { Inset } from 'src/components/reader-layout/inset';
+import { LegacyRuleText } from 'src/api/models/LegacyRuleText';
 import { Fragment, useMemo } from 'react';
-import { LegacyClassDetails } from 'api/models/LegacyClassDetails';
-import { MainHeader } from 'components/reader-layout/MainHeader';
-import { FlavorText } from 'components/reader-layout/FlavorText';
-import { FullReferenceMdx, inlineObject } from 'components/mdx/FullReferenceMdx';
+import { LegacyClassDetails } from 'src/api/models/LegacyClassDetails';
+import { MainHeader } from 'src/components/reader-layout/MainHeader';
+import { FlavorText } from 'src/components/reader-layout/FlavorText';
+import { FullReferenceMdx, inlineObject } from 'src/components/mdx/FullReferenceMdx';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
 import { Sources } from '../sources';

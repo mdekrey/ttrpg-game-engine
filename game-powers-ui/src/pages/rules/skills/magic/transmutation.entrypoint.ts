@@ -1,4 +1,4 @@
-import Page from 'content/rules/skills/magic/transmutation.mdx';
-import { createEntry } from 'lib/markdown-entry';
+import Page from 'src/content/rules/skills/magic/transmutation.mdx';
+import { createEntry } from 'src/lib/markdown-entry';
 
 export default createEntry(Page);

@@ -1,11 +1,11 @@
 import { PencilIcon } from '@heroicons/react/solid';
-import { ClassDetailsReadOnly } from 'api/models/ClassDetailsReadOnly';
-import { StructuredResponses } from 'api/operations/getClass';
-import { ReaderLayout } from 'components/reader-layout';
-import { useApi } from 'core/hooks/useApi';
-import { useObservable } from 'core/hooks/useObservable';
-import { initial, Loadable, makeError, makeLoaded } from 'core/loadable/loadable';
-import { LoadableComponent } from 'core/loadable/LoadableComponent';
+import { ClassDetailsReadOnly } from 'src/api/models/ClassDetailsReadOnly';
+import { StructuredResponses } from 'src/api/operations/getClass';
+import { ReaderLayout } from 'src/components/reader-layout';
+import { useApi } from 'src/core/hooks/useApi';
+import { useObservable } from 'src/core/hooks/useObservable';
+import { initial, Loadable, makeError, makeLoaded } from 'src/core/loadable/loadable';
+import { LoadableComponent } from 'src/core/loadable/LoadableComponent';
 import { groupBy } from 'lodash/fp';
 import { map, switchAll } from 'rxjs/operators';
 import { ClassDescription } from '../../components/mdx/ClassDescription';

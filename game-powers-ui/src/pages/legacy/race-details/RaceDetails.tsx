@@ -1,9 +1,9 @@
-import { LegacyRaceDetails } from 'api/models/LegacyRaceDetails';
-import { Inset } from 'components/reader-layout/inset';
-import { LegacyRacialTraitDetails } from 'api/models/LegacyRacialTraitDetails';
-import { MainHeader } from 'components/reader-layout/MainHeader';
-import { FlavorText } from 'components/reader-layout/FlavorText';
-import { FullReferenceMdx, inlineObject } from 'components/mdx/FullReferenceMdx';
+import { LegacyRaceDetails } from 'src/api/models/LegacyRaceDetails';
+import { Inset } from 'src/components/reader-layout/inset';
+import { LegacyRacialTraitDetails } from 'src/api/models/LegacyRacialTraitDetails';
+import { MainHeader } from 'src/components/reader-layout/MainHeader';
+import { FlavorText } from 'src/components/reader-layout/FlavorText';
+import { FullReferenceMdx, inlineObject } from 'src/components/mdx/FullReferenceMdx';
 import { getArticle } from '../get-article';
 import { Sources } from '../sources';
 import { sectionMarkdown } from '../rule-section-display';

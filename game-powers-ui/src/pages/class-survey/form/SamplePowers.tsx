@@ -1,13 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useApi } from 'core/hooks/useApi';
-import { is200 } from 'core/is200';
+import { useApi } from 'src/core/hooks/useApi';
+import { is200 } from 'src/core/is200';
 import { Subject } from 'rxjs';
 import useConstant from 'use-constant';
 import { filter } from 'rxjs/operators';
-import { PowerTextBlock } from 'components/power';
-import { StructuredResponses, RequestBodies } from 'api/operations/generateSamplePower';
-import { powerTextBlockToProps } from 'components/power/PowerTextBlock';
+import { PowerTextBlock } from 'src/components/power';
+import { StructuredResponses, RequestBodies } from 'src/api/operations/generateSamplePower';
+import { powerTextBlockToProps } from 'src/components/power/PowerTextBlock';
 
 export type SamplePowerData = StructuredResponses[200]['application/json'];
 export type SamplePowerRequestBody = RequestBodies['application/json'];

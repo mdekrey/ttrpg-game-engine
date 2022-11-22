@@ -1,6 +1,6 @@
-import { PowerTextBlock } from 'components/power';
-import { PowerType } from 'components/power/Power';
-import { Actor } from 'foundry-bridge/models/Actor';
+import { PowerTextBlock } from 'src/components/power';
+import { PowerType } from 'src/components/power/Power';
+import { Actor } from 'src/foundry-bridge/models/Actor';
 import { useRef } from 'react';
 import { CharacterSheet } from './character-sheet';
 

@@ -1,5 +1,5 @@
-import { EditableClassDescriptor } from 'api/models/EditableClassDescriptor';
-import { useApi } from 'core/hooks/useApi';
+import { EditableClassDescriptor } from 'src/api/models/EditableClassDescriptor';
+import { useApi } from 'src/core/hooks/useApi';
 import { ClassSurveyForm } from './form/class-survey-form';
 
 export function ClassSurvey() {

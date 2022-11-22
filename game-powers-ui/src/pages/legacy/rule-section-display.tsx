@@ -1,4 +1,4 @@
-import { LegacyRuleText } from 'api/models/LegacyRuleText';
+import { LegacyRuleText } from 'src/api/models/LegacyRuleText';
 import { wizardsTextToMarkdown } from './wizards-text-to-markdown';
 
 export function sectionMarkdown(rule: LegacyRuleText | undefined, title?: string | undefined, depth = 2) {

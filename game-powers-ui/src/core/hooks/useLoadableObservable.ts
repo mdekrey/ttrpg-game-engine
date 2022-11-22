@@ -7,7 +7,7 @@ import {
 	Loadable,
 	makeError,
 	makeLoading,
-} from 'core/loadable/loadable';
+} from 'src/core/loadable/loadable';
 import { DependencyList } from 'react';
 import { Observable, of } from 'rxjs';
 import { map, startWith, catchError, switchAll, scan } from 'rxjs/operators';

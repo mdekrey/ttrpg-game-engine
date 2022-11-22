@@ -1,5 +1,5 @@
-import { ReaderLayout } from 'components/reader-layout';
-import { createEntry } from 'lib/createEntry';
+import { ReaderLayout } from 'src/components/reader-layout';
+import { createEntry } from 'src/lib/createEntry';
 import { ClassDetails } from './ClassDetails';
 import { LoaderSelector } from '../loader-selector';
 

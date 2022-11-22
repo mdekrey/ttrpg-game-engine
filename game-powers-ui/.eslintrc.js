@@ -5,19 +5,10 @@ module.exports = {
 		jest: true
 	},
 	parserOptions: {
-		project: './tsconfig.json',
+		project: './tsconfig.base.json',
 		tsconfigRootDir: __dirname
 	},
-	ignorePatterns: [
-		'/*.js',
-		'!/tailwind.config.js',
-		'node_modules/',
-		'package*.json',
-		'config/',
-		'scripts/',
-		'src/api/',
-		'src/foundry-bridge/'
-	],
+	ignorePatterns: ['**/*'],
 	settings: {
 		react: {
 			version: 'detect'
@@ -32,24 +23,21 @@ module.exports = {
 		'plugin:prettier/recommended',
 		'prettier'
 	],
-	plugins: ['prettier'],
-	rules: {
-		'import/prefer-default-export': 0,
-		'react/require-default-props': 0,
-		'@typescript-eslint/explicit-module-boundary-types': 0,
-		'no-nested-ternary': 0,
-		'global-require': 0,
-		'react/display-name': 0,
-		'@typescript-eslint/no-use-before-define': 0,
-		'@typescript-eslint/ban-types': 0,
-		'@typescript-eslint/no-non-null-assertion': 0,
-		'@typescript-eslint/no-explicit-any': 0,
-		'prettier/prettier': ['error', { endOfLine: 'auto' }],
-		'react/react-in-jsx-scope': 0,
-		'react/jsx-props-no-spreading': 0,
-		// jsx-a11y/label-has-associated-control has some weird requirements; disabling.
-		'jsx-a11y/label-has-associated-control': 0,
-		'react/prop-types': 0,
-		'react/no-array-index-key': 0
-	}
+	plugins: ['prettier', '@nrwl/nx'],
+	overrides: [
+		{
+			files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
+			rules: {}
+		},
+		{
+			files: ['*.ts', '*.tsx'],
+			extends: ['plugin:@nrwl/nx/typescript', './.eslintrc.overrides.cjs'],
+			rules: {}
+		},
+		{
+			files: ['*.js', '*.jsx'],
+			extends: ['plugin:@nrwl/nx/javascript', './.eslintrc.overrides.cjs'],
+			rules: {}
+		}
+	]
 };

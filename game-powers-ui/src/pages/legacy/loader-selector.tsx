@@ -1,11 +1,11 @@
 import { Observable, of } from 'rxjs';
-import { initial, Loadable, makeLoaded, makeError } from 'core/loadable/loadable';
-import { useMemoizeObservable } from 'core/hooks/useMemoizeObservable';
-import { useObservable } from 'core/hooks/useObservable';
+import { initial, Loadable, makeLoaded, makeError } from 'src/core/loadable/loadable';
+import { useMemoizeObservable } from 'src/core/hooks/useMemoizeObservable';
+import { useObservable } from 'src/core/hooks/useObservable';
 import { map, switchAll } from 'rxjs/operators';
-import { LoadableComponent } from 'core/loadable/LoadableComponent';
+import { LoadableComponent } from 'src/core/loadable/LoadableComponent';
 import { StandardResponse } from '@principlestudios/openapi-codegen-typescript';
-import { Api, useApi } from 'core/hooks/useApi';
+import { Api, useApi } from 'src/core/hooks/useApi';
 
 type OkResponse<T> = T extends StandardResponse<200, string, infer TResponse>
 	? TResponse

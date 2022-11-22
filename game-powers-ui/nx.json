@@ -1,0 +1,48 @@
+{
+	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"npmScope": "4e",
+	"affected": {
+		"defaultBase": "main"
+	},
+	"implicitDependencies": {
+		"package.json": {
+			"dependencies": "*",
+			"devDependencies": "*"
+		},
+		".eslintrc.js": "*"
+	},
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "nx/tasks-runners/default",
+			"options": {
+				"cacheableOperations": ["build", "lint", "test", "e2e", "build-storybook"]
+			}
+		}
+	},
+	"targetDefaults": {
+		"build": {
+			"dependsOn": ["^build"]
+		}
+	},
+	"workspaceLayout": {
+		"appsDir": "packages",
+		"libsDir": "packages"
+	},
+	"generators": {
+		"@nrwl/react": {
+			"application": {
+				"style": "css",
+				"linter": "eslint",
+				"babel": true
+			},
+			"component": {
+				"style": "css"
+			},
+			"library": {
+				"style": "css",
+				"linter": "eslint"
+			}
+		}
+	},
+	"defaultProject": "react"
+}

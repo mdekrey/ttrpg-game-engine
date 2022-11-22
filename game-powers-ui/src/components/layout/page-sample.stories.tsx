@@ -1,5 +1,5 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { ReaderLayout } from 'components/reader-layout';
+import { ReaderLayout } from 'src/components/reader-layout';
 
 import Page from './page-sample.mdx';
 

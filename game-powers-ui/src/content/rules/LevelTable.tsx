@@ -1,5 +1,5 @@
-import { mdxComponents } from 'components/layout/mdx-components';
-import { levels } from 'data/levels';
+import { mdxComponents } from 'src/components/layout/mdx-components';
+import { levels } from 'src/data/levels';
 
 export const LevelTable = ({ className }: { className?: string }) => {
 	const { table: Table, thead: THead, td: TD, th: TH, tbody: TBody, p: P } = mdxComponents;

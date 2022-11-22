@@ -1,4 +1,4 @@
-import { useId } from 'core/hooks/useId';
+import { useId } from 'src/core/hooks/useId';
 import { FieldValues, Path } from 'react-hook-form';
 import { ComponentProps } from 'react';
 import { Label } from '../label/label';

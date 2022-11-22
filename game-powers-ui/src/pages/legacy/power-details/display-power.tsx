@@ -1,8 +1,8 @@
-import { LegacyPowerDetails } from 'api/models/LegacyPowerDetails';
-import { LegacyRuleText } from 'api/models/LegacyRuleText';
-import { DynamicMarkdown } from 'components/mdx/DynamicMarkdown';
-import { PowerTextBlock, PowerTextBlockProps } from 'components/power';
-import { PowerType } from 'components/power/Power';
+import { LegacyPowerDetails } from 'src/api/models/LegacyPowerDetails';
+import { LegacyRuleText } from 'src/api/models/LegacyRuleText';
+import { DynamicMarkdown } from 'src/components/mdx/DynamicMarkdown';
+import { PowerTextBlock, PowerTextBlockProps } from 'src/components/power';
+import { PowerType } from 'src/components/power/Power';
 import { ComponentProps } from 'react';
 import { Sources } from '../sources';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';

@@ -1,13 +1,13 @@
 import { sortBy } from 'lodash/fp';
 import { map } from 'rxjs/operators';
-import { useApi } from 'core/hooks/useApi';
-import { useObservable } from 'core/hooks/useObservable';
-import { StructuredResponses } from 'api/operations/getLegacyClasses';
-import { initial, Loadable, makeLoaded } from 'core/loadable/loadable';
-import { ReaderLayout } from 'components/reader-layout';
-import { LoadableComponent } from 'core/loadable/LoadableComponent';
-import { LegacyClassSummary } from 'api/models/LegacyClassSummary';
-import { MainHeader } from 'components/reader-layout/MainHeader';
+import { useApi } from 'src/core/hooks/useApi';
+import { useObservable } from 'src/core/hooks/useObservable';
+import { StructuredResponses } from 'src/api/operations/getLegacyClasses';
+import { initial, Loadable, makeLoaded } from 'src/core/loadable/loadable';
+import { ReaderLayout } from 'src/components/reader-layout';
+import { LoadableComponent } from 'src/core/loadable/LoadableComponent';
+import { LegacyClassSummary } from 'src/api/models/LegacyClassSummary';
+import { MainHeader } from 'src/components/reader-layout/MainHeader';
 import { wizardsSort } from '../wizards-sort';
 
 export function ClassList() {

@@ -1,16 +1,16 @@
 /* eslint-disable react/no-array-index-key */
 import { useMemo, useState } from 'react';
-import { useGameForm } from 'core/hooks/useGameForm';
-import { Button } from 'components/button/Button';
-import { Card } from 'components/card/card';
-import { SelectFormField, TextboxField } from 'components/forms';
-import { ButtonRow } from 'components/ButtonRow';
-import { EditableClassDescriptor } from 'api/models/EditableClassDescriptor';
-import { classSurveySchemaWithoutEditors, roles } from 'core/schemas/api';
-import { ClassDescription } from 'components/mdx/ClassDescription';
-import { YamlEditor } from 'components/monaco/YamlEditor';
-import { MdxEditor } from 'components/monaco/MdxEditor';
-import { MdxComponents } from 'components/layout/mdx-components';
+import { useGameForm } from 'src/core/hooks/useGameForm';
+import { Button } from 'src/components/button/Button';
+import { Card } from 'src/components/card/card';
+import { SelectFormField, TextboxField } from 'src/components/forms';
+import { ButtonRow } from 'src/components/ButtonRow';
+import { EditableClassDescriptor } from 'src/api/models/EditableClassDescriptor';
+import { classSurveySchemaWithoutEditors, roles } from 'src/core/schemas/api';
+import { ClassDescription } from 'src/components/mdx/ClassDescription';
+import { YamlEditor } from 'src/components/monaco/YamlEditor';
+import { MdxEditor } from 'src/components/monaco/MdxEditor';
+import { MdxComponents } from 'src/components/layout/mdx-components';
 import { SamplePowersSection } from './SamplePowersSection';
 import { defaultToolProfile } from './defaultToolProfile';
 

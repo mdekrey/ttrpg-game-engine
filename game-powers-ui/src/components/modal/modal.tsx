@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { mergeStyles } from 'core/jsx/mergeStyles';
-import { pipeJsx } from 'core/jsx/pipeJsx';
+import { mergeStyles } from 'src/core/jsx/mergeStyles';
+import { pipeJsx } from 'src/core/jsx/pipeJsx';
 import { Fragment } from 'react';
 import { XIcon } from '@heroicons/react/solid';
 

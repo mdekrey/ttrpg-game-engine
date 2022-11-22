@@ -1,7 +1,7 @@
-import { PowerTextProfile } from 'api/models/PowerTextProfile';
+import { PowerTextProfile } from 'src/api/models/PowerTextProfile';
 import classNames from 'classnames';
-import { PowerTextBlock } from 'components/power';
-import { powerTextBlockToProps } from 'components/power/PowerTextBlock';
+import { PowerTextBlock } from 'src/components/power';
+import { powerTextBlockToProps } from 'src/components/power/PowerTextBlock';
 
 export function PowerSection({ header, powers }: { header: string; powers: PowerTextProfile[] }) {
 	return (

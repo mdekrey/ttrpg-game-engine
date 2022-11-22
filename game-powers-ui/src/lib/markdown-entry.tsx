@@ -1,7 +1,7 @@
 import { Helmet, HelmetProps, HelmetProvider } from 'react-helmet-async';
 import { ChevronDoubleLeftIcon } from '@heroicons/react/solid';
-import { createEntry as originalCreateEntry } from 'lib/createEntry';
-import { ReaderLayout } from 'components/reader-layout';
+import { createEntry as originalCreateEntry } from 'src/lib/createEntry';
+import { ReaderLayout } from 'src/components/reader-layout';
 
 export function createEntry(Component: typeof import('*.mdx')['default']) {
 	function App() {

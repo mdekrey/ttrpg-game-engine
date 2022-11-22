@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { editor, Environment, IDisposable } from 'monaco-editor';
 import { dump as toYaml, load as fromYaml } from 'js-yaml';
 import { SchemasSettings, setDiagnosticsOptions } from 'monaco-yaml';
-import api from 'api/api.yaml';
+import api from 'src/api/api.yaml';
 import { getModelWithContent } from './getModelWithContent';
 
 declare global {

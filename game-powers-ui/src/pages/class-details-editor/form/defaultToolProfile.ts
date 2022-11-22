@@ -1,4 +1,4 @@
-import { ToolProfile } from 'api/models/ToolProfile';
+import { ToolProfile } from 'src/api/models/ToolProfile';
 
 export const defaultToolProfile: Readonly<ToolProfile> = {
 	toolType: 'Weapon',

@@ -1,4 +1,4 @@
-import { pipeJsx } from 'core/jsx/pipeJsx';
+import { pipeJsx } from 'src/core/jsx/pipeJsx';
 import { forwardRef } from 'react';
 import { inputBorder } from '../templates';
 import { Controlled } from '../Controlled';

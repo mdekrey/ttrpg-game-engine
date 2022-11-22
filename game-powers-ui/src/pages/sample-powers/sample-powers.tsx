@@ -2,8 +2,8 @@
 import classNames from 'classnames';
 import groupBy from 'lodash/fp/groupBy';
 import zip from 'lodash/fp/zip';
-import { PowerTextBlock, PowerTextBlockProps } from 'components/power';
-import { ReaderLayout } from 'components/reader-layout';
+import { PowerTextBlock, PowerTextBlockProps } from 'src/components/power';
+import { ReaderLayout } from 'src/components/reader-layout';
 
 type PowerProfileProps = {
 	level: number;

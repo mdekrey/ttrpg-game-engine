@@ -1,4 +1,4 @@
-import { LegacyPowerDetails } from 'api/models/LegacyPowerDetails';
+import { LegacyPowerDetails } from 'src/api/models/LegacyPowerDetails';
 
 function foundryUsage(powerUsage: string) {
 	return powerUsage === 'At-Will'

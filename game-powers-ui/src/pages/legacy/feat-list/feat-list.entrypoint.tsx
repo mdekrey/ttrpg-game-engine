@@ -1,4 +1,4 @@
-import { createEntry } from 'lib/createEntry';
+import { createEntry } from 'src/lib/createEntry';
 import { FeatList } from './FeatList';
 
 export default createEntry(FeatList);

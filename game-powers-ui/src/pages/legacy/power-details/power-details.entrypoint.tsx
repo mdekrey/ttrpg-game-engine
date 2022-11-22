@@ -1,5 +1,5 @@
-import { ReaderLayout } from 'components/reader-layout';
-import { createEntry } from 'lib/createEntry';
+import { ReaderLayout } from 'src/components/reader-layout';
+import { createEntry } from 'src/lib/createEntry';
 import { PowerDetailsSelector } from './power.selector';
 
 export default createEntry(({ data }) => (

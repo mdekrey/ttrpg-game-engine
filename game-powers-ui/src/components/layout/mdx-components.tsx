@@ -1,9 +1,9 @@
 import { MDXProvider, Components } from '@mdx-js/react';
 import classNames from 'classnames';
-import { recurse } from 'core/jsx/recurse';
+import { recurse } from 'src/core/jsx/recurse';
 import QRCode from 'react-qr-code';
-import { JsxMutator, pipeJsx } from 'core/jsx/pipeJsx';
-import { mergeStyles } from 'core/jsx/mergeStyles';
+import { JsxMutator, pipeJsx } from 'src/core/jsx/pipeJsx';
+import { mergeStyles } from 'src/core/jsx/mergeStyles';
 import React, { cloneElement, ReactNode } from 'react';
 
 const headerLink: JsxMutator = (el) => {

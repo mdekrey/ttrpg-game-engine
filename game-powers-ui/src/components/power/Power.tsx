@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import { recurse } from 'core/jsx/recurse';
-import { pipeJsx } from 'core/jsx/pipeJsx';
-import { mergeStyles } from 'core/jsx/mergeStyles';
+import { recurse } from 'src/core/jsx/recurse';
+import { pipeJsx } from 'src/core/jsx/pipeJsx';
+import { mergeStyles } from 'src/core/jsx/mergeStyles';
 import { FlavorText } from './FlavorText';
 
 export type PowerType = 'At-Will' | 'Encounter' | 'Daily' | 'Item';

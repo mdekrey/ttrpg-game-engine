@@ -1,4 +1,4 @@
-import { getPath } from 'core/hooks/useGameForm';
+import { getPath } from 'src/core/hooks/useGameForm';
 import { FormState, Path } from 'react-hook-form';
 
 export function ValidationMessages<TFieldValues, TName extends Path<TFieldValues>>({

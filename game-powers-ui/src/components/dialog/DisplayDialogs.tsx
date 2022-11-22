@@ -1,4 +1,4 @@
-import { Modal } from 'components/modal/modal';
+import { Modal } from 'src/components/modal/modal';
 import { useDisplayedDialogs } from './context';
 
 export function DisplayDialogs() {

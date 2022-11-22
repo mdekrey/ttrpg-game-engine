@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { neverEver } from 'lib/neverEver';
+import { neverEver } from 'src/lib/neverEver';
 import { PowerType } from './Power';
 import { MeleeIcon, RangedIcon, AreaIcon, CloseIcon } from './icons';
 

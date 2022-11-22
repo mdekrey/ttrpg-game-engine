@@ -1,6 +1,6 @@
 import { ClipboardIcon, ClipboardCheckIcon } from '@heroicons/react/outline';
 import { ComponentType, ReactNode, useState } from 'react';
-import { Sidebar } from 'components/sidebar';
+import { Sidebar } from 'src/components/sidebar';
 
 export function CopyTextButton({
 	toCopy,

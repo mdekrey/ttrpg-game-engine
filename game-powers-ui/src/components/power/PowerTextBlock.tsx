@@ -1,5 +1,5 @@
 import { Fragment, ReactNode, useCallback, useMemo } from 'react';
-import { PowerTextBlock as ApiPowerTextBlock } from 'api/models/PowerTextBlock';
+import { PowerTextBlock as ApiPowerTextBlock } from 'src/api/models/PowerTextBlock';
 import { Power, PowerType } from './Power';
 import { MeleeIcon, RangedIcon, AreaIcon, CloseIcon, BasicMeleeIcon, BasicRangedIcon } from './icons';
 import { RulesText } from './RulesText';

@@ -4,21 +4,21 @@ import jp from 'jsonpath';
 import parseJsonAst, { Token } from 'json-to-ast';
 import { RefreshIcon } from '@heroicons/react/solid';
 
-import { useObservable } from 'core/hooks/useObservable';
-import { is200 } from 'core/is200';
-import { Button } from 'components/button/Button';
-import { ButtonRow } from 'components/ButtonRow';
-import { YamlEditor } from 'components/monaco/YamlEditor';
-import { PowerTextBlock } from 'components/power';
-import { PowerProfileConfig } from 'api/models/PowerProfileConfig';
-import { AstViewer } from 'components/json/ast';
+import { useObservable } from 'src/core/hooks/useObservable';
+import { is200 } from 'src/core/is200';
+import { Button } from 'src/components/button/Button';
+import { ButtonRow } from 'src/components/ButtonRow';
+import { YamlEditor } from 'src/components/monaco/YamlEditor';
+import { PowerTextBlock } from 'src/components/power';
+import { PowerProfileConfig } from 'src/api/models/PowerProfileConfig';
+import { AstViewer } from 'src/components/json/ast';
 import { of, Subject } from 'rxjs';
-import { useApi } from 'core/hooks/useApi';
+import { useApi } from 'src/core/hooks/useApi';
 import { map, filter, switchAll, startWith } from 'rxjs/operators';
 import produce from 'immer';
 import useConstant from 'use-constant';
-import { powerProfileConfigSchema } from 'core/schemas/api';
-import { powerTextBlockToProps } from 'components/power/PowerTextBlock';
+import { powerProfileConfigSchema } from 'src/core/schemas/api';
+import { powerTextBlockToProps } from 'src/components/power/PowerTextBlock';
 import { SamplePowerData, SamplePowerRequestBody } from './SamplePowers';
 
 const safePaths: typeof jp.paths = (obj, pathExpression, count) => {

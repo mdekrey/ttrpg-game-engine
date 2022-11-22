@@ -1,5 +1,5 @@
-import { LegacyGearDetails } from 'api/models/LegacyGearDetails';
-import { FullReferenceMdx, inlineObject } from 'components/mdx/FullReferenceMdx';
+import { LegacyGearDetails } from 'src/api/models/LegacyGearDetails';
+import { FullReferenceMdx, inlineObject } from 'src/components/mdx/FullReferenceMdx';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { Sources } from '../sources';
 import { PowerDetailsSelector } from '../power-details/power.selector';

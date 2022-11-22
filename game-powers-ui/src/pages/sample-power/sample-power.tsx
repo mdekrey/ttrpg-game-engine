@@ -1,4 +1,4 @@
-import { PowerTextBlock, PowerTextBlockProps } from 'components/power';
+import { PowerTextBlock, PowerTextBlockProps } from 'src/components/power';
 
 export function SamplePower({ data: { power } }: { data: { power: PowerTextBlockProps } }) {
 	return <PowerTextBlock {...power} />;

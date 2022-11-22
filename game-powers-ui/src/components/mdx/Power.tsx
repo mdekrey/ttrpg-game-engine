@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { load as fromYaml } from 'js-yaml';
-import { PowerTextBlock, PowerTextBlockProps } from 'components/power';
+import { PowerTextBlock, PowerTextBlockProps } from 'src/components/power';
 
 export function Power({ children }: { children?: string }) {
 	const result = useMemo(() => {
