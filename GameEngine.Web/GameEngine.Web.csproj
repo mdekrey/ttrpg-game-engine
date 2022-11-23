@@ -53,19 +53,4 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="NodeInstallReactFrontend" BeforeTargets="Build" Condition=" '$(SkipUiBuild)'=='' " Inputs="$(NodeReactDir)\package.json;$(NodeReactDir)\package-lock.json" Outputs="$(NodeReactDir)\node_modules\_._">
-    <!-- Ensure Node.js is installed -->
-    <Exec Command="node --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-    </Exec>
-    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
-    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-    <Exec Command="npm install" WorkingDirectory="$(NodeReactDir)" Condition=" '$(Configuration)' == 'Debug' " />
-    <Exec Command="npm ci" WorkingDirectory="$(NodeReactDir)" Condition=" '$(Configuration)' != 'Debug' " />
-  </Target>
-
-  <Target Name="NodeBuildReact" AfterTargets="Compile" Inputs="@(ReactFrontend)" Outputs="$(NodeReactOutDir)/asset-manifest.json" DependsOnTargets="NodeInstallReactFrontend" Condition=" '$(BuildingInsideVisualStudio)' != 'true' and '$(SkipUiBuild)'=='' ">
-    <Exec Command="npm run build" WorkingDirectory="$(NodeReactDir)" />
-  </Target>
-
 </Project>
