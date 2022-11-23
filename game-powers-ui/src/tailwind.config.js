@@ -96,7 +96,6 @@ module.exports = {
 		},
 	},
 	plugins: [
-		require('tailwindcss-multi-column')(),
 		plugin.withOptions(({ className = 'theme' } = {}) => {
 			return ({ e, addUtilities, theme, variants }) => {
 				const caretColors = generateColors(e, theme('colors'), `.${className}`, (color) => ({

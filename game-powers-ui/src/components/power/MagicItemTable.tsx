@@ -10,7 +10,7 @@ const prices = [
 ];
 
 export const MagicItemTable = ({ className, levels, ...props }: MagicItemTableProps) => (
-	<div className={classNames('col-count-2 col-gap-4', className)} {...props}>
+	<div className={classNames('columns-2 col-gap-4', className)} {...props}>
 		<table className="w-full">
 			<tbody>
 				{levels.map(([level, modifier]) => (
