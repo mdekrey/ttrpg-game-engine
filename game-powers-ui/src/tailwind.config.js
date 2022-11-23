@@ -64,8 +64,7 @@ const colors = {
 };
 
 module.exports = {
-	purge: ['./src/**/*.{js,jsx,ts,tsx,mdx}'],
-	darkMode: false, // or 'media' or 'class'
+	content: ['./src/**/*.{js,jsx,ts,tsx,mdx}'],
 	theme: {
 		extend: {
 			fontSize: {

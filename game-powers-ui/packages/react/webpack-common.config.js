@@ -15,6 +15,7 @@ module.exports = async (config, context) => {
 	config = mergeYaml(config, context);
 
 	return merge(config, {
+		stats: { children: true },
 		optimization: {
 			splitChunks: {
 				chunks: 'all',

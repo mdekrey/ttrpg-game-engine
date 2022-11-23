@@ -9,13 +9,13 @@
 /game-powers-ui/.pnp
 /game-powers-ui/.pnp.js
 
-/game-powers-ui/# testing
+# testing
 /game-powers-ui/coverage
 
-/game-powers-ui/# production
+# production
 /game-powers-ui/build
 
-/game-powers-ui/# misc
+# misc
 /game-powers-ui/.DS_Store
 /game-powers-ui/.env.local
 /game-powers-ui/.env.development.local
@@ -25,6 +25,8 @@
 /game-powers-ui/npm-debug.log*
 /game-powers-ui/yarn-debug.log*
 /game-powers-ui/yarn-error.log*
+/game-powers-ui/src/api/**/*
+game-powers-ui/src/foundry-bridge/**/*
 
 
 ## Ignore Visual Studio temporary files, build results, and

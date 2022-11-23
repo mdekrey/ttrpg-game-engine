@@ -12,8 +12,12 @@ module.exports = {
 	settings: {
 		react: {
 			version: 'detect'
+		},
+		'import/resolver': {
+			typescript: {} // this loads <rootdir>/tsconfig.json to eslint
 		}
 	},
+
 	extends: [
 		'airbnb-typescript',
 		'airbnb/hooks',
@@ -21,7 +25,8 @@ module.exports = {
 		'plugin:react/recommended',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended',
-		'prettier'
+		'prettier',
+		'plugin:import/recommended'
 	],
 	plugins: ['prettier', '@nrwl/nx'],
 	overrides: [
