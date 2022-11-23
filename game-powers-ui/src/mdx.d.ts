@@ -62,7 +62,7 @@ declare module '@mdx-js/react' {
 // 	};
 // }
 
-declare module '@mdx-js/runtime' {
+declare module '@mdx-js/mdx' {
 	export interface MDXProps {
 		components?: Record<string, React.ComponentType<any>>;
 		scope?: Record<string, React.ComponentType<any>>;
@@ -70,6 +70,6 @@ declare module '@mdx-js/runtime' {
 		children?: string;
 	}
 
-	const MDX: React.FunctionComponent<MDXProps>;
-	export default MDX;
+	const evaluate: (mdx: string, options: unknown) => Promise<{ default: React.FunctionComponent<MDXProps> }>;
+	export { evaluate };
 }

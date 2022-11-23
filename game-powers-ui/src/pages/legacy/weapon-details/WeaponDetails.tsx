@@ -1,9 +1,9 @@
 import { LegacyWeaponDetails } from 'src/api/models/LegacyWeaponDetails';
-import { FullReferenceMdx, inlineObject } from 'src/components/mdx/FullReferenceMdx';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { Sources } from '../sources';
-import { PowerDetailsSelector } from '../power-details/power.selector';
 import { integerFormatting, toNumber } from '../integer-formatting';
+import { ConvertedMarkdown } from 'src/components/mdx/ConvertedMarkdown';
+import { mdxComponents } from 'src/components/layout/mdx-components';
 
 export function WeaponDetails({ details: { details, secondaryEnd } }: { details: LegacyWeaponDetails }) {
 	const weight = toNumber(details.rules.find((r) => r.label === 'Weight')?.text);
@@ -24,20 +24,21 @@ export function WeaponDetails({ details: { details, secondaryEnd } }: { details:
 	const price = `${gold ? `${integerFormatting.format(gold)} gp` : ''}`;
 	const none = '&mdash;';
 
+	const H1 = mdxComponents.h1;
+
 	return (
 		<>
-			<FullReferenceMdx
-				components={{ Sources, PowerDetailsSelector }}
-				contents={`
-# ${details.name} <Sources sources={${inlineObject(details.sources)}} />
-
+			<H1>
+				{details.name} <Sources sources={details.sources} />
+			</H1>
+			<ConvertedMarkdown>{`
 **_${weaponCategory}_**
 
 ${wizardsTextToMarkdown(details.description, { depth: 2 })}
 
 **Proficiency Bonus**: ${proficiencyBonus ? `+${proficiencyBonus}` : none} ${
-					secondaryProficiencyBonus ? `/ +${secondaryProficiencyBonus}` : ''
-				}
+				secondaryProficiencyBonus ? `/ +${secondaryProficiencyBonus}` : ''
+			}
 
 **Damage**: ${damage || none} ${secondaryDamage ? `/ ${secondaryDamage}` : ''}
 
@@ -53,8 +54,7 @@ ${properties ? `**Properties**: ${properties}` : ''}
 
 **Price**: ${price || none}
 
-`}
-			/>
+`}</ConvertedMarkdown>
 		</>
 	);
 }

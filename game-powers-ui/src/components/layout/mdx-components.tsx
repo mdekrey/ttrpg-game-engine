@@ -35,8 +35,8 @@ export const rowTemplate = mergeStyles(
 );
 export const infoFontTemplate = mergeStyles(<i className="font-info" />);
 
-export const mdxComponents: Components = {
-	h1: ({ children, className, ...props }) =>
+export const mdxComponents = {
+	h1: ({ children, className, ...props }: JSX.IntrinsicElements['h1']) =>
 		pipeJsx(
 			<h2 className={classNames(className, 'text-theme text-2xl')} {...props}>
 				{children}
@@ -44,7 +44,7 @@ export const mdxComponents: Components = {
 			headerTemplate,
 			headerLink
 		),
-	h2: ({ children, className, ...props }) =>
+	h2: ({ children, className, ...props }: JSX.IntrinsicElements['h2']) =>
 		pipeJsx(
 			<h3 className={classNames(className, 'text-theme text-xl')} {...props}>
 				{children}
@@ -52,7 +52,7 @@ export const mdxComponents: Components = {
 			headerTemplate,
 			headerLink
 		),
-	h3: ({ children, className, ...props }) =>
+	h3: ({ children, className, ...props }: JSX.IntrinsicElements['h3']) =>
 		pipeJsx(
 			<h4 className={classNames(className, 'text-lg')} {...props}>
 				{children}
@@ -60,7 +60,7 @@ export const mdxComponents: Components = {
 			headerTemplate,
 			headerLink
 		),
-	h4: ({ children, className, ...props }) =>
+	h4: ({ children, className, ...props }: JSX.IntrinsicElements['h4']) =>
 		pipeJsx(
 			<h5 className={classNames(className, 'text-base')} {...props}>
 				{children}
@@ -68,7 +68,7 @@ export const mdxComponents: Components = {
 			headerTemplate,
 			headerLink
 		),
-	h5: ({ children, className, ...props }) =>
+	h5: ({ children, className, ...props }: JSX.IntrinsicElements['h5']) =>
 		pipeJsx(
 			<h6 className={classNames(className, 'text-sm')} {...props}>
 				{children}
@@ -76,7 +76,7 @@ export const mdxComponents: Components = {
 			headerTemplate,
 			headerLink
 		),
-	h6: ({ children, className, ...props }) =>
+	h6: ({ children, className, ...props }: JSX.IntrinsicElements['h6']) =>
 		pipeJsx(
 			<h6 className={classNames(className, 'text-xs')} {...props}>
 				{children}
@@ -84,56 +84,60 @@ export const mdxComponents: Components = {
 			headerTemplate,
 			headerLink
 		),
-	p: ({ children, className, ...props }) => (
+	p: ({ children, className, ...props }: JSX.IntrinsicElements['p']) => (
 		<p className={classNames(className, 'theme-4e-indent')} {...props}>
 			{children}
 		</p>
 	),
-	table: ({ children, className, ...props }) => (
+	table: ({ children, className, ...props }: JSX.IntrinsicElements['table']) => (
 		<div className="overflow-auto print:overflow-visible my-2" style={{ breakInside: 'avoid' }}>
 			<table className={classNames(className, 'w-full border-collapse')} style={{ breakInside: 'avoid' }} {...props}>
 				{children}
 			</table>
 		</div>
 	),
-	a: ({ children, className, ...props }) => (
+	a: ({ children, className, ...props }: JSX.IntrinsicElements['a']) => (
 		<a className={classNames(className, 'underline text-theme')} {...props}>
 			{children}
 		</a>
 	),
-	thead: ({ children, className, ...props }) => (
+	thead: ({ children, className, ...props }: JSX.IntrinsicElements['thead']) => (
 		<thead className={classNames(className, 'bg-theme text-white')} {...props}>
 			{children}
 		</thead>
 	),
-	tbody: ({ children, ...props }) => <tbody {...props}>{pipeJsx(<>{children}</>, recurse(rowTemplate))}</tbody>,
-	td: ({ children, className, isHeader, ...props }) => (
+	tbody: ({ children, ...props }: JSX.IntrinsicElements['tbody']) => (
+		<tbody {...props}>{pipeJsx(<>{children}</>, recurse(rowTemplate))}</tbody>
+	),
+	td: ({ children, className, isHeader, ...props }: JSX.IntrinsicElements['td'] & { isHeader?: boolean }) => (
 		<td className={classNames(className, 'px-2 font-bold align-top')} {...props}>
 			{children}
 		</td>
 	),
-	th: ({ children, className, isHeader, ...props }) => (
+	th: ({ children, className, isHeader, ...props }: JSX.IntrinsicElements['th'] & { isHeader?: boolean }) => (
 		<th className={classNames(className, 'px-2 font-bold align-bottom')} {...props}>
 			{children}
 		</th>
 	),
-	ul: ({ children, className, ordered, ...props }) => (
+	ul: ({ children, className, ordered, ...props }: JSX.IntrinsicElements['ul'] & { ordered?: boolean }) => (
 		<ul className={classNames(className, 'list-disc ml-6 theme-4e-list')} {...props}>
 			{children}
 		</ul>
 	),
-	ol: ({ children, className, ordered, ...props }) => (
+	ol: ({ children, className, ordered, ...props }: JSX.IntrinsicElements['ol'] & { ordered?: boolean }) => (
 		<ul className={classNames(className, 'list-decimal ml-6')} {...props}>
 			{children}
 		</ul>
 	),
-	li: ({ children, className, ordered, ...props }) => (
+	li: ({ children, className, ordered, ...props }: JSX.IntrinsicElements['li'] & { ordered?: boolean }) => (
 		<li className={classNames(className, 'my-1')} {...props}>
 			{children}
 		</li>
 	),
-	hr: ({ className, ...props }) => <hr className={classNames(className, 'border-0 my-1.5')} {...(props as any)} />,
-	blockquote: ({ children, className, ...props }) => (
+	hr: ({ className, ...props }: JSX.IntrinsicElements['hr']) => (
+		<hr className={classNames(className, 'border-0 my-1.5')} {...(props as any)} />
+	),
+	blockquote: ({ children, className, ...props }: JSX.IntrinsicElements['blockquote']) => (
 		<blockquote
 			className={classNames(className, 'bg-gradient-to-r from-tan-fading p-2 my-4')}
 			style={{ pageBreakInside: 'avoid' }}
@@ -141,7 +145,7 @@ export const mdxComponents: Components = {
 			{pipeJsx(<>{children}</>, recurse(infoFontTemplate))}
 		</blockquote>
 	),
-	img: ({ src, alt, ...props }) =>
+	img: ({ src, alt, ...props }: JSX.IntrinsicElements['img']) =>
 		src?.startsWith('qr:') ? (
 			<a className="float-right text-center" href={src.substr(3)} target="_blank" rel="noreferrer">
 				<span className="p-1 mx-2 mt-2 block">
@@ -152,7 +156,7 @@ export const mdxComponents: Components = {
 		) : (
 			<img src={src} alt={alt} {...props} />
 		),
-	strong: ({ children, ...props }) => (
+	strong: ({ children, ...props }: JSX.IntrinsicElements['strong']) => (
 		<span className="font-bold" {...props}>
 			{children}
 		</span>

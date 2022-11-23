@@ -3,7 +3,6 @@ import { LegacyPowerDetails } from 'src/api/models/LegacyPowerDetails';
 import { Sidebar } from 'src/components/sidebar';
 import { DisplayPower } from './display-power';
 import { buildSelector } from '../loader-selector';
-import { powerMarkdown } from './powerMarkdown';
 import { foundryMashup } from './mashup-conversions';
 import { foundry4e } from './4e-conversions';
 
@@ -35,4 +34,9 @@ export function PowerDetailsSelector({ id, details }: { id: string; details?: Le
 			<Selector id={id} details={details} />
 		</Sidebar>
 	);
+}
+
+function powerMarkdown(power: LegacyPowerDetails | string) {
+	if (typeof power === 'string') return `<PowerDetailsSelector id={${power}} />`;
+	return `<PowerDetailsSelector id={${JSON.stringify(power.wizardsId)}} details={${JSON.stringify(power)}} />`;
 }

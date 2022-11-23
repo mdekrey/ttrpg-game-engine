@@ -5,14 +5,15 @@ import { Fragment, useMemo } from 'react';
 import { LegacyClassDetails } from 'src/api/models/LegacyClassDetails';
 import { MainHeader } from 'src/components/reader-layout/MainHeader';
 import { FlavorText } from 'src/components/reader-layout/FlavorText';
-import { FullReferenceMdx, inlineObject } from 'src/components/mdx/FullReferenceMdx';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { getArticle } from '../get-article';
 import { Sources } from '../sources';
 import { sectionMarkdown } from '../rule-section-display';
-import { ruleListMarkdown } from '../rule-list-display';
+import { RuleList } from '../rule-list-display';
 import { PowerDetailsSelector } from '../power-details/power.selector';
-import { powerMarkdown } from '../power-details/powerMarkdown';
+import { powerMap } from '../power-details/powerMarkdown';
+import { mdxComponents } from 'src/components/layout/mdx-components';
+import { ConvertedMarkdown } from 'src/components/mdx/ConvertedMarkdown';
 
 const classTraitSections = [
 	['Role', 'Power Source', 'Key Abilities'],
@@ -52,102 +53,91 @@ export function ClassDetails({ details: fullDetails }: { details: LegacyClassDet
 		return fullDetails.details.rules.find((r) => r.label === 'Power Name')?.text ?? 'Power';
 	}, [fullDetails]);
 
+	const H2 = mdxComponents.h2;
+	const H3 = mdxComponents.h3;
+
 	const { details, builds, classFeatures } = fullDetails;
 	return (
 		<>
-			<FullReferenceMdx
-				components={{ Inset, Sources, PowerDetailsSelector, MainHeader, FlavorText }}
-				contents={`
-<MainHeader>${details.name} <Sources sources={${inlineObject(details.sources)}} /></MainHeader>
+			<MainHeader>
+				{details.name} <Sources sources={details.sources} />
+			</MainHeader>
+			<FlavorText>{details.flavorText}</FlavorText>
+			<Inset>
+				<H3>{details.name.toUpperCase()} TRAITS</H3>
 
-<FlavorText>${details.flavorText}</FlavorText>
+				{classTraitSections.map((section, index) => (
+					<section className="mb-4" key={index}>
+						<RuleList rules={details.rules} labels={section} />
+					</section>
+				))}
+			</Inset>
+			<ConvertedMarkdown md={wizardsTextToMarkdown(details.description, { depth: 1 })} />
+			<ConvertedMarkdown
+				md={
+					sectionMarkdown(
+						details.rules.find((r) => r.label === 'Creating'),
+						`Creating ${getArticle(details.name)} ${details.name}`
+					) ?? ''
+				}
+			/>
+			{builds.map((build, index) => (
+				<Fragment key={index}>
+					<H3>
+						{build.name} <Sources sources={build.sources} />
+					</H3>
+					<ConvertedMarkdown md={wizardsTextToMarkdown(build.description, { depth: 4 })} />
+					<ConvertedMarkdown
+						md={wizardsTextToMarkdown(build.rules.find((r) => r.label === 'Suggested')?.text, { depth: 4 })}
+					/>
+					Key Abilities: {build.rules.find((r) => r.label === 'Key Abilities')?.text}
+				</Fragment>
+			))}
+			<ConvertedMarkdown
+				md={
+					sectionMarkdown(
+						details.rules.find((r) => r.label === 'Class Features'),
+						undefined,
+						1
+					) ?? ''
+				}
+			/>
+			{classFeatures.map(({ details: classFeature, powers: featurePowers, subFeatures }, index) => (
+				<Fragment key={index}>
+					<H2>
+						{classFeature.name} <Sources sources={classFeature.sources} />
+					</H2>
 
-<Inset>
+					<ConvertedMarkdown md={wizardsTextToMarkdown(classFeature.description, { depth: 3 })} />
 
-### ${details.name.toUpperCase()} TRAITS
+					{featurePowers.map(powerMap)}
 
-${classTraitSections
-	.map(
-		(section) => `
-<section className="mb-4">
+					{subFeatures.map(({ details: subFeatureDetails, powers: subfeaturePowers }, index2) => (
+						<Fragment key={index2}>
+							<H3>
+								{subFeatureDetails.name} <Sources sources={subFeatureDetails.sources} />
+							</H3>
 
-${ruleListMarkdown(details.rules, section)}
+							<ConvertedMarkdown md={wizardsTextToMarkdown(subFeatureDetails.description, { depth: 4 })} />
 
-</section>
-`
-	)
-	.join('\n')}
-
-</Inset>
-
-${wizardsTextToMarkdown(details.description, { depth: 1 })}
-
-${sectionMarkdown(
-	details.rules.find((r) => r.label === 'Creating'),
-	`Creating ${getArticle(details.name)} ${details.name}`
-)}
-
-${builds
-	.map(
-		(build) => `
-### ${build.name} <Sources sources={${inlineObject(build.sources)}} />
-
-${wizardsTextToMarkdown(build.description, { depth: 4 })}
-
-${wizardsTextToMarkdown(build.rules.find((r) => r.label === 'Suggested')?.text, { depth: 4 })}
-
-Key Abilities: ${build.rules.find((r) => r.label === 'Key Abilities')?.text}
-`
-	)
-	.join('\n')}
-
-${sectionMarkdown(
-	details.rules.find((r) => r.label === 'Class Features'),
-	undefined,
-	1
-)}
-
-${classFeatures
-	.map(
-		({ details: classFeature, powers: featurePowers, subFeatures }) => `
-## ${classFeature.name}  <Sources sources={${inlineObject(classFeature.sources)}} />
-
-${wizardsTextToMarkdown(classFeature.description, { depth: 3 })}
-
-${featurePowers.map(powerMarkdown).join('\n')}
-
-${subFeatures
-	.map(
-		({ details: subFeatureDetails, powers: subfeaturePowers }) => `
-### ${subFeatureDetails.name} <Sources sources={${inlineObject(subFeatureDetails.sources)}} />
-
-${wizardsTextToMarkdown(subFeatureDetails.description, { depth: 4 })}
-
-${subfeaturePowers.map(powerMarkdown).join('\n')}
-
-`
-	)
-	.join('\n')}
-`
-	)
-	.join('\n')}
-
-${wizardsTextToMarkdown(details.rules.find((r) => r.label === 'Supplemental')?.text, { depth: 1 })}
-
+							{subfeaturePowers.map(powerMap)}
+						</Fragment>
+					))}
+				</Fragment>
+			))}
+			<ConvertedMarkdown
+				md={`${wizardsTextToMarkdown(details.rules.find((r) => r.label === 'Supplemental')?.text, { depth: 1 })}
 ${details.rules
 	.filter(isOther)
 	.filter((rule) => !!rule.text)
 	.map((rule) => sectionMarkdown(rule, undefined, 1))
 	.join('\n')}
-
 ${sectionMarkdown(
 	details.rules.find((r) => r.label === 'Powers'),
 	undefined,
 	1
-)}
-`}
+)}`}
 			/>
-
 			{powerList
 				.filter((category) => !!powers[category] && powers[category].length > 0)
 				.map((category) => (

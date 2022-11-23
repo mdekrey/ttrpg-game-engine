@@ -1,10 +1,9 @@
 import { LegacyMagicItemDetails } from 'src/api/models/LegacyMagicItemDetails';
-import { FullReferenceMdx, inlineObject } from 'src/components/mdx/FullReferenceMdx';
 import { Power, RulesText } from 'src/components/power';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { Sources } from '../sources';
-import { PowerDetailsSelector } from '../power-details/power.selector';
-import { powerMarkdown } from '../power-details/powerMarkdown';
+import { powerMap } from '../power-details/powerMarkdown';
+import { ConvertedMarkdown } from 'src/components/mdx/ConvertedMarkdown';
 
 export function MagicItemDetails({ details: { details, level, powers } }: { details: LegacyMagicItemDetails }) {
 	// const itemType = details.rules.find((r) => r.label === 'Magic Item Type')?.text;
@@ -19,39 +18,33 @@ export function MagicItemDetails({ details: { details, level, powers } }: { deta
 
 	return (
 		<>
-			<FullReferenceMdx
-				components={{ Sources, PowerDetailsSelector, Power, RulesText }}
-				contents={`
-<Power
-	flavorText={${inlineObject(details.flavorText ?? undefined)}}
-	name={${inlineObject(details.name)}}
-	type="Item"
-	level={${inlineObject(level ? `Level ${level}` : '')}}
-	style={{ breakInside: 'avoid' }}>
-	<div>
-		<Sources sources={${inlineObject(details.sources)}} />
-		${armor ? `<RulesText label="Armor">${armor}</RulesText>` : ''}
-		${weapon ? `<RulesText label="Weapon">${weapon}</RulesText>` : ''}
-		${itemSlot ? `<RulesText label="Item Slot">${itemSlot}</RulesText>` : ''}
-		${enhancement ? `<RulesText label="Enhancement">${enhancement}</RulesText>` : ''}
-		${critical ? `<RulesText label="Critical">${critical}</RulesText>` : ''}
-		${property ? `<RulesText label="Property">${property}</RulesText>` : ''}
-	</div>
-	${
-		power
-			? `<RulesText label={${inlineObject(power.split(':')[0])}}>
-${wizardsTextToMarkdown(power.substring(power.split(':')[0].length + 2), { depth: 2 })}
-</RulesText>
-${powers.map(
-	(p) => `${powerMarkdown(p)}
-`
-)}`
-			: ''
-	}
-	${special ? `<RulesText label="Special">${wizardsTextToMarkdown(special, { depth: 2 })}</RulesText>` : ''}
-</Power>
-			`}
-			/>
+			<Power
+				flavorText={details.flavorText ?? undefined}
+				name={details.name}
+				type="Item"
+				level={level ? `Level ${level}` : ''}
+				style={{ breakInside: 'avoid' }}>
+				<div>
+					<Sources sources={details.sources} />
+					{armor && <RulesText label="Armor">{armor}</RulesText>}
+					{weapon && <RulesText label="Weapon">{weapon}</RulesText>}
+					{itemSlot && <RulesText label="Item Slot">{itemSlot}</RulesText>}
+					{enhancement && <RulesText label="Enhancement">{enhancement}</RulesText>}
+					{critical && <RulesText label="Critical">{critical}</RulesText>}
+					{property && <RulesText label="Property">{property}</RulesText>}
+				</div>
+				{power ? (
+					<>
+						<RulesText label={power.split(':')[0]}>
+							<ConvertedMarkdown
+								md={wizardsTextToMarkdown(power.substring(power.split(':')[0].length + 2), { depth: 2 })}
+							/>
+						</RulesText>
+						{powers.map(powerMap)}
+					</>
+				) : null}
+				{special ? <RulesText label="Special">{wizardsTextToMarkdown(special, { depth: 2 })}</RulesText> : null}
+			</Power>
 		</>
 	);
 }

@@ -21,6 +21,7 @@ module.exports = {
 		// jsx-a11y/label-has-associated-control has some weird requirements; disabling.
 		'jsx-a11y/label-has-associated-control': 0,
 		'react/prop-types': 0,
-		'react/no-array-index-key': 0
+		'react/no-array-index-key': 0,
+		'no-mixed-spaces-and-tabs': 0
 	}
 };

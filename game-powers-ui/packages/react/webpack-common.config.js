@@ -1,16 +1,17 @@
 // Helper for combining webpack config objects
+const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const mergeLib = require('./webpack-lib.config.js');
 const mergeSvgr = require('./webpack-svgr.config.js');
 const mergeMdx = require('./webpack-mdx.config.js');
 const mergeYaml = require('./webpack-yaml.config.js');
 
-module.exports = (config, context) => {
+module.exports = async (config, context) => {
 	const root = context.options.sourceRoot;
 
 	config = mergeLib(config, context);
 	config = mergeSvgr(config, context);
-	config = mergeMdx(config, context);
+	config = await mergeMdx(config, context);
 	config = mergeYaml(config, context);
 
 	return merge(config, {

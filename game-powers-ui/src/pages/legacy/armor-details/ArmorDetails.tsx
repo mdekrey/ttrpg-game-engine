@@ -1,9 +1,10 @@
 import { LegacyArmorDetails } from 'src/api/models/LegacyArmorDetails';
-import { FullReferenceMdx, inlineObject } from 'src/components/mdx/FullReferenceMdx';
 import { wizardsTextToMarkdown } from '../wizards-text-to-markdown';
 import { Sources } from '../sources';
 import { PowerDetailsSelector } from '../power-details/power.selector';
 import { integerFormatting, toNumber } from '../integer-formatting';
+import { mdxComponents } from 'src/components/layout/mdx-components';
+import { ConvertedMarkdown } from 'src/components/mdx/ConvertedMarkdown';
 
 export function ArmorDetails({ details: { details } }: { details: LegacyArmorDetails }) {
 	const weight = toNumber(details.rules.find((r) => r.label === 'Weight')?.text);
@@ -19,12 +20,14 @@ export function ArmorDetails({ details: { details } }: { details: LegacyArmorDet
 	const price = `${gold ? `${integerFormatting.format(gold)} gp` : ''}`;
 	const none = '&mdash;';
 
+	const H1 = mdxComponents.h1;
+
 	return (
 		<>
-			<FullReferenceMdx
-				components={{ Sources, PowerDetailsSelector }}
-				contents={`
-# ${details.name} <Sources sources={${inlineObject(details.sources)}} />
+			<H1>
+				{details.name} <Sources sources={details.sources} />
+			</H1>
+			<ConvertedMarkdown>{`
 
 ${wizardsTextToMarkdown(details.description, { depth: 2 })}
 
@@ -45,8 +48,7 @@ ${wizardsTextToMarkdown(details.description, { depth: 2 })}
 **Armor Cateogry**: ${armorCategory || none}
 
 **Item Slot**: ${itemSlot || none}
-`}
-			/>
+`}</ConvertedMarkdown>
 		</>
 	);
 }
