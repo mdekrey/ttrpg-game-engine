@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
-import jp from 'jsonpath';
+import { paths as jpPaths, PathComponent as jpPathComponent } from 'jsonpath';
 import parseJsonAst, { Token } from 'json-to-ast';
 import { RefreshIcon } from '@heroicons/react/solid';
 
@@ -15,15 +15,15 @@ import { AstViewer } from 'src/components/json/ast';
 import { of, Subject } from 'rxjs';
 import { useApi } from 'src/core/hooks/useApi';
 import { map, filter, switchAll, startWith } from 'rxjs/operators';
-import produce from 'immer';
+import { produce } from 'immer';
 import useConstant from 'use-constant';
 import { powerProfileConfigSchema } from 'src/core/schemas/api';
 import { powerTextBlockToProps } from 'src/components/power/PowerTextBlock';
 import { SamplePowerData, SamplePowerRequestBody } from './SamplePowers';
 
-const safePaths: typeof jp.paths = (obj, pathExpression, count) => {
+const safePaths: typeof jpPaths = (obj, pathExpression, count) => {
 	try {
-		return jp.paths(obj, pathExpression, count);
+		return jpPaths(obj, pathExpression, count);
 	} catch (ex) {
 		return [];
 	}
@@ -106,7 +106,7 @@ export function PowerProfileConfigBuilder({
 
 	const { ast, paths } = useMemo((): {
 		ast: Token | null;
-		paths: jp.PathComponent[][];
+		paths: jpPathComponent[][];
 	} => {
 		if (!power) return { ast: null, paths: [] };
 		const jsonAst = parseJsonAst(power.powerJson);

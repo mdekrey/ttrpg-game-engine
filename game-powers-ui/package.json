@@ -72,7 +72,7 @@
 		"tailwindcss": "3.2.4",
 		"touch-cli": "^0.0.1",
 		"ts-jest": "^29.0.3",
-		"typescript": "^4.4.3",
+		"typescript": "^4.9.3",
 		"use-constant": "^1.1.0",
 		"uuid": "^8.3.0",
 		"web-vitals": "^1.0.1",
@@ -92,7 +92,7 @@
 		"generate-openapi": "npm run generate-openapi-api && npm run generate-openapi-foundry-bridge",
 		"generate-openapi-api": "openapi-codegen-typescript ../schemas/api.yaml src/api/ -c && shx cp ../schemas/api.yaml src/api/",
 		"generate-openapi-foundry-bridge": "openapi-codegen-typescript ../schemas/foundry-bridge.yaml src/foundry-bridge/",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "nx run-many --all --target=tsc"
 	},
 	"browserslist": {
 		"production": [

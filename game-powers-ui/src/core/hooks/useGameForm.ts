@@ -17,5 +17,5 @@ export function useGameForm<T extends FieldValues>({
 }
 
 export const getPath = get as {
-	<T, TPath extends FieldPath<T>>(values: T, path: TPath): PathValue<T, TPath>;
+	<T extends FieldValues, TPath extends FieldPath<T>>(values: T, path: TPath): PathValue<T, TPath>;
 };

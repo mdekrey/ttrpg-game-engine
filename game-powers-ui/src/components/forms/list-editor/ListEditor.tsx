@@ -2,12 +2,12 @@ import { PlusIcon } from '@heroicons/react/solid';
 import { Button } from 'src/components/button/Button';
 import { ButtonRow } from 'src/components/ButtonRow';
 import { Fragment, ReactNode } from 'react';
-import { FieldValues, Path, PathValue } from 'react-hook-form';
+import { FieldValues, Path, PathValue, UnpackNestedValue } from 'react-hook-form';
 import { FieldPropsBase } from '../FieldProps';
 import { ValidationMessages } from '../ValidationMessages';
 
 export type ListFieldProps<
-	TFieldValues,
+	TFieldValues extends FieldValues,
 	TName extends Path<TFieldValues>,
 	TItemName extends Path<TFieldValues> & `${TName}.${number}`
 > = {
@@ -36,12 +36,14 @@ export function ListField<
 		.map((_, i) => i);
 
 	function addItem() {
-		setValue(name, [...getValues(name), defaultValue()] as PathValue<TFieldValues, TName>);
+		setValue(name, [...getValues(name), defaultValue()] as UnpackNestedValue<PathValue<TFieldValues, TName>>);
 	}
 
 	function remove(index: number) {
 		const current = getValues(name);
-		setValue(name, [...current.slice(0, index), ...current.slice(index + 1)] as PathValue<TFieldValues, TName>);
+		setValue(name, [...current.slice(0, index), ...current.slice(index + 1)] as UnpackNestedValue<
+			PathValue<TFieldValues, TName>
+		>);
 	}
 
 	return (

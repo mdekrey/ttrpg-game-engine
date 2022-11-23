@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render as domRender } from 'react-dom';
 import 'src/lib/index.css';
 import reportWebVitals from 'src/lib/reportWebVitals';
 import { DisplayDialogs } from 'src/components/dialog';
@@ -18,7 +18,7 @@ export function createEntry(Component: React.ComponentType<any>) {
 	return (element: HTMLElement, context: ReactStandardProps) => {
 		const baseContext: ReactStandardProps = parseContextFromHtml(element);
 		function render(actualData?: ReactStandardProps) {
-			ReactDOM.render(
+			domRender(
 				<React.StrictMode>
 					<Component {...baseContext} {...actualData} />
 					<DisplayDialogs />

@@ -19,7 +19,8 @@
 			"dependsOn": ["^lint"],
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["src/**/*.{ts,tsx,js,jsx}"]
+				"lintFilePatterns": ["src/**/*.{ts,tsx,js,jsx}"],
+				"maxWarnings": 0
 			}
 		},
 		"test": {

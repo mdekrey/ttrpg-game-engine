@@ -39,6 +39,7 @@ WORKDIR "/src/game-powers-ui"
 RUN npm run generate-openapi
 RUN CI=true npm test
 RUN npm run lint
+RUN npm run typecheck
 RUN npm run build
 
 FROM base AS final

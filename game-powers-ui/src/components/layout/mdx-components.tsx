@@ -4,11 +4,11 @@ import { recurse } from 'src/core/jsx/recurse';
 import QRCode from 'react-qr-code';
 import { JsxMutator, pipeJsx } from 'src/core/jsx/pipeJsx';
 import { mergeStyles } from 'src/core/jsx/mergeStyles';
-import React, { cloneElement, ReactNode } from 'react';
+import React, { cloneElement, ReactNode, Children } from 'react';
 
 const headerLink: JsxMutator = (el) => {
 	if (el.props.id) return el;
-	const id = React.Children.map(el.props.children as ReactNode[], (child) => {
+	const id = Children.map(el.props.children as ReactNode[], (child) => {
 		if (typeof child === 'string') return child;
 		return '';
 	})
@@ -149,7 +149,7 @@ export const mdxComponents = {
 		src?.startsWith('qr:') ? (
 			<a className="float-right text-center" href={src.substr(3)} target="_blank" rel="noreferrer">
 				<span className="p-1 mx-2 mt-2 block">
-					<QRCode value={src.substr(3)} size={128} alt={alt} fgColor="currentcolor" bgColor="transparent" />
+					<QRCode value={src.substr(3)} size={128} fgColor="currentcolor" bgColor="transparent" />
 				</span>
 				{alt && <span className="text-xs w-32 mx-auto font-info block">{alt}</span>}
 			</a>

@@ -5,7 +5,7 @@ import { EditableClassDescriptor } from 'src/api/models/EditableClassDescriptor'
 import { PowerFrequency } from 'src/api/models/PowerFrequency';
 import { Modal } from 'src/components/modal/modal';
 import { ToolProfile } from 'src/api/models/ToolProfile';
-import produce from 'immer';
+import { produce } from 'immer';
 import { SamplePowerData, SamplePowers } from './SamplePowers';
 import { PowerProfileConfigBuilder } from './PowerProfileConfigBuilder';
 
