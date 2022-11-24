@@ -4,14 +4,19 @@ import { Actor } from 'src/foundry-bridge/models/Actor';
 import { useRef } from 'react';
 import { CharacterSheet } from './character-sheet';
 
-export const CharacterSheetContainer = ({ data }: { data?: Actor }) => {
+export const CharacterSheetContainer = ({ data }: { data?: { id: string; actor: Actor } }) => {
 	const svgRef = useRef<SVGSVGElement | null>(null);
 	return (
 		<div className="m-4">
 			<p className="mb-4">
 				<button type="button" className="print:hidden underline text-blue-700" onClick={handleLink}>
 					Downloadable
-				</button>
+				</button>{' '}
+				{data && (
+					<a className="print:hidden underline text-blue-700" href={`/character-sheet/${data.id}/powers`}>
+						Power Cards
+					</a>
+				)}
 			</p>
 			<CharacterSheet
 				ref={svgRef}
@@ -22,13 +27,13 @@ export const CharacterSheetContainer = ({ data }: { data?: Actor }) => {
 					}
 				}
 				className="print:m-0 border border-black print:border-0"
-				character={data}
+				character={data?.actor}
 			/>
 
-			<div className="flex flex-row flex-wrap gap-[0.25in]">
-				{data?.powers?.map((power, index) => (
+			<div className="grid grid-cols-3 gap-4">
+				{data?.actor.powers?.map((power, index) => (
 					<PowerTextBlock
-						className="my-4 max-w-[2.5in]"
+						className="my-4"
 						key={index}
 						name={power.name}
 						flavorText={power.flavorText}

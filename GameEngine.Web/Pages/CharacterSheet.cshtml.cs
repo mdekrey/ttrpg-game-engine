@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace GameEngine.Web.Pages
 {
@@ -20,7 +21,11 @@ namespace GameEngine.Web.Pages
         {
         }
 
-        public FoundryApi.Actor? GetCharcterData() =>
-            Id != null && Characters.TryGetValue(Id, out var actor) ? actor : null;
+        public Data? GetCharcterData() =>
+            Id != null && Characters.TryGetValue(Id, out var actor) ? new Data(Id, actor) : null;
+
+        public record Data(
+            [property: JsonPropertyName("id")] string Id,
+            [property: JsonPropertyName("actor")] FoundryApi.Actor Actor);
     }
 }

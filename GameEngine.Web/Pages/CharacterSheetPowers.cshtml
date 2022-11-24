@@ -1,0 +1,3 @@
+﻿@page "/character-sheet/{id}/powers"
+@model GameEngine.Web.Pages.CharacterSheetPowersModel
+@await Html.React($"pages/rules/character-sheet-powers", Model.GetPowersData())
