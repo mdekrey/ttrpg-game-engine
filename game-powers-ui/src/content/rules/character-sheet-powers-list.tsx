@@ -17,7 +17,7 @@ export const CharacterSheetPowersList = ({ data }: { data: { id: string; powers:
 					<tr key={index} className="break-inside-avoid-page">
 						{row.map(([power, originalIndex], colIndex) => (
 							<td key={colIndex} className="align-top w-[calc(100%_/_3)]">
-								<button type="button" className="text-red-dark font-bold" onClick={remove(originalIndex)}>
+								<button type="button" className="text-red-dark font-bold print:hidden" onClick={remove(originalIndex)}>
 									Remove
 								</button>
 								{powerComponent(power)}
