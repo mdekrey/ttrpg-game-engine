@@ -11,12 +11,12 @@ export const CharacterSheetPowersList = ({ data }: { data: { id: string; powers:
 		data.powers.map((power, index) => [power, index] as const).filter(([, idx]) => !removed.includes(idx))
 	);
 	return (
-		<table className="border-spacing-[0.25in] border-separate">
+		<table className="border-spacing-[0.25in] -m-[0.25in] border-separate">
 			<tbody>
 				{rows.map((row, index) => (
 					<tr key={index} className="break-inside-avoid-page">
 						{row.map(([power, originalIndex], colIndex) => (
-							<td key={colIndex} className="align-top w-[calc(100%_/_3)]">
+							<td key={colIndex} className="align-top w-[calc(100%_/_3)] print:text-sm">
 								<button type="button" className="text-red-dark font-bold print:hidden" onClick={remove(originalIndex)}>
 									Remove
 								</button>

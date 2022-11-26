@@ -1,8 +1,7 @@
-import { PowerTextBlock } from 'src/components/power';
-import { PowerType } from 'src/components/power/Power';
 import { Actor } from 'src/foundry-bridge/models/Actor';
 import { useRef } from 'react';
 import { CharacterSheet } from './character-sheet';
+import { CharacterSheetPowersList } from './character-sheet-powers-list';
 
 export const CharacterSheetContainer = ({ data }: { data?: { id: string; actor: Actor } }) => {
 	const svgRef = useRef<SVGSVGElement | null>(null);
@@ -30,29 +29,7 @@ export const CharacterSheetContainer = ({ data }: { data?: { id: string; actor: 
 				character={data?.actor}
 			/>
 
-			<div className="grid grid-cols-3 gap-4">
-				{data?.actor.powers?.map((power, index) => (
-					<PowerTextBlock
-						className="my-4"
-						key={index}
-						name={power.name}
-						flavorText={power.flavorText}
-						typeInfo={power.display}
-						powerUsage={power.usage as PowerType}
-						keywords={power.keywords}
-						actionType={power.actionType}
-						attackType={power.attackType}
-						attackTypeDetails={power.attackTypeDetails}
-						prerequisite={power.prerequisite}
-						requirement={power.requirement}
-						trigger={power.trigger}
-						target={power.target}
-						attack={power.attack}
-						rulesText={power.rulesText ?? []}
-						isBasic={power.isBasic}
-					/>
-				))}
-			</div>
+			{data?.actor.powers && <CharacterSheetPowersList data={{ id: data.id, powers: data.actor.powers }} />}
 		</div>
 	);
 	function handleLink() {
