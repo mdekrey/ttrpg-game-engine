@@ -221,10 +221,26 @@ public class LegacyData
         )).ToArray();
     }
 
-    internal async Task<IEnumerable<LegacyFeatSummary>> GetLegacyFeatsAsync()
+    internal async Task<IEnumerable<LegacyFeatSummary>> GetLegacyFeatsAsync(string[] tiers, string? search)
     {
-        var results = await GetLegacyRules(rule => rule.Type == "Feat").ToArrayAsync();
-        return results.Where(rule => !rule.RulesText.Any(t => t.Label == "Tier" && t.Text != "Heroic")).Select(rule => new LegacyFeatSummary(
+        var ruleQueryable = GetLegacyRules(rule => rule.Type == "Feat");
+        if (search is { Length: > 0 })
+        {
+            search = search.ToLower();
+            ruleQueryable = ruleQueryable.Where(rule =>
+                rule.Name.ToLower().Contains(search)
+                || rule.FlavorText.ToLower().Contains(search)
+                || rule.RulesText.Any(rt =>
+                    rt.Text.ToLower().Contains(search)
+                    || (rt.Text.Length > 0 && rt.Label.ToLower().Contains(search))
+                )
+            );
+        }
+        if (tiers.Length > 0)
+        {
+            ruleQueryable = ruleQueryable.Where(rule => !rule.RulesText.Any(t => t.Label == "Tier" && tiers.Contains(t.Text)));
+        }
+        return (await ruleQueryable.ToArrayAsync()).Select(rule => new LegacyFeatSummary(
             WizardsId: rule.WizardsId,
             Name: rule.Name,
             FlavorText: rule.RulesText.SingleOrDefault(r => r.Label == "Short Description")?.Text ?? "",

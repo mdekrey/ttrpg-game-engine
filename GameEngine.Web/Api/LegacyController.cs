@@ -88,9 +88,9 @@ public class LegacyController : LegacyControllerBase
         return GetLegacyRacesActionResult.Ok(await legacyData.GetLegacyRacesAsync());
     }
 
-    protected override async Task<GetLegacyFeatsActionResult> GetLegacyFeats()
+    protected override async Task<GetLegacyFeatsActionResult> GetLegacyFeats(IEnumerable<Tier>? tiers, string? search)
     {
-        return GetLegacyFeatsActionResult.Ok(await legacyData.GetLegacyFeatsAsync());
+        return GetLegacyFeatsActionResult.Ok(await legacyData.GetLegacyFeatsAsync(tiers?.Select(tier => tier.ToString("g")).ToArray() ?? Array.Empty<string>(), search));
     }
 
     protected override async Task<GetLegacyItemsActionResult> GetLegacyItems()

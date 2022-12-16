@@ -616,6 +616,9 @@ components:
           type: array
           items: { type: string }
         childPower: { $ref: "#/components/schemas/LegacyPowerDetails" }
+    Tier:
+      type: string
+      enum: [Heroic, Paragon, Epic]
 paths:
   /api/generate-sample-power:
     x-dotnet-mvc-server-controller: Power
@@ -991,6 +994,13 @@ paths:
     x-dotnet-mvc-server-controller: Legacy
     get:
       operationId: getLegacyFeats
+      parameters:
+        - name: tier
+          in: query
+          schema: { type: array, items: { $ref: "#/components/schemas/Tier" } }
+        - name: search
+          in: query
+          schema: { type: string }
       responses:
         200:
           description: OK
