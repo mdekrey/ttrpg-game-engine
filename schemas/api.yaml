@@ -1013,6 +1013,10 @@ paths:
     x-dotnet-mvc-server-controller: Legacy
     get:
       operationId: getLegacyItems
+      parameters:
+        - name: search
+          in: query
+          schema: { type: string }
       responses:
         200:
           description: OK

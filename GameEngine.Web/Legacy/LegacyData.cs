@@ -118,10 +118,22 @@ public class LegacyData
         )).ToArray();
     }
 
-    internal async Task<IEnumerable<LegacyArmorSummary>> GetAllLegacyArmorAsync()
+    internal async Task<IEnumerable<LegacyArmorSummary>> GetAllLegacyArmorAsync(string? search)
     {
-        var results = await GetLegacyRules(rule => rule.Type == "Armor").ToArrayAsync();
-        return results.Select(rule => new Api.LegacyArmorSummary(
+        var ruleQueryable = GetLegacyRules(rule => rule.Type == "Armor");
+        if (search is { Length: > 0 })
+        {
+            search = search.ToLower();
+            ruleQueryable = ruleQueryable.Where(rule =>
+                rule.Name.ToLower().Contains(search)
+                || rule.FlavorText.ToLower().Contains(search)
+                || rule.RulesText.Any(rt =>
+                    rt.Text.ToLower().Contains(search)
+                    || (rt.Text.Length > 0 && rt.Label.ToLower().Contains(search))
+                )
+            );
+        }
+        return (await ruleQueryable.ToArrayAsync()).Select(rule => new Api.LegacyArmorSummary(
             WizardsId: rule.WizardsId,
             Name: rule.Name,
             FlavorText: rule.Description,
@@ -137,10 +149,22 @@ public class LegacyData
         )).ToArray();
     }
 
-    internal async Task<IEnumerable<LegacyWeaponSummary>> GetAllLegacyWeaponsAsync()
+    internal async Task<IEnumerable<LegacyWeaponSummary>> GetAllLegacyWeaponsAsync(string? search)
     {
-        var results = await GetLegacyRules(rule => rule.Type == "Weapon").ToArrayAsync();
-        return results
+        var ruleQueryable = GetLegacyRules(rule => rule.Type == "Weapon");
+        if (search is { Length: > 0 })
+        {
+            search = search.ToLower();
+            ruleQueryable = ruleQueryable.Where(rule =>
+                rule.Name.ToLower().Contains(search)
+                || rule.FlavorText.ToLower().Contains(search)
+                || rule.RulesText.Any(rt =>
+                    rt.Text.ToLower().Contains(search)
+                    || (rt.Text.Length > 0 && rt.Label.ToLower().Contains(search))
+                )
+            );
+        }
+        return (await ruleQueryable.ToArrayAsync())
             .Where(rule => rule.RulesText.All(rt => rt is { Label: not "_Primary End" } or { Text: { Length: 0 } }))
             .Select(rule => new Api.LegacyWeaponSummary(
                 WizardsId: rule.WizardsId,
@@ -160,10 +184,22 @@ public class LegacyData
             )).ToArray();
     }
 
-    internal async Task<IEnumerable<LegacyGearSummary>> GetAllLegacyGearAsync()
+    internal async Task<IEnumerable<LegacyGearSummary>> GetAllLegacyGearAsync(string? search)
     {
-        var results = await GetLegacyRules(rule => rule.Type == "Gear").ToArrayAsync();
-        return results.Select(rule => new Api.LegacyGearSummary(
+        var ruleQueryable = GetLegacyRules(rule => rule.Type == "Gear");
+        if (search is { Length: > 0 })
+        {
+            search = search.ToLower();
+            ruleQueryable = ruleQueryable.Where(rule =>
+                rule.Name.ToLower().Contains(search)
+                || rule.FlavorText.ToLower().Contains(search)
+                || rule.RulesText.Any(rt =>
+                    rt.Text.ToLower().Contains(search)
+                    || (rt.Text.Length > 0 && rt.Label.ToLower().Contains(search))
+                )
+            );
+        }
+        return (await ruleQueryable.ToArrayAsync()).Select(rule => new Api.LegacyGearSummary(
             WizardsId: rule.WizardsId,
             Name: rule.Name,
             FlavorText: rule.Description,

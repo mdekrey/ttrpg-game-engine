@@ -1,5 +1,6 @@
 import { sortBy, groupBy } from 'lodash/fp';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, map, switchAll } from 'rxjs/operators';
 import { useApi } from 'src/core/hooks/useApi';
 import { useObservable } from 'src/core/hooks/useObservable';
 import { LegacyGearSummary } from 'src/api/models/LegacyGearSummary';
@@ -8,20 +9,52 @@ import { initial, Loadable, makeLoaded } from 'src/core/loadable/loadable';
 import { ReaderLayout } from 'src/components/reader-layout';
 import { LoadableComponent } from 'src/core/loadable/LoadableComponent';
 import { MainHeader } from 'src/components/reader-layout/MainHeader';
-import { Fragment, useMemo } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { LegacyArmorSummary } from 'src/api/models/LegacyArmorSummary';
 import { LegacyWeaponSummary } from 'src/api/models/LegacyWeaponSummary';
 import { integerFormatting } from '../integer-formatting';
+import { useId } from 'src/core/hooks/useId';
+
+function getLegacyItems(api: ReturnType<typeof useApi>) {
+	return (parameter$: Observable<readonly [search: string | null]>) =>
+		parameter$.pipe(
+			debounceTime(50),
+			map(([search]) =>
+				api.getLegacyItems({
+					params: {
+						search: search ?? undefined,
+					},
+				})
+			),
+			switchAll(),
+			map((response) => makeLoaded(response.data))
+		);
+}
 
 export function ItemList() {
+	const id = useId();
 	const api = useApi();
+	const [search, setSearch] = useState<null | string>('');
 	const data = useObservable(
-		() => api.getLegacyItems().pipe(map((response) => makeLoaded(response.data))),
-		initial as Loadable<StructuredResponses[200]['application/json'], never>
+		getLegacyItems(api),
+		initial as Loadable<StructuredResponses[200]['application/json'], never>,
+		[search]
 	);
 
 	return (
 		<ReaderLayout>
+			<form className="print:hidden">
+				<div className="grid grid-cols-2 gap-1">
+					<label htmlFor={`search-${id}`}>Search</label>
+					<input
+						className="text-center border border-black"
+						id={`search-${id}`}
+						type="text"
+						value={search ?? ''}
+						onChange={(el) => setSearch(el.target.value)}
+					/>
+				</div>
+			</form>
 			<LoadableComponent
 				data={data}
 				errorComponent={() => <>Not Found</>}
@@ -103,23 +136,35 @@ function ArmorList({ armor: armorList }: { armor: LegacyArmorSummary[] }) {
 
 	return (
 		<div className="full-page mt-4">
-			<MainHeader>Armor List</MainHeader>
-			<table className="w-full border-collapse">
-				{armorHeader()}
-				<tbody>{armorSort(armorGroups.Armor).map(armorRow)}</tbody>
-			</table>
+			{armorGroups.Armor?.length ? (
+				<>
+					<MainHeader>Armor List</MainHeader>
+					<table className="w-full border-collapse">
+						{armorHeader()}
+						<tbody>{armorSort(armorGroups.Armor).map(armorRow)}</tbody>
+					</table>
+				</>
+			) : null}
 
-			<MainHeader>Shield List</MainHeader>
-			<table className="w-full border-collapse">
-				{armorHeader()}
-				<tbody>{armorSort(armorGroups.Shield).map(armorRow)}</tbody>
-			</table>
+			{armorGroups.Shield?.length ? (
+				<>
+					<MainHeader>Shield List</MainHeader>
+					<table className="w-full border-collapse">
+						{armorHeader()}
+						<tbody>{armorSort(armorGroups.Shield).map(armorRow)}</tbody>
+					</table>
+				</>
+			) : null}
 
-			<MainHeader>Barding List</MainHeader>
-			<table className="w-full border-collapse">
-				{armorHeader()}
-				<tbody>{armorSort(armorGroups.Barding).map(armorRow)}</tbody>
-			</table>
+			{armorGroups.Barding?.length ? (
+				<>
+					<MainHeader>Barding List</MainHeader>
+					<table className="w-full border-collapse">
+						{armorHeader()}
+						<tbody>{armorSort(armorGroups.Barding).map(armorRow)}</tbody>
+					</table>
+				</>
+			) : null}
 		</div>
 	);
 
@@ -192,61 +237,65 @@ function WeaponList({ weapons: weaponList }: { weapons: LegacyWeaponSummary[] })
 	const weaponSort = sortBy<LegacyWeaponSummary>([({ name }) => name]);
 	return (
 		<div className="full-page mt-4">
-			<MainHeader>Weapon List</MainHeader>
-			{sortBy<string>(
-				[
-					(groupName) => weaponGroups[groupName][0].weaponCategory,
-					(groupName) => weaponGroups[groupName][0].handsRequired,
-					(groupName) => (weaponGroups[groupName][0].size === 'Medium' ? '' : weaponGroups[groupName][0].size),
-				],
-				Object.keys(weaponGroups)
-			).map((groupName) => (
-				<Fragment key={groupName}>
-					<h2 className="font-header font-bold mt-4 first:mt-0 text-lg">{groupName}</h2>
-					<table className="w-full border-collapse">
-						<thead>
-							<tr className="bg-theme text-white">
-								<th className="px-2 font-bold align-bottom">Name</th>
-								<th className="px-2 font-bold align-bottom">Prof.</th>
-								<th className="px-2 font-bold align-bottom">Damage</th>
-								<th className="px-2 font-bold align-bottom">Range</th>
-								<th className="px-2 font-bold align-bottom">Price</th>
-								<th className="px-2 font-bold align-bottom">Weight</th>
-								<th className="px-2 font-bold align-bottom">Group</th>
-								<th className="px-2 font-bold align-bottom">Properties</th>
-							</tr>
-						</thead>
-						<tbody>
-							{weaponSort(weaponGroups[groupName]).map(
-								({ wizardsId, name, proficiencyBonus, damage, range, gold, weight, group, properties }) => (
-									<Fragment key={wizardsId}>
-										<tr className="even:bg-gradient-to-r from-tan-fading to-white odd:bg-tan-accent border-b-2 border-white font-info">
-											<td>
-												<a href={`/legacy/rule/${wizardsId}`}>{name}</a>
-											</td>
-											<td>{typeof proficiencyBonus === 'number' ? `+${proficiencyBonus}` : <>&mdash;</>}</td>
-											<td>{damage}</td>
-											<td>{range || <>&mdash;</>}</td>
-											<td className="text-right">
-												{typeof gold === 'number' ? `${integerFormatting.format(gold)} gp` : <>&mdash;</>}
-											</td>
-											<td className="text-right">
-												{typeof weight === 'number' ? (
-													`${integerFormatting.format(weight)} ${weight === 1 ? 'lb' : 'lbs'}`
-												) : (
-													<>&mdash;</>
-												)}
-											</td>
-											<td>{group}</td>
-											<td>{properties}</td>
-										</tr>
-									</Fragment>
-								)
-							)}
-						</tbody>
-					</table>
-				</Fragment>
-			))}
+			{weaponList.length ? (
+				<>
+					<MainHeader>Weapon List</MainHeader>
+					{sortBy<string>(
+						[
+							(groupName) => weaponGroups[groupName][0].weaponCategory,
+							(groupName) => weaponGroups[groupName][0].handsRequired,
+							(groupName) => (weaponGroups[groupName][0].size === 'Medium' ? '' : weaponGroups[groupName][0].size),
+						],
+						Object.keys(weaponGroups)
+					).map((groupName) => (
+						<Fragment key={groupName}>
+							<h2 className="font-header font-bold mt-4 first:mt-0 text-lg">{groupName}</h2>
+							<table className="w-full border-collapse">
+								<thead>
+									<tr className="bg-theme text-white">
+										<th className="px-2 font-bold align-bottom">Name</th>
+										<th className="px-2 font-bold align-bottom">Prof.</th>
+										<th className="px-2 font-bold align-bottom">Damage</th>
+										<th className="px-2 font-bold align-bottom">Range</th>
+										<th className="px-2 font-bold align-bottom">Price</th>
+										<th className="px-2 font-bold align-bottom">Weight</th>
+										<th className="px-2 font-bold align-bottom">Group</th>
+										<th className="px-2 font-bold align-bottom">Properties</th>
+									</tr>
+								</thead>
+								<tbody>
+									{weaponSort(weaponGroups[groupName]).map(
+										({ wizardsId, name, proficiencyBonus, damage, range, gold, weight, group, properties }) => (
+											<Fragment key={wizardsId}>
+												<tr className="even:bg-gradient-to-r from-tan-fading to-white odd:bg-tan-accent border-b-2 border-white font-info">
+													<td>
+														<a href={`/legacy/rule/${wizardsId}`}>{name}</a>
+													</td>
+													<td>{typeof proficiencyBonus === 'number' ? `+${proficiencyBonus}` : <>&mdash;</>}</td>
+													<td>{damage}</td>
+													<td>{range || <>&mdash;</>}</td>
+													<td className="text-right">
+														{typeof gold === 'number' ? `${integerFormatting.format(gold)} gp` : <>&mdash;</>}
+													</td>
+													<td className="text-right">
+														{typeof weight === 'number' ? (
+															`${integerFormatting.format(weight)} ${weight === 1 ? 'lb' : 'lbs'}`
+														) : (
+															<>&mdash;</>
+														)}
+													</td>
+													<td>{group}</td>
+													<td>{properties}</td>
+												</tr>
+											</Fragment>
+										)
+									)}
+								</tbody>
+							</table>
+						</Fragment>
+					))}
+				</>
+			) : null}
 		</div>
 	);
 }
