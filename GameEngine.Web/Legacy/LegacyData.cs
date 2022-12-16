@@ -274,9 +274,10 @@ public class LegacyData
         }
         if (tiers.Length > 0)
         {
-            ruleQueryable = ruleQueryable.Where(rule => !rule.RulesText.Any(t => t.Label == "Tier" && tiers.Contains(t.Text)));
+            ruleQueryable = ruleQueryable.Where(rule => !rule.RulesText.Any(t => t.Label == "Tier") || rule.RulesText.Any(t => t.Label == "Tier" && tiers.Contains(t.Text)));
         }
-        return (await ruleQueryable.ToArrayAsync()).Select(rule => new LegacyFeatSummary(
+        var rules = (await ruleQueryable.ToArrayAsync());
+        return rules.Select(rule => new LegacyFeatSummary(
             WizardsId: rule.WizardsId,
             Name: rule.Name,
             FlavorText: rule.RulesText.SingleOrDefault(r => r.Label == "Short Description")?.Text ?? "",
