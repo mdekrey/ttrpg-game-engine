@@ -101,8 +101,9 @@ public class LegacyController : LegacyControllerBase
             Weapons: await legacyData.GetAllLegacyWeaponsAsync()));
     }
 
-    protected override async Task<GetLegacyMagicItemsActionResult> GetLegacyMagicItems()
+    protected override async Task<GetLegacyMagicItemsActionResult> GetLegacyMagicItems(int? minLevel, int? maxLevel, string? search)
     {
-        return GetLegacyMagicItemsActionResult.Ok(await legacyData.GetLegacyMagicItemsAsync());
+        return GetLegacyMagicItemsActionResult.Ok(await legacyData.GetLegacyMagicItemsAsync(minLevel, maxLevel, search));
     }
+
 }

@@ -1091,6 +1091,16 @@ paths:
     x-dotnet-mvc-server-controller: Legacy
     get:
       operationId: getLegacyMagicItems
+      parameters:
+        - name: minLevel
+          in: query
+          schema: { type: integer }
+        - name: maxLevel
+          in: query
+          schema: { type: integer }
+        - name: search
+          in: query
+          schema: { type: string }
       responses:
         200:
           description: OK

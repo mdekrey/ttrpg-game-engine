@@ -177,10 +177,28 @@ public class LegacyData
         )).ToArray();
     }
 
-    internal async Task<IEnumerable<LegacyMagicItemSummary>> GetLegacyMagicItemsAsync()
+    internal async Task<IEnumerable<LegacyMagicItemSummary>> GetLegacyMagicItemsAsync(int? minLevel, int? maxLevel, string? search)
     {
-        var levels = new[] { "1", "2", "3", "4", "5", "6", "7" };
-        var results = await GetLegacyRules(rule => rule.Type == "Magic Item" && levels.Contains(rule.Level)).ToArrayAsync();
+        var levelNumbers = Enumerable.Range(1, 30);
+        if (minLevel is int minLevelValue) levelNumbers = levelNumbers.Where(level => level >= minLevelValue);
+        if (maxLevel is int maxLevelValue) levelNumbers = levelNumbers.Where(level => level <= maxLevelValue);
+        var levels = levelNumbers.Select(i => i.ToString()).Concat(new[] { "", "0" }).ToArray();
+        var ruleQueryable = GetLegacyRules(rule => rule.Type == "Magic Item");
+        if (minLevel != null || maxLevel != null)
+            ruleQueryable = ruleQueryable.Where(rule => levels.Contains(rule.Level));
+        if (search is { Length: > 0 })
+        {
+            search = search.ToLower();
+            ruleQueryable = ruleQueryable.Where(rule => 
+                rule.Name.ToLower().Contains(search) 
+                || rule.FlavorText.ToLower().Contains(search)
+                || rule.RulesText.Any(rt => 
+                    rt.Text.ToLower().Contains(search)
+                    || (rt.Text.Length > 0 && rt.Label.ToLower().Contains(search))
+                )
+            );
+        }
+        var results = await ruleQueryable.ToArrayAsync();
         return results.Select(rule => new Api.LegacyMagicItemSummary(
             WizardsId: rule.WizardsId,
             Name: rule.Name,

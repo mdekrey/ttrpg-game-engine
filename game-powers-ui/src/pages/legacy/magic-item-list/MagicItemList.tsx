@@ -1,5 +1,6 @@
 import { groupBy, sortBy } from 'lodash/fp';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, map, switchAll } from 'rxjs/operators';
 import { useApi } from 'src/core/hooks/useApi';
 import { useObservable } from 'src/core/hooks/useObservable';
 import { StructuredResponses } from 'src/api/operations/getLegacyMagicItems';
@@ -7,19 +8,78 @@ import { initial, Loadable, makeLoaded } from 'src/core/loadable/loadable';
 import { ReaderLayout } from 'src/components/reader-layout';
 import { LoadableComponent } from 'src/core/loadable/LoadableComponent';
 import { MainHeader } from 'src/components/reader-layout/MainHeader';
-import { Fragment, useMemo } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { LegacyMagicItemSummary } from 'src/api/models/LegacyMagicItemSummary';
 import { integerFormatting } from '../integer-formatting';
+import { useId } from 'src/core/hooks/useId';
+
+function getLegacyMagicItems(api: ReturnType<typeof useApi>) {
+	return (parameter$: Observable<readonly [minLevel: number | null, maxLevel: number | null, search: string | null]>) =>
+		parameter$.pipe(
+			debounceTime(50),
+			map(([minLevel, maxLevel, search]) =>
+				api.getLegacyMagicItems({
+					params: {
+						minLevel: minLevel ?? undefined,
+						maxLevel: maxLevel ?? undefined,
+						search: search ?? undefined,
+					},
+				})
+			),
+			switchAll(),
+			map((response) => makeLoaded(response.data))
+		);
+}
 
 export function MagicItemList() {
+	const id = useId();
 	const api = useApi();
+	const [minLevel, setMinLevel] = useState<null | number>(1);
+	const [maxLevel, setMaxLevel] = useState<null | number>(7);
+	const [search, setSearch] = useState<null | string>('');
 	const data = useObservable(
-		() => api.getLegacyMagicItems().pipe(map((response) => makeLoaded(response.data))),
-		initial as Loadable<StructuredResponses[200]['application/json'], never>
+		getLegacyMagicItems(api),
+		initial as Loadable<StructuredResponses[200]['application/json'], never>,
+		[minLevel, maxLevel, search] as const
 	);
+
+	const options = (selected: number | null) =>
+		Array(30)
+			.fill(0)
+			.map((_, lvl) => (
+				<option key={lvl + 1} value={lvl + 1} selected={lvl + 1 === selected}>
+					{lvl + 1}
+				</option>
+			));
 
 	return (
 		<ReaderLayout>
+			<form className="print:hidden">
+				<div className="grid grid-cols-2 gap-1">
+					<label htmlFor={`minLevel-${id}`}>Min Level</label>
+					<select
+						className="text-center border border-black"
+						id={`minLevel-${id}`}
+						onChange={(el) => setMinLevel(Number(el.target.value))}>
+						{options(minLevel)}
+					</select>
+					<label htmlFor={`maxLevel-${id}`}>Max Level</label>
+					<select
+						className="text-center border border-black"
+						id={`maxLevel-${id}`}
+						onChange={(el) => setMaxLevel(Number(el.target.value))}>
+						{options(maxLevel)}
+					</select>
+					<label htmlFor={`search-${id}`}>Search</label>
+					<input
+						className="text-center border border-black"
+						id={`search-${id}`}
+						type="text"
+						value={search ?? ''}
+						onChange={(el) => setSearch(el.target.value)}
+					/>
+				</div>
+			</form>
 			<LoadableComponent
 				data={data}
 				errorComponent={() => <>Not Found</>}
