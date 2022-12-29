@@ -37,7 +37,8 @@ docker push dekreydotnet.azurecr.io/game-4e:$tag
 $sslClusterIssuer = 'letsencrypt'
 $domain = '4e.dekrey.net'
 
-az aks get-credentials --resource-group $azureResourceGroup -n $azureAksCluster
+az aks get-credentials --resource-group $azureResourceGroup -n $azureAksCluster --overwrite-existing
+helm repo update
 helm upgrade --install -n $k8sNamespace $chartName --create-namespace mdekrey/single-container `
     --set-string "image.repository=$($fullImageName)" `
     --set-string "image.tag=$tag" `
