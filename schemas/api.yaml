@@ -1141,6 +1141,28 @@ paths:
               schema: { $ref: "#/components/schemas/LegacyMagicItemDetails" }
         404:
           description: Magic Item not found
+  /api/legacy/powers:
+    x-dotnet-mvc-server-controller: Legacy
+    get:
+      operationId: getLegacyPowers
+      parameters:
+        - name: minLevel
+          in: query
+          schema: { type: integer }
+        - name: maxLevel
+          in: query
+          schema: { type: integer }
+        - name: search
+          in: query
+          schema: { type: string }
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/LegacyPowerDetails" }
   /api/legacy/power/{id}:
     x-dotnet-mvc-server-controller: Legacy
     get:

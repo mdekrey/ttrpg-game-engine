@@ -109,10 +109,10 @@ public class LegacyData
     {
         var results = await GetLegacyRules(rule => rule.Type == "Class").ToArrayAsync();
         return results.Select(rule => new LegacyClassSummary(
-            WizardsId: rule.WizardsId, 
-            Name: rule.Name, 
-            FlavorText: rule.FlavorText, 
-            Type: rule.Type, 
+            WizardsId: rule.WizardsId,
+            Name: rule.Name,
+            FlavorText: rule.FlavorText,
+            Type: rule.Type,
             PowerSource: rule.RulesText.SingleOrDefault(r => r.Label == "Power Source")?.Text.Split('.')[0] ?? "",
             Role: rule.RulesText.SingleOrDefault(r => r.Label == "Role")?.Text.Split('.')[0] ?? ""
         )).ToArray();
@@ -225,10 +225,10 @@ public class LegacyData
         if (search is { Length: > 0 })
         {
             search = search.ToLower();
-            ruleQueryable = ruleQueryable.Where(rule => 
-                rule.Name.ToLower().Contains(search) 
+            ruleQueryable = ruleQueryable.Where(rule =>
+                rule.Name.ToLower().Contains(search)
                 || rule.FlavorText.ToLower().Contains(search)
-                || rule.RulesText.Any(rt => 
+                || rule.RulesText.Any(rt =>
                     rt.Text.ToLower().Contains(search)
                     || (rt.Text.Length > 0 && rt.Label.ToLower().Contains(search))
                 )
@@ -284,6 +284,55 @@ public class LegacyData
             Type: rule.Type,
             Prerequisites: rule.Prereqs
         )).ToArray();
+    }
+
+    internal async Task<IEnumerable<LegacyPowerDetails>> GetLegacyPowersAsync(int? minLevel, int? maxLevel, string? search)
+    {
+        var levelNumbers = Enumerable.Range(1, 30);
+        if (minLevel is int minLevelValue) levelNumbers = levelNumbers.Where(level => level >= minLevelValue);
+        if (maxLevel is int maxLevelValue) levelNumbers = levelNumbers.Where(level => level <= maxLevelValue);
+        var levels = levelNumbers.Select(i => i.ToString()).Concat(new[] { "", "0" }).ToArray();
+        var ruleQueryable = GetLegacyRules(rule => rule.Type == "Power");
+        if (minLevel != null || maxLevel != null)
+            ruleQueryable = ruleQueryable.Where(rule => levels.Contains(rule.Level));
+        if (search is { Length: > 0 })
+        {
+            search = search.ToLower();
+            ruleQueryable = ruleQueryable.Where(rule =>
+                rule.Name.ToLower().Contains(search)
+                || rule.FlavorText.ToLower().Contains(search)
+                || rule.Keywords.Any(kw => kw.KeywordName.ToLower().Contains(search))
+                || rule.RulesText.Any(rt =>
+                    rt.Text.ToLower().Contains(search)
+                    || (rt.Text.Length > 0 && rt.Label.ToLower().Contains(search))
+                )
+            );
+        }
+        var results = await ruleQueryable.Take(300).ToArrayAsync();
+        return await Task.WhenAll(results.Select(async rule => {
+            var childPowerId = rule.RulesText.SingleOrDefault(r => r.Label == "_ChildPower")?.Text;
+            var childPower = childPowerId != null && await GetLegacyRule(childPowerId, "Power") is ImportedRule childPowerRule
+                ? Optional.Create(await LoadLegacyPowerAsync(childPowerRule))
+                : null;
+            return new Api.LegacyPowerDetails(
+                WizardsId: rule.WizardsId,
+                Name: rule.Name,
+                FlavorText: rule.FlavorText,
+                Type: rule.Type,
+                Description: rule.Description,
+                ShortDescription: rule.ShortDescription,
+                Rules: rule.RulesText.Select(e => new LegacyRuleText(e.Label, e.Text)),
+                PowerUsage: rule.PowerUsage,
+                EncounterUses: rule.EncounterUses,
+                PowerType: rule.PowerType,
+                Level: rule.Level,
+                ActionType: rule.ActionType,
+                Display: rule.Display,
+                Keywords: rule.Keywords.Select(k => k.KeywordName),
+                Sources: rule.Sources.Select(e => e.SourceName),
+                ChildPower: childPower
+            );
+        }));
     }
 
 

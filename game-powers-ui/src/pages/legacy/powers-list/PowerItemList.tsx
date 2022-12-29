@@ -3,22 +3,21 @@ import { Observable } from 'rxjs';
 import { debounceTime, map, switchAll } from 'rxjs/operators';
 import { useApi } from 'src/core/hooks/useApi';
 import { useObservable } from 'src/core/hooks/useObservable';
-import { StructuredResponses } from 'src/api/operations/getLegacyMagicItems';
+import { StructuredResponses } from 'src/api/operations/getLegacyPowers';
 import { initial, Loadable, makeLoaded } from 'src/core/loadable/loadable';
 import { ReaderLayout } from 'src/components/reader-layout';
 import { LoadableComponent } from 'src/core/loadable/LoadableComponent';
 import { MainHeader } from 'src/components/reader-layout/MainHeader';
 import { Fragment, useMemo, useState } from 'react';
-import { LegacyMagicItemSummary } from 'src/api/models/LegacyMagicItemSummary';
-import { integerFormatting } from '../integer-formatting';
 import { useId } from 'src/core/hooks/useId';
+import { PowerDetailsSelector } from '../power-details/power.selector';
 
-function getLegacyMagicItems(api: ReturnType<typeof useApi>) {
+function getLegacyPowers(api: ReturnType<typeof useApi>) {
 	return (parameter$: Observable<readonly [minLevel: number | null, maxLevel: number | null, search: string | null]>) =>
 		parameter$.pipe(
 			debounceTime(50),
 			map(([minLevel, maxLevel, search]) =>
-				api.getLegacyMagicItems({
+				api.getLegacyPowers({
 					params: {
 						minLevel: minLevel ?? undefined,
 						maxLevel: maxLevel ?? undefined,
@@ -39,14 +38,14 @@ const options = Array(30)
 		</option>
 	));
 
-export function MagicItemList() {
+export function PowersList() {
 	const id = useId();
 	const api = useApi();
-	const [minLevel, setMinLevel] = useState<null | number>(1);
-	const [maxLevel, setMaxLevel] = useState<null | number>(7);
+	const [minLevel, setMinLevel] = useState<null | number>(2);
+	const [maxLevel, setMaxLevel] = useState<null | number>(2);
 	const [search, setSearch] = useState<null | string>('');
 	const data = useObservable(
-		getLegacyMagicItems(api),
+		getLegacyPowers(api),
 		initial as Loadable<StructuredResponses[200]['application/json'], never>,
 		[minLevel, maxLevel, search] as const
 	);
@@ -91,45 +90,37 @@ export function MagicItemList() {
 	);
 }
 
+const typeOrder = ['At-Will', 'Encounter', 'Daily', 'Utility'];
+const powerList = Array(30)
+	.fill(0)
+	.map((_, index) => index + 1)
+	.flatMap((level) => typeOrder.map((type) => `${type} ${level}`));
+
 function LoadedItemList({ loaded }: { loaded: StructuredResponses[200]['application/json'] }) {
-	const itemGroups = useMemo(() => groupBy(({ magicItemType }) => magicItemType, loaded), [loaded]);
-	const weaponSort = sortBy<LegacyMagicItemSummary>([({ level }) => level, ({ gold }) => gold, ({ name }) => name]);
+	const powers = useMemo(() => {
+		return groupBy((power) => `${power.powerType === 'Utility' ? 'Utility' : power.powerUsage} ${power.level}`, loaded);
+	}, [loaded]);
+
 	return (
 		<>
-			<MainHeader>Magic Item List</MainHeader>
-			{sortBy<string>([(groupName) => itemGroups[groupName][0].magicItemType], Object.keys(itemGroups)).map(
-				(groupName) => (
-					<Fragment key={groupName}>
-						<h2 className="font-header font-bold mt-4 first:mt-0 text-lg">{groupName || 'Unknown'}</h2>
-						<table className="w-full border-collapse">
-							<thead>
-								<tr className="bg-theme text-white">
-									<th className="px-2 font-bold align-bottom">Name</th>
-									<th className="px-2 font-bold align-bottom">Level</th>
-									<th className="px-2 font-bold align-bottom">Price</th>
-								</tr>
-							</thead>
-							<tbody>
-								{weaponSort(itemGroups[groupName]).map(({ wizardsId, name, gold, level }) => (
-									<Fragment key={wizardsId}>
-										<tr className="even:bg-gradient-to-r from-tan-fading to-white odd:bg-tan-accent border-b-2 border-white font-info">
-											<td>
-												<a href={`/legacy/rule/${wizardsId}`}>{name}</a>
-											</td>
-											<td className="text-right">
-												{typeof level === 'number' ? integerFormatting.format(level) : <>&mdash;</>}
-											</td>
-											<td className="text-right">
-												{typeof gold === 'number' ? `${integerFormatting.format(gold)} gp` : <>&mdash;</>}
-											</td>
-										</tr>
-									</Fragment>
-								))}
-							</tbody>
-						</table>
+			<MainHeader>Powers List</MainHeader>
+
+			{powerList
+				.filter((category) => !!powers[category] && powers[category].length > 0)
+				.map((category) => (
+					<Fragment key={category}>
+						<div style={{ breakInside: 'avoid' }}>
+							{/* This div around the first power and the header helps the page layout in Chrome */}
+							<h3 className="font-header font-bold mt-4 text-theme text-2xl" style={{ breakAfter: 'avoid' }}>
+								{category}
+							</h3>
+							<PowerDetailsSelector id={powers[category][0].wizardsId} details={powers[category][0]} />
+						</div>
+						{powers[category].slice(1).map((power, powerIndex) => (
+							<PowerDetailsSelector id={power.wizardsId} details={power} key={powerIndex} />
+						))}
 					</Fragment>
-				)
-			)}
+				))}
 		</>
 	);
 }
