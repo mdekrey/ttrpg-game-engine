@@ -54,7 +54,7 @@ export function FeatList() {
 
 	return (
 		<ReaderLayout>
-			<form className="print:hidden">
+			<form className="print:hidden" onSubmit={(ev) => ev.preventDefault()}>
 				<div className="grid grid-cols-2 gap-1">
 					<div className="col-span-2 grid grid-cols-3 gap-1">
 						<label>

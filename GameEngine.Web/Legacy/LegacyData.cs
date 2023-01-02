@@ -266,6 +266,7 @@ public class LegacyData
             ruleQueryable = ruleQueryable.Where(rule =>
                 rule.Name.ToLower().Contains(search)
                 || rule.FlavorText.ToLower().Contains(search)
+                || rule.Prereqs.ToLower().Contains(search)
                 || rule.RulesText.Any(rt =>
                     rt.Text.ToLower().Contains(search)
                     || (rt.Text.Length > 0 && rt.Label.ToLower().Contains(search))
@@ -301,6 +302,9 @@ public class LegacyData
             ruleQueryable = ruleQueryable.Where(rule =>
                 rule.Name.ToLower().Contains(search)
                 || rule.FlavorText.ToLower().Contains(search)
+                || rule.Prereqs.ToLower().Contains(search)
+                || rule.Type.ToLower().Contains(search)
+                || rule.Category.ToLower().Contains(search)
                 || rule.Keywords.Any(kw => kw.KeywordName.ToLower().Contains(search))
                 || rule.RulesText.Any(rt =>
                     rt.Text.ToLower().Contains(search)

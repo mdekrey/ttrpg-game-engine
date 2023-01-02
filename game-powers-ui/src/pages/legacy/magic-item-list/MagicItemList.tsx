@@ -53,7 +53,7 @@ export function MagicItemList() {
 
 	return (
 		<ReaderLayout>
-			<form className="print:hidden">
+			<form className="print:hidden" onSubmit={(ev) => ev.preventDefault()}>
 				<div className="grid grid-cols-2 gap-1">
 					<label htmlFor={`minLevel-${id}`}>Min Level</label>
 					<select
