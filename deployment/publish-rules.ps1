@@ -43,7 +43,6 @@ helm upgrade --install -n $k8sNamespace $chartName --create-namespace mdekrey/si
     --set-string "image.repository=$($fullImageName)" `
     --set-string "image.tag=$tag" `
     --set-string "ingress.annotations.cert-manager\.io/cluster-issuer=$sslClusterIssuer" `
-    --set-string "ingress.hosts[0].host=$domain" `
-    --set-string "podspec.env[0].name=BlobStorage,podspec.env[0].valueFrom.secretKeyRef.key=BlobStorage,podspec.env[0].valueFrom.secretKeyRef.name=environment-settings"
+    --set-string "ingress.hosts[0].host=$domain"
 
 Pop-Location

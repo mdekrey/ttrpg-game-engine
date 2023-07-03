@@ -1,5 +1,4 @@
 import { Fragment, ReactNode, useCallback, useMemo } from 'react';
-import { PowerTextBlock as ApiPowerTextBlock } from 'src/api/models/PowerTextBlock';
 import { Power, PowerType } from './Power';
 import { MeleeIcon, RangedIcon, AreaIcon, CloseIcon, BasicMeleeIcon, BasicRangedIcon } from './icons';
 import { RulesText } from './RulesText';
@@ -15,15 +14,6 @@ const basicIconMapping: Record<string, typeof MeleeIcon | undefined> = {
 	Melee: BasicMeleeIcon,
 	Ranged: BasicRangedIcon,
 };
-
-export function powerTextBlockToProps(powerTextBlock: ApiPowerTextBlock): PowerTextBlockProps {
-	return {
-		...powerTextBlock,
-		powerUsage: powerTextBlock.powerUsage as PowerType,
-		attackType: powerTextBlock.attackType as PowerTextBlockProps['attackType'],
-		associatedPower: powerTextBlock.associatedPower as PowerTextBlockProps['associatedPower'],
-	};
-}
 
 export type AttackType = 'Personal' | 'Ranged' | 'Melee' | 'Close' | 'Area';
 
