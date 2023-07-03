@@ -9,28 +9,6 @@ function MyMonsters() {
 		<Monsters>
 			<MonsterBlock>
 				<MonsterBlock.Heading
-					name="Gray Wolf"
-					levelType="Level 2 Skirmisher"
-					sizeType="Medium natural beast"
-					XP={125}
-					Initiative="+5"
-					Senses="Perception +7; low-light vision"
-					HP={38}
-					Bloodied={19}
-					AC={16}
-					Fortitude={14}
-					Reflex={14}
-					Will={13}
-					Speed={8}
-				/>
-				<MonsterBlock.Feature type="MeleeBasic" name="Bite" notes="(standard; at-will)">
-					+7 vs. AC; 1d6 + 2 damage, or 2d6 + 2 damage against a prone target.
-				</MonsterBlock.Feature>
-				<MonsterBlock.Feature name="Combat Advantage">
-					If the gray wolf has combat advantage against the target, the target is also knocked prone on a hit.
-				</MonsterBlock.Feature>
-				<MonsterBlock.Trailing Str={+2} Dex={+3} Wis={+2} Con={+3} Int={-3} Cha={+1} />
-				<MonsterBlock.Heading
 					name="Young Green Dragon"
 					levelType="Level 5 Solo Skirmisher"
 					sizeType="Large natural magical beast (dragon)"
